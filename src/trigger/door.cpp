@@ -19,8 +19,9 @@
 #include "audio/sound_manager.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
-#include "sprite/sprite.hpp"
 #include "object/sprite_particle.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/screen_manager.hpp"
@@ -39,7 +40,7 @@ Door::Door(const ReaderMapping& mapping) :
   m_target_sector(),
   m_target_spawnpoint(),
   m_script(),
-  m_lock_sprite(m_sprite->create_linked_sprite("lock")),
+  m_lock_sprite(SpriteManager::current()->create("images/objects/door/door_lock.sprite")),
   m_stay_open_timer(),
   m_unlocking_timer(),
   m_lock_warn_timer(),
@@ -70,20 +71,12 @@ Door::Door(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/turnkey.ogg");
 }
 
-MovingSprite::LinkedSprites
-Door::get_linked_sprites()
-{
-  return {
-    { "lock", m_lock_sprite }
-  };
-}
-
 ObjectSettings
 Door::get_settings()
 {
   ObjectSettings result = SpritedTrigger::get_settings();
 
-  result.add_script(_("Script"), &m_script, "script");
+  result.add_script(get_uid(), _("Script"), &m_script, "script");
   result.add_text(_("Sector"), &m_target_sector, "sector");
   result.add_text(_("Spawn point"), &m_target_spawnpoint, "spawnpoint");
   result.add_bool(_("Locked?"), &m_locked, "locked");
@@ -99,7 +92,6 @@ Door::after_editor_set()
 {
   SpritedTrigger::after_editor_set();
 
-  m_state = m_locked ? DoorState::LOCKED : DoorState::CLOSED;
   m_lock_sprite->set_color(m_lock_color);
 }
 
@@ -143,8 +135,8 @@ Door::update(float )
     case UNLOCKING:
       if (m_unlocking_timer.check())
       {
-        Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite("lock"),
-          get_bbox().get_middle(), ANCHOR_MIDDLE, Vector(0.f, -300.f), Vector(0.f, 1000.f), LAYER_OBJECTS - 2, true, m_lock_color);
+        Sector::get().add<SpriteParticle>("images/objects/door/door_lock.sprite",
+          "default", get_bbox().get_middle(), ANCHOR_MIDDLE, Vector(0.f, -300.f), Vector(0.f, 1000.f), LAYER_OBJECTS - 2, true, 0, m_lock_color);
         m_unlocking_timer.stop();
         m_state = DoorState::CLOSED;
       }

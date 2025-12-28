@@ -23,7 +23,7 @@
 class GrowUp final : public MovingSprite
 {
 public:
-  GrowUp(const Vector& pos, Direction direction = Direction::RIGHT, const std::string& custom_sprite = "");
+  GrowUp(const Vector& pos, Direction direction = Direction::RIGHT, const std::string& custom_sprite = "", int layer = LAYER_OBJECTS);
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(GrowUp)); }
 
   virtual bool is_saveable() const override { return false; }
@@ -36,14 +36,12 @@ public:
 
   void do_jump();
 
-protected:
-  LinkedSprites get_linked_sprites() override;
-
 private:
   Physic m_physic;
 
   const bool m_custom_sprite;
   SpritePtr m_shadesprite;
+  SpritePtr m_lightsprite;
 
 private:
   GrowUp(const GrowUp&) = delete;

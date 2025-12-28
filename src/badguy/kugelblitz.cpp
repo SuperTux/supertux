@@ -42,12 +42,16 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   dying(),
   movement_timer(),
   lifetime(),
-  direction()
+  direction(),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
   m_start_position.x = m_col.m_bbox.get_left();
   set_action("falling");
   m_physic.enable_gravity(false);
-  m_countMe = false;
+  m_can_glint = false;
+
+  lightsprite->set_blend(Blend::ADD);
+  lightsprite->set_color(Color(0.2f, 0.1f, 0.0f));
 
   SoundManager::current()->preload("sounds/lightning.wav");
 }
@@ -147,7 +151,8 @@ Kugelblitz::active_update(float dt_sec)
 void
 Kugelblitz::draw(DrawingContext& context)
 {
-  MovingSprite::draw(context);
+  m_sprite->draw(context.color(), get_pos(), m_layer);
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void

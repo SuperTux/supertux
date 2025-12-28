@@ -28,7 +28,7 @@ class Flower final : public MovingObject
   friend class FlipLevelTransformer;
 
 public:
-  Flower(BonusType type, const std::string& custom_sprite = "");
+  Flower(BonusType type, const std::string& custom_sprite = "", int layer = LAYER_OBJECTS);
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Flower)); }
 
   virtual bool is_saveable() const override { return false; }
@@ -40,14 +40,15 @@ public:
 
   virtual void on_flip(float height) override;
 
-  virtual int get_layer() const override { return LAYER_OBJECTS; }
+  virtual int get_layer() const override { return m_layer; }
 
 private:
   BonusType type;
   SpritePtr sprite;
   Flip flip;
+  int m_layer;
 
-  std::vector<SpritePtr> lightsprites;
+  SpritePtr lightsprite;
 
 private:
   Flower(const Flower&) = delete;

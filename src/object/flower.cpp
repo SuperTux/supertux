@@ -22,35 +22,38 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 
-Flower::Flower(BonusType _type, const std::string& custom_sprite) :
+Flower::Flower(BonusType _type, const std::string& custom_sprite, int layer) :
   type(_type),
   sprite(),
   flip(NO_FLIP),
-  lightsprites()
+  m_layer(layer),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   m_col.m_bbox.set_size(32, 32);
+  lightsprite->set_blend(Blend::ADD);
 
   if (type == BONUS_FIRE) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/fireflower/fireflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
+    lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
   }
   else if (type == BONUS_ICE) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/iceflower/iceflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
+    lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
   }
   else if (type == BONUS_AIR) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/airflower/airflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
+    lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
   }
   else if (type == BONUS_EARTH) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/earthflower/earthflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
-  }
-  else {
+    lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
+  } else {
     assert(false);
   }
-
-  lightsprites = sprite->create_custom_linked_sprites(true);
 
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -63,9 +66,8 @@ Flower::update(float )
 void
 Flower::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS, flip);
-  for (auto& sprite : lightsprites)
-    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  sprite->draw(context.color(), get_pos(), m_layer, flip);
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 HitResponse

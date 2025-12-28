@@ -21,6 +21,7 @@
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
@@ -30,7 +31,8 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
-  no_physics()
+  no_physics(),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   parse_type(mapping);
   mapping.get("script", script, "");
@@ -38,11 +40,12 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
   initialize();
 }
 
-PowerUp::PowerUp(const Vector& pos, int type) :
-  MovingSprite(pos, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
+PowerUp::PowerUp(const Vector& pos, int type, int layer) :
+  MovingSprite(pos, "images/powerups/egg/egg.sprite", layer, COLGROUP_MOVING),
   physic(),
   script(),
-  no_physics(false)
+  no_physics(false),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   m_type = type;
   on_type_change(TypeChange::INITIAL);
@@ -93,7 +96,7 @@ PowerUp::get_default_sprite_name() const
     case COFFEE:
       return "images/powerups/retro/coffee.png";
     case HERRING:
-      return "images/powerups/retro/golden_herring.sprite";
+      return "images/powerups/retro/golden_herring.png";
     default:
       return m_default_sprite_name;
   }
@@ -127,6 +130,47 @@ PowerUp::initialize()
     else if (matches_sprite("images/powerups/potions/red-potion.sprite"))
       m_type = FLIP;
   }
+
+  setup_lightsprite();
+}
+
+void
+PowerUp::setup_lightsprite()
+{
+  lightsprite->set_blend(Blend::ADD);
+  lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
+  // Set default light for glow effect for default sprites.
+  if (matches_sprite(get_default_sprite_name()))
+  {
+    switch (m_type)
+    {
+      case EGG:
+        lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+        break;
+      case FIRE:
+        lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
+        break;
+      case ICE:
+        lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
+        break;
+      case AIR:
+        lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
+        break;
+      case EARTH:
+        lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
+        break;
+      case STAR:
+        lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
+        break;
+    }
+  }
+}
+
+void
+PowerUp::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+  setup_lightsprite();
 }
 
 void
@@ -250,7 +294,7 @@ PowerUp::update(float dt_sec)
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
           Sector::get().add<SpriteParticle>(
-            m_sprite->create_linked_sprite("sparkle"),
+            "images/particles/sparkle.sprite",
             // draw bright sparkles when very close to Tux, dark sparkles when slightly further
             (disp_x*disp_x + disp_y*disp_y <= 128*128) ?
             // make every other a longer sparkle to make trail a bit fuzzy
@@ -265,11 +309,13 @@ PowerUp::update(float dt_sec)
 void
 PowerUp::draw(DrawingContext& context)
 {
-  MovingSprite::draw(context);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
   // Stars and herrings are brighter.
   if (m_type == STAR || m_type == HERRING)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 ObjectSettings
@@ -277,7 +323,7 @@ PowerUp::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_script(_("Script"), &script, "script");
+  result.add_script(get_uid(), _("Script"), &script, "script");
   result.add_bool(_("Disable gravity"), &no_physics, "disable-physics", false);
 
   result.reorder({"script", "disable-physics", "sprite", "x", "y"});

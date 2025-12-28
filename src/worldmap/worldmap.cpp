@@ -61,6 +61,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_passive_message_timer(),
   m_allow_item_pocket(true),
   m_enter_level(false),
+  m_really_enter_level(false),
+  m_skip_cutscene(false),
   m_in_level(false),
   m_in_world_select(false),
   m_next_filename(),
@@ -165,6 +167,11 @@ WorldMap::update(float dt_sec, const Controller& controller)
 
   process_input(controller);
 
+  if (m_really_enter_level)
+  {
+    m_enter_level = true;
+  }
+
   if (m_in_level) return;
   if (MenuManager::instance().is_active()) return;
 
@@ -181,7 +188,8 @@ WorldMap::update(float dt_sec, const Controller& controller)
 void
 WorldMap::process_input(const Controller& controller)
 {
-  m_enter_level = false;
+  if (!m_really_enter_level)
+    m_enter_level = false;
 
   if (controller.pressed(Control::ACTION) && !m_in_level)
   {
@@ -363,5 +371,4 @@ WorldMap::get_filename() const
 {
   return m_map_filename;
 }
-
 } // namespace worldmap

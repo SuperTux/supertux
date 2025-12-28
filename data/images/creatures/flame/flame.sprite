@@ -19,15 +19,5 @@
           "flame-fade-0.png"
           "flame-fade-1.png"
           "flame-fade-2.png"))
-
-  (linked-sprites
-    (custom-light
-      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
-      (color 0.21 0.13 0.08)
-    )
-    (smoke
-      (file "images/particles/smoke.sprite")
-    )
-  )
 )
 

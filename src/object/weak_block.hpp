@@ -47,11 +47,6 @@ public:
 
   void startBurning();
 
-protected:
-  LinkedSprites get_linked_sprites() override;
-
-  void on_sprite_update() override;
-
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
@@ -75,7 +70,7 @@ private:
 
 private:
   State state;
-  SpritePtr m_burn_sprite;
+  SpritePtr lightsprite;
 
 private:
   WeakBlock(const WeakBlock&) = delete;

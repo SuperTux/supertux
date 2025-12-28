@@ -1,0 +1,11 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (fps 12)
+    (images "glint-0.png"
+            "glint-1.png"
+            "glint-2.png"
+            "glint-3.png"
+            "glint-4.png"
+	))
+)

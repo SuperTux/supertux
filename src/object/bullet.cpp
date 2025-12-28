@@ -32,16 +32,16 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
   physic(),
   life_count(3),
   sprite(),
-  lightsprites(),
-  type(type_),
-  angle(0),
-  particle_time(0)
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
+  type(type_)
 {
   physic.set_velocity(xm);
 
   switch (type) {
     case BONUS_FIRE:
       sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
+      lightsprite->set_blend(Blend::ADD);
+      lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
       break;
 
     case BONUS_ICE:
@@ -54,8 +54,6 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
       sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
       break;
   }
-
-  lightsprites = sprite->create_custom_linked_sprites(true);
 
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
@@ -90,23 +88,12 @@ Bullet::update(float dt_sec)
 
 
   // Cause fireball color to flicker randomly.
-  if (!lightsprites.empty())
-  {
-    Color light_color;
-    if (graphicsRandom.rand(5) != 0)
-    {
-      light_color = Color(0.3f + graphicsRandom.randf(10) / 100.0f,
-                          0.1f + graphicsRandom.randf(20.0f) / 100.0f,
-                          graphicsRandom.randf(10.0f) / 100.0f);
-    }
-    else
-    {
-      light_color = Color(0.3f, 0.1f, 0.0f);
-    }
-
-    for (auto& sprite : lightsprites)
-      sprite->set_color(light_color);
-  }
+  if (graphicsRandom.rand(5) != 0) {
+    lightsprite->set_color(Color(0.3f + graphicsRandom.randf(10) / 100.0f,
+                                 0.1f + graphicsRandom.randf(20.0f) / 100.0f,
+                                 graphicsRandom.randf(10.0f) / 100.0f));
+  } else
+    lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
 
   if (life_count <= 0)
   {
@@ -134,8 +121,9 @@ void
 Bullet::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  for (auto& sprite : lightsprites)
-    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  if (type == BONUS_FIRE){
+    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  }
 }
 
 void

@@ -40,10 +40,4 @@
     (name "burning-right")
     (mirror-action "burning-left")
   )
-
-  (linked-sprites
-    (leaf
-      (file "images/particles/leaf.sprite")
-    )
-  )
 )

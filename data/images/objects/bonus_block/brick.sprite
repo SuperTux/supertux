@@ -39,10 +39,4 @@
   (name "piece6")
   (fps 1)
   (images "../../tiles/blocks/brick_piece6.png"))
-
-  (linked-sprites
-    (break-particles
-      (file "brick.sprite")
-    )
-  )
-)
+ )

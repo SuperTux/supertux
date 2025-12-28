@@ -151,7 +151,7 @@ LevelTile::get_settings()
   ObjectSettings result = WorldMapObject::get_settings();
 
   result.add_level(_("Level"), &m_level_filename, "level", basedir);
-  result.add_script(_("Outro script"), &m_extro_script, "extro-script");
+  result.add_script(get_uid(), _("Outro script"), &m_extro_script, "extro-script");
   result.add_bool(_("Auto play"), &m_auto_play, "auto-play", false);
   result.add_color(_("Title colour"), &m_title_color, "color", Color::WHITE);
 

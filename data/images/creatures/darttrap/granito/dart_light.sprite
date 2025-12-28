@@ -1,7 +1,7 @@
 (supertux-sprite
   (action
-    (name "default")
-    (hitbox 16 16 0 0)
+    (name "flying-left")
+    (hitbox 16 16 1 1)
     (images "dart_light.png")
   )
 )

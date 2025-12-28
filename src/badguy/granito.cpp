@@ -28,17 +28,18 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   m_state(STATE_STAND),
   m_original_state(STATE_STAND),
   m_has_waved(false),
-  m_stepped_on(false),
+  m_has_player_on_top(false),
   m_airborne(false),
   m_detect_script(),
-  m_carried_script()
+  m_carried_script(),
+  m_carrier(nullptr)
 {
   parse_type(reader);
 
   walk_speed = 0;
   set_ledge_behavior(LedgeBehavior::NORMAL);
 
-  m_countMe = false;
+  m_can_glint = false;
 
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   m_col.set_unisolid(true);
@@ -48,13 +49,23 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
 }
 
 void
+Granito::active_update_finish(float dt_sec, bool player_on_top)
+{
+  WalkingBadguy::active_update(dt_sec);
+  m_has_player_on_top = player_on_top;
+
+  // If being carried, let the Big Granito carrier do the work of
+  // propagating the movement.
+  if (m_carrier == nullptr)
+    m_col.propagate_movement(m_col.get_movement());
+}
+
+void
 Granito::active_update(float dt_sec)
 {
   if (m_state == STATE_SIT)
   {
-    // Don't do any extra calculations
-    WalkingBadguy::active_update(dt_sec);
-    m_stepped_on = false;
+    active_update_finish(dt_sec);
     return;
   }
 
@@ -86,13 +97,11 @@ Granito::active_update(float dt_sec)
 
   if (m_type == WALK)
   {
-    // Don't do any extra calculations
-    WalkingBadguy::active_update(dt_sec);
-    m_stepped_on = false;
+    active_update_finish(dt_sec);
     return;
   }
 
-  if ((m_state == STATE_LOOKUP && !m_stepped_on) ||
+  if ((m_state == STATE_LOOKUP && !m_has_player_on_top) ||
       (m_state == STATE_JUMPING && on_ground()))
   {
     restore_original_state();
@@ -100,9 +109,7 @@ Granito::active_update(float dt_sec)
 
   if (m_state == STATE_LOOKUP || m_state == STATE_JUMPING)
   {
-    // Don't do any extra calculations
-    WalkingBadguy::active_update(dt_sec);
-    m_stepped_on = false;
+    active_update_finish(dt_sec);
     return;
   }
 
@@ -113,8 +120,7 @@ Granito::active_update(float dt_sec)
       if (!m_sprite->animation_done())
       {
         // Still waving
-        WalkingBadguy::active_update(dt_sec);
-        m_stepped_on = false;
+        active_update_finish(dt_sec, true);
         return;
       }
       else
@@ -132,7 +138,7 @@ Granito::active_update(float dt_sec)
 
   if (m_type == DEFAULT && try_jump())
   {
-    WalkingBadguy::active_update(dt_sec);
+    active_update_finish(dt_sec);
     return;
   }
 
@@ -186,9 +192,7 @@ Granito::active_update(float dt_sec)
     }
   }
 
-  WalkingBadguy::active_update(dt_sec);
-
-  m_stepped_on = false;
+  active_update_finish(dt_sec);
 }
 
 HitResponse
@@ -198,7 +202,7 @@ Granito::collision_player(Player& player, const CollisionHit& hit)
 
   if (hit.top)
   {
-    m_stepped_on = true;
+    m_has_player_on_top = true;
 
     if (m_state != STATE_LOOKUP)
     {
@@ -218,9 +222,6 @@ Granito::collision_player(Player& player, const CollisionHit& hit)
 HitResponse
 Granito::collision(MovingObject& other, const CollisionHit& hit)
 {
-  if (hit.top)
-    m_col.propagate_movement(m_col.get_movement());
-
   if (hit.bottom)
   {
     if (m_state == STATE_SIT)
@@ -279,8 +280,8 @@ Granito::get_settings()
 
   settings.remove("dead-script");
 
-  settings.add_script(_("Detect script"), &m_detect_script, "detect-script");
-  settings.add_script(_("Carried script"), &m_carried_script, "carried-script");
+  settings.add_script(get_uid(), _("Detect script"), &m_detect_script, "detect-script");
+  settings.add_script(get_uid(), _("Carried script"), &m_carried_script, "carried-script");
 
   return settings;
 }
@@ -327,23 +328,10 @@ Granito::after_editor_set()
   }
 }
 
-GranitoBig*
-Granito::get_carrier() const
-{
-  for (auto& granito : Sector::get().get_objects_by_type<GranitoBig>())
-  {
-    if (granito.get_carrying() == this)
-      return &granito;
-  }
-
-  return nullptr;
-}
-
 std::string
 Granito::get_carrier_name() const
 {
-  GranitoBig* carrier = get_carrier();
-  return carrier != nullptr ? carrier->get_name() : "";
+  return m_carrier != nullptr ? m_carrier->get_name() : "";
 }
 
 void
@@ -573,12 +561,10 @@ Granito::jump()
 
 void Granito::eject()
 {
-  GranitoBig* granito = get_carrier();
-
-  if (!granito)
+  if (!m_carrier)
     return;
 
-  granito->eject();
+  m_carrier->eject();
 }
 
 void
@@ -598,7 +584,6 @@ Granito::restore_original_state()
     stand();
   }
 }
-
 
 void
 Granito::register_class(ssq::VM& vm)

@@ -271,7 +271,7 @@ private:
   bool m_init_script_run;
   bool m_init_script_run_once;
 
- public: 
+ public:
   // The default sector size.
   static const int DEFAULT_SECTOR_WIDTH = 350;
   static const int DEFAULT_SECTOR_HEIGHT = 60;

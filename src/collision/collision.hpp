@@ -24,6 +24,7 @@
 
 class Rectf;
 class AATriangle;
+class CollisionObject;
 
 namespace collision {
 
@@ -109,7 +110,8 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
 
 bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle,
-                          bool& hits_rectangle_bottom);
+                          bool& hits_rectangle_bottom,
+                          CollisionObject* object = nullptr);
 
 void set_rectangle_rectangle_constraints(Constraints* constraints, const Rectf& r1, const Rectf& r2);
 

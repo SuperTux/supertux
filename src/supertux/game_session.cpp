@@ -36,6 +36,7 @@
 #include "sdk/integration.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -43,6 +44,7 @@
 #include "supertux/levelintro.hpp"
 #include "supertux/levelset_screen.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
@@ -56,20 +58,21 @@
 static const float SAFE_TIME = 1.0f;
 static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
 static const float TELEPORT_FADE_TIME = 1.0f;
+static const float TELEPORT_FADE_TIME_CIRCLE = 1.43f;
+static const float TELEPORT_SPEEDUP = 3.18f;
 
-
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
+GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   reset_button(false),
   reset_checkpoint_button(false),
   m_prevent_death(false),
-  m_level(),
+  m_level(nullptr),
+  m_level_storage(nullptr),
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
   m_data_table(SquirrelVirtualMachine::current()->get_vm().findTable("Level").getOrCreateTable("data")),
   m_currentsector(nullptr),
   m_end_sequence(nullptr),
   m_game_pause(false),
   m_speed_before_pause(ScreenManager::current()->get_speed()),
-  m_levelfile(levelfile_),
   m_spawnpoints(),
   m_activated_checkpoint(),
   m_newsector(),
@@ -79,6 +82,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_spawn_with_invincibility(false),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
+  m_levelstream(nullptr),
+  m_tmp_playerstatus(0),
   m_play_time(0),
   m_levelintro_shown(false),
   m_coins_at_start(),
@@ -98,6 +103,25 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_data_table.clear();
 }
 
+
+GameSession::GameSession(Level* level, Savegame* savegame, Statistics* statistics) :
+  GameSession{savegame, statistics}
+{
+  m_level = level;
+}
+
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
+  GameSession{&savegame, statistics}
+{
+  m_levelfile = levelfile_;
+}
+
+GameSession::GameSession(std::istream& istream_, Savegame* savegame, Statistics* statistics) :
+  GameSession{savegame, statistics}
+{
+  m_levelstream = &istream_;
+}
+
 void
 GameSession::reset_level()
 {
@@ -112,9 +136,12 @@ GameSession::reset_level()
     }
   }
 
-  PlayerStatus& currentStatus = m_savegame.get_player_status();
-  currentStatus.coins = m_coins_at_start;
-  currentStatus.bonus = m_boni_at_start;
+  if (m_savegame)
+  {
+    PlayerStatus& currentStatus = m_savegame->get_player_status();
+    currentStatus.coins = m_coins_at_start;
+    currentStatus.bonus = m_boni_at_start;
+  }
 
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
@@ -128,12 +155,22 @@ GameSession::reset_level()
 void
 GameSession::on_player_added(int id)
 {
-  auto& player_status = m_savegame.get_player_status();
-  if (player_status.m_num_players <= id)
-    player_status.add_player();
+  PlayerStatus* player_status;
+  if (m_savegame)
+  {
+  	player_status = &m_savegame->get_player_status();
+  }
+  else
+  {
+  	player_status = &m_tmp_playerstatus;
+  }
+
+  if (player_status->m_num_players <= id)
+    player_status->add_player();
+
 
   // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-  auto& player = m_currentsector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
+  auto& player = m_currentsector->add<Player>(*player_status, "Tux" + std::to_string(id + 1), id);
 
   player.multiplayer_prepare_spawn();
 }
@@ -159,23 +196,26 @@ GameSession::on_player_removed(int id)
 void
 GameSession::restart_level(bool after_death, bool preserve_music)
 {
-  const PlayerStatus& currentStatus = m_savegame.get_player_status();
-  m_coins_at_start = currentStatus.coins;
-  m_boni_at_start = currentStatus.bonus;
-
-  // Needed for the title screen apparently.
-  if (m_currentsector)
+  if (m_savegame)
   {
-    try
+    const PlayerStatus& currentStatus = m_savegame->get_player_status();
+    m_coins_at_start = currentStatus.coins;
+    m_boni_at_start = currentStatus.bonus;
+
+    // Needed for the title screen apparently.
+    if (m_currentsector)
     {
-      for (const auto& p : m_currentsector->get_players())
+      try
       {
-        p->set_bonus(m_boni_at_start.at(p->get_id()), false);
-        m_boni_at_start[p->get_id()] = currentStatus.bonus[p->get_id()];
+        for (const auto& p : m_currentsector->get_players())
+        {
+          p->set_bonus(m_boni_at_start.at(p->get_id()), false);
+          m_boni_at_start[p->get_id()] = currentStatus.bonus[p->get_id()];
+        }
       }
-    }
-    catch (const std::out_of_range&)
-    {
+      catch (const std::out_of_range&)
+      {
+      }
     }
   }
 
@@ -188,13 +228,25 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 
   m_currentsector = nullptr;
 
-  const std::string base_dir = FileSystem::dirname(m_levelfile);
-  if (base_dir == "./") {
-    m_levelfile = FileSystem::basename(m_levelfile);
-  }
-
   try {
-    m_level = LevelParser::from_file(m_levelfile, false, false);
+    if (FileSystem::dirname(m_levelfile) == "./") {
+      m_levelfile = FileSystem::basename(m_levelfile);
+    }
+
+	// TODO: We currently storage the level as a stringstream, not ideal.
+	// Level was passed as an argument (likely from the editor)
+	// if (m_level == nullptr && !m_levelfile.empty())
+
+	if (!m_levelstream)
+      m_level_storage = LevelParser::from_file(m_levelfile, false, false);
+	else
+	{
+	  m_levelstream->clear();
+	  m_levelstream->seekg(0, std::ios::beg);
+	  m_level_storage = LevelParser::from_stream(*m_levelstream, "", false, false);
+	}
+
+	m_level = m_level_storage.get();
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
     const GameSession::SpawnPoint* spawnpoint = nullptr;
@@ -253,12 +305,14 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   }
   catch (std::exception& e) {
     throw std::runtime_error(std::string("Couldn't start level: ") + e.what());
+	// ScreenManager::current()->pop_screen();
+	//return (-1);
   }
 
-  if (m_levelintro_shown)
+  if (m_levelintro_shown && !m_skip_intro)
   {
     const Vector shrinkpos = get_fade_point();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER,  ShrinkFade::FADEIN));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME_CIRCLE, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
   }
 
   if (!preserve_music)
@@ -316,7 +370,7 @@ GameSession::on_escape_press(bool force_quick_respawn)
   int textscrollers = m_currentsector->get_object_count<TextScroller>([](const TextScroller& ts) {
     return !ts.is_fading();
   });
-  
+
   if (textscrollers) {
     return;
   }
@@ -418,8 +472,11 @@ GameSession::abort_level()
     }
   }
 
-  PlayerStatus& currentStatus = m_savegame.get_player_status();
-  currentStatus.coins = m_coins_at_start;
+  if (m_savegame)
+  {
+    PlayerStatus& currentStatus = m_savegame->get_player_status();
+    currentStatus.coins = m_coins_at_start;
+  }
   SoundManager::current()->stop_sounds();
 }
 
@@ -432,6 +489,8 @@ GameSession::is_active() const
 void
 GameSession::check_end_conditions()
 {
+  if (!m_currentsector)
+  	return;
   bool all_dead = true;
   for (const auto* p : m_currentsector->get_players())
     if (!(all_dead &= p->is_dead()))
@@ -469,6 +528,9 @@ GameSession::draw(Compositor& compositor)
 
   if (m_game_pause)
     draw_pause(context);
+
+  if (g_config->show_game_timer && !g_debug.hide_player_hud)
+    draw_timer(context);
 }
 
 void
@@ -491,18 +553,19 @@ GameSession::setup()
   }
   m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
 
-  int total_stats_to_be_collected = m_level->m_stats.m_total_coins + m_level->m_stats.m_total_badguys + m_level->m_stats.m_total_secrets;
-  if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0)) {
+  int total_stats_to_be_collected = m_level->m_stats.m_total_coins + m_level->m_stats.m_total_secrets;
+  if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0) && m_savegame && !m_skip_intro) {
     m_levelintro_shown = true;
     m_active = false;
-    ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame.get_player_status()));
+    ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame->get_player_status()));
     ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, TELEPORT_FADE_TIME));
   }
   else
   {
     const Vector shrinkpos = get_fade_point();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME_CIRCLE, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
   }
+  m_skip_intro = false;
 
   m_end_seq_started = false;
 }
@@ -553,16 +616,6 @@ GameSession::update(float dt_sec, const Controller& controller)
   // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`).
   m_level->m_stats.update_timers(dt_sec);
 
-  // Unpause the game if the menu has been closed.
-  if (m_game_pause && !MenuManager::instance().is_active()) {
-    ScreenManager::current()->set_speed(m_speed_before_pause);
-    SoundManager::current()->resume_music();
-    SoundManager::current()->resume_sounds();
-    assert(m_currentsector != nullptr);
-    m_currentsector->play_looping_sounds();
-    m_game_pause = false;
-  }
-
   check_end_conditions();
 
   const auto& players = m_currentsector->get_players();
@@ -599,7 +652,7 @@ GameSession::update(float dt_sec, const Controller& controller)
         const Vector spawn_point_position = sector->get_spawn_point_position(m_newspawnpoint);
         const Vector shrinkpos = get_fade_point(spawn_point_position);
 
-        ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN));
+        ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME_CIRCLE, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
         break;
       }
       default:
@@ -640,7 +693,8 @@ GameSession::update(float dt_sec, const Controller& controller)
       {
         if (player->is_active() && player->is_scripting_activated() &&
             player->get_controller().pressed(Control::ITEM) &&
-            m_savegame.get_player_status().m_item_pockets.size() > 0)
+			m_savegame &&
+            m_savegame->get_player_status().m_item_pockets.size() > 0)
         {
           player->get_status().give_item_from_pocket(player);
         }
@@ -700,6 +754,17 @@ GameSession::update(float dt_sec, const Controller& controller)
   } else if (music_object.get_music_type() != LEVEL_MUSIC) {
     music_object.play_music(LEVEL_MUSIC);
   }
+
+  // Unpause the game if the menu has been closed.
+  if (m_game_pause && !MenuManager::instance().is_active()) {
+    ScreenManager::current()->set_speed(m_speed_before_pause);
+    SoundManager::current()->resume_music();
+    SoundManager::current()->resume_sounds();
+    assert(m_currentsector != nullptr);
+    m_currentsector->play_looping_sounds();
+    m_game_pause = false;
+  }
+
   if (reset_button) {
     reset_button = false;
     reset_level();
@@ -735,7 +800,7 @@ GameSession::finish(bool win)
   if (win) {
     if (WorldMapSector::current())
     {
-      WorldMapSector::current()->finished_level(m_level.get());
+      WorldMapSector::current()->finished_level(m_level);
     }
 
     if (LevelsetScreen::current())
@@ -769,19 +834,22 @@ GameSession::respawn_with_fade(const std::string& sector,
   m_spawn_with_invincibility = make_invincible;
 
   bool transition_takes_time = false;
+  float transition_time;
 
   switch (m_spawn_fade_type)
   {
     case ScreenFade::FadeType::FADE:
     {
-      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, TELEPORT_FADE_TIME));
+      transition_time = TELEPORT_FADE_TIME;
+      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, transition_time));
       transition_takes_time = true;
       break;
     }
     case ScreenFade::FadeType::CIRCLE:
     {
       const Vector shrinkpos = get_fade_point(fade_point);
-      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEOUT));
+      transition_time = TELEPORT_FADE_TIME_CIRCLE;
+      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, transition_time, SHRINKFADE_LAYER, ShrinkFade::FADEOUT, true, TELEPORT_SPEEDUP));
       transition_takes_time = true;
       break;
     }
@@ -791,12 +859,12 @@ GameSession::respawn_with_fade(const std::string& sector,
 
   if (transition_takes_time)
   {
-    m_spawn_fade_timer.start(TELEPORT_FADE_TIME);
+    m_spawn_fade_timer.start(transition_time);
 
     // Make all players safe during the fadeout transition
     for (Player* player : m_currentsector->get_players())
     {
-      player->make_temporarily_safe(TELEPORT_FADE_TIME);
+      player->make_temporarily_safe(transition_time);
     }
   }
 }
@@ -963,4 +1031,32 @@ GameSession::drawstatus(DrawingContext& context)
   }
 
   m_level->m_stats.draw_ingame_stats(context, m_game_pause);
+}
+
+void
+GameSession::draw_timer(DrawingContext& context) const
+{
+  int ms = static_cast<int>(m_play_time * 1000.f);
+
+  const int h = ms / (1000 * 60 * 60);
+  ms -= h * (1000 * 60 * 60);
+
+  const int m = ms / (1000 * 60);
+  ms -= m * (1000 * 60);
+
+  const int s = ms / 1000;
+  ms -= s * 1000;
+
+  std::ostringstream out;
+  out << std::setfill('0')
+    << std::setw(2) << h << ':'
+    << std::setw(2) << m << ':'
+    << std::setw(2) << s << '.'
+    << std::setw(3) << ms;
+
+  context.color().draw_text(Resources::normal_bitmap_font, out.str(),
+                            Vector(context.get_width() / 2
+                                     + (m_currentsector->get_object_count<LevelTime>() > 0 ? context.get_width() * 0.10f : 0),
+                                   20.f),
+                            ALIGN_CENTER, LAYER_HUD);
 }

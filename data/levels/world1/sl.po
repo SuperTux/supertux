@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Gorzy Gorup <gorupgorazd@gmail.com>, 2016
-# Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022,2025
 # Marko Burjek <email4marko@gmail.com>, 2005-2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-08-25 10:47+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022\n"
+"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022,2025\n"
 "Language-Team: Slovenian (http://app.transifex.com/arctic-games/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,41 +24,32 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "Kdor visoko leta ..."
 
-#: data/levels/world1/23rd_airborne.stl:598
-#: data/levels/world1/between_glaciers.stl:855
-#: data/levels/world1/between_glaciers.stl:863
-#: data/levels/world1/crystal_mine.stl:1535
-#: data/levels/world1/crystal_mine.stl:1543
-#: data/levels/world1/frosted_fields.stl:188
-#: data/levels/world1/path_in_the_clouds.stl:348
-#: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
-msgid "You found a secret area!"
-msgstr "Našel/a si skrito sobo!"
-
 #: data/levels/world1/above_arctic_skies.stl:3
-msgid "Above the Arctic Skies"
-msgstr "Nad arktičnim nebom"
+msgid "Above the Antarctic Skies"
+msgstr "Nad antarktičnim nebom"
 
-#: data/levels/world1/above_arctic_skies.stl:162
+#: data/levels/world1/above_arctic_skies.stl:318
 msgid ""
-"-Air Flower\n"
-"!images/powerups/airflower/air_flower-0.png\n"
-"#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-Vetrna roža\n!images/powerups/airflower/air_flower-0.png\n#Vetrna roža omogoča Tuksu, da nekaj sekund lebdi v zraku, dokler držiš tipko za skakanje."
+"-Air Flower\r\n"
+"!images/powerups/airflower/air_flower-0.png\r\n"
+"#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
+msgstr "-Vetrna roža\r\n!images/powerups/airflower/air_flower-0.png\r\n#Vetrna roža omogoča Tuksu, da se premika hitreje in skače višje. Nekaj sekund lahko lebdi v zraku, dokler držiš tipko za skakanje."
+
+#: data/levels/world1/antarctic_outpost.stl:3
+msgid "Antarctic Outpost"
+msgstr "Antarktična postojanka"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
 msgstr "Med dvema ledenikoma"
 
-#: data/levels/world1/between_glaciers.stl:108
-msgid ""
-"-Crystals\n"
-"#This level contains four coloured crystals. Can you find them?\n"
-"#\n"
-"#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-Kristali\n#Ta stopnja vsebuje štiri obarvane kristale. Jih lahko najdeš?\n#\n#Pozor: Ti kristali zaenkrat še nimajo pravega pomena, vendar ga bodo morda imeli v prihodnjih različicah igre."
+#: data/levels/world1/bouncy_mountainside.stl:3
+msgid "Bouncy, Bouncy Mountainside"
+msgstr "Poskočno pobočje"
+
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr "Nikogar ni doma"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -68,9 +59,9 @@ msgstr "Nolokov grad"
 msgid "The Crystal Mine"
 msgstr "Rudnik kristalov"
 
-#: data/levels/world1/crystal_mine.stl:686
-msgid "#You have to activate two switches to open this door."
-msgstr "#Vrata odpreš tako, da potegneš dva vzvoda."
+#: data/levels/world1/deep_dive_chill.stl:3
+msgid "Deep Dive 'n' Chill"
+msgstr "Umirjena potopitev"
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
@@ -81,53 +72,22 @@ msgid "Entrance to the Cave"
 msgstr "Vhod v votlino"
 
 #: data/levels/world1/fork_in_the_road.stl:3
-msgid "A Fork in the Road"
-msgstr "Razcep"
+msgid "A Fork in the Road?"
+msgstr "Razpotje?"
 
-#: data/levels/world1/fork_in_the_road.stl:84
+#: data/levels/world1/fork_in_the_road.stl:741
 msgid ""
-"-Switches\n"
-"!images/objects/switch/switch-0.png\n"
-"!images/objects/pushbutton/pushbutton-0.png\n"
-"#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
-"#There are also buttons that you can press by jumping on them."
-msgstr "-Vzvodi\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Vzvodi so uporabni za marsikaj. Vzvod sprožiš tako, da pritisneš tipko za \"gor\".\n#Obstajajo tudi gumbi, ki jih pritisneš tako, da nanje skočiš."
-
-#: data/levels/world1/fork_in_the_road.stl:93
-msgid ""
-"-Trampolines\n"
-"!images/objects/trampoline/trampoline2-0.png\n"
-"#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "-Trampolini\n!images/objects/trampoline/trampoline2-0.png\n#Trampolini Tuksu omogočajo, da skoči višje, kot bi drugače. Medtem ko skačeš po trampolinu, drži tipko za skakanje, da skočiš še višje."
-
-#: data/levels/world1/fork_in_the_road.stl:100
-msgid ""
-"-Climbing\n"
-"#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "-Plezanje\n#Tuks zna plezati! Vzpenjati se začneš tako, da pritisneš tipko za \"gor\". Če se hočeš spustiti, pritisneš tipko za dejanje ali skakanje."
-
-#: data/levels/world1/fork_in_the_road.stl:106
-msgid ""
-"-Secret Exits\n"
-"#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
-"#Maybe they lead you to something special."
-msgstr "-Skrivni izhodi\n#Nekatere stopnje imajo več izhodov. Večina jih je skritih, tako da bodi pozoren/a.\n#Morda se za kakšnim izhodom skriva kaj posebnega."
+"-Secret Exit\n"
+"#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
+msgstr "-Skrivni izhod\n#Za nekaterimi stopnjami se nahajajo skrivni izhodi, prek katerih lahko ubereš skrivnostne alternativne poti, zato dobro razišči sumljive kotičke sveta."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
 msgstr "Polja slane"
 
-#: data/levels/world1/frozen_bridge.stl:3
-msgid "Over the Frozen Bridge"
-msgstr "Čez zmrznjen most"
-
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "Zaledenelo bo!"
-
-#: data/levels/world1/icy_valley.stl:3
-msgid "Icy Valley"
-msgstr "Ledena dolina"
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -142,16 +102,26 @@ msgid "The Journey Begins"
 msgstr "Potovanje se prične"
 
 #: data/levels/world1/living_inside_fridge.stl:3
-msgid "Living in a Fridge"
+msgid "Living In A Fridge"
 msgstr "Življenje v hladilniku"
-
-#: data/levels/world1/miyamoto_monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Spomenik Miyamotu"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
 msgstr "O, ne! Še več snežnih kep!"
+
+#: data/levels/world1/more_snowballs.stl:290
+msgid ""
+"-Carrying Objects\r\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Prenašanje predmetov\n#Če držiš tipko za dejanje, lahko Tuks pobere in nosi predmete. Ko spustiš tipko, medtem ko Tuks stoji pri miru, bo spustil predmet.\n#Če spustiš tipko, medtem ko se Tuks premika, bo predmet zalučal!"
+
+#: data/levels/world1/more_snowballs.stl:299
+msgid ""
+"-Up-Throwing\r\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\r\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-Met navzgor\n#Tuks lahko vrže večino predmetov navzgor tako, da zadržiš zgornjo tipko, medtem pa spustiš tipko za dejanje.\n#Med tekom bo Tuks vrgel predmet v loku!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -161,32 +131,114 @@ msgstr "Nočni hlad"
 msgid "...Or Is It Just Me?"
 msgstr "... Ali se mi samo zdi?"
 
-#: data/levels/world1/path_in_the_clouds.stl:3
+#: data/levels/world1/path_in_clouds.stl:3
 msgid "A Path in the Clouds"
 msgstr "Plavanje v oblakih"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tuks je dosegel konec gradu."
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
+msgstr "Končno se je uspel Tuks prebiti v zadnjo sobano ledenega gradu."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "A presenečen je odkril zgolj pisemce."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
+msgstr "Presenečen je odkril, da ni tam nikogar. Ne Pike ne tistega čudnega Noloka."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "V pismu mu je Pika napisala, da jo je Nolok odpeljal v oddaljene gozdove."
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
+msgstr "Gotovo tičita nekje tukaj, kajne? Morda v kaki skriti sobi?"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Ne vedoč, kakšne načrte ima Nolok, se je Tuks zbal za svojo preljubo Piko."
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
+msgstr "Po nekaj iskanja in premlevanja je Tuks na enem od stebrov opazil pripeto majhno sporočilce."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Nenadoma pa ..."
+msgid "It was yet another note, by that Nolok."
+msgstr "Napisal ga je tisti strašni Nolok."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr "V njem je pisalo, da se je odpravil z Ledenega otoka daleč na sever. Če mu Tuks želi slediti in rešiti svojo prijateljico, mora priti v Kristalni rudnik."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr "Pod sporočilom je bila skica Ledeniškega otoka. Na drugem koncu sta bila narisana čoln in majhen pomol."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr "Toda še preden je lahko Tuks premlel vse skupaj, se je čez sobano razleglo glasno rjovenje!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr "Pojavil se je mogočni jeti in se grozeče tolkel po prsih."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr "Tuks se je pognal proti balkonu na drugi strani sobe. Ker mu ni preostalo drugega, je skočil!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
+msgstr "Na žalost se jeti ni vdal tako zlahka ..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:2
+msgid ""
+"After a long swim across the antarctic waters, Tux arrived at the Glacier "
+"Isle mentioned in Nolok's note."
+msgstr "Po dolgem plavanju po antarktičnih vodah je Tuks prispel na Ledeniški otok, ki ga je omenjalo Nolokovo sporočilo."
+
+#: data/levels/world1/scripts_crystal_mine.txt:3
+msgid ""
+"A massive shaft lay before him, leading down into the aforementioned Crystal"
+" Mine."
+msgstr "Pred njim je zevala ogromna odprtina, ki je vodila navzdol v Kristalni rudnik."
+
+#: data/levels/world1/scripts_crystal_mine.txt:4
+msgid ""
+"Still carrying a spark of doubt that this was not a trap, Tux slowly "
+"descended into the depths once more..."
+msgstr "Čeprav je še vedno sumil, da ga čaka past, se je Tuks počasi spustil v globine ..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:5
+msgid ""
+"At last, Tux made it through the crystal mine and found himself on the "
+"opposite end of the Glacier Isle."
+msgstr "Naposled se je Tuks prebil skozi rudnik kristalov in se znašel na nasprotnem koncu Ledeniškega otoka."
+
+#: data/levels/world1/scripts_crystal_mine.txt:6
+msgid ""
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
+msgstr "Ko je stopal iz rudnika, je Tuks pri sebi upal, da je Nolok napisal resnico."
+
+#: data/levels/world1/scripts_crystal_mine.txt:7
+msgid ""
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
+msgstr "Olajšan je odkril, da je čoln še privezan ob pomol. Z njim se bo lahko podal na sever poiskat Noloka in rešit Piko."
+
+#: data/levels/world1/scripts_crystal_mine.txt:8
+msgid "It seemed the map in the note wasn't a trap after all."
+msgstr "Očitno zemljevid in sporočilo vendarle nista bila past."
+
+#: data/levels/world1/scripts_crystal_mine.txt:9
+msgid ""
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
+msgstr "Naj si je še tako razbijal glavo, si ni znal razložiti, zakaj Nolok počne vse to. Zakaj pušča za seboj vse te namige?"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -229,109 +281,158 @@ msgid ""
 msgstr "V daljavi je zagledal Nolokov grad in se odpravil Piki na pomoč!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Utrujen od dolge poti se je Tuks odločil malce odpočiti."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the"
+" supposed castle of Nolok."
+msgstr "Po celodnevni poti po Ledenem otoku je Tuks skoraj dosegel Nolokov grad."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Tedaj pa je iz daljave zaslišal glasno rjovenje."
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
+msgstr "Vso noč je prebedel, zato je bil pošteno utrujen, vendar odločen, da bo nadaljeval pot!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
-msgstr "Kaže, da ga je od nekje daleč zagledal jeti."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
+msgstr "Brez odlašanja se je Tuks spustil z griča v ledeno dolino pod seboj."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
-" ..."
-msgstr "Tuksa je zaskrbel jetijev nenaden umik, zato se je odpravil naprej ..."
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
+msgstr "Ni se zavedal, da ga že vso pot zasleduje jeti."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "... upajoč, da mu jeti ne bo več prekrižal poti."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr "Jeti je glasno zarjovel in se pognal za malim pingvinčkom."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr "Uspelo mu je! Dejansko mu je uspelo! Tuks je premagal mogočnega jetija!"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he"
+" did not throw hands again."
+msgstr "Čeprav se je jeti hitro pobral na noge, se na Tuksovo olajšanje ni več hotel spopasti z njim."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr "Toda jeti je bil besen! Ni mu šlo v glavo, kako ga je lahko premagal tak majhen pingvinček."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr "Odvihral je proč, kakor da Tuksa ne bi bilo tam, in si jezno mrmral v brk."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr "Tuks je najprej presenečeno obstal, potem pa se je odpravil dalje."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr "Ko je Tuks dosegel obalo, je na obzorju že videl Ledeniški otok."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr "Če bi prej vedel, da bo Nolok tam, bi šel naravnost tja in si prihranil čas."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
+msgstr "Mogoče je ravno zato Nolok napisal tisto sporočilo ..."
 
 #: data/levels/world1/shattered_bridge.stl:3
-msgid "The Shattered Bridge"
+msgid "Shattered Bridge"
 msgstr "Majav most"
+
+#: data/levels/world1/slippery_slide.stl:3
+msgid "Slippery Slide"
+msgstr "Spolzko drsenje"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
 msgstr "Manjša kopalna kad"
 
+#: data/levels/world1/somewhat_smaller_bath.stl:420
+msgid ""
+"-Swimming\n"
+"!images/creatures/tux/big/swim-1.png\n"
+"#When submerged in water, use the DIRECTIONAL keys to swim around freely. Hold the JUMP key to swim even faster."
+msgstr "-Plavanje\n!images/creatures/tux/big/swim-1.png\n#Ko si pod vodo, uporabi smerne tipke, da zaplavaš. Če držiš tipko za skakanje, lahko plavaš še hitreje."
+
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
 msgstr "Hladen kot kamen"
+
+#: data/levels/world1/stone_cold.stl:191
+msgid ""
+"-Carrying Objects\r\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Prenašanje predmetov\n#Če držiš tipko za dejanje, lahko Tuks pobere in nosi predmete. Ko spustiš tipko, bo Tuks spustil predmet.\n#Če spustiš tipko, medtem ko se Tuks premika, bo predmet zalučal!"
+
+#: data/levels/world1/stone_cold.stl:200
+msgid ""
+"-Up-Throwing\r\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\r\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-Met navzgor\n#Tuks lahko vrže večino predmetov navzgor tako, da zadržiš zgornjo tipko, medtem pa spustiš tipko za dejanje.\n#Med tekom bo Tuks vrgel predmet v loku!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
 msgstr "Pod ledom"
 
-#: data/levels/world1/via_nostalgica.stl:3
-msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
-
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Dobrodošel/a na Antarktiki"
 
-#: data/levels/world1/welcome_antarctica.stl:74
-msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
-"#\n"
-"#Hit them from below to get at their contents."
-msgstr "-Bonus kocke\n!images/objects/bonus_block/full-0.png\n#V bonus kockah so lahko skriti kovanci, izboljšave ali posebni premeti, ki ti bodo pomagali pri tvoji nalogi.\n#\n#Vsebino kocke dobiš tako, da jo udariš od spodaj."
-
-#: data/levels/world1/welcome_antarctica.stl:83
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Jajca\n!images/powerups/egg/egg-shade.png\n#Jajce Tuksa poveča. To mu omogoči, da s svojo glavo uničuje lesene kocke."
 
-#: data/levels/world1/welcome_antarctica.stl:90
-msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Varne točke\n!images/objects/resetpoints/bell-m.png\n#Preidi varno točko. Če umreš, se boš ponovno pojavil/a na tem mestu. Vsakič, ko začneš stopnjo z nadzorne točke, boš izgubil/a desetino svojih kovancev (vsaj 25 kovancev)."
-
-#: data/levels/world1/welcome_antarctica.stl:97
-msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Tek\n!images/tiles/signs/run.png\n#Na tvoji poti je ovira. Da jo preskočiš, moraš pridobiti hitrost in nato skočiti."
-
-#: data/levels/world1/welcome_antarctica.stl:104
+#: data/levels/world1/welcome_antarctica.stl:127
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Ognjena roža\n!images/powerups/fireflower/fire_flower-0.png\n#Če Tuks poje ognjeno rožo, lahko strelja ognjene krogle."
 
-#: data/levels/world1/welcome_antarctica.stl:111
+#: data/levels/world1/welcome_antarctica.stl:136
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux doll gives Tux 100 coins."
+"#The Tux Doll gives Tux 100 coins."
 msgstr "-Tuksova lutka\n!images/powerups/1up/1up.png\n#Tuksova lutka podari Tuksu 100 kovancev."
-
-#: data/levels/world1/welcome_antarctica.stl:118
-msgid ""
-"-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Skrivne sobe\n#V mnogih stopnjah so za zidovi skrivne sobe. Poišči znamenja vhodov v zidovih."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
 msgstr "Ledeni otok"
+
+#: data/levels/world1/worldmap.stwm:243
+msgid "You found a secret area!"
+msgstr "Našel/a si skrito sobo!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
 msgstr "Ne pustimo se več speljati na led"
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
-msgstr "Jeti v daljavi"
+msgid "An Unsuspected Follower"
+msgstr "Nepričakovan zasledovalec"
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
+msgstr "Na Ledeniške otoke"

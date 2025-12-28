@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jaakko Muilu, 2025\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -49,6 +49,10 @@ msgstr "Kahden jäätikön välissä"
 msgid "Bouncy, Bouncy Mountainside"
 msgstr "Kimmoisa vuorenrinne"
 
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr "Ei ketään kotona"
+
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
 msgstr "Nolokin linna"
@@ -73,7 +77,7 @@ msgstr "Luolan suu"
 msgid "A Fork in the Road?"
 msgstr "Tienhaarako?"
 
-#: data/levels/world1/fork_in_the_road.stl:750
+#: data/levels/world1/fork_in_the_road.stl:741
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -112,7 +116,7 @@ msgid ""
 "-Carrying Objects\r\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine päästämällä toimintanäppäimestä ollessasi paikallaan.\r\n#Jos päästät toimintanäppäimestä Tuxin liikkuessa, hän heittää sen!"
+msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine vapauttamalla toimintanäppäin seisoessasi.\r\n#Jos vapautat toimintanäppäintä Tuxin liikkuessa, hän heittää sen!"
 
 #: data/levels/world1/more_snowballs.stl:299
 msgid ""
@@ -134,45 +138,81 @@ msgid "A Path in the Clouds"
 msgstr "Pilvipolku"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux oli päässyt linnan loppupäähän."
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
+msgstr "Vihdoinkin Tuxin onnistui rientämään kohti jäälinnan viimeistä huonetta."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Mutta yllätyksekseen hän löysi vain kirjeen."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
+msgstr "Hänen yllätyksekseen ketään ei ollut paikalla. Ei Pennyä tai sitä... outoa Nolok-tyyppiä."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Pennyn kirje, jossa hän kertoo Tuxille, että Nolok oli vienyt hänet kaukaiseen metsään."
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
+msgstr "Täytyihän heidän takuulla olla jossain täällä? Kenties piilohuoneessa?"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Epävarmana siitä, mitä Nolok teki hänelle, Tux alkoi huolestua rakkaasta Pennystään."
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
+msgstr "Pienen pähkäilyn jälkeen Tux huomasi pienen viestin kiinnitettynä yhteen pylvääseen."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Kunnes yhtäkkiä..."
+msgid "It was yet another note, by that Nolok."
+msgstr "Se oli uusi viesti siltä Nolokilta."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr "Siinä luki, että hän oli jo lähtenyt Jääsaarelta kauas pohjoiseen. Jos hän tahtoi seurata ja pelastaa rakkaan ystävänsä, hänen täytyisi tulla kristallikaivokseen."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr "Alle oli merkitty karkea Huurresaaren kartta, jossa näkyi vene ja jonkinlainen pieni laituri toisella puolella."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr "Vaan ennen kuin Tux sai siitä tolkkua, äänekäs karjaisu täytti koko huoneen!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr "Suuri lumimies oli ilmestynyt rummuttaen rintaansa uhkaavaan tyyliin!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr "Tux suoriutui kohti parveketta huoneen toisella puolella. Kun vaihtoehtoja ei ollut, hän hyppäsi!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
+msgstr "Lumimies ei ikävä kyllä päästäisi häntä niin helpolla..."
 
 #: data/levels/world1/scripts_crystal_mine.txt:2
 msgid ""
 "After a long swim across the antarctic waters, Tux arrived at the Glacier "
-"Isles the Yeti told him about."
-msgstr "Uituaan pitkään Etelämantereen vesillä Tux saapui Huurresaarille, joista lumimies oli kertonut."
+"Isle mentioned in Nolok's note."
+msgstr "Uituaan pitkään Etelämantereen vesillä Tux saapui Huurresaarelle, josta oli mainittu Nolokin viestissä."
 
 #: data/levels/world1/scripts_crystal_mine.txt:3
 msgid ""
-"A massive shaft layed before him leading down into the aforementioned "
-"Crystal Mine."
-msgstr "Hänen edessään oli valtava kuilu, joka johti edellä mainittuun kristallikaivokseen."
+"A massive shaft lay before him, leading down into the aforementioned Crystal"
+" Mine."
+msgstr "Hänen edessään oli valtava kuilu, joka johti aiemmin mainittuun kristallikaivokseen."
 
 #: data/levels/world1/scripts_crystal_mine.txt:4
 msgid ""
 "Still carrying a spark of doubt that this was not a trap, Tux slowly "
 "descended into the depths once more..."
-msgstr "Tux, joka yhä vähän epäili tämän olevan mikään ansa, laskeutui jälleen hitaasti syvyyksiin..."
+msgstr "Tux, joka yhä vähän epäili tätä miksikään ansaksi, laskeutui jälleen hitaasti syvyyksiin..."
 
 #: data/levels/world1/scripts_crystal_mine.txt:5
 msgid ""
@@ -182,25 +222,25 @@ msgstr "Vihdoinkin Tux pääsi kristallikaivoksesta, ja huomasi olevansa Huurres
 
 #: data/levels/world1/scripts_crystal_mine.txt:6
 msgid ""
-"As he was about the exit the mine, internally Tux was hoping that all the "
-"yeti said was true."
-msgstr "Aikoessaan poistua kaivoksesta Tux toivoi pohjimmiltaan, että lumimiehen kertomus oli totta."
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
+msgstr "Aikoessaan poistua kaivoksesta Tux toivoi pohjimmiltaan, että Nolokin kirjoitus piti paikkansa."
 
 #: data/levels/world1/scripts_crystal_mine.txt:7
 msgid ""
-"To his relief, Tux did find a boat still docked. With it he could sail up "
-"north, to the aforementioned forest."
-msgstr "Tux onnekseen löysikin vielä kiinnitetyn veneen. Sillä hän voisi purjehtia pohjoiseen, mainittuun metsään."
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
+msgstr "Tux onnekseen löysikin vielä kiinnitetyn veneen. Sillä hän voisi purjehtia pohjoiseen etsiäkseen Nolokin ja pelastaakseen Pennyn."
 
 #: data/levels/world1/scripts_crystal_mine.txt:8
-msgid "Seems like the yeti did not lie to him after all."
-msgstr "Lumimies ei sittenkään valehdellut hänelle näköjään."
+msgid "It seemed the map in the note wasn't a trap after all."
+msgstr "Näytti siltä, että viestissä ollut kartta ei ollutkaan ansa."
 
 #: data/levels/world1/scripts_crystal_mine.txt:9
 msgid ""
-"The more he thought about it, he probably wasn't even meant to know about "
-"all this in the first place..."
-msgstr "Mietittyään sitä enemmän hänen ei kai olisi pitänyt tietää sitä kaikkea alun perinkään..."
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
+msgstr "Mitä enemmän hän ajatteli sitä, sitä vähemmän hän oli varma Nolokin motiiveista. Miksi hän jättäisi vihjeitä jälkeensä?"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -243,26 +283,75 @@ msgid ""
 msgstr "Sitten Tux näki Nolokin linnan kauempana, ja lähti pelastamaan Pennyä!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Pitkästä kävelymatkasta väsynyt Tux päätti pitää lyhyen tauon."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the"
+" supposed castle of Nolok."
+msgstr "Tux on nyt melkein päässyt Nolokin oletettuun linnaan matkattuaan koko päivän Jääsaarella "
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Mutta sitten yhtäkkiä hän kuuli kaukaa kovan karjaisun."
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
+msgstr "Unen puute yöaikaan ei ehkä ole ihanteellista, mutta hän oli päättänyt jatkaa!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
-msgstr "Lumimies oli näköjään tarkkaillut häntä etäältä."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
+msgstr "Tux, joka ei halunnut hukata enempää aikaa, jatkoi liukumalla alas mäen päältä kohti edessä olevaa jäälaaksoa."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
-" ..."
-msgstr "Tux, jota huoletti lumimiehen äkillinen vetäytyminen, päätti jatkaa matkaansa..."
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
+msgstr "Hänelle tuntematon lumimies näytti hyvin innostuneelta hänen länsäolostaan, sillä se piti Tuxia silmällä tämän jatkaessa matkaansa."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "...toivoen salaa, ettei enää kohtaisi lumimiestä mitenkään."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr "Lumimies päästi kovan karjaisun ja jatkoi pikku pingviinin seuraamista."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr "Hän teki sen! Hän todellakin teki sen! Tux oli voittanut mahtavan lumimiehen!"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he"
+" did not throw hands again."
+msgstr "Vaikka lumimieheltä ei vienyt kauan nousta taas, Tuxin helpotukseksi hän ei enää tapellut."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr "Lumimies oli kuitenkin raivoissaan! Hän ei voinut käsittää, miten Tuxin kaltainen pieni pingviini saattoi voittaa hänet taistelussa."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr "Lumimies riensi pois mutisten itsekseen ikään kuin unohtaen Tuxin olleen paikalla."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr "Tux ei ollut varma, mitä siitä pitäisi ajatella, joten hän päätti jatkaa matkaa."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr "Päästyään rannalla Tux pystyi jo näkemään Huurresaaret horisontissa."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr "Jos hän olisi tiennyt Nolokin menneen sinne aikaisemmin, hän olisi päässyt sinne nopeammin."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
+msgstr "Ehkä se oli Nolokin tavoite, kun hän jätti jälkeensä viestin..."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"
@@ -292,7 +381,7 @@ msgid ""
 "-Carrying Objects\r\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine päästämällä toimintanäppäimestä.\r\n#Jos päästät toimintanäppäimestä Tuxin liikkuessa, hän heittää sen!"
+msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine vapauttamalla toimintanäppäintä.\r\n#Jos vapautat toimintanäppäintä Tuxin liikkuessa, hän heittää sen!"
 
 #: data/levels/world1/stone_cold.stl:200
 msgid ""
@@ -334,7 +423,7 @@ msgstr "-Tux-nukke\n!images/powerups/1up/1up.png\n#Tux-nukke antaa Tuxille 100 k
 msgid "Icy Island"
 msgstr "Jääsaari"
 
-#: data/levels/world1/worldmap.stwm:210
+#: data/levels/world1/worldmap.stwm:243
 msgid "You found a secret area!"
 msgstr "Löysit salaisen paikan!"
 
@@ -343,5 +432,9 @@ msgid "No More Mr. Ice Guy"
 msgstr "Pakkasukon päätepysäkki"
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
-msgstr "Lumimies näkyvissä"
+msgid "An Unsuspected Follower"
+msgstr "Epäillyttävä seuralainen"
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
+msgstr "Pois Huurresaarilta"

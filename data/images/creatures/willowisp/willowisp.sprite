@@ -2,7 +2,7 @@
   (action
     (hitbox 4.8 4.8 31.8 31.8)
 	(fps 15)
-    (name "idle")
+    (name "default")
     (images 
       "idle-0.png"
       "idle-1.png"
@@ -38,11 +38,5 @@
       "warping-4.png"
       )
     )
-
-  (linked-sprites
-    (custom-light
-      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
-    )
   )
-)
 

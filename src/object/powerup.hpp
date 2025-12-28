@@ -18,6 +18,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
+#include "video/layer.hpp"
 
 class PowerUp : public MovingSprite
 {
@@ -38,7 +39,7 @@ public:
 
 public:
   PowerUp(const ReaderMapping& mapping);
-  PowerUp(const Vector& pos, int type);
+  PowerUp(const Vector& pos, int type, int layer = LAYER_OBJECTS);
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
@@ -59,15 +60,18 @@ public:
 
   std::vector<std::string> get_patches() const override;
   virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 protected:
   /** Initialize power up sprites and other defaults */
   void initialize();
+  void setup_lightsprite();
 
 protected:
   Physic physic;
   std::string script;
   bool no_physics;
+  SpritePtr lightsprite;
 
 private:
   PowerUp(const PowerUp&) = delete;

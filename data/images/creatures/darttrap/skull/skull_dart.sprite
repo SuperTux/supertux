@@ -19,11 +19,4 @@
     (hitbox 12 6 9 22)
     (flip-action "flying-down")
   )
-
-  (linked-sprites
-    (custom-light
-      (file "dart_light.sprite")
-      (color 1 1 1)
-    )
-  )
 )

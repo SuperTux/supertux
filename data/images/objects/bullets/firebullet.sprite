@@ -9,12 +9,4 @@
   (hitbox 0 0 21 21)
   (mirror-action "right")
  )
-
-  (linked-sprites
-    (custom-light
-      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
-      (action "default")
-      (color 0.3 0.1 0)
-    )
-  )
 )

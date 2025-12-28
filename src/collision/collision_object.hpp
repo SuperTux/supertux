@@ -27,6 +27,7 @@
 
 class CollisionGroundMovementManager;
 class MovingObject;
+class Physic;
 
 class CollisionObject
 {
@@ -127,6 +128,8 @@ public:
     m_bbox.set_size(w, h);
   }
 
+  void set_physic_hint(Physic& physic);
+
   inline CollisionGroup get_group() const
   {
     return m_group;
@@ -146,6 +149,11 @@ public:
 
   /** The collision group */
   CollisionGroup m_group;
+
+  /** A physics hint, which provides collision handling with additional info
+      that may fix oddities. (i.e. checking if velocity is >1). Not to be
+      solely relied on, as it can be null. */
+  Physic* m_physic_hint;
 
 private:
   /** The movement that will happen till next frame */

@@ -159,7 +159,16 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
   set_screen_fade(std::move(screen_fade));
-  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
+  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen), nullptr);
+}
+
+void
+ScreenManager::push_screen(std::function<Screen*()> callback, std::unique_ptr<ScreenFade> screen_fade)
+{
+  log_debug << "ScreenManager::push_screen(): (lambda) " << &callback << std::endl;
+  assert(callback);
+  set_screen_fade(std::move(screen_fade));
+  m_actions.emplace_back(Action::PUSH_ACTION, nullptr, std::move(callback));
 }
 
 void
@@ -397,7 +406,22 @@ ScreenManager::process_events()
 
     m_menu_manager->event(event);
 
-    m_screen_stack.back()->event(event);
+#define LOGMOUSEY(var) VideoSystem::current()->get_viewport().to_logical(0, var).y
+    // If the console is focused, try to funnel mouse events into that. Lisp
+    // programmers would be proud!
+    // TODO: Dragging-like logic is a little funky, but it's not a big deal
+    if (Console::current()->hasFocus() &&
+        ((event.type == SDL_MOUSEWHEEL && LOGMOUSEY(event.wheel.mouseY) < Console::HEIGHT) ||
+         ((event.type == SDL_MOUSEBUTTONDOWN ||
+           event.type == SDL_MOUSEBUTTONUP) && LOGMOUSEY(event.button.y) < Console::HEIGHT) ||
+         (event.type == SDL_MOUSEMOTION && LOGMOUSEY(event.motion.y) < Console::HEIGHT)))
+    {
+      if (event.type == SDL_MOUSEWHEEL)
+        Console::current()->scroll(-event.wheel.y * 2);
+    }
+    else
+      m_screen_stack.back()->event(event);
+#undef LOGMOUSEY
 
     switch (event.type)
     {
@@ -520,8 +544,14 @@ ScreenManager::handle_screen_switch()
             break;
 
           case Action::PUSH_ACTION:
-            assert(action.screen);
-            m_screen_stack.push_back(std::move(action.screen));
+            if (!action.screen && action.callback)
+            {
+              m_screen_stack.push_back(std::unique_ptr<Screen>(action.callback()));
+            }
+            else
+            {
+              m_screen_stack.push_back(std::move(action.screen));
+            }
             break;
 
           case Action::QUIT_ACTION:
@@ -627,8 +657,8 @@ void ScreenManager::loop_iter()
   // limit the draw time offset to at most one step.
   float time_offset = m_speed * speed_multiplier * std::min(elapsed_time, seconds_per_step);
 
-  if ((steps > 0 && !m_screen_stack.empty())
-      || always_draw) {
+  if (((steps > 0 && !m_screen_stack.empty())
+      || always_draw) && m_actions.empty() || m_screen_fade) {
     // Draw a frame
     Compositor compositor(m_video_system, g_config->frame_prediction ? time_offset : 0.0f);
     draw(compositor, *m_fps_statistics);

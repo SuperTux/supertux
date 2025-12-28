@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_YETI_HPP
 #define HEADER_SUPERTUX_BADGUY_YETI_HPP
 
+#include "math/random.hpp"
 #include "badguy/boss.hpp"
 
 class Yeti final : public Boss
@@ -99,6 +100,8 @@ private:
   bool m_just_hit;
   bool m_pinch_announced;
   bool m_grabbed_tux;
+
+  Random m_rand_snd;
 
   class SnowExplosionParticle: public BadGuy
   {

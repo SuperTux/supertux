@@ -45,6 +45,8 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   m_realize_timer()
 {
   assert(SAFE_DIST >= REALIZE_DIST);
+  reader.get("glinting", m_is_glinting, true);
+  m_holds_coins = true;
 }
 
 void
@@ -78,6 +80,8 @@ GoldBomb::active_update(float dt_sec)
     // when a ledge is detected.
     if (m_state != GB_STATE_RECOVER)
       cornered();
+
+    return;
   }
 
   WalkingBadguy::active_update(dt_sec);
@@ -166,7 +170,7 @@ GoldBomb::active_update(float dt_sec)
       m_physic.set_velocity_x(0);
       m_physic.set_acceleration_x(0);
       m_dir = vecdist.x > 0 ? Direction::RIGHT : Direction::LEFT;
-      set_action("flee", m_dir);
+      m_sprite->set_action("flee", m_dir);
       m_state = GB_STATE_REALIZING;
       m_realize_timer.start(REALIZE_TIME);
       break;
@@ -191,8 +195,15 @@ GoldBomb::active_update(float dt_sec)
 void
 GoldBomb::explode()
 {
+  const bool was_glinting = m_is_glinting;
   MrBomb::explode();
-  Sector::get().add<CoinExplode>(get_pos(), !m_parent_dispenser);
+  Sector::get().add<CoinExplode>(get_pos(), was_glinting);
+}
+
+int
+GoldBomb::get_coins_worth() const
+{
+  return (m_is_glinting) ? 10 : 0;
 }
 
 void

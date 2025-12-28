@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/player_status_hud.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -37,6 +38,7 @@ PlayerStatus::PlayerStatus(int num_players) :
   m_num_players(num_players),
   m_item_pockets(num_players),
   m_override_item_pocket(Level::INHERIT),
+  m_hud(nullptr),
   coins(START_COINS),
   bonus(num_players),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
@@ -267,6 +269,8 @@ PlayerStatus::give_item_from_pocket(Player* player)
   if (bonustype == BONUS_NONE)
     return;
 
+  if (m_hud) m_hud->on_item_pocket_change(player);
+
   m_item_pockets[player->get_id()] = BONUS_NONE;
 
   auto& powerup = Sector::get().add<PocketPowerUp>(bonustype, Vector(0,0));
@@ -276,11 +280,15 @@ PlayerStatus::give_item_from_pocket(Player* player)
 void
 PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
 {
+
   if (!is_item_pocket_allowed())
     return;
 
   if (bonustype <= BONUS_GROWUP)
     return;
+
+  if (m_hud)
+    m_hud->on_item_pocket_change(player);
 
   m_item_pockets[player->get_id()] = bonustype;
 }
@@ -393,6 +401,11 @@ PlayerStatus::remove_player(int player_id)
   m_item_pockets.resize(m_num_players, BONUS_NONE);
 }
 
+void
+PlayerStatus::set_hud_hint(PlayerStatusHUD* hud)
+{
+  m_hud = hud;
+}
 
 PlayerStatus::PocketPowerUp::PocketPowerUp(BonusType bonustype, Vector pos):
   PowerUp(pos, PowerUp::get_type_from_bonustype(bonustype)),

@@ -44,6 +44,7 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 namespace {
 
@@ -138,7 +139,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   if (m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON)
   {
     SoundManager::current()->preload("sounds/switch.ogg");
-    m_lightsprite = m_sprite->create_linked_sprite("on-light");
+    m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
     if (m_contents == Content::LIGHT_ON)
       set_action("on");
     else
@@ -162,18 +163,6 @@ BonusBlock::set_object(std::unique_ptr<GameObject> object)
 
   m_objects.clear();
   m_objects.push_back(std::move(object));
-}
-
-MovingSprite::LinkedSprites
-BonusBlock::get_linked_sprites()
-{
-  if (m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON)
-  {
-    return {
-      { "on-light", m_lightsprite }
-    };
-  }
-  return {};
 }
 
 GameObjectTypes
@@ -272,7 +261,7 @@ BonusBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
 
-  result.add_script(_("Script"), &m_script, "script");
+  result.add_script(get_uid(), _("Script"), &m_script, "script");
   result.add_int(_("Count"), &m_hit_counter, "count", get_default_hit_counter());
   result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
                   { _("Coin"), _("Growth (fire flower)"), _("Growth (Ice Rosette)"), _("Growth (air flower)"),
@@ -416,7 +405,7 @@ BonusBlock::try_open(Player* player)
     case Content::RETROSTAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, -32), direction,
-                              "images/powerups/retro/golden_herring.sprite");
+                              "images/powerups/retro/golden_herring.png");
       play_upgrade_sound = true;
       break;
     }
@@ -582,7 +571,7 @@ BonusBlock::try_drop(Player *player)
     case Content::RETROSTAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, 32), direction,
-                              "images/powerups/retro/golden_herring.sprite");
+                              "images/powerups/retro/golden_herring.png");
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -672,11 +661,11 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
   std::unique_ptr<MovingObject> obj;
   if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
   {
-    obj = std::make_unique<GrowUp>(get_pos(), dir, growup_sprite);
+    obj = std::make_unique<GrowUp>(get_pos(), dir, growup_sprite, m_layer - 1);
   }
   else
   {
-    obj = std::make_unique<Flower>(bonus, flower_sprite);
+    obj = std::make_unique<Flower>(bonus, flower_sprite, m_layer - 1);
   }
 
   Sector::get().add<SpecialRiser>(get_pos(), std::move(obj));
@@ -689,12 +678,13 @@ BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bo
 {
   if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
   {
-    Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite);
+    Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite, m_layer - 1);
   }
   else
   {
-    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), type);
+    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), type, m_layer - 1);
   }
+
   SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
   countdown = true;
 }
@@ -709,7 +699,7 @@ BonusBlock::draw(DrawingContext& context)
   {
     Vector pos = get_pos() + (m_col.m_bbox.get_size().as_vector() - Vector(static_cast<float>(m_lightsprite->get_width()),
                                                                    static_cast<float>(m_lightsprite->get_height()))) / 2.0f;
-    m_lightsprite->draw(context.light(), pos, 10);
+    context.light().draw_surface(m_lightsprite, pos, 10);
   }
 }
 
@@ -769,7 +759,7 @@ BonusBlock::preload_contents(int d)
     case 6: // Light.
     case 15: // Light (On).
       SoundManager::current()->preload("sounds/switch.ogg");
-      m_lightsprite = m_sprite->create_linked_sprite("on-light");
+      m_lightsprite=Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
       break;
 
     case 7:

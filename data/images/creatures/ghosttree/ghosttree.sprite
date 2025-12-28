@@ -1,44 +1,59 @@
 (supertux-sprite
   (action
-    (name "default")
-    (hitbox 230 300 40 60)
+    (name "idle")
+    (hitbox 526 520 48 48)
+	(fps 10)
     (images
-      "ghosttree.png"
+      "idle-0.png"
     )
   )
   (action
-    (name "swallow")
-    (hitbox 230 300 40 60)
-    (fps 16)
+    (name "charge")
+    (hitbox 526 520 48 48)
+	(fps 10)
     (images
-      "ghosttree-swallow-0.png"
-      "ghosttree-swallow-1.png"
-      "ghosttree-swallow-2.png"
-      "ghosttree-swallow-3.png"
+      "charge-0.png"
     )
   )
   (action
-    (name "dying")
-    (hitbox 230 300 40 60)
-    (fps 4)
-    (linked-sprites
-      (glow
-        (file "ghosttree-glow.sprite")
-        (action "dying")
-        (loops 1)
-      )
-    )
+    (name "scream")
+    (hitbox 526 520 48 48)
+	(fps 10)
     (images
-      "ghosttree-dying-0.png"
-      "ghosttree-dying-0.png"
-      "ghosttree-dying-0.png"
-      "ghosttree-dying-0.png"
+      "scream-0.png"
     )
   )
-
-  (linked-sprites
-    (glow
-      (file "ghosttree-glow.sprite")
+  
+  (action
+    (name "idle-pinch")
+    (hitbox 296 520 48 48)
+	(fps 10)
+    (images
+      "pinch_idle-0.png"
+    )
+  )
+  (action
+    (name "charge-pinch")
+    (hitbox 296 520 48 48)
+	(fps 10)
+    (images
+      "pinch_charge-0.png"
+    )
+  )
+  (action
+    (name "scream-pinch")
+    (hitbox 296 520 48 48)
+	(fps 10)
+    (images
+      "pinch_scream-0.png"
+    )
+  )
+  (action
+    (name "busted")
+    (hitbox 296 520 48 48)
+	(fps 10)
+    (images
+      "bust-0.png"
     )
   )
 )

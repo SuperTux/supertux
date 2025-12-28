@@ -49,11 +49,7 @@ EditorMenu::refresh()
 
   bool worldmap = Editor::current()->get_level()->is_worldmap();
   bool is_world = Editor::current()->get_world() != nullptr;
-  std::vector<std::string> snap_grid_sizes;
-  snap_grid_sizes.push_back(_("tiny tile (4px)"));
-  snap_grid_sizes.push_back(_("small tile (8px)"));
-  snap_grid_sizes.push_back(_("medium tile (16px)"));
-  snap_grid_sizes.push_back(_("big tile (32px)"));
+  bool is_temp_level = Editor::current()->is_temp_level();
 
   add_label(_("Level Editor"));
   add_hl();
@@ -61,7 +57,8 @@ EditorMenu::refresh()
   add_entry(MNID_SAVELEVEL, worldmap ? _("Save Worldmap") : _("Save Level"));
   if (!worldmap) {
     add_entry(MNID_SAVEASLEVEL, _("Save Level as"));
-    add_entry(MNID_SAVECOPYLEVEL, _("Save Copy"));
+    if (!is_temp_level)
+      add_entry(MNID_SAVECOPYLEVEL, _("Save Copy"));
     add_entry(MNID_TESTLEVEL, _("Test Level"));
   } else {
     add_entry(MNID_TESTLEVEL, _("Test Worldmap"));
@@ -69,37 +66,24 @@ EditorMenu::refresh()
 
   add_entry(MNID_OPTIONS, _("Options"));
 
-  add_entry(MNID_SHARE, _("Share Level"));
+  if (!is_temp_level)
+  {
+    add_entry(MNID_PACK, _("Package Add-On"));
+    add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
+  }
 
-  add_entry(MNID_PACK, _("Package Add-On"));
-
-  add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
-
-  if (is_world)
+  if (is_world && !is_temp_level)
     add_entry(MNID_LEVELSEL, _("Edit Another Level"));
 
   add_entry(MNID_LEVELSETSEL, _("Edit Another World"));
 
-  add_hl();
-
-  add_submenu(_("Convert Tiles"), MenuStorage::EDITOR_CONVERTERS_MENU)
-    .set_help(_("Convert all tiles in the level using converters."));
-
-  add_hl();
-
-  add_string_select(-1, _("Grid Size"), &(g_config->editor_selected_snap_grid_size), snap_grid_sizes);
-  add_toggle(-1, _("Show Grid"), &(g_config->editor_render_grid));
-  add_toggle(-1, _("Grid Snapping"), &(g_config->editor_snap_to_grid));
-  add_toggle(-1, _("Render Background"), &(g_config->editor_render_background));
-  add_toggle(-1, _("Render Light"), &(Compositor::s_render_lighting));
-  add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
-  add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
-  add_toggle(-1, _("Enable Object Undo Tracking"), &(g_config->editor_undo_tracking));
-  if (g_config->editor_undo_tracking)
+  if (!is_temp_level)
   {
-    add_intfield(_("Undo Stack Size"), &(g_config->editor_undo_stack_size), -1, true);
+    add_hl();
+
+    add_submenu(_("Convert Tiles"), MenuStorage::EDITOR_CONVERTERS_MENU)
+      .set_help(_("Convert all tiles in the level using converters."));
   }
-  add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
 
   if (Editor::current()->has_deprecated_tiles())
   {
@@ -113,22 +97,22 @@ EditorMenu::refresh()
 
   add_hl();
 
+  add_submenu(_("Editor settings"), MenuStorage::EDITOR_SETTINGS_MENU);
+
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
               MenuStorage::EDITOR_LEVEL_MENU);
   add_entry(MNID_HELP, _("Keyboard Shortcuts"));
 
   add_hl();
+  if (!Editor::current()->is_temp_level())
+    add_entry(MNID_CLOSELEVEL, _("Close Level"));
+  else if (Editor::current()->has_unsaved_changes())
+    add_entry(MNID_CLOSELEVEL, _("Reset level"));
   add_entry(MNID_QUITEDITOR, _("Exit Level Editor"));
 }
 
 EditorMenu::~EditorMenu()
 {
-  auto editor = Editor::current();
-
-  if (editor == nullptr)
-    return;
-
-  editor->m_reactivate_request = true;
 }
 
 void
@@ -191,52 +175,45 @@ EditorMenu::menu_action(MenuItem& item)
       MenuManager::instance().push_menu(MenuStorage::OPTIONS_MENU);
       break;
 
-    case MNID_SHARE:
-    {
-      Dialog::show_confirmation(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open Level directory\" menu item.\nDo you want to go to the forum now?"), [] {
-        FileSystem::open_url("https://groups.f-hub.org/supertux");
-      });
-    }
-    break;
-
-	case MNID_HELP:
+  	case MNID_HELP:
     {
       auto dialog = std::make_unique<Dialog>();
       auto help_dialog_text =
-        _("Keyboard Shortcuts:") + "\n" +
-          "---------------------" + "\n" +
-        _("Esc = Open Menu") + "\n" +
-        _("Ctrl+S = Save") + "\n" +
-        _("Ctrl+T = Test") + "\n" +
-        _("Ctrl+Z = Undo") + "\n" +
-        _("Ctrl+Y = Redo") + "\n" +
-        _("F5 = Toggle Autotiling") + "\n" +
-        _("F6 = Render Light") + "\n" +
-        _("F7 = Grid Snapping") + "\n" +
-        _("F8 = Show Grid") + "\n" +
-        _("Ctrl++ or Ctrl+Scroll Up = Zoom In") + "\n" +
-        _("Ctrl+- or Ctrl+Scroll Down = Zoom Out") + "\n" +
-        _("Ctrl+D = Reset Zoom") + "\n\n" +
-        _("Scripting Shortcuts:") + "\n" +
-           "-------------" + "\n" +
+        _("Keyboard Shortcuts") + ":\n" +
+        "Esc = " + _("Open Menu") + "\n" +
+        "Ctrl+S = " + _("Save") + "\n" +
+        "Ctrl+T = " + _("Test") + "\n" +
+        "Ctrl+Shift+T = " + _("Test at Cursor") + "\n" +
+        "Ctrl+Alt+Shift+T = " + _("Test at Last Position") + "\n" +
+        "Ctrl+Z = " + _("Undo") + "\n" +
+        "Ctrl+Y = " + _("Redo") + "\n" +
+        "F5 = " + _("Toggle Autotiling") + "\n" +
+        "F6 = " + _("Render Light") + "\n" +
+        "F7 = " + _("Grid Snapping") + "\n" +
+        "F8 = " + _("Show Grid") + "\n" +
+        "Ctrl+X = " + _("Toggle Between Tileset/Objects Tool") + "\n" +
+        _("Ctrl+PLUS or Ctrl+Scroll Up = Zoom In") + "\n" +
+        _("Ctrl+MINUS or Ctrl+Scroll Down = Zoom Out") + "\n" +
+        "Ctrl+D = " + _("Reset Zoom") + "\n\n" +
+        _("Scripting Shortcuts") + ":\n" +
         _("Home = Go to beginning of line") + "\n" +
         _("End = Go to end of line") + "\n" +
         _("Left arrow = Go back in text") + "\n" +
         _("Right arrow = Go forward in text") + "\n" +
         _("Backspace = Delete in front of text cursor") + "\n" +
         _("Delete = Delete behind text cursor") + "\n" +
-        _("Ctrl+X = Cut whole line") + "\n" +
-        _("Ctrl+C = Copy whole line") + "\n" +
-        _("Ctrl+V = Paste") + "\n" +
-        _("Ctrl+D = Duplicate line") + "\n" +
-        _("Ctrl+Z = Undo") + "\n" +
-        _("Ctrl+Y = Redo");
+        "Ctrl+X = " + _("Cut whole line") + "\n" +
+        "Ctrl+C = " + _("Copy whole line") + "\n" +
+        "Ctrl+V = " + _("Paste") + "\n" +
+        "Ctrl+D = " + _("Duplicate line") + "\n" +
+        "Ctrl+Z = " + _("Undo") + "\n" +
+        "Ctrl+Y = " + _("Redo");
 
       dialog->set_text(help_dialog_text);
       dialog->add_cancel_button(_("Got it!"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }
-    break;
+      break;
 
     case MNID_LEVELSEL:
       editor->check_unsaved_changes([] {
@@ -247,6 +224,13 @@ EditorMenu::menu_action(MenuItem& item)
     case MNID_LEVELSETSEL:
       editor->check_unsaved_changes([] {
         MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+      });
+      break;
+
+    case MNID_CLOSELEVEL:
+      editor->check_unsaved_changes([] {
+        Editor::current()->set_level(nullptr, true);
+        MenuManager::instance().clear_menu_stack();
       });
       break;
 

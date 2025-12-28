@@ -34,17 +34,14 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
                            int layer_, CollisionGroup collision_group) :
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
-  m_sprite(),
-  m_light_sprites(),
-  m_custom_sprites(),
+  m_sprite(SpriteManager::current()->create(m_sprite_name)),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false),
   m_custom_layer(false)
 {
-  change_sprite(m_sprite_name);
-
   m_col.m_bbox.set_pos(pos);
+  update_hitbox();
   set_group(collision_group);
 }
 
@@ -59,13 +56,13 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
   m_sprite(),
-  m_light_sprites(),
-  m_custom_sprites(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false),
   m_custom_layer(reader.get("z-pos", m_layer))
 {
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid or sprite change fails
@@ -83,18 +80,18 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite_name(),
   m_default_sprite_name(),
   m_sprite(),
-  m_light_sprites(),
-  m_custom_sprites(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false),
   m_custom_layer(reader.get("z-pos", m_layer))
 {
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
-  if (m_sprite_name.empty() || !change_sprite(m_sprite_name))
-    m_sprite_found = false;
-
+  //m_default_sprite_name = m_sprite_name;
+  m_sprite = SpriteManager::current()->create(m_sprite_name);
+  update_hitbox();
   set_group(collision_group);
 }
 
@@ -102,12 +99,6 @@ void
 MovingSprite::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-
-  for (auto& sprite : m_custom_sprites)
-    sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-
-  for (auto& sprite : m_light_sprites)
-    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void
@@ -148,39 +139,37 @@ MovingSprite::update_hitbox()
 void
 MovingSprite::set_action(const std::string& name, int loops)
 {
-  if (m_sprite->set_action(name, loops))
-    on_sprite_update();
+  m_sprite->set_action(name, loops);
+  update_hitbox();
 }
 
 void
 MovingSprite::set_action(const std::string& name, const Direction& dir, int loops)
 {
-  if (m_sprite->set_action(name, dir, loops))
-    on_sprite_update();
+  m_sprite->set_action(name, dir, loops);
+  update_hitbox();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, const std::string& name, int loops)
 {
-  if (m_sprite->set_action(dir, name, loops))
-    on_sprite_update();
+  m_sprite->set_action(dir, name, loops);
+  update_hitbox();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, int loops)
 {
-  if (m_sprite->set_action(dir, loops))
-    on_sprite_update();
+  m_sprite->set_action(dir, loops);
+  update_hitbox();
 }
 
 void
 MovingSprite::set_action_centered(const std::string& action, int loops)
 {
   Vector old_size = m_col.m_bbox.get_size().as_vector();
-  if (!m_sprite->set_action(action, loops))
-    return;
-
-  on_sprite_update();
+  m_sprite->set_action(action, loops);
+  update_hitbox();
   set_pos(get_pos() - (m_col.m_bbox.get_size().as_vector() - old_size) / 2.0f);
 }
 
@@ -188,28 +177,10 @@ void
 MovingSprite::set_action(const std::string& action, int loops, AnchorPoint anchorPoint)
 {
   Rectf old_bbox = m_col.m_bbox;
-  if (!m_sprite->set_action(action, loops))
-    return;
-
-  on_sprite_update();
+  m_sprite->set_action(action, loops);
+  update_hitbox();
   set_pos(get_anchor_pos(old_bbox, m_sprite->get_current_hitbox_width(),
                          m_sprite->get_current_hitbox_height(), anchorPoint));
-}
-
-void
-MovingSprite::on_sprite_update()
-{
-  // Update hitbox
-  update_hitbox();
-
-  // Update custom sprites
-  m_light_sprites = m_sprite->create_custom_linked_sprites(true);
-  m_custom_sprites = m_sprite->create_custom_linked_sprites(false);
-
-  // Update other linked sprites
-  auto linked_sprites = get_linked_sprites();
-  for (const auto& [key, sprite] : linked_sprites)
-    sprite = m_sprite->create_linked_sprite(key);
 }
 
 bool
@@ -217,7 +188,7 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
   m_sprite = SpriteManager::current()->create(new_sprite_name);
   m_sprite_name = new_sprite_name;
-  on_sprite_update();
+  update_hitbox();
 
   return m_sprite->load_successful();
 }
@@ -227,8 +198,10 @@ MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name());
-  result.add_int(_("Z-pos"), &m_layer, "z-pos");
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name())
+    ->set_description(_("The sprite file used for this object."));
+  result.add_int(_("Z-pos"), &m_layer, "z-pos")
+    ->set_description(_("The layer this object is drawn on. Higher layers are drawn on top of lower layers."));
 
   result.reorder({"sprite", "z-pos", "x", "y"});
 
@@ -246,7 +219,8 @@ MovingSprite::after_editor_set()
     change_sprite(get_default_sprite_name());
   }
   m_sprite->set_action(current_action);
-  on_sprite_update();
+
+  update_hitbox();
 }
 
 void
@@ -265,7 +239,7 @@ MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
                                       "default",
                                       ppos, ANCHOR_MIDDLE,
                                       pspeed, paccel,
-                                      LAYER_OBJECTS-1);
+                                      LAYER_OBJECTS - 1, false, .75f);
   }
 }
 

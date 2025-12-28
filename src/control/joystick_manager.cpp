@@ -196,6 +196,9 @@ JoystickManager::process_hat_event(const SDL_JoyHatEvent& jhat)
 void
 JoystickManager::process_axis_event(const SDL_JoyAxisEvent& jaxis)
 {
+  if (g_config->ignore_joystick_axis)
+    return;
+
   if (wait_for_joystick >= 0)
   {
     if (abs(jaxis.value) > m_joystick_config.m_dead_zone) {

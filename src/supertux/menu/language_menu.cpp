@@ -45,6 +45,9 @@ LanguageMenu::LanguageMenu()
   add_entry(MNID_LANGUAGE_AUTO_DETECT, _("<auto-detect>"));
   add_entry(MNID_LANGUAGE_ENGLISH, "English");
 
+  // XXX: This is _really_ slow, more so on Android, because it has to do that
+  // obnoxious .zip lookup for each .po file
+  // see `static const LanguageSpec languages[]`
   int mnid = MNID_LANGUAGE_NEXT;
   auto languages = g_dictionary_manager->get_languages();
   for (auto& lang : languages)

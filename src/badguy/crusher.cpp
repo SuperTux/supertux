@@ -92,12 +92,13 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_dir_vector(get_direction_vector()),
   m_target(nullptr),
   m_flipped(),
-  m_whites(m_sprite->create_linked_sprite("whites")),
-  m_lefteye(m_sprite->create_linked_sprite("left-eye")),
-  m_righteye(m_sprite->create_linked_sprite("right-eye")),
+  m_whites(),
+  m_lefteye(),
+  m_righteye(),
   m_crush_script()
 {
   parse_type(reader);
+  after_sprite_set();
 
   m_physic.enable_gravity(false);
 
@@ -114,20 +115,8 @@ Crusher::Crusher(const ReaderMapping& reader) :
   if (sideways)
     m_dir = CrusherDirection::HORIZONTAL;
 
-  set_action("idle");
-
   // TODO: Add distinct sounds for crusher hitting the ground and hitting Tux.
   SoundManager::current()->preload(get_crush_sound());
-}
-
-MovingSprite::LinkedSprites
-Crusher::get_linked_sprites()
-{
-  return {
-    { "left-eye", m_lefteye },
-    { "right-eye", m_righteye },
-    { "whites", m_whites }
-  };
 }
 
 GameObjectTypes
@@ -223,7 +212,10 @@ Crusher::should_crush()
 
     if (player_in_main_detect_zone || player_in_top_edge_zone)
     {
-      const RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
+      const Vector eye = get_bbox().get_middle() + (get_direction_vector(player->get_collision_object())
+                                                    * (get_bbox().get_size().as_vector() / 2));
+      const RaycastResult result = Sector::get().get_first_line_intersection(
+        eye,
         player_bbox.get_middle(),
         false,
         get_collision_object());
@@ -424,8 +416,11 @@ Crusher::get_detect_box(CrusherDirection dir)
 }
 
 Vector
-Crusher::get_direction_vector()
+Crusher::get_direction_vector(CollisionObject* target)
 {
+  if (target == nullptr)
+    target = m_target;
+
   switch (m_dir)
   {
     case CrusherDirection::DOWN:
@@ -439,29 +434,29 @@ Crusher::get_direction_vector()
 
     case CrusherDirection::HORIZONTAL:
     {
-      if (!m_target)
+      if (!target)
         return Vector(0.f, 0.f);
 
       const Vector mid = get_bbox().get_middle();
-      return mid.x <= m_target->get_bbox().get_left() ? Vector(1.f, 0.f) : Vector(-1.f, 0.f);
+      return mid.x <= target->get_bbox().get_left() ? Vector(1.f, 0.f) : Vector(-1.f, 0.f);
     }
 
     case CrusherDirection::VERTICAL:
     {
-      if (!m_target)
+      if (!target)
         return Vector(0.f, 0.f);
 
       const Vector mid = get_bbox().get_middle();
-      return mid.y <= m_target->get_bbox().get_top() ? Vector(0.f, 1.f) : Vector(0.f, -1.f);
+      return mid.y <= target->get_bbox().get_top() ? Vector(0.f, 1.f) : Vector(0.f, -1.f);
     }
 
     case CrusherDirection::ALL:
     {
-      if (!m_target)
+      if (!target)
         return Vector(0.f, 0.f);
 
       const Vector a = get_bbox().get_middle();
-      const Vector b = m_target->get_bbox().get_middle();
+      const Vector b = target->get_bbox().get_middle();
       const Vector diff = b - a;
 
       if (std::abs(diff.x) < std::abs(diff.y))
@@ -760,6 +755,12 @@ Crusher::idle()
 
   m_state_timer.start(m_ic_size == NORMAL ? PAUSE_TIME_NORMAL : PAUSE_TIME_LARGE, true);
   m_target = nullptr;
+}
+
+std::string
+Crusher::get_crush_sound() const
+{
+  return m_ic_type != ICE ? "sounds/thud.ogg" : "sounds/brick.wav";
 }
 
 Vector
@@ -1185,9 +1186,7 @@ Crusher::update(float dt_sec)
 void
 Crusher::draw(DrawingContext& context)
 {
-  const Vector draw_offset = m_physic.get_velocity() * context.get_time_offset();
-  const Vector draw_pos = get_pos() + draw_offset;
-
+  const Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
   m_sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
 
   if (m_whites)
@@ -1197,19 +1196,10 @@ Crusher::draw(DrawingContext& context)
 
     const auto& hitbox = m_sprite->get_current_hitbox();
     const Vector offset_pos = draw_pos - Vector(m_flipped ? hitbox.p1() - Vector(-1.f, 3.f) : hitbox.p1());
+    context.color().draw_surface(m_whites, offset_pos, m_layer);
 
-    // Draw crusher's eyes slightly behind.
-    m_lefteye->draw(context.color(), offset_pos + eye_position(false), m_layer + 1);
-    m_righteye->draw(context.color(), offset_pos + eye_position(true), m_layer + 1);
-
-    // Draw the whites of crusher's eyes even further behind.
-    m_whites->draw(context.color(), offset_pos, m_layer);
-
-    for (auto& sprite : m_custom_sprites)
-      sprite->draw(context.color(), draw_pos, m_layer + 2);
-
-    for (auto& sprite : m_light_sprites)
-      sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, m_layer + 3);
+    context.color().draw_surface(m_lefteye, offset_pos + eye_position(false), m_layer + 1);
+    context.color().draw_surface(m_righteye, offset_pos + eye_position(true), m_layer + 1);
 
     context.pop_transform();
   }
@@ -1220,7 +1210,37 @@ Crusher::after_editor_set()
 {
   MovingSprite::after_editor_set();
   m_start_position = get_bbox().p1();
+  after_sprite_set();
+}
+
+void
+Crusher::after_sprite_set()
+{
   set_action("idle");
+
+  m_whites.reset();
+  m_lefteye.reset();
+  m_righteye.reset();
+
+  if (m_sprite->has_action("whites"))
+  {
+    using Surfaces = const std::optional<std::vector<SurfacePtr>>;
+
+    Surfaces esurfaces = m_sprite->get_action_surfaces("whites");
+    if (!esurfaces.has_value())
+      return;
+    m_whites = esurfaces.value()[0];
+
+    Surfaces lsurfaces = m_sprite->get_action_surfaces("lefteye");
+    if (!lsurfaces.has_value())
+      return;
+    m_lefteye = lsurfaces.value()[0];
+
+    Surfaces rsurfaces = m_sprite->get_action_surfaces("righteye");
+    if (!rsurfaces.has_value())
+      return;
+    m_righteye = rsurfaces.value()[0];
+  }
 }
 
 ObjectSettings
@@ -1233,7 +1253,7 @@ Crusher::get_settings()
                   static_cast<int>(CrusherDirection::DOWN),
                   "direction");
 
-  result.add_script(_("Crush script"), &m_crush_script, "crush-script");
+  result.add_script(get_uid(), _("Crush script"), &m_crush_script, "crush-script");
   result.reorder({ "direction", "sprite", "crush-script", "x", "y" });
 
   return result;

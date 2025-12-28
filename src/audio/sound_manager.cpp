@@ -98,7 +98,8 @@ SoundManager::load_file_into_buffer(SoundFile& file)
   file.read(samples.get(), file.m_size);
   log_debug << "buffer: " << buffer << "\n"
             << "format: " << format << "\n"
-            << "samples: " << samples.get() << "\n"
+            << "channels: " << file.m_channels << "\n"
+            << "bits per sample: " << file.m_bits_per_sample << "\n"
             << "file size: " << static_cast<ALsizei>(file.m_size) << "\n"
             << "file rate: " << static_cast<ALsizei>(file.m_rate) << "\n";
 

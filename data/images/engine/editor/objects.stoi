@@ -97,15 +97,15 @@
     (class "zeekling")
     (icon "images/creatures/zeekling/zeekling-0.png"))
   (object
-    (class "darttrap")
-    (icon "images/creatures/darttrap/skull/empty_left-0.png"))
-  (object
     (class "corrupted_granito")
     (icon "images/creatures/granito/corrupted/idle_left-0.png"))
   (object
     (class "corrupted_granito_big")
     (icon "images/creatures/granito/corrupted/big/rock_mine-0.png"))
   (object
+    (class "darttrap")
+    (icon "images/creatures/darttrap/granito/empty_left.png"))
+(object
     (class "root_sapling")
     (icon "images/creatures/mole/corrupted/root_sapling-0.png"))  
 (object
@@ -166,7 +166,7 @@
     (icon "images/creatures/yeti/hudlife.png"))
   (object
     (class "ghosttree")
-    (icon "images/creatures/ghosttree/ghosttree.png"))
+    (icon "images/creatures/ghosttree/idle-0.png"))
  )
 
  (objectgroup

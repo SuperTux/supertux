@@ -30,6 +30,7 @@ class DrawingContext;
 class Player;
 class ReaderMapping;
 class Writer;
+class PlayerStatusHUD;
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
@@ -79,6 +80,8 @@ public:
   void add_player();
   void remove_player(int player_id);
 
+  void set_hud_hint(PlayerStatusHUD* hud);
+
 private:
   void parse_bonus_mapping(const ReaderMapping& map, int id);
 
@@ -107,6 +110,7 @@ public:
 
   std::vector<BonusType> m_item_pockets;
   Level::Setting m_override_item_pocket;
+  PlayerStatusHUD* m_hud;
 
   int coins;
   std::vector<BonusType> bonus;

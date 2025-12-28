@@ -1,5 +1,8 @@
 (supertux-music
   (file "march_of_the_malevolent.ogg")
+  (authors "Servalot" "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA 4.0")
+  (title "March of the Malevolent")
   (loop-begin 0)
   (loop-at    109.09)
 )

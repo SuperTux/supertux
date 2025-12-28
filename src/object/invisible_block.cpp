@@ -55,7 +55,7 @@ void
 InvisibleBlock::draw(DrawingContext& context)
 {
   if (visible || Editor::is_active())
-    Block::draw(context);
+    m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
 }
 
 bool

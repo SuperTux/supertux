@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/crusher.hpp"
 #include "badguy/badguy.hpp"
+#include "badguy/granito_big.hpp"
 #include "object/coin.hpp"
 #include "object/explosion.hpp"
 #include "object/lit_object.hpp"
@@ -222,6 +223,11 @@ Rock::collision(MovingObject& other, const CollisionHit& hit)
     if (player) {
       m_physic.set_velocity_y(-250.f);
     }
+
+    const auto* granito = dynamic_cast<Granito*>(&other);
+    if (granito) {
+      return ABORT_MOVE;
+    }
   }
 
   // Don't fall further if we are on a rock which is on the ground.
@@ -305,22 +311,16 @@ Rock::ungrab(MovingObject& object, Direction dir)
 void
 Rock::draw(DrawingContext& context)
 {
-  const Vector offset = m_physic.get_velocity() * context.get_time_offset();
+  Vector offset = m_physic.get_velocity() * context.get_time_offset();
   m_sprite->draw(context.color(), get_pos() + offset, m_layer, m_flip);
-
-  for (auto& sprite : m_custom_sprites)
-    sprite->draw(context.color(), get_pos() + offset, m_layer, m_flip);
-
-  for (auto& sprite : m_light_sprites)
-    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 ObjectSettings
 Rock::get_settings()
 {
   auto result = MovingSprite::get_settings();
-  result.add_script(_("On-grab script"), &m_on_grab_script, "on-grab-script");
-  result.add_script(_("On-ungrab script"), &m_on_ungrab_script, "on-ungrab-script");
+  result.add_script(get_uid(), _("On-grab script"), &m_on_grab_script, "on-grab-script");
+  result.add_script(get_uid(), _("On-ungrab script"), &m_on_ungrab_script, "on-ungrab-script");
   return result;
 }
 

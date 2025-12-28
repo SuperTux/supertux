@@ -78,6 +78,7 @@ public:
 
   std::optional<bool> editor;
   std::optional<bool> resave;
+  bool log_tinygettext;
 
   // std::optional<std::string> locale;
 

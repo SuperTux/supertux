@@ -23,11 +23,13 @@
 #include "badguy/willowisp.hpp"
 #include "editor/editor.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
 
 Lantern::Lantern(const ReaderMapping& reader) :
   Rock(reader, "images/objects/lantern/lantern.sprite"),
-  lightcolor(1.0f, 1.0f, 1.0f)
+  lightcolor(1.0f, 1.0f, 1.0f),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
   std::vector<float> vColor;
   if (reader.get("color", vColor)) {
@@ -37,14 +39,17 @@ Lantern::Lantern(const ReaderMapping& reader) :
       lightcolor = Color(1, 1, 1);
     }
   }
+  lightsprite->set_blend(Blend::ADD);
   updateColor();
   SoundManager::current()->preload("sounds/willocatch.wav");
 }
 
 Lantern::Lantern(const Vector& pos) :
   Rock(pos, "images/objects/lantern/lantern.sprite"),
-  lightcolor(0.0f, 0.0f, 0.0f)
+  lightcolor(0.0f, 0.0f, 0.0f),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
+  lightsprite->set_blend(Blend::ADD);
   updateColor();
   SoundManager::current()->preload("sounds/willocatch.wav");
 }
@@ -70,10 +75,8 @@ Lantern::after_editor_set()
 }
 
 void
-Lantern::updateColor()
-{
-  for (auto& sprite : m_light_sprites)
-    sprite->set_color(lightcolor);
+Lantern::updateColor(){
+  lightsprite->set_color(lightcolor);
   //Turn lantern off if light is black
   if (lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
     set_action("off");
@@ -85,18 +88,15 @@ Lantern::updateColor()
 }
 
 void
-Lantern::draw(DrawingContext& context
-){
+Lantern::draw(DrawingContext& context){
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Let there be light.
-  for (auto& sprite : m_light_sprites)
-    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
-HitResponse
-Lantern::collision(MovingObject& other, const CollisionHit& hit)
-{
+HitResponse Lantern::collision(MovingObject& other, const CollisionHit& hit) {
+
   WillOWisp* wow = dynamic_cast<WillOWisp*>(&other);
 
   if (wow && (is_open() || wow->get_color().greyscale() == 0.f)) {
@@ -128,6 +128,7 @@ Lantern::grab(MovingObject& object, const Vector& pos, Direction dir)
   if (is_open()) {
     set_action("off-open");
   }
+
 }
 
 void

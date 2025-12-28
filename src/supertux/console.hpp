@@ -62,6 +62,9 @@ private:
 class Console final : public Currenton<Console>
 {
 public:
+  static constexpr int HEIGHT = 256;
+
+public:
   Console(ConsoleBuffer& buffer);
   ~Console() override;
 
@@ -72,6 +75,7 @@ public:
   void eraseChar(); /**< delete character at inputBufferPosition */
   void enter(); /**< process and clear input stream */
   void scroll(int offset); /**< scroll console text up or down by @c offset lines */
+  int get_line_height(); /**< gets the total line height */
   void autocomplete(); /**< autocomplete current command */
   void show_history(int offset); /**< move @c offset lines forward through history; Negative offset moves backward */
   void move_cursor(int offset); /**< move the cursor @c offset chars to the right; Negative offset moves backward; 0xFFFF moves to the end */

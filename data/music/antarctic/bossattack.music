@@ -1,5 +1,8 @@
 (supertux-music
   (file "bossattack.ogg")
+  (title "Boss Attack")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 0.5)
   (loop-at    -1)
 )

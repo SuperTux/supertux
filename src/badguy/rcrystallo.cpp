@@ -145,6 +145,15 @@ RCrystallo::active_update(float dt_sec)
 }
 
 void
+RCrystallo::draw(DrawingContext& context)
+{
+  context.push_transform();
+  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
+  m_sprite->draw(context.color(), draw_pos, m_layer);
+  context.pop_transform();
+}
+
+void
 RCrystallo::collision_solid(const CollisionHit& hit)
 {
   if (m_state == RCRYSTALLO_FALLING && hit.bottom)
@@ -213,8 +222,12 @@ RCrystallo::on_flip(float height)
 {
   WalkingBadguy::on_flip(height);
 
-  Sector::get().add<Crystallo>(get_pos(), m_start_position, get_velocity_x(),
-                               std::move(m_sprite), m_dir, m_radius, m_dead_script);
+  auto& crystallo = Sector::get().add<Crystallo>(get_pos(), m_start_position, get_velocity_x(),
+                                                 std::move(m_sprite), m_dir, m_radius, m_dead_script);
+
+  if (m_is_glinting)
+    crystallo.m_is_glinting = true;
+
   remove_me();
 }
 

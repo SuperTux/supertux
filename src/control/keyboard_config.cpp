@@ -24,6 +24,7 @@
 
 /** Delimiter used for config save/load between the control and the player id */
 static constexpr const char DELIMITER = ':';
+static constexpr int VERSION = 1;
 
 KeyboardConfig::KeyboardConfig() :
   m_keymap(),
@@ -46,38 +47,39 @@ KeyboardConfig::KeyboardConfig() :
   m_jump_with_up_kbd(false)
 {
   // initialize default keyboard map
-  m_keymap[SDLK_LEFT]      = {0, Control::LEFT};
-  m_keymap[SDLK_RIGHT]     = {0, Control::RIGHT};
-  m_keymap[SDLK_UP]        = {0, Control::UP};
-  m_keymap[SDLK_DOWN]      = {0, Control::DOWN};
-  m_keymap[SDLK_SPACE]     = {0, Control::JUMP};
-  m_keymap[SDLK_LCTRL]     = {0, Control::ACTION};
-  m_keymap[SDLK_LSHIFT]    = {0, Control::ITEM};
-  m_keymap[SDLK_ESCAPE]    = {0, Control::ESCAPE};
-  m_keymap[SDLK_p]         = {0, Control::START};
-  m_keymap[SDLK_PAUSE]     = {0, Control::START};
-  m_keymap[SDLK_RETURN]    = {0, Control::MENU_SELECT};
-  m_keymap[SDLK_KP_ENTER]  = {0, Control::MENU_SELECT};
-  m_keymap[SDLK_CARET]     = {0, Control::CONSOLE};
-  m_keymap[SDLK_DELETE]    = {0, Control::PEEK_LEFT};
-  m_keymap[SDLK_PAGEDOWN]  = {0, Control::PEEK_RIGHT};
-  m_keymap[SDLK_HOME]      = {0, Control::PEEK_UP};
-  m_keymap[SDLK_END]       = {0, Control::PEEK_DOWN};
-  m_keymap[SDLK_F1]        = {0, Control::CHEAT_MENU};
-  m_keymap[SDLK_F2]        = {0, Control::DEBUG_MENU};
-  m_keymap[SDLK_BACKSPACE] = {0, Control::REMOVE};
+  m_keymap[SDL_SCANCODE_LEFT]      = {0, Control::LEFT};
+  m_keymap[SDL_SCANCODE_RIGHT]     = {0, Control::RIGHT};
+  m_keymap[SDL_SCANCODE_UP]        = {0, Control::UP};
+  m_keymap[SDL_SCANCODE_DOWN]      = {0, Control::DOWN};
+  m_keymap[SDL_SCANCODE_SPACE]     = {0, Control::JUMP};
+  m_keymap[SDL_SCANCODE_LCTRL]     = {0, Control::ACTION};
+  m_keymap[SDL_SCANCODE_LSHIFT]    = {0, Control::ITEM};
+  m_keymap[SDL_SCANCODE_ESCAPE]    = {0, Control::ESCAPE};
+  m_keymap[SDL_SCANCODE_P]         = {0, Control::START};
+  m_keymap[SDL_SCANCODE_PAUSE]     = {0, Control::START};
+  m_keymap[SDL_SCANCODE_RETURN]    = {0, Control::MENU_SELECT};
+  m_keymap[SDL_SCANCODE_KP_ENTER]  = {0, Control::MENU_SELECT};
+  m_keymap[SDL_SCANCODE_GRAVE]     = {0, Control::CONSOLE};
+  m_keymap[SDL_SCANCODE_DELETE]    = {0, Control::PEEK_LEFT};
+  m_keymap[SDL_SCANCODE_PAGEDOWN]  = {0, Control::PEEK_RIGHT};
+  m_keymap[SDL_SCANCODE_HOME]      = {0, Control::PEEK_UP};
+  m_keymap[SDL_SCANCODE_END]       = {0, Control::PEEK_DOWN};
+  m_keymap[SDL_SCANCODE_F1]        = {0, Control::CHEAT_MENU};
+  m_keymap[SDL_SCANCODE_F2]        = {0, Control::DEBUG_MENU};
+  m_keymap[SDL_SCANCODE_BACKSPACE] = {0, Control::REMOVE};
 }
 
 void
 KeyboardConfig::read(const ReaderMapping& keymap_mapping)
 {
-  // backwards compatibility:
-  // keycode values changed between SDL1 and SDL2, so we skip old SDL1
-  // based values and use the defaults instead on the first read of
-  // the config file
-  bool config_is_sdl2 = false;
-  keymap_mapping.get("sdl2", config_is_sdl2);
-  if (!config_is_sdl2)
+  int config_version = 0;
+  keymap_mapping.get("version", config_version);
+  if (config_version < 0) config_version = 0;
+
+  // I'd like to remap old keys, but for some bizarre reason,
+  // SDL_GetScancodeFromKey kept returning 0! We at least need to clear the
+  // keybinds, so, let's stop loading here.
+  if (config_version == 0)
     return;
 
   keymap_mapping.get("jump-with-up", m_jump_with_up_kbd);
@@ -112,7 +114,7 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
     const std::optional<Control> maybe_control = Control_from_string(control_text);
     if (maybe_control) {
       if (m_configurable_controls.count(*maybe_control)) {
-        bind_key(static_cast<SDL_Keycode>(key), player_id, *maybe_control);
+        bind_key(static_cast<SDL_Scancode>(key), player_id, *maybe_control);
       }
     } else {
       log_warning << "Invalid control '" << control_text << "' in keymap" << std::endl;
@@ -121,7 +123,7 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
 }
 
 void
-KeyboardConfig::bind_key(SDL_Keycode key, int player, Control c)
+KeyboardConfig::bind_key(SDL_Scancode key, int player, Control c)
 {
   // remove all previous mappings for that control and for that key
   for (auto i = m_keymap.begin(); i != m_keymap.end(); /* no ++i */)
@@ -146,7 +148,7 @@ KeyboardConfig::bind_key(SDL_Keycode key, int player, Control c)
   m_keymap[key] = PlayerControl{player, c};
 }
 
-SDL_Keycode
+SDL_Scancode
 KeyboardConfig::reversemap_key(int player, Control c) const
 {
   for (const auto& i : m_keymap)
@@ -157,16 +159,14 @@ KeyboardConfig::reversemap_key(int player, Control c) const
     }
   }
 
-  return SDLK_UNKNOWN;
+  return SDL_SCANCODE_UNKNOWN;
 }
 
 void
 KeyboardConfig::write(Writer& writer)
 {
-  // this flag handles the transition from SDL1 to SDL2, as keycodes
-  // are incompatible between the two, if it's not set an old SDL1
-  // config file is assumed and controls are reset to default
-  writer.write("sdl2", true);
+  // this also takes care of the old (sdl2 #t) list
+  writer.write("version", VERSION);
 
   writer.write("jump-with-up", m_jump_with_up_kbd);
 

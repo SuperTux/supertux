@@ -15,14 +15,20 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "util/file_system.hpp"
+#include "supertux/globals.hpp"
 
 #include <filesystem>
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <sys/stat.h>
 #include <sys/types.h>
+#ifndef WIN32
+#include <unistd.h>
+#include <spawn.h>
+#endif
 #include <vector>
-#if defined(_WIN32)
+#if defined(WIN32)
   #include <windows.h>
   #include <shellapi.h>
 #else
@@ -43,6 +49,11 @@
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
+#include "supertux/gameconfig.hpp"
+
+#ifndef WIN32
+extern char **environ;
+#endif
 
 namespace fs = std::filesystem;
 
@@ -78,6 +89,15 @@ void copy(const std::string& source_path, const std::string& target_path)
   fs::copy_file(source_path, target_path, fs::copy_options::overwrite_existing);
 }
 
+std::string strip_leading_dirs(std::string filename)
+{
+  while (filename.size() > 0 && (filename[filename.size()-1] == '/' || filename[filename.size()-1] == '\\'))
+  {
+    filename.pop_back();
+  }
+  return filename;
+}
+
 std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
@@ -89,8 +109,11 @@ std::string dirname(const std::string& filename)
   return filename.substr(0, p+1);
 }
 
-std::string basename(const std::string& filename)
+std::string basename(std::string filename, bool greedy)
 {
+  if (greedy)
+    filename = strip_leading_dirs(filename);
+
   std::string::size_type p = filename.find_last_of('/');
   if (p == std::string::npos)
     p = filename.find_last_of('\\');
@@ -217,6 +240,7 @@ void open_path(const std::string& path)
 #elif defined(__EMSCRIPTEN__)
   emscripten_run_script(("window.supertux_download('" + path + "');").c_str());
 #else
+  // TODO Use posix_spawn
   #if defined(__APPLE__)
   std::string cmd = "open \"" + path + "\"";
   #else
@@ -232,6 +256,32 @@ void open_path(const std::string& path)
   {
     log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
+#endif
+}
+
+void
+open_editor(const std::string& filename)
+{
+#if !defined(ANDROID) && !defined(EMSCRIPTEN)
+  std::string editor =
+#ifdef WIN32
+    "notepad.exe"; // *shrugs*
+#else
+    getenv("EDITOR") != NULL ? getenv("EDITOR") : "";
+#endif
+  if (!g_config->preferred_text_editor.empty())
+    editor = g_config->preferred_text_editor;
+
+#ifndef WIN32
+  const char *argv[] = { editor.c_str(), filename.c_str(), NULL };
+  pid_t proc;
+  if (posix_spawnp(&proc, editor.c_str(), NULL, NULL, (char ** const)argv, environ) != 0)
+  {
+    log_fatal << "Failed to spawn editor: " << editor << std::endl;
+  }
+#else
+  ShellExecute(NULL, NULL, editor.c_str(), filename.c_str(), NULL, SW_SHOWNORMAL);
+#endif
 #endif
 }
 

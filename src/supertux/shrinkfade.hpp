@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "supertux/timer.hpp"
 #include "math/vector.hpp"
 #include "supertux/screen_fade.hpp"
 #include "video/layer.hpp"
@@ -27,7 +28,7 @@ public:
   enum Direction { FADEOUT, FADEIN };
 
 public:
-  ShrinkFade(const Vector& point, float fade_time, int draw_layer = LAYER_GUI + 1, Direction = FADEOUT);
+  ShrinkFade(const Vector& point, float fade_time, int draw_layer = LAYER_GUI + 1, Direction = FADEOUT, bool force_fade = true, float speedup = 0.0f);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -37,10 +38,14 @@ public:
 private:
   const int m_draw_layer;
   Vector m_dest;
+  // this doesn't account for m_speedup, making it the 'real' time
+  Timer m_fade_timer;
   float m_fade_time;
   float m_accum_time;
   float m_initial_size;
   Direction m_direction;
+  bool m_force_fade;
+  float m_speedup;
 
 private:
   ShrinkFade(const ShrinkFade&) = delete;

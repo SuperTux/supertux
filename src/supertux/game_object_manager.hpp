@@ -59,6 +59,7 @@ private:
 
 public:
   GameObjectManager(bool undo_tracking = false);
+  GameObjectManager(GameObjectManager* gom);
   virtual ~GameObjectManager() override;
 
   virtual std::string get_exposed_class_name() const override { return "GameObjectManager"; }
@@ -137,8 +138,8 @@ public:
    * @param string $data Additional data in S-Expression format (check object definitions in level files).
    */
   void add_object(const std::string& class_name, const std::string& name,
-                  float pos_x, float pos_y, const std::string& direction,
-                  const std::string& data);
+                  float pos_x, float pos_y, const std::string& direction = "auto",
+                  const std::string& data = "");
 
   float get_width() const;
   float get_height() const;
@@ -332,6 +333,8 @@ private:
 
   void this_before_object_add(GameObject& object);
   void this_before_object_remove(GameObject& object);
+
+  void update_editor_buttons();  
 
 protected:
   /** An initial flush_game_objects() call has been initiated. */

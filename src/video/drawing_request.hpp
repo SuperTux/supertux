@@ -110,7 +110,8 @@ struct FillRectRequest : public DrawingRequest
     DrawingRequest(transform),
     rect(),
     color(),
-    radius()
+    radius(),
+    blur()
   {}
 
   RequestType get_type() const override { return RequestType::FILLRECT; }
@@ -118,6 +119,7 @@ struct FillRectRequest : public DrawingRequest
   Rectf rect;
   Color color;
   float radius;
+  int blur;
 };
 
 struct InverseEllipseRequest : public DrawingRequest
