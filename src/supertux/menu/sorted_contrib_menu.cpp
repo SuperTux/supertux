@@ -119,14 +119,11 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         title_str = "[" + title_str + "]";
 
       if (story_tuxdolls >= worlds[i]->get_tuxdolls_required())
-      {
-        add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
-      }
+        add_entry(world_id, title_str).set_help(worlds[i]->get_description());
       else
-      {
         add_item(std::make_unique<ItemLockedWorld>(title_str, story_tuxdolls, worlds[i]->get_tuxdolls_required()));
-        ++world_id;
-      }
+
+      ++world_id;
     }
   }
   if (world_id == 0)
