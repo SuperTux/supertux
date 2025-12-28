@@ -3,6 +3,7 @@
   (name (_ "Penguins Don't Grow On Trees"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 90)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")

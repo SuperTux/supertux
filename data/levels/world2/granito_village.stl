@@ -3,6 +3,7 @@
   (name (_ "Granito Village"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 250)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
@@ -1188,7 +1189,7 @@
       (glinting #f)
     )
     (music
-      (file "/music/forest/granito_village.music")
+      (file "/music/forest/forest-sprint.music")
     )
     (pushbutton
       (z-pos -99)

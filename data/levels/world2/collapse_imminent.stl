@@ -35,15 +35,15 @@
     )
     (background
       (color 0.9999999 0.9999999 0.9999999)
-      (scroll-speed-x -2)
       (speed 0)
+      (fill #t)
       (image "/images/background/misc/clouds_storm.png")
       (z-pos -280)
     )
     (background
       (color 1 1 1)
-      (scroll-speed-x -0.1)
       (speed 0)
+      (fill #t)
       (image "/images/background/misc/skybox_storm.png")
       (z-pos -290)
     )
@@ -142,6 +142,7 @@
       (ammo -1)
       (x 2944)
       (y 2176)
+      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
     )
     (darttrap
       (z-pos -1)
@@ -150,6 +151,7 @@
       (ammo -1)
       (x 7264)
       (y 1240)
+      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
     )
     (darttrap
       (z-pos -1)
@@ -159,6 +161,7 @@
       (direction "right")
       (x 5248)
       (y 2816)
+      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
     )
     (darttrap
       (z-pos -1)
@@ -167,6 +170,7 @@
       (ammo -1)
       (x 9088)
       (y 2112)
+      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
     )
     (decal
       (z-pos 50)

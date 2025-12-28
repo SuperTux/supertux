@@ -43,6 +43,7 @@
     )
     (background
       (color 1 1 1)
+      (alignment "top")
       (speed 0)
       (fill #t)
       (image "/images/background/misc/skybox_storm.png")
@@ -71,6 +72,11 @@
       (top_color 0.1 0.2 0.3)
       (bottom_color 0.1137255 0 0.2117647)
       (z-pos -400)
+    )
+    (gradient
+      (top_color 0 0 0 0)
+      (bottom_color 1 1 1 0.4)
+      (z-pos -310)
     )
     (hurting_platform
       (z-pos -60)

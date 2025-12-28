@@ -3,6 +3,7 @@
   (name (_ "Shocking"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 135)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
@@ -58,7 +59,7 @@
       (z-pos -220)
     )
     (background
-      (color 1 1 1)
+      (color 0.5 0.5 0.7)
       (speed 0.1)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain_trees.png")

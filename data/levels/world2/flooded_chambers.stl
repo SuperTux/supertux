@@ -3,6 +3,7 @@
   (name (_ "Flooded Chambers"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 135)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
@@ -191,13 +192,6 @@
       (spawnpoint "door4")
       (x 13632)
       (y 1120)
-    )
-    (editor-comment
-      (width 208)
-      (height 176)
-      (x 13996)
-      (y 384)
-      (comment "FIXME: The following 2 Granito are reskinned Small Grnaito due to the fact big \"objects\" cannot properly go down slopes so this is temporary! Also, Tux will fall off Granito when they go up a slope - another bug to fix!")
     )
     (firefly
       (z-pos 0)

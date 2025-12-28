@@ -3,6 +3,7 @@
   (name (_ "Three Sheets to the Wind"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 170)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")

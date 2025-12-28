@@ -3,6 +3,7 @@
   (name (_ "A Mouldy Grotto"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 170)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
@@ -598,6 +599,10 @@
       (name "cave")
       (x 416)
       (y 2080)
+    )
+    (spawnpoint
+      (x 5976)
+      (y 1288)
     )
     (stalactite
       (type "rock")

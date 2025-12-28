@@ -193,12 +193,17 @@
     (gradient
       (top_color 0 0.1254902 0.1607843)
       (bottom_color 0.3058824 0 0.1882353)
-      (z-pos -301)
+      (z-pos -302)
     )
     (gradient
       (top_color 1 1 1 0)
       (bottom_color 1 1 1 0.2)
       (z-pos -210)
+    )
+    (gradient
+      (top_color 0.9333333 0.9529412 1 0)
+      (bottom_color 1 1 1 0.3)
+      (z-pos -301)
     )
     (igel
       (type "corrupted")

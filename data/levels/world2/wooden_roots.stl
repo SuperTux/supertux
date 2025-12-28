@@ -3,6 +3,7 @@
   (name (_ "Wooden Roots"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 100)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
@@ -607,6 +608,7 @@
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain.png")

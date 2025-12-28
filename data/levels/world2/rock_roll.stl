@@ -3,6 +3,7 @@
   (name (_ "Rock 'n' Roll"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 70)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
@@ -49,7 +50,7 @@
       (z-pos -290)
     )
     (background
-      (color 1 1 1)
+      (color 1 1 0.9)
       (scroll-speed-x -2)
       (speed 0)
       (image "/images/background/misc/clouds.png")
