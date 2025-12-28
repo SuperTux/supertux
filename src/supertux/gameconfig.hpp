@@ -106,6 +106,8 @@ public:
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
   bool ignore_joystick_axis;
+  bool touch_haptic_feedback;
+  bool touch_just_directional;
 
   bool mobile_controls;
   float m_mobile_controls_scale;

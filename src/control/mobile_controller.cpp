@@ -14,12 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <config.h>
 #include "control/mobile_controller.hpp"
 
 #include <string>
 
 #include "SDL.h"
 
+#include "gui/menu_manager.hpp"
 #include "util/log.hpp"
 #include "control/controller.hpp"
 #include "math/vector.hpp"
@@ -62,8 +64,42 @@ MobileController::MobileController() :
   m_screen_width(),
   m_screen_height(),
   m_mobile_controls_scale(),
-  m_haptic(nullptr, SDL_HapticClose)
+  m_haptic(nullptr, SDL_HapticClose),
+  m_haptic_timer(0)
 {
+#ifdef __ANDROID__
+  SDL_InitSubSystem(SDL_INIT_HAPTIC | SDL_INIT_TIMER);
+  // ifdef'd just to be safe
+  m_haptic.reset(SDL_HapticOpen(0));
+  if (m_haptic)
+  {
+    if (!SDL_HapticRumbleSupported(m_haptic.get()))
+      m_haptic.reset();
+
+    if (m_haptic && SDL_HapticRumbleInit(m_haptic.get()) != 0)
+    {
+      log_warning << "Haptic device at index 0 couldn't be initialized: " << SDL_GetError() << std::endl;
+      m_haptic.reset();
+    }
+  }
+#endif
+}
+
+void
+MobileController::buzz()
+{
+  if (!m_haptic || !g_config->touch_haptic_feedback)
+    return;
+
+  if (m_haptic_timer == 0)
+    SDL_HapticRumblePlay(m_haptic.get(), 0.5f, 2000);
+
+  m_haptic_timer = SDL_AddTimer(30, [](Uint32 val, void* _data) -> Uint32 {
+    MobileController* data = static_cast<MobileController*>(_data);
+    SDL_HapticRumbleStop(data->m_haptic.get());
+    data->m_haptic_timer = 0;
+    return 0;
+  }, this);
 }
 
 void
@@ -169,6 +205,21 @@ MobileController::update()
   {
     activate_widget_at_pos(i.second.x, i.second.y);
   }
+
+  for (size_t i = 0; i < static_cast<size_t>(Control::CONTROLCOUNT); ++i)
+  {
+    if (m_input[i] != m_input_last[i] && m_input[i] == true)
+    {
+      if (g_config->touch_just_directional &&
+          !(i >= CONTROL_INT(LEFT) && i < CONTROL_INT(JUMP)))
+      {
+        break;
+      }
+      // Don't vibrate in menus, since dtime is set to 0 in pause menu for example
+      buzz();
+      break;
+    }
+  }
 }
 
 void
@@ -179,10 +230,7 @@ MobileController::apply(Controller& controller) const
 
   for (size_t i = 0; i < static_cast<size_t>(Control::CONTROLCOUNT); ++i)
     if (m_input[i] != m_input_last[i])
-    {
-
       controller.set_control(static_cast<Control>(i), static_cast<bool>(m_input[i]));
-    }
 
   // something is pressed
   if (m_input != 0)

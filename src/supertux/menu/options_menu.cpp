@@ -170,8 +170,16 @@ OptionsMenu::refresh()
 
       // Separated both translation strings so the latter can be removed if it is
       // no longer true, without requiring a new round of translating
+#ifndef __ANDROID__
       add_toggle(MNID_RUMBLING, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers)
         .set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the multiplayer options menu."));
+#else
+      add_toggle(-1, _("Enable Haptic Feedback"), &g_config->touch_haptic_feedback)
+        .set_help(_("Enable haptic feedback for touchscreen controls"));
+
+      add_toggle(-1, _("Only Haptic Feedback for D-Pad"), &g_config->touch_just_directional)
+        .set_help(_("Only enable haptic feedback for the D-Pad"));
+#endif
 
       add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
         .set_help(_("Configure key-action mappings"));

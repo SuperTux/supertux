@@ -45,6 +45,8 @@ public:
   /** returns true if the finger event was inside the screen button area */
   bool process_finger_motion_event(const SDL_TouchFingerEvent& event);
 
+  void buzz();
+
 private:
   void activate_widget_at_pos(float x, float y);
 
@@ -63,6 +65,10 @@ private:
 
   int m_screen_width, m_screen_height;
   float m_mobile_controls_scale;
+
+  // We need the timer to be away from the game loop to stop vibration
+  SDL_TimerID m_haptic_timer;
+  std::unique_ptr<SDL_Haptic, decltype(&SDL_HapticClose)> m_haptic;
 
 private:
   MobileController(const MobileController&) = delete;
