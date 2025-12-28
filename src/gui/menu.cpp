@@ -99,7 +99,6 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
 
   recalculate_position_and_size();
 
-
   return item;
 }
 

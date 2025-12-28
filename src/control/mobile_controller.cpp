@@ -213,9 +213,8 @@ MobileController::update()
       if (g_config->touch_just_directional &&
           !(i >= CONTROL_INT(LEFT) && i < CONTROL_INT(JUMP)))
       {
-        break;
+        continue;
       }
-      // Don't vibrate in menus, since dtime is set to 0 in pause menu for example
       buzz();
       break;
     }

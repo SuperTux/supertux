@@ -2,13 +2,18 @@
 
 Good luck.
 
+- We have `tools/bootstrap-android-project.sh`, you can pass it with the SDL
+version. This will "bootstrap" an android project for you so you can run gradle
+and build the game.
+
+- You can use `deploy-debug-adb.sh` to quickly run & install the game on your
+  device over USB.
+
 ### TODOS
 
 - Maybe kick -lc++ out within cmake for each pkg-config output? Or just talk
   with vcpkg upstream to fix this nonsense
   
-- Linux only. There is a `tar` dependency in the CMake for Android too.
-
 - You are somewhat encouraged to download our Nightly APKs (if you just want to
   play the game) or look at our CI files for reference. Seriously, this is not
   an easy task, despite the effort put into making this simple.
@@ -19,7 +24,7 @@ Good luck.
 
 ### Notes
 
-- Android studio seems to ignore .bash_profile and whatever. The docs claim it
+- Android Studio seems to ignore .bash_profile and whatever. The docs claim it
   knows about .bash_profile. Whatever. I've added some stuff you can slam in
   `mk/android/local.properties`. The CMake will prefer env variables over this
   (poorly), but if those don't exist it will resort to what's here.
@@ -39,12 +44,12 @@ Good luck.
   libsupertux2.so ELF, you can monkeypatch it by manually running the CMake
   linker command removing any reference to `libc++.so`.
   
-      - Gross! This is also actually caused by nasty vcpkg ports! Awful! Let's
-        fix that:
+  - Gross! This is also actually caused by nasty vcpkg ports! Awful! Let's
+    fix that:
       
-        ```
-        find $VCPKG_ROOT/installed -name '*.pc' -exec sed -i 's/-lc\+\+//g' {} \;
-        ```
+    ```
+    find $VCPKG_ROOT/installed -name '*.pc' -exec sed -i 's/-lc\+\+//g' {} \;
+    ```
 
 - Make sure you aren't installing the vcpkg manifest. We don't support that
   right now. Basically just cat the vcpkg.json and install what it provides with
