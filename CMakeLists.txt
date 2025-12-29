@@ -98,7 +98,7 @@ if(SUPERTUX_CCACHE)
   endif()
 endif()
 
-if(EMSCRIPTEN OR ANDROID)
+if(EMSCRIPTEN)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
