@@ -216,6 +216,7 @@
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (invisible-tile #t)
       (script "go_underground(true);
 worldmap.settings.fade_to_ambient_light(0.4, 0.45, 0.6, 0.35);
@@ -228,6 +229,7 @@ state.ambient_b <- 0.6;")
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (invisible-tile #t)
       (script "go_underground(false);
 worldmap.settings.fade_to_ambient_light(1, 1, 1, 0.35);
@@ -240,6 +242,7 @@ state.ambient_b <- 1;")
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (map-message (_ "You found a secret area!"))
       (invisible-tile #t)
       (passive-message #t)
@@ -249,6 +252,7 @@ state.ambient_b <- 1;")
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (invisible-tile #t)
       (script "go_underground(false);
 worldmap.settings.fade_to_ambient_light(1, 1, 1, 0.35);
@@ -261,6 +265,7 @@ state.ambient_b <- 1;")
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (invisible-tile #t)
       (script "go_underground(true);
 worldmap.settings.fade_to_ambient_light(0.4, 0.45, 0.6, 0.35);
@@ -273,11 +278,33 @@ state.ambient_b <- 0.6;")
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (invisible-tile #t)
       (script "Effect.fade_out(1);")
       (apply-to-direction "south")
       (x 28)
       (y 30)
+    )
+    (special-tile
+      (name "fork_secret_obj")
+      (z-pos 50)
+      (blocking #t)
+      (x 52)
+      (y 70)
+    )
+    (special-tile
+      (name "fridge_secret_obj")
+      (z-pos 50)
+      (blocking #t)
+      (x 66)
+      (y 77)
+    )
+    (special-tile
+      (name "slide_secret_obj")
+      (z-pos 50)
+      (blocking #t)
+      (x 64)
+      (y 92)
     )
     (sprite-change
       (z-pos 50)
