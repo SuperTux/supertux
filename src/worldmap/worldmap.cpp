@@ -24,6 +24,7 @@
 #include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
+#include "editor/editor.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/player_status.hpp"
@@ -191,7 +192,8 @@ WorldMap::process_input(const Controller& controller)
   if (!m_really_enter_level)
     m_enter_level = false;
 
-  if (controller.pressed(Control::ACTION) && !m_in_level)
+  if (controller.pressed(Control::ACTION) && !m_in_level &&
+      !Editor::current())
   {
     MenuManager::instance().clear_menu_stack();
     ScreenManager::current()->push_screen(std::make_unique<WorldSelect>(m_map_filename),
