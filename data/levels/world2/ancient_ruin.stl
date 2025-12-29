@@ -98,6 +98,7 @@
       (y 2272)
     )
     (decal
+      (action "closed")
       (z-pos -10)
       (sprite "/images/objects/door/door.sprite")
       (x 2528)
@@ -1049,6 +1050,7 @@ Tux.use_scripting_controller(false);")
       (y 2816)
     )
     (decal
+      (action "closed")
       (z-pos -10)
       (sprite "/images/objects/door/door.sprite")
       (x 7424)
