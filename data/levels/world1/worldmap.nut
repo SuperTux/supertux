@@ -42,15 +42,29 @@ go_underground(state.underground);
 //   ROAD FORKS
 // ============================================================================
 
-if(!("fork_secret" in state)) {
-	state.fork_secret <- false;
-	state.fridge_secret <- false;
-	state.slide_secret <- false;
+if (!("fork_secret_v2" in state))
+{
+  // there is no compat... we ignore the old states for now. if they beat the
+  // level or didn't complete the fork in the road then things would just get
+  // weird regardless, like paths being opened despite never finding the
+  // secrets... since the worldmap is pretty much redone anyway, new players
+  // will start from the beginning anyway hopefully.
+  state.fork_secret_v2 <- 0;
+  state.fridge_secret_v2 <- 0;
+  state.slide_secret_v2 <- 0;
 }
 
-if(!state.fork_secret) fork_secret.fade(0.2, 0);
+// Always allow these dirs regardless
+state.fork_secret_v2 <- (state.fork_secret_v2 | SPECIALTILE_DIR_WEST);
+state.fridge_secret_v2 <- (state.fridge_secret_v2 | SPECIALTILE_DIR_EAST);
+state.slide_secret_v2 <- (state.slide_secret_v2 | SPECIALTILE_DIR_EAST);
+worldmap.fork_secret_obj.set_direction_mask(state.fork_secret_v2);
+worldmap.fridge_secret_obj.set_direction_mask(state.fridge_secret_v2);
+worldmap.slide_secret_obj.set_direction_mask(state.slide_secret_v2);
+
+if(!state.fork_secret_v2) fork_secret.fade(0.2, 0);
 else fork_secret.fade(1, 0);
-if(!state.fridge_secret) fridge_secret.fade(0.2, 0);
+if(!state.fridge_secret_v2) fridge_secret.fade(0.2, 0);
 else fridge_secret.fade(1, 0);
-if(!state.slide_secret) slide_secret.fade(0.2, 0);
+if(!state.slide_secret_v2) slide_secret.fade(0.2, 0);
 else slide_secret.fade(1, 0);
