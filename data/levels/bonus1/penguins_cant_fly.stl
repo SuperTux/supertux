@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "Who says Penguins cant fly"))
+  (name (_ "Glacier danger"))
   (author "Carsten Wirtz, FrostC")
   (license "CC-BY-SA 4.0 International")
   (target-time 50)
