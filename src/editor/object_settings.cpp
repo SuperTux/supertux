@@ -296,7 +296,7 @@ ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr,
                            std::optional<std::string> default_value,
                            unsigned int flags)
 {
-  return add_file(text, value_ptr, key, std::move(default_value), {".jpg", ".png", ".sprite"}, {}, true, flags);
+  return add_file(text, value_ptr, key, std::move(default_value), {".jpg", ".png", ".surface", ".sprite"}, {}, true, flags);
 }
 
 std::unique_ptr<BaseObjectOption>&
