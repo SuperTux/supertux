@@ -3,6 +3,7 @@
   (name (_ "Home Dead Home"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 120)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
@@ -169,6 +170,7 @@
       (ammo -1)
       (x 9952)
       (y 1472)
+      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
     )
     (darttrap
       (z-pos -1)
@@ -178,6 +180,7 @@
       (direction "right")
       (x 9824)
       (y 1856)
+      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
     )
     (darttrap
       (z-pos -1)
@@ -186,6 +189,7 @@
       (ammo -1)
       (x 10976)
       (y 1568)
+      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
     )
     (darttrap
       (z-pos -1)
@@ -195,6 +199,7 @@
       (direction "right")
       (x 4448)
       (y 1216)
+      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
     )
     (darttrap
       (z-pos -1)
@@ -204,6 +209,7 @@
       (direction "right")
       (x 9184)
       (y 512)
+      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
     )
     (decal
       (z-pos -10)
