@@ -7,7 +7,7 @@ the SuperTux Development Team so we can fix this immediately.
 
 -------------------------------------------------------------------------------
 
-
+ 
 
 TINYGETTEXT
 ===========
