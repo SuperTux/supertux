@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -65,6 +64,7 @@
       (direction "left")
       (x 3616)
       (y 640)
+      (glinting #f)
     )
     (camera
       (name "Camera")
@@ -178,10 +178,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -192,10 +194,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (objects
         (smartblock
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -206,10 +210,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -220,10 +226,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (objects
         (bouncingsnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -307,34 +315,40 @@
       (z-pos 50)
       (x 11328)
       (y 704)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 8656)
       (y 928)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 4112)
       (y 960)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (direction "left")
       (x 9344)
       (y 992)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (direction "left")
       (x 768)
       (y 672)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (direction "left")
       (x 5248)
       (y 960)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/midday_alt.music")
@@ -454,90 +468,105 @@
       (direction "left")
       (x 992)
       (y 1120)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (direction "left")
       (x 8032)
       (y 992)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (direction "left")
       (x 3200)
       (y 608)
+      (glinting #f)
     )
     (smartblock
       (z-pos 50)
       (direction "left")
       (x 9856)
       (y 704)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 2912)
       (y 992)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 5376)
       (y 960)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 5504)
       (y 960)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 2816)
       (y 1024)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 7936)
       (y 992)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 7840)
       (y 992)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 3008)
       (y 992)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 5792)
       (y 896)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 5920)
       (y 896)
+      (glinting #f)
     )
     (snowman
       (z-pos 50)
       (direction "left")
       (x 3616)
       (y 960)
+      (glinting #f)
     )
     (snowman
       (z-pos 50)
       (direction "left")
       (x 6880)
       (y 640)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
@@ -553,31 +582,37 @@
       (y 832)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 5024)
       (y 800)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 9568)
       (y 768)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 3072)
       (y 768)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 11520)
       (y 640)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 11712)
       (y 608)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 11904)
       (y 576)
