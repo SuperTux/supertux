@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  main.pot (SuperTux v0.6.3-1941-g46c73d77f)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1941-g46c73d77f\n"
+"#-#-#-#-#  main.pot (SuperTux v0.6.3-1973-gfb8a170e9)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1973-gfb8a170e9\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-24 10:11+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"#-#-#-#-#  credits.pot (SuperTux v0.6.3-1941-g46c73d77f)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1941-g46c73d77f\n"
+"#-#-#-#-#  credits.pot (SuperTux v0.6.3-1973-gfb8a170e9)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1973-gfb8a170e9\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-24 10:11+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,10 +29,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  objects.pot (SuperTux v0.6.3-1941-g46c73d77f)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1941-g46c73d77f\n"
+"#-#-#-#-#  objects.pot (SuperTux v0.6.3-1973-gfb8a170e9)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1973-gfb8a170e9\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-24 10:11+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,10 +40,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  tilesets.pot (SuperTux v0.6.3-1941-g46c73d77f)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1941-g46c73d77f\n"
+"#-#-#-#-#  tilesets.pot (SuperTux v0.6.3-1973-gfb8a170e9)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1973-gfb8a170e9\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-24 10:11+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,10 +51,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  converters.pot (SuperTux v0.6.3-1941-g46c73d77f)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1941-g46c73d77f\n"
+"#-#-#-#-#  converters.pot (SuperTux v0.6.3-1973-gfb8a170e9)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1973-gfb8a170e9\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-24 10:11+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,11 +67,11 @@ msgstr ""
 msgid "Joystick Mappings"
 msgstr ""
 
-#: src/addon/addon.cpp:75 src/supertux/menu/editor_levelset_menu.cpp:54
+#: src/addon/addon.cpp:75 src/supertux/menu/editor_levelset_menu.cpp:55
 msgid "Levelset"
 msgstr ""
 
-#: src/addon/addon.cpp:78 src/supertux/menu/editor_levelset_menu.cpp:54
+#: src/addon/addon.cpp:78 src/supertux/menu/editor_levelset_menu.cpp:55
 #: data/images/engine/editor/objects.stoi:393
 msgid "Worldmap"
 msgstr ""
@@ -120,12 +120,12 @@ msgstr ""
 msgid "Add-on {} by {} successfully installed."
 msgstr ""
 
-#: src/worldmap/spawn_point.cpp:79 src/worldmap/special_tile.cpp:78
+#: src/worldmap/spawn_point.cpp:79 src/worldmap/special_tile.cpp:85
 #: src/object/ispy.cpp:56 src/object/gradient.cpp:101
 #: src/object/bigsnowball.cpp:80 src/object/conveyor_belt.cpp:62
 #: src/object/pushbutton.cpp:65 src/object/bumper.cpp:59
 #: src/object/spotlight.cpp:108 src/trigger/switch.cpp:63
-#: src/badguy/badguy.cpp:1376 src/badguy/crusher.cpp:1244
+#: src/badguy/badguy.cpp:1376 src/badguy/crusher.cpp:1250
 msgid "Direction"
 msgstr ""
 
@@ -139,7 +139,7 @@ msgstr ""
 msgid "Spawnpoint"
 msgstr ""
 
-#: src/worldmap/teleporter.cpp:49 src/worldmap/special_tile.cpp:74
+#: src/worldmap/teleporter.cpp:49 src/worldmap/special_tile.cpp:79
 #: src/object/infoblock.cpp:76 src/trigger/secretarea_trigger.cpp:57
 #: src/trigger/climbable.cpp:59
 msgid "Message"
@@ -185,7 +185,7 @@ msgstr ""
 msgid "Teleporter"
 msgstr ""
 
-#: src/worldmap/special_tile.hpp:35
+#: src/worldmap/special_tile.hpp:47
 msgid "Special Tile"
 msgstr ""
 
@@ -205,20 +205,37 @@ msgstr ""
 msgid "Change on touch"
 msgstr ""
 
-#: src/worldmap/special_tile.cpp:75
+#: src/worldmap/special_tile.cpp:80
 msgid "Show message"
 msgstr ""
 
-#: src/worldmap/special_tile.cpp:76 src/object/ispy.cpp:55
-#: src/object/powerup.cpp:326 src/object/bonus_block.cpp:264
+#: src/worldmap/special_tile.cpp:81 src/object/ispy.cpp:55
+#: src/object/powerup.cpp:329 src/object/bonus_block.cpp:264
 #: src/object/bonus_block.cpp:268 src/object/pushbutton.cpp:66
 #: src/trigger/scripttrigger.cpp:51 src/trigger/secretarea_trigger.cpp:58
 #: src/trigger/door.cpp:79
 msgid "Script"
 msgstr ""
 
-#: src/worldmap/special_tile.cpp:77 src/badguy/dispenser.cpp:439
+#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:439
 msgid "Invisible"
+msgstr ""
+
+#: src/worldmap/special_tile.cpp:83
+msgid "Blocking path"
+msgstr ""
+
+#: src/worldmap/special_tile.cpp:84
+msgid ""
+"If true, the direction blocks the path. Useful for a \"fork in the road\" "
+"scenario."
+msgstr ""
+
+#: src/worldmap/special_tile.cpp:86
+msgid ""
+"One or more of \"north\", \"south\", \"east\", or \"west\". For example\n"
+"a value of \"north south east\" will set each respective direction for this\n"
+"special tile."
 msgstr ""
 
 #: src/worldmap/worldmap_object.cpp:75 src/object/bicycle_platform.cpp:201
@@ -338,7 +355,7 @@ msgid "Press CTRL to move Bézier handles"
 msgstr ""
 
 #: src/editor/node_marker.cpp:124 src/object/level_time.cpp:55
-#: src/supertux/statistics.cpp:293
+#: src/supertux/statistics.cpp:307
 msgid "Time"
 msgstr ""
 
@@ -521,7 +538,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: src/editor/object_menu.cpp:71 src/supertux/menu/editor_levelset_menu.cpp:58
+#: src/editor/object_menu.cpp:71 src/supertux/menu/editor_levelset_menu.cpp:61
 #: src/supertux/menu/editor_sector_menu.cpp:49
 #: src/supertux/menu/editor_new_levelset_menu.cpp:37
 #: src/supertux/menu/editor_level_menu.cpp:56 src/gui/menu_object_select.cpp:61
@@ -1221,7 +1238,7 @@ msgstr ""
 
 #: src/object/particle_zone.cpp:49 src/object/particlesystem.cpp:64
 #: src/object/spotlight.cpp:104 src/supertux/menu/addon_preview_menu.cpp:201
-#: src/badguy/darttrap.cpp:157
+#: src/badguy/darttrap.cpp:156
 msgid "Enabled"
 msgstr ""
 
@@ -1344,11 +1361,11 @@ msgstr ""
 msgid "Herring"
 msgstr ""
 
-#: src/object/powerup.cpp:327
+#: src/object/powerup.cpp:330
 msgid "Disable gravity"
 msgstr ""
 
-#: src/object/powerup.cpp:337 src/object/weak_block.cpp:264
+#: src/object/powerup.cpp:340 src/object/weak_block.cpp:264
 msgid ""
 "Sprites no longer define the behaviour of the object.\n"
 "Object types are used instead."
@@ -1391,7 +1408,7 @@ msgstr ""
 #: src/object/textscroller.cpp:355 src/object/textscroller.cpp:366
 #: src/supertux/menu/joystick_menu.cpp:73
 #: src/supertux/menu/keyboard_menu.cpp:77 src/math/anchor_point.cpp:36
-#: src/badguy/crusher.cpp:1245
+#: src/badguy/crusher.cpp:1251
 msgid "Left"
 msgstr ""
 
@@ -1404,7 +1421,7 @@ msgstr ""
 #: src/object/textscroller.cpp:360 src/object/textscroller.cpp:371
 #: src/supertux/menu/joystick_menu.cpp:74
 #: src/supertux/menu/keyboard_menu.cpp:78 src/math/anchor_point.cpp:38
-#: src/badguy/crusher.cpp:1245
+#: src/badguy/crusher.cpp:1251
 msgid "Right"
 msgstr ""
 
@@ -1420,11 +1437,11 @@ msgstr ""
 msgid "Secondary Colour"
 msgstr ""
 
-#: src/object/gradient.cpp:102 src/badguy/crusher.cpp:1245
+#: src/object/gradient.cpp:102 src/badguy/crusher.cpp:1251
 msgid "Vertical"
 msgstr ""
 
-#: src/object/gradient.cpp:102 src/badguy/crusher.cpp:1245
+#: src/object/gradient.cpp:102 src/badguy/crusher.cpp:1251
 msgid "Horizontal"
 msgstr ""
 
@@ -1446,7 +1463,7 @@ msgstr ""
 #: src/object/background.cpp:302 src/badguy/walkingleaf.cpp:35
 #: src/badguy/snail.cpp:70 src/badguy/bouncing_snowball.cpp:96
 #: src/badguy/mrbomb.cpp:65 src/badguy/smartball.cpp:34
-#: src/badguy/mrtree.cpp:50 src/badguy/kamikazesnowball.cpp:117
+#: src/badguy/mrtree.cpp:50 src/badguy/kamikazesnowball.cpp:118
 #: src/badguy/snowball.cpp:40 src/badguy/viciousivy.cpp:44
 #: src/badguy/igel.cpp:194 src/badguy/mriceblock.cpp:63
 msgid "Normal"
@@ -2229,7 +2246,7 @@ msgstr ""
 
 #: src/trigger/secretarea_trigger.cpp:55 src/supertux/game_object.cpp:136
 #: src/supertux/menu/profile_name_menu.cpp:39
-#: src/supertux/menu/editor_levelset_menu.cpp:52
+#: src/supertux/menu/editor_levelset_menu.cpp:53
 #: src/supertux/menu/editor_sector_menu.cpp:36
 #: src/supertux/menu/editor_new_levelset_menu.cpp:34
 #: src/supertux/menu/editor_level_menu.cpp:33
@@ -2287,7 +2304,7 @@ msgid ""
 msgstr ""
 
 #: src/supertux/game_object.cpp:151
-#: src/supertux/menu/editor_levelset_menu.cpp:54
+#: src/supertux/menu/editor_levelset_menu.cpp:55
 msgid "Type"
 msgstr ""
 
@@ -2494,15 +2511,15 @@ msgstr ""
 msgid "contributed by {}"
 msgstr ""
 
-#: src/supertux/levelintro.cpp:176 src/supertux/statistics.cpp:180
+#: src/supertux/levelintro.cpp:176 src/supertux/statistics.cpp:184
 msgid "Best Level Statistics"
 msgstr ""
 
-#: src/supertux/levelintro.cpp:185 src/supertux/statistics.cpp:309
+#: src/supertux/levelintro.cpp:185 src/supertux/statistics.cpp:323
 msgid "Coins"
 msgstr ""
 
-#: src/supertux/levelintro.cpp:191 src/supertux/statistics.cpp:337
+#: src/supertux/levelintro.cpp:191 src/supertux/statistics.cpp:351
 msgid "Secrets"
 msgstr ""
 
@@ -2526,20 +2543,20 @@ msgstr ""
 msgid "down"
 msgstr ""
 
-#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:293
-#: src/supertux/menu/options_menu.cpp:336
+#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:304
+#: src/supertux/menu/options_menu.cpp:347
 msgid "auto"
 msgstr ""
 
-#: src/supertux/main.cpp:834
+#: src/supertux/main.cpp:872
 msgid "New release: SuperTux {}!"
 msgstr ""
 
-#: src/supertux/main.cpp:835
+#: src/supertux/main.cpp:873
 msgid "Click for more details."
 msgstr ""
 
-#: src/supertux/main.cpp:838
+#: src/supertux/main.cpp:876
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -2547,7 +2564,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr ""
 
-#: src/supertux/main.cpp:849
+#: src/supertux/main.cpp:887
 msgid "Checking for new releases..."
 msgstr ""
 
@@ -2580,15 +2597,15 @@ msgstr ""
 #: src/supertux/menu/editor_converters_menu.cpp:81
 #: src/supertux/menu/integrations_menu.cpp:60
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
-#: src/supertux/menu/language_menu.cpp:63
+#: src/supertux/menu/language_menu.cpp:66
 #: src/supertux/menu/editor_levelset_select_menu.cpp:118
 #: src/supertux/menu/addon_file_install_menu.cpp:36
 #: src/supertux/menu/debug_menu.cpp:85 src/supertux/menu/keyboard_menu.cpp:111
-#: src/supertux/menu/addon_menu.cpp:161
+#: src/supertux/menu/addon_menu.cpp:164
 #: src/supertux/menu/custom_menu_menu.cpp:65
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/editor_new_levelset_menu.cpp:40
-#: src/supertux/menu/options_menu.cpp:270
+#: src/supertux/menu/options_menu.cpp:281
 #: src/supertux/menu/video_system_menu.cpp:52
 #: src/supertux/menu/addon_browse_menu.cpp:162
 #: src/supertux/menu/multiplayer_player_menu.cpp:187
@@ -2597,7 +2614,7 @@ msgstr ""
 #: src/supertux/menu/editor_level_select_menu.cpp:96
 #: src/supertux/menu/cheat_apply_menu.cpp:40
 #: src/supertux/menu/multiplayer_players_menu.cpp:94
-#: src/supertux/menu/sorted_contrib_menu.cpp:51
+#: src/supertux/menu/sorted_contrib_menu.cpp:135
 #: src/supertux/menu/multiplayer_menu.cpp:39
 #: src/supertux/menu/addon_preview_menu.cpp:205
 #: src/supertux/menu/web_asset_menu.cpp:48
@@ -2692,7 +2709,7 @@ msgstr ""
 msgid "Select level"
 msgstr ""
 
-#: src/supertux/menu/editor_menu.cpp:54 src/supertux/menu/main_menu.cpp:64
+#: src/supertux/menu/editor_menu.cpp:54 src/supertux/menu/main_menu.cpp:66
 msgid "Level Editor"
 msgstr ""
 
@@ -2729,7 +2746,7 @@ msgid "Test Worldmap"
 msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:67 src/supertux/menu/worldmap_menu.cpp:31
-#: src/supertux/menu/game_menu.cpp:77 src/supertux/menu/main_menu.cpp:63
+#: src/supertux/menu/game_menu.cpp:79 src/supertux/menu/main_menu.cpp:63
 #: src/supertux/menu/options_select_menu.cpp:29
 msgid "Options"
 msgstr ""
@@ -2921,7 +2938,7 @@ msgid "There are no more deprecated tiles in the level!"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:54
-#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:187
 msgid "Setup Joystick"
 msgstr ""
 
@@ -2935,12 +2952,12 @@ msgid ""
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:71
-#: src/supertux/menu/keyboard_menu.cpp:75 src/badguy/crusher.cpp:1245
+#: src/supertux/menu/keyboard_menu.cpp:75 src/badguy/crusher.cpp:1251
 msgid "Up"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:72
-#: src/supertux/menu/keyboard_menu.cpp:76 src/badguy/crusher.cpp:1245
+#: src/supertux/menu/keyboard_menu.cpp:76 src/badguy/crusher.cpp:1251
 msgid "Down"
 msgstr ""
 
@@ -3050,22 +3067,32 @@ msgstr ""
 msgid "Hat Right"
 msgstr ""
 
-#: src/supertux/menu/editor_levelset_menu.cpp:50
+#: src/supertux/menu/editor_levelset_menu.cpp:51
 #: src/supertux/menu/editor_level_select_menu.cpp:95
 msgid "World Settings"
 msgstr ""
 
-#: src/supertux/menu/editor_levelset_menu.cpp:53
+#: src/supertux/menu/editor_levelset_menu.cpp:54
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
 msgid "Description"
 msgstr ""
 
-#: src/supertux/menu/editor_levelset_menu.cpp:55
+#: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "Title Screen Level"
 msgstr ""
 
-#: src/supertux/menu/editor_levelset_menu.cpp:56
+#: src/supertux/menu/editor_levelset_menu.cpp:57
 msgid "A level to be used for the title screen, after exiting the world."
+msgstr ""
+
+#: src/supertux/menu/editor_levelset_menu.cpp:58
+msgid "Tux Dolls Required"
+msgstr ""
+
+#: src/supertux/menu/editor_levelset_menu.cpp:59
+msgid ""
+"Require the player to have collected a certain amount of Tux Dolls from "
+"Story Mode before they can enter the world."
 msgstr ""
 
 #: src/supertux/menu/editor_settings.cpp:33
@@ -3333,28 +3360,28 @@ msgstr ""
 msgid "Restart from Checkpoint"
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:74
+#: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:79
+#: src/supertux/menu/game_menu.cpp:81
 msgid "Abort Level"
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:95 src/supertux/menu/game_menu.cpp:106
-#: src/supertux/menu/game_menu.cpp:171
+#: src/supertux/menu/game_menu.cpp:97 src/supertux/menu/game_menu.cpp:108
+#: src/supertux/menu/game_menu.cpp:173
 msgid "Are you sure?"
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:122
+#: src/supertux/menu/game_menu.cpp:124
 msgid "Couldn't open editor for this level. No worldmap!"
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:149
+#: src/supertux/menu/game_menu.cpp:151
 msgid "Couldn't open editor for this level."
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:155
+#: src/supertux/menu/game_menu.cpp:157
 msgid "Couldn't open worldmap for this level."
 msgstr ""
 
@@ -3484,7 +3511,7 @@ msgid "Left Command"
 msgstr ""
 
 #: src/supertux/menu/keyboard_menu.cpp:73
-#: src/supertux/menu/options_menu.cpp:176
+#: src/supertux/menu/options_menu.cpp:184
 msgid "Setup Keyboard"
 msgstr ""
 
@@ -3500,81 +3527,81 @@ msgstr ""
 msgid "Press Key"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:70
+#: src/supertux/menu/addon_menu.cpp:71
 msgid "Installed Language Packs"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:70
+#: src/supertux/menu/addon_menu.cpp:71
 msgid "Installed Add-ons"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:78 src/supertux/menu/addon_menu.cpp:119
+#: src/supertux/menu/addon_menu.cpp:79 src/supertux/menu/addon_menu.cpp:120
 msgid "No language packs installed"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:78
+#: src/supertux/menu/addon_menu.cpp:79
 msgid "No Add-ons installed"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:127
+#: src/supertux/menu/addon_menu.cpp:128
 msgid "{} *UPDATE*"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:129
+#: src/supertux/menu/addon_menu.cpp:130
 msgid "{} [DISABLED] *UPDATE*"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:138
+#: src/supertux/menu/addon_menu.cpp:139
 msgid "{} [DISABLED]"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:148
+#: src/supertux/menu/addon_menu.cpp:149
 msgid "No updates available."
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:152
+#: src/supertux/menu/addon_menu.cpp:153
 msgid "{} {} available"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:152
+#: src/supertux/menu/addon_menu.cpp:153
 msgid "update"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:152
+#: src/supertux/menu/addon_menu.cpp:153
 msgid "updates"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:154
+#: src/supertux/menu/addon_menu.cpp:155
 msgid "Check for updates"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:158
+#: src/supertux/menu/addon_menu.cpp:159
 msgid "Browse language packs"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:158
+#: src/supertux/menu/addon_menu.cpp:159
 #: src/supertux/menu/addon_browse_menu.cpp:70
 msgid "Browse Add-ons"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:159
+#: src/supertux/menu/addon_menu.cpp:161
 msgid "Install from file"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:175
+#: src/supertux/menu/addon_menu.cpp:178
 msgid "To browse through the add-on catalog, you must enable networking."
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:212
+#: src/supertux/menu/addon_menu.cpp:215
 msgid "To check for add-on updates, you must enable networking."
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:220
+#: src/supertux/menu/addon_menu.cpp:223
 msgid "Checking for updates..."
 msgstr ""
 
 #: src/supertux/menu/custom_menu_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:212
+#: src/supertux/menu/options_menu.cpp:220
 msgid "Menu Customization"
 msgstr ""
 
@@ -3626,7 +3653,7 @@ msgstr ""
 msgid "Reset to defaults"
 msgstr ""
 
-#: src/supertux/menu/profile_menu.cpp:56 src/supertux/menu/options_menu.cpp:190
+#: src/supertux/menu/profile_menu.cpp:56 src/supertux/menu/options_menu.cpp:198
 msgid "Select Profile"
 msgstr ""
 
@@ -3817,278 +3844,294 @@ msgstr ""
 msgid "Controls"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:173
+#: src/supertux/menu/options_menu.cpp:174
 msgid "Enable Rumbling Controllers"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:174
+#: src/supertux/menu/options_menu.cpp:175
 msgid "Enable vibrating the game controllers."
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:174
+#: src/supertux/menu/options_menu.cpp:175
 msgid "This feature is currently only used in the multiplayer options menu."
 msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:177
-msgid "Configure key-action mappings"
+msgid "Enable Haptic Feedback"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:178
+msgid "Enable haptic feedback for touchscreen controls"
 msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:180
+msgid "Only Haptic Feedback for D-Pad"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:181
+msgid "Only enable haptic feedback for the D-Pad"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:185
+msgid "Configure key-action mappings"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:188
 msgid "Configure joystick control-action mappings"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:187
+#: src/supertux/menu/options_menu.cpp:195
 #: src/supertux/menu/options_select_menu.cpp:40
 msgid "Extras"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:191
+#: src/supertux/menu/options_menu.cpp:199
 msgid "Select a profile to play with"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:193
+#: src/supertux/menu/options_menu.cpp:201
 msgid "Multiplayer settings"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:194
+#: src/supertux/menu/options_menu.cpp:202
 msgid "Configure settings specific to multiplayer"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:196
+#: src/supertux/menu/options_menu.cpp:204
 msgid "Enable transitions"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:197
+#: src/supertux/menu/options_menu.cpp:205
 msgid "Enable screen transitions and smooth menu animation"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:199
+#: src/supertux/menu/options_menu.cpp:207
 msgid "Show game timer"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:200
+#: src/supertux/menu/options_menu.cpp:208
 msgid "Show a game timer while playing a level"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:202
+#: src/supertux/menu/options_menu.cpp:210
 msgid "Custom title screen levels"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:203
+#: src/supertux/menu/options_menu.cpp:211
 msgid "Allow overriding the title screen level, when loading certain worlds"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:206
+#: src/supertux/menu/options_menu.cpp:214
 msgid "Force Christmas Mode"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:208
+#: src/supertux/menu/options_menu.cpp:216
 msgid "Integrations and presence"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:209
+#: src/supertux/menu/options_menu.cpp:217
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:213
+#: src/supertux/menu/options_menu.cpp:221
 msgid "Customize the appearance of the menus"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:220
+#: src/supertux/menu/options_menu.cpp:228
 #: src/supertux/menu/options_select_menu.cpp:41
 msgid "Advanced"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:225
+#: src/supertux/menu/options_menu.cpp:233
 msgid "Developer Mode"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:227
+#: src/supertux/menu/options_menu.cpp:235
 msgid "Confirmation Dialog"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:227
+#: src/supertux/menu/options_menu.cpp:235
 msgid "Confirm aborting level"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:229
+#: src/supertux/menu/options_menu.cpp:237
 msgid "Pause on focus loss"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:230
+#: src/supertux/menu/options_menu.cpp:238
 msgid "Automatically pause the game when the window loses focus"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:234
+#: src/supertux/menu/options_menu.cpp:243
 msgid "Prefer Wayland"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:235
+#: src/supertux/menu/options_menu.cpp:244
 msgid ""
 "If you experience any issues with Nvidia cards, your window border, or "
 "anything you believe is due to Wayland, disable this. (Requires restart)"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:238
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Use custom mouse cursor"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:238
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Whether the game renders its own cursor or uses the system's cursor"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:240
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Use native custom cursor"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:240
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Whether the game uses a native custom cursor or renders it in the game"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:242
+#: src/supertux/menu/options_menu.cpp:252
 msgid "Precise scrolling"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:243
+#: src/supertux/menu/options_menu.cpp:253
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply "
 "dislike it"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:245
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Invert horizontal scrolling"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:246
+#: src/supertux/menu/options_menu.cpp:256
 msgid "Inverts scrolling in the X-axis"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:248
+#: src/supertux/menu/options_menu.cpp:258
 msgid "Invert vertical scrolling"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:249
+#: src/supertux/menu/options_menu.cpp:259
 msgid "Inverts scrolling in the Y-axis"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:254
+#: src/supertux/menu/options_menu.cpp:265
 msgid "Force full viewport"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:254
+#: src/supertux/menu/options_menu.cpp:265
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:258
+#: src/supertux/menu/options_menu.cpp:269
 msgid "Check for new releases"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:259
+#: src/supertux/menu/options_menu.cpp:270
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:262
+#: src/supertux/menu/options_menu.cpp:273
 msgid "Disable network"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:263
+#: src/supertux/menu/options_menu.cpp:274
 msgid "Prevents the game from connecting online"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:329
+#: src/supertux/menu/options_menu.cpp:340
 msgid "Magnification"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:330
+#: src/supertux/menu/options_menu.cpp:341
 msgid "Change the magnification of the game area"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:366
+#: src/supertux/menu/options_menu.cpp:377
 msgid "Aspect Ratio"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:367
+#: src/supertux/menu/options_menu.cpp:378
 msgid "Adjust the aspect ratio"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:394
+#: src/supertux/menu/options_menu.cpp:405
 msgid "Window Resolution"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:395
+#: src/supertux/menu/options_menu.cpp:406
 msgid "Resize the window to the given size"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:425
+#: src/supertux/menu/options_menu.cpp:436
 msgid "Desktop"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:452
+#: src/supertux/menu/options_menu.cpp:463
 msgid "Fullscreen Resolution"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:453
+#: src/supertux/menu/options_menu.cpp:464
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen "
 "to complete the change)"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:459
+#: src/supertux/menu/options_menu.cpp:470
 msgid "on"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:460
+#: src/supertux/menu/options_menu.cpp:471
 msgid "off"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:461
+#: src/supertux/menu/options_menu.cpp:472
 msgid "adaptive"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:479
+#: src/supertux/menu/options_menu.cpp:490
 msgid "VSync"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:480
+#: src/supertux/menu/options_menu.cpp:491
 msgid "Set the VSync mode"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:515
+#: src/supertux/menu/options_menu.cpp:526
 msgid "Sound Volume"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:516
+#: src/supertux/menu/options_menu.cpp:527
 msgid "Adjust sound volume"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:551
+#: src/supertux/menu/options_menu.cpp:562
 msgid "Music Volume"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:552
+#: src/supertux/menu/options_menu.cpp:563
 msgid "Adjust music volume"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:587
+#: src/supertux/menu/options_menu.cpp:598
 msgid "Flash Intensity"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:588
+#: src/supertux/menu/options_menu.cpp:599
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:601
+#: src/supertux/menu/options_menu.cpp:612
 msgid "On-screen controls scale"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:724
+#: src/supertux/menu/options_menu.cpp:735
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -4280,33 +4323,33 @@ msgstr ""
 msgid "Manage Assets"
 msgstr ""
 
-#: src/supertux/menu/main_menu.cpp:65
+#: src/supertux/menu/main_menu.cpp:68
 msgid "Credits"
 msgstr ""
 
-#: src/supertux/menu/main_menu.cpp:68
+#: src/supertux/menu/main_menu.cpp:71
 msgid "Donate"
 msgstr ""
 
-#: src/supertux/menu/main_menu.cpp:71
+#: src/supertux/menu/main_menu.cpp:74
 msgid "Quit"
 msgstr ""
 
-#: src/supertux/menu/main_menu.cpp:81
+#: src/supertux/menu/main_menu.cpp:84
 msgid ""
 "Would you allow SuperTux to connect to the Internet?\n"
 "\n"
 "This enables additional features, such as the in-game add-on catalog."
 msgstr ""
 
-#: src/supertux/menu/main_menu.cpp:87
+#: src/supertux/menu/main_menu.cpp:90
 msgid ""
 "Would you allow SuperTux to check for new releases on startup?\n"
 "\n"
 "You will be notified if any are found."
 msgstr ""
 
-#: src/supertux/menu/main_menu.cpp:141
+#: src/supertux/menu/main_menu.cpp:144
 msgid ""
 "This will take you to the SuperTux donation page. Are you sure you want to "
 "continue?"
@@ -4368,6 +4411,10 @@ msgstr ""
 
 #: src/supertux/menu/editor_level_menu.cpp:102
 msgid "Please enter a license for this level."
+msgstr ""
+
+#: src/supertux/menu/sorted_contrib_menu.cpp:45
+msgid "Collect {} more Tux Dolls in Story Mode to unlock!"
 msgstr ""
 
 #: src/supertux/menu/multiplayer_menu.cpp:30
@@ -4657,31 +4704,35 @@ msgstr ""
 msgid "Enable Secrets Statistic"
 msgstr ""
 
-#: src/supertux/statistics.cpp:86
+#: src/supertux/statistics.cpp:87
 msgid "Max coins collected:"
 msgstr ""
 
-#: src/supertux/statistics.cpp:87
+#: src/supertux/statistics.cpp:88
 msgid "Max fragging:"
 msgstr ""
 
-#: src/supertux/statistics.cpp:88
+#: src/supertux/statistics.cpp:89
 msgid "Max secrets found:"
 msgstr ""
 
-#: src/supertux/statistics.cpp:89
+#: src/supertux/statistics.cpp:90
 msgid "Best time completed:"
 msgstr ""
 
-#: src/supertux/statistics.cpp:90
+#: src/supertux/statistics.cpp:91
 msgid "Level target time:"
 msgstr ""
 
-#: src/supertux/statistics.cpp:283
+#: src/supertux/statistics.cpp:92
+msgid "Tux Dolls collected:"
+msgstr ""
+
+#: src/supertux/statistics.cpp:297
 msgid "You"
 msgstr ""
 
-#: src/supertux/statistics.cpp:285
+#: src/supertux/statistics.cpp:299
 msgid "Best"
 msgstr ""
 
@@ -4868,7 +4919,7 @@ msgstr ""
 
 #: src/badguy/walkingleaf.cpp:36 src/badguy/snail.cpp:71
 #: src/badguy/fish_swimming.cpp:60 src/badguy/mrtree.cpp:51
-#: src/badguy/kamikazesnowball.cpp:118 src/badguy/viciousivy.cpp:45
+#: src/badguy/kamikazesnowball.cpp:119 src/badguy/viciousivy.cpp:45
 #: src/badguy/igel.cpp:195 src/badguy/jumpy.cpp:46
 msgid "Corrupted"
 msgstr ""
@@ -4920,7 +4971,7 @@ msgid "Mr. Snowball"
 msgstr ""
 
 #: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:440
-#: src/badguy/darttrap.cpp:176 src/badguy/granito.hpp:53
+#: src/badguy/darttrap.cpp:174 src/badguy/granito.hpp:53
 msgid "Granito"
 msgstr ""
 
@@ -5089,39 +5140,39 @@ msgstr ""
 msgid "Jumping Fish"
 msgstr ""
 
-#: src/badguy/darttrap.cpp:155
+#: src/badguy/darttrap.cpp:154
 msgid "Initial delay"
 msgstr ""
 
-#: src/badguy/darttrap.cpp:156
+#: src/badguy/darttrap.cpp:155
 msgid "Time until the first dart is fired after the trap is activated."
 msgstr ""
 
-#: src/badguy/darttrap.cpp:158
+#: src/badguy/darttrap.cpp:157
 msgid "Whether the trap is enabled."
 msgstr ""
 
-#: src/badguy/darttrap.cpp:159
+#: src/badguy/darttrap.cpp:158
 msgid "Fire delay"
 msgstr ""
 
-#: src/badguy/darttrap.cpp:160
+#: src/badguy/darttrap.cpp:159
 msgid "Time between consecutive darts."
 msgstr ""
 
-#: src/badguy/darttrap.cpp:161
+#: src/badguy/darttrap.cpp:160
 msgid "Ammo"
 msgstr ""
 
-#: src/badguy/darttrap.cpp:162
+#: src/badguy/darttrap.cpp:161
 msgid "Number of darts the trap can fire. A value of -1 means infinite."
 msgstr ""
 
-#: src/badguy/darttrap.cpp:163
+#: src/badguy/darttrap.cpp:162
 msgid "Dart sprite"
 msgstr ""
 
-#: src/badguy/darttrap.cpp:164
+#: src/badguy/darttrap.cpp:163
 msgid "Sprite used for the dart."
 msgstr ""
 
@@ -5177,11 +5228,11 @@ msgstr ""
 msgid "Corrupted (big)"
 msgstr ""
 
-#: src/badguy/crusher.cpp:1245
+#: src/badguy/crusher.cpp:1251
 msgid "All"
 msgstr ""
 
-#: src/badguy/crusher.cpp:1250
+#: src/badguy/crusher.cpp:1256
 msgid "Crush script"
 msgstr ""
 
@@ -5438,7 +5489,7 @@ msgstr ""
 msgid "Level Design"
 msgstr ""
 
-#: data/credits.stxt:294 data/credits.stxt:562 data/images/tiles.strf:1834
+#: data/credits.stxt:294 data/credits.stxt:562 data/images/tiles.strf:1835
 msgid "Miscellaneous"
 msgstr ""
 
@@ -5594,51 +5645,51 @@ msgstr ""
 msgid "Crystal"
 msgstr ""
 
-#: data/images/tiles.strf:815
+#: data/images/tiles.strf:816
 msgid "Forest Background"
 msgstr ""
 
-#: data/images/tiles.strf:993
+#: data/images/tiles.strf:994
 msgid "Corrupted Forest"
 msgstr ""
 
-#: data/images/tiles.strf:1237
+#: data/images/tiles.strf:1238
 msgid "Corrupted Background"
 msgstr ""
 
-#: data/images/tiles.strf:1385
+#: data/images/tiles.strf:1386
 msgid "Jagged Rocks"
 msgstr ""
 
-#: data/images/tiles.strf:1423
+#: data/images/tiles.strf:1424
 msgid "Block + Bonus"
 msgstr ""
 
-#: data/images/tiles.strf:1520
+#: data/images/tiles.strf:1521
 msgid "Pole + Signs"
 msgstr ""
 
-#: data/images/tiles.strf:1574
+#: data/images/tiles.strf:1575
 msgid "Liquid"
 msgstr ""
 
-#: data/images/tiles.strf:1599
+#: data/images/tiles.strf:1600
 msgid "Castle"
 msgstr ""
 
-#: data/images/tiles.strf:1729 data/images/worldmap.strf:199
+#: data/images/tiles.strf:1730 data/images/worldmap.strf:199
 msgid "Halloween"
 msgstr ""
 
-#: data/images/tiles.strf:1771
+#: data/images/tiles.strf:1772
 msgid "Industrial"
 msgstr ""
 
-#: data/images/tiles.strf:1806
+#: data/images/tiles.strf:1807
 msgid "Unisolid + Lightmap"
 msgstr ""
 
-#: data/images/tiles.strf:1866
+#: data/images/tiles.strf:1867
 msgid "Retro Tiles"
 msgstr ""
 
