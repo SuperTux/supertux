@@ -15,6 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <sstream>
 #include "gui/item_intfield.hpp"
 #include "math/util.hpp"
 
@@ -82,9 +83,16 @@ ItemIntField::on_input_update()
 
   try
   {
-    int new_number = std::stoi(*input);
-    *number = math::clamp(new_number, m_range.begin, m_range.end);
-    *input = std::to_string(*number);
+    // note: libc++ std::to_chars is deleted for some reason... breaks freebsd, *shrug*
+    std::istringstream iss(*input);
+    iss.imbue(std::locale::classic());
+    int new_number;
+    iss >> new_number;
+    if (!iss.eof())
+      return;
+    *number = math::clamp<ItemIntFieldRange::type>(new_number, m_range.begin, m_range.end);
+    if (*number != 0)
+      *input = std::to_string(*number);
   }
   catch (...)
   {
