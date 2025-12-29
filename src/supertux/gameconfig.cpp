@@ -76,7 +76,7 @@ Config::Config() :
   keyboard_config(),
   joystick_config(),
   ignore_joystick_axis(false),
-  mobile_controls(SDL_GetNumTouchDevices() > 0),
+  mobile_controls(false),
   m_mobile_controls_scale(1.3f),
   addons(),
   developer_mode(false),
@@ -367,7 +367,6 @@ Config::load()
 
     config_control_mapping->get("touch_haptic_feedback", touch_haptic_feedback);
     config_control_mapping->get("touch_just_directional", touch_just_directional);
-    config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 2);
     config_control_mapping->get("precise_scrolling", precise_scrolling);
     config_control_mapping->get("invert_wheel_x", invert_wheel_x);
@@ -528,7 +527,6 @@ Config::save()
     joystick_config.write(writer);
     writer.end_list("joystick");
 
-    writer.write("mobile_controls", mobile_controls);
     writer.write("ignore_joystick_axis", ignore_joystick_axis);
     writer.write("touch_haptic_feedback", touch_haptic_feedback);
     writer.write("touch_just_directional", touch_just_directional);

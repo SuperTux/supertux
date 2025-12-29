@@ -16,6 +16,7 @@
 
 #include "supertux/menu/addon_menu.hpp"
 
+#include <config.h>
 #include <fmt/format.h>
 
 #include "addon/addon.hpp"
@@ -156,7 +157,9 @@ AddonMenu::rebuild_menu()
   }
 
   add_entry(MNID_BROWSE, m_langpacks_only ? _("Browse language packs") : _("Browse Add-ons"));
+#ifndef __ANDROID__
   add_entry(MNID_INSTALL_FROM_FILE, _("Install from file"));
+#endif
   add_hl();
   add_back(_("Back"));
 }

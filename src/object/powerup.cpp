@@ -106,9 +106,11 @@ void
 PowerUp::initialize()
 {
   physic.enable_gravity(true);
+
   SoundManager::current()->preload("sounds/grow.ogg");
   SoundManager::current()->preload("sounds/fire-flower.wav");
   SoundManager::current()->preload("sounds/gulp.wav");
+  SoundManager::current()->preload("sounds/lifeup.wav");
 
   // Older levels utilize hardcoded behaviour from the chosen sprite
   if (get_version() == 1)
@@ -235,7 +237,8 @@ PowerUp::collision(MovingObject& other, const CollisionHit&)
       player->make_invincible();
       break;
     case ONEUP:
-      player->get_status().add_coins(100);
+      Sector::get().get_level().m_stats.increment_tuxdolls();
+      SoundManager::current()->play("sounds/lifeup.wav", get_pos());
       break;
     case FLIP:
       FlipLevelTransformer flip_transformer;

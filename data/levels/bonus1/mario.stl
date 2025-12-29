@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -78,6 +77,7 @@
       (z-pos 50)
       (x 1664)
       (y 384)
+      (glinting #f)
     )
     (camera
       (name "Camera")
@@ -368,11 +368,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -382,11 +384,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -396,11 +400,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -410,11 +416,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -431,46 +439,55 @@
       (z-pos 50)
       (x 576)
       (y 352)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 768)
       (y 384)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 5152)
       (y 224)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 5056)
       (y 224)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 7040)
       (y 544)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 7168)
       (y 512)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 7296)
       (y 480)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 9856)
       (y 608)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 9984)
       (y 576)
+      (glinting #f)
     )
     (gradient
       (blend "none")
@@ -779,41 +796,49 @@
       (z-pos 50)
       (x 3024)
       (y 320)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 5888)
       (y 200)
+      (glinting #t)
     )
     (mrbomb
       (z-pos 50)
       (x 1600)
       (y 384)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 1472)
       (y 384)
+      (glinting #t)
     )
     (mrbomb
       (z-pos 50)
       (x 6624)
       (y 288)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 6496)
       (y 288)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 7776)
       (y 416)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 9344)
       (y 384)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/underwater.music")
@@ -1444,8 +1469,6 @@
       (path-ref "gen17322578071743992222464")
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
@@ -1453,12 +1476,12 @@ Tux.set_pos(Tux.get_x(), 74);
 Tux.set_velocity(vel_x, vel_y);
 ")
       (button #f)
+      (width 32)
+      (height 32)
       (x 1968)
       (y 448)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
@@ -1466,266 +1489,268 @@ Tux.set_pos(Tux.get_x(), 374);
 Tux.set_velocity(vel_x, vel_y);
 ")
       (button #f)
+      (width 32)
+      (height 32)
       (x 1968)
       (y 32)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+288, Tux.get_y()-20);
 Tux.set_velocity(vel_x, -vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 2928)
       (y 480)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-288, Tux.get_y()-20);
 Tux.set_velocity(vel_x, -vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 3216)
       (y 480)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+384, Tux.get_y()-16);
 Tux.set_velocity(vel_x, -vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 3504)
       (y 480)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-384, Tux.get_y()-16);
 Tux.set_velocity(vel_x, -vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 3888)
       (y 480)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+224, Tux.get_y()-32);
 Tux.set_velocity(vel_y, -250);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 4656)
       (y 512)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 Tux.set_pos(Tux.get_x()-208, 440);
 Tux.set_velocity(0, vel_x-100);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 4832)
       (y 432)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-128, 192);
 Tux.set_velocity(vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 5984)
       (y 464)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+128,448);
 Tux.set_velocity(vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 5760)
       (y 208)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 Tux.set_pos(Tux.get_x()+224, 214);
 Tux.set_velocity(0, -vel_x-200);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 6080)
       (y 112)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-224,96);
 Tux.set_velocity(-vel_y, -250);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 6224)
       (y 288)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-640, 480);
 Tux.set_velocity(vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 6912)
       (y 240)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+640, 224);
 Tux.set_velocity(vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 6176)
       (y 496)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+224, Tux.get_y()-10);
 Tux.set_velocity(vel_x, -vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 10128)
       (y 512)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-224, Tux.get_y()-10);
 Tux.set_velocity(vel_x, -vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 10352)
       (y 512)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+320, Tux.get_y()+32);
 Tux.set_velocity(vel_x, -vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 8144)
       (y 224)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-320, Tux.get_y()+32);
 Tux.set_velocity(vel_x, -vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 8464)
       (y 224)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-256, 266);
 Tux.set_velocity(vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 9072)
       (y 192)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+256, 120);
 Tux.set_velocity(vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 8816)
       (y 224)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-32, 320);
 Tux.set_velocity(-vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 9760)
       (y 176)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()-32, 160);
 Tux.set_velocity(-vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 9760)
       (y 336)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+32, 320);
 Tux.set_velocity(-vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 9024)
       (y 496)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "
 local vel_x = Tux.get_velocity_x();
 local vel_y = Tux.get_velocity_y();
 Tux.set_pos(Tux.get_x()+32, 480);
 Tux.set_velocity(-vel_x, vel_y);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 9024)
       (y 336)
     )
@@ -1752,21 +1777,25 @@ Tux.set_velocity(-vel_x, vel_y);")
       (z-pos 50)
       (x 1408)
       (y 384)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (x 1536)
       (y 384)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (x 6560)
       (y 288)
+      (glinting #t)
     )
     (spiky
       (z-pos 50)
       (x 9440)
       (y 384)
+      (glinting #f)
     )
     (thunderstorm
       (interval 14)

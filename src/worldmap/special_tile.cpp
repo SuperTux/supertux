@@ -18,6 +18,9 @@
 
 #include "worldmap/special_tile.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "util/reader_mapping.hpp"
 
 namespace worldmap {
@@ -28,6 +31,7 @@ SpecialTile::SpecialTile(const ReaderMapping& mapping) :
   m_passive_message(false),
   m_script(),
   m_invisible(false),
+  m_blocking(false),
   m_apply_direction(),
   m_apply_action_north(true),
   m_apply_action_east(true),
@@ -42,6 +46,7 @@ SpecialTile::SpecialTile(const ReaderMapping& mapping) :
   mapping.get("map-message", m_map_message);
   mapping.get("passive-message", m_passive_message);
   mapping.get("script", m_script);
+  mapping.get("blocking", m_blocking);
 
   mapping.get("apply-to-direction", m_apply_direction);
   if (!m_apply_direction.empty())
@@ -75,11 +80,56 @@ SpecialTile::get_settings()
   result.add_bool(_("Show message"), &m_passive_message, "passive-message", false);
   result.add_script(get_uid(), _("Script"), &m_script, "script");
   result.add_bool(_("Invisible"), &m_invisible, "invisible-tile", false);
-  result.add_text(_("Direction"), &m_apply_direction, "apply-to-direction", "north-east-south-west");
+  result.add_bool(_("Blocking path"), &m_blocking, "blocking")
+    ->set_description(_("If true, the direction blocks the path. Useful for a \"fork in the road\" scenario."));
+  result.add_text(_("Direction"), &m_apply_direction, "apply-to-direction", "north-east-south-west")
+    ->set_description(_("One or more of \"north\", \"south\", \"east\", or \"west\". For example\n"
+                        "a value of \"north south east\" will set each respective direction for this\n"
+                        "special tile."));
 
   result.reorder({"map-message", "invisible-tile", "script", "passive-message", "apply-to-direction", "sprite", "x", "y"});
 
   return result;
 }
 
+uint8_t
+SpecialTile::get_direction_mask() const
+{
+  uint8_t mask = 0;
+  if (get_apply_action_north()) mask |= SpecialTile::NORTH;
+  if (get_apply_action_east()) mask |= SpecialTile::EAST;
+  if (get_apply_action_south()) mask |= SpecialTile::SOUTH;
+  if (get_apply_action_west()) mask |= SpecialTile::WEST;
+  return mask;
 }
+
+void
+SpecialTile::set_direction_mask(uint8_t mask)
+{
+  m_apply_action_north = (mask & SpecialTile::NORTH) == SpecialTile::NORTH;
+  m_apply_action_east = (mask & SpecialTile::EAST) == SpecialTile::EAST;
+  m_apply_action_south = (mask & SpecialTile::SOUTH) == SpecialTile::SOUTH;
+  m_apply_action_west = (mask & SpecialTile::WEST) == SpecialTile::WEST;
+}
+
+void
+SpecialTile::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<worldmap::SpecialTile>("SpecialTile", vm.findClass("GameObject"));
+
+  cls.addFunc("get_blocking", &worldmap::SpecialTile::get_blocking);
+  cls.addFunc("set_blocking", &worldmap::SpecialTile::set_blocking);
+  cls.addFunc("get_direction_mask", &worldmap::SpecialTile::get_direction_mask);
+  cls.addFunc("set_direction_mask", &worldmap::SpecialTile::set_direction_mask);
+
+  vm.setConst<int>("SPECIALTILE_DIR_NORTH", SpecialTile::NORTH);
+  vm.setConst<int>("SPECIALTILE_DIR_EAST", SpecialTile::EAST);
+  vm.setConst<int>("SPECIALTILE_DIR_SOUTH", SpecialTile::SOUTH);
+  vm.setConst<int>("SPECIALTILE_DIR_WEST", SpecialTile::WEST);
+  vm.setConst<int>("SPECIALTILE_DIR_ALL", SpecialTile::NORTH |
+                                          SpecialTile::SOUTH |
+                                          SpecialTile::EAST  |
+                                          SpecialTile::WEST);
+}
+
+} // namespace

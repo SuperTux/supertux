@@ -81,7 +81,6 @@ class SDLSubsystem final
 {
 public:
   SDLSubsystem();
-  static void init_input();
   ~SDLSubsystem();
 };
 

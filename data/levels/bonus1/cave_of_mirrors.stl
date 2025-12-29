@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -672,18 +671,21 @@
     )
     (crystallo
       (z-pos 50)
+      (glinting #t)
       (direction "left")
       (x 2209.019)
       (y 1517.445)
     )
     (crystallo
       (z-pos 50)
+      (glinting #t)
       (direction "left")
       (x 13762.22)
       (y 1516.312)
     )
     (crystallo
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (direction "left")
       (x 11568)
@@ -691,6 +693,7 @@
     )
     (crystallo
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (direction "left")
       (x 11408)
@@ -698,6 +701,7 @@
     )
     (crystallo
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (direction "left")
       (x 4560)
@@ -705,6 +709,7 @@
     )
     (crystallo
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (direction "left")
       (x 4400)
@@ -712,24 +717,28 @@
     )
     (crystallo
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 2960)
       (y 688)
     )
     (crystallo
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 13008)
       (y 688)
     )
     (crystallo
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 1824)
       (y 1520)
     )
     (crystallo
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 14144)
       (y 1520)
@@ -738,11 +747,13 @@
       (z-pos 50)
       (x 14976)
       (y 1408)
+      (glinting #t)
     )
     (dive-mine
       (z-pos 50)
       (x 992)
       (y 1408)
+      (glinting #t)
     )
     (firefly
       (z-pos 0)
@@ -761,12 +772,14 @@
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 992)
       (y 1632)
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 14976)
       (y 1632)
@@ -775,21 +788,25 @@
       (z-pos 50)
       (x 14784)
       (y 1184)
+      (glinting #f)
     )
     (fish-jumping
       (z-pos 50)
       (x 15168)
       (y 1184)
+      (glinting #f)
     )
     (fish-jumping
       (z-pos 50)
       (x 800)
       (y 1184)
+      (glinting #f)
     )
     (fish-jumping
       (z-pos 50)
       (x 1184)
       (y 1184)
+      (glinting #f)
     )
     (gradient
       (blend "add")
@@ -808,32 +825,38 @@
       (direction "left")
       (x 1439.5)
       (y 1152)
+      (glinting #f)
     )
     (haywire
       (z-pos 50)
       (direction "left")
       (x 14528)
       (y 1152)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 2160)
       (y 704)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 13808)
       (y 704)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 7504)
       (y 912)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 8464)
       (y 912)
+      (glinting #f)
     )
     (lit-object
       (z-pos 0)
@@ -2529,21 +2552,25 @@ TEMP.set_alpha(0);")
       (z-pos 50)
       (x 13440)
       (y 1280)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (x 2528)
       (y 1280)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (x 2704)
       (y 1280)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (x 13264)
       (y 1280)
+      (glinting #f)
     )
     (tilemap
       (solid #f)

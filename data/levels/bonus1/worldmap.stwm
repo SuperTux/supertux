@@ -131,7 +131,7 @@
     )
     (level
       (z-pos 50)
-      (level "glacier_danger.stl")
+      (level "penguins_cant_fly.stl")
       (x 36)
       (y 45)
     )
@@ -201,6 +201,7 @@
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (script "worldmap.settings.fade_to_ambient_light(0.4, 0.45, 0.6, 0.35);
 state.ambient_r <- 0.4;
 state.ambient_g <- 0.45;
@@ -214,6 +215,7 @@ UG_mountians2.fade(0,0.6);")
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (map-message (_ "cave entrance/exit"))
       (script "worldmap.settings.fade_to_ambient_light(0.4, 0.45, 0.6, 0.35);
 state.ambient_r <- 0.4;
@@ -227,6 +229,7 @@ UG_mountians2.fade(0,0.6);")
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (map-message (_ "cave entrance/exit"))
       (script "worldmap.settings.fade_to_ambient_light(1,1 ,1,1);
 state.ambient_r <- 1;
@@ -242,6 +245,7 @@ UG_mountians2.fade(1,0.6);")
     )
     (special-tile
       (z-pos 50)
+      (blocking #f)
       (script "worldmap.settings.fade_to_ambient_light(1,1 ,1,1);
 state.ambient_r <- 1;
 state.ambient_g <- 1;

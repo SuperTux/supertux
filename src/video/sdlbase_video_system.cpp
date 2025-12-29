@@ -169,7 +169,7 @@ SDLBaseVideoSystem::apply_video_mode()
   {
     SDL_SetWindowFullscreen(m_sdl_window.get(), 0);
 
-#ifdef WIN32
+#if 0
     // After un-fullscreening, the window border likely gets hidden offscreen,
     // so let's force it downwards so it can be dragged
     int x;
@@ -208,14 +208,8 @@ SDLBaseVideoSystem::apply_video_mode()
     {
       SDL_DisplayMode mode;
       mode.format = SDL_PIXELFORMAT_RGB888;
-// #ifdef __ANDROID__
-//       log_warning << "Display w{" << display.w << "} h{" << display.h << "}" << std::endl;
-//       mode.w = display.w;
-//       mode.h = display.h;
-// #else
       mode.w = g_config->fullscreen_size.width;
       mode.h = g_config->fullscreen_size.height;
-// #endif
       mode.refresh_rate = g_config->fullscreen_refresh_rate;
       mode.driverdata = nullptr;
 
