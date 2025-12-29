@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-17 08:18+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jaakko Muilu, 2025\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -32,10 +32,10 @@ msgstr "Etelämantereen taivaan yllä"
 
 #: data/levels/world1/above_arctic_skies.stl:318
 msgid ""
-"-Air Flower\r\n"
-"!images/powerups/airflower/air_flower-0.png\r\n"
+"-Air Flower\n"
+"!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
-msgstr "-Ilmakukka\n!images/powerups/airflower/air_flower-0.png\n#Ilmakukka antaa Tuxin liikkua nopeammin ja hypätä korkeammalle. Se antaa muutamaksi sekunniksi kyvyn liitää ilmassa pitämällä hyppynäppäintä pohjassa."
+msgstr ""
 
 #: data/levels/world1/antarctic_outpost.stl:3
 msgid "Antarctic Outpost"
@@ -77,7 +77,7 @@ msgstr "Luolan suu"
 msgid "A Fork in the Road?"
 msgstr "Tienhaarako?"
 
-#: data/levels/world1/fork_in_the_road.stl:741
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -398,32 +398,34 @@ msgstr "Jään alla"
 msgid "Welcome to Antarctica"
 msgstr "Tervetuloa Etelämantereelle"
 
-#: data/levels/world1/welcome_antarctica.stl:118
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Munat\n!images/powerups/egg/egg-shade.png\n#Muna tekee Tuxista isomman, jolloin hän voi rikkoa puulaatikoita päällään."
 
-#: data/levels/world1/welcome_antarctica.stl:127
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Tulikukka\n!images/powerups/fireflower/fire_flower-0.png\n#Tulikukka antaa Tuxille kyvyn ampua tulipalloja."
 
-#: data/levels/world1/welcome_antarctica.stl:136
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux Doll gives Tux 100 coins."
-msgstr "-Tux-nukke\n!images/powerups/1up/1up.png\n#Tux-nukke antaa Tuxille 100 kolikkoa."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr ""
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
 msgstr "Jääsaari"
 
-#: data/levels/world1/worldmap.stwm:243
+#: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"
 msgstr "Löysit salaisen paikan!"
 

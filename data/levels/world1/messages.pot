@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.6.3-1941-g46c73d77f\n"
+"Project-Id-Version: SuperTux v0.6.3-1973-gfb8a170e9\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-24 10:11+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,8 +27,8 @@ msgstr ""
 
 #: data/levels/world1/above_arctic_skies.stl:318
 msgid ""
-"-Air Flower\r\n"
-"!images/powerups/airflower/air_flower-0.png\r\n"
+"-Air Flower\n"
+"!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the "
 "ability to glide in the air for a few seconds by holding the JUMP Key after "
 "a jump."
@@ -74,7 +74,7 @@ msgstr ""
 msgid "A Fork in the Road?"
 msgstr ""
 
-#: data/levels/world1/fork_in_the_road.stl:741
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, "
@@ -401,7 +401,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr ""
 
-#: data/levels/world1/welcome_antarctica.stl:118
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
@@ -409,25 +409,28 @@ msgid ""
 "head."
 msgstr ""
 
-#: data/levels/world1/welcome_antarctica.stl:127
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr ""
 
-#: data/levels/world1/welcome_antarctica.stl:136
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux Doll gives Tux 100 coins."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus "
+"Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
 msgstr ""
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
 msgstr ""
 
-#: data/levels/world1/worldmap.stwm:243
+#: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"
 msgstr ""
 

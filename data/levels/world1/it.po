@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-17 08:18+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Tommaso Macchiella, 2025\n"
 "Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
@@ -35,10 +35,10 @@ msgstr "Sopra i cieli Artici"
 
 #: data/levels/world1/above_arctic_skies.stl:318
 msgid ""
-"-Air Flower\r\n"
-"!images/powerups/airflower/air_flower-0.png\r\n"
+"-Air Flower\n"
+"!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
-msgstr "-Fiore dell'Aria\n!images/powerups/airflower/air_flower-0.png\n#Il Fiore dell'Aria dà a Tux l'abilità di planare in aria per pochi secondi, mentre si tiene premuto il tasto SALTA."
+msgstr "-Fiore dell'aria\n!images/powerups/airflower/air_flower-0.png\n#Il fiore dell'aria fa correre Tux più velocemente e lo fa saltare più in alto. Fornisce l'abilità di planare nell'aria per alcuni secondi tenendo premuto il tasto SALTA dopo un salto."
 
 #: data/levels/world1/antarctic_outpost.stl:3
 msgid "Antarctic Outpost"
@@ -80,7 +80,7 @@ msgstr "Ingresso della Grotta"
 msgid "A Fork in the Road?"
 msgstr "Un bivio per la strada"
 
-#: data/levels/world1/fork_in_the_road.stl:741
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -401,32 +401,34 @@ msgstr "Sotto il ghiaccio"
 msgid "Welcome to Antarctica"
 msgstr "Benvenuto ad Antarctica"
 
-#: data/levels/world1/welcome_antarctica.stl:118
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Uova\n!images/powerups/egg/egg.png\n#Le uova fanno crescere Tux. Potrà poi rompere i blocchi di legno con la sua testa."
 
-#: data/levels/world1/welcome_antarctica.stl:127
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Fiore di Fuoco\n!images/powerups/fireflower/fire_flower-0.png\n#Il fiore di fuoco dona a Tux l'abilità di lanciare palle di fuoco."
 
-#: data/levels/world1/welcome_antarctica.stl:136
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux Doll gives Tux 100 coins."
-msgstr "-Bambola Tux\n!images/powerups/1up/1up.png\n#La bambola Tux fornisce 100 monete."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr "-Bambole Tux\n!images/powerups/1up/1up.png\n#Le bambole Tux sono un raro collezionabile necessario per sbloccare le Isole Bonus!\n\n#Collezionale tutte per sbloccare livelli nuovi e divertenti!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
 msgstr "Isola Ghiacciata"
 
-#: data/levels/world1/worldmap.stwm:243
+#: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"
 msgstr "Hai trovato un'area segreta!"
 

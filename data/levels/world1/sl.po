@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-17 08:18+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022,2025\n"
 "Language-Team: Slovenian (http://app.transifex.com/arctic-games/supertux/language/sl/)\n"
@@ -30,10 +30,10 @@ msgstr "Nad antarktičnim nebom"
 
 #: data/levels/world1/above_arctic_skies.stl:318
 msgid ""
-"-Air Flower\r\n"
-"!images/powerups/airflower/air_flower-0.png\r\n"
+"-Air Flower\n"
+"!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
-msgstr "-Vetrna roža\r\n!images/powerups/airflower/air_flower-0.png\r\n#Vetrna roža omogoča Tuksu, da se premika hitreje in skače višje. Nekaj sekund lahko lebdi v zraku, dokler držiš tipko za skakanje."
+msgstr "-Vetrna roža\r!images/powerups/airflower/air_flower-0.png\r#Vetrna roža omogoča Tuksu, da se premika hitreje in skače višje. Nekaj sekund lahko lebdi v zraku, dokler držiš tipko za skakanje."
 
 #: data/levels/world1/antarctic_outpost.stl:3
 msgid "Antarctic Outpost"
@@ -75,7 +75,7 @@ msgstr "Vhod v votlino"
 msgid "A Fork in the Road?"
 msgstr "Razpotje?"
 
-#: data/levels/world1/fork_in_the_road.stl:741
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -396,32 +396,34 @@ msgstr "Pod ledom"
 msgid "Welcome to Antarctica"
 msgstr "Dobrodošel/a na Antarktiki"
 
-#: data/levels/world1/welcome_antarctica.stl:118
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Jajca\n!images/powerups/egg/egg-shade.png\n#Jajce Tuksa poveča. To mu omogoči, da s svojo glavo uničuje lesene kocke."
 
-#: data/levels/world1/welcome_antarctica.stl:127
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Ognjena roža\n!images/powerups/fireflower/fire_flower-0.png\n#Če Tuks poje ognjeno rožo, lahko strelja ognjene krogle."
 
-#: data/levels/world1/welcome_antarctica.stl:136
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux Doll gives Tux 100 coins."
-msgstr "-Tuksova lutka\n!images/powerups/1up/1up.png\n#Tuksova lutka podari Tuksu 100 kovancev."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr "-Tuksova lutka!images/powerups/1up/1up.png#Tuksove lutke so redki predmeti, ki jih zbiraš, da odkleneš pot na nove otoke!#Zberi vse, da odkleneš še več zabavnih stopenj!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
 msgstr "Ledeni otok"
 
-#: data/levels/world1/worldmap.stwm:243
+#: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"
 msgstr "Našel/a si skrito sobo!"
 

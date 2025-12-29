@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Gorzy Gorup <gorupgorazd@gmail.com>, 2016
-# Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2020,2022
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2020,2022,2025
 # Marko Burjek <email4marko@gmail.com>, 2005-2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2020,2022\n"
+"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2020,2022,2025\n"
 "Language-Team: Slovenian (http://app.transifex.com/arctic-games/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,189 +20,248 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: data/levels/world2/ancient_ruins.stl:3
-msgid "Ancient Ruins"
-msgstr "Starodavne razvaline"
-
-#: data/levels/world2/ancient_ruins.stl:1463
-#: data/levels/world2/ancient_ruins.stl:1471
-#: data/levels/world2/bouncy_coils.stl:380
-#: data/levels/world2/bouncy_coils.stl:388
-#: data/levels/world2/bye_bye_forest.stl:1607
-#: data/levels/world2/crumbling_path.stl:278
-#: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:246
-#: data/levels/world2/going_underground.stl:1249
-#: data/levels/world2/mouldy_grotto.stl:559
-#: data/levels/world2/penguin_grow_trees.stl:459
-#: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:361
-#: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:223
-msgid "You found a secret area!"
-msgstr "Našel/a si skrito sobo!"
-
-#: data/levels/world2/beside_bushes.stl:3
-msgid "Beside the Bushes"
-msgstr "Poleg grmičevja"
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
+msgstr "Starodavna razvalina"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Prožne tuljave"
 
-#: data/levels/world2/bye_bye_forest.stl:3
-msgid "Bye Bye Forest"
-msgstr "Poslovilni gozd"
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "Pohod po jami"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "-Ledena rozeta!images/powerups/iceflower/ice_flower-0.png#Z ledeno rozeto lahko Tuks strelja ledene krogle, ki zamrznejo večino bitij.#Zamrznjena bitja lahko pobereš, nosiš s seboj in jih zalučaš proč!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "Vsak hip se bo sesulo!"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Razpadajoča steza"
 
-#: data/levels/world2/darkness_awaits.stl:3
-msgid "Darkness Awaits"
-msgstr "Tema čaka"
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "Krogla pada"
 
-#: data/levels/world2/find_big_fish.stl:3
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "Zavozlan v korenine"
+
+#: data/levels/world2/find_bigger_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Poišči večjo ribo!"
 
-#: data/levels/world2/find_big_fish.stl:1058
-msgid "-A big fish... for you."
-msgstr "-Velika riba ... zate."
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "Poplavljene sobane"
 
-#: data/levels/world2/forest_intro.stl:3
-msgid "A New Location"
-msgstr "Nov kraj"
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "Cvetovi"
 
-#: data/levels/world2/ghost_cutscene.stl:3
-msgid "What is Happening?"
-msgstr "Kaj se dogaja?"
-
-#: data/levels/world2/ghostly_misery.stl:3
-msgid "Ghostly Misery"
-msgstr "Groza in strah"
-
-#: data/levels/world2/ghosttrees_challenges.stl:3
-msgid "Ghosttree's Challenges"
-msgstr "Drevoduhčevi izzivi"
-
-#: data/levels/world2/ghouls_lair.stl:3
-msgid "Ghouls' Lair"
-msgstr "Brlog prikazni"
-
-#: data/levels/world2/ghouls_lair.stl:859
-msgid ""
-"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
-"of them."
-msgstr "#V bližini svetilk postanejo čarobne kocke trdne, tako da lahko hodiš po njih."
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "Zakoreninjeno zlo"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Gremo v podzemlje"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:3
-msgid "I Spy With My Little Eye"
-msgstr "Če napnem oči, vidim ..."
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "Granitkova vas"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:218
-msgid ""
-"-Ispy\n"
-"#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Nadležno oko\n#Nadležna očesa sprožijo npr. ploščadi, kadar vidijo Tuksa."
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "Votla zemlja"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:674
-msgid "Hint: Use snails to break blocks!"
-msgstr "Namig: Za razbijanje kock uporabi polže!"
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "Mrtvi domek"
 
-#: data/levels/world2/leaf_wind.stl:3
-msgid "Like a leaf in the Wind"
-msgstr "Kakor list v vetru"
-
-#: data/levels/world2/lost_village.stl:3
-msgid "Lost Village"
-msgstr "Pozabljena vasica"
-
-#: data/levels/world2/lost_village.stl:185
-msgid "#Don't forget to hit the switch!"
-msgstr "#Ne pozabi potegniti vzvoda!"
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "Pozabljeno zatočišče"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Plesniva votlina"
 
-#: data/levels/world2/owls_again.stl:3
-msgid "The Owls again..."
-msgstr "Spet te sove ..."
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "Gora Streglav"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
 msgstr "Sovje zračne sile"
 
-#: data/levels/world2/penguin_grow_trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr "Pingvini ne rastejo na drevesih"
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
+msgstr "Pingvini ne rasejo po drevesih"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "Rock 'n' Roll"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "-Kamena goba!images/powerups/earthflower/earth_flower-0.png#Če med tekom držiš tipko \"dol\", ta goba proizvede kamniti ščit.#V kameni obliki je Tuks odporen na večino poškodb. Toda če se zaleti v trdno steno, bo izgubil vso zaščito."
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "Navijanje korenin"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "Zakoreninjeni stolp"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "Čeprav je bil Drevoduh poražen in se je v nekdaj bujni gozd vrnilo nekaj življenja, je bila dežela še vedno v klavrnem stanju."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "Tla so bila vsa razpokana in razorana. Tuks je obtičal pred veliko režo ..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "Na srečo se je na drugi strani razpoke prikazal Granitek, živ in zdrav! Zelo ga je bil vesel."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito whoo had gotten lost "
+"when trying to escape the roots to the east coast."
+msgstr "Granitek je Tuksu razložil, da so se tri skupine njegovih prijateljčkov granitkov izgubile, ko so poskušale pobegniti pred koreninami na vzhodno obalo."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "Tla pod njimi so se sesedla in zemlja jih je pogoltnila. Če jih Tuks poišče, mu lahko pomagajo na drugo stran vrzeli."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "Tuks je pristal, da bo pomagal! Pod umirajočimi koreninami je opazil skrito stezico in se podal po njej iskat izgubljene granitke."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "Rešeni granitki so pomagali Tuksu doseči drugo stran."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survied the Ghost Tree's "
+"overgrowth."
+msgstr "Vesel je bil, da so nekateri granitki preživeli požrešno razraščanje Drevoduha."
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what, a penguin like him was doing so far from "
+"the Antarctic?"
+msgstr "Neki granitek ga je vprašal, kaj vendar pingvinček počne tako daleč od Antarktike."
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replyed, he was looking for his friend Penny and that she was captured "
+"by an evil creature named \"Nolok\". A name the Granito remember "
+"unpleasently"
+msgstr "Tuks je razložil, da išče svojo prijateljico Piko, ki jo je ugrabil hudobni Nolok. Granitki so se ob omembi njegovega imena zdrznili"
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "Povedali so, da vedo, od kod Nolok prihaja, ne pa tudi, ali tam še vedno živi in ali je Pika z njim."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute"
+msgstr "Tuksu so iz hvaležnosti ponudili, da mu pokažejo pot"
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "Tuks je rade volje sprejel in skupaj s peščico granitkov so se podali v tropske kraje na severovzhodu."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaing Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "Preostali granitki so ostali v gozdu in počasi začeli obnavljati svoj dom, ki je začenjal okrevati ..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "Granitek osvobojen!"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr ""
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Strašno"
 
-#: data/levels/world2/the_forest_is_rotting.stl:3
-msgid "The Forest Is Rotting"
-msgstr "Gozd gnije"
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr "Kvadratni koren trpljenja"
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "Kamenjanje in šiba"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr ""
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr ""
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
 msgstr "Skozi mrak"
 
-#: data/levels/world2/through_dark.stl:96
-msgid ""
-"-Earth Flower\n"
-"!images/powerups/earthflower/earth_flower-1.png\n"
-"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
-"#This does not work while jumping or falling!"
-msgstr "-Zemeljska roža\n!images/powerups/earthflower/earth_flower-1.png\n#Zemeljska roža omogoča Tuksu, da se spremeni v kamen z istočasnim pritiskom na tipko za dejanje in tipko za \"dol\".\n#Ne deluje med skakanjem ali padanjem!"
-
-#: data/levels/world2/tower_of_ghosts.stl:3
-msgid "Tower Of Ghosts"
-msgstr "Stolp duhov"
-
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
 msgstr "Mojster Tuks"
-
-#: data/levels/world2/tux_builder.stl:77
-msgid ""
-"-Portable Objects:\n"
-"!images/objects/rock/rock.png\n"
-"#Tux can pick up certain objects and carry them around.\n"
-"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Prenosljivi predmeti:\n!images/objects/rock/rock.png\n#Tuks lahko nekatere predmete pobere in jih ponese naokrog.\n#Pritisni tipko za dejanje, da pobereš predmet, in jo drži, dokler hočeš, da Tuks nosi predmet. Ko tipko spustiš, bo Tuks predmet izpustil."
-
-#: data/levels/world2/tux_own_horror_show.stl:3
-msgid "Tux' Own Horror Show"
-msgstr "Tuksova predstava groze"
-
-#: data/levels/world2/tux_own_horror_show.stl:947
-msgid ""
-"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
-" often dangerous places."
-msgstr "#Blodeče lučke so drobni nadležni duhci, ki te prenesejo na druge, pogosto nevarne kraje."
-
-#: data/levels/world2/walking_leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Hodeče listje"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
 msgstr "Dobrodošel/a v gozdu"
 
-#: data/levels/world2/welcome_forest.stl:50
+#: data/levels/world2/welcome_forest.stl:130
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
-"#Tux can go through a door by pressing the UP key."
-msgstr "-Vrata\n!images/objects/door/door-0.png\n#Tuks lahko stopi skozi vrata s pritiskom na tipko za \"gor\"."
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-Vrata!images/objects/door/door-0.png#Tuks lahko stopi skozi vrata s pritiskom na tipko \"gor\".##Nekatera vrata je treba še prej odkleniti s ključem!"
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
@@ -212,6 +271,14 @@ msgstr "Gozdne korenine"
 msgid "Rooted Forest"
 msgstr "Zakoreninjen gozd"
 
-#: data/levels/world2/worldmap.stwm:239
+#: data/levels/world2/worldmap.stwm:318
 msgid "To be continued..."
 msgstr "Se nadaljuje ..."
+
+#: data/levels/world2/worldmap.stwm:326 data/levels/world2/worldmap.stwm:336
+msgid "You found a secret area!"
+msgstr "Našel/a si skrito sobo!"
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "Hujše od salmonele"
