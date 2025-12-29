@@ -238,8 +238,8 @@ OptionsMenu::refresh()
         .set_help(_("Automatically pause the game when the window loses focus"));
 
       // Note: there were complaints about Wayldn for steam (i think from the devs?), so it's off for now.
-#if defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD) && !(defined(STEAM_BUILD) || defined(ANDROID))
+#if (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
+     defined(__OPENBSD) || defined(__NetBSD)) && !(defined(STEAM_BUILD) || defined(__ANDROID__))
       add_toggle(MNID_PREFER_WAYLAND, _("Prefer Wayland"), &g_config->prefer_wayland)
         .set_help(_("If you experience any issues with Nvidia cards, your window border, or anything you believe is due to Wayland, disable this. (Requires restart)"));
 #endif
