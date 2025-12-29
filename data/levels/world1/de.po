@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-17 08:18+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2019,2025\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
@@ -41,8 +41,8 @@ msgstr "Über dem antarktischen Himmel"
 
 #: data/levels/world1/above_arctic_skies.stl:318
 msgid ""
-"-Air Flower\r\n"
-"!images/powerups/airflower/air_flower-0.png\r\n"
+"-Air Flower\n"
+"!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
 msgstr "-Luftblume\r\n!images/powerups/airflower/air_flower-0.png\r\n#Mit der Luftblume kann Tux sich viel schneller bewegen und höher springen. Sie verleiht ihm die Fähigkeit, einige Sekunden lang in der Luft zu gleiten, indem die SPRUNG-Taste nach einem Sprung gehalten wird."
 
@@ -86,7 +86,7 @@ msgstr "Höhleneingang"
 msgid "A Fork in the Road?"
 msgstr "Eine Weggabelung?"
 
-#: data/levels/world1/fork_in_the_road.stl:741
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -193,7 +193,7 @@ msgstr "Doch bevor Tux sich die Karte genauer anschauen konnte, wurde der Raum v
 msgid ""
 "The mighty Yeti had made his appearence, busting his chest in an "
 "intimidating fashion!"
-msgstr "Der mächte Yeti kam in Erscheinung, er klopfte sich auf die Brust, was einem einschüchternden Schauspiel gleich kam."
+msgstr "Der mächtige Yeti kam in Erscheinung, er klopfte sich auf die Brust, was einem einschüchternden Schauspiel gleich kam."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:11
 msgid ""
@@ -221,7 +221,7 @@ msgstr "Ein gewaltiger Minenschacht lag vor ihm, der hinunter in die bereits gen
 msgid ""
 "Still carrying a spark of doubt that this was not a trap, Tux slowly "
 "descended into the depths once more..."
-msgstr "Während er immer noch einen Funken Zweifel hatte, dass es sich um eine Falle handelte, stieg Tux erneut hinab in die Tiefe..."
+msgstr "Immer noch unsicher, ob er nicht doch in eine Falle tappen würde, wagte sich Tux erneut langsam in den Untergrund vor..."
 
 #: data/levels/world1/scripts_crystal_mine.txt:5
 msgid ""
@@ -407,34 +407,36 @@ msgstr "Unter dem Eis"
 msgid "Welcome to Antarctica"
 msgstr "Willkommen in der Antarktis"
 
-#: data/levels/world1/welcome_antarctica.stl:118
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Eier\n!images/powerups/egg/egg-shade.png\n#Die Eier machen Tux größer. Tux kann Holzblöcke mit seinem Kopf zertrümmern."
 
-#: data/levels/world1/welcome_antarctica.stl:127
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Feuerblume\n!images/powerups/fireflower/fire_flower-0.png\n#Die Feuerblume verleiht Tux die Möglichkeit, Feuerbälle zu werfen."
 
-#: data/levels/world1/welcome_antarctica.stl:136
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux Doll gives Tux 100 coins."
-msgstr "-Tux-Puppe\n!images/powerups/1up/1up.png\n#Die Tux-Puppe gibt Tux 100 Münzen."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr "-Tux-Puppen\n!images/powerups/1up/1up.png\n#Tux-Puppen sind seltene Sammlerobjekte, die benötigt werden, um zusätzliche Bonusinseln freizuschalten!\n\n#Sammle alle ein, um lustige Zusatzlevel freizuschalten!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
 msgstr "Eisinsel"
 
-#: data/levels/world1/worldmap.stwm:243
+#: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"
-msgstr "Du hast "
+msgstr "Du hast ein Versteck gefunden!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"

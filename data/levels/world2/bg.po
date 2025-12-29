@@ -6,14 +6,14 @@
 # Любомир Василев, 2015-2016
 # Vankata 453, 2021
 # Любомир Василев, 2016,2018-2019
-# Любомир Василев, 2020-2021,2024
+# Любомир Василев, 2020-2021,2024-2025
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"POT-Creation-Date: 2025-12-29 10:35+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Любомир Василев, 2020-2021,2024\n"
+"Last-Translator: Любомир Василев, 2020-2021,2024-2025\n"
 "Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,189 +21,248 @@ msgstr ""
 "Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/levels/world2/ancient_ruins.stl:3
-msgid "Ancient Ruins"
-msgstr "Древни останки"
-
-#: data/levels/world2/ancient_ruins.stl:1463
-#: data/levels/world2/ancient_ruins.stl:1471
-#: data/levels/world2/bouncy_coils.stl:380
-#: data/levels/world2/bouncy_coils.stl:388
-#: data/levels/world2/bye_bye_forest.stl:1607
-#: data/levels/world2/crumbling_path.stl:278
-#: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:246
-#: data/levels/world2/going_underground.stl:1249
-#: data/levels/world2/mouldy_grotto.stl:559
-#: data/levels/world2/penguin_grow_trees.stl:459
-#: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:361
-#: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:223
-msgid "You found a secret area!"
-msgstr "Ти откри тайно място!"
-
-#: data/levels/world2/beside_bushes.stl:3
-msgid "Beside the Bushes"
-msgstr "Около храстите"
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
+msgstr "Древна останка"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Скачащи пружини"
 
-#: data/levels/world2/bye_bye_forest.stl:3
-msgid "Bye Bye Forest"
-msgstr "Чао, горичке"
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "Пещерен патрул"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "-Ледено цвете!images/powerups/iceflower/ice_flower-0.png#Леденото цвете дава на Тъкс способността да изстрелва снежни топки, които могат да замразяват повечето същества.#Замразените същества могат да бъдат взети, носени и хвърлени!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "Срутването неизбежно"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Ронлив път"
 
-#: data/levels/world2/darkness_awaits.stl:3
-msgid "Darkness Awaits"
-msgstr "Тъмнината чака"
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "Пусни топката"
 
-#: data/levels/world2/find_big_fish.stl:3
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "Оплетен в корени"
+
+#: data/levels/world2/find_bigger_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Намери по-голямата риба!"
 
-#: data/levels/world2/find_big_fish.stl:1058
-msgid "-A big fish... for you."
-msgstr "-Голяма риба… за теб."
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "Наводнени зали"
 
-#: data/levels/world2/forest_intro.stl:3
-msgid "A New Location"
-msgstr "Ново местоположение"
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "Разлистен цвят"
 
-#: data/levels/world2/ghost_cutscene.stl:3
-msgid "What is Happening?"
-msgstr "Какво става?"
-
-#: data/levels/world2/ghostly_misery.stl:3
-msgid "Ghostly Misery"
-msgstr "Призрачно нещастие"
-
-#: data/levels/world2/ghosttrees_challenges.stl:3
-msgid "Ghosttree's Challenges"
-msgstr "Предизвикателствата на призрачното дърво"
-
-#: data/levels/world2/ghouls_lair.stl:3
-msgid "Ghouls' Lair"
-msgstr "Леговището на таласъма"
-
-#: data/levels/world2/ghouls_lair.stl:859
-msgid ""
-"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
-"of them."
-msgstr "#Фенерите могат да направят вълшебните блокчета твърди, за да можеш да ходиш по тях."
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "Корените на всяко зло"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Слизане под земята"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:3
-msgid "I Spy With My Little Eye"
-msgstr "Виждам всичко"
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "Гранитово село"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:218
-msgid ""
-"-Ispy\n"
-"#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Шпионче\n#Шпиончетата активират различни неща, като например платформи, когато Тъкс влезе в полезрението им."
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "Куха земя"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:674
-msgid "Hint: Use snails to break blocks!"
-msgstr "Съвет: Използвай охлюви, за да чупиш блокчета!"
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "Дом, мъртъв дом"
 
-#: data/levels/world2/leaf_wind.stl:3
-msgid "Like a leaf in the Wind"
-msgstr "Като лист на вятъра"
-
-#: data/levels/world2/lost_village.stl:3
-msgid "Lost Village"
-msgstr "Изгубеното село"
-
-#: data/levels/world2/lost_village.stl:185
-msgid "#Don't forget to hit the switch!"
-msgstr "#Не забравяй да натиснеш превключвателя!"
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "Изгубено убежище"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Плесенясала пещера"
 
-#: data/levels/world2/owls_again.stl:3
-msgid "The Owls again..."
-msgstr "Отново тези бухали…"
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "Разбивачева планина"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
 msgstr "Гмуркащ се във въздуха бухал-командос"
 
-#: data/levels/world2/penguin_grow_trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr "Пингвините на растат по дърветата"
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
+msgstr "Пингвините не растат по дърветата"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "Търкалящи се камъни"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "-Каменна гъба!images/powerups/earthflower/earth_flower-0.png#Ако задържиш НАДОЛУ, докато тичаш, каменната гъба дава на Тъкс каменен щит.#Когато Тъкс е в каменната си форма, почти нищо не може да го нарани. Ако, обаче, Тъкс се забие в твърда стена, защитата му ще падне и той отново ще бъде уязвим."
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "Пълна подкрепа"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "Вкоренената кула"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "Въпреки победата над призрачното дърво и мъничкото възвърнал се живот в някога буйната гора, земята все още беше опустошена."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "В земята все още имаше цепнатини и пропасти. И сега една от тях препречваше пътя на Тъкс…"
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "За щастие, едно гранито – живо и здраво – се появи пред него, радостно да го види, от другата страна на пропастта."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito whoo had gotten lost "
+"when trying to escape the roots to the east coast."
+msgstr "Гранитото му разказа за 3 групи от гранита, които са се изгубили докато са се опитвали да се измъкнат от корените към източния бряг."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "Те са били погълнати от земята, когато тя се е пропукала. Ако Тъкс успее да ги намери, то те биха могли да му помогнат да премине от другата страна."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "Тъкс се съгласи да помогне! Много скоро той забеляза купчина умиращи корени, под които има проход. Той започна да търси изгубените гранита."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "С помощта на спасените гранита, Тъкс успя да премине от другата страна."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survied the Ghost Tree's "
+"overgrowth."
+msgstr "Той с радост установи, че имаше още гранита, които бяха успели да се спасят от прекомерния растеж на призрачното дърво."
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what, a penguin like him was doing so far from "
+"the Antarctic?"
+msgstr "Едно от тях го попита какво прави пингвин като него толкова далеч от Антарктида."
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replyed, he was looking for his friend Penny and that she was captured "
+"by an evil creature named \"Nolok\". A name the Granito remember "
+"unpleasently"
+msgstr "Тъкс отговори, че търси своята приятелка Пени, и че тя е била отвлечена от зло създание с името „Нолок“. Име, което извиква лоши спомени у гранитата."
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "Гранитата споменаха, че знаят къде е родината му. Но дали той все още живее там и дали там държи Пени, те нямаше как да бъдат сигурни."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute"
+msgstr "Предложиха да покажат пътя на Тъкс. Това е най-малкото, което можеха да направят, за да му се отблагодарят."
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "Тъкс прие охотно и заедно с няколко гранита, скоро се отправиха на северозапад, към тропиците."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaing Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "Другите гранита останаха, за да изградят отново малко по малко своя дом – сега, след като покварата беше окончателно изчистена…"
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "Спасени гранита!"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr "Малко зелено"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Стряскащо"
 
-#: data/levels/world2/the_forest_is_rotting.stl:3
-msgid "The Forest Is Rotting"
-msgstr "Гората гние"
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr "Корен квадратен агония"
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "Пръчка и камъни"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr "Удар в дърво"
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr "Три листа, носени от вятъра"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
 msgstr "През тъмнината"
 
-#: data/levels/world2/through_dark.stl:96
-msgid ""
-"-Earth Flower\n"
-"!images/powerups/earthflower/earth_flower-1.png\n"
-"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
-"#This does not work while jumping or falling!"
-msgstr "-Земно цвете\n!images/powerups/earthflower/earth_flower-1.png\n#Земното цвете дава на Тъкс способността да се превръща в камък, като натиснеш едновременно бутона за ДЕЙСТВИЕ и бутона НАДОЛУ.\n#Това не работи при скачане или падане!"
-
-#: data/levels/world2/tower_of_ghosts.stl:3
-msgid "Tower Of Ghosts"
-msgstr "Кулата на духовете"
-
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
 msgstr "Строителят Тъкс"
-
-#: data/levels/world2/tux_builder.stl:77
-msgid ""
-"-Portable Objects:\n"
-"!images/objects/rock/rock.png\n"
-"#Tux can pick up certain objects and carry them around.\n"
-"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Подвижни предмети:\n!images/objects/rock/rock.png\n#Тъкс може да взема определени предмети и да ги разнася.\n#Натисни бутона за ДЕЙСТВИЕ, за да хванеш нещо и го задръж натиснат колкото искаш, за да го носиш. Пусни бутона за ДЕЙСТВИЕ, за да пуснеш предмета."
-
-#: data/levels/world2/tux_own_horror_show.stl:3
-msgid "Tux' Own Horror Show"
-msgstr "Шоуто на ужасите на Тъкс"
-
-#: data/levels/world2/tux_own_horror_show.stl:947
-msgid ""
-"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
-" often dangerous places."
-msgstr "#Светлинките са малки, дразнещи духчета, които те пренасят на различни, често опасни места."
-
-#: data/levels/world2/walking_leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Ходещи листа"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
 msgstr "Добре дошли в гората"
 
-#: data/levels/world2/welcome_forest.stl:50
+#: data/levels/world2/welcome_forest.stl:130
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
-"#Tux can go through a door by pressing the UP key."
-msgstr "-Врати\n!images/objects/door/door-0.png\n#Тъкс може да преминава през врати, като натиснеш бутона НАГОРЕ."
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-Врати!images/objects/door/door-0.png#Тъкс може да преминава през врати, като натиснеш бутона НАГОРЕ.##За някои врати може да е необходим ключ!"
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
@@ -213,6 +272,14 @@ msgstr "Дървесни корени"
 msgid "Rooted Forest"
 msgstr "Вкоренената гора"
 
-#: data/levels/world2/worldmap.stwm:239
+#: data/levels/world2/worldmap.stwm:318
 msgid "To be continued..."
 msgstr "Следва продължение…"
+
+#: data/levels/world2/worldmap.stwm:326 data/levels/world2/worldmap.stwm:336
+msgid "You found a secret area!"
+msgstr "Ти откри тайно място!"
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "По-лошо от Салмонела"
