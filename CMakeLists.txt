@@ -422,7 +422,10 @@ if(NOT EMSCRIPTEN)
     Vorbis
     VorbisFile
   )
-  target_link_libraries(supertux2 PUBLIC libcurl)
+
+  if(ADDPKG_CURL_FOUND)
+    target_link_libraries(supertux2 PUBLIC libcurl)
+  endif()
 
   if(HAVE_OPENGL)
     target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW)
