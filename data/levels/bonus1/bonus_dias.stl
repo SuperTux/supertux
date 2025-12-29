@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -449,6 +448,7 @@
       (z-pos 50)
       (x 7520)
       (y 288)
+      (glinting #t)
     )
     (gradient
       (top_color 0.3 0.4 0.75)
@@ -458,16 +458,19 @@
       (z-pos 50)
       (x 720)
       (y 752)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 9376)
       (y 544)
+      (glinting #t)
     )
     (mriceblock
       (z-pos 50)
       (x 1792)
       (y 800)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/midday_alt.music")
@@ -827,6 +830,7 @@
       (z-pos 50)
       (x 8224)
       (y 1024)
+      (glinting #f)
     )
     (switch
       (z-pos 1)

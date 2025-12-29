@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -90,16 +89,19 @@
       (z-pos 50)
       (x 4288)
       (y 896)
+      (glinting #f)
     )
     (captainsnowball
       (z-pos 50)
       (x 5600)
       (y 896)
+      (glinting #f)
     )
     (captainsnowball
       (z-pos 50)
       (x 1120)
       (y 1056)
+      (glinting #f)
     )
     (coin
       (z-pos 49)
@@ -717,10 +719,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb
           (z-pos 50)
+          (glinting #f)
         )
       )
       (limit-dispensed-badguys #t)
@@ -731,6 +735,7 @@
     (dispenser
       (name "d2")
       (z-pos 55)
+      (glinting #f)
       (cycle 2)
       (objects
         (skydive
@@ -743,6 +748,7 @@
     (dispenser
       (name "d1")
       (z-pos 55)
+      (glinting #f)
       (cycle 2)
       (objects
         (skydive
@@ -754,6 +760,7 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -765,6 +772,7 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -776,6 +784,7 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -787,6 +796,7 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -798,6 +808,7 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -809,6 +820,7 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -820,11 +832,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (captainsnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -848,21 +862,25 @@
       (z-pos 50)
       (x 1504)
       (y 1056)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 3472)
       (y 1584)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 13248)
       (y 1296)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 12960)
       (y 1328)
+      (glinting #f)
     )
     (gradient
       (top_color 0.1 0.6 0.6)
@@ -873,6 +891,7 @@
       (z-pos 50)
       (x 2320)
       (y 608)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/snowfort.music")
@@ -2023,16 +2042,14 @@
       (y 944)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "lkc.start_moving();")
       (button #f)
+      (width 32)
+      (height 32)
       (x 4960)
       (y 1552)
     )
     (scripttrigger
-      (width 32)
-      (height 384)
       (oneshot #t)
       (script "ender1.start_moving();
 moverbat.start_moving();
@@ -2059,15 +2076,17 @@ e11.start_moving();
 wait(0.5);
 e12.start_moving();")
       (button #f)
+      (width 32)
+      (height 384)
       (x 9664)
       (y 992)
     )
     (scripttrigger
-      (width 192)
-      (height 264)
       (oneshot #t)
       (script "fisherater.start_moving();")
       (button #f)
+      (width 192)
+      (height 264)
       (x 4992)
       (y 1376)
     )
@@ -2096,76 +2115,91 @@ e12.start_moving();")
       (z-pos 50)
       (x 4016)
       (y 1632)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 2640)
       (y 1568)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 2032)
       (y 1664)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 2352)
       (y 1024)
+      (glinting #t)
     )
     (short_fuse
       (z-pos 50)
       (x 4944)
       (y 864)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 2208)
       (y 1024)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 776)
       (y 904)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 2464)
       (y 1024)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 3040)
       (y 1600)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 3200)
       (y 1600)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 6912)
       (y 1728)
+      (glinting #t)
     )
     (short_fuse
       (z-pos 50)
       (x 6592)
       (y 1728)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 6208)
       (y 1728)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 5792)
       (y 1728)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 8848)
       (y 1120)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
@@ -2181,36 +2215,43 @@ e12.start_moving();")
       (y 1616)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 3840)
       (y 640)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 5344)
       (y 384)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 3776)
       (y 640)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 3712)
       (y 640)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 13392)
       (y 1056)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 13104)
       (y 1088)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 12816)
       (y 1120)
