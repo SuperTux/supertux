@@ -27,11 +27,23 @@ namespace worldmap {
 class SpecialTile final : public WorldMapObject
 {
 public:
+  static void register_class(ssq::VM& vm);
+
+  enum SpecialTileDirection
+  {
+    NORTH = 1,
+    EAST = 1<<1,
+    SOUTH = 1<<2,
+    WEST = 1<<3,
+  };
+
+public:
   SpecialTile(const ReaderMapping& mapping);
   ~SpecialTile() override;
 
   static std::string class_name() { return "special-tile"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "SpecialTile"; }
   static std::string display_name() { return _("Special Tile"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return WorldMapObject::get_class_types().add(typeid(SpecialTile)); }
@@ -49,6 +61,12 @@ public:
   inline bool get_apply_action_south() const { return m_apply_action_south; }
   inline bool get_apply_action_west() const { return m_apply_action_west; }
 
+  inline bool get_blocking() const { return m_blocking; }
+  inline void set_blocking(bool blocking) { m_blocking = blocking; }
+  void set_direction_mask(uint8_t mask);
+
+  uint8_t get_direction_mask() const;
+
 private:
   /** Message to show in the Map */
   std::string m_map_message;
@@ -59,6 +77,9 @@ private:
 
   /** Hide special tile */
   bool m_invisible;
+
+  /** Blocking the path */
+  bool m_blocking;
 
   /** Only applies actions (ie. passive messages) when going to that direction */
   std::string m_apply_direction;
