@@ -86,6 +86,7 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   m_tmp_playerstatus(0),
   m_play_time(0),
   m_levelintro_shown(false),
+  m_skip_intro(false),
   m_coins_at_start(),
   m_boni_at_start(),
   m_max_fire_bullets_at_start(),
