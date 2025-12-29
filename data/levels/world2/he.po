@@ -4,16 +4,16 @@
 # 
 # Translators:
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
-# Omer I.S., 2020-2021,2025
+# 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2020-2021
 # 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2021
 # 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Omer I.S., 2020-2021,2025\n"
+"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
 "Language-Team: Hebrew (http://app.transifex.com/arctic-games/supertux/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "מאורת השדים"
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#העששיות הופכות תיבות קסומות למוצקות, כדי שיהיה אפשר ללכת עליהן."
+msgstr "#העששיות משמשות להפיכת תיבות קסומות למוצקות, כדי שיהיה אפשר ללכת עליהן."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -146,7 +146,7 @@ msgstr "פינגווינים לא גדלים על עצים"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "הלם"
+msgstr "מְזַעזֵעַ"
 
 #: data/levels/world2/the_forest_is_rotting.stl:3
 msgid "The Forest Is Rotting"
@@ -178,7 +178,7 @@ msgid ""
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-עצמים ניידים:\n!images/objects/rock/rock.png\n#טַקס יכול להרים עצמים מסוימים ולסחוב אותם בדרכו.\n#בשביל להרים את אחד העצמים, יש ללחוץ על כפתור הפעולה ולהשאירו לחוץ כל זמן שברצונך להמשיך להחזיק את העצם. בשביל לשחרר את העצם, יש לעזוב את מקש הפעולה."
+msgstr "-אובייקטים ניידים:\n!images/objects/rock/rock.png\n#טַקס יכול לקחת אובייקטים מסויימים ולסחוב אותם בדרכו.\n#יש ללחוץ על כפתור הפעולה כדי לאסוף אובייקט ולהחזיק אותו לחוץ ככל שברצונך לסחוב את האובייקט. יש לעזוב את מקש הפעולה כדי לשחרר את האובייקט."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"

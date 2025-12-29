@@ -21,7 +21,7 @@
 
   ;; next-id: 7949
   ;; free/skipped ids (please use before any other):
-  ;; 4642-4660, 5061-5089, 5268-5283, 5453-5527
+  ;; 4642-4660, 5061-5089, 5268-5283, 5453-5522
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
   (tilegroup
@@ -597,8 +597,9 @@
       1817 1013 1014 1820
       1819 1038 1000 1003
       1818 5560 5559 5562
-      4719 4722 0   0
-      4721 5089 0   0
+      4719 4722 5527 5526
+      4721 5089 5525 5524
+      0    0    5523 5522
       0    1533 1534 1535
       0    1536 1537 1538
     
@@ -7017,6 +7018,26 @@
       1 1 1 1
     )
     (images "tiles/forest/foresttiles-13.png")
+  )
+
+  (tiles
+    (width 2)(height 3)
+    (ids
+      5527 5526
+      5525 5524
+      5523 5522
+    )
+    (attributes
+      17 17
+      17 17
+      1  1
+    )
+    (datas
+      18 16
+      18 16
+      0  0
+    )
+    (images "tiles/forest/foresttiles-14.png")
   )
 
   (tiles
