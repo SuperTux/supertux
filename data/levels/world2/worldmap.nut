@@ -80,7 +80,7 @@ corrupt_forest(state.corrupted);
 //   ROAD FORKS
 // ============================================================================
 
-if (!("fork_secret_v2" in state))
+if (!("crushmore_secret" in state))
 {
   // there is no compat... we ignore the old states for now. if they beat the
   // level or didn't complete the fork in the road then things would just get
