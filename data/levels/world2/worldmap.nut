@@ -42,18 +42,33 @@ function corrupt_forest(corrupt){
   land_corrupt.fade(corrupt ? 1 : 0, fade_time);
   edge_corrupt.fade(corrupt ? 1 : 0, fade_time);
   convex_corrupt.fade(corrupt ? 1 : 0, fade_time);
+  front.fade(corrupt ? 0 : 1, fade_time);
   front_corrupt.fade(corrupt ? 1 : 0, fade_time);
   underground_corrupt.fade(corrupt ? 1 : 0, fade_time);
   corner_corrupt.fade(corrupt ? 1 : 0, fade_time);
   corner_corrupt.fade(corrupt ? 1 : 0, fade_time);
+
+
 
   trees_front1.fade(corrupt ? 0 : 1, fade_time);
   trees_front2.fade(corrupt ? 0 : 1, fade_time);
   trees_front3.fade(corrupt? 0 : 1, fade_time);
   trees_front4.fade(corrupt ? 0 : 1, fade_time);
   trees_back.fade(corrupt ? 0 : 1, fade_time);
+  trees_back_corrupt.fade(corrupt ? 1 : 0, fade_time);
   decoration.fade(corrupt ? 0 : 1, fade_time);
+  decoration_corrupt.fade(corrupt ? 1 : 0, fade_time);
+  castle.fade(corrupt ? 0 : 1, fade_time);
+  castle_corrupt.fade(corrupt ? 1 : 0, fade_time);
+  trees_front1.fade(corrupt ? 0 : 1, fade_time);
+  trees_front1_corrupt.fade(corrupt ? 1 : 0, fade_time);
+  trees_front2.fade(corrupt ? 0 : 1, fade_time);
+  trees_front2_corrupt.fade(corrupt ? 1 : 0, fade_time);
 
+  trees_front3.fade(corrupt ? 0 : 1, fade_time);
+  trees_front3_corrupt.fade(corrupt ? 1 : 0, fade_time);
+  
+  trees_front4.fade(corrupt ? 0 : 1, fade_time);
   state.corrupted <- corrupt;
 }
 
