@@ -169,7 +169,7 @@ Savegame::load(bool base_data)
 
     try
     {
-      auto doc = ReaderDocument::from_file(filename);
+      auto doc = ReaderDocument::from_file(filename, base_data ? 2 : -1);
       auto root = doc.get_root();
 
       if (root.get_name() != "supertux-savegame")

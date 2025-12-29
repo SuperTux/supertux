@@ -40,6 +40,7 @@ PlayerStatus::PlayerStatus(int num_players) :
   m_override_item_pocket(Level::INHERIT),
   m_hud(nullptr),
   coins(START_COINS),
+  tuxdolls(0),
   bonus(num_players),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
   last_worldmap(),
@@ -50,7 +51,6 @@ PlayerStatus::PlayerStatus(int num_players) :
   // FIXME: Move sound handling into PlayerStatusHUD
   if (SoundManager::current()) {
     SoundManager::current()->preload("sounds/coin.wav");
-    SoundManager::current()->preload("sounds/lifeup.wav");
   }
 }
 
@@ -68,6 +68,7 @@ void
 PlayerStatus::reset(int num_players)
 {
   coins = START_COINS;
+  tuxdolls = 0;
 
   // Keep in sync with a section in read()
   bonus.clear();
@@ -168,9 +169,7 @@ PlayerStatus::add_coins(int count, bool play_sound)
     return;
 
   static float sound_played_time = 0;
-  if (count >= 100)
-    SoundManager::current()->play("sounds/lifeup.wav");
-  else if (g_real_time > sound_played_time + 0.010f) {
+  if (g_real_time > sound_played_time + 0.010f) {
     SoundManager::current()->play("sounds/coin.wav");
     sound_played_time = g_real_time;
   }
@@ -198,6 +197,7 @@ PlayerStatus::write(Writer& writer)
   }
 
   writer.write("coins", coins);
+  writer.write("tuxdolls", tuxdolls);
 
   writer.write("worldmap-sprite", worldmap_sprite, false);
   writer.write("last-worldmap", last_worldmap, false);
@@ -218,7 +218,7 @@ PlayerStatus::read(const ReaderMapping& mapping)
   {
     try
     {
-      if (iter.get_key().size() > 3 && iter.get_key().substr(0, 3) == "tux")
+      if (iter.get_key().size() > 3 && iter.get_key().substr(0, 3) == "tux" && iter.get_key() != "tuxdolls")
       {
         int id = std::stoi(iter.get_key().substr(3)) - 1;
 
@@ -253,6 +253,7 @@ PlayerStatus::read(const ReaderMapping& mapping)
   parse_bonus_mapping(mapping, 0);
 
   mapping.get("coins", coins);
+  mapping.get("tuxdolls", tuxdolls);
 
   mapping.get("worldmap-sprite", worldmap_sprite);
   mapping.get("last-worldmap", last_worldmap);
