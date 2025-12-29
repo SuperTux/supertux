@@ -77,5 +77,29 @@ corrupt_forest(state.corrupted);
 
 
 // ============================================================================
-//   SECRET AREAS
+//   ROAD FORKS
 // ============================================================================
+
+if (!("fork_secret_v2" in state))
+{
+  // there is no compat... we ignore the old states for now. if they beat the
+  // level or didn't complete the fork in the road then things would just get
+  // weird regardless, like paths being opened despite never finding the
+  // secrets... since the worldmap is pretty much redone anyway, new players
+  // will start from the beginning anyway hopefully.
+  state.crushmore_secret <- 0;
+  state.hollow_secret <- 0;
+  state.strike_secret <- 0;
+  state.granito_secret <- 0;
+}
+
+state.crushmore_secret <- (state.crushmore_secret | SPECIALTILE_DIR_EAST | SPECIALTILE_DIR_WEST);
+state.granito_secret <- (state.granito_secret | SPECIALTILE_DIR_SOUTH);
+state.hollow_secret <- (state.hollow_secret | SPECIALTILE_DIR_SOUTH);
+state.strike_secret <- (state.strike_secret | SPECIALTILE_DIR_SOUTH | SPECIALTILE_DIR_NORTH );
+
+worldmap.crushmore_secret.set_direction_mask(state.crushmore_secret);
+worldmap.granito_secret.set_direction_mask(state.granito_secret);
+worldmap.strike_secret.set_direction_mask(state.strike_secret);
+worldmap.hollow_secret.set_direction_mask(state.hollow_secret);
+// TODO: make paths fade

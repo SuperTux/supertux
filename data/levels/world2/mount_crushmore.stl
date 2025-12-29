@@ -18,13 +18,6 @@
     )
     (background
       (color 1 1 1)
-      (speed 0)
-      (image-top "/images/background/misc/transparent_up.png")
-      (image "/images/background/forest/mountain.png")
-      (z-pos -250)
-    )
-    (background
-      (color 1 1 1)
       (scroll-speed-x -0.1)
       (speed 0)
       (image "/images/background/misc/skybox.png")
@@ -255,6 +248,22 @@
       (x 7360)
       (y 416)
     )
+    (scripttrigger
+      (script "state.crushmore_secret <- (\"crushmore_secret\" in state ? (state.crushmore_secret | SPECIALTILE_DIR_WEST) : SPECIALTILE_DIR_WEST);")
+      (button #f)
+      (width 32)
+      (height 1920)
+      (x 11040)
+      (y -32)
+    )
+    (scripttrigger
+      (script "state.crushmore_secret <- (\"crushmore_secret\" in state ? (state.crushmore_secret | SPECIALTILE_DIR_NORTH) : SPECIALTILE_DIR_NORTH);")
+      (button #f)
+      (width 32)
+      (height 320)
+      (x 7136)
+      (y 320)
+    )
     (secretarea
       (fade-tilemap "secret")
       (width 512)
@@ -271,7 +280,7 @@
     (sequencetrigger
       (sequence "endsequence")
       (width 32)
-      (height 288)
+      (height 320)
       (x 7136)
       (y 352)
     )
@@ -285,7 +294,7 @@
     (sequencetrigger
       (sequence "endsequence")
       (width 32)
-      (height 1888)
+      (height 1920)
       (x 11040)
       (y 0)
     )
