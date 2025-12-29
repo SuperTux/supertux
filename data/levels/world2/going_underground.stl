@@ -810,7 +810,7 @@ thunder.stop();")
     (scripttrigger
       (script "thunder.stop();
 entrance1.goto_node(1);
-entrance2.goto_node(1);``
+entrance2.goto_node(1);
 entrance3.goto_node(1);
 entrance4.goto_node(1);
 start_lift.start_moving();
