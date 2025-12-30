@@ -23,14 +23,14 @@ class Viewport final
 {
 private:
 public:
-  static Viewport from_size(const Size& target_size, const Size& desktop_size);
+  static Viewport from_size(const Size& target_size, const Size& desktop_size, float pixel_scale = 1.0f);
 
   /** Whether to use the full viewport or not */
   static void force_full_viewport(bool flag, bool just_set_it = false);
 
 public:
   Viewport();
-  Viewport(const Rect& rect, const Vector& scale);
+  Viewport(const Rect& rect, const Vector& scale, float pixel_scale = 1.0f);
 
   /** The size of the viewport in window coordinates */
   inline Rect get_rect() const { return m_rect; }
@@ -63,4 +63,5 @@ private:
 private:
   Rect m_rect;
   Vector m_scale;
+  float m_pixel_scale; // HiDPI scale factor: drawable_size / window_size
 };
