@@ -133,7 +133,7 @@ Trampoline::collision(MovingObject& other, const CollisionHit& hit)
   }
   auto badguy = dynamic_cast<BadGuy*> (&other);
   //Trampoline also works for Badguy
-  if (badguy) {
+  if (badguy && badguy->is_active()) {
     float vy = badguy->get_physic().get_velocity_y();
     //badguy is falling down on trampoline
     if (hit.top && vy >= 0) {
