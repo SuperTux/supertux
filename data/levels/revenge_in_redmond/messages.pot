@@ -1,0 +1,133 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the SuperTux package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux v0.7.0-beta.1-11-g0c0464937\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2025-12-30 05:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/levels/revenge_in_redmond/antarctica.stl:3
+msgid "Antarctica 1"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/get_to_choppa.stl:3
+msgid "Get to da Choppa!"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/intro.stl:3
+msgid "A Blast From The Past"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/intro.txt:4
+msgid ""
+"-A Blast From The Past!\r\n"
+" Or was it a dream?\r\n"
+"\r\n"
+"\tTux and Gown were having a nice picnic,\r\n"
+"\twhen suddenly, Gown is beamed away!!!\r\n"
+"\t\r\n"
+"\tWait a second... Gown?\r\n"
+"\tWho is this penguin that looks\r\n"
+"\tan awful lot like his friend Penny?\r\n"
+"\t\r\n"
+"\tAlso, a helicopter?\r\n"
+"\tSince when do helicopters casually fly\r\n"
+"\tover Antarctica and abduct penguins?\r\n"
+"\t\r\n"
+"\tEven though Tux was visibly confused\r\n"
+"\tabout the events that just transpired,\r\n"
+"\the could not just stand there\r\n"
+"\tdoing nothing. Therefore, he\r\n"
+"\tgave chase to rescue this\r\n"
+"\tpoor penguin girl!\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"*This looks like a job for ---\r\n"
+"\t\r\n"
+"-Super Tux"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/long_office_nights.stl:3
+msgid "Long Office Nights"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/outro.stl:3
+msgid "Where Is Everyone?"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/outro.txt:4
+msgid ""
+"-Where Is Everyone?\r\n"
+"\r\n"
+"\tTux ran into the castle's throne room,\r\n"
+"\tfrantically searching for the penguin girl Gown.\r\n"
+"\t\r\n"
+"\tAlas, he found neither Gown, nor the pilot\r\n"
+"\tof the helicopter there, but instead, a statue.\r\n"
+"\t\r\n"
+"\tIt depicted a scally creature with crossed arms.\r\n"
+"\tThe pedestal it resided on was inscribed\r\n"
+"\twith the word \"Nolok\". Was it a name?\r\n"
+"\t\r\n"
+"\tHe was unsure who or what\r\n"
+"\tthis statue was depicting.\r\n"
+"\t\r\n"
+"\tAll of a sudden, Tux remembered...\r\n"
+"\t\r\n"
+"\tHe and Penny were ambushed\r\n"
+"\tby this exact creature,\r\n"
+"\tduring their picnic on the ice fields!\r\n"
+"\t\r\n"
+"\tTux opened his eyes. He was back\r\n"
+"\tat the ice fields near the shore.\r\n"
+"\tPenny, however, was gone.\r\n"
+"\tShocked by this, he began looking around,\r\n"
+"\tbut all he could find was a note...\r\n"
+"\t\r\n"
+"\t...from Nolok.\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+"-The End\r\n"
+" Or rather, the beginning...?"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/redmond_headquarters.stl:3
+msgid "Redmond Headquarters"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/where_my_super_cape.stl:3
+msgid "Where Is My Super Cape?"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/who_is_gown.stl:3
+msgid "Who Is This Gown?"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/worldmap.stwm:3
+msgid "Revenge in Redmond"
+msgstr ""
