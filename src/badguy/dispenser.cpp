@@ -44,6 +44,8 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   m_max_concurrent_badguys(),
   m_current_badguys()
 {
+  m_can_glint = false;
+
   parse_type(reader);
 
   SoundManager::current()->preload("sounds/squish.wav");
