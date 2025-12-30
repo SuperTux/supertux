@@ -83,8 +83,12 @@ function(git_project_version)
   git_run(COMMAND describe --tags --abbrev=0 OUTPUT GIT_TAG RESULT GIT_TAG_RESULT)
 
   # Commit hash
-  git_run(COMMAND rev-parse --short HEAD OUTPUT GIT_HASH RESULT GIT_HASH_RESULT)
+  if(NOT DEFINED GIT_HASH)
+    git_run(COMMAND rev-parse --short HEAD OUTPUT GIT_HASH RESULT GIT_HASH_RESULT)
+  endif()
 
   # Branch
-  git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT GIT_BRANCH RESULT GIT_BRANCH_RESULT)
+  if(NOT DEFINED GIT_BRANCH)
+    git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT GIT_BRANCH RESULT GIT_BRANCH_RESULT)
+  endif()
 endfunction()
