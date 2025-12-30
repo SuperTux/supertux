@@ -1,0 +1,15 @@
+# This generated file provides version information.
+# See mk/cmake/SuperTux/BuildVersion.cmake
+
+set(SUPERTUX_PACKAGE_VERSION_TAG "@GIT_TAG@")
+if(@IS_SUPERTUX_RELEASE@)
+  set(SUPERTUX_PACKAGE_VERSION "@GIT_TAG@")
+  set(SUPERTUX_VERSION_STRING "@GIT_TAG@")
+else()
+  if(NOT @GIT_TAG_RESULT@ EQUAL 0)
+    set(SUPERTUX_PACKAGE_VERSION "dev @GIT_HASH@ (@GIT_BRANCH@)")
+  else()
+    set(SUPERTUX_PACKAGE_VERSION "dev @GIT_TAG@ - @GIT_HASH@ (@GIT_BRANCH@)")
+  endif()
+  set(SUPERTUX_VERSION_STRING "@GIT_BRANCH@-@GIT_HASH@")
+endif()

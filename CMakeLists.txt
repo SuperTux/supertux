@@ -65,6 +65,9 @@ include(ExternalProject)
 include(CheckCXXCompilerFlag)
 include(CheckSymbolExists)
 
+## Set version strings, detect git version, and other things related to versions
+include(SuperTux/BuildVersion)
+
 ## For autopackage
 set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 
@@ -104,7 +107,6 @@ else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
 endif()
 
-option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" NO)
 if(IS_SUPERTUX_RELEASE)
   option(STEAM_BUILD "Prepare build for Steam" OFF)
 endif()
@@ -251,7 +253,6 @@ if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
 endif()
 
 ## Build stuff
-include(SuperTux/BuildVersion)
 include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
 
