@@ -8,7 +8,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -106,29 +105,34 @@
       (direction "left")
       (x 2304)
       (y 672)
+      (glinting #f)
     )
     (captainsnowball
       (z-pos 50)
       (direction "left")
       (x 5440)
       (y 224)
+      (glinting #t)
     )
     (captainsnowball
       (z-pos 50)
       (direction "left")
       (x 5664)
       (y 224)
+      (glinting #f)
     )
     (captainsnowball
       (z-pos 50)
       (direction "left")
       (x 10592)
       (y 480)
+      (glinting #f)
     )
     (captainsnowball
       (z-pos 50)
       (x 9344)
       (y 480)
+      (glinting #f)
     )
     (climbable
       (width 32)
@@ -192,10 +196,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 4)
       (objects
         (mrbomb
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -206,11 +212,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -220,10 +228,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 4)
       (objects
         (haywire
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -234,11 +244,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -248,11 +260,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -264,26 +278,31 @@
       (z-pos 50)
       (x 4256)
       (y 1120)
+      (glinting #t)
     )
     (dive-mine
       (z-pos 50)
       (x 5920)
       (y 1600)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 7200)
       (y 1600)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 8320)
       (y 1632)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 10176)
       (y 1088)
+      (glinting #f)
     )
     (firefly
       (z-pos 0)
@@ -292,12 +311,14 @@
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 5248)
       (y 1216)
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (direction "left")
       (x 14016)
@@ -305,6 +326,7 @@
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #f)
       (radius 200)
       (direction "left")
       (x 7008)
@@ -312,6 +334,7 @@
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (direction "left")
       (x 8256)
@@ -319,6 +342,7 @@
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 4544)
       (y 1472)
@@ -385,6 +409,7 @@
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (radius 200)
       (direction "left")
       (x 3344)
@@ -392,30 +417,35 @@
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 5952)
       (y 1056)
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #t)
       (direction "left")
       (x 5184)
       (y 1600)
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 6720)
       (y 1632)
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 10720)
       (y 1056)
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 9600)
       (y 1056)
@@ -430,34 +460,40 @@
       (direction "left")
       (x 2720)
       (y 448)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 11616)
       (y 608)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (direction "left")
       (x 1120)
       (y 672)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (direction "left")
       (x 13984)
       (y 704)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (direction "left")
       (x 14080)
       (y 704)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (x 12384)
       (y 704)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/midday_alt.music")
@@ -742,6 +778,7 @@
       (direction "left")
       (x 6112)
       (y 672)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
@@ -753,64 +790,75 @@
       (direction "left")
       (x 14848)
       (y 672)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 14624)
       (y 672)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 1280)
       (y 672)
+      (glinting #t)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 1376)
       (y 672)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 4960)
       (y 672)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 5184)
       (y 672)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 8832)
       (y 672)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 8992)
       (y 672)
+      (glinting #t)
     )
     (spiky
       (z-pos 50)
       (x 12512)
       (y 704)
+      (glinting #t)
     )
     (spiky
       (z-pos 50)
       (x 12608)
       (y 704)
+      (glinting #f)
     )
     (sspiky
       (z-pos 50)
       (direction "left")
       (x 10496)
       (y 672)
+      (glinting #f)
     )
     (tilemap
       (solid #f)

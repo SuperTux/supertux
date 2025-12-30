@@ -170,13 +170,13 @@
       (z-pos 50)
       (x 7584)
       (y 992)
-      (glinting #f)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 9440)
       (y 704)
-      (glinting #f)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
@@ -194,14 +194,14 @@
       (z-pos 50)
       (x 12128)
       (y 672)
-      (glinting #f)
+      (glinting #t)
     )
     (mrbomb
       (z-pos 50)
       (direction "left")
       (x 3872)
       (y 1088)
-      (glinting #f)
+      (glinting #t)
     )
     (music
       (file "/music/antarctic/midday_alt.music")
@@ -246,7 +246,7 @@
       (width 64)
       (height 1440)
       (x 15840)
-      (y -0)
+      (y 0)
     )
     (sequencetrigger
       (sequence "endsequence")
@@ -287,7 +287,7 @@
       (direction "left")
       (x 4448)
       (y 1408)
-      (glinting #f)
+      (glinting #t)
     )
     (snowman
       (z-pos 50)
