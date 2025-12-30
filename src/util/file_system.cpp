@@ -272,6 +272,11 @@ open_editor(const std::string& filename)
   if (!g_config->preferred_text_editor.empty())
     editor = g_config->preferred_text_editor;
 
+  if(editor.empty()) {
+    log_warning << "No text editor configured, cannot open file: " << filename << std::endl;
+    return;
+  }
+
 #ifndef WIN32
   const char *argv[] = { editor.c_str(), filename.c_str(), NULL };
   pid_t proc;
