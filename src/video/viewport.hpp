@@ -38,6 +38,9 @@ public:
   /** The amount by which the content of the viewport is scaled */
   inline Vector get_scale() const { return m_scale; }
 
+  /** The HiDPI scale factor (drawable_size / window_size) */
+  inline float get_pixel_scale() const { return m_pixel_scale; }
+
   /** The width of the resulting logical screen */
   int get_screen_width() const;
 

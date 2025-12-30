@@ -384,9 +384,15 @@ OptionsMenu::add_window_resolutions()
   m_window_resolutions.list = { "640x480", "854x480", "800x600", "1280x720", "1280x800",
                                 "1440x900", "1920x1080", "1920x1200", "2560x1440" };
   m_window_resolutions.next = -1;
+
+  // Get current window size in physical pixels for HiDPI support
   Size window_size = VideoSystem::current()->get_window_size();
+  float pixel_scale = VideoSystem::current()->get_viewport().get_pixel_scale();
+  int physical_width = static_cast<int>(static_cast<float>(window_size.width) * pixel_scale);
+  int physical_height = static_cast<int>(static_cast<float>(window_size.height) * pixel_scale);
+
   std::ostringstream out;
-  out << window_size.width << "x" << window_size.height;
+  out << physical_width << "x" << physical_height;
   std::string window_size_text = out.str();
   for (size_t i = 0; i < m_window_resolutions.list.size(); ++i)
   {
@@ -677,7 +683,11 @@ OptionsMenu::menu_action(MenuItem& item)
         }
         else
         {
-          g_config->window_size = Size(width, height);
+          // Convert from physical pixels to points for HiDPI support
+          float pixel_scale = VideoSystem::current()->get_viewport().get_pixel_scale();
+          int point_width = static_cast<int>(static_cast<float>(width) / pixel_scale);
+          int point_height = static_cast<int>(static_cast<float>(height) / pixel_scale);
+          g_config->window_size = Size(point_width, point_height);
           VideoSystem::current()->apply_config();
           ScreenManager::current()->on_window_resize();
           MenuManager::instance().on_window_resize();
