@@ -15,6 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "script_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/file_watcher.hpp"
 #include "util/log.hpp"
@@ -74,7 +76,18 @@ ScriptManager::relpath_filename_from_key(UID uid, const std::string& key)
 std::string
 ScriptManager::filename_from_key(UID uid, const std::string& key)
 {
-  return "script_" + std::to_string(uid.get_value()) + '_' + key + ".nut";
+  auto filename = "script_" + std::to_string(uid.get_value()) + '_' + key + ".nut";
+
+#if defined(__APPLE__)
+  // If no text editor is specified, use .txt extension to open in TextEdit,
+  // otherwise MacOS has trouble finding the default text editor for .nut files.
+  if(g_config->preferred_text_editor.empty())
+  {
+    return filename + ".txt";
+  }
+#endif
+
+  return filename;
 }
 
 time_t
