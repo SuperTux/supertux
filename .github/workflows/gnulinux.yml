@@ -180,8 +180,8 @@ jobs:
           & cmake .. -DCMAKE_BUILD_TYPE="$Env:BUILD_TYPE" -DENABLE_DISCORD=ON `
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
                      -DCMAKE_POLICY_VERSION_MINIMUM="3.5" `
-                     -DGIT_HASH=$Env:GIT_HASH `
-                     -DGIT_BRANCH=$Env:GIT_BRANCH `
+                     -DGIT_HASH="$Env:GIT_HASH" `
+                     -DGIT_BRANCH="$Env:GIT_BRANCH" `
                      $(if ($Env:32BIT -eq "true") {
                        "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
