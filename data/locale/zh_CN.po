@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>, 2020\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
@@ -181,7 +181,7 @@ msgstr "显示信息"
 msgid "Script"
 msgstr "脚本"
 
-#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:439
+#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:441
 msgid "Invisible"
 msgstr "不可见"
 
@@ -307,7 +307,7 @@ msgstr "图块"
 
 #: src/editor/toolbox_widget.cpp:84
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/badguy/dispenser.cpp:415
+#: src/badguy/dispenser.cpp:417
 msgid "Objects"
 msgstr "物体"
 
@@ -1792,7 +1792,7 @@ msgstr "手动"
 
 #: src/object/camera.cpp:166
 msgid "free"
-msgstr ""
+msgstr "自由"
 
 #: src/object/camera.cpp:166
 msgid "autoscroll"
@@ -1977,7 +1977,7 @@ msgstr "生长（火焰花）"
 
 #: src/object/bonus_block.cpp:267
 msgid "Growth (Ice Rosette)"
-msgstr ""
+msgstr "生长（冰玫瑰花）"
 
 #: src/object/bonus_block.cpp:267
 msgid "Growth (air flower)"
@@ -1985,7 +1985,7 @@ msgstr "生长（空气花）"
 
 #: src/object/bonus_block.cpp:268
 msgid "Growth (Rock Shroom)"
-msgstr ""
+msgstr "生长（岩菇）"
 
 #: src/object/bonus_block.cpp:268
 msgid "Growth (retro)"
@@ -2288,7 +2288,7 @@ msgstr "版本号"
 msgid ""
 "The name of this object. Must not contain any spaces if this object is to be"
 " referenced from scripts"
-msgstr ""
+msgstr "此物体的名称。如果要在脚本中引用此物体，则名称中不得包含任何空格"
 
 #: src/supertux/game_object.cpp:151
 #: src/supertux/menu/editor_levelset_menu.cpp:55
@@ -2299,15 +2299,15 @@ msgstr "类型"
 msgid ""
 "The type of an object defines its theme and behaviour. This is mostly used "
 "to distinguish between forest and ice world types of this object"
-msgstr ""
+msgstr "物体的类型决定了它的主题和行为。这主要用于区分森林世界和冰雪世界类型的物体。"
 
 #: src/supertux/moving_object.cpp:71
 msgid "The horizontal location of the object in pixels from the left."
-msgstr ""
+msgstr "物体从左侧算起的水平位置（以像素为单位）。"
 
 #: src/supertux/moving_object.cpp:73
 msgid "The vertical location of the object in pixels from the top."
-msgstr ""
+msgstr "物体从顶部算起的垂直位置（以像素为单位）。"
 
 #: src/supertux/title_screen.cpp:286
 msgid "Copyright"
@@ -2345,7 +2345,7 @@ msgstr "  --debug                      打印额外的详细消息"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --log-tinygettext            Show tinygettext logs"
-msgstr ""
+msgstr "  --log-tinygettext            显示 tinygettext 日志"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid ""
@@ -2408,7 +2408,7 @@ msgstr "  --edit-level                 在编辑器中打开指定关卡"
 
 #: src/supertux/command_line_arguments.cpp:117
 msgid "  --resave                     Load given level and saves it"
-msgstr ""
+msgstr "  --resave                     加载指定的关卡并保存"
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "  --show-fps                   Display framerate in levels"
@@ -2455,7 +2455,7 @@ msgstr "目录选项："
 #: src/supertux/command_line_arguments.cpp:129
 msgid ""
 "  --datadir DIR                Set the directory for the game's data files"
-msgstr ""
+msgstr "  --datadir DIR                设置游戏的数据文件目录"
 
 #: src/supertux/command_line_arguments.cpp:130
 msgid ""
@@ -2484,7 +2484,7 @@ msgstr "  SUPERTUX2_USER_DIR           用户数据目录（存档等）"
 #. l10n: Keep SUPERTUX2_DATA_DIR untranslated
 #: src/supertux/command_line_arguments.cpp:139
 msgid "  SUPERTUX2_DATA_DIR           Directory for the game's data files"
-msgstr ""
+msgstr "  SUPERTUX2_DATA_DIR           游戏的数据文件目录"
 
 #: src/supertux/sector.cpp:519
 msgid "Press escape to skip"
@@ -2537,7 +2537,7 @@ msgstr "自动"
 
 #: src/supertux/main.cpp:872
 msgid "New release: SuperTux {}!"
-msgstr ""
+msgstr "新版本：SuperTux {}！"
 
 #: src/supertux/main.cpp:873
 msgid "Click for more details."
@@ -2549,7 +2549,7 @@ msgid ""
 "For more information, you can visit the SuperTux website.\n"
 "\n"
 "Do you want to visit the website now?"
-msgstr ""
+msgstr "SuperTux 新版本 ({}) 已发布！\n欲了解更多信息，请访问 SuperTux 网站。\n\n您想现在访问网站吗？"
 
 #: src/supertux/main.cpp:887
 msgid "Checking for new releases..."
@@ -2784,7 +2784,7 @@ msgstr "不需要鼠标悬停，就可以显示活动的图块地图中所有已
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Editor settings"
-msgstr ""
+msgstr "编辑器设置"
 
 #: src/supertux/menu/editor_menu.cpp:102
 #: src/supertux/menu/editor_level_menu.cpp:31
@@ -2803,11 +2803,11 @@ msgstr "键盘快捷键"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Close Level"
-msgstr ""
+msgstr "关闭关卡"
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Reset level"
-msgstr ""
+msgstr "重置关卡"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid "Exit Level Editor"
@@ -2819,19 +2819,19 @@ msgstr "您想要将此世界打包为扩展吗？"
 
 #: src/supertux/menu/editor_menu.cpp:183
 msgid "Open Menu"
-msgstr ""
+msgstr "打开菜单"
 
 #: src/supertux/menu/editor_menu.cpp:186
 msgid "Test at Cursor"
-msgstr ""
+msgstr "在光标处测试"
 
 #: src/supertux/menu/editor_menu.cpp:187
 msgid "Test at Last Position"
-msgstr ""
+msgstr "在最后的位置测试"
 
 #: src/supertux/menu/editor_menu.cpp:190
 msgid "Toggle Autotiling"
-msgstr ""
+msgstr "开关自动放置图块模式"
 
 #: src/supertux/menu/editor_menu.cpp:191
 #: src/supertux/menu/editor_settings.cpp:46
@@ -2850,23 +2850,23 @@ msgstr "显示网格"
 
 #: src/supertux/menu/editor_menu.cpp:194
 msgid "Toggle Between Tileset/Objects Tool"
-msgstr ""
+msgstr "在图块集和物体工具之间切换"
 
 #: src/supertux/menu/editor_menu.cpp:195
 msgid "Ctrl+PLUS or Ctrl+Scroll Up = Zoom In"
-msgstr ""
+msgstr "Ctrl+加号 或 Ctrl+向上滚动 = 放大"
 
 #: src/supertux/menu/editor_menu.cpp:196
 msgid "Ctrl+MINUS or Ctrl+Scroll Down = Zoom Out"
-msgstr ""
+msgstr "Ctrl+减号 或 Ctrl+向下滚动 = 缩小"
 
 #: src/supertux/menu/editor_menu.cpp:197
 msgid "Reset Zoom"
-msgstr ""
+msgstr "重置缩放"
 
 #: src/supertux/menu/editor_menu.cpp:198
 msgid "Scripting Shortcuts"
-msgstr ""
+msgstr "脚本快捷键"
 
 #: src/supertux/menu/editor_menu.cpp:199
 msgid "Home = Go to beginning of line"
@@ -2894,19 +2894,19 @@ msgstr "Delete = 删除光标后的内容"
 
 #: src/supertux/menu/editor_menu.cpp:205
 msgid "Cut whole line"
-msgstr ""
+msgstr "剪切整行"
 
 #: src/supertux/menu/editor_menu.cpp:206
 msgid "Copy whole line"
-msgstr ""
+msgstr "复制整行"
 
 #: src/supertux/menu/editor_menu.cpp:207
 msgid "Paste"
-msgstr ""
+msgstr "粘贴"
 
 #: src/supertux/menu/editor_menu.cpp:208
 msgid "Duplicate line"
-msgstr ""
+msgstr "重复该行"
 
 #: src/supertux/menu/editor_menu.cpp:213
 #: src/supertux/menu/particle_editor_menu.cpp:122
@@ -3013,7 +3013,7 @@ msgstr "扫描游戏杆"
 
 #: src/supertux/menu/joystick_menu.cpp:99
 msgid "Globally Ignore Joystick Axis"
-msgstr ""
+msgstr "全局忽略游戏杆轴"
 
 #: src/supertux/menu/joystick_menu.cpp:127
 msgid "Press Button"
@@ -3075,17 +3075,17 @@ msgstr "在退出世界后，标题画面要使用的关卡。"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:58
 msgid "Tux Dolls Required"
-msgstr ""
+msgstr "需要 Tux 玩偶"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 msgid ""
 "Require the player to have collected a certain amount of Tux Dolls from "
 "Story Mode before they can enter the world."
-msgstr ""
+msgstr "要求玩家在进入世界之前，必须在故事模式中收集到一定数量的 Tux 玩偶。"
 
 #: src/supertux/menu/editor_settings.cpp:33
 msgid "Editor Settings"
-msgstr ""
+msgstr "编辑器设置"
 
 #: src/supertux/menu/editor_settings.cpp:37
 msgid "tiny tile (4px)"
@@ -3113,15 +3113,15 @@ msgstr "渲染背景"
 
 #: src/supertux/menu/editor_settings.cpp:47
 msgid "Render Animations"
-msgstr ""
+msgstr "渲染动画"
 
 #: src/supertux/menu/editor_settings.cpp:48
 msgid "Invert Shift+Scroll"
-msgstr ""
+msgstr "反转 Shift+滚动"
 
 #: src/supertux/menu/editor_settings.cpp:49
 msgid "Centered Zoom"
-msgstr ""
+msgstr "居中缩放"
 
 #: src/supertux/menu/editor_settings.cpp:50
 msgid "Autotile Mode"
@@ -3137,27 +3137,27 @@ msgstr "启用物品撤销跟踪"
 
 #: src/supertux/menu/editor_settings.cpp:54
 msgid "Show Properties Sidebar"
-msgstr ""
+msgstr "显示属性侧边栏"
 
 #: src/supertux/menu/editor_settings.cpp:56
 msgid "Show Toolbar"
-msgstr ""
+msgstr "显示工具栏"
 
 #: src/supertux/menu/editor_settings.cpp:57
 msgid "Remember Last Level"
-msgstr ""
+msgstr "记住最后的关卡"
 
 #: src/supertux/menu/editor_settings.cpp:58
 msgid "Prefer Full Viewport"
-msgstr ""
+msgstr "优先使用完整视口"
 
 #: src/supertux/menu/editor_settings.cpp:59
 msgid "Blur Amount"
-msgstr ""
+msgstr "模糊量"
 
 #: src/supertux/menu/editor_settings.cpp:60
 msgid "Preferred Text Editor"
-msgstr ""
+msgstr "偏好的文本编辑器"
 
 #: src/supertux/menu/editor_settings.cpp:63
 msgid "Undo Stack Size"
@@ -3259,7 +3259,7 @@ msgstr "初始化脚本"
 
 #: src/supertux/menu/editor_sector_menu.cpp:38
 msgid "Run initialization script only once"
-msgstr ""
+msgstr "仅执行一次初始化脚本"
 
 #: src/supertux/menu/editor_sector_menu.cpp:39
 msgid "Gravity"
@@ -3349,7 +3349,7 @@ msgstr "从检查点重新开始"
 
 #: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
-msgstr ""
+msgstr "编辑关卡"
 
 #: src/supertux/menu/game_menu.cpp:81
 msgid "Abort Level"
@@ -3362,15 +3362,15 @@ msgstr "您确定吗？"
 
 #: src/supertux/menu/game_menu.cpp:124
 msgid "Couldn't open editor for this level. No worldmap!"
-msgstr ""
+msgstr "无法为此关卡打开编辑器。没有世界地图！"
 
 #: src/supertux/menu/game_menu.cpp:151
 msgid "Couldn't open editor for this level."
-msgstr ""
+msgstr "无法为此关卡打开编辑器。"
 
 #: src/supertux/menu/game_menu.cpp:157
 msgid "Couldn't open worldmap for this level."
-msgstr ""
+msgstr "无法为此关卡打开世界地图。"
 
 #: src/supertux/menu/debug_menu.cpp:36
 msgid "Debug"
@@ -3780,13 +3780,13 @@ msgstr "平滑摄像机的移动并生成中间帧。对于刷新率远高于 60
 
 #: src/supertux/menu/options_menu.cpp:127
 msgid "Fancy Effects"
-msgstr ""
+msgstr "花哨效果"
 
 #: src/supertux/menu/options_menu.cpp:128
 msgid ""
 "Applies fancy effects such as blur, clear tile refraction, and various other"
 " effects deemed \"fancy\". May significantly degrade performance."
-msgstr ""
+msgstr "使用诸如模糊、清晰的图块折射，以及其他各种“花哨”的效果。可能会显著降低性能。"
 
 #: src/supertux/menu/options_menu.cpp:136
 msgid "Camera Peek Multiplier"
@@ -3847,19 +3847,19 @@ msgstr "此功能目前仅在多人游戏选项菜单中使用。"
 
 #: src/supertux/menu/options_menu.cpp:177
 msgid "Enable Haptic Feedback"
-msgstr ""
+msgstr "启用触觉反馈"
 
 #: src/supertux/menu/options_menu.cpp:178
 msgid "Enable haptic feedback for touchscreen controls"
-msgstr ""
+msgstr "为触摸屏控制启用触觉反馈"
 
 #: src/supertux/menu/options_menu.cpp:180
 msgid "Only Haptic Feedback for D-Pad"
-msgstr ""
+msgstr "仅方向键有触觉反馈"
 
 #: src/supertux/menu/options_menu.cpp:181
 msgid "Only enable haptic feedback for the D-Pad"
-msgstr ""
+msgstr "仅启用方向键的触觉反馈"
 
 #: src/supertux/menu/options_menu.cpp:185
 msgid "Configure key-action mappings"
@@ -3896,11 +3896,11 @@ msgstr "启用屏幕渐变和平滑菜单动画"
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Show game timer"
-msgstr ""
+msgstr "显示游戏计时器"
 
 #: src/supertux/menu/options_menu.cpp:208
 msgid "Show a game timer while playing a level"
-msgstr ""
+msgstr "在关卡中显示游戏计时器"
 
 #: src/supertux/menu/options_menu.cpp:210
 msgid "Custom title screen levels"
@@ -3912,7 +3912,7 @@ msgstr "在加载特定的世界时，允许覆盖标题画面关卡"
 
 #: src/supertux/menu/options_menu.cpp:214
 msgid "Force Christmas Mode"
-msgstr ""
+msgstr "强制启用圣诞节模式"
 
 #: src/supertux/menu/options_menu.cpp:216
 msgid "Integrations and presence"
@@ -3955,13 +3955,13 @@ msgstr "当窗口失去焦点时自动暂停游戏"
 
 #: src/supertux/menu/options_menu.cpp:243
 msgid "Prefer Wayland"
-msgstr ""
+msgstr "优先使用 Wayland"
 
 #: src/supertux/menu/options_menu.cpp:244
 msgid ""
 "If you experience any issues with Nvidia cards, your window border, or "
 "anything you believe is due to Wayland, disable this. (Requires restart)"
-msgstr ""
+msgstr "如果您遇到任何 Nvidia 显卡、窗口边框的问题，或者任何您认为与 Wayland 有关的问题时，请禁用此选项。（需要重启）"
 
 #: src/supertux/menu/options_menu.cpp:248
 msgid "Use custom mouse cursor"
@@ -3973,47 +3973,47 @@ msgstr "游戏要渲染自己的光标还是使用系统光标"
 
 #: src/supertux/menu/options_menu.cpp:250
 msgid "Use native custom cursor"
-msgstr ""
+msgstr "使用原生自定义光标"
 
 #: src/supertux/menu/options_menu.cpp:250
 msgid "Whether the game uses a native custom cursor or renders it in the game"
-msgstr ""
+msgstr "游戏是使用原生自定义光标还是在游戏中渲染光标"
 
 #: src/supertux/menu/options_menu.cpp:252
 msgid "Precise scrolling"
-msgstr ""
+msgstr "精确滚动"
 
 #: src/supertux/menu/options_menu.cpp:253
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
-msgstr ""
+msgstr "大多数现代触控板都支持产生精确滚动事件。\n如果在启用后使用普通鼠标滚动时感觉异常，或者您不喜欢这种滚动方式，请禁用此选项。"
 
 #: src/supertux/menu/options_menu.cpp:255
 msgid "Invert horizontal scrolling"
-msgstr ""
+msgstr "反转水平滚动"
 
 #: src/supertux/menu/options_menu.cpp:256
 msgid "Inverts scrolling in the X-axis"
-msgstr ""
+msgstr "反转 X 轴上的滚动"
 
 #: src/supertux/menu/options_menu.cpp:258
 msgid "Invert vertical scrolling"
-msgstr ""
+msgstr "反转垂直滚动"
 
 #: src/supertux/menu/options_menu.cpp:259
 msgid "Inverts scrolling in the Y-axis"
-msgstr ""
+msgstr "反转 Y 轴上的滚动"
 
 #: src/supertux/menu/options_menu.cpp:265
 msgid "Force full viewport"
-msgstr ""
+msgstr "强制使用完整视口"
 
 #: src/supertux/menu/options_menu.cpp:265
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
-msgstr ""
+msgstr "不要尝试缩放或应用任何宽高比。忽略部分视频设置。适用于街机或特殊屏幕。"
 
 #: src/supertux/menu/options_menu.cpp:269
 msgid "Check for new releases"
@@ -4956,7 +4956,7 @@ msgstr "根系小树"
 msgid "Mr. Snowball"
 msgstr "雪球先生"
 
-#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:440
+#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:442
 #: src/badguy/darttrap.cpp:174 src/badguy/granito.hpp:53
 msgid "Granito"
 msgstr "花岗岩怪"
@@ -5077,33 +5077,33 @@ msgstr "愤怒之石"
 msgid "Dart"
 msgstr "飞镖"
 
-#: src/badguy/dispenser.cpp:411
+#: src/badguy/dispenser.cpp:413
 msgid "Interval (seconds)"
 msgstr "间隔（秒）"
 
-#: src/badguy/dispenser.cpp:412
+#: src/badguy/dispenser.cpp:414
 msgid "Random"
 msgstr "随机"
 
-#: src/badguy/dispenser.cpp:418
+#: src/badguy/dispenser.cpp:420
 msgid "Limit dispensed badguys"
 msgstr "限制刷新的坏人"
 
-#: src/badguy/dispenser.cpp:420
+#: src/badguy/dispenser.cpp:422
 msgid "Obey Gravity"
 msgstr "遵守重力"
 
-#: src/badguy/dispenser.cpp:422
+#: src/badguy/dispenser.cpp:424
 msgid "Max concurrent badguys"
 msgstr "同时出现的最大坏人数"
 
 #. l10n: This is not a dropper in the medical sense. Dropper refers to a
 #. dispenser that drops objects from above
-#: src/badguy/dispenser.cpp:436
+#: src/badguy/dispenser.cpp:438
 msgid "Dropper"
 msgstr "下投发射器"
 
-#: src/badguy/dispenser.cpp:438
+#: src/badguy/dispenser.cpp:440
 msgid "Cannon"
 msgstr "水平发射器"
 

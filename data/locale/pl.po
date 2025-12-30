@@ -29,9 +29,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Alina Gobarov, 2024-2025\n"
+"Last-Translator: Grzegorz Szymaszek, 2025\n"
 "Language-Team: Polish (http://app.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -193,7 +193,7 @@ msgstr "Pokaż wiadomość"
 msgid "Script"
 msgstr "Skrypt"
 
-#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:439
+#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:441
 msgid "Invisible"
 msgstr "Niewidzialny"
 
@@ -319,7 +319,7 @@ msgstr "Płytki"
 
 #: src/editor/toolbox_widget.cpp:84
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/badguy/dispenser.cpp:415
+#: src/badguy/dispenser.cpp:417
 msgid "Objects"
 msgstr "Obiekty"
 
@@ -541,12 +541,12 @@ msgstr "Informacje do łatki dla v{}:"
 #: src/editor/toolbar_widget.cpp:55 src/supertux/menu/editor_menu.cpp:188
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Undo"
-msgstr ""
+msgstr "Cofnij"
 
 #: src/editor/toolbar_widget.cpp:60 src/supertux/menu/editor_menu.cpp:189
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Redo"
-msgstr ""
+msgstr "Ponów"
 
 #: src/editor/toolbar_widget.cpp:78
 msgid "Change / Toggle grid size"
@@ -554,11 +554,11 @@ msgstr ""
 
 #: src/editor/toolbar_widget.cpp:83
 msgid "Test level"
-msgstr ""
+msgstr "Testuj poziom"
 
 #: src/editor/toolbar_widget.cpp:90
 msgid "Save level"
-msgstr ""
+msgstr "Zapisz poziom"
 
 #: src/editor/toolbar_widget.cpp:95
 msgid "Toggle between object and tile mode"
@@ -574,19 +574,19 @@ msgstr ""
 
 #: src/editor/toolbar_widget.cpp:118
 msgid "Draw mode"
-msgstr ""
+msgstr "Tryb rysowania"
 
 #: src/editor/toolbar_widget.cpp:125
 msgid "Box draw mode"
-msgstr ""
+msgstr "Tryb rysowania prostokąta"
 
 #: src/editor/toolbar_widget.cpp:132
 msgid "Fill mode"
-msgstr ""
+msgstr "Tryb wypełniania"
 
 #: src/editor/toolbar_widget.cpp:139
 msgid "Replace mode"
-msgstr ""
+msgstr "Tryb zastępowania"
 
 #: src/editor/toolbar_widget.cpp:148
 msgid ""
@@ -967,7 +967,7 @@ msgstr "Otwórz"
 
 #: src/editor/editor.cpp:549
 msgid "Level saved!"
-msgstr ""
+msgstr "Poziom zapisany!"
 
 #: src/editor/editor.cpp:579
 msgid ""
@@ -1054,7 +1054,7 @@ msgstr ""
 
 #: src/editor/layers_widget.cpp:160
 msgid "Unnamed {}"
-msgstr ""
+msgstr "Bez nazwy {}"
 
 #: src/editor/layers_widget.cpp:419
 msgid "Sector: {}"
@@ -2796,7 +2796,7 @@ msgstr "Pokaż wycofane bloki na aktywnej warstwie, bez potrzeby najeżdżania."
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Editor settings"
-msgstr ""
+msgstr "Ustawienia edytora"
 
 #: src/supertux/menu/editor_menu.cpp:102
 #: src/supertux/menu/editor_level_menu.cpp:31
@@ -2815,11 +2815,11 @@ msgstr "Skróty klawiszowe"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Close Level"
-msgstr ""
+msgstr "Zamknij poziom"
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Reset level"
-msgstr ""
+msgstr "Zresetuj poziom"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid "Exit Level Editor"
@@ -2874,7 +2874,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:197
 msgid "Reset Zoom"
-msgstr ""
+msgstr "Zresetuj powiększenie"
 
 #: src/supertux/menu/editor_menu.cpp:198
 msgid "Scripting Shortcuts"
@@ -4971,7 +4971,7 @@ msgstr ""
 msgid "Mr. Snowball"
 msgstr "Pan Kula Śnieżna"
 
-#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:440
+#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:442
 #: src/badguy/darttrap.cpp:174 src/badguy/granito.hpp:53
 msgid "Granito"
 msgstr "Granito"
@@ -5092,33 +5092,33 @@ msgstr "Wściekły kamień"
 msgid "Dart"
 msgstr "Strzała"
 
-#: src/badguy/dispenser.cpp:411
+#: src/badguy/dispenser.cpp:413
 msgid "Interval (seconds)"
 msgstr "Odstęp (sekundy)"
 
-#: src/badguy/dispenser.cpp:412
+#: src/badguy/dispenser.cpp:414
 msgid "Random"
 msgstr "Losowy"
 
-#: src/badguy/dispenser.cpp:418
+#: src/badguy/dispenser.cpp:420
 msgid "Limit dispensed badguys"
 msgstr "Ogranicz wypuszczanych wrogów"
 
-#: src/badguy/dispenser.cpp:420
+#: src/badguy/dispenser.cpp:422
 msgid "Obey Gravity"
 msgstr "Przestrzegaj grawitacji"
 
-#: src/badguy/dispenser.cpp:422
+#: src/badguy/dispenser.cpp:424
 msgid "Max concurrent badguys"
 msgstr "Maksimum jednoczesnych wrogów"
 
 #. l10n: This is not a dropper in the medical sense. Dropper refers to a
 #. dispenser that drops objects from above
-#: src/badguy/dispenser.cpp:436
+#: src/badguy/dispenser.cpp:438
 msgid "Dropper"
 msgstr "Wyrzutnia"
 
-#: src/badguy/dispenser.cpp:438
+#: src/badguy/dispenser.cpp:440
 msgid "Cannon"
 msgstr "Armata"
 

@@ -13,15 +13,15 @@
 # Jiří Paleček <narre@protonmail.com>, 2016,2018,2020
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2014
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2006
-# fri, 2013,2018,2021,2024
+# fri, 2013,2018,2021,2024-2025
 # Hume2 <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2025\n"
+"Last-Translator: fri, 2013,2018,2021,2024-2025\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -183,13 +183,13 @@ msgstr "Ukázat zprávu"
 msgid "Script"
 msgstr "Skript"
 
-#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:439
+#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:441
 msgid "Invisible"
 msgstr "Neviditelnost"
 
 #: src/worldmap/special_tile.cpp:83
 msgid "Blocking path"
-msgstr ""
+msgstr "Zahrazuje cestu"
 
 #: src/worldmap/special_tile.cpp:84
 msgid ""
@@ -309,7 +309,7 @@ msgstr "Dlaždice"
 
 #: src/editor/toolbox_widget.cpp:84
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/badguy/dispenser.cpp:415
+#: src/badguy/dispenser.cpp:417
 msgid "Objects"
 msgstr "Objekty"
 
@@ -531,52 +531,52 @@ msgstr "Poznámky k verzi v{}:"
 #: src/editor/toolbar_widget.cpp:55 src/supertux/menu/editor_menu.cpp:188
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Undo"
-msgstr ""
+msgstr "Zpět"
 
 #: src/editor/toolbar_widget.cpp:60 src/supertux/menu/editor_menu.cpp:189
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Redo"
-msgstr ""
+msgstr "Znovu"
 
 #: src/editor/toolbar_widget.cpp:78
 msgid "Change / Toggle grid size"
-msgstr ""
+msgstr "Změnit/Přepnout velikost mřížky"
 
 #: src/editor/toolbar_widget.cpp:83
 msgid "Test level"
-msgstr ""
+msgstr "Vyzkoušet úroveň"
 
 #: src/editor/toolbar_widget.cpp:90
 msgid "Save level"
-msgstr ""
+msgstr "Uložit úroveň"
 
 #: src/editor/toolbar_widget.cpp:95
 msgid "Toggle between object and tile mode"
-msgstr ""
+msgstr "Přepínání mezi režimem předmětů a dlaždic"
 
 #: src/editor/toolbar_widget.cpp:102
 msgid "Select or move the object under the mouse"
-msgstr ""
+msgstr "Vybrat nebo posunout předmět pod myší"
 
 #: src/editor/toolbar_widget.cpp:109
 msgid "Delete the tile or object under the mouse"
-msgstr ""
+msgstr "Smazat dlaždici nebo předmět pod myší"
 
 #: src/editor/toolbar_widget.cpp:118
 msgid "Draw mode"
-msgstr ""
+msgstr "Režim kreslení"
 
 #: src/editor/toolbar_widget.cpp:125
 msgid "Box draw mode"
-msgstr ""
+msgstr "Režim kreslení beden"
 
 #: src/editor/toolbar_widget.cpp:132
 msgid "Fill mode"
-msgstr ""
+msgstr "Režim vyplňování"
 
 #: src/editor/toolbar_widget.cpp:139
 msgid "Replace mode"
-msgstr ""
+msgstr "Režim nahrazování"
 
 #: src/editor/toolbar_widget.cpp:148
 msgid ""
@@ -899,7 +899,7 @@ msgstr "ne"
 
 #: src/editor/object_option.cpp:402 src/editor/object_option.cpp:591
 msgid "Edit..."
-msgstr ""
+msgstr "Upravit..."
 
 #: src/editor/object_option.cpp:443 src/editor/object_option.cpp:523
 msgid "invalid"
@@ -907,7 +907,7 @@ msgstr "neplatné"
 
 #: src/editor/object_option.cpp:653
 msgid "Browse..."
-msgstr ""
+msgstr "Procházet..."
 
 #: src/editor/object_option.cpp:711
 msgid "Mix..."
@@ -915,12 +915,12 @@ msgstr ""
 
 #: src/editor/object_option.cpp:802
 msgid "Select..."
-msgstr ""
+msgstr "Vybrat..."
 
 #: src/editor/object_option.cpp:999 src/editor/object_option.cpp:1212
 #: src/editor/object_option.cpp:1246
 msgid "Change..."
-msgstr ""
+msgstr "Změnit..."
 
 #: src/editor/object_option.cpp:1090
 msgid "Scale X"
@@ -957,7 +957,7 @@ msgstr "Otevřít"
 
 #: src/editor/editor.cpp:549
 msgid "Level saved!"
-msgstr ""
+msgstr "Úroveň uložena!"
 
 #: src/editor/editor.cpp:579
 msgid ""
@@ -1044,7 +1044,7 @@ msgstr "Nelze najít zrodiště s názvem \"main\".\nZmeň, prosím, název zrod
 
 #: src/editor/layers_widget.cpp:160
 msgid "Unnamed {}"
-msgstr ""
+msgstr "Bez názvu {}"
 
 #: src/editor/layers_widget.cpp:419
 msgid "Sector: {}"
@@ -4961,7 +4961,7 @@ msgstr "Sazenice kořene"
 msgid "Mr. Snowball"
 msgstr "Sněhová koule"
 
-#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:440
+#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:442
 #: src/badguy/darttrap.cpp:174 src/badguy/granito.hpp:53
 msgid "Granito"
 msgstr "Granito"
@@ -5082,33 +5082,33 @@ msgstr "Zuřící kámen"
 msgid "Dart"
 msgstr "Šipka"
 
-#: src/badguy/dispenser.cpp:411
+#: src/badguy/dispenser.cpp:413
 msgid "Interval (seconds)"
 msgstr "Interval (sekundy)"
 
-#: src/badguy/dispenser.cpp:412
+#: src/badguy/dispenser.cpp:414
 msgid "Random"
 msgstr "Náhodný"
 
-#: src/badguy/dispenser.cpp:418
+#: src/badguy/dispenser.cpp:420
 msgid "Limit dispensed badguys"
 msgstr "Omezit počet zlejšků"
 
-#: src/badguy/dispenser.cpp:420
+#: src/badguy/dispenser.cpp:422
 msgid "Obey Gravity"
 msgstr "Poslouchat gravitaci"
 
-#: src/badguy/dispenser.cpp:422
+#: src/badguy/dispenser.cpp:424
 msgid "Max concurrent badguys"
 msgstr "Limit současně zrozených zlejšků"
 
 #. l10n: This is not a dropper in the medical sense. Dropper refers to a
 #. dispenser that drops objects from above
-#: src/badguy/dispenser.cpp:436
+#: src/badguy/dispenser.cpp:438
 msgid "Dropper"
 msgstr "Trousič"
 
-#: src/badguy/dispenser.cpp:438
+#: src/badguy/dispenser.cpp:440
 msgid "Cannon"
 msgstr "Kanón"
 

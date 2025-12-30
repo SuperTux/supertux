@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Ștefan ILIE, 2025\n"
 "Language-Team: French (Canada) (http://app.transifex.com/arctic-games/supertux/language/fr_CA/)\n"
@@ -175,26 +175,26 @@ msgstr "Montrer le message"
 msgid "Script"
 msgstr "Script"
 
-#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:439
+#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:441
 msgid "Invisible"
 msgstr "Invisible"
 
 #: src/worldmap/special_tile.cpp:83
 msgid "Blocking path"
-msgstr ""
+msgstr "Chemin bloqué"
 
 #: src/worldmap/special_tile.cpp:84
 msgid ""
 "If true, the direction blocks the path. Useful for a \"fork in the road\" "
 "scenario."
-msgstr ""
+msgstr "Si vrai, la direction sélectionnée bloque le chemin. Utile pour un scénario tel \"À la Croisée des Chemins?\"."
 
 #: src/worldmap/special_tile.cpp:86
 msgid ""
 "One or more of \"north\", \"south\", \"east\", or \"west\". For example\n"
 "a value of \"north south east\" will set each respective direction for this\n"
 "special tile."
-msgstr ""
+msgstr "Un ou plusieurs choix parmi \"nord\", \"sud\", \"est\" ou \"ouest\". Par exemple, une valeur de \"nord sud est\" va établir chaque direction de la tuile spéciale respectivement."
 
 #: src/worldmap/worldmap_object.cpp:75 src/object/bicycle_platform.cpp:201
 #: src/object/background.cpp:282 src/object/pneumatic_platform.cpp:164
@@ -301,7 +301,7 @@ msgstr "Carrelage"
 
 #: src/editor/toolbox_widget.cpp:84
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/badguy/dispenser.cpp:415
+#: src/badguy/dispenser.cpp:417
 msgid "Objects"
 msgstr "Objets"
 
@@ -3069,13 +3069,13 @@ msgstr "Un niveau à utiliser pour l’écran d'accueil, après avoir quitté le
 
 #: src/supertux/menu/editor_levelset_menu.cpp:58
 msgid "Tux Dolls Required"
-msgstr ""
+msgstr "Poupées Tux requises"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 msgid ""
 "Require the player to have collected a certain amount of Tux Dolls from "
 "Story Mode before they can enter the world."
-msgstr ""
+msgstr "Forcer la récupération par le joueur d'un nombre déterminé de Poupées Tux dans le Mode Histoire avant de pouvoir accéder au monde."
 
 #: src/supertux/menu/editor_settings.cpp:33
 msgid "Editor Settings"
@@ -3843,19 +3843,19 @@ msgstr "Cette fonctionnalité n’est actuellement utilisée que dans le menu de
 
 #: src/supertux/menu/options_menu.cpp:177
 msgid "Enable Haptic Feedback"
-msgstr ""
+msgstr "Activer les retours haptiques"
 
 #: src/supertux/menu/options_menu.cpp:178
 msgid "Enable haptic feedback for touchscreen controls"
-msgstr ""
+msgstr "Activer les retours haptiques pour les contrôles sur écran tactile"
 
 #: src/supertux/menu/options_menu.cpp:180
 msgid "Only Haptic Feedback for D-Pad"
-msgstr ""
+msgstr "Retours haptiques pour la croix directionnelle seulement"
 
 #: src/supertux/menu/options_menu.cpp:181
 msgid "Only enable haptic feedback for the D-Pad"
-msgstr ""
+msgstr "Activer les retours haptiques uniquement pour la croix directionnelle"
 
 #: src/supertux/menu/options_menu.cpp:185
 msgid "Configure key-action mappings"
@@ -4396,7 +4396,7 @@ msgstr "Veuillez entrer une licence pour ce niveau."
 
 #: src/supertux/menu/sorted_contrib_menu.cpp:45
 msgid "Collect {} more Tux Dolls in Story Mode to unlock!"
-msgstr ""
+msgstr "Récupérez {} autres Poupées Tux dans le Mode Histoire pour le débloquer!"
 
 #: src/supertux/menu/multiplayer_menu.cpp:30
 msgid "Auto-manage Players"
@@ -4707,7 +4707,7 @@ msgstr "Temps cible de niveau:"
 
 #: src/supertux/statistics.cpp:92
 msgid "Tux Dolls collected:"
-msgstr ""
+msgstr "Nombre de Poupées Tux récupérées:"
 
 #: src/supertux/statistics.cpp:297
 msgid "You"
@@ -4952,7 +4952,7 @@ msgstr "Pousse de racine"
 msgid "Mr. Snowball"
 msgstr "M. Boule de neige"
 
-#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:440
+#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:442
 #: src/badguy/darttrap.cpp:174 src/badguy/granito.hpp:53
 msgid "Granito"
 msgstr "Granito"
@@ -5073,33 +5073,33 @@ msgstr "Pierre en colère"
 msgid "Dart"
 msgstr "Dart"
 
-#: src/badguy/dispenser.cpp:411
+#: src/badguy/dispenser.cpp:413
 msgid "Interval (seconds)"
 msgstr "Intervalle (secondes)"
 
-#: src/badguy/dispenser.cpp:412
+#: src/badguy/dispenser.cpp:414
 msgid "Random"
 msgstr "Au hasard"
 
-#: src/badguy/dispenser.cpp:418
+#: src/badguy/dispenser.cpp:420
 msgid "Limit dispensed badguys"
 msgstr "Limiter les méchants distribués"
 
-#: src/badguy/dispenser.cpp:420
+#: src/badguy/dispenser.cpp:422
 msgid "Obey Gravity"
 msgstr "Obéir à la gravité"
 
-#: src/badguy/dispenser.cpp:422
+#: src/badguy/dispenser.cpp:424
 msgid "Max concurrent badguys"
 msgstr "Max de méchants simultanés"
 
 #. l10n: This is not a dropper in the medical sense. Dropper refers to a
 #. dispenser that drops objects from above
-#: src/badguy/dispenser.cpp:436
+#: src/badguy/dispenser.cpp:438
 msgid "Dropper"
 msgstr "Largueur"
 
-#: src/badguy/dispenser.cpp:438
+#: src/badguy/dispenser.cpp:440
 msgid "Cannon"
 msgstr "Canon"
 

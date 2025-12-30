@@ -5,14 +5,14 @@
 # Translators:
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
-# Ilija Ćulap <ilija.culap14@gmail.com>, 2013
+# 9c8b4d6ac7d832f4054ebaee3aff066e_7360642 <3855c9e76d424e88fbb359b5497feb63_122043>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Ilija Ćulap <ilija.culap14@gmail.com>, 2013\n"
+"Last-Translator: 9c8b4d6ac7d832f4054ebaee3aff066e_7360642 <3855c9e76d424e88fbb359b5497feb63_122043>, 2013\n"
 "Language-Team: Croatian (http://app.transifex.com/arctic-games/supertux/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -174,7 +174,7 @@ msgstr "Prikaži poruku"
 msgid "Script"
 msgstr "Skripta"
 
-#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:439
+#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:441
 msgid "Invisible"
 msgstr "Nevidljiv"
 
@@ -300,7 +300,7 @@ msgstr "Pločice"
 
 #: src/editor/toolbox_widget.cpp:84
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/badguy/dispenser.cpp:415
+#: src/badguy/dispenser.cpp:417
 msgid "Objects"
 msgstr "Predmeti"
 
@@ -4951,7 +4951,7 @@ msgstr "Sadnica s korijenom"
 msgid "Mr. Snowball"
 msgstr "Gospodin Snježna Gruda"
 
-#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:440
+#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:442
 #: src/badguy/darttrap.cpp:174 src/badguy/granito.hpp:53
 msgid "Granito"
 msgstr "Granito"
@@ -5072,33 +5072,33 @@ msgstr "Ljutiti kamen"
 msgid "Dart"
 msgstr "Strijelica"
 
-#: src/badguy/dispenser.cpp:411
+#: src/badguy/dispenser.cpp:413
 msgid "Interval (seconds)"
 msgstr "Interval (sekunde)"
 
-#: src/badguy/dispenser.cpp:412
+#: src/badguy/dispenser.cpp:414
 msgid "Random"
 msgstr "Slučajno"
 
-#: src/badguy/dispenser.cpp:418
+#: src/badguy/dispenser.cpp:420
 msgid "Limit dispensed badguys"
 msgstr "Ograničite izdane negativce"
 
-#: src/badguy/dispenser.cpp:420
+#: src/badguy/dispenser.cpp:422
 msgid "Obey Gravity"
 msgstr "Poslušaj gravitaciju"
 
-#: src/badguy/dispenser.cpp:422
+#: src/badguy/dispenser.cpp:424
 msgid "Max concurrent badguys"
 msgstr "Maksimalni broj istodobnih negativaca"
 
 #. l10n: This is not a dropper in the medical sense. Dropper refers to a
 #. dispenser that drops objects from above
-#: src/badguy/dispenser.cpp:436
+#: src/badguy/dispenser.cpp:438
 msgid "Dropper"
 msgstr "Dropper"
 
-#: src/badguy/dispenser.cpp:438
+#: src/badguy/dispenser.cpp:440
 msgid "Cannon"
 msgstr "Top"
 
