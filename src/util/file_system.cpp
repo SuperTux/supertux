@@ -266,6 +266,8 @@ open_editor(const std::string& filename)
   std::string editor =
 #ifdef WIN32
     "notepad.exe"; // *shrugs*
+#elif defined(__APPLE__)
+    "open"; // use TextEdit
 #else
     getenv("EDITOR") != NULL ? getenv("EDITOR") : "";
 #endif
