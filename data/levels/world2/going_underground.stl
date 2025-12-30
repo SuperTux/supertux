@@ -816,7 +816,7 @@ entrance3.goto_node(1);
 entrance4.goto_node(1);
 start_lift.start_moving();
 Camera.set_scale(1.2);
-
+settings.fade_to_ambient_light(0.4, 0.4, 0.45, 0);
 ")
       (button #f)
       (width 96)
@@ -858,13 +858,6 @@ bg_layer3.set_color(1, 1, 1, 1);")
       (x 2516)
       (y 1488)
     )
-    (scripttrigger
-      (button #f)
-      (width 224)
-      (height 32)
-      (x 2848)
-      (y 1408)
-    )
     (secretarea
       (fade-tilemap "secret")
       (width 160)
@@ -904,14 +897,6 @@ bg_layer3.set_color(1, 1, 1, 1);")
     (spawnpoint
       (x 1568)
       (y 2432)
-    )
-    (spawnpoint
-      (x 3108)
-      (y 1340)
-    )
-    (spawnpoint
-      (x 3936)
-      (y 736)
     )
     (stalactite
       (type "rock")

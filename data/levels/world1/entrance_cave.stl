@@ -791,12 +791,12 @@ platform0.goto_node(1);")
     (unstable_tile
       (z-pos 0)
       (x 3232)
-      (y 672)
+      (y 640)
     )
     (unstable_tile
       (z-pos 0)
       (x 3200)
-      (y 672)
+      (y 640)
     )
     (unstable_tile
       (z-pos 0)
