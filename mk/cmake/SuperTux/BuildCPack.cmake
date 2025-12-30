@@ -6,25 +6,24 @@ set(DIRS ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext ${CMAKE_CURRENT_BINARY
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
 
-  find_package(PNG)
-  foreach(_file ${PNG_LIBRARIES})
-    get_filename_component(_resolvedFile "${_file}" REALPATH)
-    get_filename_component(_name "${_file}" NAME)
-    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  endforeach()
-  find_package(JPEG)
-  foreach(_file ${JPEG_LIBRARIES})
-    get_filename_component(_resolvedFile "${_file}" REALPATH)
-    get_filename_component(_name "${_file}" NAME)
-    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  endforeach()
-
   install(CODE "
-       if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
-       include(BundleUtilities)
-       fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
-       endif()
-       ")
+    if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
+      include(BundleUtilities)
+
+      # Override the default embedded path to put libraries in Contents/Frameworks
+      # instead of Contents/Resources/Frameworks
+      # The executable is at Contents/Resources/bin/supertux2, so we need ../../Frameworks
+      function(gp_item_default_embedded_path_override item default_embedded_path_var)
+        set(path \"@executable_path/../../Frameworks\")
+        set(\${default_embedded_path_var} \"\${path}\" PARENT_SCOPE)
+      endfunction()
+
+      fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
+
+      # Clean up redundant library directory - fixup_bundle already copied them to Frameworks
+      file(REMOVE_RECURSE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/lib\")
+    endif()
+  ")
 
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
 
@@ -35,6 +34,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(CPACK_DMG_VOLUME_NAME "SuperTux ${SUPERTUX_VERSION_STRING}")
   set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/dsstore_setup.scpt")
   set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/background.png")
+
+  # Code signing is required for Apple Silicon, otherwise the app will crash due to invalid signatures of the various libraries
+  # Using "-" as the certificate name performs ad-hoc signing
+  set(CPACK_BUNDLE_APPLE_CERT_APP "-")
 endif()
 
 set(CPACK_PACKAGE_NAME "SuperTux")
