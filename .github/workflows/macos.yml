@@ -142,9 +142,9 @@ jobs:
           fi
 
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $CMAKE_ARCH_FLAGS             \
-                   -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
-                   -DSUPERTUX_PACKAGE_VERSION="$GIT_TAG dev - $GIT_HASH ($GIT_BRANCH) (CI ARTIFACT)" \
-                   -DSUPERTUX_VERSION_STRING="$GIT_BRANCH-$GIT_HASH"           \
+                   -DGIT_HASH="$GIT_HASH" \
+                   -DGIT_BRANCH="$GIT_BRANCH" \
+                   -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH" `
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
                    -DINSTALL_SUBDIR_SHARE=share/supertux2                      \
                    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
