@@ -38,6 +38,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   # Code signing is required for Apple Silicon, otherwise the app will crash due to invalid signatures of the various libraries
   # Using "-" as the certificate name performs ad-hoc signing
   set(CPACK_BUNDLE_APPLE_CERT_APP "-")
+
+  # Use a wrapper script that adds -scrub to hdiutil to remove .fseventsd, .Trashes, etc. from the DMG
+  set(CPACK_COMMAND_HDIUTIL "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/hdiutil_wrapper.sh")
 endif()
 
 set(CPACK_PACKAGE_NAME "SuperTux")
