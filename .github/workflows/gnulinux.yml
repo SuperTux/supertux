@@ -290,7 +290,7 @@ jobs:
           BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
       - name: Prepare Release
-        if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release
         env:
           OS: ${{ matrix.os }}
           ARCH: ${{ matrix.arch }}
@@ -300,7 +300,7 @@ jobs:
           fi
 
       - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
