@@ -195,3 +195,10 @@ jobs:
           name: "Signed SuperTux APK ${{ matrix.arch }}"
           path: "mk/android/app/build/outputs/apk/release/SuperTux-${{ env.SUPERTUX_VERSION }}-${{ matrix.arch }}.apk"
 
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "mk/android/app/build/outputs/apk/release/SuperTux-*.apk"
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
