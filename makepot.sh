@@ -46,7 +46,7 @@ for LEVELSET in $(ls data/levels); do
 done
 
 for LEVELSET in $(ls data/levels); do
-  find "data/levels/${LEVELSET}" "(" -name "*.stl" -or -name "*.stl.in" -or -name "*.stwm" -or -name "*.txt" ")" -print0 | xargs -0 xgettext --keyword='_:1' \
+  find "data/levels/${LEVELSET}" "(" -name "*.stl" -or -name "*.stl.in" -or -name "*.stwm" -or -name "*.txt" -or -name "info" ")" -print0 | xargs -0 xgettext --keyword='_:1' \
     --language=Lisp --from-code=UTF-8 --sort-by-file \
     --output "data/levels/${LEVELSET}/messages.pot" --add-comments=l10n \
     --package-name="${package_name}" --package-version="${package_version}" \
