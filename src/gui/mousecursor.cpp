@@ -40,6 +40,8 @@ MouseCursor::MouseCursor(SpritePtr sprite) :
   m_applied_state(MouseCursorState::HIDE),
   m_sprite(std::move(sprite)),
   m_custom_cursor_last(false),
+  m_visible(true),
+  m_visibility_changed(false),
   m_cursors(),
   m_x(),
   m_y(),
@@ -64,7 +66,7 @@ MouseCursor::set_cursor_action(const std::string& action)
       return;
     std::string filename = (*surfaces)[0]->get_filename();
     SDLSurfacePtr surface = SDLSurface::from_file(filename);
-    m_cursors[action] = 
+    m_cursors[action] =
       std::move(std::shared_ptr<SDL_Cursor>(SDL_CreateColorCursor(surface.get(), 0, 0), &SDL_FreeCursor));
     if (m_cursors[action])
     {
@@ -85,9 +87,19 @@ MouseCursor::set_cursor_action(const std::string& action)
 void
 MouseCursor::apply_state(MouseCursorState state)
 {
-  if (m_applied_state != state)
+  // we still set the state but ensure mouse is hidden in this case.
+  if (!m_visible)
+  {
+    if (!(g_config->custom_mouse_cursor) || g_config->custom_system_cursor)
+      SDL_ShowCursor(SDL_DISABLE);
+    m_applied_state = state;
+    return;
+  }
+
+  if (m_applied_state != state || m_visibility_changed)
   {
     m_applied_state = state;
+    m_visibility_changed = false;
 
     switch(state)
     {
@@ -111,6 +123,24 @@ MouseCursor::apply_state(MouseCursorState state)
   }
 }
 
+// NOTE: visibility is not the same as MouseCursorState::HIDE, as for custom
+// mouse cursors in some cases, the draw function for the MouseCursor simply
+// wasn't called for the cursor. This unfortunately did nothing for native mouse
+// cursors, so we can use this to be absolutely sure of the cursors state,
+// regardless if it was set to ::HIDE or ::LINK or whatever
+void
+MouseCursor::set_visible(bool visibility)
+{
+  if (m_visible == visibility)
+    return;
+  m_visible = visibility;
+  m_visibility_changed = true;
+  if (m_visible && (!(g_config->custom_mouse_cursor) || g_config->custom_system_cursor))
+    SDL_ShowCursor(SDL_ENABLE);
+
+  apply_state(m_applied_state);
+}
+
 void
 MouseCursor::draw(DrawingContext& context)
 {
@@ -126,12 +156,12 @@ MouseCursor::draw(DrawingContext& context)
     }
     return;
   }
-  
-  if (m_state != MouseCursorState::HIDE)
+
+  if (m_state != MouseCursorState::HIDE && m_visible)
   {
     int x, y;
     Uint32 ispressed = SDL_GetMouseState(&x, &y);
-    
+
     if (g_config->custom_system_cursor && SDL_ShowCursor(SDL_QUERY) == SDL_DISABLE)
     {
       SDL_ShowCursor(SDL_ENABLE);
@@ -164,6 +194,6 @@ MouseCursor::draw(DrawingContext& context)
                                    LAYER_GUI + 100);
     }
   }
-  
+
   m_custom_cursor_last = g_config->custom_mouse_cursor;
 }

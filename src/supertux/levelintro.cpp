@@ -17,6 +17,7 @@
 #include "supertux/levelintro.hpp"
 
 #include "control/input_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -59,6 +60,7 @@ LevelIntro::~LevelIntro()
 void
 LevelIntro::setup()
 {
+  MouseCursor::current()->set_visible(false);
 }
 
 void

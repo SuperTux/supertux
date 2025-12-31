@@ -333,7 +333,7 @@ Editor::draw(Compositor& compositor)
                                         -100);
   }
 
-  MouseCursor::current()->draw(context);
+  MouseCursor::current()->set_visible(true);
 }
 
 void

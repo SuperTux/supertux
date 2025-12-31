@@ -195,8 +195,15 @@ MenuManager::draw(DrawingContext& context)
     m_notification.current->draw(context);
   }
 
-  if ((has_dialog() || is_active()) && MouseCursor::current()) // Cursor should be drawn
-    MouseCursor::current()->draw(context);
+  // if ((has_dialog() || is_active()) && MouseCursor::current()) // Cursor should be drawn
+  // {
+  //   MouseCursor::current()->set_visible(true);
+  //   MouseCursor::current()->draw(context);
+  // }
+  // else
+  // {
+  //   MouseCursor::current()->set_visible(false);
+  // }
 }
 
 
