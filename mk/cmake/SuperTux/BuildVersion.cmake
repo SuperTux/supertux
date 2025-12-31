@@ -22,13 +22,16 @@ set(_is_release_default YES)
 if(GIT_ENABLED)
   git_is_tag(_is_release_default)
   git_project_version()
-
-  configure_file("${CMAKE_CURRENT_LIST_DIR}/version.cmake.in"
-                 "${PROJECT_SOURCE_DIR}/version.cmake" @ONLY)
 endif()
+
 option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" ${_is_release_default})
 if(IS_SUPERTUX_RELEASE)
   message(STATUS "Building SuperTux in Release mode!")
+endif()
+
+if(GIT_ENABLED)
+  configure_file("${CMAKE_CURRENT_LIST_DIR}/version.cmake.in"
+                 "${PROJECT_SOURCE_DIR}/version.cmake" @ONLY)
 endif()
 include("${PROJECT_SOURCE_DIR}/version.cmake")
 
