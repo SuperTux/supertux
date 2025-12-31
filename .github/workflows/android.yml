@@ -114,11 +114,23 @@ jobs:
             ndk;${{ env.NDK_VERSION }}
             build-tools;${{ env.B_T_VERSION }}
 
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
       - name: Build APK
         working-directory: mk/android/
+        env:
+          # Using git rev-parse gives incorrect values when querying the branch
+          # so, use slugify instead
+          GIT_HASH: ${{ steps.slugify.outputs.sha }}
+          GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
         run: |
           chmod +x ./gradlew
-          ./gradlew assembleRelease -Pcpuarch="${{ matrix.arch }}" --info
+          ./gradlew assembleRelease \
+            -Pcpuarch="${{ matrix.arch }}" \
+            -Pcmake_args="-DGIT_HASH=$GIT_HASH -DGIT_BRANCH=$GIT_BRANCH" \
+            --info
 
       - name: Rename APK
         run: |
