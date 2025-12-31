@@ -1,0 +1,72 @@
+(supertux-level
+  (version 3)
+  (name (_ "Overexposed"))
+  (author "Daniel Ward")
+  (contact "weluvgoatz@gmail.com")
+  (license "GPL 2+ / CC-by-sa 3.0")
+  (allow-item-pocket "inherit")
+  (icon "")
+  (icon-locked "")
+  (statistics
+    (enable-coins #t)
+    (enable-secrets #t)
+  )
+  (sector
+    (name "main")
+    (ambient-light
+      (color 0.25 0.3 0.35)
+    )
+    (background
+      (color 1 1 1)
+      (alignment "bottom")
+      (speed 0.125)
+      (image "images/background/halloween/mountain_panorama.png")
+      (z-pos -150)
+    )
+    (background
+      (color 1 1 1)
+      (speed 0)
+      (image "images/background/halloween/sky.png")
+    )
+    (background
+      (color 1 1 1)
+      (alignment "bottom")
+      (speed 1.5)
+      (image "images/background/halloween/fog.png")
+      (z-pos 100)
+    )
+    (background
+      (color 1 1 1)
+      (alignment "bottom")
+      (speed 0.25)
+      (image "images/background/halloween/fog.png")
+      (z-pos -105)
+    )
+    (background
+      (color 1 1 1)
+      (speed 0)
+      (fill #t)
+      (image "images/background/misc/vignette.png")
+      (z-pos 200)
+    )
+    (camera
+      (name "Camera")
+      (mode "normal")
+    )
+    (music
+      (file "/music/misc/halloween_1.music")
+    )
+    (spawnpoint
+      (name "main")
+      (x 416)
+      (y 800)
+    )
+    (tilemap
+      (solid #t)
+      (z-pos 0)
+      (width 700)
+      (height 40)
+      (tiles -18913 0 48 -9086 0)
+    )
+  )
+)
