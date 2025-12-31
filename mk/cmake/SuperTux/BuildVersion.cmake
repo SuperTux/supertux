@@ -30,6 +30,9 @@ if(IS_SUPERTUX_RELEASE)
 endif()
 
 if(GIT_ENABLED)
+  configure_file("${CMAKE_CURRENT_LIST_DIR}/version-git.cmake.in"
+                 "${PROJECT_SOURCE_DIR}/version.cmake" @ONLY)
+else()
   configure_file("${CMAKE_CURRENT_LIST_DIR}/version.cmake.in"
                  "${PROJECT_SOURCE_DIR}/version.cmake" @ONLY)
 endif()

@@ -44,7 +44,9 @@ if(ANDROID)
   include(SuperTux/Android)
 endif()
 
-project(SUPERTUX LANGUAGES C CXX)
+project(SUPERTUX
+        LANGUAGES C CXX
+        VERSION 0.7.0)
 
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0069 NEW)
