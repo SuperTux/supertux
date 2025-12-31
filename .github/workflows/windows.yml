@@ -156,31 +156,38 @@ jobs:
           path: build/upload/*.msi
           if-no-files-found: ignore
 
-      - name: Package Portable Archive
+      # Install manually for the github artifact
+      # (because uploading a zip as an artifact would create
+      # a zip inside of a zip)
+      - name: Package Portable Archive (Artifact)
         if: matrix.build_type != 'Debug'
         working-directory: build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
-          $name = "SuperTux-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-portable"
-          mkdir -Force $name
-          cmake --install . --config $Env:BUILD_TYPE --prefix .\$name
+          mkdir -Force "SuperTux-portable"
+          & cmake --install . --config $Env:BUILD_TYPE --prefix ".\SuperTux-portable"
 
-          # Because github puts assets in zips, if you upload a zip,
-          # it will upload another zip. I have disabled this code because
-          # of that, but in case you wanted to know how to generate a portable release,
-          # here it is.
-          <#
-          cpack -C $Env:BUILD_TYPE -G ZIP
-          mv *.zip $name
-          #>
-
-      - name: Upload Portable Package
+      - name: Upload Portable Package Artifact
         uses: actions/upload-artifact@v4
         with:
           name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-portable"
-          path: build/SuperTux-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-portable
+          path: build/SuperTux-portable
           if-no-files-found: ignore
+
+      # Manually create zip for GitHub release, when necessary
+      - name: Package Portable Archive (GitHub Release)
+        if: matrix.build_type != 'Debug' && startsWith(github.ref, 'refs/tags/')
+        working-directory: build
+        env:
+          ARCH: ${{ matrix.arch }}
+        run: |
+          # Manually create zip for GitHub release, when necessary
+          $tag = (& git describe --tags --abbrev=0)
+          $systemName = "win" + $(if ($Env:ARCH -eq "x64") {"64"} else {"32"})
+          Compress-Archive `
+            -Path ".\SuperTux-portable" `
+            -DestinationPath ".\SuperTux-portable-$tag-$systemName.zip"
 
       - uses: parth-paradkar/upload-s3-without-acl@68848b62953464adb87bd48793f7ec58b8af427c
         if: matrix.release && env.CI_KEY != null
@@ -207,8 +214,10 @@ jobs:
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'
         uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: 'build/upload/SuperTux-*.msi'
+          files: |
+            "build/upload/SuperTux-*.msi"
+            "build/SuperTux-portable-*.zip"
           draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
