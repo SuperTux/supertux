@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Jaakko Muilu, 2025\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>, 2024-2025\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -132,7 +132,7 @@ msgstr "<ei nimeä>"
 
 #: src/worldmap/level_tile.cpp:153 src/worldmap/level_tile.hpp:35
 msgid "Level"
-msgstr "Taso"
+msgstr "Kenttä"
 
 #: src/worldmap/level_tile.cpp:154
 msgid "Outro script"
@@ -182,7 +182,7 @@ msgstr "Näytä viesti"
 msgid "Script"
 msgstr "Skripti"
 
-#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:439
+#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:441
 msgid "Invisible"
 msgstr "Näkymätön"
 
@@ -308,7 +308,7 @@ msgstr "Ruudut"
 
 #: src/editor/toolbox_widget.cpp:84
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/badguy/dispenser.cpp:415
+#: src/badguy/dispenser.cpp:417
 msgid "Objects"
 msgstr "Objektit"
 
@@ -530,12 +530,12 @@ msgstr "Päivitystiedot: v{}:"
 #: src/editor/toolbar_widget.cpp:55 src/supertux/menu/editor_menu.cpp:188
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Undo"
-msgstr ""
+msgstr "Kumoa"
 
 #: src/editor/toolbar_widget.cpp:60 src/supertux/menu/editor_menu.cpp:189
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Redo"
-msgstr ""
+msgstr "Tee uudelleen"
 
 #: src/editor/toolbar_widget.cpp:78
 msgid "Change / Toggle grid size"
@@ -547,7 +547,7 @@ msgstr ""
 
 #: src/editor/toolbar_widget.cpp:90
 msgid "Save level"
-msgstr ""
+msgstr "Tallenna kenttä"
 
 #: src/editor/toolbar_widget.cpp:95
 msgid "Toggle between object and tile mode"
@@ -898,7 +898,7 @@ msgstr "ei totta"
 
 #: src/editor/object_option.cpp:402 src/editor/object_option.cpp:591
 msgid "Edit..."
-msgstr ""
+msgstr "Muokkaa..."
 
 #: src/editor/object_option.cpp:443 src/editor/object_option.cpp:523
 msgid "invalid"
@@ -906,7 +906,7 @@ msgstr "pätemätön"
 
 #: src/editor/object_option.cpp:653
 msgid "Browse..."
-msgstr ""
+msgstr "Selaa..."
 
 #: src/editor/object_option.cpp:711
 msgid "Mix..."
@@ -914,7 +914,7 @@ msgstr ""
 
 #: src/editor/object_option.cpp:802
 msgid "Select..."
-msgstr ""
+msgstr "Valitse..."
 
 #: src/editor/object_option.cpp:999 src/editor/object_option.cpp:1212
 #: src/editor/object_option.cpp:1246
@@ -956,7 +956,7 @@ msgstr "Avaa"
 
 #: src/editor/editor.cpp:549
 msgid "Level saved!"
-msgstr ""
+msgstr "Kenttä tallennettu!"
 
 #: src/editor/editor.cpp:579
 msgid ""
@@ -986,7 +986,7 @@ msgstr "Ethän unohda, että kenttäsi sekä työkalusi\neivät tallennu istunto
 
 #: src/editor/editor.cpp:965
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
-msgstr ""
+msgstr "Tätä kenttää ei ole tallennettu vielä. Haluatko sen sijaan tallentaa kentän?"
 
 #: src/editor/editor.cpp:967
 msgid "This level contains unsaved changes, do you want to save?"
@@ -1043,7 +1043,7 @@ msgstr "Ei löytynyt \"pääsyntymäpistettä\".\nMuuta syntymäpisteen nimeä, 
 
 #: src/editor/layers_widget.cpp:160
 msgid "Unnamed {}"
-msgstr ""
+msgstr "Nimetön {}"
 
 #: src/editor/layers_widget.cpp:419
 msgid "Sector: {}"
@@ -2538,7 +2538,7 @@ msgstr "automaattinen"
 
 #: src/supertux/main.cpp:872
 msgid "New release: SuperTux {}!"
-msgstr ""
+msgstr "Uusi julkaisu: SuperTux {}!"
 
 #: src/supertux/main.cpp:873
 msgid "Click for more details."
@@ -2785,7 +2785,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Editor settings"
-msgstr ""
+msgstr "Muokkaimen asetukset"
 
 #: src/supertux/menu/editor_menu.cpp:102
 #: src/supertux/menu/editor_level_menu.cpp:31
@@ -2804,7 +2804,7 @@ msgstr "Pikanäppäimet"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Close Level"
-msgstr ""
+msgstr "Sulje kenttä"
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Reset level"
@@ -2820,7 +2820,7 @@ msgstr "Haluatko paketoida tämän maailman lisäsana?"
 
 #: src/supertux/menu/editor_menu.cpp:183
 msgid "Open Menu"
-msgstr ""
+msgstr "Avaa valikko"
 
 #: src/supertux/menu/editor_menu.cpp:186
 msgid "Test at Cursor"
@@ -2903,7 +2903,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:207
 msgid "Paste"
-msgstr ""
+msgstr "Liitä"
 
 #: src/supertux/menu/editor_menu.cpp:208
 msgid "Duplicate line"
@@ -3086,7 +3086,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_settings.cpp:33
 msgid "Editor Settings"
-msgstr ""
+msgstr "Muokkaimen asetukset"
 
 #: src/supertux/menu/editor_settings.cpp:37
 msgid "tiny tile (4px)"
@@ -3142,11 +3142,11 @@ msgstr ""
 
 #: src/supertux/menu/editor_settings.cpp:56
 msgid "Show Toolbar"
-msgstr ""
+msgstr "Näytä työkalupalkki"
 
 #: src/supertux/menu/editor_settings.cpp:57
 msgid "Remember Last Level"
-msgstr ""
+msgstr "Muista viimeinen kenttä"
 
 #: src/supertux/menu/editor_settings.cpp:58
 msgid "Prefer Full Viewport"
@@ -3351,7 +3351,7 @@ msgstr "Aloita kenttä viime Välietapilta"
 
 #: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
-msgstr ""
+msgstr "Muokkaa kenttää"
 
 #: src/supertux/menu/game_menu.cpp:81
 msgid "Abort Level"
@@ -3957,7 +3957,7 @@ msgstr "Keskeytä peli automaattisesti, jos ikkunaa ei keskitetä"
 
 #: src/supertux/menu/options_menu.cpp:243
 msgid "Prefer Wayland"
-msgstr ""
+msgstr "Suosi Waylandia"
 
 #: src/supertux/menu/options_menu.cpp:244
 msgid ""
@@ -4677,11 +4677,11 @@ msgstr "Haluatko varmasti poistaa maailman \"{}\"?"
 
 #: src/supertux/menu/editor_temp_save_as.cpp:40
 msgid "Level name"
-msgstr ""
+msgstr "Kentän nimi"
 
 #: src/supertux/menu/editor_temp_save_as.cpp:91
 msgid "Level created!"
-msgstr ""
+msgstr "Kenttä luotu!"
 
 #: src/supertux/statistics.cpp:68
 msgid "Enable Coins Statistic"
@@ -4775,7 +4775,7 @@ msgstr "Muokkaa skriptiä"
 
 #: src/gui/menu_script.cpp:56
 msgid "Open in editor"
-msgstr ""
+msgstr "Avaa muokkaimessa"
 
 #: src/gui/menu_script.cpp:57
 msgid "Open in \"{}\""
@@ -4958,7 +4958,7 @@ msgstr "Juuritaimi"
 msgid "Mr. Snowball"
 msgstr "Herra Lumipallo"
 
-#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:440
+#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:442
 #: src/badguy/darttrap.cpp:174 src/badguy/granito.hpp:53
 msgid "Granito"
 msgstr "Graniitti"
@@ -5079,33 +5079,33 @@ msgstr "Vihainen Kivi"
 msgid "Dart"
 msgstr "Nuoli"
 
-#: src/badguy/dispenser.cpp:411
+#: src/badguy/dispenser.cpp:413
 msgid "Interval (seconds)"
 msgstr "Aikaväli (sekunteina)"
 
-#: src/badguy/dispenser.cpp:412
+#: src/badguy/dispenser.cpp:414
 msgid "Random"
 msgstr "Satunnainen"
 
-#: src/badguy/dispenser.cpp:418
+#: src/badguy/dispenser.cpp:420
 msgid "Limit dispensed badguys"
 msgstr "Rajoita syötettyjä pahiksia"
 
-#: src/badguy/dispenser.cpp:420
+#: src/badguy/dispenser.cpp:422
 msgid "Obey Gravity"
 msgstr "Noudata painovoimaa"
 
-#: src/badguy/dispenser.cpp:422
+#: src/badguy/dispenser.cpp:424
 msgid "Max concurrent badguys"
 msgstr "Samanaikaisia pahiksia enimmillään"
 
 #. l10n: This is not a dropper in the medical sense. Dropper refers to a
 #. dispenser that drops objects from above
-#: src/badguy/dispenser.cpp:436
+#: src/badguy/dispenser.cpp:438
 msgid "Dropper"
 msgstr "Pudottaja"
 
-#: src/badguy/dispenser.cpp:438
+#: src/badguy/dispenser.cpp:440
 msgid "Cannon"
 msgstr "Kanuuna"
 

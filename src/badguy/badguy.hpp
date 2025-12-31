@@ -157,6 +157,10 @@ public:
 
   virtual bool always_active() const { return false; }
 
+  /** Returns true if we were in STATE_ACTIVE at the beginning of the
+      last call to update() */
+  bool is_active() const;
+
   bool is_frozen() const;
 
   bool is_in_water() const;
@@ -267,10 +271,6 @@ protected:
       update_on_ground_flag was called and we touched something solid
       from above. */
   Vector get_floor_normal() const;
-
-  /** Returns true if we were in STATE_ACTIVE at the beginning of the
-      last call to update() */
-  bool is_active() const;
 
   /** changes colgroup_active. Also calls set_group when badguy is in STATE_ACTIVE */
   void set_colgroup_active(CollisionGroup group);

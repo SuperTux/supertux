@@ -1,7 +1,7 @@
 (supertux-text			
   (background	"retro/intro.jpg")
   (music	"music/retro/theme_old.music")
-  (text "-Where Is Everyone?
+  (text (_ "-Where Is Everyone?
 
 	Tux ran into the castle's throne room,
 	frantically searching for the penguin girl Gown.
@@ -42,4 +42,4 @@
 
 
 -The End
- Or rather, the beginning...?") )
+ Or rather, the beginning...?")) )

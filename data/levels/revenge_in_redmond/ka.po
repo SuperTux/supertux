@@ -2,32 +2,36 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the SuperTux package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2025
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux v0.7.0-beta.1-17-g514d7535a\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-12-30 06:11+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2025-12-30 06:51+0000\n"
+"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2025\n"
+"Language-Team: Georgian (https://app.transifex.com/arctic-games/teams/95/ka/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ka\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: data/levels/revenge_in_redmond/antarctica.stl:3
 msgid "Antarctica 1"
-msgstr ""
+msgstr "ანტარქტიკა 1"
 
 #: data/levels/revenge_in_redmond/get_to_choppa.stl:3
 msgid "Get to da Choppa!"
-msgstr ""
+msgstr "მიდით ჩოპერთან!"
 
 #: data/levels/revenge_in_redmond/intro.stl:3
 msgid "A Blast From The Past"
-msgstr ""
+msgstr "აფეთქება წარსულიდან"
 
 #: data/levels/revenge_in_redmond/intro.txt:4
 msgid ""
@@ -61,14 +65,43 @@ msgid ""
 "\t\n"
 "-Super Tux"
 msgstr ""
+"-აფეთქება წარსულიდან!\n"
+"ან იქნებ ეს სიზმარი იყო?\n"
+"\n"
+"\tტაქსი და გაუნი სასიამოვნო პიკნიკს მართავდნენ,\n"
+"\tროდესაც მოულოდნელად, გაუნი სხივით გაიტაცეს!!!\n"
+"\t\n"
+"\tმოიცა ერთი წამით... გაუნი?\n"
+"\tვინ არის ეს პინგვინი, რომელიც ასე ძალიან\n"
+"\tჰგავს მის მეგობარ პენის?\n"
+"\t\n"
+"\tასევე, ვერტმფრენი?\n"
+"\tროდიდან დაფრინავენ ვერტმფრენები ასე უბრალოდ\n"
+"\tანტარქტიდაზე და იტაცებენ პინგვინებს?\n"
+"\t\n"
+"\tმიუხედავად იმისა, რომ ტაქსი დაბნეული იყო\n"
+"\tახლახან მომხდარი მოვლენების გამო,\n"
+"\tის უბრალოდ ვერ იდგებოდა იქ\n"
+"\tგულხელდაკრეფილი. ამიტომ, ის\n"
+"\tგაეკიდა მათ ამ საწყალი\n"
+"\tპინგვინი გოგონას გადასარჩენად!\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"* როგორც ჩანს, ეს საქმეა----\n"
+"\t\n"
+"-სუპერტუქსისთვის"
 
 #: data/levels/revenge_in_redmond/long_office_nights.stl:3
 msgid "Long Office Nights"
-msgstr ""
+msgstr "გრძელი ღამეები ოფისში"
 
 #: data/levels/revenge_in_redmond/outro.stl:3
 msgid "Where Is Everyone?"
-msgstr ""
+msgstr "სადაა ყველა?"
 
 #: data/levels/revenge_in_redmond/outro.txt:4
 msgid ""
@@ -118,16 +151,16 @@ msgstr ""
 
 #: data/levels/revenge_in_redmond/redmond_headquarters.stl:3
 msgid "Redmond Headquarters"
-msgstr ""
+msgstr "რედმონდის სათაო ოფისი"
 
 #: data/levels/revenge_in_redmond/where_my_super_cape.stl:3
 msgid "Where Is My Super Cape?"
-msgstr ""
+msgstr "სადაა ჩემი ყავა?"
 
 #: data/levels/revenge_in_redmond/who_is_gown.stl:3
 msgid "Who Is This Gown?"
-msgstr ""
+msgstr "ვინაა ეს მღვდელი?"
 
 #: data/levels/revenge_in_redmond/worldmap.stwm:3
 msgid "Revenge in Redmond"
-msgstr ""
+msgstr "შურისძიება რედმონდში"

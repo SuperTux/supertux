@@ -2,32 +2,36 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the SuperTux package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# Tobias Markus <tobbi@supertuxproject.org>, 2025
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux v0.7.0-beta.1-17-g514d7535a\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-12-30 06:11+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2025-12-30 06:51+0000\n"
+"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2025\n"
+"Language-Team: German (https://app.transifex.com/arctic-games/teams/95/de/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/revenge_in_redmond/antarctica.stl:3
 msgid "Antarctica 1"
-msgstr ""
+msgstr "Antarktis 1"
 
 #: data/levels/revenge_in_redmond/get_to_choppa.stl:3
 msgid "Get to da Choppa!"
-msgstr ""
+msgstr "Steig in den Helikopter!"
 
 #: data/levels/revenge_in_redmond/intro.stl:3
 msgid "A Blast From The Past"
-msgstr ""
+msgstr "Eine Begegnung mit der Vergangenheit"
 
 #: data/levels/revenge_in_redmond/intro.txt:4
 msgid ""
@@ -61,14 +65,42 @@ msgid ""
 "\t\n"
 "-Super Tux"
 msgstr ""
+"-Eine Begegnung mit der Vergangenheit!\n"
+" Oder war es ein Traum?\n"
+"\n"
+"\tTux und Gown hatten ein schönes Picknick,\n"
+"\tals Gown plötzlich weggebeamt wurde!\n"
+"\t\n"
+"\tEinen Moment noch... Gown?\n"
+"\tWer ist dieser Pinguin, der fast\n"
+"\tgenau wie seine Freundin Penny aussieht?\n"
+"\t\n"
+"\tAußerdem, ein Helikopter?\n"
+"\tSeit wann fliegen Helikopter einfach mal\n"
+"\tso über die Antarktis und entführen Pinguine?\n"
+"\t\n"
+"\tObwohl Tux sichtbar verwirrt war\n"
+"\tüber die Ereignisse, die sich gerade ereignet\n"
+"\thatten, konnte er nicht einfach nur da stehen\n"
+"\tund nichts tun. Deshalb eilte er seiner armen\n"
+"\tPinguindame hinterher!\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"*Das sieht aus, wie ein Job für ---\n"
+"\t\n"
+"-Super Tux"
 
 #: data/levels/revenge_in_redmond/long_office_nights.stl:3
 msgid "Long Office Nights"
-msgstr ""
+msgstr "Lange Nächte im Büro"
 
 #: data/levels/revenge_in_redmond/outro.stl:3
 msgid "Where Is Everyone?"
-msgstr ""
+msgstr "Wo sind die alle?"
 
 #: data/levels/revenge_in_redmond/outro.txt:4
 msgid ""
@@ -115,19 +147,60 @@ msgid ""
 "-The End\n"
 " Or rather, the beginning...?"
 msgstr ""
+"-Wo sind die alle?\n"
+"\n"
+"\tTux rannte eilig in den Thronraum des Schlosses\n"
+"\tund suchte hektisch nach seinem Pinguinmädchen,\n"
+"\tGown.\n"
+"\n"
+"\tLeider fand er weder Gown noch den Piloten des\n"
+"\tHelikopters dort, sondern stattdessen eine Statue.\n"
+"\t\n"
+"\tAuf dieser Statue war eine gaunerhafte Kreatur mit\n"
+"\tgekreuzten Armen abgebildet. Das Podest auf dem\n"
+"\tsie stand, hatte eine Inschrift: \"Nolok\". War das ein Name?\n"
+"\t\n"
+"\tEr war sich unsicher, wen oder was die Statue darstellen\n"
+"\tsollte.\n"
+"\t\n"
+"\tAuf einmal erinnerte sich Tux...\n"
+"\t\n"
+"\tPenny und er wurden überfallen von ebendieser Kreatur,\n"
+"\tals sie gerade auf den eisigen Feldern picknickten.\n"
+"\t\n"
+"\tTux öffnete die Augen. Er war wieder bei den Eisfeldern\n"
+"\tin der Nähe der Küste. Penny, jedoch, war verschwunden.\n"
+"\tSchockiert fing er an, sich umzusehen, aber alles, was er\n"
+"\tfinden konnte, war ein Zettel...\n"
+"\t\n"
+"\t...von Nolok.\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"-Ende\n"
+" Oder eher, der Anfang...?"
 
 #: data/levels/revenge_in_redmond/redmond_headquarters.stl:3
 msgid "Redmond Headquarters"
-msgstr ""
+msgstr "Redmond-Hauptquartier"
 
 #: data/levels/revenge_in_redmond/where_my_super_cape.stl:3
 msgid "Where Is My Super Cape?"
-msgstr ""
+msgstr "Wo ist mein Superheldenumhang?"
 
 #: data/levels/revenge_in_redmond/who_is_gown.stl:3
 msgid "Who Is This Gown?"
-msgstr ""
+msgstr "Wer ist diese Gown?"
 
 #: data/levels/revenge_in_redmond/worldmap.stwm:3
 msgid "Revenge in Redmond"
-msgstr ""
+msgstr "Rache in Redmond"

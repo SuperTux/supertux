@@ -403,6 +403,12 @@
   (person
     (name "Andre \"C4INAN\" Pinheiro")
   )
+  (text
+    (string "RodirodDude")
+  )
+  (text
+    (string "FilipOK")
+  )
   
   (blank)
   (blank)
@@ -486,7 +492,10 @@
   (person
     (name "ZhayTee")
   )
-  
+  (text
+    (string "RodirodDude")
+  )
+
   (blank)
   (blank)
     

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jaakko Muilu, 2025\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -113,17 +113,17 @@ msgstr "Voi ei! Lisää lumipalloja!"
 
 #: data/levels/world1/more_snowballs.stl:290
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine vapauttamalla toimintanäppäin seisoessasi.\r\n#Jos vapautat toimintanäppäintä Tuxin liikkuessa, hän heittää sen!"
+msgstr ""
 
 #: data/levels/world1/more_snowballs.stl:299
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Heitto ylös\n#Tux voi heittää useimpia esineitä ylöspäin pitämällä YLÖS-näppäintä pohjassa ja vapauttamalla toimintanäppäintä.\n#Juostessaan Tux heittää esineen kaaressa!"
+msgstr ""
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -378,17 +378,17 @@ msgstr "Kylmä kuin kivi"
 
 #: data/levels/world1/stone_cold.stl:191
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine vapauttamalla toimintanäppäintä.\r\n#Jos vapautat toimintanäppäintä Tuxin liikkuessa, hän heittää sen!"
+msgstr ""
 
 #: data/levels/world1/stone_cold.stl:200
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Heitto ylös\r\n#Tux voi heittää useimpia esineitä ylöspäin pitämällä YLÖS-näppäintä pohjassa ja vapauttamalla toimintanäppäintä\r.\n#Juostessaan Tux heittää esineen kaaressa!"
+msgstr ""
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"

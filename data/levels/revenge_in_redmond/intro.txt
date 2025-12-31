@@ -1,7 +1,7 @@
 (supertux-text			
   (background	"retro/intro.jpg")
   (music	"music/retro/theme_old.music")
-  (text "-A Blast From The Past!
+  (text (_ "-A Blast From The Past!
  Or was it a dream?
 
 	Tux and Gown were having a nice picnic,
@@ -29,4 +29,4 @@
 
 *This looks like a job for ---
 	
--Super Tux") )
+-Super Tux")) )

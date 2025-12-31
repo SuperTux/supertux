@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Tommaso Macchiella, 2025\n"
 "Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
@@ -116,17 +116,17 @@ msgstr "Oh no! Altre Palle di neve!"
 
 #: data/levels/world1/more_snowballs.stl:290
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Trasportare oggetti\r\n#Tux può prendere degli oggetti tenendo premuto il tasto AZIONE. Rilascia il tasto AZIONE mentre sei fermo per mollare l'oggetto. \r\n#Se rilasci il tasto AZIONE mentre Tux si sta muovendo, lo lancerà!"
+msgstr ""
 
 #: data/levels/world1/more_snowballs.stl:299
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Lancio in alto\r\n#Tux può lanciare la maggior parte degli oggetti verso l'alto, tenendo premuto il tasto SU e rilasciando nel mentre il tasto AZIONE.\r\n#Quando correndo, Tux lancerà gli oggetti con una traiettoria ad arco!"
+msgstr ""
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -381,17 +381,17 @@ msgstr "Pietrafredda"
 
 #: data/levels/world1/stone_cold.stl:191
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Trasportare oggetti\r\n#Tux può prendere degli oggetti tenendo premuto il tasto AZIONE. Rilascia il tasto AZIONE mentre sei fermo per mollare l'oggetto. \r\n#Se rilasci il tasto AZIONE mentre Tux si sta muovendo, lo lancerà!"
+msgstr ""
 
 #: data/levels/world1/stone_cold.stl:200
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Lancio in alto\r\n#Tux può lanciare la maggior parte degli oggetti verso l'alto, tenendo premuto il tasto SU  e rilasciando nel mentre il tasto AZIONE.\r\n#Quando correndo, Tux lancerà gli oggetti con una traiettoria ad arco!"
+msgstr ""
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"

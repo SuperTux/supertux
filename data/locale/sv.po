@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>, 2025\n"
 "Language-Team: Swedish (http://app.transifex.com/arctic-games/supertux/language/sv/)\n"
@@ -182,7 +182,7 @@ msgstr "Visa meddelande"
 msgid "Script"
 msgstr "Skript"
 
-#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:439
+#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:441
 msgid "Invisible"
 msgstr "Osynlig"
 
@@ -220,27 +220,27 @@ msgstr "J"
 #. the usage of certain features in a level, for example.
 #: src/editor/editor_comment.cpp:74
 msgid "Note"
-msgstr ""
+msgstr "Observera"
 
 #. l10n: A to-do refers to a reminder left for the
 #. author of the comment to finish designing something in
 #. a level.
 #: src/editor/editor_comment.cpp:79
 msgid "To-do"
-msgstr ""
+msgstr "Att-göra"
 
 #. l10n: A fix-me refers to a reminder left for the
 #. author of the comment to fix a flaw with the level
 #. design.
 #: src/editor/editor_comment.cpp:84
 msgid "Fix-me"
-msgstr ""
+msgstr "Fixa-mig"
 
 #. l10n: A hack refers to usage of an unintended or
 #. non-ideal way of implementing a level design idea.
 #: src/editor/editor_comment.cpp:88
 msgid "Hack"
-msgstr ""
+msgstr "Hack"
 
 #: src/editor/editor_comment.cpp:97
 msgid "Comment"
@@ -308,7 +308,7 @@ msgstr "Plattor"
 
 #: src/editor/toolbox_widget.cpp:84
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/badguy/dispenser.cpp:415
+#: src/badguy/dispenser.cpp:417
 msgid "Objects"
 msgstr "Objekt"
 
@@ -318,7 +318,7 @@ msgstr "Vägnod"
 
 #: src/editor/node_marker.cpp:123
 msgid "Press CTRL to move Bézier handles"
-msgstr ""
+msgstr "Tryck CTRL för att flytta Bézier-handtagen"
 
 #: src/editor/node_marker.cpp:124 src/object/level_time.cpp:55
 #: src/supertux/statistics.cpp:307
@@ -530,24 +530,24 @@ msgstr "Patchmeddelanden för v{}:"
 #: src/editor/toolbar_widget.cpp:55 src/supertux/menu/editor_menu.cpp:188
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Undo"
-msgstr ""
+msgstr "Ångra"
 
 #: src/editor/toolbar_widget.cpp:60 src/supertux/menu/editor_menu.cpp:189
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Redo"
-msgstr ""
+msgstr "Gör om"
 
 #: src/editor/toolbar_widget.cpp:78
 msgid "Change / Toggle grid size"
-msgstr ""
+msgstr "Ändra / Växla rutnätsstorlek"
 
 #: src/editor/toolbar_widget.cpp:83
 msgid "Test level"
-msgstr ""
+msgstr "Testa bana"
 
 #: src/editor/toolbar_widget.cpp:90
 msgid "Save level"
-msgstr ""
+msgstr "Spara bana"
 
 #: src/editor/toolbar_widget.cpp:95
 msgid "Toggle between object and tile mode"
@@ -563,7 +563,7 @@ msgstr ""
 
 #: src/editor/toolbar_widget.cpp:118
 msgid "Draw mode"
-msgstr ""
+msgstr "Ritningsläge"
 
 #: src/editor/toolbar_widget.cpp:125
 msgid "Box draw mode"
@@ -571,11 +571,11 @@ msgstr ""
 
 #: src/editor/toolbar_widget.cpp:132
 msgid "Fill mode"
-msgstr ""
+msgstr "Fyllningsläge"
 
 #: src/editor/toolbar_widget.cpp:139
 msgid "Replace mode"
-msgstr ""
+msgstr "Ersättningsläge"
 
 #: src/editor/toolbar_widget.cpp:148
 msgid ""
@@ -898,7 +898,7 @@ msgstr "falskt"
 
 #: src/editor/object_option.cpp:402 src/editor/object_option.cpp:591
 msgid "Edit..."
-msgstr ""
+msgstr "Redigera..."
 
 #: src/editor/object_option.cpp:443 src/editor/object_option.cpp:523
 msgid "invalid"
@@ -906,20 +906,20 @@ msgstr "ogiltig"
 
 #: src/editor/object_option.cpp:653
 msgid "Browse..."
-msgstr ""
+msgstr "Bläddra..."
 
 #: src/editor/object_option.cpp:711
 msgid "Mix..."
-msgstr ""
+msgstr "Blanda..."
 
 #: src/editor/object_option.cpp:802
 msgid "Select..."
-msgstr ""
+msgstr "Välj..."
 
 #: src/editor/object_option.cpp:999 src/editor/object_option.cpp:1212
 #: src/editor/object_option.cpp:1246
 msgid "Change..."
-msgstr ""
+msgstr "Ändra..."
 
 #: src/editor/object_option.cpp:1090
 msgid "Scale X"
@@ -956,7 +956,7 @@ msgstr "Öppna"
 
 #: src/editor/editor.cpp:549
 msgid "Level saved!"
-msgstr ""
+msgstr "Bana sparad!"
 
 #: src/editor/editor.cpp:579
 msgid ""
@@ -1043,7 +1043,7 @@ msgstr ""
 
 #: src/editor/layers_widget.cpp:160
 msgid "Unnamed {}"
-msgstr ""
+msgstr "Namnlös {}"
 
 #: src/editor/layers_widget.cpp:419
 msgid "Sector: {}"
@@ -2346,7 +2346,7 @@ msgstr "  --debug                      Skriv ut extra detaljerade meddelanden"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --log-tinygettext            Show tinygettext logs"
-msgstr ""
+msgstr "  --log-tinygettext            Visa tinygettext-loggar"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid ""
@@ -2485,7 +2485,7 @@ msgstr "  SUPERTUX2_USER_DIR           Katalog för användardata (sparade spel,
 #. l10n: Keep SUPERTUX2_DATA_DIR untranslated
 #: src/supertux/command_line_arguments.cpp:139
 msgid "  SUPERTUX2_DATA_DIR           Directory for the game's data files"
-msgstr ""
+msgstr "  SUPERTUX2_DATA_DIR           Katalog för spelets datafiler"
 
 #: src/supertux/sector.cpp:519
 msgid "Press escape to skip"
@@ -2538,7 +2538,7 @@ msgstr "auto"
 
 #: src/supertux/main.cpp:872
 msgid "New release: SuperTux {}!"
-msgstr ""
+msgstr "Ny utgåva: SuperTux {}!"
 
 #: src/supertux/main.cpp:873
 msgid "Click for more details."
@@ -2785,7 +2785,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Editor settings"
-msgstr ""
+msgstr "Redigeringsinställningar"
 
 #: src/supertux/menu/editor_menu.cpp:102
 #: src/supertux/menu/editor_level_menu.cpp:31
@@ -2804,11 +2804,11 @@ msgstr "Tagentbordsgenvägar"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Close Level"
-msgstr ""
+msgstr "Stäng bana"
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Reset level"
-msgstr ""
+msgstr "Återställ bana"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid "Exit Level Editor"
@@ -2820,15 +2820,15 @@ msgstr "Vill du paketera denna värld som ett tillägg?"
 
 #: src/supertux/menu/editor_menu.cpp:183
 msgid "Open Menu"
-msgstr ""
+msgstr "Öppna meny"
 
 #: src/supertux/menu/editor_menu.cpp:186
 msgid "Test at Cursor"
-msgstr ""
+msgstr "Testa vid markör"
 
 #: src/supertux/menu/editor_menu.cpp:187
 msgid "Test at Last Position"
-msgstr ""
+msgstr "Testa vid senaste position"
 
 #: src/supertux/menu/editor_menu.cpp:190
 msgid "Toggle Autotiling"
@@ -2863,11 +2863,11 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:197
 msgid "Reset Zoom"
-msgstr ""
+msgstr "Återställ zoom"
 
 #: src/supertux/menu/editor_menu.cpp:198
 msgid "Scripting Shortcuts"
-msgstr ""
+msgstr "Skriptgenvägar"
 
 #: src/supertux/menu/editor_menu.cpp:199
 msgid "Home = Go to beginning of line"
@@ -2903,7 +2903,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:207
 msgid "Paste"
-msgstr ""
+msgstr "Klistra in"
 
 #: src/supertux/menu/editor_menu.cpp:208
 msgid "Duplicate line"
@@ -3114,7 +3114,7 @@ msgstr "Rendera bakgrund"
 
 #: src/supertux/menu/editor_settings.cpp:47
 msgid "Render Animations"
-msgstr ""
+msgstr "Rendera animationer"
 
 #: src/supertux/menu/editor_settings.cpp:48
 msgid "Invert Shift+Scroll"
@@ -3122,7 +3122,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_settings.cpp:49
 msgid "Centered Zoom"
-msgstr ""
+msgstr "Centrerad zoom"
 
 #: src/supertux/menu/editor_settings.cpp:50
 msgid "Autotile Mode"
@@ -3142,7 +3142,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_settings.cpp:56
 msgid "Show Toolbar"
-msgstr ""
+msgstr "Visa verktygsrad"
 
 #: src/supertux/menu/editor_settings.cpp:57
 msgid "Remember Last Level"
@@ -3351,7 +3351,7 @@ msgstr "Börja om från kontrollpunkt"
 
 #: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
-msgstr ""
+msgstr "Redigera bana"
 
 #: src/supertux/menu/game_menu.cpp:81
 msgid "Abort Level"
@@ -3782,7 +3782,7 @@ msgstr "Jämn kamerarörelse, genererar mellanliggande bildrutor. Detta har en m
 
 #: src/supertux/menu/options_menu.cpp:127
 msgid "Fancy Effects"
-msgstr ""
+msgstr "Vackra effekter"
 
 #: src/supertux/menu/options_menu.cpp:128
 msgid ""
@@ -3914,7 +3914,7 @@ msgstr "Tillåt att titelskärmsbanan åsidosätts när vissa världar läses in
 
 #: src/supertux/menu/options_menu.cpp:214
 msgid "Force Christmas Mode"
-msgstr ""
+msgstr "Tvinga julläge"
 
 #: src/supertux/menu/options_menu.cpp:216
 msgid "Integrations and presence"
@@ -3957,7 +3957,7 @@ msgstr "Pausa spelet automatiskt när fönstret förlorar fokus"
 
 #: src/supertux/menu/options_menu.cpp:243
 msgid "Prefer Wayland"
-msgstr ""
+msgstr "Föredra Wayland"
 
 #: src/supertux/menu/options_menu.cpp:244
 msgid ""
@@ -4300,7 +4300,7 @@ msgstr "Starta spel"
 
 #: src/supertux/menu/main_menu.cpp:55
 msgid "Bonus Levels"
-msgstr ""
+msgstr "Bonusbanor"
 
 #: src/supertux/menu/main_menu.cpp:59
 msgid "Add-ons"
@@ -4677,11 +4677,11 @@ msgstr "Du är på väg att ta bort världen \"{}\". Är du säker på det?"
 
 #: src/supertux/menu/editor_temp_save_as.cpp:40
 msgid "Level name"
-msgstr ""
+msgstr "Banans namn"
 
 #: src/supertux/menu/editor_temp_save_as.cpp:91
 msgid "Level created!"
-msgstr ""
+msgstr "Bana skapad!"
 
 #: src/supertux/statistics.cpp:68
 msgid "Enable Coins Statistic"
@@ -4775,11 +4775,11 @@ msgstr "Redigera skript"
 
 #: src/gui/menu_script.cpp:56
 msgid "Open in editor"
-msgstr ""
+msgstr "Öppna i redigerare"
 
 #: src/gui/menu_script.cpp:57
 msgid "Open in \"{}\""
-msgstr ""
+msgstr "Öppna i \"{}\""
 
 #: src/gui/menu_color.cpp:29
 msgid "Mix the colour"
@@ -4910,7 +4910,7 @@ msgstr ""
 #: src/badguy/kamikazesnowball.cpp:119 src/badguy/viciousivy.cpp:45
 #: src/badguy/igel.cpp:195 src/badguy/jumpy.cpp:46
 msgid "Corrupted"
-msgstr ""
+msgstr "Skadad"
 
 #: src/badguy/fish_chasing.hpp:32
 msgid "Chasing Fish"
@@ -4958,7 +4958,7 @@ msgstr ""
 msgid "Mr. Snowball"
 msgstr "Herr Snöboll"
 
-#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:440
+#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:442
 #: src/badguy/darttrap.cpp:174 src/badguy/granito.hpp:53
 msgid "Granito"
 msgstr "Granito"
@@ -5079,33 +5079,33 @@ msgstr "Arg sten"
 msgid "Dart"
 msgstr "Pil"
 
-#: src/badguy/dispenser.cpp:411
+#: src/badguy/dispenser.cpp:413
 msgid "Interval (seconds)"
 msgstr "Intervall (sekunder)"
 
-#: src/badguy/dispenser.cpp:412
+#: src/badguy/dispenser.cpp:414
 msgid "Random"
 msgstr "Slumpmässig"
 
-#: src/badguy/dispenser.cpp:418
+#: src/badguy/dispenser.cpp:420
 msgid "Limit dispensed badguys"
 msgstr "Begränsa fördelade onda typer"
 
-#: src/badguy/dispenser.cpp:420
+#: src/badguy/dispenser.cpp:422
 msgid "Obey Gravity"
 msgstr "Lyd gravitation"
 
-#: src/badguy/dispenser.cpp:422
+#: src/badguy/dispenser.cpp:424
 msgid "Max concurrent badguys"
 msgstr "Maximalt samtidiga onda typer"
 
 #. l10n: This is not a dropper in the medical sense. Dropper refers to a
 #. dispenser that drops objects from above
-#: src/badguy/dispenser.cpp:436
+#: src/badguy/dispenser.cpp:438
 msgid "Dropper"
 msgstr ""
 
-#: src/badguy/dispenser.cpp:438
+#: src/badguy/dispenser.cpp:440
 msgid "Cannon"
 msgstr "Kanon"
 
@@ -5438,7 +5438,7 @@ msgstr "Påse"
 
 #: data/credits.stxt:35
 msgid "The SuperTux Team"
-msgstr ""
+msgstr "SuperTux-teamet"
 
 #: data/credits.stxt:41 data/credits.stxt:55 data/credits.stxt:83
 #: data/credits.stxt:90 data/credits.stxt:97 data/credits.stxt:111
@@ -5460,15 +5460,15 @@ msgstr "Grafik, programmering, bandesign"
 
 #: data/credits.stxt:76
 msgid "Graphics, Level Design"
-msgstr ""
+msgstr "Grafik, bandesign"
 
 #: data/credits.stxt:104
 msgid "Level Design, Music"
-msgstr ""
+msgstr "Bandesign, musik"
 
 #: data/credits.stxt:135
 msgid "Past Team Members"
-msgstr ""
+msgstr "Tidigare teammedlemmar"
 
 #: data/credits.stxt:199 data/credits.stxt:364
 msgid "Graphics"
@@ -5492,7 +5492,7 @@ msgstr "Byggfixar för Windows"
 
 #: data/credits.stxt:309
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentation"
 
 #: data/credits.stxt:313
 msgid "\"Flexlay\" Level Editor"
@@ -5500,15 +5500,15 @@ msgstr ""
 
 #: data/credits.stxt:317
 msgid "Translation Managing"
-msgstr ""
+msgstr "Översättningshantering"
 
 #: data/credits.stxt:321
 msgid "Story"
-msgstr ""
+msgstr "Handling"
 
 #: data/credits.stxt:329
 msgid "Additional Contributors"
-msgstr ""
+msgstr "Ytterligare bidragsgivare"
 
 #: data/credits.stxt:706
 msgid "Localization"
@@ -5516,11 +5516,11 @@ msgstr "Lokalisering"
 
 #: data/credits.stxt:1410
 msgid "Special Thanks to"
-msgstr ""
+msgstr "Speciellt tack till"
 
 #: data/credits.stxt:1417
 msgid "Original creator of SuperTux"
-msgstr ""
+msgstr "Ursprunglig skapare av SuperTux"
 
 #: data/credits.stxt:1425
 msgid "Creator of Tux, the Linux penguin"
@@ -5532,7 +5532,7 @@ msgstr "SDL, OpenAL och OpenGL"
 
 #: data/credits.stxt:1432
 msgid "For making such a great gaming experience possible on Linux"
-msgstr ""
+msgstr "För att ha gjort en så fantastisk spelupplevelse möjlig på Linux"
 
 #: data/credits.stxt:1438
 msgid "and you, the player"
@@ -5548,23 +5548,23 @@ msgstr "Besök vår webbplats på"
 
 #: data/credits.stxt:1465
 msgid "For comments, ideas and suggestions,"
-msgstr ""
+msgstr "För kommentarer, idéer och förslag,"
 
 #: data/credits.stxt:1469
 msgid "talk to us on Discord or IRC"
-msgstr ""
+msgstr "prata med oss på Discord eller IRC"
 
 #: data/credits.stxt:1473
 msgid "or share them on the forum"
-msgstr ""
+msgstr "eller dela dem på forumet"
 
 #: data/credits.stxt:1481
 msgid "Want to contribute to the game?"
-msgstr ""
+msgstr "Vill du bidra till spelet?"
 
 #: data/credits.stxt:1496
 msgid "Want to help with localization?"
-msgstr ""
+msgstr "Vill du hjälpa till med lokalanpassning?"
 
 #: data/credits.stxt:1519
 msgid "Thank you for"
@@ -5576,7 +5576,7 @@ msgstr "spelat"
 
 #: data/credits.stxt:1538
 msgid "Penny awaits you in a tropical paradise..."
-msgstr ""
+msgstr "Penny väntar på dig i ett tropiskt paradis..."
 
 #: data/images/engine/editor/objects.stoi:4
 msgid "Enemies"

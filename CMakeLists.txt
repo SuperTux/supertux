@@ -98,7 +98,7 @@ if(SUPERTUX_CCACHE)
   endif()
 endif()
 
-if(EMSCRIPTEN OR ANDROID)
+if(EMSCRIPTEN)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
@@ -422,7 +422,10 @@ if(NOT EMSCRIPTEN)
     Vorbis
     VorbisFile
   )
-  target_link_libraries(supertux2 PUBLIC libcurl)
+
+  if(ADDPKG_CURL_FOUND)
+    target_link_libraries(supertux2 PUBLIC libcurl)
+  endif()
 
   if(HAVE_OPENGL)
     target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW)

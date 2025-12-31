@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2025-12-30 06:11+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
 "Language-Team: Norwegian Nynorsk (http://app.transifex.com/arctic-games/supertux/language/nn/)\n"
@@ -173,7 +173,7 @@ msgstr "Vis melding"
 msgid "Script"
 msgstr "Skript"
 
-#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:439
+#: src/worldmap/special_tile.cpp:82 src/badguy/dispenser.cpp:441
 msgid "Invisible"
 msgstr "Usynleg"
 
@@ -299,7 +299,7 @@ msgstr "Fliser"
 
 #: src/editor/toolbox_widget.cpp:84
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/badguy/dispenser.cpp:415
+#: src/badguy/dispenser.cpp:417
 msgid "Objects"
 msgstr "Objekt"
 
@@ -4949,7 +4949,7 @@ msgstr "Rotspire"
 msgid "Mr. Snowball"
 msgstr "Herr Snøball"
 
-#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:440
+#: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:442
 #: src/badguy/darttrap.cpp:174 src/badguy/granito.hpp:53
 msgid "Granito"
 msgstr "Granito"
@@ -5070,33 +5070,33 @@ msgstr "Sint stein"
 msgid "Dart"
 msgstr "Dart"
 
-#: src/badguy/dispenser.cpp:411
+#: src/badguy/dispenser.cpp:413
 msgid "Interval (seconds)"
 msgstr "Intervall (sekund)"
 
-#: src/badguy/dispenser.cpp:412
+#: src/badguy/dispenser.cpp:414
 msgid "Random"
 msgstr "Tilfeldig"
 
-#: src/badguy/dispenser.cpp:418
+#: src/badguy/dispenser.cpp:420
 msgid "Limit dispensed badguys"
 msgstr "Avgrens utsette slemmingar"
 
-#: src/badguy/dispenser.cpp:420
+#: src/badguy/dispenser.cpp:422
 msgid "Obey Gravity"
 msgstr "Følg tyngdekrafta"
 
-#: src/badguy/dispenser.cpp:422
+#: src/badguy/dispenser.cpp:424
 msgid "Max concurrent badguys"
 msgstr "Makstal samtidige slemmingar"
 
 #. l10n: This is not a dropper in the medical sense. Dropper refers to a
 #. dispenser that drops objects from above
-#: src/badguy/dispenser.cpp:436
+#: src/badguy/dispenser.cpp:438
 msgid "Dropper"
 msgstr "Sleppar"
 
-#: src/badguy/dispenser.cpp:438
+#: src/badguy/dispenser.cpp:440
 msgid "Cannon"
 msgstr "Kanon"
 
