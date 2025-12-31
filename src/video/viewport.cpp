@@ -95,9 +95,9 @@ calculate_scale(const Size& min_size, const Size& max_size,
 }
 
 inline Rect
-calculate_viewport(const Size& max_size, const Size& window_size, float scale)
+calculate_viewport(const Size& max_size, const Size& window_size, float scale, float magnification)
 {
-  if (::force_full_viewport)
+  if (::force_full_viewport && magnification == 0.f)
     return {0, 0, window_size};
   int viewport_width = std::min(window_size.width,
                                 static_cast<int>(scale * static_cast<float>(max_size.width)));
@@ -127,8 +127,8 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
 
   if (::force_full_viewport)
   {
-    window_size = real_window_size;
-    scale = 1.0;
+    window_size = apply_pixel_aspect_ratio_pre(real_window_size, pixel_aspect_ratio);
+    scale = magnification > 0.f ? magnification : 1.f;
   }
   else
   {
@@ -139,7 +139,7 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
   }
 
   // Calculate the new viewport size
-  out_viewport = calculate_viewport(max_size, window_size, scale);
+  out_viewport = calculate_viewport(max_size, window_size, scale, magnification);
 
   // Transform the virtual window_size back into real window coordinates
   apply_pixel_aspect_ratio_post(real_window_size, window_size, scale,
