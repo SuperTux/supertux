@@ -2,6 +2,11 @@
 fade_time <- 0.35;
 fade_time_fast <- 0.1;
 
+// If we are using world select to change WMs, then the states for other worlds won't get changed.
+// Here, we account for this.
+
+state.underground = false  // icy underground state
+
 // ============================================================================
 //   UNDERGROUND
 // ============================================================================
