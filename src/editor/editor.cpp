@@ -697,19 +697,19 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT]) {
+  if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT] || keys[SDL_SCANCODE_A]) {
     scroll({ -m_scroll_speed, 0.0f });
   }
 
-  if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT]) {
+  if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT] || keys[SDL_SCANCODE_D]) {
     scroll({ m_scroll_speed, 0.0f });
   }
 
-  if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP]) {
+  if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP] || keys[SDL_SCANCODE_W]) {
     scroll({ 0.0f, -m_scroll_speed });
   }
 
-  if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN]) {
+  if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN] || keys[SDL_SCANCODE_S]) {
     scroll({ 0.0f, m_scroll_speed });
   }
 }
