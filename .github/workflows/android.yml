@@ -35,7 +35,7 @@ jobs:
         arch: [arm64-v8a, armeabi-v7a, x86, x86_64]
     runs-on: ubuntu-latest
     env:
-      SUPERTUX_VERSION: v0.7.0
+      # SUPERTUX_VERSION is set later using git describe.
       SDL_TAG: 2.32.10
       B_T_VERSION: 35.0.0
       NDK_VERSION: 29.0.14206865
@@ -48,6 +48,12 @@ jobs:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
           submodules: recursive
+
+      - name: Prepare SUPERTUX_VERSION
+        run: |
+          tag=$(git describe --tags --abbrev=0)
+          echo "SUPERTUX_VERSION=$tag" >> $GITHUB_ENV
+          echo "SUPERTUX_VERSION: $tag"
 
       - name: Use cached dependencies
         id: cache-dependencies
