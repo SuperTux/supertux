@@ -815,14 +815,11 @@ Main::run(int argc, char** argv)
   catch(const std::exception& e)
   {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
-    // make the trap go through
-    throw e;
     result = 1;
   }
   catch(...)
   {
     log_fatal << "Unexpected exception" << std::endl;
-    // make the trap go through
     result = 1;
   }
 #endif
