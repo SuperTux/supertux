@@ -38,6 +38,7 @@
 #include "supertux/game_object_factory.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
+#include "trigger/trigger_base.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
@@ -555,6 +556,12 @@ EditorOverlayWidget::hover_object()
             cache_layer = 2147483647;
             m_hovered_object = &moving_object;
           }
+        }
+
+        // ignore triggers if they aren't "visible"
+        if (!Editor::current()->get_triggers_visible() && dynamic_cast<TriggerBase*>(&moving_object))
+        {
+          continue;
         }
 
         // Pick objects in this priority:

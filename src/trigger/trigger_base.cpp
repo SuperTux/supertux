@@ -95,8 +95,26 @@ void
 Trigger::draw_special_filled_box(DrawingContext& context, Color color)
 {
   if (Editor::is_active() || g_debug.show_collision_rects) {
-    context.color().draw_filled_rect(m_col.m_bbox, color,
-                             0.0f, LAYER_OBJECTS);
+    if (Editor::current()->get_triggers_visible())
+    {
+      context.color().draw_filled_rect(m_col.m_bbox, color, 0.0f, LAYER_OBJECTS);
+    }
+    else
+    {
+      Rectf& box = m_col.m_bbox;
+      context.color().draw_line(
+        { box.get_left(), box.get_top() },
+        { box.get_right(), box.get_top() }, color, LAYER_OBJECTS);
+      context.color().draw_line(
+        { box.get_left(), box.get_top() },
+        { box.get_left(), box.get_bottom() }, color, LAYER_OBJECTS);
+      context.color().draw_line(
+        { box.get_left(), box.get_bottom() },
+        { box.get_right(), box.get_bottom() }, color, LAYER_OBJECTS);
+      context.color().draw_line(
+        { box.get_right(), box.get_top() },
+        { box.get_right(), box.get_bottom() }, color, LAYER_OBJECTS);
+    }
   }
 }
 
