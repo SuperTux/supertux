@@ -72,6 +72,8 @@ WalkingLeaf::on_type_change(int old_type)
 void
 WalkingLeaf::active_update(float dt_sec)
 {
+  // FIXME: This class is extremely similar to ViciousIvy.
+  // I believe it should be a subclass of ViciousIvy.
   WalkingBadguy::active_update(dt_sec);
   if (!m_frozen && !m_ignited)
   {
