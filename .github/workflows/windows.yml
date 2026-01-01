@@ -187,7 +187,7 @@ jobs:
           $systemName = "win" + $(if ($Env:ARCH -eq "x64") {"64"} else {"32"})
           Compress-Archive `
             -Path ".\SuperTux-portable" `
-            -DestinationPath ".\SuperTux-portable-$tag-$systemName.zip"
+            -DestinationPath ".\SuperTux-$tag-$systemName-portable.zip"
 
       - uses: parth-paradkar/upload-s3-without-acl@68848b62953464adb87bd48793f7ec58b8af427c
         if: matrix.release && env.CI_KEY != null
@@ -217,7 +217,7 @@ jobs:
         with:
           files: |
             build/upload/*.msi
-            build/SuperTux-portable-*.zip
+            build/SuperTux-*-portable.zip
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
