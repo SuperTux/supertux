@@ -16,8 +16,10 @@
 
 #include "trigger/trigger_base.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/debug.hpp"
 
 TriggerBase::TriggerBase() :
   m_hit(),
@@ -89,6 +91,14 @@ Trigger::Trigger(const ReaderMapping& reader) :
     m_col.m_bbox.set_height(32.f);
 }
 
+void
+Trigger::draw_special_filled_box(DrawingContext& context, Color color)
+{
+  if (Editor::is_active() || g_debug.show_collision_rects) {
+    context.color().draw_filled_rect(m_col.m_bbox, color,
+                             0.0f, LAYER_OBJECTS);
+  }
+}
 
 SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_TOUCHABLE)
