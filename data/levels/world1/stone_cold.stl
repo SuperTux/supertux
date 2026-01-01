@@ -123,7 +123,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb
@@ -139,7 +138,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects
@@ -155,7 +153,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects
@@ -171,7 +168,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb
@@ -191,7 +187,7 @@
       (y 1024)
     )
     (gradient
-      (top_color 0.5 0.7 1)
+      (top_color 0.55 0.7 0.86)
       (bottom_color 1 1 1)
     )
     (infoblock

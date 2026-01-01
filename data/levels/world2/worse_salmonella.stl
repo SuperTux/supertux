@@ -132,7 +132,7 @@
     )
     (fish-swimming
       (type "corrupted")
-      (z-pos 200)
+      (z-pos 50)
       (glinting #f)
       (radius 50)
       (x 7872)
@@ -238,8 +238,8 @@
     (secretarea
       (width 352)
       (height 256)
-      (x 9760)
-      (y 336)
+      (x 9536)
+      (y 512)
     )
     (secretarea
       (fade-tilemap "secret2")

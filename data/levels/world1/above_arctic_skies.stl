@@ -14,7 +14,7 @@
   (sector
     (name "main")
     (ambient-light
-      (color 0.8980392 0.8 1)
+      (color 0.8980392 0.9 1)
     )
     (background
       (color 1 0.8 1)
@@ -320,8 +320,19 @@
       (glinting #f)
     )
     (gradient
-      (top_color 0.2980392 0.09803922 0.6)
-      (bottom_color 0.8784314 0.4470588 0.09803922)
+      (blend "none")
+      (top_color 0.4 0.4 0.7)
+      (bottom_color 1 0.5 0.3)
+    )
+    (gradient
+      (top_color 1 1 1 0)
+      (bottom_color 1 1 1)
+      (z-pos -250)
+    )
+    (gradient
+      (top_color 0.9254902 0.7372549 1 0)
+      (bottom_color 1 1 1 0.6)
+      (z-pos -200)
     )
     (infoblock
       (z-pos 50)
