@@ -527,7 +527,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   // Don't kill badguys that have already been killed.
   if (!is_active()) return;
 
-  if (tile_attributes & Tile::WATER && !is_in_water())
+  if (tile_attributes & Tile::WATER && !(tile_attributes & Tile::HURTS) && !is_in_water())
   {
     m_in_water = true;
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
