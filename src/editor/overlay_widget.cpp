@@ -1649,7 +1649,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
     if (m_autotile_mode)
     {
       AutotileSet* autotileset = get_current_autotileset();
-      if (m_editor.get_selected_tiles()->pos(0, 0) == 0)
+      if (m_editor.get_selected_tiles() && m_editor.get_selected_tiles()->pos(0, 0) == 0)
       {
         if (autotileset)
         {
@@ -1669,7 +1669,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
         context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
       }
     }
-    else if (m_editor.get_selected_tiles()->pos(0, 0) == 0)
+    else if (m_editor.get_selected_tiles() && m_editor.get_selected_tiles()->pos(0, 0) == 0)
     {
       if (!m_editor.m_ctrl_pressed)
         context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing") + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
