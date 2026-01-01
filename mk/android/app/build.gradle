@@ -51,7 +51,7 @@ android {
                           "-Wno-dev"
                 abiFilters rootProject.ext.cpuarch as String[]
             }
-            android.externalNativeBuild.cmake.arguments.join(rootProject.ext.cmake_args)
+            android.defaultConfig.externalNativeBuild.cmake.arguments.join(rootProject.ext.cmake_args)
         }
     }
     buildTypes {
