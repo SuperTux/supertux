@@ -5,6 +5,8 @@ set(DIRS ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext ${CMAKE_CURRENT_BINARY
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
+  # Packages that have a shell script as their primary executable are treated as x86-64 by default for compatibility reasons.  Adding LSArchitecturePriority to Info.plist should make the app's detected architecture be correct, see https://apple.stackexchange.com/a/474471/167476
+  set(INFOPLIST_LSARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
 
   install(CODE "
     if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
