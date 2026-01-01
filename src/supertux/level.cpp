@@ -78,7 +78,7 @@ Level::initialize()
 
   m_stats.init(*this);
 
-  Savegame* savegame = (GameSession::current() && !Editor::is_active() ?
+  Savegame* savegame = ((GameSession::current() && !Editor::current()) ?
     &GameSession::current()->get_savegame() : nullptr);
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : s_dummy_player_status;
 
