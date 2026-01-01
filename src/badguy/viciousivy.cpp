@@ -24,15 +24,17 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-ViciousIvy::ViciousIvy(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right"),
+const std::string ViciousIvy::DEFAULT_SPRITE = "images/creatures/vicious_ivy/vicious_ivy.sprite";
+
+ViciousIvy::ViciousIvy(const ReaderMapping& reader, std::string sprite) :
+  WalkingBadguy(reader, sprite, "left", "right"),
   m_fall_speed()
 {
   parse_type(reader);
 }
 
-ViciousIvy::ViciousIvy(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right"),
+ViciousIvy::ViciousIvy(const Vector& pos, Direction d, std::string sprite) :
+  WalkingBadguy(pos, d, sprite, "left", "right"),
   m_fall_speed()
 {
 }
@@ -133,6 +135,18 @@ ViciousIvy::active_update(float dt_sec)
   }
 }
 
+std::string
+ViciousIvy::get_explosion_sprite() const
+{
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/particles/rottenivy.sprite";
+    default:
+      return "images/particles/viciousivy.sprite";
+  }
+}
+
 bool
 ViciousIvy::collision_squished(MovingObject& object)
 {
@@ -141,8 +155,7 @@ ViciousIvy::collision_squished(MovingObject& object)
 
   set_action("squished", m_dir);
   // Spawn death particles.
-  spawn_explosion_sprites(3, m_type == NORMAL ? "images/particles/viciousivy.sprite"
-                                              : "images/particles/rottenivy.sprite");
+  spawn_explosion_sprites(3, get_explosion_sprite());
   kill_squished(object);
   return true;
 }

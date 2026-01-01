@@ -19,11 +19,14 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class ViciousIvy final : public WalkingBadguy
+class ViciousIvy : public WalkingBadguy
 {
 public:
-  ViciousIvy(const ReaderMapping& reader);
-  ViciousIvy(const Vector& pos, Direction d);
+  const static std::string DEFAULT_SPRITE;
+
+public:
+  ViciousIvy(const ReaderMapping& reader, std::string sprite = DEFAULT_SPRITE);
+  ViciousIvy(const Vector& pos, Direction d, std::string sprite = DEFAULT_SPRITE);
 
   virtual bool is_freezable() const override;
 
@@ -41,9 +44,10 @@ public:
   virtual bool is_snipable() const override { return true; }
 
 protected:
+  virtual std::string get_explosion_sprite() const;
   virtual bool collision_squished(MovingObject& object) override;
 
-  void on_type_change(int old_type) override;
+  virtual void on_type_change(int old_type) override;
 
 protected:
   enum Type {
@@ -51,7 +55,7 @@ protected:
     CORRUPTED
   };
 
-private:
+protected:
   float m_fall_speed;
 
 private:
