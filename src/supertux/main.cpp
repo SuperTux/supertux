@@ -757,8 +757,10 @@ Main::run(int argc, char** argv)
 
   int result = 0;
 
+#ifdef NDEBUG // We want exceptions to properly TRAP in debug mode
   try
   {
+#endif
     CommandLineArguments args;
     try
     {
@@ -808,17 +810,22 @@ Main::run(int argc, char** argv)
         launch_game(args);
         break;
     }
+#ifdef NDEBUG
   }
   catch(const std::exception& e)
   {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
+    // make the trap go through
+    throw e;
     result = 1;
   }
   catch(...)
   {
     log_fatal << "Unexpected exception" << std::endl;
+    // make the trap go through
     result = 1;
   }
+#endif
 
   g_dictionary_manager.reset();
 
