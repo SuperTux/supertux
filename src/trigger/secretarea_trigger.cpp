@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
+#include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/level.hpp"
@@ -74,35 +75,35 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.pop_transform();
   }
   if (Editor::is_active() || g_debug.show_collision_rects) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 1.0f, 0.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+    Trigger::draw_debug(context, Color(0.0f, 1.0f, 0.0f, 0.6f));
   } else if (message_timer.check()) {
     remove_me();
   }
 }
 
 void
-SecretAreaTrigger::event(Player& , EventType type)
+SecretAreaTrigger::event(Player& player, EventType type)
 {
-  if (type == EVENT_TOUCH) {
-    if (!message_displayed) {
-      message_timer.start(MESSAGE_TIME);
-      message_displayed = true;
-      Sector::get().get_level().m_stats.increment_secrets();
-      SoundManager::current()->play("sounds/welldone.ogg");
+  if (type != EVENT_TOUCH || !is_triggering_for_object(player))
+    return;
 
-      if (!fade_tilemap.empty()) {
-        // fade away tilemaps
-        for (auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
-          if (tm.get_name() == fade_tilemap) {
-            tm.fade(0.0, 1.0);
-          }
+  if (!message_displayed) {
+    message_timer.start(MESSAGE_TIME);
+    message_displayed = true;
+    Sector::get().get_level().m_stats.increment_secrets();
+    SoundManager::current()->play("sounds/welldone.ogg");
+
+    if (!fade_tilemap.empty()) {
+      // fade away tilemaps
+      for (auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
+        if (tm.get_name() == fade_tilemap) {
+          tm.fade(0.0, 1.0);
         }
       }
+    }
 
-      if (!script.empty()) {
-        Sector::get().run_script(script, "SecretAreaScript");
-      }
+    if (!script.empty()) {
+      Sector::get().run_script(script, "SecretAreaScript");
     }
   }
 }
