@@ -18,6 +18,9 @@
 #
 
 find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+  set(GIT_ENABLED YES)
+endif()
 
 # Thanks CMake! This macro sets the same value for the current scope
 # and the parent scope, because apparently only setting it for
@@ -30,7 +33,7 @@ endmacro()
 macro(git_run)
   cmake_parse_arguments(GIT_RUN "" "RESULT;OUTPUT" "COMMAND" ${ARGN})
 
-  if(NOT GIT_FOUND)
+  if(NOT GIT_ENABLED)
     parent_set(${GIT_RUN_OUTPUT} ${GIT_RUN_OUTPUT}-NOTFOUND)
     parent_set(${GIT_RUN_RESULT} 1)
     # Can't use a return command here because... Macro.
@@ -47,27 +50,45 @@ macro(git_run)
       set(_output ${GIT_RUN_OUTPUT}-NOTFOUND)
     endif()
 
-    parent_set(${GIT_RUN_OUTPUT} ${_output})
+    parent_set(${GIT_RUN_OUTPUT} "${_output}")
     parent_set(${GIT_RUN_RESULT} ${_result})
   endif()
 endmacro()
 
-function(git_project_version is_release)
-  if(NOT GIT_FOUND OR NOT EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    parent_set(${out} ${out}-NOTFOUND)
+function(git_is_tag _out)
+  if(NOT GIT_ENABLED)
+    # This is probably a source archive, which is usually a snapshot
+    # of a commit with a tag.
+    parent_set(${_out} YES)
+    return()
+  endif()
+
+  git_run(COMMAND tag --points-at OUTPUT GIT_TAG_OUT RESULT GIT_TAG_OUT_RESULT)
+  if(GIT_TAG_OUT)
+    parent_set(${_out} YES)
+  else()
+    parent_set(${_out} NO)
+  endif()
+endfunction()
+
+function(git_project_version)
+  if(NOT GIT_ENABLED)
+    parent_set(GIT_TAG GIT_TAG-NOTFOUND)
+    parent_set(GIT_HASH GIT_HASH-NOTFOUND)
+    parent_set(GIT_BRANCH GIT_BRANCH-NOTFOUND)
     return()
   endif()
 
   # Tag
   git_run(COMMAND describe --tags --abbrev=0 OUTPUT GIT_TAG RESULT GIT_TAG_RESULT)
 
-  if(is_release)
-    return()
+  # Commit hash
+  if(NOT DEFINED GIT_HASH)
+    git_run(COMMAND rev-parse --short HEAD OUTPUT GIT_HASH RESULT GIT_HASH_RESULT)
   endif()
 
-  # Commit hash
-  git_run(COMMAND rev-parse --short HEAD OUTPUT GIT_HASH RESULT GIT_HASH_RESULT)
-
   # Branch
-  git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT GIT_BRANCH RESULT GIT_BRANCH_RESULT)
+  if(NOT DEFINED GIT_BRANCH)
+    git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT GIT_BRANCH RESULT GIT_BRANCH_RESULT)
+  endif()
 endfunction()

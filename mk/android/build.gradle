@@ -6,6 +6,13 @@ if (hasProperty("cpuarch")) {
     ext.cpuarch = ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
 }
 
+if (hasProperty("cmake_args")) {
+    // I don't care if you can't write semicolons on your CMake args. Yet.
+    ext.cmake_args = property("cmake_args").split(";")
+} else {
+    ext.cmake_args = []
+}
+
 buildscript {
     repositories {
         mavenCentral()
