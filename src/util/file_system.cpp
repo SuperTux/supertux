@@ -282,7 +282,7 @@ open_editor(const std::string& filename)
 #ifndef WIN32
   const char *argv[] = { editor.c_str(), filename.c_str(), NULL };
   pid_t proc;
-  if (posix_spawnp(&proc, editor.c_str(), NULL, NULL, (char ** const)argv, environ) != 0)
+  if (posix_spawnp(&proc, editor.c_str(), NULL, NULL, const_cast<char** const>(argv), environ) != 0)
   {
     log_fatal << "Failed to spawn editor: " << editor << std::endl;
   }
