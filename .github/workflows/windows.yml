@@ -216,8 +216,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            "build/upload/SuperTux-*.msi"
-            "build/SuperTux-portable-*.zip"
+            build/upload/*.msi
+            build/SuperTux-portable-*.zip
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
