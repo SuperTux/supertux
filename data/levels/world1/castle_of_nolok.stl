@@ -139,13 +139,13 @@ secret_trap.start_moving();")
     )
     (crusher
       (z-pos 50)
-      (direction "horizontal")
+      (direction "right")
       (x 10016)
       (y 672)
     )
     (crusher
       (z-pos 50)
-      (direction "horizontal")
+      (direction "right")
       (x 10016)
       (y 480)
     )
@@ -209,7 +209,6 @@ secret_trap.start_moving();")
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (objects
         (bouncingsnowball
@@ -223,7 +222,6 @@ secret_trap.start_moving();")
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
@@ -239,7 +237,6 @@ secret_trap.start_moving();")
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
@@ -255,7 +252,6 @@ secret_trap.start_moving();")
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (objects
         (bouncingsnowball
