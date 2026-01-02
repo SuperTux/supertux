@@ -25,12 +25,13 @@ public:
   DraggableRegion(Color color);
   DraggableRegion(const ReaderMapping &reader);
   DraggableRegion(Color color, const ReaderMapping &reader);
-  virtual ~DraggableRegion() {};
+  virtual ~DraggableRegion() {}
 
   void draw_draggable_box(DrawingContext& context);
 
   virtual bool can_be_hidden() const { return true; }
   virtual int get_layer() const override { return LAYER_OBJECTS; }
+  virtual bool has_variable_size() const override { return true; }
 
   virtual void draw(DrawingContext& context) override
   {

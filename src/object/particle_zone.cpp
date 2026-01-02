@@ -96,7 +96,7 @@ ParticleZone::draw(DrawingContext& context)
       break;
     }
 
-    draw_draggable_box(context);
+    DraggableRegion::draw(context);
     context.color().draw_text(Resources::small_font,
                           m_particle_name,
                           m_col.m_bbox.p1(),

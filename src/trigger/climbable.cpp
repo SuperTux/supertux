@@ -117,7 +117,7 @@ Climbable::draw(DrawingContext& context)
     context.color().draw_center_text(Resources::normal_font, _(message), pos, LAYER_HUD, Climbable::text_color);
     context.pop_transform();
   }
-  draw_draggable_box(context);
+  DraggableRegion::draw(context);
 }
 
 void

@@ -66,9 +66,3 @@ ScriptTrigger::event(Player& , EventType type)
   Sector::get().run_script(script, "ScriptTrigger");
   runcount++;
 }
-
-void
-ScriptTrigger::draw(DrawingContext& context)
-{
-  draw_draggable_box(context);
-}

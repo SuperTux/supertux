@@ -75,14 +75,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.pop_transform();
   }
 
-  if (Editor::is_active() || g_debug.show_collision_rects)
-  {
-    draw_draggable_box(context);
-  }
-  else if (message_timer.check())
-  {
-    remove_me();
-  }
+  DraggableRegion::draw(context);
 }
 
 void
@@ -114,5 +107,14 @@ SecretAreaTrigger::event(Player& , EventType type)
         Sector::get().run_script(script, "SecretAreaScript");
       }
     }
+  }
+}
+
+void
+SecretAreaTrigger::update(float)
+{
+  if (message_timer.check())
+  {
+    remove_me();
   }
 }

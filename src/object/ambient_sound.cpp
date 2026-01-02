@@ -100,12 +100,6 @@ AmbientSound::collision(MovingObject& other, const CollisionHit& hit_)
 }
 
 void
-AmbientSound::draw(DrawingContext& context)
-{
-  DraggableRegion::draw_draggable_box(context);
-}
-
-void
 AmbientSound::stop_looping_sounds()
 {
   if (m_sound_source)

@@ -19,9 +19,7 @@
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
 
-#include "editor/editor.hpp"
 #include "editor/resize_marker.hpp"
-#include "supertux/debug.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"

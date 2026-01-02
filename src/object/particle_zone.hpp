@@ -38,7 +38,6 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(ParticleZone)); }
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
-  virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;

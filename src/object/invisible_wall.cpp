@@ -61,12 +61,6 @@ InvisibleWall::collision(MovingObject& , const CollisionHit& )
 }
 
 void
-InvisibleWall::draw(DrawingContext& context)
-{
-  draw_draggable_box(context);
-}
-
-void
 InvisibleWall::update(float )
 {
 }
