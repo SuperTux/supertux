@@ -23,7 +23,7 @@
 #include "video/drawing_context.hpp"
 
 ParticleZone::ParticleZone(const ReaderMapping& reader) :
-  MovingObject(reader),
+  DraggableRegion(reader),
   m_enabled(),
   m_particle_name()
 {
@@ -81,23 +81,23 @@ ParticleZone::draw(DrawingContext& context)
     Color c;
     switch(m_type) {
     case ParticleZoneType::Spawn:
-      c = Color(0.5f, 0.5f, 1.0f, 0.6f);
+      set_color(Color(0.5f, 0.5f, 1.0f, 0.6f));
       break;
     case ParticleZoneType::Life:
-      c = Color(0.5f, 1.0f, 0.5f, 0.6f);
+      set_color(Color(0.5f, 1.0f, 0.5f, 0.6f));
       break;
     case ParticleZoneType::LifeClear:
-      c = Color(1.0f, 1.0f, 0.5f, 0.6f);
+      set_color(Color(1.0f, 1.0f, 0.5f, 0.6f));
       break;
     case ParticleZoneType::Killer:
-      c = Color(1.0f, 0.75f, 0.5f, 0.6f);
+      set_color(Color(1.0f, 0.75f, 0.5f, 0.6f));
       break;
     case ParticleZoneType::Destroyer:
-      c = Color(1.0f, 0.5f, 0.5f, 0.6f);
+      set_color(Color(1.0f, 0.5f, 0.5f, 0.6f));
       break;
     }
 
-    draw_draggable_box(context, c);
+    draw_draggable_box(context);
     context.color().draw_text(Resources::small_font,
                           m_particle_name,
                           m_col.m_bbox.p1(),

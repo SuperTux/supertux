@@ -159,9 +159,6 @@ protected:
     m_col.m_group = group;
   }
 
-  void draw_draggable_box(DrawingContext& context, Color color);
-
-
 protected:
   CollisionObject m_col;
 

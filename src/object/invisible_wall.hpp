@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "object/draggable_region.hpp"
 #include "supertux/moving_object.hpp"
 
 #include "video/layer.hpp"
@@ -23,7 +24,7 @@
 class ReaderMapping;
 
 /** A tile that starts falling down if tux stands to long on it */
-class InvisibleWall final : public MovingObject
+class InvisibleWall final : public DraggableRegion
 {
 public:
   InvisibleWall(const ReaderMapping& mapping);
@@ -36,9 +37,7 @@ public:
   static std::string display_name() { return _("Invisible Wall"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(InvisibleWall)); }
-
   virtual bool has_variable_size() const override { return true; }
-
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 

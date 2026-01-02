@@ -79,8 +79,8 @@ TriggerBase::object_removed(GameObject* object)
 }
 
 
-Trigger::Trigger(const ReaderMapping& reader) :
-  MovingObject(reader)
+Trigger::Trigger(Color color, const ReaderMapping& reader) :
+  DraggableRegion(color, reader)
 {
   set_group(COLGROUP_TOUCHABLE);
 
@@ -89,6 +89,11 @@ Trigger::Trigger(const ReaderMapping& reader) :
 
   if (m_col.m_bbox.get_height() == 0.f)
     m_col.m_bbox.set_height(32.f);
+}
+
+Trigger::Trigger(const ReaderMapping& reader) :
+  Trigger(Color{1.0f, 0.0f, 0.0f, 0.6f}, reader)
+{
 }
 
 SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name, int layer) :

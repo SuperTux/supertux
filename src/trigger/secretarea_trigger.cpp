@@ -32,7 +32,7 @@
 static const float MESSAGE_TIME=3.5;
 
 SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
-  Trigger(reader),
+  Trigger(Color(0.0f, 1.0f, 0.0f, 0.6f), reader),
   message_timer(),
   message_displayed(false),
   message(),
@@ -77,7 +77,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
 
   if (Editor::is_active() || g_debug.show_collision_rects)
   {
-    draw_draggable_box(context, Color(0.0f, 1.0f, 0.0f, 0.6f));
+    draw_draggable_box(context);
   }
   else if (message_timer.check())
   {

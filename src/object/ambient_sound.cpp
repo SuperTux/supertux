@@ -31,7 +31,7 @@
 #include "video/drawing_context.hpp"
 
 AmbientSound::AmbientSound(const ReaderMapping& mapping) :
-  MovingObject(mapping),
+  DraggableRegion(Color(0.0f, 0.0f, 1.0f, 0.6f), mapping),
   m_sample(),
   m_sound_source(),
   m_radius(),
@@ -58,6 +58,7 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
 }
 
 AmbientSound::AmbientSound(const Vector& pos, float radius, float vol, const std::string& file) :
+  DraggableRegion(Color(0.0f, 0.0f, 1.0f, 0.6f)),
   m_sample(file),
   m_sound_source(),
   m_radius(radius),
@@ -101,7 +102,7 @@ AmbientSound::collision(MovingObject& other, const CollisionHit& hit_)
 void
 AmbientSound::draw(DrawingContext& context)
 {
-  draw_draggable_box(context, Color(0.0f, 0.0f, 1.0f, 0.6f));
+  DraggableRegion::draw_draggable_box(context);
 }
 
 void

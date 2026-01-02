@@ -18,6 +18,7 @@
 #pragma once
 
 #include "math/vector.hpp"
+#include "object/draggable_region.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/layer.hpp"
 
@@ -31,7 +32,7 @@ class SoundSource;
  * @instances An ""AmbientSound"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class AmbientSound final : public MovingObject
+class AmbientSound final : public DraggableRegion
 {
 public:
   static void register_class(ssq::VM& vm);

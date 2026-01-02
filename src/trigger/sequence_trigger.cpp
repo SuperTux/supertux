@@ -24,7 +24,7 @@
 #include "video/drawing_context.hpp"
 
 SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
-  Trigger(reader),
+  Trigger(Color(1.0f, 0.0f, 0.0f, 0.6f), reader),
   triggerevent(EVENT_TOUCH),
   sequence(SEQ_ENDSEQUENCE),
   new_spawnpoint(),
@@ -80,5 +80,5 @@ SequenceTrigger::get_sequence_name() const
 void
 SequenceTrigger::draw(DrawingContext& context)
 {
-  draw_draggable_box(context, Color(1.0f, 0.0f, 0.0f, 0.6f));
+  draw_draggable_box(context);
 }

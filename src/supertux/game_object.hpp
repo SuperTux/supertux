@@ -152,9 +152,6 @@ public:
       A.K.A. "draggable" */
   virtual bool has_variable_size() const { return false; }
 
-  /** Can this draggable be hidden using the Ctrl+H shortcut in the editor */
-  virtual bool editor_draggable_can_be_hidden() const { return true; }
-
   /** Indicates if the object will be saved. If false, the object will
       be skipped on saving and can't be cloned in the editor. */
   virtual bool is_saveable() const { return true; }

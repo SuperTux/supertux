@@ -21,7 +21,7 @@
 #include "video/drawing_context.hpp"
 
 InvisibleWall::InvisibleWall(const ReaderMapping& mapping):
-  MovingObject(mapping),
+  DraggableRegion(Color(0.0f, 0.0f, 0.0f, 0.6f), mapping),
   width(),
   height()
 {
@@ -63,7 +63,7 @@ InvisibleWall::collision(MovingObject& , const CollisionHit& )
 void
 InvisibleWall::draw(DrawingContext& context)
 {
-  draw_draggable_box(context, Color(0.0f, 0.0f, 0.0f, 0.6f));
+  draw_draggable_box(context);
 }
 
 void

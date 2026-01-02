@@ -39,7 +39,7 @@
 #include "supertux/moving_object.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "trigger/trigger_base.hpp"
+#include "object/draggable_region.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
@@ -560,9 +560,10 @@ EditorOverlayWidget::hover_object()
         }
 
         // Ignore draggables if they aren't "visible".
-        if (!Editor::current()->get_draggables_visible() &&
-            moving_object.has_variable_size() &&
-            moving_object.editor_draggable_can_be_hidden())
+        DraggableRegion* draggable;
+        if (!m_editor.get_draggables_visible() &&
+            (draggable = dynamic_cast<DraggableRegion*>(&moving_object)) &&
+            draggable->can_be_hidden())
         {
           continue;
         }

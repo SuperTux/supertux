@@ -42,7 +42,6 @@ public:
   virtual void check_state() override;
 
   virtual bool has_variable_size() const override { return true; }
-  virtual bool editor_draggable_can_be_hidden() const override { return false; }
   static std::string class_name() { return "editor-comment"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Editor Comment"); }

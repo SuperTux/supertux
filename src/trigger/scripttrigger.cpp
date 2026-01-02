@@ -24,7 +24,7 @@
 #include "video/drawing_context.hpp"
 
 ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
-  Trigger(reader),
+  Trigger(Color(1.0f, 0.0f, 1.0f, 0.6f), reader),
   triggerevent(),
   script(),
   must_activate(false),
@@ -70,5 +70,5 @@ ScriptTrigger::event(Player& , EventType type)
 void
 ScriptTrigger::draw(DrawingContext& context)
 {
-  draw_draggable_box(context, Color(1.0f, 0.0f, 1.0f, 0.6f));
+  draw_draggable_box(context);
 }
