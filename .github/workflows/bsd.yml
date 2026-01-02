@@ -70,7 +70,9 @@ jobs:
             pkg install -y libraqm
             pkg install -y glm
             pkg install -y physfs
-            pkg install -y bash
+            pkg install -y libfmt
+            pkg install -y fribidi
+            pkg install -y harfbuzz
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
@@ -79,14 +81,9 @@ jobs:
           MAKE_DOCS: ${{ matrix.documentation }}
         shell: freebsd {0}
         run: |
-            bash
             cd $GITHUB_WORKSPACE
-            pwd
             mkdir build && cd build
-            cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON # -DWERROR=ON  \
-                     -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
-                     -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
-                     -DINSTALL_SUBDIR_BIN=bin \
+            cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=OFF -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2 -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin
             ls
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
