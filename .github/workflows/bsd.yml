@@ -36,7 +36,7 @@ jobs:
         # FreeBSD does not have glbinding
         # glbiactions/checkout@v4
 
-    runs-on: macos
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,7 +55,8 @@ jobs:
           envs: 'BUILD_TYPE' # TODO: Add GLBINDING here if it comes to FreeBSD
           sync: rsync
           usesh: true
-          prepare: |
+            
+          run: |
             pkg install -y pkgconf
             pkg install -y git
             pkg install -y cmake
@@ -71,7 +72,6 @@ jobs:
             pkg install -y freetype
             pkg install -y libraqm
             pkg install -y glm
-          run: |
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON # -DWERROR=ON  \
                      -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
