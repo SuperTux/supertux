@@ -50,7 +50,7 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
           CMAKE_POLICY_VERSION_MINIMUM: 3.5
           # GLBINDING: ${{ matrix.glbinding }} # TODO: Re-add if available
-        uses: vmactions/freebsd-vm@v0.1.4
+        uses: vmactions/freebsd-vm@v1.3.4
         with:
           envs: 'BUILD_TYPE' # TODO: Add GLBINDING here if it comes to FreeBSD
           sync: rsync
