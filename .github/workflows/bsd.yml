@@ -92,7 +92,7 @@ jobs:
       - name: Package
         working-directory: build
         run: |
-            apt install -y tar
+            sudo apt install -y tar
             tar -czvf supertux-freebsd.tar.gz
 
 
