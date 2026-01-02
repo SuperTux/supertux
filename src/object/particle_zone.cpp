@@ -78,7 +78,6 @@ void
 ParticleZone::draw(DrawingContext& context)
 {
   if (Editor::is_active() || g_debug.show_collision_rects) {
-    Color c;
     switch(m_type) {
     case ParticleZoneType::Spawn:
       set_color(Color(0.5f, 0.5f, 1.0f, 0.6f));
