@@ -73,6 +73,7 @@ jobs:
             pkg install -y libfmt
             pkg install -y fribidi
             pkg install -y harfbuzz
+            pkg install -y libraqm
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
