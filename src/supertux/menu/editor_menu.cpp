@@ -191,6 +191,7 @@ EditorMenu::menu_action(MenuItem& item)
         "F6 = " + _("Render Light") + "\n" +
         "F7 = " + _("Grid Snapping") + "\n" +
         "F8 = " + _("Show Grid") + "\n" +
+        "Ctrl+H = " + _("Hide Triggers") + "\n" +
         "Ctrl+X = " + _("Toggle Between Tileset/Objects Tool") + "\n" +
         _("Ctrl+PLUS or Ctrl+Scroll Up = Zoom In") + "\n" +
         _("Ctrl+MINUS or Ctrl+Scroll Down = Zoom Out") + "\n" +

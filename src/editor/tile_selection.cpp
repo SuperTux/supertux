@@ -26,6 +26,10 @@ TileSelection::TileSelection() :
 uint32_t
 TileSelection::pos(int x, int y)
 {
+  // concern: Is this a sign of a bigger issue?
+  if (m_tiles.empty())
+    return 0;
+
   if (m_width < 1)
     m_width = 1;
 
@@ -41,7 +45,11 @@ TileSelection::pos(int x, int y)
     y += m_height;
   }
 
+#ifdef NDEBUG
   return m_tiles[x + y * m_width];
+#else
+  return m_tiles.at(x + y * m_width);
+#endif
 }
 
 void

@@ -24,6 +24,7 @@
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
@@ -451,6 +452,7 @@ GameSession::toggle_pause()
     m_currentsector->stop_looping_sounds();
     SoundManager::current()->pause_music();
     m_game_pause = true;
+    MouseCursor::current()->set_visible(true);
   }
 
   // Unpause is done in update() after the menu is processed.
@@ -569,11 +571,14 @@ GameSession::setup()
   m_skip_intro = false;
 
   m_end_seq_started = false;
+
+  MouseCursor::current()->set_visible(false);
 }
 
 void
 GameSession::leave()
 {
+  MouseCursor::current()->set_visible(true);
   m_data_table.clear();
 }
 
@@ -764,6 +769,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     assert(m_currentsector != nullptr);
     m_currentsector->play_looping_sounds();
     m_game_pause = false;
+    MouseCursor::current()->set_visible(false);
   }
 
   if (reset_button) {

@@ -35,7 +35,7 @@ jobs:
         arch: [arm64-v8a, armeabi-v7a, x86, x86_64]
     runs-on: ubuntu-latest
     env:
-      SUPERTUX_VERSION: v0.7.0
+      # SUPERTUX_VERSION is set later using git describe.
       SDL_TAG: 2.32.10
       B_T_VERSION: 35.0.0
       NDK_VERSION: 29.0.14206865
@@ -48,6 +48,12 @@ jobs:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
           submodules: recursive
+
+      - name: Prepare SUPERTUX_VERSION
+        run: |
+          tag=$(git describe --tags --abbrev=0)
+          echo "SUPERTUX_VERSION=$tag" >> $GITHUB_ENV
+          echo "SUPERTUX_VERSION: $tag"
 
       - name: Use cached dependencies
         id: cache-dependencies
@@ -114,11 +120,23 @@ jobs:
             ndk;${{ env.NDK_VERSION }}
             build-tools;${{ env.B_T_VERSION }}
 
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
       - name: Build APK
         working-directory: mk/android/
+        env:
+          # Using git rev-parse gives incorrect values when querying the branch
+          # so, use slugify instead
+          GIT_HASH: ${{ steps.slugify.outputs.sha }}
+          GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
         run: |
           chmod +x ./gradlew
-          ./gradlew assembleRelease -Pcpuarch="${{ matrix.arch }}" --info
+          ./gradlew assembleRelease \
+            -Pcpuarch="${{ matrix.arch }}" \
+            -Pcmake_args="-DGIT_HASH=$GIT_HASH;-DGIT_BRANCH=$GIT_BRANCH" \
+            --info
 
       - name: Rename APK
         run: |
@@ -183,3 +201,10 @@ jobs:
           name: "Signed SuperTux APK ${{ matrix.arch }}"
           path: "mk/android/app/build/outputs/apk/release/SuperTux-${{ env.SUPERTUX_VERSION }}-${{ matrix.arch }}.apk"
 
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "mk/android/app/build/outputs/apk/release/SuperTux-${{ env.SUPERTUX_VERSION }}-${{ matrix.arch }}.apk"
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}

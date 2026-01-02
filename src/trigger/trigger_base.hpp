@@ -80,6 +80,8 @@ public:
 
   int get_layer() const override { return LAYER_TILES + 1; }
 
+  void draw_special_filled_box(DrawingContext& context, Color color);
+
 private:
   Trigger(const Trigger&) = delete;
   Trigger& operator=(const Trigger&) = delete;

@@ -297,6 +297,8 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
     draw_player_pos(context);
   }
 
+  MouseCursor::current()->draw(context);
+
   // render everything
   compositor.render();
 }

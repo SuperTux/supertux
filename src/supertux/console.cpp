@@ -17,6 +17,7 @@
 #include "supertux/console.hpp"
 
 #include "math/sizef.hpp"
+#include "gui/mousecursor.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
@@ -109,6 +110,7 @@ Console::Console(ConsoleBuffer& buffer) :
   m_offset(0),
   m_focused(false),
   m_font(Resources::console_font),
+  m_last_cursor_vis(false),
   m_stayOpen(0)
 {
   m_buffer.set_console(this);
@@ -448,6 +450,7 @@ Console::show()
   if (!g_config->developer_mode)
     return;
 
+  m_last_cursor_vis = MouseCursor::current()->get_visible();
   m_focused = true;
   m_height = Console::HEIGHT;
   m_alpha = 1.0;
@@ -466,6 +469,7 @@ Console::hide()
   m_focused = false;
   m_height = 0;
   m_stayOpen = 0;
+  MouseCursor::current()->set_visible(m_last_cursor_vis);
 
   // Clear the input buffer.
 }
@@ -554,6 +558,7 @@ Console::draw(DrawingContext& context) const
                                              Sizef(2.0f, m_font->get_height() - 2)),
                                        Color(1.0f, 1.0f, 1.0f, 0.75f), layer);
     }
+    MouseCursor::current()->set_visible(true);
   }
 
   int skipLines = -m_offset;

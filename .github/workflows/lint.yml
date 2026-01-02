@@ -51,7 +51,7 @@ jobs:
       - name: Lint code with Cppcheck
         run: |
           ./danmar-cppcheck-*/cppcheck \
-            --check-level=exhaustive \
+            --check-level=exhaustive --include=mk/cppcheck/include/SDL.h \
             --quiet --inline-suppr --language=c++ --error-exitcode=10 \
             -j"$(nproc)" --std=c++17 --enable=warning,style \
             --suppress=useStlAlgorithm -UEMSCRIPTEN src/

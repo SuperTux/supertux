@@ -59,6 +59,9 @@ public:
   inline void set_icon(SurfacePtr icon) { m_icon = std::move(icon); }
 
   inline void set_pos(int x, int y) { m_mobile_mode = true; m_x = x; m_y = y; }
+  // This is not the same thing as MouseCursorState::HIDE
+  inline bool get_visible() { return m_visible; }
+  void set_visible(bool visibility);
 
 private:
   void apply_state(MouseCursorState state);
@@ -72,7 +75,9 @@ private:
   bool m_mobile_mode;
   SurfacePtr m_icon;
   bool m_custom_cursor_last;
-  
+  bool m_visible;
+  bool m_visibility_changed;
+
   std::unordered_map<std::string, std::shared_ptr<SDL_Cursor>> m_cursors;
 
 private:

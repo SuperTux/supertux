@@ -1,0 +1,6 @@
+# This generated file provides version information.
+# See mk/cmake/SuperTux/BuildVersion.cmake
+
+set(SUPERTUX_PACKAGE_VERSION_TAG "v@PROJECT_VERSION@")
+set(SUPERTUX_PACKAGE_VERSION "v@PROJECT_VERSION@")
+set(SUPERTUX_VERSION_STRING "v@PROJECT_VERSION@")

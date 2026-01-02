@@ -19,6 +19,7 @@
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
+#include <cassert>
 #include <memory>
 #include <sstream>
 #include <unordered_map>
@@ -143,7 +144,10 @@ public:
   // TODO: Use pointer instead of reference. m_savegame can be NULL when the
   //   editor is active; this results in many cases where people check
   //   Editor::is_active()
-  inline Savegame& get_savegame() const { return *m_savegame; }
+  Savegame& get_savegame() const {
+    assert(m_savegame != nullptr);
+    return *m_savegame;
+  }
 
   void set_scheduler(SquirrelScheduler& new_scheduler);
 
