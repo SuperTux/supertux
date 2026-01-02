@@ -74,3 +74,7 @@ if(!state.fridge_secret_v2) fridge_secret.fade(0.2, 0);
 else fridge_secret.fade(1, 0);
 if(!state.slide_secret_v2) slide_secret.fade(0.2, 0);
 else slide_secret.fade(1, 0);
+
+if (("key_knowledge" in state)) {
+	  if (state.key_knowledge == true) {
+        display_keys(true); }}

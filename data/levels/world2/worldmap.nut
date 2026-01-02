@@ -124,3 +124,7 @@ worldmap.granito_secret.set_direction_mask(state.granito_secret);
 worldmap.strike_secret.set_direction_mask(state.strike_secret);
 worldmap.hollow_secret.set_direction_mask(state.hollow_secret);
 // TODO: make paths fade
+
+if (("key_knowledge" in state)) {
+	  if (state.key_knowledge == true) {
+        display_keys(true); }}

@@ -2,6 +2,8 @@ function add_key(key)
 {
   local keys = state.treasure_keys;
   keys[key] = true;
+  if(! ("key_knowledge" in state))
+	  state.key_knowledge <- true
   update_keys();
 }
 
@@ -53,6 +55,14 @@ function update_keys()
 	}
 }
 
+function display_keys(visibility)
+{
+  foreach(name in ["air", "earth", "wood", "fire", "water"])
+  {
+    key[name].set_visible(visibility);
+  }
+}
+
 if(! ("key" in this))
  key <- {};
 
@@ -65,9 +75,10 @@ foreach(name in ["air", "earth", "wood", "fire", "water"])
     key[name] <- FloatingImage("images/objects/keys/key_" + name + ".sprite");
     key[name].set_anchor_point(ANCHOR_TOP_LEFT);
     key[name].set_pos(x, y);
-    key[name].set_visible(true);
+    key[name].set_visible(false);
   }
   y += 35;
 }
 
 update_keys();
+display_keys(false);
