@@ -61,7 +61,6 @@ jobs:
           envs: 'BUILD_TYPE' # TODO: Add GLBINDING here if it comes to FreeBSD
           sync: rsync
           usesh: true
-            
           run: |
             pkg install -y pkgconf
             pkg install -y git
