@@ -44,13 +44,19 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - name: Start VM
+        id: vm
+        uses: vmactions/freebsd-vm@v1.3.4
+        with:
+          sync: zfs
+
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           CMAKE_POLICY_VERSION_MINIMUM: 3.5
           # GLBINDING: ${{ matrix.glbinding }} # TODO: Re-add if available
-        uses: vmactions/freebsd-vm@v1.3.4
+        shell: freebsd {0}
         with:
           envs: 'BUILD_TYPE' # TODO: Add GLBINDING here if it comes to FreeBSD
           sync: rsync
