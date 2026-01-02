@@ -33,7 +33,7 @@ jobs:
         # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
         vm_os: [freebsd]
         build_type: [Debug, Release]
-        
+        arch: x86_64
 
     runs-on: ubuntu-latest
     steps:
@@ -87,5 +87,19 @@ jobs:
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=OFF -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2 -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DENABLE_DISCORD=ON
             ls
             make -j3 VERBOSE=1
-            make install DESTDIR="/tmp/supertux" VERBOSE=1
-            ./test_supertux2
+            mkdir out
+            make install DESTDIR="./out" VERBOSE=1
+
+      - name: Package
+        working-directory: build
+        run: |
+            apt install -y tar
+            tar -czvf supertux-freebsd.tar.gz
+
+
+      - name: Upload tar archives
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.vm_os }}-${{ matrix.arch }}-${{ matrix.build_type }}-tgz"
+          path: build/upload/*.tar.gz
+          if-no-files-found: ignore
