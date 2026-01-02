@@ -206,7 +206,7 @@
       (z-pos 50)
       (x 5376)
       (y 480)
-      (glinting #f)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
@@ -460,7 +460,7 @@
       (direction "left")
       (x 2656)
       (y 896)
-      (glinting #f)
+      (glinting #t)
     )
     (snowball
       (z-pos 50)
@@ -551,7 +551,7 @@
       (direction "left")
       (x 12000)
       (y 992)
-      (glinting #f)
+      (glinting #t)
     )
     (snowman
       (z-pos 50)

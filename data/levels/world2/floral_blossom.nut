@@ -44,7 +44,7 @@ function textbox_intro()
   
   wait(1);
   
-  Text.set_text(_("The Granito spoke of 3 groups of his fellow Granito whoo had gotten lost when trying to escape the roots to the east coast."));
+  Text.set_text(_("The Granito spoke of 3 groups of his fellow Granito who had gotten lost when trying to escape the roots to the east coast."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -74,21 +74,21 @@ function textbox_outro()
   
   wait(1);
 
-  Text.set_text(_("He was glad there were more Granito that had survied the Ghost Tree's overgrowth."));
+  Text.set_text(_("He was glad there were more Granito that had survived the Ghost Tree's overgrowth."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(1);
   
-  Text.set_text(_("One of the Granito asked him what, a penguin like him was doing so far from the Antarctic?"));
+  Text.set_text(_("One of the Granito asked him what a penguin like him was doing so far from the Antarctic."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(1);
   
-  Text.set_text(_("Tux replyed, he was looking for his friend Penny and that she was captured by an evil creature named \"Nolok\". A name the Granito remember unpleasently"));
+  Text.set_text(_("Tux replied, that he was looking for his friend Penny and that she was captured by an evil creature named \"Nolok\". A name the Granito remembered unpleasantly"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -116,7 +116,7 @@ function textbox_outro()
   
   wait(1);
   
-  Text.set_text(_("The remaing Granito would stay behind, slowly rebuilding their home, now that the corruption was finally vanquished..."));
+  Text.set_text(_("The remaining Granito would stay behind, slowly rebuilding their home, now that the corruption was finally vanquished..."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);

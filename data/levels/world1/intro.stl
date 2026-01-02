@@ -8,7 +8,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -31,6 +30,7 @@ trigger_state(\"start\");")
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0.01)
       (speed-y 0)
       (image "/images/background/antarctic/ice_floes_back.png")
@@ -39,6 +39,7 @@ trigger_state(\"start\");")
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0.03)
       (speed-y 0)
       (image "/images/background/antarctic/ice_floes_front.png")

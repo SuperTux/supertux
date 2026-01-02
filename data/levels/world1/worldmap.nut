@@ -3,6 +3,12 @@ import("/levels/preload_worldselect.nut");
 
 fade_time <- 0.35;
 
+// If we are using world select to change WMs, then the states for other worlds won't get changed.
+// Here, we account for this.
+
+state.underground_f = false  // forest underground state
+state.corrupted = false
+
 // ============================================================================
 //   AMBIENT LIGHT
 // ============================================================================
