@@ -69,6 +69,7 @@ jobs:
             pkg install -y freetype
             pkg install -y libraqm
             pkg install -y glm
+            pkg install -y physfs
             pkg install -y bash
 
       - name: Build in FreeBSD
