@@ -918,7 +918,8 @@ Camera.set_scale(1.5);")
     (powerup
       (version 2)
       (z-pos 50)
-      (script "Tux.use_scripting_controller(true);
+      (script "add_key(\"air\");
+      Tux.use_scripting_controller(true);
 wait(1);
 Tux.deactivate();
 Tux.do_cheer();
