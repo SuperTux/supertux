@@ -33,8 +33,7 @@ jobs:
         # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
         vm_os: [freebsd]
         build_type: [Debug, Release]
-        # FreeBSD does not have glbinding
-        # glbiactions/checkout@v4
+        
 
     runs-on: ubuntu-latest
     steps:
@@ -50,12 +49,10 @@ jobs:
         with:
           sync: zfs
 
-      - name: Build in FreeBSD
+      - name: Install dependencies in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          CMAKE_POLICY_VERSION_MINIMUM: 3.5
-          # GLBINDING: ${{ matrix.glbinding }} # TODO: Re-add if available
         shell: freebsd {0}
         run: |
             pkg install -y pkgconf
@@ -66,19 +63,26 @@ jobs:
             pkg install -y sdl2_image
             pkg install -y openal-soft
             pkg install -y glew
-            # pkg install -y glbinding # TODO: Uncomment whenever possible
             pkg install -y curl
             pkg install -y libogg
             pkg install -y libvorbis
             pkg install -y freetype
             pkg install -y libraqm
             pkg install -y glm
+
+      - name: Build in FreeBSD
+        if: ${{ matrix.vm_os == 'freebsd' }}
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+          MAKE_DOCS: ${{ matrix.documentation }}
+        shell: freebsd {0}
+        run: |
+            cd $GITHUB_WORKSPACE
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON # -DWERROR=ON  \
                      -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
-                     -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
-                                            # TODO: Uncomment whenever possible
+                     -DINSTALL_SUBDIR_BIN=bin \
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2
