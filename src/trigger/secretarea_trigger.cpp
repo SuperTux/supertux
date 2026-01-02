@@ -32,7 +32,7 @@
 static const float MESSAGE_TIME=3.5;
 
 SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
-  Trigger(reader),
+  Trigger(Color(0.0f, 1.0f, 0.0f, 0.6f), reader),
   message_timer(),
   message_displayed(false),
   message(),
@@ -75,14 +75,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.pop_transform();
   }
 
-  if (Editor::is_active() || g_debug.show_collision_rects)
-  {
-    Trigger::draw_special_filled_box(context, Color(0.0f, 1.0f, 0.0f, 0.6f));
-  }
-  else if (message_timer.check())
-  {
-    remove_me();
-  }
+  DraggableRegion::draw(context);
 }
 
 void
@@ -114,5 +107,14 @@ SecretAreaTrigger::event(Player& , EventType type)
         Sector::get().run_script(script, "SecretAreaScript");
       }
     }
+  }
+}
+
+void
+SecretAreaTrigger::update(float)
+{
+  if (message_timer.check())
+  {
+    remove_me();
   }
 }

@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "object/draggable_region.hpp"
 #include "object/sticky_object.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/object_remove_listener.hpp"
@@ -62,10 +63,11 @@ private:
 };
 
 
-class Trigger : public MovingObject,
+class Trigger : public DraggableRegion,
                 public TriggerBase
 {
 public:
+  Trigger(Color color, const ReaderMapping& reader);
   Trigger(const ReaderMapping& reader);
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(TriggerBase)).add(typeid(Trigger)); }
 
@@ -79,8 +81,6 @@ public:
   }
 
   int get_layer() const override { return LAYER_TILES + 1; }
-
-  void draw_special_filled_box(DrawingContext& context, Color color);
 
 private:
   Trigger(const Trigger&) = delete;

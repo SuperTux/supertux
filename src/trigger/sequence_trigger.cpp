@@ -24,7 +24,7 @@
 #include "video/drawing_context.hpp"
 
 SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
-  Trigger(reader),
+  Trigger(Color(1.0f, 0.0f, 0.0f, 0.6f), reader),
   triggerevent(EVENT_TOUCH),
   sequence(SEQ_ENDSEQUENCE),
   new_spawnpoint(),
@@ -80,7 +80,5 @@ SequenceTrigger::get_sequence_name() const
 void
 SequenceTrigger::draw(DrawingContext& context)
 {
-  if (Editor::is_active() || g_debug.show_collision_rects)
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 0.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+  draw_draggable_box(context);
 }

@@ -21,7 +21,7 @@
 #include "video/drawing_context.hpp"
 
 InvisibleWall::InvisibleWall(const ReaderMapping& mapping):
-  MovingObject(mapping),
+  DraggableRegion(Color(0.0f, 0.0f, 0.0f, 0.6f), mapping),
   width(),
   height()
 {
@@ -58,15 +58,6 @@ HitResponse
 InvisibleWall::collision(MovingObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
-}
-
-void
-InvisibleWall::draw(DrawingContext& context)
-{
-  if (Editor::is_active()) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
-  }
 }
 
 void

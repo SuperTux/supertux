@@ -16,14 +16,14 @@
 
 #pragma once
 
-#include "supertux/moving_object.hpp"
+#include "object/draggable_region.hpp"
 
 #include "video/layer.hpp"
 
 class ReaderMapping;
 
 /** Defines an area that will gently push Players in one direction */
-class Wind final : public MovingObject
+class Wind final : public DraggableRegion
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -32,10 +32,8 @@ public:
   Wind(const ReaderMapping& reader);
 
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
-  virtual bool has_variable_size() const override { return true; }
   static std::string class_name() { return "wind"; }
   virtual std::string get_class_name() const override { return class_name(); }
   virtual std::string get_exposed_class_name() const override { return "Wind"; }
