@@ -148,8 +148,12 @@ public:
   virtual bool is_singleton() const { return false; }
 
   /** Does this object have variable size
-      (secret area trigger, wind, etc.) */
+      (secret area trigger, wind, etc.)
+      A.K.A. "draggable" */
   virtual bool has_variable_size() const { return false; }
+
+  /** Can this draggable be hidden using the Ctrl+H shortcut in the editor */
+  virtual bool editor_draggable_can_be_hidden() const { return true; }
 
   /** Indicates if the object will be saved. If false, the object will
       be skipped on saving and can't be cloned in the editor. */

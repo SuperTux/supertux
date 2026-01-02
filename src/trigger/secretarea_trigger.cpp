@@ -77,7 +77,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
 
   if (Editor::is_active() || g_debug.show_collision_rects)
   {
-    Trigger::draw_special_filled_box(context, Color(0.0f, 1.0f, 0.0f, 0.6f));
+    draw_draggable_box(context, Color(0.0f, 1.0f, 0.0f, 0.6f));
   }
   else if (message_timer.check())
   {

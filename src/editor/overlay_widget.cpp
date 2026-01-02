@@ -20,8 +20,8 @@
 
 #include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
-#include "editor/object_menu.hpp"
 #include "editor/object_info.hpp"
+#include "editor/object_menu.hpp"
 #include "editor/object_option.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
@@ -33,9 +33,10 @@
 #include "object/path_gameobject.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
-#include "supertux/gameconfig.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/game_object_factory.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/moving_object.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/trigger_base.hpp"
@@ -558,8 +559,10 @@ EditorOverlayWidget::hover_object()
           }
         }
 
-        // ignore triggers if they aren't "visible"
-        if (!Editor::current()->get_triggers_visible() && dynamic_cast<TriggerBase*>(&moving_object))
+        // Ignore draggables if they aren't "visible".
+        if (!Editor::current()->get_draggables_visible() &&
+            moving_object.has_variable_size() &&
+            moving_object.editor_draggable_can_be_hidden())
         {
           continue;
         }

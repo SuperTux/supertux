@@ -17,6 +17,7 @@
 #include "object/particle_zone.hpp"
 
 #include "editor/editor.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/resources.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -76,7 +77,7 @@ ParticleZone::update(float dt_sec)
 void
 ParticleZone::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
+  if (Editor::is_active() || g_debug.show_collision_rects) {
     Color c;
     switch(m_type) {
     case ParticleZoneType::Spawn:
@@ -96,8 +97,7 @@ ParticleZone::draw(DrawingContext& context)
       break;
     }
 
-    context.color().draw_filled_rect(m_col.m_bbox, c,
-                           0.0f, LAYER_OBJECTS);
+    draw_draggable_box(context, c);
     context.color().draw_text(Resources::small_font,
                           m_particle_name,
                           m_col.m_bbox.p1(),

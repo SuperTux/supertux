@@ -63,10 +63,7 @@ InvisibleWall::collision(MovingObject& , const CollisionHit& )
 void
 InvisibleWall::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
-  }
+  draw_draggable_box(context, Color(0.0f, 0.0f, 0.0f, 0.6f));
 }
 
 void

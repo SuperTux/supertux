@@ -53,7 +53,7 @@ TextArea::TextArea(const ReaderMapping& mapping) :
 void
 TextArea::draw(DrawingContext& context)
 {
-  Trigger::draw_special_filled_box(context, Color(1.0f, 1.0f, 1.0f, 0.6f));
+  draw_draggable_box(context, Color(1.0f, 1.0f, 1.0f, 0.6f));
 }
 
 void
