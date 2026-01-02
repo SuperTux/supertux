@@ -33,7 +33,6 @@ jobs:
         # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
         vm_os: [freebsd]
         build_type: [Debug, Release]
-        arch: amd64
 
     runs-on: ubuntu-latest
     steps:
@@ -100,6 +99,6 @@ jobs:
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
         with:
-          name: "${{ matrix.vm_os }}-${{ matrix.arch }}-${{ matrix.build_type }}-tgz"
+          name: "${{ matrix.vm_os }}-amd64-${{ matrix.build_type }}-tgz"
           path: build/upload/*.tar.gz
           if-no-files-found: ignore
