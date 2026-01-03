@@ -22,8 +22,8 @@
 class DraggableRegion : public MovingObject
 {
 public:
-  DraggableRegion(Color color);
-  DraggableRegion(const ReaderMapping &reader);
+  explicit DraggableRegion(Color color);
+  explicit DraggableRegion(const ReaderMapping &reader);
   DraggableRegion(Color color, const ReaderMapping &reader);
   virtual ~DraggableRegion() {}
 
