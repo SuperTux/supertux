@@ -1401,7 +1401,7 @@ Player::do_jump(float yspeed) {
     return;
 
   // jump only if it would make Tux go faster upwards
-  if (m_physic.get_velocity_y() > yspeed) {
+  if (m_can_walljump || m_physic.get_velocity_y() > yspeed) {
     m_physic.set_velocity_y(yspeed * (m_sliding ? 0.75f : 1.f));
     //bbox.move(Vector(0, -1));
     m_jumping = true;
@@ -1468,10 +1468,12 @@ Player::handle_vertical_input()
     } else {
       // airflower allows for higher jumps-
       // jump a bit higher if we are running; else do a normal jump
-      if (get_bonus() == BONUS_AIR)
-        do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
-      else
-        do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
+      if (!m_can_walljump) {
+        if (get_bonus() == BONUS_AIR)
+          do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
+        else
+          do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
+      }
     }
     //Stop the coyote timer only after calling do_jump, because do_jump also checks for the timer
     m_coyote_timer.stop();
@@ -1501,7 +1503,8 @@ Player::handle_vertical_input()
     }
   }
 
-  if (m_jump_early_apex && m_physic.get_velocity_y() >= 0) {
+  if (m_jump_early_apex && (m_physic.get_velocity_y() >= 0 ||
+      (m_can_walljump && m_controller->pressed(Control::JUMP)))) {
     do_jump_apex();
   }
 
