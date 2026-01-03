@@ -56,7 +56,10 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
         shell: freebsd {0}
         run: |
-            pkg install -y pkgconf git cmake googletest sdl2 sdl2_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm
+            fetch https://github.com/Kitware/CMake/releases/download/v4.2.1/cmake-4.2.1-linux-aarch64.sh
+            sh cmake-4.2.1-linux-aarch64.sh --skip-license --prefix=/usr/local
+            pkg install -y pkgconf git googletest sdl2 sdl2_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm
+
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
