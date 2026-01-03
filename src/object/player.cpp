@@ -1022,6 +1022,17 @@ Player::slide()
           m_physic.set_acceleration_x((m_dir == Direction::RIGHT ? -UP_SLIDE_ACCEL : -DOWN_SLIDE_ACCEL)*std::abs(m_floor_normal.x));
         }
       }
+
+      // passed on from handle_collision_logic(), we'll give the player an
+      // initial speed boost if they slide
+      if (m_does_buttjump)
+      {
+        // ...but not if we're already moving a bit
+        if (std::abs(m_physic.get_velocity_x()) < 267.f)
+          m_physic.set_velocity_x((m_floor_normal.x > 0 ? 1 : -1) * (MAX_SLIDE_SPEED / 3.f));
+        m_does_buttjump = false;
+        m_buttjump_stomp = false;
+      }
     }
   }
 }
@@ -2370,10 +2381,9 @@ Player::handle_collision_logic(const CollisionHit& hit)
       // don't boing if on a slope.
       if (on_ground() && m_floor_normal.y != 0)
       {
-        // we still want to make sure we can't buttjump upon leaving the slope
-        // (if you buttjump at the right angle of the slope, near the falloff)
-        m_does_buttjump = false;
-        m_buttjump_stomp = true;
+        // m_does_buttjump will get processed/reset in slide(), as we want to
+        // also give the player an "oomph" if they buttjump while standing
+        // mostly still. At this point, the player will slide.
       }
       else
       { // the buttjump
