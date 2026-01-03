@@ -92,9 +92,9 @@ jobs:
       - name: Package
         working-directory: build
         run: |
-            sudo apt install -y tar
-            tar -czvf supertux-freebsd.tar.gz out/
-
+            tar -czvf supertux-freebsd.tar.gz out/usr/
+            mkdir upload
+            mv supertux-freebsd.tar.gz upload/
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
