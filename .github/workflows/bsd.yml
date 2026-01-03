@@ -94,7 +94,7 @@ jobs:
       - name: Package
         working-directory: build
         run: |
-            tar -czvf supertux-freebsd.tar.gz out/usr/
+            tar -czvf SuperTux-FreeBSD.tar.gz out/usr/
             mkdir upload
             mv SuperTux-FreeBSD.tar.gz upload/
 
@@ -105,12 +105,12 @@ jobs:
           path: build/upload/*.tar.gz
           if-no-files-found: ignore
 
-      #- name: Create Release
-      #  if: startsWith(github.ref, 'refs/tags/') && matrix.release
-      #  uses: softprops/action-gh-release@v1
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  with:
-      #    files: 'build/upload/SuperTux-*'
-      #    draft: true
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: 'build/upload/SuperTux-*'
+          draft: true
       #Untested for availability
