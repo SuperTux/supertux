@@ -20,16 +20,26 @@
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 
-TuxDoll::TuxDoll(const Vector& pos) :
-  MovingSprite(pos, "images/powerups/1up/1up.sprite", LAYER_OBJECTS + 10, COLGROUP_TOUCHABLE)
+static const float TUXDOLL_GRAVITY = .65f;
+static const float TUXDOLL_VELOCITY_X = 100.f * TUXDOLL_GRAVITY;
+static const float TUXDOLL_VELOCITY_Y = -400.f * TUXDOLL_GRAVITY;
+
+TuxDoll::TuxDoll(const Vector& pos, Direction direction) :
+  MovingSprite(pos, "images/powerups/1up/1up.sprite", LAYER_FLOATINGOBJECTS, COLGROUP_TOUCHABLE),
+  physic()
 {
-  SoundManager::current()->preload("sounds/lifeup.wav");
+  physic.set_velocity(TUXDOLL_VELOCITY_X * (direction == Direction::LEFT ? -1 : 1),
+                      TUXDOLL_VELOCITY_Y);
+  physic.set_gravity_modifier(TUXDOLL_GRAVITY);
 }
 
 void
 TuxDoll::update(float dt_sec)
 {
-  m_sprite->set_angle(m_sprite->get_angle() + 5 * dt_sec);
+  if (!Sector::get().inside(m_col.m_bbox))
+    remove_me();
+
+  m_col.set_movement(physic.get_movement(dt_sec));
 }
 
 HitResponse

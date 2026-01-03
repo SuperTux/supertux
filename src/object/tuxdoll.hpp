@@ -23,7 +23,7 @@
 class TuxDoll final : public MovingSprite
 {
 public:
-  TuxDoll(const Vector& pos);
+  TuxDoll(const Vector& pos, Direction direction);
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(TuxDoll)); }
   virtual bool is_saveable() const override {
     return false;
@@ -31,4 +31,7 @@ public:
 
   virtual void update(float dt_sec) override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
+
+private:
+  Physic physic;
 };
