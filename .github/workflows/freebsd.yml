@@ -87,7 +87,7 @@ jobs:
             cd ../../
             mkdir upload
             mv out/usr/SuperTux-*.tar.gz upload/
-            
+#If you don't add --ignore-failed-read, tar will complain that file changed as we read it ./run.sh
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
