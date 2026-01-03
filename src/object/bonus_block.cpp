@@ -412,7 +412,7 @@ BonusBlock::try_open(Player* player)
 
     case Content::TUXDOLL:
     {
-      Sector::get().add<TuxDoll>(get_pos());
+      Sector::get().add<TuxDoll>(get_pos(), direction);
       play_upgrade_sound = true;
       break;
     }
@@ -579,7 +579,7 @@ BonusBlock::try_drop(Player *player)
 
     case Content::TUXDOLL:
     {
-      Sector::get().add<TuxDoll>(get_pos());
+      Sector::get().add<TuxDoll>(get_pos(), direction);
       play_upgrade_sound = true;
       countdown = true;
       break;
