@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.7.0-beta.1-17-g514d7535a\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-61-g84415006e\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-03 11:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,17 @@ msgstr ""
 
 #: data/levels/revenge_in_redmond/get_to_choppa.stl:3
 msgid "Get to da Choppa!"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/info:2
+#: data/levels/revenge_in_redmond/worldmap.stwm:3
+msgid "Revenge in Redmond"
+msgstr ""
+
+#: data/levels/revenge_in_redmond/info:3
+msgid ""
+"A level pack celebrating the good ol' days of SuperTux for its 20th "
+"anniversary."
 msgstr ""
 
 #: data/levels/revenge_in_redmond/intro.stl:3
@@ -126,8 +137,4 @@ msgstr ""
 
 #: data/levels/revenge_in_redmond/who_is_gown.stl:3
 msgid "Who Is This Gown?"
-msgstr ""
-
-#: data/levels/revenge_in_redmond/worldmap.stwm:3
-msgid "Revenge in Redmond"
 msgstr ""
