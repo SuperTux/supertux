@@ -1,6 +1,7 @@
 #  SuperTux
 #  Copyright (C) 2020-2021 Jacob Burroughs <maths22@gmail.com>
 #                2020-2022 A. Semphris <semphris@protonmail.com>
+#                2025 1111Windows <master@1win.eu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -94,7 +95,7 @@ jobs:
         run: |
             tar -czvf supertux-freebsd.tar.gz out/usr/
             mkdir upload
-            mv supertux-freebsd.tar.gz upload/
+            mv SuperTux-FreeBSD.tar.gz upload/
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
@@ -102,3 +103,13 @@ jobs:
           name: "${{ matrix.vm_os }}-amd64-${{ matrix.build_type }}-tgz"
           path: build/upload/*.tar.gz
           if-no-files-found: ignore
+
+      #- name: Create Release
+      #  if: startsWith(github.ref, 'refs/tags/') && matrix.release
+      #  uses: softprops/action-gh-release@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    files: 'build/upload/SuperTux-*'
+      #    draft: true
+      #Untested for availability
