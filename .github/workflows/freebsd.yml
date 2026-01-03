@@ -75,6 +75,10 @@ jobs:
             mkdir build && cd build
             mkdir -p out/usr/
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=OFF -DINSTALL_SUBDIR_SHARE=share/supertux2 -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DENABLE_DISCORD=ON
+            
+            # Maybe add additional `cmake` run to check if this updates the thing
+            cmake ..
+
             make -j4 VERBOSE=1
             make install DESTDIR="./out" VERBOSE=1
             echo -e '#!/bin/sh\n' './bin/supertux2' >> run.sh
