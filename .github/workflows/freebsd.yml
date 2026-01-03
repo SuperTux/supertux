@@ -83,7 +83,7 @@ jobs:
           freebsd_release: ${{ matrix.freebsd_release }}
         run: |
             cd out/usr
-            tar -czvf SuperTux-FreeBSD-$freebsd_release-$build_type.tar.gz ./
+            tar --ignore-failed-read -czvf SuperTux-FreeBSD-$freebsd_release-$build_type.tar.gz ./
             cd ../../
             mkdir upload
             mv out/usr/SuperTux-*.tar.gz upload/
