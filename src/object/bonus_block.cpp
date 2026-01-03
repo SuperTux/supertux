@@ -28,7 +28,7 @@
 #include "object/coin_rain.hpp"
 #include "object/flower.hpp"
 #include "object/growup.hpp"
-#include "object/oneup.hpp"
+#include "object/tuxdoll.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "object/powerup.hpp"
@@ -236,7 +236,7 @@ BonusBlock::get_content_by_data(int tile_data) const
     case 1: return Content::COIN;
     case 2: return Content::FIREGROW;
     case 3: return Content::STAR;
-    case 4: return Content::ONEUP;
+    case 4: return Content::TUXDOLL;
     case 5: return Content::ICEGROW;
     case 6: return Content::LIGHT;
     case 7: return Content::TRAMPOLINE;
@@ -410,9 +410,9 @@ BonusBlock::try_open(Player* player)
       break;
     }
 
-    case Content::ONEUP:
+    case Content::TUXDOLL:
     {
-      Sector::get().add<OneUp>(get_pos(), direction);
+      Sector::get().add<TuxDoll>(get_pos(), direction);
       play_upgrade_sound = true;
       break;
     }
@@ -505,7 +505,7 @@ BonusBlock::try_drop(Player *player)
   dest_.set_right(m_col.m_bbox.get_right() - 1);
   dest_.set_bottom(dest_.get_top() + 30);
 
-  if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == Content::ONEUP))
+  if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == Content::TUXDOLL))
   {
     try_open(player);
     return;
@@ -577,9 +577,9 @@ BonusBlock::try_drop(Player *player)
       break;
     }
 
-    case Content::ONEUP:
+    case Content::TUXDOLL:
     {
-      Sector::get().add<OneUp>(get_pos(), Direction::DOWN);
+      Sector::get().add<TuxDoll>(get_pos(), direction);
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -723,7 +723,7 @@ BonusBlock::get_content_from_string(const std::string& contentstring) const
   else if (contentstring == "retrostar")
     return Content::RETROSTAR;
   else if (contentstring == "1up")
-    return Content::ONEUP;
+    return Content::TUXDOLL;
   else if (contentstring == "custom")
     return Content::CUSTOM;
   else if (contentstring == "script") // Use this when the bonus block is intended to contain ONLY a script.
