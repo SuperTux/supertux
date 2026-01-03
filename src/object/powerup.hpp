@@ -30,6 +30,7 @@ public:
     AIR,
     EARTH,
     STAR,
+    TUXDOLL,
     FLIP,
     MINTS,
     COFFEE,
@@ -71,6 +72,7 @@ protected:
   std::string script;
   bool no_physics;
   SpritePtr lightsprite;
+  Vector m_start_position;
 
 private:
   PowerUp(const PowerUp&) = delete;
