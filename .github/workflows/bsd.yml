@@ -94,14 +94,20 @@ jobs:
       - name: Package
         working-directory: build
         run: |
-            tar -czvf SuperTux-FreeBSD.tar.gz out/usr/
+            cd out/usr
+            echo '#!/bin/sh' > run.sh
+            echo './bin/supertux2' >> run.sh
+            chmod +x run.sh
+            tar -czvf SuperTux-FreeBSD.tar.gz ./
+            cd ../../
             mkdir upload
-            mv SuperTux-FreeBSD.tar.gz upload/
+            mv out/usr/SuperTux-FreeBSD.tar.gz upload/
+            
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
         with:
-          name: "${{ matrix.vm_os }}-amd64-${{ matrix.build_type }}-tgz"
+          name: "SuperTux-${{ matrix.vm_os }}-amd64-${{ matrix.build_type }}-tgz"
           path: build/upload/*.tar.gz
           if-no-files-found: ignore
 
