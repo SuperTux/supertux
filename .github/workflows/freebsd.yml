@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-name: BSD
+name: FreeBSD
 on:
   push:
     branches:
@@ -31,9 +31,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
         vm_os: [freebsd]
         build_type: [Debug, Release]
+        freebsd_release: [15.0, 14.3]
 
     runs-on: ubuntu-latest
     steps:
@@ -48,6 +48,7 @@ jobs:
         uses: vmactions/freebsd-vm@v1.3.4
         with:
           sync: zfs
+          release: "${{ freebsd_release }}"
 
       - name: Install dependencies in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
@@ -55,60 +56,43 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
         shell: freebsd {0}
         run: |
-            pkg install -y pkgconf
-            pkg install -y git
-            pkg install -y cmake
-            pkg install -y googletest
-            pkg install -y sdl2
-            pkg install -y sdl2_image
-            pkg install -y openal-soft
-            pkg install -y glew
-            pkg install -y curl
-            pkg install -y libogg
-            pkg install -y libvorbis
-            pkg install -y freetype2
-            pkg install -y libraqm
-            pkg install -y glm
-            pkg install -y physfs
-            pkg install -y libfmt
-            pkg install -y fribidi
-            pkg install -y harfbuzz
-            pkg install -y libraqm
+            pkg install -y pkgconf git cmake googletest sdl2 sdl2_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          MAKE_DOCS: ${{ matrix.documentation }}
         shell: freebsd {0}
         run: |
             cd $GITHUB_WORKSPACE
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=OFF -DINSTALL_SUBDIR_SHARE=share/supertux2 -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DENABLE_DISCORD=ON
             ls
-            make -j3 VERBOSE=1
+            make -j4 VERBOSE=1
             mkdir out
             make install DESTDIR="./out" VERBOSE=1
             cd out/usr
-            echo '#!/bin/sh' > run.sh
-            echo './bin/supertux2' >> run.sh
+            echo -e '#!/bin/sh\n' './bin/supertux2' >> run.sh
             chmod +x run.sh
 #Compiling with the -DWERROR=ON option on FreeBSD will cause the compilation to fail, so it is disabled
 
       - name: Package
         working-directory: build
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+          freebsd_release: ${{ matrix.freebsd_release }}
         run: |
             cd out/usr
-            tar -czvf SuperTux-FreeBSD.tar.gz ./
+            tar -czvf SuperTux-FreeBSD-$freebsd_release-$build_type.tar.gz ./
             cd ../../
             mkdir upload
-            mv out/usr/SuperTux-FreeBSD.tar.gz upload/
+            mv out/usr/SuperTux-*.tar.gz upload/
             
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
         with:
-          name: "SuperTux-${{ matrix.vm_os }}-amd64-${{ matrix.build_type }}-tgz"
+          name: "SuperTux-${{ matrix.vm_os }}-amd64-${{ matrix.freebsd_release }}-${{ matrix.build_type }}-tgz"
           path: build/upload/*.tar.gz
           if-no-files-found: ignore
 
