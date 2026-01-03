@@ -33,7 +33,7 @@ jobs:
       matrix:
         vm_os: [freebsd]
         build_type: [Debug, Release]
-        freebsd_release: [15.0, 14.3]
+        freebsd_release: ["15.0", "14.3"]
 
     runs-on: ubuntu-latest
     steps:
