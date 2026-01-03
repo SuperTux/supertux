@@ -990,6 +990,7 @@ Player::slide()
   {
     if (!pre_slide) {
       m_physic.set_acceleration_x(0.f);
+
     }
     else
     {
@@ -1208,6 +1209,17 @@ Player::handle_horizontal_input()
 
   if (m_duck && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT))) {
     m_crawl = true;
+  }
+
+  // player on slope -> duck? start sliding.
+  if (m_controller->hold(Control::DOWN) && on_ground() && m_floor_normal.y != 0)
+  {
+    if (get_bonus() == BONUS_EARTH)
+      m_stone = true;
+    m_sliding = true;
+    // silly nonsense; tuxs "unslides" back into tall tux if he's large and his
+    // action 'clips' through the ground. Don't blame me, i hate this file.
+    m_duck = true;
   }
 
   if (m_crawl && on_ground() && std::abs(m_physic.get_velocity_x()) < WALK_SPEED)
@@ -2353,20 +2365,32 @@ Player::handle_collision_logic(const CollisionHit& hit)
     m_slidejumping = false;
 
     // Butt Jump landed
-    if (m_does_buttjump) {
-      m_does_buttjump = false;
-      m_buttjump_stomp = true;
-      m_physic.set_velocity_y(-300);
-      m_on_ground_flag = false;
-      Sector::get().add<Particles>(
-        m_col.m_bbox.p2(),
-        50, 70, 260, 280, Vector(0, 300), 3,
-        Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().add<Particles>(
-        Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
-        -70, -50, 260, 280, Vector(0, 300), 3,
-        Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().get_camera().shake(.1f, 0.f, 10.f);
+    if (m_does_buttjump)
+    {
+      // don't boing if on a slope.
+      if (on_ground() && m_floor_normal.y != 0)
+      {
+        // we still want to make sure we can't buttjump upon leaving the slope
+        // (if you buttjump at the right angle of the slope, near the falloff)
+        m_does_buttjump = false;
+        m_buttjump_stomp = true;
+      }
+      else
+      { // the buttjump
+        m_does_buttjump = false;
+        m_buttjump_stomp = true;
+        m_physic.set_velocity_y(-300);
+        m_on_ground_flag = false;
+        Sector::get().add<Particles>(
+          m_col.m_bbox.p2(),
+          50, 70, 260, 280, Vector(0, 300), 3,
+          Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+        Sector::get().add<Particles>(
+          Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
+          -70, -50, 260, 280, Vector(0, 300), 3,
+          Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+        Sector::get().get_camera().shake(.1f, 0.f, 10.f);
+      }
     }
 
   } else if (hit.top) {
