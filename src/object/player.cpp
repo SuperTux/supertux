@@ -1230,7 +1230,8 @@ Player::handle_horizontal_input()
     m_sliding = true;
     // silly nonsense; tuxs "unslides" back into tall tux if he's large and his
     // action 'clips' through the ground. Don't blame me, i hate this file.
-    m_duck = true;
+    if (is_big())
+      m_duck = true;
   }
 
   if (m_crawl && on_ground() && std::abs(m_physic.get_velocity_x()) < WALK_SPEED)
