@@ -45,7 +45,7 @@ jobs:
 
       - name: Start VM
         id: vm
-        uses: vmactions/freebsd-vm@v1.3.4
+        uses: vmactions/freebsd-vm@v1.3.5
         with:
           sync: zfs
           release: "${{ matrix.freebsd_release }}"
