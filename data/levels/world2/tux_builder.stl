@@ -142,19 +142,10 @@
       )
     )
     (rock
+      (type "large")
       (z-pos 50)
-      (x 1728)
+      (x 1648)
       (y 1120)
-    )
-    (rock
-      (z-pos 50)
-      (x 1696)
-      (y 1152)
-    )
-    (rock
-      (z-pos 50)
-      (x 1760)
-      (y 1152)
     )
     (rock
       (z-pos 50)

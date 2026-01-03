@@ -129,6 +129,12 @@ Camera.ease_scale_anchor(1.1, 3, 4 \"EaseQuadOut\");")
       (x 7392)
       (y 1888)
     )
+    (decal
+      (z-pos -130)
+      (sprite "/images/creatures/larry/larry.png")
+      (x 4960)
+      (y 384)
+    )
     (dive-mine
       (z-pos 50)
       (x 4560)
