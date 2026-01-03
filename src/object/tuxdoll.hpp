@@ -20,18 +20,15 @@
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 
-class OneUp final : public MovingSprite
+class TuxDoll final : public MovingSprite
 {
 public:
-  OneUp(const Vector& pos, Direction direction = Direction::RIGHT);
-  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(OneUp)); }
+  TuxDoll(const Vector& pos);
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(TuxDoll)); }
   virtual bool is_saveable() const override {
     return false;
   }
 
   virtual void update(float dt_sec) override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
-
-private:
-  Physic physic;
 };

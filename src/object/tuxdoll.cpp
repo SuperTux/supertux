@@ -14,34 +14,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/oneup.hpp"
+#include "object/tuxdoll.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 
-OneUp::OneUp(const Vector& pos, Direction direction) :
-  MovingSprite(pos, "images/powerups/1up/1up.sprite", LAYER_FLOATINGOBJECTS, COLGROUP_TOUCHABLE),
-  physic()
+TuxDoll::TuxDoll(const Vector& pos) :
+  MovingSprite(pos, "images/powerups/1up/1up.sprite", LAYER_OBJECTS + 10, COLGROUP_TOUCHABLE)
 {
-  physic.set_velocity( (direction == Direction::LEFT) ? -100.0f : 100.0f, -400.0f);
-  if (direction == Direction::DOWN) // this causes the doll to drop when opened with a butt-jump
-    physic.set_velocity(0, -100);
-
   SoundManager::current()->preload("sounds/lifeup.wav");
 }
 
 void
-OneUp::update(float dt_sec)
+TuxDoll::update(float dt_sec)
 {
-  if (!Sector::get().inside(m_col.m_bbox))
-    remove_me();
-
-  m_col.set_movement(physic.get_movement(dt_sec));
+  m_sprite->set_angle(m_sprite->get_angle() + 5 * dt_sec);
 }
 
 HitResponse
-OneUp::collision(MovingObject& other, const CollisionHit& )
+TuxDoll::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player)

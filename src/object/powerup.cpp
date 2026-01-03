@@ -64,7 +64,6 @@ PowerUp::get_types() const
     { "air", _("Air Flower") },
     { "earth", _("Rock Shroom") },
     { "star", _("Star") },
-    { "oneup", _("Tux Doll") },
     { "flip", _("Flip Potion") },
     { "mints", _("Mints") },
     { "coffee", _("Coffee") },
@@ -87,8 +86,6 @@ PowerUp::get_default_sprite_name() const
       return "images/powerups/earthflower/earthflower.sprite";
     case STAR:
       return "images/powerups/star/star.sprite";
-    case ONEUP:
-      return "images/powerups/1up/1up.sprite";
     case FLIP:
       return "images/powerups/potions/red-potion.sprite";
     case MINTS:
@@ -127,8 +124,6 @@ PowerUp::initialize()
       m_type = EARTH;
     else if (matches_sprite("images/powerups/star/star.sprite"))
       m_type = STAR;
-    else if (matches_sprite("images/powerups/1up/1up.sprite"))
-      m_type = ONEUP;
     else if (matches_sprite("images/powerups/potions/red-potion.sprite"))
       m_type = FLIP;
   }
@@ -235,10 +230,6 @@ PowerUp::collision(MovingObject& other, const CollisionHit&)
     case STAR:
     case HERRING:
       player->make_invincible();
-      break;
-    case ONEUP:
-      Sector::get().get_level().m_stats.increment_tuxdolls();
-      SoundManager::current()->play("sounds/lifeup.wav", get_pos());
       break;
     case FLIP:
       FlipLevelTransformer flip_transformer;
