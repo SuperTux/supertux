@@ -35,7 +35,7 @@ public:
     RETROGROW,
     STAR,
     RETROSTAR,
-    ONEUP,
+    TUXDOLL,
     CUSTOM,
     SCRIPT,
     LIGHT,

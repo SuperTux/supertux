@@ -30,7 +30,6 @@ public:
     AIR,
     EARTH,
     STAR,
-    ONEUP,
     FLIP,
     MINTS,
     COFFEE,
