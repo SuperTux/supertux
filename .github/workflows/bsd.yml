@@ -89,6 +89,7 @@ jobs:
             make -j3 VERBOSE=1
             mkdir out
             make install DESTDIR="./out" VERBOSE=1
+#Compiling with the -DWERROR=ON option on FreeBSD will cause the compilation to fail, so it is disabled
 
       - name: Package
         working-directory: build
