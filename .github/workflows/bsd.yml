@@ -93,7 +93,7 @@ jobs:
         working-directory: build
         run: |
             sudo apt install -y tar
-            tar -czvf supertux-freebsd.tar.gz
+            tar -czvf supertux-freebsd.tar.gz out/
 
 
       - name: Upload tar archives
