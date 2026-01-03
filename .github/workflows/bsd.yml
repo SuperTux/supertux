@@ -89,16 +89,17 @@ jobs:
             make -j3 VERBOSE=1
             mkdir out
             make install DESTDIR="./out" VERBOSE=1
+            cd out/usr
+            echo '#!/bin/sh' > run.sh
+            echo './bin/supertux2' >> run.sh
+            chmod +x run.sh
 #Compiling with the -DWERROR=ON option on FreeBSD will cause the compilation to fail, so it is disabled
 
       - name: Package
         working-directory: build
         run: |
             cd out/usr
-            echo '#!/bin/sh' > run.sh
-            echo './bin/supertux2' >> run.sh
-            chmod +x run.sh
-            tar --ignore-failed-read -czvf SuperTux-FreeBSD.tar.gz ./
+            tar -czvf SuperTux-FreeBSD.tar.gz ./
             cd ../../
             mkdir upload
             mv out/usr/SuperTux-FreeBSD.tar.gz upload/
