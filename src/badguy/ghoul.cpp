@@ -56,7 +56,7 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
 }
 
 Vector
-Ghoul::to_target()
+Ghoul::to_target() const
 {
   auto player = get_nearest_player();
   if (!player)
@@ -64,7 +64,7 @@ Ghoul::to_target()
 
   const Vector p1 = get_bbox().get_middle();
   Vector p2 = player->get_bbox().get_middle();
-  p2.y -= 32.f; //a little offset, so he doesn't hit Tux from below
+  p2.y -= 32.f; // a little offset, so he doesn't hit Tux from below
 
   const Vector dist = p2 - p1;
   return dist;

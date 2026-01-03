@@ -73,12 +73,14 @@ Bumper::update(float dt_sec)
 
   for (auto& rock : Sector::get().get_objects_by_type<Rock>())
   {
+    if (rock.is_grabbed())
+      continue;
+
     if (small_overlap_box.overlaps(rock.get_bbox()))
     {
       rock.get_physic().set_velocity((m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X) * 0.7f,
                                      BOUNCE_Y * 0.6f);
-      SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-      set_action("swinging", m_dir, 1);
+      bounce();
       set_pos(m_original_pos);
     }
   }
@@ -110,8 +112,7 @@ Bumper::collision(MovingObject& other, const CollisionHit& hit)
   if (badguy)
   {
     badguy->get_physic().set_velocity(((m_dir == Direction::LEFT) ? -400.f : 400.f), 0.f);
-    SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-    set_action("swinging", m_dir, 1);
+    bounce();
   }
 
   auto bumper = dynamic_cast<Bumper*> (&other);

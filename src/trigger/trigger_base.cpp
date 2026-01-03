@@ -79,8 +79,8 @@ TriggerBase::object_removed(GameObject* object)
 }
 
 
-Trigger::Trigger(const ReaderMapping& reader) :
-  MovingObject(reader)
+Trigger::Trigger(Color color, const ReaderMapping& reader) :
+  DraggableRegion(color, reader)
 {
   set_group(COLGROUP_TOUCHABLE);
 
@@ -91,31 +91,9 @@ Trigger::Trigger(const ReaderMapping& reader) :
     m_col.m_bbox.set_height(32.f);
 }
 
-void
-Trigger::draw_special_filled_box(DrawingContext& context, Color color)
+Trigger::Trigger(const ReaderMapping& reader) :
+  Trigger(Color{1.0f, 0.0f, 0.0f, 0.6f}, reader)
 {
-  if (Editor::is_active() || g_debug.show_collision_rects) {
-    if (Editor::current()->get_triggers_visible())
-    {
-      context.color().draw_filled_rect(m_col.m_bbox, color, 0.0f, LAYER_OBJECTS);
-    }
-    else
-    {
-      Rectf& box = m_col.m_bbox;
-      context.color().draw_line(
-        { box.get_left(), box.get_top() },
-        { box.get_right(), box.get_top() }, color, LAYER_OBJECTS);
-      context.color().draw_line(
-        { box.get_left(), box.get_top() },
-        { box.get_left(), box.get_bottom() }, color, LAYER_OBJECTS);
-      context.color().draw_line(
-        { box.get_left(), box.get_bottom() },
-        { box.get_right(), box.get_bottom() }, color, LAYER_OBJECTS);
-      context.color().draw_line(
-        { box.get_right(), box.get_top() },
-        { box.get_right(), box.get_bottom() }, color, LAYER_OBJECTS);
-    }
-  }
 }
 
 SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name, int layer) :

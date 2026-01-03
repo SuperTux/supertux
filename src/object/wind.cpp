@@ -33,7 +33,7 @@
 #include "video/drawing_context.hpp"
 
 Wind::Wind(const ReaderMapping& reader) :
-  MovingObject(reader),
+  DraggableRegion(Color(0.0f, 1.0f, 1.0f, 0.6f), reader),
   m_layer(LAYER_BACKGROUNDTILES + 1),
   blowing(),
   speed(0.0f, 0.0f),
@@ -141,15 +141,6 @@ Wind::update(float dt_sec_)
     {
       Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, m_layer);
     }
-  }
-}
-
-void
-Wind::draw(DrawingContext& context)
-{
-  if (Editor::is_active()) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 1.0f, 1.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
   }
 }
 
