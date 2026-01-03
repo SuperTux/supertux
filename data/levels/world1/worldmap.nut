@@ -6,9 +6,9 @@ fade_time <- 0.35;
 // If we are using world select to change WMs, then the states for other worlds won't get changed.
 // Here, we account for this.
 
-if ("underground_f" in state)
+if("underground_f" in state)
   state.underground_f = false  // forest underground state
-if ("corrupted" in state)
+if("corrupted" in state)
   state.corrupted = false
 
 // ============================================================================
@@ -76,3 +76,7 @@ if(!state.fridge_secret_v2) fridge_secret.fade(0.2, 0);
 else fridge_secret.fade(1, 0);
 if(!state.slide_secret_v2) slide_secret.fade(0.2, 0);
 else slide_secret.fade(1, 0);
+
+if (("key_knowledge" in state)) {
+	  if (state.key_knowledge == true) {
+        display_keys(true); }}

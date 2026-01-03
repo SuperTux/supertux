@@ -502,7 +502,7 @@ Camera.ease_scale(1.5, 4, \"EaseSineIn\");
 stop_music(4);
 wait(4);
 Tux.use_scripting_controller(false);
-Level.spawn(\"key\", \"key\");")
+Level.spawn(\"key\", \"main\");")
       (button #f)
       (width 32)
       (height 224)
@@ -918,7 +918,8 @@ Camera.set_scale(1.5);")
     (powerup
       (version 2)
       (z-pos 50)
-      (script "Tux.use_scripting_controller(true);
+      (script "add_key(\"air\");
+      Tux.use_scripting_controller(true);
 wait(1);
 Tux.deactivate();
 Tux.do_cheer();
@@ -973,7 +974,7 @@ Tux.use_scripting_controller(false);")
       (y 800)
     )
     (spawnpoint
-      (name "key")
+      (name "main")
       (x 0)
       (y 960)
     )

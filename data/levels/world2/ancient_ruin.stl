@@ -833,7 +833,8 @@ Level.pause_target_timer();")
     (powerup
       (version 2)
       (z-pos 50)
-      (script "Tux.use_scripting_controller(true);
+      (script "add_key(\"earth\");
+      Tux.use_scripting_controller(true);
 wait(1);
 Tux.deactivate();
 Tux.do_cheer();
@@ -869,7 +870,7 @@ Tux.use_scripting_controller(false);")
       (y 512)
     )
     (spawnpoint
-      (name "key")
+      (name "main")
       (x 0)
       (y 608)
     )
@@ -1731,7 +1732,7 @@ Camera.ease_scale(1.5, 4, \"EaseSineIn\");
 stop_music(4);
 wait(4);
 Tux.use_scripting_controller(false);
-Level.spawn(\"key\", \"key\");")
+Level.spawn(\"key\", \"main\");")
       (button #f)
       (width 32)
       (height 256)
