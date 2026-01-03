@@ -48,7 +48,7 @@ jobs:
         uses: vmactions/freebsd-vm@v1.3.4
         with:
           sync: zfs
-          release: "${{ freebsd_release }}"
+          release: "${{ matrix.freebsd_release }}"
 
       - name: Install dependencies in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
