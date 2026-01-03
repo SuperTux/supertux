@@ -869,7 +869,7 @@ BadGuy::run_dead_script()
       const float coin_y = get_bbox().get_top() - 32.0f;
 
       Sector::get().add<HeavyCoin>(Vector(coin_x, coin_y),
-                                   Vector(graphicsRandom.randf(-175.0f, 175.0f),
+                                   Vector(graphicsRandom.randf(-96.0f, 96.0f),
                                    0.0f));
     }
   }

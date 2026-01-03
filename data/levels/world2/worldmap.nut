@@ -1,3 +1,4 @@
+state.world_select["/levels/world2/worldmap.stwm"].unlocked = true;
 
 fade_time <- 0.35;
 fade_time_fast <- 0.1;

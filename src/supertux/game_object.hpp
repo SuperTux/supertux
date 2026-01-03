@@ -148,7 +148,8 @@ public:
   virtual bool is_singleton() const { return false; }
 
   /** Does this object have variable size
-      (secret area trigger, wind, etc.) */
+      (secret area trigger, wind, etc.)
+      A.K.A. "draggable" */
   virtual bool has_variable_size() const { return false; }
 
   /** Indicates if the object will be saved. If false, the object will

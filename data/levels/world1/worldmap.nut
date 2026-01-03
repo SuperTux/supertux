@@ -6,8 +6,10 @@ fade_time <- 0.35;
 // If we are using world select to change WMs, then the states for other worlds won't get changed.
 // Here, we account for this.
 
-state.underground_f = false  // forest underground state
-state.corrupted = false
+if("underground_f" in state)
+  state.underground_f = false  // forest underground state
+if("corrupted" in state)
+  state.corrupted = false
 
 // ============================================================================
 //   AMBIENT LIGHT

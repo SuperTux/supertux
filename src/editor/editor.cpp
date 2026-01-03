@@ -160,8 +160,8 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_show_triggers(true),
-  m_show_triggers_hint(),
+  m_show_draggables(true),
+  m_show_draggables_hint(),
   m_mouse_pos(0.f, 0.f),
   m_layers_widget_needs_refresh(false),
   m_script_manager(),
@@ -330,13 +330,13 @@ Editor::draw(Compositor& compositor)
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
 
-    if (!m_show_triggers && m_show_triggers_hint.get_progress() < 1.0f)
+    if (!m_show_draggables && m_show_draggables_hint.get_progress() < 1.0f)
     {
       context.color().draw_text(
         Resources::normal_font,
-        _("Note: Triggers are now hidden. Press Ctrl+H to show again."),
+        _("Note: Draggables are now hidden. Press Ctrl+H to show again."),
         { 16.0f, SCREEN_HEIGHT - 64.f }, ALIGN_LEFT, LAYER_OBJECTS+1,
-        Color(1.0f, 1.0f, 0.6f, (1.0f - m_show_triggers_hint.get_progress())));
+        Color(1.0f, 1.0f, 0.6f, (1.0f - m_show_draggables_hint.get_progress())));
     }
   }
   else
@@ -1268,9 +1268,9 @@ Editor::event(const SDL_Event& ev)
               redo();
               break;
             case SDLK_h:
-              m_show_triggers = !m_show_triggers;
-              if (!m_show_triggers)
-                m_show_triggers_hint.start(6.7f);
+              m_show_draggables = !m_show_draggables;
+              if (!m_show_draggables)
+                m_show_draggables_hint.start(6.7f);
               break;
             case SDLK_x:
               m_toolbar_widget->toggle_tile_object_mode();
