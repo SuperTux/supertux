@@ -98,8 +98,7 @@ jobs:
             echo '#!/bin/sh' > run.sh
             echo './bin/supertux2' >> run.sh
             chmod +x run.sh
-            sleep 5
-            tar -czvf SuperTux-FreeBSD.tar.gz ./
+            tar --ignore-failed-read -czvf SuperTux-FreeBSD.tar.gz ./
             cd ../../
             mkdir upload
             mv out/usr/SuperTux-FreeBSD.tar.gz upload/
