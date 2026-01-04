@@ -20,7 +20,13 @@
 #include <algorithm>
 #include <cmath>
 #include <string>
-#include <optional>
+#if SUPERTUX_USE_BOOST_LIBRARIES
+  #include <boost/optional.hpp>
+  using namespace boost;
+#else
+  #include <optional>
+  using namespace std;
+#endif
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
@@ -1222,7 +1228,7 @@ Crusher::after_sprite_set()
 
   if (m_sprite->has_action("whites"))
   {
-    using Surfaces = const std::optional<std::vector<SurfacePtr>>;
+    using Surfaces = const optional<std::vector<SurfacePtr>>;
 
     Surfaces esurfaces = m_sprite->get_action_surfaces("whites");
     if (!esurfaces.has_value())
