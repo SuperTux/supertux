@@ -84,11 +84,8 @@ jobs:
         run: |
             cd $GITHUB_WORKSPACE
             cd build
-            cd out/usr
-            tar -czvf SuperTux-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz ./
-            cd ../../
             mkdir upload
-            mv out/usr/SuperTux-*.tar.gz upload/
+            tar -czvf upload/SuperTux-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz out/usr
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
