@@ -47,7 +47,7 @@ jobs:
         id: vm
         uses: vmactions/freebsd-vm@v1.3.5
         with:
-          sync: ufs
+          sync: rsync
           release: "${{ matrix.freebsd_release }}"
 
       - name: Install dependencies in FreeBSD
