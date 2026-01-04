@@ -99,7 +99,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/') && matrix.release && ${{ matrix.build_type == 'Release' }}
+        if: ${{ matrix.build_type == 'Release' }} && startsWith(github.ref, 'refs/tags/') && matrix.release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
