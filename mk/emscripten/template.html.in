@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   <meta name="description" content="Play the official online version of SuperTux, directly in your browser. No installation required.">
+  <link rel="icon" href="supertux2.ico?v=@SUPERTUX_VERSION_STRING@" />
   <title>Play SuperTux online</title>
   <style>
     body {
