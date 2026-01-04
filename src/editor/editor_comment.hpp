@@ -16,13 +16,14 @@
 
 #pragma once
 
+#include "object/draggable_region.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/layer.hpp"
 
 class ReaderMapping;
 class InfoBoxLine;
 
-class EditorComment : public MovingObject
+class EditorComment : public DraggableRegion
 {
 public:
   enum Type
