@@ -20,18 +20,34 @@
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
+#include "video/surface.hpp"
 #include "video/video_system.hpp"
 
 MarkerObject::MarkerObject (const Vector& pos)
+  : arrow_surface(Surface::from_file("images/engine/editor/resize_arrow.png"))
 {
   m_col.m_bbox.set_p1(pos);
   m_col.m_bbox.set_size(16, 16);
 }
 
-MarkerObject::MarkerObject ()
+MarkerObject::MarkerObject ():
+  MarkerObject(Vector(0, 0))
 {
-  m_col.m_bbox.set_p1(Vector(0, 0));
-  m_col.m_bbox.set_p2(Vector(16, 16));
+}
+
+MarkerObject::~MarkerObject()
+{
+  arrow_surface.reset();
+}
+
+int
+MarkerObject::get_rotation() const
+{
+  Vector dir = get_point_vector();
+  if (dir.x == 0 && dir.y == 0)
+    return 0;
+
+  return static_cast<int>(std::round(glm::degrees(std::atan2(dir.y, dir.x)))) + 90;
 }
 
 void
@@ -43,11 +59,7 @@ MarkerObject::draw(DrawingContext& context)
       return;
     context.color().draw_filled_rect(m_col.m_bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI-20);
   } else {
-    // draw a triangle
-    dir = 8.0f * glm::normalize(dir);
-    Vector dir2 = Vector(-dir.y, dir.x);
-    Vector pos = m_col.m_bbox.get_middle();
-    context.color().draw_triangle(pos + dir * 1.5f, pos - dir + dir2, pos - dir - dir2,
-                                    Color(1, 1, 1, 0.5f), LAYER_GUI-20);
+    context.color().draw_surface(arrow_surface, m_col.m_bbox.get_middle() - Vector(7, 7),
+                                 get_rotation(), Color::WHITE, Blend::BLEND, get_layer());
   }
 }
