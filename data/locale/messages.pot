@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  main.pot (SuperTux v0.7.0-beta.1-65-g462626976)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-65-g462626976\n"
+"#-#-#-#-#  main.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-03 12:13+0000\n"
+"POT-Creation-Date: 2026-01-04 07:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"#-#-#-#-#  credits.pot (SuperTux v0.7.0-beta.1-65-g462626976)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-65-g462626976\n"
+"#-#-#-#-#  credits.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-03 12:13+0000\n"
+"POT-Creation-Date: 2026-01-04 07:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,10 +29,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  objects.pot (SuperTux v0.7.0-beta.1-65-g462626976)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-65-g462626976\n"
+"#-#-#-#-#  objects.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-03 12:13+0000\n"
+"POT-Creation-Date: 2026-01-04 07:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,10 +40,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  tilesets.pot (SuperTux v0.7.0-beta.1-65-g462626976)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-65-g462626976\n"
+"#-#-#-#-#  tilesets.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-03 12:13+0000\n"
+"POT-Creation-Date: 2026-01-04 07:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,10 +51,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  converters.pot (SuperTux v0.7.0-beta.1-65-g462626976)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-65-g462626976\n"
+"#-#-#-#-#  converters.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-03 12:13+0000\n"
+"POT-Creation-Date: 2026-01-04 07:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -281,7 +281,7 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: src/editor/editor_comment.hpp:46
+#: src/editor/editor_comment.hpp:47
 msgid "Editor Comment"
 msgstr ""
 
@@ -1474,7 +1474,7 @@ msgid "Normal"
 msgstr ""
 
 #: src/object/gradient.cpp:107 src/object/tilemap.cpp:352
-#: src/object/background.cpp:302 data/images/ice_world.strf:895
+#: src/object/background.cpp:302 data/images/ice_world.strf:908
 msgid "Lightmap"
 msgstr ""
 
@@ -1673,8 +1673,7 @@ msgid "Platforms"
 msgstr ""
 
 #: src/object/bicycle_platform.cpp:205 src/object/circleplatform.cpp:57
-#: src/badguy/fish_swimming.cpp:104 src/badguy/rcrystallo.cpp:83
-#: src/badguy/crystallo.cpp:50 src/badguy/flame.cpp:110
+#: src/badguy/fish_swimming.cpp:104 src/badguy/flame.cpp:110
 msgid "Radius"
 msgstr ""
 
@@ -5314,6 +5313,10 @@ msgstr ""
 msgid "Walking Candle"
 msgstr ""
 
+#: src/badguy/rcrystallo.cpp:83 src/badguy/crystallo.cpp:50
+msgid "Radius (pixels)"
+msgstr ""
+
 #: src/badguy/snowball.cpp:41
 msgid "Bumpkin"
 msgstr ""
@@ -5347,11 +5350,11 @@ msgid "Will o' Wisp"
 msgstr ""
 
 #: src/badguy/scrystallo.cpp:57
-msgid "Walk Radius"
+msgid "Walk Radius (pixels)"
 msgstr ""
 
 #: src/badguy/scrystallo.cpp:58
-msgid "Awakening Radius"
+msgid "Awakening Radius (pixels)"
 msgstr ""
 
 #: src/badguy/scrystallo.cpp:59
@@ -5500,7 +5503,7 @@ msgstr ""
 msgid "Level Design"
 msgstr ""
 
-#: data/credits.stxt:294 data/credits.stxt:571 data/images/tiles.strf:1835
+#: data/credits.stxt:294 data/credits.stxt:571 data/images/tiles.strf:1839
 msgid "Miscellaneous"
 msgstr ""
 
@@ -5640,11 +5643,11 @@ msgstr ""
 msgid "Structure"
 msgstr ""
 
-#: data/images/ice_world.strf:721
+#: data/images/ice_world.strf:734
 msgid "Pathing"
 msgstr ""
 
-#: data/images/ice_world.strf:881
+#: data/images/ice_world.strf:894
 msgid "Water"
 msgstr ""
 
@@ -5668,39 +5671,39 @@ msgstr ""
 msgid "Corrupted Background"
 msgstr ""
 
-#: data/images/tiles.strf:1386
+#: data/images/tiles.strf:1390
 msgid "Jagged Rocks"
 msgstr ""
 
-#: data/images/tiles.strf:1424
+#: data/images/tiles.strf:1428
 msgid "Block + Bonus"
 msgstr ""
 
-#: data/images/tiles.strf:1521
+#: data/images/tiles.strf:1525
 msgid "Pole + Signs"
 msgstr ""
 
-#: data/images/tiles.strf:1575
+#: data/images/tiles.strf:1579
 msgid "Liquid"
 msgstr ""
 
-#: data/images/tiles.strf:1600
+#: data/images/tiles.strf:1604
 msgid "Castle"
 msgstr ""
 
-#: data/images/tiles.strf:1730 data/images/worldmap.strf:199
+#: data/images/tiles.strf:1734 data/images/worldmap.strf:199
 msgid "Halloween"
 msgstr ""
 
-#: data/images/tiles.strf:1772
+#: data/images/tiles.strf:1776
 msgid "Industrial"
 msgstr ""
 
-#: data/images/tiles.strf:1807
+#: data/images/tiles.strf:1811
 msgid "Unisolid + Lightmap"
 msgstr ""
 
-#: data/images/tiles.strf:1867
+#: data/images/tiles.strf:1871
 msgid "Retro Tiles"
 msgstr ""
 
