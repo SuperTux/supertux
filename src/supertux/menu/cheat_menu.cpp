@@ -86,7 +86,6 @@ CheatMenu::menu_action(MenuItem& item)
 
   const auto& players = Sector::get().get_players();
   Player* single_player = (players.size() == 1) ? players[0] : nullptr;
-  std::cout << single_player << std::endl;
 
   switch (item.get_id())
   {
