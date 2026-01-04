@@ -135,7 +135,7 @@ jobs:
           # Set architecture-specific flags and PKG_CONFIG_PATH
           CMAKE_ARCH_FLAGS=""
           if [ "$BUILD_ARCH" = "x86_64" ]; then
-            CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=10.0 -DCMAKE_PREFIX_PATH=/usr/local"
+            CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=10.7 -DCMAKE_PREFIX_PATH=/usr/local"
             export PKG_CONFIG_PATH="/usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:/usr/local/opt/freetype/lib/pkgconfig:/usr/local/opt/libpng/lib/pkgconfig"
           else
             export PKG_CONFIG_PATH="/opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig"
