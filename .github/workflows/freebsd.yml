@@ -78,17 +78,18 @@ jobs:
 #Compiling with the -DWERROR=ON option on FreeBSD will cause the compilation to fail, so it is disabled
 
       - name: Package
-        working-directory: build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           freebsd_release: ${{ matrix.freebsd_release }}
+        shell: freebsd {0}
         run: |
+            cd $GITHUB_WORKSPACE
+            cd build
             cd out/usr
-            tar --ignore-failed-read -czvf SuperTux-FreeBSD-$freebsd_release-$build_type.tar.gz ./
+            tar -czvf SuperTux-FreeBSD-$freebsd_release-$build_type.tar.gz ./
             cd ../../
             mkdir upload
             mv out/usr/SuperTux-*.tar.gz upload/
-#If you don't add --ignore-failed-read, tar will complain that file changed as we read it ./run.sh
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
@@ -99,6 +100,7 @@ jobs:
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release
+        if: ${{ matrix.build_type == 'Release' }}
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
