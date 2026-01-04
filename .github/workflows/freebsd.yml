@@ -86,7 +86,7 @@ jobs:
             cd $GITHUB_WORKSPACE
             cd build
             cd out/usr
-            tar -czvf SuperTux-FreeBSD-$freebsd_release-$build_type.tar.gz ./
+            tar -czvf SuperTux-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz ./
             cd ../../
             mkdir upload
             mv out/usr/SuperTux-*.tar.gz upload/
