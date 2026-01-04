@@ -28,6 +28,7 @@ class ControllerHUD
 public:
   ControllerHUD();
 
+  void update_pos();
   void draw(DrawingContext& context);
 
 private:

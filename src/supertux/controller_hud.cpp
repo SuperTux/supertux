@@ -17,14 +17,32 @@
 #include "supertux/controller_hud.hpp"
 
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "math/vector.hpp"
+#include "supertux/savegame.hpp"
+#include "supertux/game_session.hpp"
+#include "worldmap/worldmap.hpp"
 #include "video/drawing_context.hpp"
 
 ControllerHUD::ControllerHUD() :
   m_controls()
 {
+  update_pos();
+
+}
+
+void
+ControllerHUD::update_pos()
+{
+  Vector pos(128, 64);
   const Sizef btn_size(16, 16);
-  const Vector pos(128, 64);
+
+  // Technically, the worldmap is loaded while playing the game...
+  if (worldmap::WorldMap::current() ||
+      (Editor::current() && !Editor::current()->is_active()))
+  {
+    pos.x += 64;
+  }
 
   const Vector dpad_pos = pos + Vector(-64.0f, 0.0f);
   m_controls[Control::LEFT] = Rectf::from_center(dpad_pos + Vector(-16.0f, 0.0f), btn_size);
@@ -45,14 +63,17 @@ ControllerHUD::ControllerHUD() :
   m_controls[Control::ITEM] = Rectf::from_center(pos + Vector(-24.f, 24.0f), Sizef(16, 8));
   m_controls[Control::ESCAPE] = Rectf::from_center(pos + Vector(0.0f, 24.0f), Sizef(16, 8));
   m_controls[Control::START] = Rectf::from_center(pos + Vector(24.0f, 24.0f), Sizef(16, 8));
-
 }
 
 void
 ControllerHUD::draw(DrawingContext& context)
 {
+  if (Editor::current() && Editor::current()->is_active())
+    return;
   Canvas& canvas = context.color();
   Controller& controller = InputManager::current()->get_controller();
+
+  update_pos();
 
   for(const auto& control: m_controls)
   {
