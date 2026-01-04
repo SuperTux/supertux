@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  <meta name="description" content="This website hosts the official online version of SuperTux, which you can play in your browser. It is hosted here at the request of the SuperTux development team.">
+  <meta name="description" content="Play the official online version of SuperTux, directly in your browser. No installation required.">
   <title>Play SuperTux online</title>
   <style>
     body {
@@ -197,6 +197,10 @@
   <script>
     if ("@CMAKE_BUILD_TYPE@" == "Release") {
       document.getElementById("output").style.display = "none";
+    }
+
+    if (window.location.hostname == 'supertux.semphris.com') {
+      alert('The online version of SuperTux is now available on https://play.supertux.org/\n\nThis website will remain online for the foreseeable future, but it\'s recommended to move to the new URL. If you have any progress or custom levels you would like to keep, you can download them using the in-game mechanics.\n\nIf you need help, don\'t hesitate to contact the team for help at https://supertux.org/contact.html');
     }
 
     var data_persistent = false;
