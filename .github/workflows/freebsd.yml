@@ -106,4 +106,3 @@ jobs:
         with:
           files: 'build/upload/SuperTux-*'
           draft: true
-      #Untested for availability
