@@ -385,8 +385,7 @@ Player::update(float dt_sec)
 {
   // sanity asserts
   assert(!(m_duck && !is_big()));
-  if (m_duck && !is_big())
-    log_warning << "Ducking while small" << std::endl;
+
   if (is_dead() || Sector::get().get_object_count<Player>() == 1)
   {
     m_tag_timer.stop();
