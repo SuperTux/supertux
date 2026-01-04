@@ -1667,10 +1667,11 @@ Player::handle_input()
       {
         m_dir = swim_dir;
       }
-      Sector::get().add<Bullet>(pos, (m_swimming || m_water_jump) ?
-        m_physic.get_velocity() + (Vector(std::cos(m_swimming_angle), std::sin(m_swimming_angle)) * 600.f) :
-        Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f),
-        m_dir, get_bonus(), *this);
+      Sector::get().add<Bullet>(pos,
+        (m_swimming || m_water_jump) ?
+          ((Vector(std::cos(m_swimming_angle), std::sin(m_swimming_angle)) * 600.f) + m_physic.get_velocity()) :
+          (Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f)),
+        m_dir, get_bonus(), *this, !m_swimming);
       SoundManager::current()->play("sounds/shoot.wav", get_pos());
     }
   }

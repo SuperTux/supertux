@@ -27,13 +27,14 @@
 #include "video/viewport.hpp"
 #include "object/sprite_particle.hpp"
 
-Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player) :
+Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player, bool is_waterlogged) :
   m_player(player),
   physic(),
   life_count(3),
   sprite(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
-  type(type_)
+  type(type_),
+  m_waterlogged(is_waterlogged)
 {
   physic.set_velocity(xm);
 
@@ -114,7 +115,7 @@ Bullet::update(float dt_sec)
 
   bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
   physic.set_gravity_modifier(in_water ? 0.3f : 1.f);
-  m_col.set_movement(physic.get_movement(dt_sec) * (in_water ? 0.5f : 1.f));
+  m_col.set_movement(physic.get_movement(dt_sec) * (in_water && m_waterlogged ? 0.5f : 1.f));
 }
 
 void

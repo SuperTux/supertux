@@ -28,7 +28,7 @@ class Player;
 class Bullet final : public MovingObject
 {
 public:
-  Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type, Player& player);
+  Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type, Player& player, bool is_waterlogged = true);
 
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Bullet)); }
 
@@ -59,6 +59,8 @@ private:
   BonusType type;
   float angle;
   float particle_time;
+  /** If true, then gravity of bullet is affected by water (but not movement) */
+  bool m_waterlogged;
 
 private:
   Bullet(const Bullet&) = delete;
