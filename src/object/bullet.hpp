@@ -53,7 +53,7 @@ public:
 private:
   Player& m_player;
   Physic physic;
-  int life_count;
+  float life_count;
   SpritePtr sprite;
   SpritePtr lightsprite;
   BonusType type;
