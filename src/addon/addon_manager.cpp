@@ -142,13 +142,15 @@ static PHYSFS_EnumerateCallbackResult remove_from_dictionary_path(void *data, co
 } // namespace
 
 AddonManager::AddonManager(const std::string& addon_directory,
-                           std::vector<Config::Addon>& addon_config) :
+                           std::vector<Config::Addon>& addon_config,
+                           std::map<std::string, std::string>& addon_nfo_filename_hints) :
   m_downloader(),
   m_addon_directory(addon_directory),
   m_cache_directory(FileSystem::join(m_addon_directory, "cache")),
   m_screenshots_cache_directory(FileSystem::join(m_cache_directory, "screenshots")),
   m_repository_url(ADDON_REPOSITORY_URL),
   m_addon_config(addon_config),
+  m_nfo_filename_hints(addon_nfo_filename_hints),
   m_installed_addons(),
   m_repository_addons(),
   m_initialized(false),
@@ -744,6 +746,12 @@ AddonManager::scan_for_archives() const
 std::string
 AddonManager::scan_for_info(const std::string& archive_os_path) const
 {
+  if(m_nfo_filename_hints.find(archive_os_path) != m_nfo_filename_hints.end() &&
+     PHYSFS_exists(m_nfo_filename_hints[archive_os_path].c_str()))
+  {
+    return m_nfo_filename_hints[archive_os_path];
+  }
+
   std::string nfoFilename = "";
   physfsutil::enumerate_files("/", [archive_os_path, &nfoFilename](const std::string& file) {
     if (StringUtil::has_suffix(file, ".nfo"))
@@ -767,6 +775,11 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
     }
     return false;
   });
+
+  if(!nfoFilename.empty())
+  {
+    m_nfo_filename_hints[archive_os_path] = nfoFilename;
+  }
 
   return nfoFilename;
 }
