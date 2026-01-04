@@ -79,7 +79,7 @@ jobs:
           arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           # Remove pre-installed Python symlinks that conflict with Homebrew Python
           sudo rm -f /usr/local/bin/idle3* /usr/local/bin/pip3* /usr/local/bin/pydoc3* /usr/local/bin/python3* || true
-          arch -x86_64 /usr/local/bin/brew install cmake bash rename libogg libvorbis glew glm \
+          arch -x86_64 /usr/local/bin/brew install boost cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl2 sdl2_image libraqm freetype libpng \
                        glib gtk-doc zlib physfs fmt
 
