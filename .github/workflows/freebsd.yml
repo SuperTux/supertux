@@ -1,7 +1,7 @@
 #  SuperTux
 #  Copyright (C) 2020-2021 Jacob Burroughs <maths22@gmail.com>
 #                2020-2022 A. Semphris <semphris@protonmail.com>
-#                2025 1111Windows <master@1win.eu.org>
+#                2026 1111Windows <master@1win.eu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ jobs:
         id: vm
         uses: vmactions/freebsd-vm@v1.3.5
         with:
-          sync: zfs
+          sync: ufs
           release: "${{ matrix.freebsd_release }}"
 
       - name: Install dependencies in FreeBSD
