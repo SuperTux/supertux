@@ -372,7 +372,7 @@ endif()
 # On OSX prior to 10.15 we need to use the experimental filesystem header
 if(CMAKE_OSX_DEPLOYMENT_TARGET AND CMAKE_OSX_DEPLOYMENT_TARGET VERSION_LESS "10.15")
   message(STATUS "Using boost optional for deployment target ${CMAKE_OSX_DEPLOYMENT_TARGET}")
-  find_package(Boost COMPONENTS optional REQUIRED)
+  find_package(Boost REQUIRED)
   if (Boost_FOUND)
     target_compile_definitions(supertux2 PRIVATE SUPERTUX_USE_BOOST_LIBRARIES)
     target_include_directories(supertux2 PRIVATE ${Boost_INCLUDE_DIRS})
