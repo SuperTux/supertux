@@ -40,9 +40,10 @@
       (z-pos -290)
     )
     (background
-      (scroll-offset-y -20)
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0.1)
+      (speed-y 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain_trees.png")
       (z-pos -230)
@@ -935,7 +936,9 @@
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0.1)
+      (speed-y 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain_trees.png")
       (z-pos -230)
