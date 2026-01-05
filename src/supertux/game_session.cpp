@@ -96,7 +96,8 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   m_end_seq_started(false),
   m_pause_target_timer(false),
   m_current_cutscene_text(),
-  m_endsequence_timer()
+  m_endsequence_timer(),
+  m_prevent_adding_players(false)
 {
   set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
@@ -155,8 +156,17 @@ GameSession::reset_level()
 }
 
 void
+GameSession::prevent_adding_players()
+{
+  m_prevent_adding_players = true;
+}
+
+void
 GameSession::on_player_added(int id)
 {
+  if (m_prevent_adding_players)
+    return;
+
   PlayerStatus* player_status;
   if (m_savegame)
   {
@@ -180,6 +190,9 @@ GameSession::on_player_added(int id)
 bool
 GameSession::on_player_removed(int id)
 {
+  if (m_prevent_adding_players)
+    return false;
+
   // Sectors in worldmaps have no Player's of that class
   if (!m_currentsector)
     return false;

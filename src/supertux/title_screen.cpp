@@ -150,6 +150,7 @@ TitleScreen::refresh_level()
       if (new_session)
       {
         m_titlesession = std::move(new_session);
+        m_titlesession->prevent_adding_players();
         level_init = true;
       }
     }
@@ -158,6 +159,7 @@ TitleScreen::refresh_level()
   {
     m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr);
     m_titlesession->restart_level(false, true);
+    m_titlesession->prevent_adding_players();
     level_init = true;
   }
 
