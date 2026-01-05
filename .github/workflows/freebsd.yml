@@ -102,5 +102,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: 'build/upload/SuperTux-*'
+          files: 'build/upload/SuperTux-*-Release.tar.gz'
           draft: true
