@@ -88,7 +88,7 @@ function textbox_outro()
   
   wait(1);
   
-  Text.set_text(_("Tux replied, that he was looking for his friend Penny and that she was captured by an evil creature named \"Nolok\". A name the Granito remembered unpleasantly"));
+  Text.set_text(_("Tux replied, that he was looking for his friend Penny and that she was captured by an evil creature named \"Nolok\". A name the Granito remembered unpleasantly..."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -102,7 +102,7 @@ function textbox_outro()
   
   wait(1);
   
-  Text.set_text(_("They offered to show Tux the way. It was the least they could do to show their gratitute"));
+  Text.set_text(_("They offered to show Tux the way. It was the least they could do to show their gratitute."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -134,7 +134,7 @@ function end_level()
 }
 
 state_idx <- 0;
-states <- { init=0, intro=1, outro=2, textbox_intro=3, textbox_outro=4, end_level=5, free_granito1=6, free_granito2=7, free_granito3=8 };
+states <- { init=0, intro=1, outro=2, textbox_intro=3, free_granito1=4, free_granito2=5, free_granito3=6, textbox_outro=7, end_level=8 };
 function trigger_state(state) {
   local idx = states[state];
   if(!idx || idx <= state_idx)
@@ -150,12 +150,6 @@ function trigger_state(state) {
 	case "textbox_intro":
       textbox_intro();
       break;
-	case "textbox_outro":
-      textbox_outro();
-      break;
-	case "end_level":
-      end_level();
-      break;
 	case "free_granito1":
       free_granito1();
       break;
@@ -164,6 +158,12 @@ function trigger_state(state) {
       break;
 	case "free_granito3":
       free_granito3();
+      break;
+  	case "textbox_outro":
+      textbox_outro();
+      break;
+	case "end_level":
+      end_level();
       break;
   }
 }
