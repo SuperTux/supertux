@@ -47,7 +47,7 @@ jobs:
         id: vm
         uses: vmactions/freebsd-vm@v1.3.6
         with:
-          sync: rsync
+          sync: nfs
           release: "${{ matrix.freebsd_release }}"
 
       - name: Install dependencies in FreeBSD
@@ -81,15 +81,11 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           freebsd_release: ${{ matrix.freebsd_release }}
-        shell: freebsd {0}
         run: |
             cd $GITHUB_WORKSPACE
             cd build
-            cd out/usr
-            tar -czvf SuperTux-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz ./
-            cd ../../
             mkdir upload
-            mv out/usr/SuperTux-*.tar.gz upload/
+            tar -czvf upload/SuperTux-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz out/usr
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
