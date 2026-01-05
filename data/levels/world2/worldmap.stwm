@@ -200,12 +200,6 @@
     )
     (level
       (z-pos 50)
-      (level "floral_blossom.stl")
-      (x 94)
-      (y 24)
-    )
-    (level
-      (z-pos 50)
       (level "ancient_ruin.stl")
       (sprite "/images/worldmap/common/bonusdot.sprite")
       (x 19)
