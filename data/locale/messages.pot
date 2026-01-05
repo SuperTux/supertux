@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  main.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
+"#-#-#-#-#  main.pot (SuperTux v0.7.0-beta.1-99-geed8409be)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-99-geed8409be\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-04 07:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"#-#-#-#-#  credits.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
+"#-#-#-#-#  credits.pot (SuperTux v0.7.0-beta.1-99-geed8409be)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-99-geed8409be\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-04 07:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,10 +29,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  objects.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
+"#-#-#-#-#  objects.pot (SuperTux v0.7.0-beta.1-99-geed8409be)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-99-geed8409be\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-04 07:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,10 +40,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  tilesets.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
+"#-#-#-#-#  tilesets.pot (SuperTux v0.7.0-beta.1-99-geed8409be)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-99-geed8409be\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-04 07:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,10 +51,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  converters.pot (SuperTux v0.7.0-beta.1-83-gedbbf49cc)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
+"#-#-#-#-#  converters.pot (SuperTux v0.7.0-beta.1-99-geed8409be)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-99-geed8409be\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-04 07:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -877,14 +877,14 @@ msgstr ""
 msgid "Save as"
 msgstr ""
 
-#: src/editor/particle_editor.cpp:779 src/editor/editor.cpp:988
+#: src/editor/particle_editor.cpp:779 src/editor/editor.cpp:984
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/addon_preview_menu.cpp:141 src/gui/dialog.hpp:96
 msgid "No"
 msgstr ""
 
-#: src/editor/particle_editor.cpp:783 src/editor/editor.cpp:992
+#: src/editor/particle_editor.cpp:783 src/editor/editor.cpp:988
 #: src/supertux/menu/editor_sectors_menu.cpp:45
 #: src/supertux/menu/editor_sectors_menu.cpp:88
 #: src/supertux/menu/editor_sectors_menu.cpp:93
@@ -1005,25 +1005,25 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr ""
 
-#: src/editor/editor.cpp:978
+#: src/editor/editor.cpp:974
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr ""
 
-#: src/editor/editor.cpp:980
+#: src/editor/editor.cpp:976
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr ""
 
-#: src/editor/editor.cpp:981
+#: src/editor/editor.cpp:977
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr ""
 
-#: src/editor/editor.cpp:982 src/supertux/menu/editor_level_select_menu.cpp:174
+#: src/editor/editor.cpp:978 src/supertux/menu/editor_level_select_menu.cpp:174
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/addon_preview_menu.cpp:141 src/gui/dialog.hpp:95
 msgid "Yes"
 msgstr ""
 
-#: src/editor/editor.cpp:1111
+#: src/editor/editor.cpp:1107
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1031,21 +1031,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr ""
 
-#: src/editor/editor.cpp:1114
+#: src/editor/editor.cpp:1110
 msgid "Disable add-ons"
 msgstr ""
 
-#: src/editor/editor.cpp:1119
+#: src/editor/editor.cpp:1115
 msgid "Ignore (not advised)"
 msgstr ""
 
-#: src/editor/editor.cpp:1123
+#: src/editor/editor.cpp:1119
 msgid "Leave editor"
 msgstr ""
 
 #. l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
 #.
-#: src/editor/editor.cpp:1445
+#: src/editor/editor.cpp:1441
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1054,7 +1054,7 @@ msgstr ""
 
 #. l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
 #.
-#: src/editor/editor.cpp:1452
+#: src/editor/editor.cpp:1448
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1600,11 +1600,11 @@ msgstr ""
 msgid "Large"
 msgstr ""
 
-#: src/object/rock.cpp:322
+#: src/object/rock.cpp:331
 msgid "On-grab script"
 msgstr ""
 
-#: src/object/rock.cpp:323
+#: src/object/rock.cpp:332
 msgid "On-ungrab script"
 msgstr ""
 
@@ -2325,11 +2325,11 @@ msgstr ""
 msgid "The vertical location of the object in pixels from the top."
 msgstr ""
 
-#: src/supertux/title_screen.cpp:286
+#: src/supertux/title_screen.cpp:300
 msgid "Copyright"
 msgstr ""
 
-#: src/supertux/title_screen.cpp:287
+#: src/supertux/title_screen.cpp:301
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
 "are welcome to\n"
@@ -2551,15 +2551,15 @@ msgstr ""
 msgid "auto"
 msgstr ""
 
-#: src/supertux/main.cpp:876
+#: src/supertux/main.cpp:875
 msgid "New release: SuperTux {}!"
 msgstr ""
 
-#: src/supertux/main.cpp:877
+#: src/supertux/main.cpp:876
 msgid "Click for more details."
 msgstr ""
 
-#: src/supertux/main.cpp:880
+#: src/supertux/main.cpp:879
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -2567,7 +2567,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr ""
 
-#: src/supertux/main.cpp:891
+#: src/supertux/main.cpp:890
 msgid "Checking for new releases..."
 msgstr ""
 
@@ -4560,25 +4560,25 @@ msgstr ""
 msgid "Fetching screenshot previews..."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:312
-msgid "Updating"
+#: src/supertux/menu/addon_preview_menu.cpp:314
+msgid "Updating {}"
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:312
-msgid "Downloading"
+#: src/supertux/menu/addon_preview_menu.cpp:314
+msgid "Downloading {}"
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:340
+#: src/supertux/menu/addon_preview_menu.cpp:342
 msgid "Add-on uninstalled successfully."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:345
+#: src/supertux/menu/addon_preview_menu.cpp:347
 msgid ""
 "Error uninstalling add-on:\n"
 "{}"
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:373
+#: src/supertux/menu/addon_preview_menu.cpp:375
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
