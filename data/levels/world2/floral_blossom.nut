@@ -183,6 +183,7 @@ function free_granito1()
   
   Effect.sixteen_to_nine(1);
   Tux.use_scripting_controller(true);
+  Tux.deactivate();
   
   Effect.fade_out(1);
   wait(1.2);
@@ -230,6 +231,7 @@ function free_granito1()
   wait(0.3);
   Effect.fade_in(1);
   
+  Tux.activate();
   Tux.use_scripting_controller(false);
   Effect.four_to_three(1);
   
@@ -244,6 +246,7 @@ function free_granito2()
   
   Effect.sixteen_to_nine(1);
   Tux.use_scripting_controller(true);
+  Tux.deactivate();
   
   Effect.fade_out(1);
   wait(1.2);
@@ -291,6 +294,7 @@ function free_granito2()
   wait(0.3);
   Effect.fade_in(1);
   
+  Tux.activate();
   Tux.use_scripting_controller(false);
   Effect.four_to_three(1);
   
@@ -305,6 +309,7 @@ function free_granito3()
   
   Effect.sixteen_to_nine(1);
   Tux.use_scripting_controller(true);
+  Tux.deactivate();
   
   Effect.fade_out(1);
   wait(1.2);
@@ -357,6 +362,7 @@ function free_granito3()
   wait(0.3);
   Effect.fade_in(1);
   
+  Tux.activate();
   Tux.use_scripting_controller(false);
   Effect.four_to_three(1);
   
