@@ -2202,8 +2202,6 @@ Player::draw(DrawingContext& context)
     {
       if (m_swimming || m_water_jump)
       {
-        if (m_water_jump && m_dir != m_old_dir)
-          log_debug << "Obracanko (:" << std::endl;
         if (glm::length(m_physic.get_velocity()) < 50.f)
           set_action(sa_prefix + "-float" + sa_postfix);
         else if (m_water_jump)
