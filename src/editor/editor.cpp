@@ -937,10 +937,6 @@ Editor::quit_editor()
   check_unsaved_changes([quit] {
     quit();
   });
-
-  // reset viewport to how it was
-  if (VideoSystem::current())
-    VideoSystem::current()->get_viewport().force_full_viewport(g_config->max_viewport);
 }
 
 bool

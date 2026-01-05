@@ -74,6 +74,7 @@ private:
   /* Not a timer because the user could flip back and forth constantly */
   float m_logo_opacity;
   bool m_jump_was_released;
+  bool m_fully_initialized;
 
 private:
   TitleScreen(const TitleScreen&) = delete;

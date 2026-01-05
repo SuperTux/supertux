@@ -486,7 +486,10 @@ ScreenManager::process_events()
         else if (event.key.keysym.sym == SDLK_F2 &&
                  event.key.keysym.mod & KMOD_CTRL)
         {
-          g_config->developer_mode = !g_config->developer_mode;
+          if ((g_config->developer_mode = !g_config->developer_mode) == true)
+          {
+            SoundManager::current()->play("sounds/excellent.wav");
+          }
           log_info << "developer mode: " << g_config->developer_mode << std::endl;
         }
         break;

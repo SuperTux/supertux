@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.7.0-beta.1-65-g462626976\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-83-gedbbf49cc\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-03 12:13+0000\n"
+"POT-Creation-Date: 2026-01-04 07:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -248,6 +248,10 @@ msgstr ""
 msgid ""
 "The more he thought about it, the less he was sure about Nolok's "
 "motivations. Why would he leave clues behind?"
+msgstr ""
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
 msgstr ""
 
 #: data/levels/world1/scripts_intro.txt:2

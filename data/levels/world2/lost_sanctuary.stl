@@ -415,7 +415,7 @@ Effect.fade_in(1);")
       (z-pos 1)
       (sector "sanctuary")
       (locked #f)
-      (spawnpoint "key")
+      (spawnpoint "end")
       (x 576)
       (y 448)
     )
@@ -438,7 +438,8 @@ Effect.fade_in(1);")
     (powerup
       (version 2)
       (z-pos 50)
-      (script "Tux.use_scripting_controller(true);
+      (script "add_key(\"wood\");
+      Tux.use_scripting_controller(true);
 wait(1);
 Tux.deactivate();
 Tux.do_cheer();
@@ -462,7 +463,7 @@ end_level();")
       (volume 1)
     )
     (spawnpoint
-      (name "key")
+      (name "main")
       (x 584)
       (y 480)
     )
@@ -911,7 +912,7 @@ end_level();")
       (z-pos 1)
       (sector "key")
       (locked #f)
-      (spawnpoint "key")
+      (spawnpoint "main")
       (x 10528)
       (y 1120)
     )
@@ -1224,6 +1225,11 @@ Tux.use_scripting_controller(false);")
     (spawnpoint
       (x 6872.46)
       (y 779.459)
+    )
+    (spawnpoint
+      (name "end")
+      (x 10528)
+      (y 1168)
     )
     (tilemap
       (solid #f)

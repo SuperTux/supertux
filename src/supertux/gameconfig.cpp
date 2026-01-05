@@ -167,7 +167,6 @@ Config::load()
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
 
-  config_mapping.get("flash_intensity", flash_intensity);
   config_mapping.get("frame_prediction", frame_prediction);
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
@@ -322,6 +321,7 @@ Config::load()
 
     config_video_mapping->get("aspect_width",  aspect_size.width);
     config_video_mapping->get("aspect_height", aspect_size.height);
+    config_video_mapping->get("flash_intensity", flash_intensity);
 
     config_video_mapping->get("magnification", magnification);
     config_video_mapping->get("fancy_gfx", fancy_gfx);

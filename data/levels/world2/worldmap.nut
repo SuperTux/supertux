@@ -1,4 +1,4 @@
-state.world_select["/levels/world2/worldmap.stwm"].unlocked = true;
+if ("world_select" in state) state.world_select["/levels/world2/worldmap.stwm"].unlocked = true;
 
 fade_time <- 0.35;
 fade_time_fast <- 0.1;
@@ -125,3 +125,7 @@ worldmap.granito_secret.set_direction_mask(state.granito_secret);
 worldmap.strike_secret.set_direction_mask(state.strike_secret);
 worldmap.hollow_secret.set_direction_mask(state.hollow_secret);
 // TODO: make paths fade
+
+if (("key_knowledge" in state)) {
+	  if (state.key_knowledge == true) {
+        display_keys(true); }}

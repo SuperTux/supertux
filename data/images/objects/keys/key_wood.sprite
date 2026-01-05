@@ -5,7 +5,7 @@
  )
  (action
   (name "display")
-  (images "wood_display.png")
+  (images "wood.png")
  )
  (action
   (name "outline")
