@@ -6,7 +6,7 @@
  )
  (action
   (name "display")
-  (images "air_display.png")
+  (images "air.png")
  )
  (action
   (name "outline")

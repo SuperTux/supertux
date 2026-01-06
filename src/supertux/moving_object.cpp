@@ -106,7 +106,6 @@ MovingObject::on_flip(float height)
   set_pos(pos);
 }
 
-
 void
 MovingObject::register_class(ssq::VM& vm)
 {

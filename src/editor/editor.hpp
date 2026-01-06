@@ -155,6 +155,8 @@ public:
   void delete_markers();
   void sort_layers();
 
+  inline bool get_draggables_visible() { return m_show_draggables; }
+
   inline void disable_testing() { m_testing_disabled = true; }
 
   void select_tilegroup(int id);
@@ -283,7 +285,8 @@ private:
 
   float m_scroll_speed;
   float m_new_scale;
-  bool m_move_locked;
+  bool m_show_draggables;
+  Timer m_show_draggables_hint;
 
   Vector m_mouse_pos;
 

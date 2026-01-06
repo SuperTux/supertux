@@ -294,7 +294,6 @@ GameObject::update(float dt_sec)
   m_fade_helpers.erase(new_end, m_fade_helpers.end());
 }
 
-
 void
 GameObject::register_class(ssq::VM& vm)
 {

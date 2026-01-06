@@ -27,13 +27,14 @@
 #include "video/viewport.hpp"
 #include "object/sprite_particle.hpp"
 
-Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player) :
+Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player, bool is_waterlogged) :
   m_player(player),
   physic(),
-  life_count(3),
+  life_count(3.0f),
   sprite(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
-  type(type_)
+  type(type_),
+  m_waterlogged(is_waterlogged)
 {
   physic.set_velocity(xm);
 
@@ -50,7 +51,7 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
 
     default:
       log_warning << "Bullet::Bullet called with unknown BonusType" << std::endl;
-      life_count = 10;
+      life_count = 10.0f;
       sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
       break;
   }
@@ -95,7 +96,7 @@ Bullet::update(float dt_sec)
   } else
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
 
-  if (life_count <= 0)
+  if (life_count <= 0.0f)
   {
     remove_me();
     return;
@@ -114,7 +115,7 @@ Bullet::update(float dt_sec)
 
   bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
   physic.set_gravity_modifier(in_water ? 0.3f : 1.f);
-  m_col.set_movement(physic.get_movement(dt_sec) * (in_water ? 0.5f : 1.f));
+  m_col.set_movement(physic.get_movement(dt_sec) * (in_water && m_waterlogged ? 0.5f : 1.f));
 }
 
 void
@@ -129,10 +130,40 @@ Bullet::draw(DrawingContext& context)
 void
 Bullet::collision_solid(const CollisionHit& hit)
 {
+  if (hit.slope_normal.x != 0.f)
+  {
+    float bounce_init_y = -300.f,
+          bounce_init_x = 450.f;
+    // steep slope
+    if (std::abs(hit.slope_normal.x) > 0.5)
+    {
+      life_count -= 0.07;
+      bounce_init_y = -500.f;
+      bounce_init_x = 350.f;
+    }
+    else
+      life_count -= 0.2;
+
+    // inverse it (but with a little decrease) if it's a fast falling fireball
+    if (std::abs(physic.get_velocity_y()) > 600.f)
+      physic.set_velocity_y(-std::abs(physic.get_velocity_y()) * 0.8);
+    else
+      physic.set_velocity_y(
+        math::clamp<float>(bounce_init_y - std::abs(physic.get_velocity_x() / 3.8f), -500.f, -300.f));
+
+    if (std::abs(physic.get_velocity_x()) > bounce_init_x)
+      physic.set_velocity_x((physic.get_velocity_x() > 0 ? 1 : -1) * bounce_init_x);
+
+    return;
+  }
+
   if (hit.top || hit.bottom) {
     physic.set_velocity_y(-physic.get_velocity_y());
     life_count--;
-  } else if (hit.left || hit.right) {
+    return;
+  }
+
+  if (hit.left || hit.right) {
     if (type == BONUS_ICE) {
       physic.set_velocity_x(-physic.get_velocity_x());
       life_count--;

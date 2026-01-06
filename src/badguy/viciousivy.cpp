@@ -24,15 +24,17 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-ViciousIvy::ViciousIvy(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right"),
+const std::string ViciousIvy::DEFAULT_SPRITE = "images/creatures/vicious_ivy/vicious_ivy.sprite";
+
+ViciousIvy::ViciousIvy(const ReaderMapping& reader, std::string sprite) :
+  WalkingBadguy(reader, sprite, "left", "right"),
   m_fall_speed()
 {
   parse_type(reader);
 }
 
-ViciousIvy::ViciousIvy(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right"),
+ViciousIvy::ViciousIvy(const Vector& pos, Direction d, std::string sprite) :
+  WalkingBadguy(pos, d, sprite, "left", "right"),
   m_fall_speed()
 {
 }
@@ -90,12 +92,6 @@ ViciousIvy::active_update(float dt_sec)
   WalkingBadguy::active_update(dt_sec);
   if (!m_frozen && !m_ignited)
   {
-    Rectf floatbox = get_bbox();
-    floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
-
-    const bool ignore_unisolid = m_physic.get_velocity_y() < 0.0f;
-    bool float_here = (Sector::get().is_free_of_statics(floatbox, nullptr, ignore_unisolid));
-
     bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
 
     Rectf watertopbox = get_bbox();
@@ -105,6 +101,12 @@ ViciousIvy::active_update(float dt_sec)
 
     bool on_top_of_water = (!Sector::get().is_free_of_tiles(watertopbox, true, Tile::WATER) &&
       Sector::get().is_free_of_tiles(wateroutbox, true, Tile::WATER));
+
+    Rectf floatbox = get_bbox();
+    floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
+
+    const bool ignore_unisolid = on_top_of_water || m_physic.get_velocity_y() < 0.0f;
+    bool float_here = (Sector::get().is_free_of_statics(floatbox, nullptr, ignore_unisolid));
 
     if (in_water)
     {
@@ -133,6 +135,18 @@ ViciousIvy::active_update(float dt_sec)
   }
 }
 
+std::string
+ViciousIvy::get_explosion_sprite() const
+{
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/particles/rottenivy.sprite";
+    default:
+      return "images/particles/viciousivy.sprite";
+  }
+}
+
 bool
 ViciousIvy::collision_squished(MovingObject& object)
 {
@@ -141,8 +155,7 @@ ViciousIvy::collision_squished(MovingObject& object)
 
   set_action("squished", m_dir);
   // Spawn death particles.
-  spawn_explosion_sprites(3, m_type == NORMAL ? "images/particles/viciousivy.sprite"
-                                              : "images/particles/rottenivy.sprite");
+  spawn_explosion_sprites(3, get_explosion_sprite());
   kill_squished(object);
   return true;
 }

@@ -70,6 +70,11 @@ if(EMSCRIPTEN)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/template.html.in ${CMAKE_CURRENT_BINARY_DIR}/template.html)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2.png COPYONLY)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2_bkg.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2_bkg.png COPYONLY)
+  if(IS_SUPERTUX_RELEASE)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico ${CMAKE_CURRENT_BINARY_DIR}/supertux2.ico COPYONLY)
+  else()
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-nightly.ico ${CMAKE_CURRENT_BINARY_DIR}/supertux2.ico COPYONLY)
+  endif()
 endif()
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.md

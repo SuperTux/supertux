@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -138,36 +137,43 @@
       (z-pos 50)
       (x 4064)
       (y 2272)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 1920)
       (y 2656)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 960)
       (y 1824)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 800)
       (y 2304)
+      (glinting #t)
     )
     (dive-mine
       (z-pos 50)
       (x 10528)
       (y 2336)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 10112)
       (y 2688)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 10816)
       (y 2656)
+      (glinting #f)
     )
     (firefly
       (z-pos 0)
@@ -186,12 +192,14 @@
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #t)
       (direction "left")
       (x 4544)
       (y 2176)
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 6496)
       (y 2112)
@@ -213,6 +221,7 @@
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (radius 80)
       (direction "left")
       (x 3328)
@@ -222,6 +231,7 @@
       (z-pos 50)
       (x 8928)
       (y 1824)
+      (glinting #t)
     )
     (gradient
       (top_color 0.4 0.4980392 0.6980392)
@@ -232,63 +242,75 @@
       (direction "left")
       (x 7040)
       (y 1536)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 2672)
       (y 1600)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 8864)
       (y 2080)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 9184)
       (y 2080)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 3792)
       (y 640)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 2336)
       (y 608)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 2560)
       (y 640)
+      (glinting #t)
     )
     (mrbomb
       (z-pos 50)
       (direction "left")
       (x 4096)
       (y 1600)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (direction "left")
       (x 3232)
       (y 2112)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (x 1152)
       (y 608)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (x 3360)
       (y 800)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (x 3456)
       (y 800)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/glacier.music")
@@ -480,7 +502,7 @@ Camera.ease_scale(1.5, 4, \"EaseSineIn\");
 stop_music(4);
 wait(4);
 Tux.use_scripting_controller(false);
-Level.spawn(\"key\", \"key\");")
+Level.spawn(\"key\", \"main\");")
       (button #f)
       (width 32)
       (height 224)
@@ -516,65 +538,77 @@ Level.spawn(\"key\", \"key\");")
       (direction "left")
       (x 8224)
       (y 1536)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (direction "left")
       (x 2624)
       (y 2112)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (x 2112)
       (y 480)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (x 9568)
       (y 2176)
+      (glinting #t)
     )
     (smartblock
       (z-pos 50)
       (x 7840)
       (y 2048)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 8320)
       (y 1536)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 3552)
       (y 1600)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 3424)
       (y 1600)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (x 2720)
       (y 2112)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (x 1344)
       (y 608)
+      (glinting #t)
     )
     (snowball
       (z-pos 50)
       (x 1248)
       (y 608)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (x 9696)
       (y 2176)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
@@ -586,36 +620,42 @@ Level.spawn(\"key\", \"key\");")
       (direction "left")
       (x 7680)
       (y 2048)
+      (glinting #t)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 7552)
       (y 2048)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 2016)
       (y 1792)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 2208)
       (y 1792)
+      (glinting #f)
     )
     (sspiky
       (z-pos 50)
       (direction "left")
       (x 3456)
       (y 1856)
+      (glinting #f)
     )
     (sspiky
       (z-pos 50)
       (direction "left")
       (x 9824)
       (y 1920)
+      (glinting #t)
     )
     (switch
       (z-pos 1)
@@ -878,7 +918,8 @@ Camera.set_scale(1.5);")
     (powerup
       (version 2)
       (z-pos 50)
-      (script "Tux.use_scripting_controller(true);
+      (script "add_key(\"air\");
+      Tux.use_scripting_controller(true);
 wait(1);
 Tux.deactivate();
 Tux.do_cheer();
@@ -933,7 +974,7 @@ Tux.use_scripting_controller(false);")
       (y 800)
     )
     (spawnpoint
-      (name "key")
+      (name "main")
       (x 0)
       (y 960)
     )

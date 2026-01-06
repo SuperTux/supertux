@@ -15,15 +15,15 @@
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2013
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2013
 # Tobias Markus <tobbi@supertuxproject.org>, 2015-2016
-# Tobias Markus <tobbi@supertuxproject.org>, 2018-2019,2025
+# Tobias Markus <tobbi@supertuxproject.org>, 2018-2019,2025-2026
 # Wuzzy <Wuzzy@disroot.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2019,2025\n"
+"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2019,2025-2026\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,6 +99,14 @@ msgstr "Unterhöhlte Erde"
 msgid "Home Dead Home"
 msgstr "Totes Heim, Unglück allein"
 
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Rooted Forest"
+msgstr "Verwurzelter Wald"
+
+#: data/levels/world2/info:3
+msgid "Work in Progress Rooted Forest for SuperTux v0.7."
+msgstr "Sich noch in Bearbeitung befindender Wurzelwald für SuperTux v0.7."
+
 #: data/levels/world2/lost_sanctuary.stl:3
 msgid "Lost Sanctuary"
 msgstr "Verlassenes Heiligtum"
@@ -139,6 +147,10 @@ msgstr "Ich wur-zähle Auf Dich"
 msgid "The Rooted Tower"
 msgstr "Der verwurzelte Turm"
 
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Zwischensequenz hier einfügen---"
+
 #: data/levels/world2/scripts_floral_blossom.txt:2
 msgid ""
 "Despite the Ghost Tree's defeat and a sliver of life returning to the once "
@@ -159,8 +171,8 @@ msgstr "Zu seinem Glück erschien ein Granito vor ihm, gesund und munter. Der Gr
 
 #: data/levels/world2/scripts_floral_blossom.txt:5
 msgid ""
-"The Granito spoke of 3 groups of his fellow Granito whoo had gotten lost "
-"when trying to escape the roots to the east coast."
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
 msgstr "Der Granito sprach von 3 seiner Gruppen, die verloren gegangen waren beim Versuch, den Wurzeln, die von der Ostküste zu ihm kamen, zu entkommen."
 
 #: data/levels/world2/scripts_floral_blossom.txt:6
@@ -182,21 +194,21 @@ msgstr "Mit der Hilfe des geretteten Granito schaffte es Tux, die andere Seite z
 
 #: data/levels/world2/scripts_floral_blossom.txt:9
 msgid ""
-"He was glad there were more Granito that had survied the Ghost Tree's "
+"He was glad there were more Granito that had survived the Ghost Tree's "
 "overgrowth."
 msgstr "Er war froh, dass es noch weitere Granito gab, die den Auswüchse des Geisterbaums entkommen waren."
 
 #: data/levels/world2/scripts_floral_blossom.txt:10
 msgid ""
-"One of the Granito asked him what, a penguin like him was doing so far from "
-"the Antarctic?"
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
 msgstr "Einer der Granito fragte ihn, was ein Pinguin wie er so weit entfernt von der Antarktis zu suchen hatte."
 
 #: data/levels/world2/scripts_floral_blossom.txt:11
 msgid ""
-"Tux replyed, he was looking for his friend Penny and that she was captured "
-"by an evil creature named \"Nolok\". A name the Granito remember "
-"unpleasently"
+"Tux replied, that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly"
 msgstr "Tux antwortete, dass er seine Freundin Penny suche, und, dass sie von einer bösen Kreatur namens \"Nolok\" gefangen genommen wurde. Ein Name, an den sich die Granito noch böse erinnerten."
 
 #: data/levels/world2/scripts_floral_blossom.txt:12
@@ -219,7 +231,7 @@ msgstr "Tux nahm das Angebot dankend an und zusammen mit einer Handvoll Granito 
 
 #: data/levels/world2/scripts_floral_blossom.txt:15
 msgid ""
-"The remaing Granito would stay behind, slowly rebuilding their home, now "
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
 "that the corruption was finally vanquished..."
 msgstr "Die restlichen Granito blieben zurück und bauten langsam ihr Zuhause wieder auf, jetzt da die Verrottung vorüber war..."
 
@@ -247,7 +259,7 @@ msgstr "Stock und Stein"
 
 #: data/levels/world2/striking_wood.stl:3
 msgid "Striking Wood"
-msgstr ""
+msgstr "Zuschlagendes Holz"
 
 #: data/levels/world2/three_sheets_wind.stl:3
 msgid "Three Sheets to the Wind"
@@ -277,10 +289,6 @@ msgstr "-Türen\n!images/objects/door/door-0.png\n#Tux kann durch eine Tür gehe
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Hölzerne Wurzeln"
-
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "Verwurzelter Wald"
 
 #: data/levels/world2/worldmap.stwm:318
 msgid "To be continued..."

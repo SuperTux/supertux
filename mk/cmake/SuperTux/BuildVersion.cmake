@@ -17,43 +17,31 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
-set(SUPERTUX_PACKAGE_VERSION "" CACHE STRING "Display version name. Will show in the window title of the program, for example.")
-set(SUPERTUX_VERSION_STRING "" CACHE STRING "Brief version string. Will show in the name of the archive or the cURL user agent, for example.")
-
-if(SUPERTUX_PACKAGE_VERSION AND SUPERTUX_VERSION_STRING)
-  set(SUPERTUX_CUSTOM_VERSION YES)
-else()
-  include(GetGitRevisionDescription)
-  git_project_version(${IS_SUPERTUX_RELEASE})
+include(GetGitRevisionDescription)
+set(_is_release_default YES)
+if(GIT_ENABLED)
+  git_is_tag(_is_release_default)
+  git_project_version()
 endif()
 
-if(NOT SUPERTUX_PACKAGE_VERSION)
-  if(IS_SUPERTUX_RELEASE)
-    set(SUPERTUX_PACKAGE_VERSION "${GIT_TAG}")
-  else()
-    set(SUPERTUX_PACKAGE_VERSION "dev ")
-
-    if(NOT GIT_TAG_RESULT EQUAL 0)
-      string(APPEND SUPERTUX_PACKAGE_VERSION "${GIT_HASH} (${GIT_BRANCH})")
-    else()
-      string(APPEND SUPERTUX_PACKAGE_VERSION "${GIT_TAG} - ${GIT_HASH} (${GIT_BRANCH})")
-    endif()
-  endif()
-endif()
-if(NOT SUPERTUX_PACKAGE_VERSION_TAG)
-  set(SUPERTUX_PACKAGE_VERSION_TAG "${GIT_TAG}")
+option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" ${_is_release_default})
+if(IS_SUPERTUX_RELEASE)
+  message(STATUS "Building SuperTux in Release mode!")
 endif()
 
-if(NOT SUPERTUX_VERSION_STRING)
-  if(IS_SUPERTUX_RELEASE)
-    set(SUPERTUX_VERSION_STRING "${GIT_TAG}")
-  else()
-    set(SUPERTUX_VERSION_STRING "${GIT_BRANCH}-${GIT_HASH}")
-  endif()
+if(GIT_ENABLED)
+  configure_file("${CMAKE_CURRENT_LIST_DIR}/version-git.cmake.in"
+                 "${PROJECT_SOURCE_DIR}/version.cmake" @ONLY)
+elseif(NOT EXISTS "${PROJECT_SOURCE_DIR}/version.cmake")
+  # If version.cmake exists, then it likely has some useful information
+  # that PROJECT_VERSION doesn't.
+  configure_file("${CMAKE_CURRENT_LIST_DIR}/version.cmake.in"
+                 "${PROJECT_SOURCE_DIR}/version.cmake" @ONLY)
 endif()
+include("${PROJECT_SOURCE_DIR}/version.cmake")
 
 message(STATUS "Git version checking results:")
-if(NOT SUPERTUX_CUSTOM_VERSION)
+if(GIT_ENABLED)
   message(STATUS "  GIT_TAG: ${GIT_TAG}")
   message(STATUS "  GIT_HASH: ${GIT_HASH}")
   message(STATUS "  GIT_BRANCH: ${GIT_BRANCH}")

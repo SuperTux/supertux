@@ -16,8 +16,10 @@
 
 #include "trigger/trigger_base.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/debug.hpp"
 
 TriggerBase::TriggerBase() :
   m_hit(),
@@ -77,8 +79,8 @@ TriggerBase::object_removed(GameObject* object)
 }
 
 
-Trigger::Trigger(const ReaderMapping& reader) :
-  MovingObject(reader)
+Trigger::Trigger(Color color, const ReaderMapping& reader) :
+  DraggableRegion(color, reader)
 {
   set_group(COLGROUP_TOUCHABLE);
 
@@ -89,6 +91,10 @@ Trigger::Trigger(const ReaderMapping& reader) :
     m_col.m_bbox.set_height(32.f);
 }
 
+Trigger::Trigger(const ReaderMapping& reader) :
+  Trigger(Color{1.0f, 0.0f, 0.0f, 0.6f}, reader)
+{
+}
 
 SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_TOUCHABLE)

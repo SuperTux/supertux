@@ -18,6 +18,7 @@
     )
     (background
       (color 0.8 0.68 0.7)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain.png")
@@ -29,7 +30,7 @@
       (speed 0.1)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain_trees.png")
-      (image-bottom "/images/background/forest/forest_para3_bottom.png")
+      (image-bottom "/images/background/forest/forest_bottom.png")
       (z-pos -230)
     )
     (background
@@ -476,7 +477,7 @@
       (y 2016)
     )
     (music
-      (file "/music/forest/forest_sunset.music")
+      (file "/music/forest/shallow-green.music")
     )
     (scripttrigger
       (script "pause_music(5);")

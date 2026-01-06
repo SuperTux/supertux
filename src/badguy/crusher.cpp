@@ -192,11 +192,20 @@ Crusher::should_crush()
       Rectf left_top_zone;
       Rectf right_top_zone;
 
+      // This box prevents the crusher from crushing into a wall
+      // just because it can see the player standing above it.
+      Rectf crushbox;
+
       if (m_dir == CrusherDirection::LEFT || m_dir == CrusherDirection::HORIZONTAL)
       {
         left_top_zone.set_p1(Vector(crusher_bbox.get_left(), zone_top_y));
         left_top_zone.set_size(zone_width, zone_height);
-        if (player_bbox.overlaps(left_top_zone))
+
+        crushbox.set_p1(get_pos() - Vector(5.f, 0.f));
+        crushbox.set_size(5.f, get_height());
+
+        if (player_bbox.overlaps(left_top_zone) &&
+            Sector::get().is_free_of_statics(crushbox, this))
           player_in_top_edge_zone = true;
       }
 
@@ -205,7 +214,12 @@ Crusher::should_crush()
       {
         right_top_zone.set_p1(Vector(crusher_bbox.get_right() - zone_width, zone_top_y));
         right_top_zone.set_size(zone_width, zone_height);
-        if (player_bbox.overlaps(right_top_zone))
+
+        crushbox.set_p1(get_pos() + Vector(get_bbox().get_right(), 0.f));
+        crushbox.set_size(5.f, get_height());
+
+        if (player_bbox.overlaps(right_top_zone) &&
+            Sector::get().is_free_of_statics(crushbox, this))
           player_in_top_edge_zone = true;
       }
     }
@@ -243,18 +257,6 @@ Crusher::should_finish_crushing(const CollisionHit& hit) const
          ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.top)    ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.left)   ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.right);
-}
-
-bool
-Crusher::should_finish_recovering(const CollisionHit& hit) const
-{
-  if (m_dir == CrusherDirection::ALL)
-    return hit.bottom || hit.top || hit.left || hit.right;
-
-  return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN)  && hit.top)    ||
-         ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.bottom) ||
-         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.right)  ||
-         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.left);
 }
 
 bool
@@ -1044,10 +1046,6 @@ Crusher::collision_solid(const CollisionHit& hit)
   if (m_state == CRUSHING && should_finish_crushing(hit))
   {
     crushed(hit, true);
-  }
-  else if (m_state == RECOVERING && should_finish_recovering(hit))
-  {
-    idle();
   }
 }
 

@@ -24,7 +24,7 @@
 #include "video/drawing_context.hpp"
 
 ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
-  Trigger(reader),
+  Trigger(Color(1.0f, 0.0f, 1.0f, 0.6f), reader),
   triggerevent(),
   script(),
   must_activate(false),
@@ -65,12 +65,4 @@ ScriptTrigger::event(Player& , EventType type)
 
   Sector::get().run_script(script, "ScriptTrigger");
   runcount++;
-}
-
-void
-ScriptTrigger::draw(DrawingContext& context)
-{
-  if (Editor::is_active() || g_debug.show_collision_rects)
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
 }

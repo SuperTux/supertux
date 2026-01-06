@@ -631,12 +631,11 @@ Main::launch_game(const CommandLineArguments& args)
 
   if (!args.filenames.empty())
   {
-    for(const auto& start_level : args.filenames)
+    for(auto start_level : args.filenames)
     {
       // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(start_level);
-      const std::string filename = FileSystem::basename(start_level);
       const std::string fileProtocol = "file://";
       const std::string::size_type position = dir.find(fileProtocol);
       if (position != std::string::npos) {
@@ -667,11 +666,11 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else if (StringUtil::has_suffix(start_level, ".stwm"))
       {
-        m_screen_manager->push_screen(std::make_unique<worldmap::WorldMap>(filename, *m_savegame));
+        m_screen_manager->push_screen(std::make_unique<worldmap::WorldMap>(start_level, *m_savegame));
       }
       else
       { // launch game
-        std::unique_ptr<GameSession> session = std::make_unique<GameSession>(filename, *m_savegame);
+        std::unique_ptr<GameSession> session = std::make_unique<GameSession>(start_level, *m_savegame);
 
         gameRandom.seed(g_config->random_seed);
         graphicsRandom.seed(0);
@@ -757,8 +756,10 @@ Main::run(int argc, char** argv)
 
   int result = 0;
 
+#ifdef NDEBUG // We want exceptions to properly TRAP in debug mode
   try
   {
+#endif
     CommandLineArguments args;
     try
     {
@@ -808,6 +809,7 @@ Main::run(int argc, char** argv)
         launch_game(args);
         break;
     }
+#ifdef NDEBUG
   }
   catch(const std::exception& e)
   {
@@ -819,6 +821,7 @@ Main::run(int argc, char** argv)
     log_fatal << "Unexpected exception" << std::endl;
     result = 1;
   }
+#endif
 
   g_dictionary_manager.reset();
 

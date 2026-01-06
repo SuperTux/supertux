@@ -16,7 +16,8 @@
 
 #pragma once
 
-#include <map>
+#include <utility>
+#include <array>
 
 #include "control/controller.hpp"
 #include "math/rectf.hpp"
@@ -28,10 +29,11 @@ class ControllerHUD
 public:
   ControllerHUD();
 
+  void update_pos();
   void draw(DrawingContext& context);
 
 private:
-  std::map<Control, Rectf> m_controls;
+  std::array<Rectf, (std::underlying_type_t<Control>)Control::CONTROLCOUNT> m_controls;
 
 private:
   ControllerHUD(const ControllerHUD&) = delete;

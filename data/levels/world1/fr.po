@@ -10,16 +10,16 @@
 # Lucas Mascaro <mascaro.lucas@yahoo.fr>, 2016
 # Maxim Bernard <mbernard2@videotron.ca>, 2021
 # Nate Ready <mail@nathanaelready.com>, 2015
-# Ștefan ILIE, 2025
+# Ștefan ILIE, 2025-2026
 # 51251df01484cc547f4d59bd93cd7512, 2016,2018
 # zecas <jjorge@free.fr>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Ștefan ILIE, 2025\n"
+"Last-Translator: Ștefan ILIE, 2025-2026\n"
 "Language-Team: French (http://app.transifex.com/arctic-games/supertux/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +35,7 @@ msgstr "23ème division aérienne"
 msgid "Above the Antarctic Skies"
 msgstr "Au-dessus des cieux de l'Antarctique"
 
-#: data/levels/world1/above_arctic_skies.stl:318
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -96,6 +96,14 @@ msgstr "Les Champs de Glace"
 msgid "Ice in the Hole"
 msgstr "La Glace au fond du Trou"
 
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Île Glacée"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Là où votre aventure commence."
+
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
 msgstr "Dans les Étoiles"
@@ -116,14 +124,14 @@ msgstr "La Vie Dans Un Frigo"
 msgid "Oh No! More Snowballs!"
 msgstr "Oh non ! Encore des Boules de Neige !"
 
-#: data/levels/world1/more_snowballs.stl:290
+#: data/levels/world1/more_snowballs.stl:319
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Portage d'objets\r#Tux peut prendre un objet en gardant appuyée la touche ACTION. Relâchez la touche ACTION tout en restant immobile pour laisser tomber l'objet.\r#Si vous relâchez la touche ACTION alors que Tux est en mouvement, il va lancer l'objet!"
 
-#: data/levels/world1/more_snowballs.stl:299
+#: data/levels/world1/more_snowballs.stl:328
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
@@ -246,6 +254,10 @@ msgid ""
 "The more he thought about it, the less he was sure about Nolok's "
 "motivations. Why would he leave clues behind?"
 msgstr "Plus il y pensait, moins il avait de certitude sur les motivations de Nolok. Pourquoi laisserait-il derrière des indices?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Insérer une Cinématique Ici---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -381,14 +393,14 @@ msgstr "-Nage!images/creatures/tux/big/swim-1.png#Lorsque immergé dans l'eau, u
 msgid "Stone Cold"
 msgstr "La Pierre Froide"
 
-#: data/levels/world1/stone_cold.stl:191
+#: data/levels/world1/stone_cold.stl:195
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Portage d'objets\r#Tux peut prendre un objet en gardant appuyée la touche ACTION. Relâchez la touche ACTION tout en restant immobile pour laisser tomber l'objet.\r#Si vous relâchez la touche ACTION alors que Tux est en mouvement, il va lancer l'objet!"
 
-#: data/levels/world1/stone_cold.stl:200
+#: data/levels/world1/stone_cold.stl:204
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
@@ -425,10 +437,6 @@ msgid ""
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
 msgstr "-Poupée Tux !images/powerups/1up/1up.png #Les Poupées Tux sont des items rares requis pour débloquer les Îles Bonus!  #Récupérez-les toutes pour débloquer des niveaux additionnels amusants!"
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Île Glacée"
 
 #: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"

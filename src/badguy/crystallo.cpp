@@ -47,7 +47,7 @@ Crystallo::get_settings()
 {
   ObjectSettings result = WalkingBadguy::get_settings();
 
-  result.add_float(_("Radius"), &m_radius, "radius", 100.0f);
+  result.add_float(_("Radius (pixels)"), &m_radius, "radius", 100.0f);
 
   result.reorder({"radius", "direction", "x", "y"});
 

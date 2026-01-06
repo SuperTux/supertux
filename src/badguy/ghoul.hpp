@@ -66,7 +66,7 @@ private:
   void horizontal_thrust();
   void start_roaming_decel();
   void roaming_decel_check();
-  Vector to_target();
+  Vector to_target() const;
 
 private:
   Ghoul(const Ghoul&) = delete;

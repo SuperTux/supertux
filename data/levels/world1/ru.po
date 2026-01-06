@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Alexander Polyanski, 2025
-# Andrei Stepanov, 2018-2019,2021-2022,2024-2025
+# Alexander Polyanski, 2025-2026
+# Andrei Stepanov, 2018-2019,2021-2022,2024-2026
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013,2015
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Alexander Polyanski, 2025\n"
+"Last-Translator: Andrei Stepanov, 2018-2019,2021-2022,2024-2026\n"
 "Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,12 +35,12 @@ msgstr "23-й воздушно-десантный"
 msgid "Above the Antarctic Skies"
 msgstr "Над антарктическими небесами"
 
-#: data/levels/world1/above_arctic_skies.stl:318
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
-msgstr ""
+msgstr "-Воздушный Цветок\n!/images/powerups/airflower/air_flower-0.png\n#Воздушный цветок позволяет Таксу бегать намного быстрее и прыгать выше. Он даёт способность парить в воздухе на несколько секунд, удерживая клавишу ПРЫЖОК после прыжка."
 
 #: data/levels/world1/antarctic_outpost.stl:3
 msgid "Antarctic Outpost"
@@ -96,6 +96,14 @@ msgstr "Заиндевелые поля"
 msgid "Ice in the Hole"
 msgstr "Лёд в дыре"
 
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Ледяной остров"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Где начинается ваше приключение."
+
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
 msgstr "К звёздам"
@@ -116,19 +124,19 @@ msgstr "Живя в холодильнике"
 msgid "Oh No! More Snowballs!"
 msgstr "О нет! Больше снежков!"
 
-#: data/levels/world1/more_snowballs.stl:290
+#: data/levels/world1/more_snowballs.stl:319
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr ""
+msgstr "-Перенос Объектов\r\n#Такс может подбирать объекты, удерживая клавишу ДЕЙСТВИЕ. Отпусти клавишу ДЕЙСТВИЕ, чтобы положить объект.\r\n#Если ты отпустишь клавишу ДЕЙСТВИЕ в движении, то Такс бросит его!"
 
-#: data/levels/world1/more_snowballs.stl:299
+#: data/levels/world1/more_snowballs.stl:328
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr ""
+msgstr "Подброс наверх\r\n#Такс может подбросить большинство объектов вверх, удерживая клавишу ВВЕРХ прежде чем отпустить клавишу ДЕЙСТВИЕ.\r\n#При беге, Такс подбросит объект в дуге!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -246,6 +254,10 @@ msgid ""
 "The more he thought about it, the less he was sure about Nolok's "
 "motivations. Why would he leave clues behind?"
 msgstr "Чем больше он думал об этом, тем меньше он был уверен о мотивациях Нолока. Зачем же он оставляет подсказки за собой?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Заглушка для катсцены---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -381,19 +393,19 @@ msgstr "-Плавание\n!images/creatures/tux/big/swim-1.png\n#Находяс
 msgid "Stone Cold"
 msgstr "Каменный холод"
 
-#: data/levels/world1/stone_cold.stl:191
+#: data/levels/world1/stone_cold.stl:195
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr ""
+msgstr "-Перенос Объектов\r\n#Такс может подбирать объекты, удерживая клавишу ДЕЙСТВИЕ. Отпусти клавишу ДЕЙСТВИЕ, чтобы положить объект.\r\n#Если ты отпустишь клавишу ДЕЙСТВИЕ в движении, то Такс бросит его!"
 
-#: data/levels/world1/stone_cold.stl:200
+#: data/levels/world1/stone_cold.stl:204
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr ""
+msgstr "-Подброс наверх\r\n#Такс может подбросить большинство объектов вверх, удерживая клавишу ВВЕРХ прежде чем отпустить клавишу ДЕЙСТВИЕ.\r\n#При беге, Такс подбросит объект в дуге!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -424,11 +436,7 @@ msgid ""
 "#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
-msgstr ""
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Ледяной остров"
+msgstr "-Такс-Кукла\n!images/powerups/1up/1up.png\n#Таксы-Куклы - редкие награды, они требуются, чтобы разблокировать Бонусные Острова!\n\n#Собери их всех, чтобы разблокировать веселые, дополнительные уровни!"
 
 #: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"

@@ -1,13 +1,20 @@
+if ("world_select" in state) state.world_select["/levels/world2/worldmap.stwm"].unlocked = true;
 
 fade_time <- 0.35;
+fade_time_fast <- 0.1;
+
+// If we are using world select to change WMs, then the states for other worlds won't get changed.
+// Here, we account for this.
+
+state.underground = false  // icy underground state
 
 // ============================================================================
 //   UNDERGROUND
 // ============================================================================
 
-if(! ("underground" in state)){
-	state.underground <- false;
-  print("[DEBUG] Underground state initialized\n");
+if(! ("underground_f" in state)){
+	state.underground_f <- false;
+  print("[DEBUG] Underground_f state initialized\n");
 }
 
 function go_underground(under){
@@ -18,10 +25,10 @@ function go_underground(under){
   trees_front4.fade(under ? 0 : 1, fade_time);
   underground_cover.fade(under ? 0 : 1, fade_time);
   underground_mask.fade(under ? 1 : 0, fade_time);
-  state.underground <- under;
+  state.underground_f <- under;
 }
 
-go_underground(state.underground);
+go_underground(state.underground_f);
 
 
 
@@ -52,7 +59,7 @@ function corrupt_forest(corrupt){
 
   trees_front1.fade(corrupt ? 0 : 1, fade_time);
   trees_front2.fade(corrupt ? 0 : 1, fade_time);
-  trees_front3.fade(corrupt? 0 : 1, fade_time);
+  trees_front3.fade(corrupt ? 0 : 1, fade_time);
   trees_front4.fade(corrupt ? 0 : 1, fade_time);
   trees_back.fade(corrupt ? 0 : 1, fade_time);
   trees_back_corrupt.fade(corrupt ? 1 : 0, fade_time);
@@ -74,7 +81,22 @@ function corrupt_forest(corrupt){
 
 corrupt_forest(state.corrupted);
 
+// ===================================
+//   CONFLICTING GAMESTATES
+// ===================================
 
+// some features of underground/corrupt states are contradicted by each other
+// when run every time the WM is loaded (how it is done above),
+// so here is a manual override of these features that really only affects 
+// when entering/exiting level.
+
+if (state.underground_f && !state.corrupted) {
+  worldmap.settings.fade_to_ambient_light(0.4, 0.4, 0.45, fade_time_fast);
+  trees_front1.fade(0, fade_time_fast);
+  trees_front2.fade(0, fade_time_fast);
+  trees_front3.fade(0, fade_time_fast);
+  trees_front4.fade(0, fade_time_fast);
+}
 
 // ============================================================================
 //   ROAD FORKS
@@ -103,3 +125,7 @@ worldmap.granito_secret.set_direction_mask(state.granito_secret);
 worldmap.strike_secret.set_direction_mask(state.strike_secret);
 worldmap.hollow_secret.set_direction_mask(state.hollow_secret);
 // TODO: make paths fade
+
+if (("key_knowledge" in state)) {
+	  if (state.key_knowledge == true) {
+        display_keys(true); }}

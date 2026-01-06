@@ -18,6 +18,7 @@
 #pragma once
 
 #include "math/vector.hpp"
+#include "object/draggable_region.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/layer.hpp"
 
@@ -31,7 +32,7 @@ class SoundSource;
  * @instances An ""AmbientSound"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class AmbientSound final : public MovingObject
+class AmbientSound final : public DraggableRegion
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -48,10 +49,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "AmbientSound"; }
   static std::string display_name() { return _("Ambient Sound"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual bool has_variable_size() const override { return true; }
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(AmbientSound)); }
-
-  virtual void draw(DrawingContext& context) override;
 
   virtual ObjectSettings get_settings() override;
 

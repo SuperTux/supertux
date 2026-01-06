@@ -527,7 +527,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   // Don't kill badguys that have already been killed.
   if (!is_active()) return;
 
-  if (tile_attributes & Tile::WATER && !is_in_water())
+  if (tile_attributes & Tile::WATER && !(tile_attributes & Tile::HURTS) && !is_in_water())
   {
     m_in_water = true;
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
@@ -869,7 +869,7 @@ BadGuy::run_dead_script()
       const float coin_y = get_bbox().get_top() - 32.0f;
 
       Sector::get().add<HeavyCoin>(Vector(coin_x, coin_y),
-                                   Vector(graphicsRandom.randf(-175.0f, 175.0f),
+                                   Vector(graphicsRandom.randf(-96.0f, 96.0f),
                                    0.0f));
     }
   }
