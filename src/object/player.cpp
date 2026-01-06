@@ -2512,7 +2512,7 @@ Player::make_temporarily_safe(float safe_time)
 void
 Player::kill(bool completely)
 {
-  if (m_dying || m_deactivated || is_winning() )
+  if (m_dying || m_deactivated || is_winning())
     return;
 
   if (!completely && (m_is_intentionally_safe || m_post_damage_safety_timer.started() || m_temp_safety_timer.started() || m_invincible_timer.started()))
@@ -2567,6 +2567,7 @@ Player::kill(bool completely)
     m_physic.set_velocity(0, -700);
     set_bonus(BONUS_NONE, true);
     m_dying = true;
+    m_duck = m_crawl = false;
     m_dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 
