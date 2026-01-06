@@ -49,7 +49,7 @@ LanguageMenu::LanguageMenu()
   // obnoxious .zip lookup for each .po file
   // see `static const LanguageSpec languages[]`
   int mnid = MNID_LANGUAGE_NEXT;
-  auto languages = g_dictionary_manager->get_languages();
+  auto languages = g_dictionary_manager->get_languages("locale");
   for (auto& lang : languages)
   {
     auto& item = add_entry(mnid++, lang.get_localized_name());
