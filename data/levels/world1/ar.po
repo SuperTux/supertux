@@ -4,16 +4,23 @@
 # 
 # Translators:
 # Fahad Al-Saidi <fahad.alsaidi@ymail.com>, 2016
+# Hasan Nahleh <hasanznahleh@mailfence.com>, 2022
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022-2023
 # Israa Zamzami, 2018
+# Israa Zamzami, 2018
+# Ramzy Guemr, 2025
+# Ramzy Guemr, 2025
+# Sera.L, 2026
+# Sera.L, 2026
+# Siradj <siradjlabiod4@gmail.com>, 2025
 # Hasan Nahleh <hasanznahleh@mailfence.com>, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-08-25 10:47+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022-2023\n"
+"Last-Translator: Sera.L, 2026\n"
 "Language-Team: Arabic (http://app.transifex.com/arctic-games/supertux/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,41 +32,32 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "23 المحمولة جوا"
 
-#: data/levels/world1/23rd_airborne.stl:598
-#: data/levels/world1/between_glaciers.stl:855
-#: data/levels/world1/between_glaciers.stl:863
-#: data/levels/world1/crystal_mine.stl:1535
-#: data/levels/world1/crystal_mine.stl:1543
-#: data/levels/world1/frosted_fields.stl:188
-#: data/levels/world1/path_in_the_clouds.stl:348
-#: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
-msgid "You found a secret area!"
-msgstr "لقد وجدتَ منطقة سرية!"
-
 #: data/levels/world1/above_arctic_skies.stl:3
-msgid "Above the Arctic Skies"
-msgstr "فوق سماء القطب الشمالي"
+msgid "Above the Antarctic Skies"
+msgstr "فوق الساماوات المثلجة"
 
-#: data/levels/world1/above_arctic_skies.stl:162
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
-"#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-زهرة الهواء\nimages/powerups/airflower/air_flower-0.png!\n# تمنح زهرة الهواء Tux القدرة على الانزلاق في الهواء لبضع ثوان ، أثناء الضغط على مفتاح JUMP."
+"#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
+msgstr "-زهرة الهواء\n!images/powerups/airflower/air_flower-0.png\n#زهرة الهواء تمكن تكس من التحرك أسرع و القفز أعلى. انها تقدم امكانية التزحلق في الهواء لثواني معدودة بالضغط المستمر على مفتاح القفز مرة ثانية بعد القفز."
+
+#: data/levels/world1/antarctic_outpost.stl:3
+msgid "Antarctic Outpost"
+msgstr "مستوطنة القطب الجنوبي"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
 msgstr "بين نهرين جليديين"
 
-#: data/levels/world1/between_glaciers.stl:108
-msgid ""
-"-Crystals\n"
-"#This level contains four coloured crystals. Can you find them?\n"
-"#\n"
-"#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "- بلورات\n# يحتوي هذا المستوى على أربع بلورات ملونة. هل يمكنك العثور عليهم؟\n#\n# ملاحظة: هذه البلورات لا تخدم أي غرض في الوقت الحالي ولكنها قد تخدم في إصدار مستقبلي للعبة."
+#: data/levels/world1/bouncy_mountainside.stl:3
+msgid "Bouncy, Bouncy Mountainside"
+msgstr "نط, نط في سفح الجبل"
+
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr "لا أحد"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -69,9 +67,9 @@ msgstr "قلعة نولوك"
 msgid "The Crystal Mine"
 msgstr "منجم الكريستال"
 
-#: data/levels/world1/crystal_mine.stl:686
-msgid "#You have to activate two switches to open this door."
-msgstr "#عليك تفعيل مفتاحين لفتح الباب"
+#: data/levels/world1/deep_dive_chill.stl:3
+msgid "Deep Dive 'n' Chill"
+msgstr "الغوص العميق والبرد"
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
@@ -82,53 +80,30 @@ msgid "Entrance to the Cave"
 msgstr "مدخل الكهف"
 
 #: data/levels/world1/fork_in_the_road.stl:3
-msgid "A Fork in the Road"
-msgstr "شوكة في الطريق"
+msgid "A Fork in the Road?"
+msgstr "مفترق طرق؟"
 
-#: data/levels/world1/fork_in_the_road.stl:84
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
-"-Switches\n"
-"!images/objects/switch/switch-0.png\n"
-"!images/objects/pushbutton/pushbutton-0.png\n"
-"#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
-"#There are also buttons that you can press by jumping on them."
-msgstr "-مفاتيح\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n# مفاتيح يمكن استخدامها للقيام بكل أنواع الأشياء. اضغط على مفتاح UP لاستخدام مفتاح.\n# هناك أيضًا أزرار يمكنك الضغط عليها بالقفز عليها."
-
-#: data/levels/world1/fork_in_the_road.stl:93
-msgid ""
-"-Trampolines\n"
-"!images/objects/trampoline/trampoline2-0.png\n"
-"#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "- الترامبولين\nimages/objects/trampoline/trampoline2-0.png!\n# الترامبولين تسمح لـ Tux بالقفز إلى آفاق جديدة. اضغط مع الاستمرار على مفتاح JUMP أثناء القفز على الترامبولين لإطلاق أعلى."
-
-#: data/levels/world1/fork_in_the_road.stl:100
-msgid ""
-"-Climbing\n"
-"#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "-التسلق\n#Tux يمكن أن يتسلق! اضغط على مفتاح UP لبدء التسلق. اضغط على مفتاح ACTION أو القفز لتترك."
-
-#: data/levels/world1/fork_in_the_road.stl:106
-msgid ""
-"-Secret Exits\n"
-"#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
-"#Maybe they lead you to something special."
-msgstr "- مخارج سرية\n# يمكن أن يحتوي مستوى ما على مخارج متعددة. غالبًا ما تكون مخفية ، لذا ترقبها.\n# ربما يقودونك إلى شيء مميز."
+"-Secret Exit\n"
+"#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
+msgstr "-مخرج سري\n#يمكن أن تحتوي المستويات أحيانا على مخرج سري يؤدي الى طريق بديل مخفي!. اذا, كن منتبها على المناطق الغريبة في خريطة العالم"
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
 msgstr "الحقول المتجمدة"
 
-#: data/levels/world1/frozen_bridge.stl:3
-msgid "Over the Frozen Bridge"
-msgstr "فوق الجسر المتجمد"
-
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "جليد في الحفرة"
 
-#: data/levels/world1/icy_valley.stl:3
-msgid "Icy Valley"
-msgstr "وادي الجليدية"
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "الجزيرة الجليدية"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr ""
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -143,16 +118,26 @@ msgid "The Journey Begins"
 msgstr "الرحلة بدأت"
 
 #: data/levels/world1/living_inside_fridge.stl:3
-msgid "Living in a Fridge"
+msgid "Living In A Fridge"
 msgstr "العيش في ثلاجة"
-
-#: data/levels/world1/miyamoto_monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "نصب مياموتو"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
-msgstr "كلا! المزيد كم كرات الثلج!"
+msgstr "أو لا! المزيد من كرات الثلج!"
+
+#: data/levels/world1/more_snowballs.stl:319
+msgid ""
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-حمل الأشياء \n#يمكن لـتكس حمل الأشياء بالضغط المستمر على مفتاح الاجراءات. أفلت مفتاح الإجراءات لإسقاط الأشياء. \n#إذا تركت مفتاح الاجراءات أثناء تحرك تكس، فسوف يرمي الأشياء!"
+
+#: data/levels/world1/more_snowballs.stl:328
+msgid ""
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-الرمي لأعلى\n#يستطيع تكس رمي معظم الأشياء لأعلى بالضغط المستمر على مفتاح الاتجاهات الأعلى و افلات مفتاح الاجراءات\n#أثناء الجري, تكس يرمي الأشياء لمسافة بعيدة"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -160,34 +145,120 @@ msgstr "البرد الليلي"
 
 #: data/levels/world1/or_just_me.stl:3
 msgid "...Or Is It Just Me?"
-msgstr "...أم أنها مجرد لي؟"
+msgstr "...أم أنه أنا فقط؟"
 
-#: data/levels/world1/path_in_the_clouds.stl:3
+#: data/levels/world1/path_in_clouds.stl:3
 msgid "A Path in the Clouds"
 msgstr "طريق في السحاب"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "وصل تكس إلى نهاية القلعة."
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
+msgstr "في النهاية، تمكن توكس من الوصول الى الغرفة الأخيرة في القلعة الجليدية."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "ولكن لدهشته كان كل ما وجده هو رسالة."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
+msgstr "لكنه اندهش, لأنه لم يكن أحد هنا, لا بيني و لا نولوك الشرير"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "رسالة من بيني تخبر تكس أن نولوك أخذها إلى غابة بعيدة."
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
+msgstr "بالتأكيد كان عليهما أن يكونا هنا في مكان ما، أليس كذلك؟ ربما غرفة مخفية؟"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "غير متأكد مما كان يفعله نولوك بها ، أصبح توكس قلقًا بشأن حبيبته بيني."
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
+msgstr "بعد فترة من التردد مع نفسه، لاحظ توكس ملاحظة صغيرة معلقة على أحد الأعمدة."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "ولكن فجأة..."
+msgid "It was yet another note, by that Nolok."
+msgstr "للقد كانت ملاحظة أخرى, من نولوك."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr "قرأ أنه قد غادر بالفعل الجزيرة الجليدية باتجاه أقصى الشمال. إذا كان يرغب في اللحاق به وإنقاذ صديقته، فسيتعين عليه أن يأتي إلى منجم الكريستال"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr "تم وضع علامة أدناه على خريطة تقريبية للجزيرة الجليدية، تظهر قاربًا ونوعًا من الرصيف الصغير على الطرف الآخر."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr "ولكن قبل أن يفهم تكس أيا من ذلك، هز صوت قوي أرجاء الغرفة"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr "اليتي الكبير هو من سبب هذه الجلبة, و يضرب صدره بطريقة مخيفة"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr "شق تكس طريقه نحو الشرفة في الطرف الآخر من الغرفة. مع عدم وجود خيار آخر، قفز منها"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
+msgstr "لسوء الحظ، فإن اليتي لن يسمح له بالذهاب بهذه السهولة ..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:2
+msgid ""
+"After a long swim across the antarctic waters, Tux arrived at the Glacier "
+"Isle mentioned in Nolok's note."
+msgstr "بعد السباحة لفترة طويلة عبر مياه القطب الجنوبي، وصل تكس إلى الجزيرة الجليدية المذكورة في ملاحظة نولوك."
+
+#: data/levels/world1/scripts_crystal_mine.txt:3
+msgid ""
+"A massive shaft lay before him, leading down into the aforementioned Crystal"
+" Mine."
+msgstr "كان أمامه مصعد ضخم ينزل لأسفل, إلى منجم الكريستال المذكور."
+
+#: data/levels/world1/scripts_crystal_mine.txt:4
+msgid ""
+"Still carrying a spark of doubt that this was not a trap, Tux slowly "
+"descended into the depths once more..."
+msgstr "لا يزال يحمل القليل من الشك في أن هذا لم يكن فخًا، نزل تكس ببطء إلى الأعماق مرة أخرى..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:5
+msgid ""
+"At last, Tux made it through the crystal mine and found himself on the "
+"opposite end of the Glacier Isle."
+msgstr "أخيرًا، نجح تكس في عبور منجم الكريستال ووجد نفسه على الطرف الآخر من الجزيرة الجليدية."
+
+#: data/levels/world1/scripts_crystal_mine.txt:6
+msgid ""
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
+msgstr "بينما كان في طريق الخروج من المنجم، كان تكس يتمنى من قلبه أن يكون كل ما كتبه نولوك في الملاحظة صحيحًا."
+
+#: data/levels/world1/scripts_crystal_mine.txt:7
+msgid ""
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
+msgstr "ومن حسن حظه أنه وجد قاربًا لا يزال راسيا. باستخدامه، يمكنه الإبحار شمالًا للعثور على نولوك وإنقاذ بيني."
+
+#: data/levels/world1/scripts_crystal_mine.txt:8
+msgid "It seemed the map in the note wasn't a trap after all."
+msgstr "يبدو أن الخريطة الموجودة في الملاحظة لم تكن فخًا على الإطلاق."
+
+#: data/levels/world1/scripts_crystal_mine.txt:9
+msgid ""
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
+msgstr "كلما فكر في الأمر أكثر، قلت ثقته بشأن دوافع نولوك. لماذا يترك الأدلة وراءه؟"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr ""
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -195,7 +266,7 @@ msgstr "في مكان ما على ضفاف قارة أنتركاتيكا..."
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "كان البطريق تكس ذاهبًا لمقابلة صديقته، بيني، للذهاب في نزهة."
+msgstr "كان البطريق تكس ذاهبًا للقاء صديقته، بيني، للذهاب في نزهة."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
@@ -209,7 +280,7 @@ msgstr "بدأ تكس يشعر بالقلق. ثم رأى رسالة مكتوب �
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr "\"تكس ، لقد خطفت حبيبتك بيني وأخذتها إلى حصني.\""
+msgstr "\"تكس ، لقد خطفت صديقتك بيني وأخذتها إلى حصني.\""
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
@@ -222,7 +293,7 @@ msgstr "\"ليس لديك أمل لإنقاذها! التوقيع، نولوك.\
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "إدراكًا للمشكلة التي يمكن أن تواجهها بيني ، أصبح Tux مصممًا على إنقاذها."
+msgstr "إدراكا للمشكلة التي يمكن أن تواجهها بيني ، أصبح تكس مصممًا على إنقاذها."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
@@ -230,109 +301,156 @@ msgid ""
 msgstr "ثم رأى تكس قلعة نولوك من بعيد وانطلق لإنقاذ بيني!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "استنفد توكس من مشيته الطويلة ، فقرر أن يأخذ استراحة قصيرة."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the"
+" supposed castle of Nolok."
+msgstr "بعد يوم كامل من الإبحار في الجزيرة الجليدية، وصل تكس الآن تقريبًا إلى قلعة نولوك المرجوة."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "ولكن بعد ذلك ، فجأة سمع زئيرًا مدويًا من مسافة بعيدة."
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
+msgstr "ربما لم تكن قلة النوم في الليل أمرًا مثاليًا، لكنه كان مصممًا على الاستمرار!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
-msgstr "يبدو أن اليتي قد لاحظه من بعيد."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
+msgstr "لعدم رغبته في إضاعة المزيد من الوقت، واصل تكس طريقه، منزلقا أسفل التل الذي كان عليه إلى الوادي الجليدي مباشرة."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
-" ..."
-msgstr "قلقًا من التراجع المفاجئ لليتي ، قرر تكس مواصلة رحلته ، ..."
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
+msgstr "دون علمه، كان أحد اليتي حريصًا جدًا على حضوره حيث كان يراقب تكس عن كثب بينما كان يواصل رحلته."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "... بينما كان يأمل سرًا ألا يصطدم باليتي مرة أخرى ، بأي وسيلة."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr "أطلق اليتي زئيرا عاليا وشرع في اللحاق بالبطريق الصغير."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr "لقد فعلها! لقد فعلها بالفعل! لقد تغلب تكس على اليتي الكبير!"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he"
+" did not throw hands again."
+msgstr "على الرغم من أن الأمر لم يستغرق وقتًا طويلاً حتى يستيقظ اليتي مرة أخرى، إلا أنه مما أثار ارتياح تكس، أن اليتي لم يقترب منه مرة أخرى."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr "كان اليتي غاضبا ولكن! لم يستطع أن يفهم كيف يمكن لبطريق صغير مثل تكس أن يهزمه في قتال."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr "تقريبًا كما لو أنه نسي أن تكس كان هناك، اندفع اليتي بعيدًا، يلوم نفسه."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr "لم يكن تكس متأكدًا مما سيفعله بعد هذا، فقرر مواصلة المضي قدمًا."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr "عندما وصل إلى الضفة، استطاع تكس رؤية الجزيرة الجليدية في الأفق."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr "لو كان يعلم أن نولوك ذهب إلى هناك مبكرا، لكان بإمكانه الوصول إلى هناك بشكل أسرع بكثير."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
+msgstr "ربما كان هذا هو هدف نولوك بالملاحظة التي تركها وراءه..."
 
 #: data/levels/world1/shattered_bridge.stl:3
-msgid "The Shattered Bridge"
+msgid "Shattered Bridge"
 msgstr "الجسر المحطم"
+
+#: data/levels/world1/slippery_slide.stl:3
+msgid "Slippery Slide"
+msgstr "الشريحة الزلقة"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "الحمام الأصغر نوعًا ما"
+msgstr "الشريحة الزلقة"
+
+#: data/levels/world1/somewhat_smaller_bath.stl:420
+msgid ""
+"-Swimming\n"
+"!images/creatures/tux/big/swim-1.png\n"
+"#When submerged in water, use the DIRECTIONAL keys to swim around freely. Hold the JUMP key to swim even faster."
+msgstr "-السباحة\n!images/creatures/tux/big/swim-1.png\n#عند الدخول الى الماء، استخدم مفاتيح الاتجاهات للسباحة بحرية. اضغط باستمرار على مفتاح القفز لتسبح بشكل أسرع."
 
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
 msgstr "الحجر البارد"
 
+#: data/levels/world1/stone_cold.stl:195
+msgid ""
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-حمل الأشياء \n#يمكن لـتكس حمل الأشياء بالضغط المستمر على مفتاح الاجراءات. أفلت مفتاح الإجراءات لإسقاط الأشياء. \n#إذا تركت مفتاح الاجراءات أثناء تحرك تكس، فسوف يرمي الأشياء!"
+
+#: data/levels/world1/stone_cold.stl:204
+msgid ""
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-الرمي لأعلى\n#يستطيع تكس رمي معظم الأشياء لأعلى بالضغط المستمر على مفتاح الاتجاهات الأعلى و افلات مفتاح الاجراءات\n#أثناء الجري, تكس يرمي الأشياء لمسافة بعيدة"
+
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
 msgstr "تحت الثلج"
-
-#: data/levels/world1/via_nostalgica.stl:3
-msgid "Via Nostalgica"
-msgstr "عبر الحنين"
 
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "مرحبا بكم في القطب الجنوبي"
 
-#: data/levels/world1/welcome_antarctica.stl:74
-msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
-"#\n"
-"#Hit them from below to get at their contents."
-msgstr "- الكتل الإضافية\n!images/objects/bonus_block/full-0.png\n# يمكن أن تحتوي الكتل الإضافية على عملات معدنية أو تعزيزات أو عناصر خاصة لمساعدتك في مهمتك.\n#\n# اضربهم من الأسفل للحصول على محتوياتهم."
-
-#: data/levels/world1/welcome_antarctica.stl:83
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-بيض\n!images/powerups/egg/egg-shade.png\n#البيضة تجعل Tux ينمو بشكل أكبر. يمكن تكس بعد ذلك تحطيم الكتل الخشبية برأسه."
 
-#: data/levels/world1/welcome_antarctica.stl:90
-msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-نقاط تفتيش\n!images/objects/resetpoints/bell-m.png\n# تنشيط الحاجز. إذا مت ، يمكنك إعادة محاولة المستوى من هنا. في كل مرة تقوم فيها بإعادة المحاولة من نقطة تفتيش ، ستفقد 10 بالمائة من عملاتك المعدنية (ما لا يقل عن 25 قطعة نقدية)."
-
-#: data/levels/world1/welcome_antarctica.stl:97
-msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-جري\n!images/tiles/signs/run.png\n# الطريق أمامك مسدود. اكتسب بعض السرعة قبل القفز لتمرير الكتل."
-
-#: data/levels/world1/welcome_antarctica.stl:104
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-زهرة النار\n!images/powerups/fireflower/fire_flower-0.png\n#زهرة النار تمنح Tux القدرة على إطلاق الكرات النارية."
 
-#: data/levels/world1/welcome_antarctica.stl:111
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux doll gives Tux 100 coins."
-msgstr "-تكس دمية\n!images/powerups/1up/1up.png\n# دمية Tux تعطي عملات Tux 100."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr "-دمية تكس\n!images/powerups/1up/1up.png\n#دمى تكس هي مجموعة نادرة مطلوبة لفتح جزر المكافات الاضافية\n\n#اجمعها كلها للحصول على المتعة, مستويات إضافية!"
 
-#: data/levels/world1/welcome_antarctica.stl:118
-msgid ""
-"-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "- مناطق سرية\n# تحتوي العديد من المستويات على مناطق سرية خلف ما يبدو أنه جدران بسيطة. ابحث عن أدلة للعثور عليهم."
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "الجزيرة الجليدية"
+#: data/levels/world1/worldmap.stwm:246
+msgid "You found a secret area!"
+msgstr "لقد وجدتَ منطقة سرية!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
 msgstr "لا مزيد من السيد آيس جاي"
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
-msgstr "اليتي في المسافة"
+msgid "An Unsuspected Follower"
+msgstr "متتبع غير متوقع"
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
+msgstr "خارج الجزر الجليدية"
