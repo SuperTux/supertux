@@ -80,7 +80,6 @@ mk/android/gradle/wrapper/gradle-wrapper.jar
 mk/android/gradlew
 mk/android/gradlew.bat
 mk/android/local.properties
-mk/android/settings.gradle
 
 # Flatpak
 .flatpak-builder/

@@ -1,14 +1,6 @@
-/*
-def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
-def buildAsApplication = !buildAsLibrary
-if (buildAsApplication) {
-    apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
 }
-else {
-    apply plugin: 'com.android.library'
-}
-*/
-apply plugin: 'com.android.application'
 
 Properties props = new Properties()
 if (rootProject.file("${rootDir}/local.properties").exists()) {
@@ -18,20 +10,17 @@ if (rootProject.file("${rootDir}/local.properties").exists()) {
 var APP_ID = "org.supertux.supertux2"
 
 android {
+    namespace APP_ID
     compileSdkVersion 35
+
     defaultConfig {
-        /*
-        if (buildAsApplication) {
-            applicationId APP_ID
-        }
-        */
         applicationId APP_ID
         minSdkVersion 21
         targetSdkVersion 35
 
         // NOTE: Don't forget to bump the version code!
-        versionCode 1
-        versionName "0.7.0"
+        versionCode 2
+        versionName "0.7.0-beta2"
 
         ndkVersion "29.0.14206865"
         externalNativeBuild {
@@ -54,16 +43,16 @@ android {
             android.defaultConfig.externalNativeBuild.cmake.arguments.addAll(rootProject.ext.cmake_args)
         }
     }
+
+    assetPacks = [":assetpack"]
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    applicationVariants.all { variant ->
-        tasks["merge${variant.name.capitalize()}Assets"]
-            .dependsOn("externalNativeBuild${variant.name.capitalize()}")
-    }
+
     if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
         sourceSets.main {
             jniLibs.srcDir 'libs'
@@ -73,26 +62,11 @@ android {
                 path '../../../CMakeLists.txt'
             }
         }
-
     }
-    namespace APP_ID
+
     lint {
         abortOnError false
     }
-
-    /*
-    if (buildAsLibrary) {
-        libraryVariants.all { variant ->
-            variant.outputs.each { output ->
-                def outputFile = output.outputFile
-                if (outputFile != null && outputFile.name.endsWith(".aar")) {
-                    def fileName = "org.lethargik.supertux2.aar";
-                    output.outputFile = new File(outputFile.parent, fileName);
-                }
-            }
-        }
-    }
-    */
 }
 
 dependencies {

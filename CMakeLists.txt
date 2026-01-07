@@ -484,15 +484,15 @@ configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 if(ANDROID)
   set(ANDROID_PROJECT_DIR "${PROJECT_SOURCE_DIR}/mk/android/" CACHE PATH
           "Path to the root of the root of the android project")
-  if(NOT EXISTS "${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip")
+  if(NOT EXISTS "${ANDROID_PROJECT_DIR}/assetpack/src/main/assets/data.zip")
     get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
-    if(NOT EXISTS ${ANDROID_PROJECT_DIR}/app/src/main/assets)
-      file(MAKE_DIRECTORY ${ANDROID_PROJECT_DIR}/app/src/main/assets)
+    if(NOT EXISTS ${ANDROID_PROJECT_DIR}/assetpack/src/main/assets)
+      file(MAKE_DIRECTORY ${ANDROID_PROJECT_DIR}/assetpack/src/main/assets)
     endif()
     file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
     #file(ARCHIVE_CREATE OUTPUT ${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
     execute_process(COMMAND ${CMAKE_COMMAND} -E tar "cfv"
-            "${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip"
+            "${ANDROID_PROJECT_DIR}/assetpack/src/main/assets/data.zip"
             --format=zip
             ${DATA_CONTENTS}
 
