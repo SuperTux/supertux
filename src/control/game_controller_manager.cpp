@@ -24,7 +24,6 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/savegame.hpp"
 #include "util/log.hpp"
 
 GameControllerManager::GameControllerManager(InputManager* parent) :
@@ -208,9 +207,6 @@ GameControllerManager::on_controller_added(int joystick_index)
   if (!m_parent->can_add_user())
     return;
 
-  Savegame* savegame = (GameSession::current() && !Editor::is_active() ?
-    &GameSession::current()->get_savegame() : nullptr);
-
   if (!SDL_IsGameController(joystick_index))
   {
     log_warning << "joystick is not a game controller, ignoring: " << joystick_index << std::endl;
@@ -244,7 +240,7 @@ GameControllerManager::on_controller_added(int joystick_index)
 
         m_game_controllers[game_controller] = id;
 
-        if (GameSession::current() && (savegame && savegame->is_title_screen()) && id != 0)
+        if (GameSession::current() && id != 0)
         {
           GameSession::current()->on_player_added(id);
         }

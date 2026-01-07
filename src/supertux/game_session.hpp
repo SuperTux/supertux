@@ -100,7 +100,6 @@ public:
                          const bool make_invincible = false);
   void reset_level();
 
-  void prevent_adding_players();
   void on_player_added(int id);
   bool on_player_removed(int id);
 
@@ -151,6 +150,8 @@ public:
   }
 
   void set_scheduler(SquirrelScheduler& new_scheduler);
+
+  inline bool is_cutscene() const { return m_level && !m_level->m_is_cutscene; }
 
 private:
   void check_end_conditions();
@@ -222,8 +223,6 @@ private:
   std::unique_ptr<GameObject> m_current_cutscene_text;
 
   Timer m_endsequence_timer;
-
-  bool m_prevent_adding_players;
 
 private:
   GameSession(const GameSession&) = delete;
