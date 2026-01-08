@@ -74,7 +74,7 @@
     )
     (level
       (z-pos 50)
-      (level "overexposed.stl")
+      (level "graveyard_shift.stl")
       (x 31)
       (y 22)
     )
