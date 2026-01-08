@@ -18,6 +18,8 @@
 #cmakedefine WORDS_BIGENDIAN
 
 #cmakedefine HAVE_OPENGL
+#cmakedefine HAVE_GLEW
+#cmakedefine HAVE_EPOXY
 #cmakedefine USE_OPENGLES2
 #cmakedefine USE_OPENGLES1
 
