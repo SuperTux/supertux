@@ -9,6 +9,7 @@ rename-appdata-file: supertux2.appdata.xml
 finish-args:
   - --socket=wayland
   - --socket=fallback-x11
+  - --socket=x11
   - --share=ipc
   - --socket=pulseaudio
   - --share=network
