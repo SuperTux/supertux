@@ -39,6 +39,8 @@ msgid ""
 "A level pack celebrating the good ol' days of SuperTux for its 20th "
 "anniversary."
 msgstr ""
+"Kenttäpaketti, joka juhlii SuperTuxin kulta-aikoja sen 20-vuotisjuhlan "
+"kunniaksi."
 
 #: data/levels/revenge_in_redmond/intro.stl:3
 msgid "A Blast From The Past"
@@ -76,6 +78,14 @@ msgid ""
 "\t\n"
 "-Super Tux"
 msgstr ""
+"-Tuulahdus menneistä!Vai oliko se unta?\t\tTux ja Gown olivat kivalla "
+"piknikillä,\tkunnes yhtäkkiä Gown vietiin pois!!!\t\tHetkinen… Gown?\tKuka "
+"on tämä, joka\tnäyttää kovasti ystävältä Pennyltä?\t\tJa "
+"helikopterikin?\tMistä lähtien helikopterit ovat lentäneet\tEtelämantereella"
+" ja siepannet pingviinejä?\t\tVaikka Tux näytti "
+"hämmentyneeltä\täskettäisistä tapahtumista,\thän ei voinut olla "
+"tekemättä\tmitään. Niinpä hän lähti\tperään pelastamaan\ttätä "
+"tyttöpingviiniä!*Tämä työ näyttää kuuluvan  ---\t-Super Tuxille\t\t"
 
 #: data/levels/revenge_in_redmond/long_office_nights.stl:3
 msgid "Long Office Nights"

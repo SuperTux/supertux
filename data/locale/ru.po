@@ -3831,11 +3831,11 @@ msgstr "Отключить музыку"
 
 #: src/supertux/menu/options_menu.cpp:160
 msgid "Sound (disabled)"
-msgstr "Звуки (отключено)"
+msgstr "Звуки (отключены)"
 
 #: src/supertux/menu/options_menu.cpp:161
 msgid "Music (disabled)"
-msgstr "Музыка (отключено)"
+msgstr "Музыка (отключена)"
 
 #: src/supertux/menu/options_menu.cpp:169
 #: src/supertux/menu/options_select_menu.cpp:39
@@ -3844,7 +3844,7 @@ msgstr "Управление"
 
 #: src/supertux/menu/options_menu.cpp:174
 msgid "Enable Rumbling Controllers"
-msgstr "Включить вибрацию контроллеров"
+msgstr "Включить вибрацию контроллера"
 
 #: src/supertux/menu/options_menu.cpp:175
 msgid "Enable vibrating the game controllers."
@@ -4240,7 +4240,7 @@ msgstr "Удалить уровень"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:59
 msgid "No levels available"
-msgstr "Уровни не доступны"
+msgstr "Нет доступных уровней"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:79
 msgid "You cannot delete the level that you are editing!"
@@ -4334,14 +4334,14 @@ msgid ""
 "Would you allow SuperTux to connect to the Internet?\n"
 "\n"
 "This enables additional features, such as the in-game add-on catalog."
-msgstr "Хотите разрешить SuperTux подключаться к Интернету?\n\nЭто позволяет использовать дополнительные возможности, такие как каталог внутриигровых дополнений."
+msgstr "Разрешить SuperTux подключение к Интернету?\n\nЭто включит дополнительные функции, такие как каталог дополнений в игре."
 
 #: src/supertux/menu/main_menu.cpp:90
 msgid ""
 "Would you allow SuperTux to check for new releases on startup?\n"
 "\n"
 "You will be notified if any are found."
-msgstr "Хотите разрешить SuperTux проверять наличие новых версий при запуске?\n\nВы будете получать уведомления, если таковые будут найдены."
+msgstr "Разрешить SuperTux проверку новых версий при запуске?\n\nВы будете получать уведомление, если они будут найдены."
 
 #: src/supertux/menu/main_menu.cpp:144
 msgid ""

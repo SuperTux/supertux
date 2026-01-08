@@ -1060,7 +1060,7 @@ msgstr "Impossible de trouver un point d'apparition nommé \"main\".\nVeuillez r
 
 #: src/editor/layers_widget.cpp:160
 msgid "Unnamed {}"
-msgstr "Sans nom {}"
+msgstr "{} sans nom"
 
 #: src/editor/layers_widget.cpp:419
 msgid "Sector: {}"

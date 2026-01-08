@@ -44,7 +44,7 @@ msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
-msgstr "-Luftblume\r\n!images/powerups/airflower/air_flower-0.png\r\n#Mit der Luftblume kann Tux sich viel schneller bewegen und höher springen. Sie verleiht ihm die Fähigkeit, einige Sekunden lang in der Luft zu gleiten, indem die SPRUNG-Taste nach einem Sprung gehalten wird."
+msgstr "-Luftblume\n!images/powerups/airflower/air_flower-0.png\n#Mit der Luftblume kann Tux sich viel schneller bewegen und höher springen. Sie verleiht ihm die Fähigkeit, einige Sekunden lang in der Luft zu gleiten, indem die SPRUNG-Taste nach einem Sprung gehalten wird."
 
 #: data/levels/world1/antarctic_outpost.stl:3
 msgid "Antarctic Outpost"
