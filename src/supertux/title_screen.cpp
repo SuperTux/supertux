@@ -63,7 +63,8 @@ TitleScreen::TitleScreen(Savegame& savegame, bool christmas) :
   m_copyright_text(),
   m_videosystem_name(VideoSystem::current()->get_name()),
   m_logo_opacity(1.0),
-  m_jump_was_released(false)
+  m_jump_was_released(false),
+  m_fully_initialized(false)
 {
   refresh_copyright_text();
 }
@@ -71,9 +72,22 @@ TitleScreen::TitleScreen(Savegame& savegame, bool christmas) :
 void
 TitleScreen::setup()
 {
+  // In cases where the editor leaves, we want to ensure the viewport is reset
+  // here, just to ensure that there will never be a case where there is a
+  // partial viewport restoration. Just to be extra safe (no extra apply_config
+  // calls) we only do this when setup is called again (usually after leaving
+  // the game/editor), not on first initialization (because then we'd call
+  // apply_config twice...)
+  if (m_fully_initialized)
+  {
+    VideoSystem::current()->get_viewport().force_full_viewport(g_config->max_viewport);
+  }
+
   refresh_level();
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.25f));
+
+  m_fully_initialized = true;
 }
 
 void
@@ -283,7 +297,7 @@ TitleScreen::refresh_copyright_text()
 {
   // cppcheck-suppress unknownMacro
   m_copyright_text = "SuperTux " PACKAGE_VERSION "\n" +
-    _("Copyright") + " (c) 2003-2025 SuperTux Devel Team\n" +
+    _("Copyright") + " (c) 2003-2026 SuperTux Devel Team\n" +
     _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
       "redistribute it under certain conditions; see the license file for details.\n");
 }

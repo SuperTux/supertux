@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/crusher.hpp"
 #include "badguy/badguy.hpp"
+#include "badguy/granito_big.hpp"
 #include "object/coin.hpp"
 #include "object/explosion.hpp"
 #include "object/lit_object.hpp"
@@ -121,18 +122,25 @@ Rock::update(float dt_sec)
       }
     }
 
+    const float sector_gravity = Sector::get().get_gravity();
+
     Rectf playerbox = get_bbox().grown(-2.f);
-    playerbox.set_bottom(get_bbox().get_bottom() + 7.f);
+    if (sector_gravity > 0.f) {
+      playerbox.set_bottom(get_bbox().get_bottom() + 7.f);
+    }
+    else {
+      playerbox.set_top(get_bbox().get_top() - 7.f);
+    }
     for (auto& player : Sector::get().get_objects_by_type<Player>()) {
-      if (playerbox.overlaps(player.get_bbox()) && m_physic.get_velocity_y() > 0.f && is_portable()) {
-        m_physic.set_velocity_y(-250.f);
+      if (playerbox.overlaps(player.get_bbox()) && is_portable() &&
+      ((sector_gravity > 0.f && m_physic.get_velocity_y() > 0.f) || (sector_gravity < 0.f && m_physic.get_velocity_y() < 0.f))) {
+        m_physic.set_velocity_y(sector_gravity > 0.f ? -250.f : 250.f);
       }
     }
 
     m_col.set_movement(m_physic.get_movement(dt_sec) *
       Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f));
 
-    const float sector_gravity = Sector::get().get_gravity();
     if (m_last_sector_gravity != sector_gravity)
     {
       if ((sector_gravity < 0.0f && m_last_sector_gravity >= 0.0f) ||
@@ -217,10 +225,17 @@ Rock::collision(MovingObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
-  if (hit.bottom) {
+  float sector_gravity = Sector::get().get_gravity();
+
+  if ((hit.bottom && sector_gravity >= 0.f) || (hit.top && sector_gravity <= 0.f)) {
     auto player = dynamic_cast<Player*> (&other);
     if (player) {
-      m_physic.set_velocity_y(-250.f);
+      m_physic.set_velocity_y(sector_gravity >= 0.f ? -250.f : 250.f);
+    }
+
+    const auto* granito = dynamic_cast<Granito*>(&other);
+    if (granito) {
+      return ABORT_MOVE;
     }
   }
 

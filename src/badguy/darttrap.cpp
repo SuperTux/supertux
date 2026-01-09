@@ -27,13 +27,12 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  StickyBadguy(reader, "images/creatures/darttrap/skull/darttrap_skull.sprite", get_allowed_directions()[0], LAYER_TILES - 1, COLGROUP_DISABLED),
+  StickyBadguy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1, COLGROUP_DISABLED),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
   m_ammo(),
-  m_dart_sprite("images/creatures/darttrap/skull/skull_dart.sprite"),
-  m_dart_lightsprite("images/creatures/darttrap/skull/dart_light.sprite"),
+  m_dart_sprite("images/creatures/darttrap/granito/root_dart.sprite"),
   m_state(IDLE),
   m_fire_timer()
 {
@@ -44,7 +43,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
-  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/skull/skull_dart.sprite");
+  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/granito/root_dart.sprite");
   set_colgroup_active(COLGROUP_DISABLED);
 
   m_can_glint = false;
@@ -172,8 +171,8 @@ GameObjectTypes
 DartTrap::get_types() const
 {
   return {
-    {"skull", _("Skull")},
-    {"granito", _("Granito")}
+    {"granito", _("Granito")},
+    {"skull", _("Skull")}
   };
 }
 
@@ -187,7 +186,7 @@ DartTrap::get_default_sprite_name() const
     case GRANITO:
       return "images/creatures/darttrap/granito/darttrap_granito.sprite";
   }
-  return "images/creatures/darttrap/skull/darttrap_skull.sprite";
+  return "images/creatures/darttrap/granito/darttrap_granito.sprite";
 }
 
 void
@@ -228,13 +227,13 @@ DartTrap::on_type_change(int old_type)
 
   switch (m_type)
   {
-    case SKULL:
-      m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
-      m_dart_lightsprite = "images/creatures/darttrap/skull/dart_light.sprite";
-      break;
     case GRANITO:
       m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
       m_dart_lightsprite = "images/creatures/darttrap/granito/dart_light.sprite";
+      break;
+    case SKULL:
+      m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
+      m_dart_lightsprite = "images/creatures/darttrap/skull/dart_light.sprite";
       break;
   }
 }

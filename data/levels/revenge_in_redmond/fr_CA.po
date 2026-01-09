@@ -1,0 +1,167 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the SuperTux package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Ștefan ILIE, 2026
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux v0.7.0-beta.1-99-geed8409be\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"PO-Revision-Date: 2025-12-30 06:51+0000\n"
+"Last-Translator: Ștefan ILIE, 2026\n"
+"Language-Team: French (Canada) (https://app.transifex.com/arctic-games/teams/95/fr_CA/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr_CA\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+
+#: data/levels/revenge_in_redmond/antarctica.stl:3
+msgid "Antarctica 1"
+msgstr "Antarctique 1"
+
+#: data/levels/revenge_in_redmond/get_to_choppa.stl:3
+msgid "Get to da Choppa!"
+msgstr "Rejoignez l'Hélico!"
+
+#: data/levels/revenge_in_redmond/info:2
+#: data/levels/revenge_in_redmond/worldmap.stwm:3
+msgid "Revenge in Redmond"
+msgstr "Vengeance à Redmond"
+
+#: data/levels/revenge_in_redmond/info:3
+msgid ""
+"A level pack celebrating the good ol' days of SuperTux for its 20th "
+"anniversary."
+msgstr ""
+"Un ensemble de niveaux célébrant le bon vieux temps de SuperTux à l'occasion"
+" de son 20ème anniversaire."
+
+#: data/levels/revenge_in_redmond/intro.stl:3
+msgid "A Blast From The Past"
+msgstr "Un Sacré Passé"
+
+#: data/levels/revenge_in_redmond/intro.txt:4
+msgid ""
+"-A Blast From The Past!\n"
+" Or was it a dream?\n"
+"\n"
+"\tTux and Gown were having a nice picnic,\n"
+"\twhen suddenly, Gown is beamed away!!!\n"
+"\t\n"
+"\tWait a second... Gown?\n"
+"\tWho is this penguin that looks\n"
+"\tan awful lot like his friend Penny?\n"
+"\t\n"
+"\tAlso, a helicopter?\n"
+"\tSince when do helicopters casually fly\n"
+"\tover Antarctica and abduct penguins?\n"
+"\t\n"
+"\tEven though Tux was visibly confused\n"
+"\tabout the events that just transpired,\n"
+"\the could not just stand there\n"
+"\tdoing nothing. Therefore, he\n"
+"\tgave chase to rescue this\n"
+"\tpoor penguin girl!\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"*This looks like a job for ---\n"
+"\t\n"
+"-Super Tux"
+msgstr ""
+"-Un Sacré Passé!Ou n'était-ce qu'un rêve?\tTux et Gown étaient en train de "
+"profiter de leur agréable pique-nique,\tquand soudainement, Gown fut "
+"téléporté!!!\t\tUne minute... Gown?\tQui est ce manchot ressemblant\tà s'y "
+"méprendre à Penny?\t\tEt d'ailleurs, un hélicoptère?\tDepuis quand des "
+"hélicoptères survolent l'Antarctique\tpour le plaisir et enlèvent des "
+"manchots?\t\tBien que Tux demeurait visiblement confus\tconcernant les "
+"évènements dont il venait d'être témoin,\til ne pouvait pas rester là\tà ne "
+"rien faire. Il se lança donc\tà la poursuite de l'hélicoptère\tpour sauver "
+"cette pauvre fille!*Ceci semble être une mission pour ---\t-Super Tux"
+
+#: data/levels/revenge_in_redmond/long_office_nights.stl:3
+msgid "Long Office Nights"
+msgstr "Nuits Blanches au Bureau"
+
+#: data/levels/revenge_in_redmond/outro.stl:3
+msgid "Where Is Everyone?"
+msgstr "Il y a Quelqu'un?"
+
+#: data/levels/revenge_in_redmond/outro.txt:4
+msgid ""
+"-Where Is Everyone?\n"
+"\n"
+"\tTux ran into the castle's throne room,\n"
+"\tfrantically searching for the penguin girl Gown.\n"
+"\t\n"
+"\tAlas, he found neither Gown, nor the pilot\n"
+"\tof the helicopter there, but instead, a statue.\n"
+"\t\n"
+"\tIt depicted a scally creature with crossed arms.\n"
+"\tThe pedestal it resided on was inscribed\n"
+"\twith the word \"Nolok\". Was it a name?\n"
+"\t\n"
+"\tHe was unsure who or what\n"
+"\tthis statue was depicting.\n"
+"\t\n"
+"\tAll of a sudden, Tux remembered...\n"
+"\t\n"
+"\tHe and Penny were ambushed\n"
+"\tby this exact creature,\n"
+"\tduring their picnic on the ice fields!\n"
+"\t\n"
+"\tTux opened his eyes. He was back\n"
+"\tat the ice fields near the shore.\n"
+"\tPenny, however, was gone.\n"
+"\tShocked by this, he began looking around,\n"
+"\tbut all he could find was a note...\n"
+"\t\n"
+"\t...from Nolok.\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"-The End\n"
+" Or rather, the beginning...?"
+msgstr ""
+"-Il y a quelqu'un?\tTux se précipita dans la Salle du Trône du "
+"château,\tcherchant frénétiquement à retrouver Gown.\t\tHélas, il ne trouva "
+"ni Gown, ni le pilote\tde l'hélicoptère, mais plutôt une statue.\t\tElle "
+"reproduisait une créature recouverte d'écailles, les bras croisés.\tSon "
+"piédestal portait comme inscription\tle mot \"Nolok\". Peut-être était-ce un"
+" nom?\t\tTux ne savait pas qui est-ce que ou qu'est-ce que \tcette statue "
+"représentait.\t\tTout à coup, Tux se souvint...\t\tPenny et lui ont fait "
+"l'objet d'une embuscade \tpar cette même créature,\tdurant leur pique-nique "
+"sur les vallées de glace!\t\tTux ouvrit les yeux. Il était de retour\tsur "
+"les vallées de glace le long de la côte.\tPenny, quant à elle, avait "
+"disparu.\tEstomaqué, il se mit à chercher dans les alentours,\tmais il ne "
+"put trouver qu'une lettre...\t\t...de Nolok.-Fin Ou peut-être le début...?"
+
+#: data/levels/revenge_in_redmond/redmond_headquarters.stl:3
+msgid "Redmond Headquarters"
+msgstr "Le Siège Social de Redmond"
+
+#: data/levels/revenge_in_redmond/where_my_super_cape.stl:3
+msgid "Where Is My Super Cape?"
+msgstr "Où est ma Super Cape?"
+
+#: data/levels/revenge_in_redmond/who_is_gown.stl:3
+msgid "Who Is This Gown?"
+msgstr "Qui est cette Gown?"

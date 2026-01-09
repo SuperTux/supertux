@@ -213,7 +213,7 @@ function tuxrap() {
 	ss6.set_enabled(false)
 
 	end_cutscene()
-	fade_in_music("castle/fortress.music", 1)
+	fade_in_music("antarctic/crystalmine_main.music", 1)
 	Effect.four_to_three(1)
 	wait(0.5)
 	Tux.activate()

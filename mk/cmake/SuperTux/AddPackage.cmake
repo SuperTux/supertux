@@ -38,7 +38,8 @@
 #      PREFER_PKGCONFIG           <-- (optional) If the host machine is running a unix-like,
 #   )                                 skip the find_package call and use pkg-config.
 
-# NOTE: The PREFER_PKGCONFIG option gets ignored if ${PKG}_PREFER_FIND_PACKAGE is true.
+# NOTE: The PREFER_PKGCONFIG option gets ignored if the ${PKG}_PREFER_FIND_PACKAGE variable is true,
+# with PKG being the name of the package passed to the PKG argument in the add_package command.
 
 find_package(PkgConfig)
 function(add_package)

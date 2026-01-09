@@ -3,7 +3,8 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov, 2018-2019,2021-2022,2024
+# Alexander Polyanski, 2025-2026
+# Andrei Stepanov, 2018-2019,2021-2022,2024-2026
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013,2015
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-08-25 10:47+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: sdaladman asylum, 2025\n"
+"Last-Translator: Andrei Stepanov, 2018-2019,2021-2022,2024-2026\n"
 "Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,41 +31,32 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "23-й воздушно-десантный"
 
-#: data/levels/world1/23rd_airborne.stl:598
-#: data/levels/world1/between_glaciers.stl:855
-#: data/levels/world1/between_glaciers.stl:863
-#: data/levels/world1/crystal_mine.stl:1535
-#: data/levels/world1/crystal_mine.stl:1543
-#: data/levels/world1/frosted_fields.stl:188
-#: data/levels/world1/path_in_the_clouds.stl:348
-#: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
-msgid "You found a secret area!"
-msgstr "Вы нашли тайник!"
-
 #: data/levels/world1/above_arctic_skies.stl:3
-msgid "Above the Arctic Skies"
-msgstr "Над арктическими небесами"
+msgid "Above the Antarctic Skies"
+msgstr "Над антарктическими небесами"
 
-#: data/levels/world1/above_arctic_skies.stl:162
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
-"#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-Воздушный цветок\n!images/powerups/airflower/air_flower-0.png\n#Воздушный цветок даёт Таксу возможность воспарить на несколько секунд при зажатии кнопки ПРЫЖОК."
+"#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
+msgstr "-Воздушный Цветок\n!/images/powerups/airflower/air_flower-0.png\n#Воздушный цветок позволяет Таксу бегать намного быстрее и прыгать выше. Он даёт способность парить в воздухе на несколько секунд, удерживая клавишу ПРЫЖОК после прыжка."
+
+#: data/levels/world1/antarctic_outpost.stl:3
+msgid "Antarctic Outpost"
+msgstr "Антарктическая застава"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
 msgstr "Между двумя ледниками"
 
-#: data/levels/world1/between_glaciers.stl:108
-msgid ""
-"-Crystals\n"
-"#This level contains four coloured crystals. Can you find them?\n"
-"#\n"
-"#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-Кристаллы\n#На уровне лежат кристаллы. Сможете их найти?\n#\n#Примечание: на данный момент от этих кристаллов нет никакой пользы, но это может поменяться в будущих версиях игры."
+#: data/levels/world1/bouncy_mountainside.stl:3
+msgid "Bouncy, Bouncy Mountainside"
+msgstr "Прыгучий, прыгучий горный склон"
+
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr "Никого нет дома"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -74,9 +66,9 @@ msgstr "Замок Нолока"
 msgid "The Crystal Mine"
 msgstr "Кристальная шахта"
 
-#: data/levels/world1/crystal_mine.stl:686
-msgid "#You have to activate two switches to open this door."
-msgstr "#Вы должны задействовать два переключателя, чтобы открыть эту дверь."
+#: data/levels/world1/deep_dive_chill.stl:3
+msgid "Deep Dive 'n' Chill"
+msgstr "Глубокое погружение и расслабление"
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
@@ -87,53 +79,30 @@ msgid "Entrance to the Cave"
 msgstr "Вход в пещеру"
 
 #: data/levels/world1/fork_in_the_road.stl:3
-msgid "A Fork in the Road"
-msgstr "Развилка на дороге"
+msgid "A Fork in the Road?"
+msgstr "Развилка на дороге?"
 
-#: data/levels/world1/fork_in_the_road.stl:84
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
-"-Switches\n"
-"!images/objects/switch/switch-0.png\n"
-"!images/objects/pushbutton/pushbutton-0.png\n"
-"#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
-"#There are also buttons that you can press by jumping on them."
-msgstr "-Переключатели\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Переключатели могут быть использованы для разного рода вещей. Нажмите клавишу ВВЕРХ, чтобы использовать переключатель.\n#Также существуют кнопки, которые можно нажать, запрыгнув на них."
-
-#: data/levels/world1/fork_in_the_road.stl:93
-msgid ""
-"-Trampolines\n"
-"!images/objects/trampoline/trampoline2-0.png\n"
-"#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "-Трамплины\n!images/objects/trampoline/trampoline2-0.png\n#Трамплины позволяют Таксу достигать новых высот. Зажмите клавишу ПРЫЖКА во время отскока на трамплине, чтобы подлететь как можно выше."
-
-#: data/levels/world1/fork_in_the_road.stl:100
-msgid ""
-"-Climbing\n"
-"#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "- Лазание\n# Такс может карабкаться! Нажмите кнопку ВВЕРХ, чтобы начать лазание. Нажмите клавишу ДЕЙСТВИЕ или сделай прыжок, чтобы закончить."
-
-#: data/levels/world1/fork_in_the_road.stl:106
-msgid ""
-"-Secret Exits\n"
-"#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
-"#Maybe they lead you to something special."
-msgstr "-Тайные выходы\n#У некоторых уровней может быть несколько выходов. Обычно они хорошо спрятаны, так что присматривайтесь.\n#Они могут привести к чему-то особенному."
+"-Secret Exit\n"
+"#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
+msgstr "-Секретный выход\n#Уровни иногда могут содержать секретный выход, в котором находится спрятанный, альтернативный путь! Поэтому следи за подозрительными местами на карте мира."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
 msgstr "Заиндевелые поля"
 
-#: data/levels/world1/frozen_bridge.stl:3
-msgid "Over the Frozen Bridge"
-msgstr "По замёрзшему мосту"
-
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "Лёд в дыре"
 
-#: data/levels/world1/icy_valley.stl:3
-msgid "Icy Valley"
-msgstr "Ледяная долина"
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Ледяной остров"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Где начинается ваше приключение."
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -148,16 +117,26 @@ msgid "The Journey Begins"
 msgstr "Путешествие начинается"
 
 #: data/levels/world1/living_inside_fridge.stl:3
-msgid "Living in a Fridge"
-msgstr "Жизнь в холодильнике"
-
-#: data/levels/world1/miyamoto_monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Памятник Миямото"
+msgid "Living In A Fridge"
+msgstr "Живя в холодильнике"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
 msgstr "О нет! Больше снежков!"
+
+#: data/levels/world1/more_snowballs.stl:319
+msgid ""
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Перенос Объектов\r\n#Такс может подбирать объекты, удерживая клавишу ДЕЙСТВИЕ. Отпусти клавишу ДЕЙСТВИЕ, чтобы положить объект.\r\n#Если ты отпустишь клавишу ДЕЙСТВИЕ в движении, то Такс бросит его!"
+
+#: data/levels/world1/more_snowballs.stl:328
+msgid ""
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "Подброс наверх\r\n#Такс может подбросить большинство объектов вверх, удерживая клавишу ВВЕРХ прежде чем отпустить клавишу ДЕЙСТВИЕ.\r\n#При беге, Такс подбросит объект в дуге!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -167,32 +146,118 @@ msgstr "Ночная прохлада"
 msgid "...Or Is It Just Me?"
 msgstr "…Или это просто я?"
 
-#: data/levels/world1/path_in_the_clouds.stl:3
+#: data/levels/world1/path_in_clouds.stl:3
 msgid "A Path in the Clouds"
 msgstr "Путь в облаках"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Такс дошёл до конца замка."
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
+msgstr "В конце концов Такс смог дойти до финальной комнаты ледяного замка."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Но, к своему удивлению, он нашёл только письмо."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
+msgstr "К его удивлению, там никого не было. Ни Пенни, ни этот... странный парень Нолок."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Письмо от Пенни поведало Таксу, что Нолок увёз её в далёкий лес."
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
+msgstr "Они же должны быть хотя бы где-то, да? Может, где-то потайная комната?"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Терзаемый сомнениями, что Нолок может сделать с ней, Такс забеспокоился о своей дорогой Пенни."
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
+msgstr "После небольшого хождения назад и вперёд, Такс заметил маленькое письмо, прикреплённое к одной из колонн."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "До тех пор пока…"
+msgid "It was yet another note, by that Nolok."
+msgstr "Это было ещё одно письмо, от этого Нолока."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr "Там было написано, что он уже ушёл из Ледяного Острова через далёкий север. Если он хочет за ним идти следом и спасти дорогую подругу, то ему придётся прийти в Кристальную Шахту."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr "Снизу помечена приблизительная карта Ледникового Острова, на нём показан корабль и некий пирс на другом конце."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr "Но перед тем, как Такс подумал об этом, комната наполнилась оглушительным рёвом!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr "Могучий Йети сделал свой вид, ударяя по своей груди в пугающей моде!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr "Такс проделал свой путь до балкона на другом конце комнаты. У него не было больше выбора, он спрыгнул!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
+msgstr "К сожалению, Йети не дал ему смыться так быстро..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:2
+msgid ""
+"After a long swim across the antarctic waters, Tux arrived at the Glacier "
+"Isle mentioned in Nolok's note."
+msgstr "После долгого плавания через антарктические воды, Такс дошёл до Ледникового Острова, который упомянут в письме от Нолока."
+
+#: data/levels/world1/scripts_crystal_mine.txt:3
+msgid ""
+"A massive shaft lay before him, leading down into the aforementioned Crystal"
+" Mine."
+msgstr "Огромный вал лежал перед ним, который приводит в ранее упомянутую Кристальную Шахту."
+
+#: data/levels/world1/scripts_crystal_mine.txt:4
+msgid ""
+"Still carrying a spark of doubt that this was not a trap, Tux slowly "
+"descended into the depths once more..."
+msgstr "Всё ещё неся небольшое сомнение, что это не ловушка, Такс медленно опустился поглубже ещё раз..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:5
+msgid ""
+"At last, Tux made it through the crystal mine and found himself on the "
+"opposite end of the Glacier Isle."
+msgstr "Наконец, Такс прошёл через кристальную шахту и увидел другой конец Ледникового Острова."
+
+#: data/levels/world1/scripts_crystal_mine.txt:6
+msgid ""
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
+msgstr "Когда он только выходил из шахты, Такс надеялся, что всё, что написал Нолок - это правда."
+
+#: data/levels/world1/scripts_crystal_mine.txt:7
+msgid ""
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
+msgstr "К своему облегчению, он нашёл до сих пор пришвартованный корабль. С ним он плыл до севера, чтобы найти Нолока и спасти Пенни."
+
+#: data/levels/world1/scripts_crystal_mine.txt:8
+msgid "It seemed the map in the note wasn't a trap after all."
+msgstr "Кажется, карта в письме не была ловушкой вообще."
+
+#: data/levels/world1/scripts_crystal_mine.txt:9
+msgid ""
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
+msgstr "Чем больше он думал об этом, тем меньше он был уверен о мотивациях Нолока. Зачем же он оставляет подсказки за собой?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Заглушка для катсцены---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -235,109 +300,156 @@ msgid ""
 msgstr "Затем, Такс увидел вдалеке замок Нолока и отправился освобождать Пенни!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Утомлённый долгой прогулкой, Такс решил сделать небольшой перерыв."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the"
+" supposed castle of Nolok."
+msgstr "После целого дня рассматривания Ледяного Острова, Такс почти достиг до требуемого замка Нолока."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Но вдруг он услышал далёкий оглушительный рёв."
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
+msgstr "Недостаток сна ночью был не очень идеален, но решимость заставляла его продолжать свой путь!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
-msgstr "Снежный человек, кажется, наблюдал за ним издалека."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
+msgstr "Не хотя больше тратить своё время, Такс продолжил, спускаясь с холма, на котором он был, где спереди была ледяная долина."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
-" ..."
-msgstr "Обеспокоенный внезапным отступлением снежного человека, Такс решил продолжить свой путь…"
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
+msgstr "Не зная об этом, Йети сделал свой вид, следя за Таксом, пока второй продолжал своё путешествие."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "..хотя втайне надеялся, что ни в коем случае больше не столкнётся со снежным человеком."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr "Йети, выпустив громкий рёв, продолжал следовать за маленьким пингвином."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr "Он это сделал! Он реально это сделал! Такс победил могучего Йети!"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he"
+" did not throw hands again."
+msgstr "Пока не было долго времени перед тем, как Йети встал, к облегчению Такса, он не опускал руки."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr "Но вот Йети был яростным! Он вообще не знал, как такой малюсенький пингвин как Такс победил его в битве."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr "Будто почти забыв, что Такс был здесь, Йети сбежал, ворчав себе под нос."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr "Не знав, что об этом думать, Такс продолжил двигаться дальше."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr "Достигнув до берега, Такс уже видел Ледниковый Остров на горизонте."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr "Если он знал, что Нолок будет направляться быстрее, то он бы тоже направлялся быстрее."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
+msgstr "Видимо, это была цель Нолока с письмом, которое он оставил..."
 
 #: data/levels/world1/shattered_bridge.stl:3
-msgid "The Shattered Bridge"
-msgstr "Разбитый мост"
+msgid "Shattered Bridge"
+msgstr "Разрушенный мост"
+
+#: data/levels/world1/slippery_slide.stl:3
+msgid "Slippery Slide"
+msgstr "Скользкая горка"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
 msgstr "Весьма небольшая купальня"
 
+#: data/levels/world1/somewhat_smaller_bath.stl:420
+msgid ""
+"-Swimming\n"
+"!images/creatures/tux/big/swim-1.png\n"
+"#When submerged in water, use the DIRECTIONAL keys to swim around freely. Hold the JUMP key to swim even faster."
+msgstr "-Плавание\n!images/creatures/tux/big/swim-1.png\n#Находясь в воде, используй клавиши управления, чтобы плыть. Удерживай клавишу «ПРЫЖОК», чтобы плыть ещё быстрее."
+
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
 msgstr "Каменный холод"
+
+#: data/levels/world1/stone_cold.stl:195
+msgid ""
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Перенос Объектов\r\n#Такс может подбирать объекты, удерживая клавишу ДЕЙСТВИЕ. Отпусти клавишу ДЕЙСТВИЕ, чтобы положить объект.\r\n#Если ты отпустишь клавишу ДЕЙСТВИЕ в движении, то Такс бросит его!"
+
+#: data/levels/world1/stone_cold.stl:204
+msgid ""
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-Подброс наверх\r\n#Такс может подбросить большинство объектов вверх, удерживая клавишу ВВЕРХ прежде чем отпустить клавишу ДЕЙСТВИЕ.\r\n#При беге, Такс подбросит объект в дуге!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
 msgstr "Подо льдом"
 
-#: data/levels/world1/via_nostalgica.stl:3
-msgid "Via Nostalgica"
-msgstr "Через счастливую тоску"
-
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Добро пожаловать в Антарктиду"
 
-#: data/levels/world1/welcome_antarctica.stl:74
-msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
-"#\n"
-"#Hit them from below to get at their contents."
-msgstr "-Бонусные блоки\n!images/objects/bonus_block/full-0.png\n#Бонусные блоки могут содержать монеты, бонусы или иные полезные предметы для выполнения задания.\n#\n#Ударьте их снизу, чтобы достать содержимое."
-
-#: data/levels/world1/welcome_antarctica.stl:83
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Яйца\n!images/powerups/egg/egg-shade.png\n#При подборе яйца Такс становится больше, что позволяет ему ломать деревянные блоки головой."
 
-#: data/levels/world1/welcome_antarctica.stl:90
-msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Контрольные точки\n!images/objects/resetpoints/bell-m.png\n#Задействуйте контрольную точку. После гибели вы сможете продолжить уровень отсюда. Каждый раз, когда вы начинаете с контрольной точки, вы теряете 10% своих монет (от 25 монет)."
-
-#: data/levels/world1/welcome_antarctica.stl:97
-msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Бег\n!images/tiles/signs/run.png\n#Путь впереди заблокирован. Разбегитесь и затем подпрыгните, чтобы преодолеть блоки."
-
-#: data/levels/world1/welcome_antarctica.stl:104
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Огненный цветок\n!images/powerups/fireflower/fire_flower-0.png\n#Огненный цветок даёт Таксу возможность стрелять огоньками."
 
-#: data/levels/world1/welcome_antarctica.stl:111
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux doll gives Tux 100 coins."
-msgstr "-Кукла Такс\n!images/powerups/1up/1up.png\n#Кукла даёт Таксу 100 монет."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr "-Такс-Кукла\n!images/powerups/1up/1up.png\n#Таксы-Куклы - редкие награды, они требуются, чтобы разблокировать Бонусные Острова!\n\n#Собери их всех, чтобы разблокировать веселые, дополнительные уровни!"
 
-#: data/levels/world1/welcome_antarctica.stl:118
-msgid ""
-"-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Тайники\n#На многих уровнях есть тайники, спрятанные за обычными стенами. Ищите подсказки, чтобы находить их."
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Ледяной остров"
+#: data/levels/world1/worldmap.stwm:246
+msgid "You found a secret area!"
+msgstr "Вы нашли тайник!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
 msgstr "Нет больше господина Ледяного"
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
-msgstr "Снежный человек вдалеке"
+msgid "An Unsuspected Follower"
+msgstr "Неожиданный наблюдатель"
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
+msgstr "Направляясь на Ледниковые Острова"

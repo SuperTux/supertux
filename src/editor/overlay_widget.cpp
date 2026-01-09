@@ -20,8 +20,8 @@
 
 #include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
-#include "editor/object_menu.hpp"
 #include "editor/object_info.hpp"
+#include "editor/object_menu.hpp"
 #include "editor/object_option.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
@@ -33,11 +33,13 @@
 #include "object/path_gameobject.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
-#include "supertux/gameconfig.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/game_object_factory.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/moving_object.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
+#include "object/draggable_region.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
@@ -555,6 +557,15 @@ EditorOverlayWidget::hover_object()
             cache_layer = 2147483647;
             m_hovered_object = &moving_object;
           }
+        }
+
+        // Ignore draggables if they aren't "visible".
+        DraggableRegion* draggable;
+        if (!m_editor.get_draggables_visible() &&
+            (draggable = dynamic_cast<DraggableRegion*>(&moving_object)) &&
+            draggable->can_be_hidden())
+        {
+          continue;
         }
 
         // Pick objects in this priority:
@@ -1261,15 +1272,16 @@ void
 EditorOverlayWidget::update_autotileset()
 {
   AutotileSet* old_autotileset = get_current_autotileset();
+  auto selected_tiles = m_editor.get_selected_tiles();
 
-  if (m_editor.get_selected_tiles()->pos(0, 0) == 0) // Erasing
+  if (selected_tiles->pos(0, 0) == 0) // Erasing
   {
     const uint32_t current_tile = m_editor.get_selected_tilemap()->get_tile_id(m_hovered_tile);
     m_available_autotilesets = m_editor.get_tileset()->get_autotilesets_from_tile(current_tile);
   }
   else
   {
-    m_available_autotilesets = m_editor.get_tileset()->get_autotilesets_from_tile(m_editor.get_selected_tiles()->pos(0, 0));
+    m_available_autotilesets = m_editor.get_tileset()->get_autotilesets_from_tile(selected_tiles->pos(0, 0));
   }
 
   if (!old_autotileset)
@@ -1310,11 +1322,12 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
     auto tilemap = m_editor.get_selected_tilemap();
     if (!tilemap) return;
 
-    if (m_editor.get_selected_tiles()->empty()) return;
+    auto tiles = m_editor.get_selected_tiles();
+
+    if (tiles->empty()) return;
 
     const Vector screen_corner = context.get_cliprect().p2();
     Vector drawn_tile(0.f, 0.f);
-    auto tiles = m_editor.get_selected_tiles();
 
     for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--)
     {
@@ -1639,10 +1652,11 @@ EditorOverlayWidget::draw(DrawingContext& context)
 
   if (m_editor.get_tilebox().get_input_type() == InputType::TILE && g_config->editor_autotile_help)
   {
+    auto selected_tiles = m_editor.get_selected_tiles();
     if (m_autotile_mode)
     {
       AutotileSet* autotileset = get_current_autotileset();
-      if (m_editor.get_selected_tiles()->pos(0, 0) == 0)
+      if (selected_tiles && selected_tiles->pos(0, 0) == 0)
       {
         if (autotileset)
         {
@@ -1662,7 +1676,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
         context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
       }
     }
-    else if (m_editor.get_selected_tiles()->pos(0, 0) == 0)
+    else if (selected_tiles && selected_tiles->pos(0, 0) == 0)
     {
       if (!m_editor.m_ctrl_pressed)
         context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing") + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);

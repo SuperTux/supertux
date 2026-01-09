@@ -160,6 +160,8 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
+  m_show_draggables(true),
+  m_show_draggables_hint(),
   m_mouse_pos(0.f, 0.f),
   m_layers_widget_needs_refresh(false),
   m_script_manager(),
@@ -327,13 +329,24 @@ Editor::draw(Compositor& compositor)
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
-  } else {
+
+    if (!m_show_draggables && m_show_draggables_hint.get_progress() < 1.0f)
+    {
+      context.color().draw_text(
+        Resources::normal_font,
+        _("Note: Draggables are now hidden. Press Ctrl+H to show again."),
+        { 16.0f, SCREEN_HEIGHT - 64.f }, ALIGN_LEFT, LAYER_OBJECTS+1,
+        Color(1.0f, 1.0f, 0.6f, (1.0f - m_show_draggables_hint.get_progress())));
+    }
+  }
+  else
+  {
     context.color().draw_surface_scaled(m_bgr_surface,
                                         context.get_rect(),
                                         -100);
   }
 
-  MouseCursor::current()->draw(context);
+  MouseCursor::current()->set_visible(true);
 }
 
 void
@@ -697,19 +710,19 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT]) {
+  if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT] || keys[SDL_SCANCODE_A]) {
     scroll({ -m_scroll_speed, 0.0f });
   }
 
-  if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT]) {
+  if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT] || keys[SDL_SCANCODE_D]) {
     scroll({ m_scroll_speed, 0.0f });
   }
 
-  if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP]) {
+  if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP] || keys[SDL_SCANCODE_W]) {
     scroll({ 0.0f, -m_scroll_speed });
   }
 
-  if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN]) {
+  if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN] || keys[SDL_SCANCODE_S]) {
     scroll({ 0.0f, m_scroll_speed });
   }
 }
@@ -924,10 +937,6 @@ Editor::quit_editor()
   check_unsaved_changes([quit] {
     quit();
   });
-
-  // reset viewport to how it was
-  if (VideoSystem::current())
-    VideoSystem::current()->get_viewport().force_full_viewport(g_config->max_viewport);
 }
 
 bool
@@ -1253,6 +1262,11 @@ Editor::event(const SDL_Event& ev)
               break;
             case SDLK_y:
               redo();
+              break;
+            case SDLK_h:
+              m_show_draggables = !m_show_draggables;
+              if (!m_show_draggables)
+                m_show_draggables_hint.start(6.7f);
               break;
             case SDLK_x:
               m_toolbar_widget->toggle_tile_object_mode();

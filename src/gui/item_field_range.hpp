@@ -22,6 +22,7 @@
 template <typename T>
 struct ItemFieldRange
 {
+  using type = T;
   T begin = std::numeric_limits<T>::min();
   T end = std::numeric_limits<T>::max();
 };

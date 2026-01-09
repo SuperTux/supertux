@@ -1,0 +1,100 @@
+/*
+def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
+def buildAsApplication = !buildAsLibrary
+if (buildAsApplication) {
+    apply plugin: 'com.android.application'
+}
+else {
+    apply plugin: 'com.android.library'
+}
+*/
+apply plugin: 'com.android.application'
+
+Properties props = new Properties()
+if (rootProject.file("${rootDir}/local.properties").exists()) {
+    props.load(rootProject.file("${rootDir}/local.properties").newDataInputStream())
+}
+
+var APP_ID = "org.supertux.supertux2"
+
+android {
+    compileSdkVersion 35
+    defaultConfig {
+        /*
+        if (buildAsApplication) {
+            applicationId APP_ID
+        }
+        */
+        applicationId APP_ID
+        minSdkVersion 21
+        targetSdkVersion 35
+
+        // NOTE: Don't forget to bump the version code!
+        versionCode 1
+        versionName "0.7.0"
+
+        ndkVersion "29.0.14206865"
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_PLATFORM=android-" + android.compileSdk.toString(),
+                          "-DCMAKE_VERBOSE_MAKEFILE=On",
+                          "-DANDROID_STL=c++_shared",
+                          "-DANDROID=On",
+                          "-DSUPERTUX_VCPKG_ROOT=" + props.getProperty("vcpkg_root", ""),
+                          "-DSUPERTUX_NDK_HOME=" + props.getProperty("ndk_home", ""),
+                          "-DVCPKG_MANIFEST_MODE=OFF",
+                          "-DVCPKG_VERBOSE=ON",
+                          "-DENABLE_OPENGL=OFF",
+                          "-DANDROID_ALLOW_UNDEFINED_SYMBOLS=OFF", // Literally what the fuck
+                          //"--debug-find", // If something isn't being found, uncomment this
+                          "--log-level", "TRACE",
+                          "-Wno-dev"
+                abiFilters rootProject.ext.cpuarch as String[]
+            }
+            android.defaultConfig.externalNativeBuild.cmake.arguments.addAll(rootProject.ext.cmake_args)
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        tasks["merge${variant.name.capitalize()}Assets"]
+            .dependsOn("externalNativeBuild${variant.name.capitalize()}")
+    }
+    if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
+        sourceSets.main {
+            jniLibs.srcDir 'libs'
+        }
+        externalNativeBuild {
+            cmake {
+                path '../../../CMakeLists.txt'
+            }
+        }
+
+    }
+    namespace APP_ID
+    lint {
+        abortOnError false
+    }
+
+    /*
+    if (buildAsLibrary) {
+        libraryVariants.all { variant ->
+            variant.outputs.each { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith(".aar")) {
+                    def fileName = "org.lethargik.supertux2.aar";
+                    output.outputFile = new File(outputFile.parent, fileName);
+                }
+            }
+        }
+    }
+    */
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+}

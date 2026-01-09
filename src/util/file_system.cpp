@@ -262,24 +262,33 @@ void open_path(const std::string& path)
 void
 open_editor(const std::string& filename)
 {
+#if !defined(ANDROID) && !defined(EMSCRIPTEN)
   std::string editor =
 #ifdef WIN32
     "notepad.exe"; // *shrugs*
+#elif defined(__APPLE__)
+    "open"; // use TextEdit
 #else
     getenv("EDITOR") != NULL ? getenv("EDITOR") : "";
 #endif
   if (!g_config->preferred_text_editor.empty())
     editor = g_config->preferred_text_editor;
 
+  if(editor.empty()) {
+    log_warning << "No text editor configured, cannot open file: " << filename << std::endl;
+    return;
+  }
+
 #ifndef WIN32
   const char *argv[] = { editor.c_str(), filename.c_str(), NULL };
   pid_t proc;
-  if (posix_spawnp(&proc, editor.c_str(), NULL, NULL, (char ** const)argv, environ) != 0)
+  if (posix_spawnp(&proc, editor.c_str(), NULL, NULL, const_cast<char** const>(argv), environ) != 0)
   {
     log_fatal << "Failed to spawn editor: " << editor << std::endl;
   }
-#elif defined(WIN32)
-  ShellExecute(NULL, editor.c_str(), filename.c_str(), NULL, NULL, SW_SHOWNORMAL);
+#else
+  ShellExecute(NULL, NULL, editor.c_str(), filename.c_str(), NULL, SW_SHOWNORMAL);
+#endif
 #endif
 }
 

@@ -188,18 +188,45 @@ Tux::try_start_walking()
   if (m_input_direction == Direction::NONE)
     return;
 
+
+  auto worldmap_sector = &m_worldmap->get_sector();
+  auto special_tile = worldmap_sector->at_object<SpecialTile>();
+
   auto level = m_worldmap->get_sector().at_object<LevelTile>();
 
   // We got a new direction, so lets start walking when possible
   Vector next_tile(0.0f, 0.0f);
   if ((!level || level->is_solved() || level->is_perfect()
       || (Editor::current() && Editor::current()->is_testing_level()))
-      && m_worldmap->get_sector().path_ok(m_input_direction, m_tile_pos, &next_tile)) {
+      && m_worldmap->get_sector().path_ok(m_input_direction, m_tile_pos, &next_tile))
+  {
+    if (special_tile && special_tile->get_blocking())
+    {
+      switch (m_input_direction)
+      {
+        case Direction::NORTH:
+          if (!special_tile->get_apply_action_north()) return;
+          break;
+        case Direction::EAST:
+          if (!special_tile->get_apply_action_east()) return;
+          break;
+        case Direction::SOUTH:
+          if (!special_tile->get_apply_action_south()) return;
+          break;
+        case Direction::WEST:
+          if (!special_tile->get_apply_action_west()) return;
+          break;
+        default:
+          break;
+      }
+    }
     m_tile_pos = next_tile;
     m_moving = true;
     m_direction = m_input_direction;
     m_back_direction = reverse_dir(m_direction);
-  } else if (m_ghost_mode || (m_input_direction == m_back_direction)) {
+  }
+  else if (m_ghost_mode || (m_input_direction == m_back_direction))
+  {
     m_moving = true;
     m_direction = m_input_direction;
     m_tile_pos = m_worldmap->get_sector().get_next_tile(m_tile_pos, m_direction);
@@ -250,7 +277,7 @@ Tux::try_continue_walking(float dt_sec)
 
   // if this is a special_tile with passive_message, display it
   auto special_tile = worldmap_sector->at_object<SpecialTile>();
-  if (special_tile)
+  if (special_tile && !special_tile->get_blocking())
   {
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
@@ -276,6 +303,7 @@ Tux::try_continue_walking(float dt_sec)
     if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message()) {
       m_worldmap->set_passive_message({}, 0.0f);
     }
+
     stop();
     return;
   }

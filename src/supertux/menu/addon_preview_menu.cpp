@@ -138,7 +138,7 @@ AddonPreviewMenu::rebuild_menu()
   }
   add_inactive("");
 
-  add_inactive(_("Overrides Data: ") + (overrides_data ? _("Yes") : _("No")), true);
+  add_inactive(fmt::format(fmt::runtime(_("Overrides Data: {}")), overrides_data ? _("Yes") : _("No")), true);
   add_inactive("");
 
   if (screenshots_available && !m_auto_install)
@@ -309,9 +309,11 @@ AddonPreviewMenu::install_addon()
   auto addon_id = m_addon.get_id();
   TransferStatusListPtr status = m_addon_manager.request_install_addon(addon_id);
   auto dialog = std::make_unique<DownloadDialog>(status, false);
-  const std::string action = m_update ? _("Updating") : _("Downloading");
   const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
-  dialog->set_title(fmt::format(fmt::runtime("{} {}"), action, addon_string_util::generate_menu_item_text(repository_addon)));
+  auto menu_item_text = addon_string_util::generate_menu_item_text(repository_addon);
+  auto dialog_title = fmt::format(fmt::runtime(m_update ? _("Updating {}") : _("Downloading {}")), menu_item_text);
+
+  dialog->set_title(dialog_title);
   status->then([this, addon_id](bool success)
   {
     if (m_auto_install)

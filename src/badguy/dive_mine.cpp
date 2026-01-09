@@ -23,7 +23,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-const float DiveMine::s_trigger_radius = 100.f;
+const float DiveMine::s_trigger_radius = 150.f;
 const float DiveMine::s_swim_speed = 20.f;
 const float DiveMine::s_max_float_acceleration = 15.f;
 

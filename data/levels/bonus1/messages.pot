@@ -1,0 +1,182 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the SuperTux package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux v0.7.0-beta.1-99-geed8409be\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/levels/bonus1/all_that_glistens.stl:3
+msgid "All That Glistens is Not Gold"
+msgstr ""
+
+#: data/levels/bonus1/another_cold_day.stl:3
+msgid "Another Cold Day..."
+msgstr ""
+
+#: data/levels/bonus1/area_42.stl:3
+msgid "Area 42"
+msgstr ""
+
+#: data/levels/bonus1/bonus_dias.stl:3
+msgid "Bonus Dias!"
+msgstr ""
+
+#: data/levels/bonus1/castle_in_sky.stl:3
+msgid "Castle in the Sky"
+msgstr ""
+
+#: data/levels/bonus1/cave_of_mirrors.stl:3
+msgid "Cave of Mirrors"
+msgstr ""
+
+#: data/levels/bonus1/crumbel_cavern.stl:3
+msgid "Crumbel Cavern"
+msgstr ""
+
+#: data/levels/bonus1/end_of_ice_age.stl:3
+msgid "End of the Ice Age"
+msgstr ""
+
+#: data/levels/bonus1/end_of_ice_age.stl:1964
+#: data/levels/bonus1/end_of_ice_age.stl:1971
+msgid "You found a secret area!"
+msgstr ""
+
+#: data/levels/bonus1/fire_in_the_sky.stl:3
+msgid "Fire in the Sky"
+msgstr ""
+
+#: data/levels/bonus1/fjerd.stl:3
+msgid "Fjerd"
+msgstr ""
+
+#: data/levels/bonus1/flanders_ice_field.stl:3
+msgid "In Flanders Ice Field"
+msgstr ""
+
+#: data/levels/bonus1/high_gravity.stl:3
+msgid "High Gravity"
+msgstr ""
+
+#: data/levels/bonus1/ice_test.stl:3
+msgid "Ice Test"
+msgstr ""
+
+#: data/levels/bonus1/ice_test.stl:195
+msgid ""
+"- Quick reminder!\n"
+"When being flung off of a ramp when sliding, don't jump! Just keep holding "
+"down, and the ramp will do all the hard work!"
+msgstr ""
+
+#: data/levels/bonus1/info:2 data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr ""
+
+#: data/levels/bonus1/info:3
+msgid "The first Bonus Island of SuperTux."
+msgstr ""
+
+#: data/levels/bonus1/let_us_snow.stl:3
+msgid "Let Us Snow!"
+msgstr ""
+
+#: data/levels/bonus1/lies.stl:3
+msgid "Lies!"
+msgstr ""
+
+#: data/levels/bonus1/luft_airship.stl:3
+msgid "Luft Airship"
+msgstr ""
+
+#: data/levels/bonus1/mario.stl:3
+msgid "Mario's Supposed to Deal With This..."
+msgstr ""
+
+#: data/levels/bonus1/maze_in_sky.stl:3
+msgid "A Maze in the Sky"
+msgstr ""
+
+#: data/levels/bonus1/mysterious_house_of_ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr ""
+
+#: data/levels/bonus1/noloks_party_pit.stl:3
+msgid "Nolok's Party Pit"
+msgstr ""
+
+#: data/levels/bonus1/penguins_cant_fly.stl:3
+msgid "Glacier Danger"
+msgstr ""
+
+#: data/levels/bonus1/pipe_down_over_there.stl:3
+msgid "Pipe Down Over There!"
+msgstr ""
+
+#: data/levels/bonus1/refisherator.stl:3
+msgid "Refisherator"
+msgstr ""
+
+#: data/levels/bonus1/refisherator.stl:867
+msgid "A moment of silence for our fallen brothers"
+msgstr ""
+
+#: data/levels/bonus1/semi_frozen.stl:3
+msgid "Semi-Frozen"
+msgstr ""
+
+#: data/levels/bonus1/snow_bowling.stl:3
+msgid "Snow Bowling"
+msgstr ""
+
+#: data/levels/bonus1/snow_bowling.stl:386
+msgid ""
+"!images/objects/ghost_block/ghost_block.png\n"
+"-Ghost Blocks\n"
+"Ghost will only allow enemies to enter them. Anything else such as Tux will "
+"be prevented from entering."
+msgstr ""
+
+#: data/levels/bonus1/snow_bowling.stl:394
+msgid ""
+"- Be careful!\n"
+"In this section your gonn have to beat the iceblock in a race to the end of "
+"the level! Make sure to go fast, as if you lose, you will have to restart "
+"the section."
+msgstr ""
+
+#: data/levels/bonus1/snowmans_land.stl:3
+msgid "Snowman's Land"
+msgstr ""
+
+#: data/levels/bonus1/snowy_sunset.stl:3
+msgid "Snowy Sunset"
+msgstr ""
+
+#: data/levels/bonus1/tip_of_iceberg.stl:3
+msgid "Tip of the Iceberg"
+msgstr ""
+
+#: data/levels/bonus1/train_leaves_in_one_minute.stl:3
+msgid "Train Leaves in One Minute"
+msgstr ""
+
+#: data/levels/bonus1/where_everything_possible.stl:3
+msgid "...Where Everything Is Possible"
+msgstr ""
+
+#: data/levels/bonus1/worldmap.stwm:219 data/levels/bonus1/worldmap.stwm:233
+msgid "cave entrance/exit"
+msgstr ""

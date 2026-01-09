@@ -61,7 +61,10 @@ MainMenu::MainMenu()
   add_submenu(_("Manage Assets"), MenuStorage::ASSET_MENU);
 #endif
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
+  // The level editor is not mobile friendly; hide for now
+#ifndef HIDE_NONMOBILE_OPTIONS
   add_entry(MNID_LEVELEDITOR, _("Level Editor"));
+#endif
   add_entry(MNID_CREDITS, _("Credits"));
 #ifndef STEAM_BUILD
   // Links to external purchases are not allowed on Steam, including donations

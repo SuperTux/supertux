@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Gorzy Gorup <gorupgorazd@gmail.com>, 2016
-# Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022,2025
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022,2025-2026
 # Marko Burjek <email4marko@gmail.com>, 2005-2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-17 08:18+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022,2025\n"
+"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022,2025-2026\n"
 "Language-Team: Slovenian (http://app.transifex.com/arctic-games/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,12 +28,12 @@ msgstr "Kdor visoko leta ..."
 msgid "Above the Antarctic Skies"
 msgstr "Nad antarktičnim nebom"
 
-#: data/levels/world1/above_arctic_skies.stl:318
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
-"-Air Flower\r\n"
-"!images/powerups/airflower/air_flower-0.png\r\n"
+"-Air Flower\n"
+"!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
-msgstr "-Vetrna roža\r\n!images/powerups/airflower/air_flower-0.png\r\n#Vetrna roža omogoča Tuksu, da se premika hitreje in skače višje. Nekaj sekund lahko lebdi v zraku, dokler držiš tipko za skakanje."
+msgstr "-Vetrna roža\r!images/powerups/airflower/air_flower-0.png\r#Vetrna roža omogoča Tuksu, da se premika hitreje in skače višje. Nekaj sekund lahko lebdi v zraku, dokler držiš tipko za skakanje."
 
 #: data/levels/world1/antarctic_outpost.stl:3
 msgid "Antarctic Outpost"
@@ -75,7 +75,7 @@ msgstr "Vhod v votlino"
 msgid "A Fork in the Road?"
 msgstr "Razpotje?"
 
-#: data/levels/world1/fork_in_the_road.stl:741
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -88,6 +88,14 @@ msgstr "Polja slane"
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "Zaledenelo bo!"
+
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Ledeni otok"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Kjer se tvoja pustolovščina prične."
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -109,19 +117,19 @@ msgstr "Življenje v hladilniku"
 msgid "Oh No! More Snowballs!"
 msgstr "O, ne! Še več snežnih kep!"
 
-#: data/levels/world1/more_snowballs.stl:290
+#: data/levels/world1/more_snowballs.stl:319
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Prenašanje predmetov\n#Če držiš tipko za dejanje, lahko Tuks pobere in nosi predmete. Ko spustiš tipko, medtem ko Tuks stoji pri miru, bo spustil predmet.\n#Če spustiš tipko, medtem ko se Tuks premika, bo predmet zalučal!"
+msgstr "-Prenašanje predmetov#Če držiš tipko za dejanje, lahko Tuks pobere in nosi predmete. Ko spustiš tipko, medtem ko Tuks stoji pri miru, bo spustil predmet.#Če spustiš tipko, medtem ko se Tuks premika, bo predmet zalučal!"
 
-#: data/levels/world1/more_snowballs.stl:299
+#: data/levels/world1/more_snowballs.stl:328
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Met navzgor\n#Tuks lahko vrže večino predmetov navzgor tako, da zadržiš zgornjo tipko, medtem pa spustiš tipko za dejanje.\n#Med tekom bo Tuks vrgel predmet v loku!"
+msgstr "-Met navzgor#Tuks lahko vrže večino predmetov navzgor tako, da zadržiš zgornjo tipko, medtem pa spustiš tipko za dejanje.#Med tekom bo Tuks vrgel predmet v loku!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -239,6 +247,10 @@ msgid ""
 "The more he thought about it, the less he was sure about Nolok's "
 "motivations. Why would he leave clues behind?"
 msgstr "Naj si je še tako razbijal glavo, si ni znal razložiti, zakaj Nolok počne vse to. Zakaj pušča za seboj vse te namige?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "--Sem vstavi igrani prizor--"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -374,19 +386,19 @@ msgstr "-Plavanje\n!images/creatures/tux/big/swim-1.png\n#Ko si pod vodo, uporab
 msgid "Stone Cold"
 msgstr "Hladen kot kamen"
 
-#: data/levels/world1/stone_cold.stl:191
+#: data/levels/world1/stone_cold.stl:195
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Prenašanje predmetov\n#Če držiš tipko za dejanje, lahko Tuks pobere in nosi predmete. Ko spustiš tipko, bo Tuks spustil predmet.\n#Če spustiš tipko, medtem ko se Tuks premika, bo predmet zalučal!"
+msgstr "-Prenašanje predmetov#Če držiš tipko za dejanje, lahko Tuks pobere in nosi predmete. Ko spustiš tipko, bo Tuks spustil predmet.#Če spustiš tipko, medtem ko se Tuks premika, bo predmet zalučal!"
 
-#: data/levels/world1/stone_cold.stl:200
+#: data/levels/world1/stone_cold.stl:204
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Met navzgor\n#Tuks lahko vrže večino predmetov navzgor tako, da zadržiš zgornjo tipko, medtem pa spustiš tipko za dejanje.\n#Med tekom bo Tuks vrgel predmet v loku!"
+msgstr "-Met navzgor#Tuks lahko vrže večino predmetov navzgor tako, da zadržiš zgornjo tipko, medtem pa spustiš tipko za dejanje.#Med tekom bo Tuks vrgel predmet v loku!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -396,32 +408,30 @@ msgstr "Pod ledom"
 msgid "Welcome to Antarctica"
 msgstr "Dobrodošel/a na Antarktiki"
 
-#: data/levels/world1/welcome_antarctica.stl:118
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Jajca\n!images/powerups/egg/egg-shade.png\n#Jajce Tuksa poveča. To mu omogoči, da s svojo glavo uničuje lesene kocke."
 
-#: data/levels/world1/welcome_antarctica.stl:127
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Ognjena roža\n!images/powerups/fireflower/fire_flower-0.png\n#Če Tuks poje ognjeno rožo, lahko strelja ognjene krogle."
 
-#: data/levels/world1/welcome_antarctica.stl:136
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux Doll gives Tux 100 coins."
-msgstr "-Tuksova lutka\n!images/powerups/1up/1up.png\n#Tuksova lutka podari Tuksu 100 kovancev."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr "-Tuksova lutka!images/powerups/1up/1up.png#Tuksove lutke so redki predmeti, ki jih zbiraš, da odkleneš pot na nove otoke!#Zberi vse, da odkleneš še več zabavnih stopenj!"
 
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Ledeni otok"
-
-#: data/levels/world1/worldmap.stwm:243
+#: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"
 msgstr "Našel/a si skrito sobo!"
 

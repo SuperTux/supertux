@@ -34,7 +34,7 @@ const float POSITION_FIX_AY = 50; // Y-wise acceleration applied to player when 
 }
 
 Climbable::Climbable(const ReaderMapping& reader) :
-  Trigger(reader),
+  Trigger(Color(1.0f, 1.0f, 0.0f, 0.6f), reader),
   climbed_by(),
   trying_to_climb(),
   message()
@@ -117,10 +117,7 @@ Climbable::draw(DrawingContext& context)
     context.color().draw_center_text(Resources::normal_font, _(message), pos, LAYER_HUD, Climbable::text_color);
     context.pop_transform();
   }
-  if (Editor::is_active() || g_debug.show_collision_rects) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 1.0f, 0.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
-  }
+  DraggableRegion::draw(context);
 }
 
 void

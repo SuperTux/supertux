@@ -192,11 +192,20 @@ Crusher::should_crush()
       Rectf left_top_zone;
       Rectf right_top_zone;
 
+      // This box prevents the crusher from crushing into a wall
+      // just because it can see the player standing above it.
+      Rectf crushbox;
+
       if (m_dir == CrusherDirection::LEFT || m_dir == CrusherDirection::HORIZONTAL)
       {
         left_top_zone.set_p1(Vector(crusher_bbox.get_left(), zone_top_y));
         left_top_zone.set_size(zone_width, zone_height);
-        if (player_bbox.overlaps(left_top_zone))
+
+        crushbox.set_p1(get_pos() - Vector(5.f, 0.f));
+        crushbox.set_size(5.f, get_height());
+
+        if (player_bbox.overlaps(left_top_zone) &&
+            Sector::get().is_free_of_statics(crushbox, this))
           player_in_top_edge_zone = true;
       }
 
@@ -205,14 +214,22 @@ Crusher::should_crush()
       {
         right_top_zone.set_p1(Vector(crusher_bbox.get_right() - zone_width, zone_top_y));
         right_top_zone.set_size(zone_width, zone_height);
-        if (player_bbox.overlaps(right_top_zone))
+
+        crushbox.set_p1(get_pos() + Vector(get_bbox().get_right(), 0.f));
+        crushbox.set_size(5.f, get_height());
+
+        if (player_bbox.overlaps(right_top_zone) &&
+            Sector::get().is_free_of_statics(crushbox, this))
           player_in_top_edge_zone = true;
       }
     }
 
     if (player_in_main_detect_zone || player_in_top_edge_zone)
     {
-      const RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
+      const Vector eye = get_bbox().get_middle() + (get_direction_vector(player->get_collision_object())
+                                                    * (get_bbox().get_size().as_vector() / 2));
+      const RaycastResult result = Sector::get().get_first_line_intersection(
+        eye,
         player_bbox.get_middle(),
         false,
         get_collision_object());
@@ -240,18 +257,6 @@ Crusher::should_finish_crushing(const CollisionHit& hit) const
          ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.top)    ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.left)   ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.right);
-}
-
-bool
-Crusher::should_finish_recovering(const CollisionHit& hit) const
-{
-  if (m_dir == CrusherDirection::ALL)
-    return hit.bottom || hit.top || hit.left || hit.right;
-
-  return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN)  && hit.top)    ||
-         ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.bottom) ||
-         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.right)  ||
-         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.left);
 }
 
 bool
@@ -413,8 +418,11 @@ Crusher::get_detect_box(CrusherDirection dir)
 }
 
 Vector
-Crusher::get_direction_vector()
+Crusher::get_direction_vector(CollisionObject* target)
 {
+  if (target == nullptr)
+    target = m_target;
+
   switch (m_dir)
   {
     case CrusherDirection::DOWN:
@@ -428,29 +436,29 @@ Crusher::get_direction_vector()
 
     case CrusherDirection::HORIZONTAL:
     {
-      if (!m_target)
+      if (!target)
         return Vector(0.f, 0.f);
 
       const Vector mid = get_bbox().get_middle();
-      return mid.x <= m_target->get_bbox().get_left() ? Vector(1.f, 0.f) : Vector(-1.f, 0.f);
+      return mid.x <= target->get_bbox().get_left() ? Vector(1.f, 0.f) : Vector(-1.f, 0.f);
     }
 
     case CrusherDirection::VERTICAL:
     {
-      if (!m_target)
+      if (!target)
         return Vector(0.f, 0.f);
 
       const Vector mid = get_bbox().get_middle();
-      return mid.y <= m_target->get_bbox().get_top() ? Vector(0.f, 1.f) : Vector(0.f, -1.f);
+      return mid.y <= target->get_bbox().get_top() ? Vector(0.f, 1.f) : Vector(0.f, -1.f);
     }
 
     case CrusherDirection::ALL:
     {
-      if (!m_target)
+      if (!target)
         return Vector(0.f, 0.f);
 
       const Vector a = get_bbox().get_middle();
-      const Vector b = m_target->get_bbox().get_middle();
+      const Vector b = target->get_bbox().get_middle();
       const Vector diff = b - a;
 
       if (std::abs(diff.x) < std::abs(diff.y))
@@ -1038,10 +1046,6 @@ Crusher::collision_solid(const CollisionHit& hit)
   if (m_state == CRUSHING && should_finish_crushing(hit))
   {
     crushed(hit, true);
-  }
-  else if (m_state == RECOVERING && should_finish_recovering(hit))
-  {
-    idle();
   }
 }
 

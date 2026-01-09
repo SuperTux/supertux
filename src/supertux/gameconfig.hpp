@@ -72,6 +72,7 @@ public:
   bool show_fps;
   bool show_player_pos;
   bool show_controller;
+  bool show_game_timer;
   float camera_peek_multiplier;
   bool sound_enabled;
   bool music_enabled;
@@ -105,6 +106,8 @@ public:
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
   bool ignore_joystick_axis;
+  bool touch_haptic_feedback;
+  bool touch_just_directional;
 
   bool mobile_controls;
   float m_mobile_controls_scale;

@@ -57,6 +57,7 @@ Config::Config() :
   show_fps(false),
   show_player_pos(false),
   show_controller(false),
+  show_game_timer(false),
   camera_peek_multiplier(0.03f),
   sound_enabled(true),
   music_enabled(true),
@@ -75,15 +76,19 @@ Config::Config() :
   keyboard_config(),
   joystick_config(),
   ignore_joystick_axis(false),
-  mobile_controls(SDL_GetNumTouchDevices() > 0),
-  m_mobile_controls_scale(1),
+  mobile_controls(false),
+  m_mobile_controls_scale(1.3f),
   addons(),
   developer_mode(false),
   christmas_mode(false),
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
+#ifdef __ANDROID__
+  custom_mouse_cursor(false),
+#else
   custom_mouse_cursor(true),
+#endif
   custom_system_cursor(false),
   do_release_check(false),
   disable_network(true),
@@ -137,6 +142,8 @@ Config::Config() :
   // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
+  touch_haptic_feedback(true),
+  touch_just_directional(true),
   repository_url()
 {
 }
@@ -160,11 +167,11 @@ Config::load()
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
 
-  config_mapping.get("flash_intensity", flash_intensity);
   config_mapping.get("frame_prediction", frame_prediction);
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
+  config_mapping.get("show_game_timer", show_game_timer);
   config_mapping.get("camera_peek_multiplier", camera_peek_multiplier);
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
@@ -314,6 +321,7 @@ Config::load()
 
     config_video_mapping->get("aspect_width",  aspect_size.width);
     config_video_mapping->get("aspect_height", aspect_size.height);
+    config_video_mapping->get("flash_intensity", flash_intensity);
 
     config_video_mapping->get("magnification", magnification);
     config_video_mapping->get("fancy_gfx", fancy_gfx);
@@ -357,8 +365,9 @@ Config::load()
 
     config_control_mapping->get("ignore_joystick_axis", ignore_joystick_axis);
 
-    config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
-    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
+    config_control_mapping->get("touch_haptic_feedback", touch_haptic_feedback);
+    config_control_mapping->get("touch_just_directional", touch_just_directional);
+    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 2);
     config_control_mapping->get("precise_scrolling", precise_scrolling);
     config_control_mapping->get("invert_wheel_x", invert_wheel_x);
     config_control_mapping->get("invert_wheel_y", invert_wheel_y);
@@ -407,6 +416,7 @@ Config::save()
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
+  writer.write("show_game_timer", show_game_timer);
   writer.write("camera_peek_multiplier", camera_peek_multiplier);
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
@@ -517,8 +527,9 @@ Config::save()
     joystick_config.write(writer);
     writer.end_list("joystick");
 
-    writer.write("mobile_controls", mobile_controls);
     writer.write("ignore_joystick_axis", ignore_joystick_axis);
+    writer.write("touch_haptic_feedback", touch_haptic_feedback);
+    writer.write("touch_just_directional", touch_just_directional);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
     writer.write("precise_scrolling", precise_scrolling);
     writer.write("invert_wheel_x", invert_wheel_x);

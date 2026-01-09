@@ -111,6 +111,8 @@ private:
   bool m_focused; /**< true if console has input focus */
   FontPtr m_font;
 
+  bool m_last_cursor_vis;
+
   float m_stayOpen;
 
   void parse(const std::string& s); /**< react to a given command */

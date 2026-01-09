@@ -46,11 +46,11 @@ for LEVELSET in $(ls data/levels); do
 done
 
 for LEVELSET in $(ls data/levels); do
-  find "data/levels/${LEVELSET}" "(" -name "*.stl" -or -name "*.stl.in" -or -name "*.stwm" -or -name "*.txt" ")" -print0 | xargs -0 xgettext --keyword='_:1' \
+  find "data/levels/${LEVELSET}" "(" -name "*.stl" -or -name "*.stl.in" -or -name "*.stwm" -or -name "*.txt" -or -name "info" ")" -print0 | xargs -0 xgettext --keyword='_:1' \
     --language=Lisp --from-code=UTF-8 --sort-by-file \
     --output "data/levels/${LEVELSET}/messages.pot" --add-comments=l10n \
     --package-name="${package_name}" --package-version="${package_version}" \
     --msgid-bugs-address=https://github.com/SuperTux/supertux/issues
-  sed -n -e 's/\\r\\n/\\n/g' "data/levels/${LEVELSET}/messages.pot"
+  sed -i '' -e 's/\\r\\n/\\n/g' "data/levels/${LEVELSET}/messages.pot"
   rm -f data/levels/$LEVELSET/scripts_*.txt
 done

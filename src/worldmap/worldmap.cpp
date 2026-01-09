@@ -20,10 +20,12 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "physfs/util.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
+#include "editor/editor.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/player_status.hpp"
@@ -139,6 +141,8 @@ WorldMap::setup()
   }
 
   m_in_world_select = false;
+
+  MouseCursor::current()->set_visible(false);
 }
 
 void
@@ -146,6 +150,7 @@ WorldMap::leave()
 {
   save_state();
   m_sector->leave();
+  MouseCursor::current()->set_visible(true);
 }
 
 
@@ -158,6 +163,9 @@ WorldMap::draw(Compositor& compositor)
     context.set_time_offset(0.0f);
   }
   m_sector->draw(context);
+
+  if (!MenuManager::current()->is_active())
+    MouseCursor::current()->set_visible(false);
 }
 
 void
@@ -191,7 +199,8 @@ WorldMap::process_input(const Controller& controller)
   if (!m_really_enter_level)
     m_enter_level = false;
 
-  if (controller.pressed(Control::ACTION) && !m_in_level)
+  if (controller.pressed(Control::ACTION) && !m_in_level &&
+      !Editor::current())
   {
     MenuManager::instance().clear_menu_stack();
     ScreenManager::current()->push_screen(std::make_unique<WorldSelect>(m_map_filename),
@@ -243,6 +252,7 @@ WorldMap::on_escape_press()
   if (!MenuManager::instance().is_active())
   {
     MenuManager::instance().set_menu(MenuStorage::WORLDMAP_MENU);
+    MouseCursor::current()->set_visible(true);
     m_sector->get_tux().set_direction(Direction::NONE); // stop tux movement when menu is called
   }
 }

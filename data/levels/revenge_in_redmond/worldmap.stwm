@@ -3,6 +3,7 @@
   (name (_ "Revenge in Redmond"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (allow-item-pocket "on")
   (icon "")
   (icon-locked "")
   (sector
@@ -16,12 +17,6 @@
       (fill #t)
       (image "/images/background/misc/vignette.png")
       (z-pos 200)
-    )
-    (decal
-      (z-pos 10)
-      (sprite "/images/worldmap/shared/castle.png")
-      (x 576)
-      (y 320)
     )
     (level
       (z-pos 50)
@@ -111,6 +106,13 @@ exit_worldmap();")
       (width 40)
       (height 25)
       (tiles -1000 1)
+    )
+    (tilemap
+      (solid #f)
+      (z-pos 5)
+      (width 40)
+      (height 25)
+      (tiles -418 0 1022 1023 1024 -37 0 1025 1026 1027 -37 0 1028 1029 1030 -499 0)
     )
     (worldmap-spawnpoint
       (z-pos 50)

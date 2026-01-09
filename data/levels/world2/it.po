@@ -12,14 +12,14 @@
 # 17c2573a89e395c6dd973e5d003db498_36e4c1e, 2013
 # aaaaaaaa, 2018
 # aaaaaaaa, 2018
-# Tommaso Macchiella, 2025
+# Tommaso Macchiella, 2025-2026
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Tommaso Macchiella, 2025\n"
+"Last-Translator: Tommaso Macchiella, 2025-2026\n"
 "Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,198 +27,273 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
-#: data/levels/world2/ancient_ruins.stl:3
-msgid "Ancient Ruins"
-msgstr "Antiche rovine"
-
-#: data/levels/world2/ancient_ruins.stl:1463
-#: data/levels/world2/ancient_ruins.stl:1471
-#: data/levels/world2/bouncy_coils.stl:380
-#: data/levels/world2/bouncy_coils.stl:388
-#: data/levels/world2/bye_bye_forest.stl:1607
-#: data/levels/world2/crumbling_path.stl:278
-#: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:246
-#: data/levels/world2/going_underground.stl:1249
-#: data/levels/world2/mouldy_grotto.stl:559
-#: data/levels/world2/penguin_grow_trees.stl:459
-#: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:361
-#: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:223
-msgid "You found a secret area!"
-msgstr "Hai trovato un'area segreta!"
-
-#: data/levels/world2/beside_bushes.stl:3
-msgid "Beside the Bushes"
-msgstr "Oltre i cespugli"
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
+msgstr "Le antiche rovine"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Bobine Rimbalzanti"
 
-#: data/levels/world2/bye_bye_forest.stl:3
-msgid "Bye Bye Forest"
-msgstr "Ciao ciao Foresta"
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "Pattuglia delle grotte"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "-Rosa di ghiaccio\n!images/powerups/iceflower/ice_flower-0.png\n#La rosa di ghiaccio fornisce a Tux l'abilità di lanciare palle di ghiaccio che possono congelare la maggior parte delle creature.\n#Le creature congelate possono essere trasportate e lanciate!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "Il collasso è imminente"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Un percorso instabile"
 
-#: data/levels/world2/darkness_awaits.stl:3
-msgid "Darkness Awaits"
-msgstr "L'oscurità ti attende"
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "Lascia la palla"
 
-#: data/levels/world2/find_big_fish.stl:3
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "Aggrovigliato tra le radici"
+
+#: data/levels/world2/find_bigger_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Trova il pesce più grosso!"
 
-#: data/levels/world2/find_big_fish.stl:1058
-msgid "-A big fish... for you."
-msgstr "-Un grosso pesce... per te."
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "Le camere inondate"
 
-#: data/levels/world2/forest_intro.stl:3
-msgid "A New Location"
-msgstr "Un nuovo luogo"
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "Boccioli di fiori"
 
-#: data/levels/world2/ghost_cutscene.stl:3
-msgid "What is Happening?"
-msgstr "Che sta succedendo?"
-
-#: data/levels/world2/ghostly_misery.stl:3
-msgid "Ghostly Misery"
-msgstr "Miseria spettrale"
-
-#: data/levels/world2/ghosttrees_challenges.stl:3
-msgid "Ghosttree's Challenges"
-msgstr "Le sfide di Fantasmalbero"
-
-#: data/levels/world2/ghouls_lair.stl:3
-msgid "Ghouls' Lair"
-msgstr "La tana del Gula"
-
-#: data/levels/world2/ghouls_lair.stl:859
-msgid ""
-"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
-"of them."
-msgstr "#Le lanterne sono usate per rendere solidi i blocchi magici. In questo modo Tux potrà camminarci sopra."
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "Le radici di tutto il male"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Passaggio Sotterraneo"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:3
-msgid "I Spy With My Little Eye"
-msgstr "Io spio con l'occhio mio"
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "Il villaggio dei Granito"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:218
-msgid ""
-"-Ispy\n"
-"#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Spioni\n#Gli Spioni attiveranno cose come piattaforme ogni volta che vedono Tux."
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "Terra cava"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:674
-msgid "Hint: Use snails to break blocks!"
-msgstr "Suggerimento: usa le lumache per rompere i blocchi!"
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "Casa morta casa"
 
-#: data/levels/world2/leaf_wind.stl:3
-msgid "Like a leaf in the Wind"
-msgstr "Come una foglia nel vento"
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Rooted Forest"
+msgstr "Foresta radicata"
 
-#: data/levels/world2/lost_village.stl:3
-msgid "Lost Village"
-msgstr "Il Villaggio perduto"
+#: data/levels/world2/info:3
+msgid "Work in Progress Rooted Forest for SuperTux v0.7."
+msgstr "Foresta radicata in fase di produzione per SuperTux v0.7. "
 
-#: data/levels/world2/lost_village.stl:185
-msgid "#Don't forget to hit the switch!"
-msgstr "#Non dimenticare di attivare l'interruttore!"
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "Il santuario perduto"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Una Grotta Ammuffita"
 
-#: data/levels/world2/owls_again.stl:3
-msgid "The Owls again..."
-msgstr "Di nuovo i Gufi..."
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "Monte Crushmore"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
-msgstr "Commando Gufi Skydive"
+msgstr "Commando Gufi Paracadutisti"
 
-#: data/levels/world2/penguin_grow_trees.stl:3
-msgid "Penguins don't grow on Trees"
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
 msgstr "I pinguini non crescono sugli alberi!"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "Rock 'n' Roll"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "-Fungo di roccia\n!images/powerups/earthflower/earth_flower-0.png\n#Tenendo premuto GIÙ e correndo, il Fungo di roccia conferisce a Tux uno scudo di roccia.\n#Nella sua forma di roccia, Tux è immune alla maggior parte dei danni. Tuttavia, se Tux sbatte contro un muro la sua difesa non reggerà, rendendolo di nuovo vulnerabile."
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "Radicando per te"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "La Torre radicata"
+
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Inserire Cutscene Qui---"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "Nonostante la sconfitta del Fantasmalbero e un barlume di vita che tornava nella foresta un tempo rigogliosa, la terra era ancora in rovina."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "Il terreno era pieno di crepe e buche. E ora una di loro bloccava la strada a Tux..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "Per sua fortuna, un Granito vivo e vegeto si rivelò, eccitato di vederlo dall'altra parte della fessura."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
+msgstr "Il Granito gli parlò di tre gruppi dei suoi compagni Granito che si erano persi provando a scappare dalle radici verso la costa Est."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "Erano stati divorati dalla terra come se il terreno fosse ceduto su sé stesso. Se Tux avesse potuto aiutarlo a trovarli, avrebbero potuto aiutarlo per raggiungere l'altro lato."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "Tux decise di aiutare! Dopo aver notato delle radici morenti che rivelavano un passaggio lì sotto, iniziò a cercare i Granito dispersi."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "Con l'aiuto dei Graniti salvati, Tux riuscì a raggiungere l'altro lato."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survived the Ghost Tree's "
+"overgrowth."
+msgstr "Era felice che ci fossero più Granito sopravissuti alla crescita eccessiva del Fantasmalbero."
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
+msgstr "Uno dei Granito gli chiese cosa, un pinguino come lui, stesse facendo così lontano dall'Antartide. "
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replied, that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly"
+msgstr "Tux rispose che stava cercando la sua amica Penny e che era stata catturata da una creatura malvagia chiamata \"Nolok\". Un nome che i Granito ricordavano tristemente."
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "I Granito dissero che conoscevano la sua patria. Ma che la chiamasse ancora casa, o che lì ci fosse Penny, non lo sapevano con certezza."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute"
+msgstr "Mostrarono a Tux la strada. Era il minimo che potessero fare per dimostrare la loro gratitudine."
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "Tux accettò con piacere e con una manciata di Granito si fece strada verso i tropici, a Nord-Est."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "Gli altri Granito sarebbero rimasti indietro, ricostruendo lentamente le loro case, ora che la corruzione era finalmente sconfitta..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "Granito liberati!"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr "Verde poco profondo"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Scioccante"
+msgstr "Elettrizzante "
 
-#: data/levels/world2/the_forest_is_rotting.stl:3
-msgid "The Forest Is Rotting"
-msgstr "La foresta sta marcendo"
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr "La radice quadrata dell'agonia"
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "Rocce e bastoni"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr "Legno impressionante"
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr "Tre fogli al vento"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
 msgstr "Attraverso l'oscurità"
 
-#: data/levels/world2/through_dark.stl:96
-msgid ""
-"-Earth Flower\n"
-"!images/powerups/earthflower/earth_flower-1.png\n"
-"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
-"#This does not work while jumping or falling!"
-msgstr "-Fiore della Terra\n!images/powerups/earthflower/earth_flower-1.png\n#Il Fiore della Terra dà a Tux l'abilità di trasformarsi in pietra mentre si tengono premuti il tasto AZIONE ed il tasto GIÙ contemporaneamente.\n#Non funziona mentre si sta saltando o se si sta cadendo!"
-
-#: data/levels/world2/tower_of_ghosts.stl:3
-msgid "Tower Of Ghosts"
-msgstr "Torre dei Fantasmi"
-
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
 msgstr "Tux il Costruttore"
-
-#: data/levels/world2/tux_builder.stl:77
-msgid ""
-"-Portable Objects:\n"
-"!images/objects/rock/rock.png\n"
-"#Tux can pick up certain objects and carry them around.\n"
-"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Oggetti Trasportabili:\n!images/objects/rock/rock.png\n#Tux ha la possibilità di prendere degli oggetti e portarli in giro.\n#Premi il tasto AZIONE per prendere un oggetto e mantienilo premuto per continuare a portare l'oggetto. Rilascia il tasto AZIONE per lasciarlo andare."
-
-#: data/levels/world2/tux_own_horror_show.stl:3
-msgid "Tux' Own Horror Show"
-msgstr "Lo show horror di Tux"
-
-#: data/levels/world2/tux_own_horror_show.stl:947
-msgid ""
-"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
-" often dangerous places."
-msgstr "#I Fuochi fatui sono fantasmi piccoli e fastidiosi, che ti trasportano in luoghi diversi, spesso pericolosi."
-
-#: data/levels/world2/walking_leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Foglie che camminano"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
 msgstr "Benvenuto nella Foresta"
 
-#: data/levels/world2/welcome_forest.stl:50
+#: data/levels/world2/welcome_forest.stl:130
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
-"#Tux can go through a door by pressing the UP key."
-msgstr "-Porte\n!images/objects/door/door-0.png\n#Tux può passare attraverso le porte premendo il tasto SU."
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-Porte\n!images/objects/door/door-0.png\n#Tux può passare attraverso una porta premendo il tasto FRECCIA SU.\n#\n#Alcune porte necessitano di una chiave per entrare!"
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Radici Legnose"
 
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "Foresta radicata"
-
-#: data/levels/world2/worldmap.stwm:239
+#: data/levels/world2/worldmap.stwm:318
 msgid "To be continued..."
 msgstr "To be continued..."
+
+#: data/levels/world2/worldmap.stwm:326 data/levels/world2/worldmap.stwm:336
+msgid "You found a secret area!"
+msgstr "Hai trovato un'area segreta!"
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "Ancora peggio della Salmonella"

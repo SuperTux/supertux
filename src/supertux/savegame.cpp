@@ -21,6 +21,7 @@
 #include <physfs.h>
 
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
@@ -169,7 +170,7 @@ Savegame::load(bool base_data)
 
     try
     {
-      auto doc = ReaderDocument::from_file(filename);
+      auto doc = ReaderDocument::from_file(filename, base_data ? 2 : -1);
       auto root = doc.get_root();
 
       if (root.get_name() != "supertux-savegame")
@@ -298,6 +299,9 @@ Savegame::get_worldmap_state(const std::string& name)
 {
   WorldmapState result;
 
+  if (Editor::current())
+    log_warning << "Savegame::get_worldmap_state called while the editor is active" << std::endl;
+
   try
   {
     ssq::Table worlds = m_state_table.getOrCreateTable("worlds");
@@ -342,7 +346,11 @@ Savegame::get_levelsets()
 LevelsetState
 Savegame::get_levelset_state(const std::string& basedir)
 {
+
   LevelsetState result;
+
+  if (Editor::current())
+    log_warning << "Savegame::get_levelset_state called while the editor is active" << std::endl;
 
   try
   {
@@ -364,6 +372,9 @@ Savegame::set_levelset_state(const std::string& basedir,
                              bool solved)
 {
   LevelsetState state = get_levelset_state(basedir);
+
+  if (Editor::current())
+    log_warning << "Savegame::set_levelset_state called while the editor is active" << std::endl;
 
   try
   {

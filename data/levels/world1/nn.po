@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>, 2004,2006-2007,2013-2016,2018-2020\n"
 "Language-Team: Norwegian Nynorsk (http://app.transifex.com/arctic-games/supertux/language/nn/)\n"
@@ -26,12 +26,12 @@ msgstr "Uro i lufta"
 msgid "Above the Antarctic Skies"
 msgstr "Over skyene"
 
-#: data/levels/world1/above_arctic_skies.stl:318
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
-"-Air Flower\r\n"
-"!images/powerups/airflower/air_flower-0.png\r\n"
+"-Air Flower\n"
+"!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
-msgstr "-Luftblome\r\n!images/powerups/airflower/air_flower-0.png\r\n#Med luftblomen kan du flytta deg raskare og hoppa høgare. Du kan òg sveva gjennom lufta i nokre sekund viss du held inne hoppetasten etter eit hopp."
+msgstr "-Luftblome\n!images/powerups/airflower/air_flower-0.png\n#Med luftblomen kan du flytta deg raskare og hoppa høgare. Du kan òg sveva gjennom lufta i nokre sekund viss du held inne hoppetasten etter eit hopp."
 
 #: data/levels/world1/antarctic_outpost.stl:3
 msgid "Antarctic Outpost"
@@ -44,6 +44,10 @@ msgstr "Mellom to brear"
 #: data/levels/world1/bouncy_mountainside.stl:3
 msgid "Bouncy, Bouncy Mountainside"
 msgstr "Hopp og sprett i fjellheimen"
+
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr "Ingen heime"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -69,7 +73,7 @@ msgstr "Inngangen til hòla"
 msgid "A Fork in the Road?"
 msgstr "Vegen delar seg?"
 
-#: data/levels/world1/fork_in_the_road.stl:750
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -82,6 +86,14 @@ msgstr "Frostlagde stiar"
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "Inferno i kvitt"
+
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Isøya"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Der eventyret tek til."
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -103,19 +115,19 @@ msgstr "Mitt liv som djupfrysar"
 msgid "Oh No! More Snowballs!"
 msgstr "Og snøballen rullar!"
 
-#: data/levels/world1/more_snowballs.stl:290
+#: data/levels/world1/more_snowballs.stl:319
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Gjenstandar\r\n#Du kan plukka opp gjenstandar med handlingstasten. Slepp tasten når du står i ro for å leggja frå deg gjenstanden.\r\n#Viss du slepper tasten når du er i rørsle, vil du kasta gjenstanden!"
+msgstr "-Gjenstandar\n#Du kan plukka opp gjenstandar med handlingstasten. Slepp tasten når du står i ro for å leggja frå deg gjenstanden.\n#Viss du slepper tasten når du er i rørsle, vil du kasta gjenstanden!"
 
-#: data/levels/world1/more_snowballs.stl:299
+#: data/levels/world1/more_snowballs.stl:328
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Kast oppover\r\n#Du kan kasta dei fleste gjenstandar oppover. Hald inne «Pil opp» samtidig som du slepp handlingstasten.\r\n#Viss du spring, vil du kasta gjenstanden i ein boge!"
+msgstr "-Kast oppover\n#Du kan kasta dei fleste gjenstandar oppover. Hald inne «Pil opp» samtidig som du slepp handlingstasten.\n#Viss du spring, vil du kasta gjenstanden i ein boge!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -130,39 +142,75 @@ msgid "A Path in the Clouds"
 msgstr "Med himmelen som tak"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux var no kommen inst i borga."
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
+msgstr "Endeleg kom Tux fram til det inste rommet i isborga."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Men til si overrasking fann han berre eit brev."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
+msgstr "Men til si overrasking fann han ingen her! Verken Penny eller denne merkelege Nolok-fyren."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Der hadde Penny skrive at Nolok hadde fare av stad med ho til ein bortgøymd skog."
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
+msgstr "Dei måtte vel vera her ein stad? Kanskje i eit hemmeleg rom?"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Tux vart livredd for kva Nolok kunne gjera med hans kjære Penny."
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
+msgstr "Etter litt att og fram oppdaga Tux ein lapp festa til éi av søylene."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Men så …"
+msgid "It was yet another note, by that Nolok."
+msgstr "Han var skriven av den Nolok-fyren."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr "På lappen stod at Nolok hadde drege til havs, til det høge nord. Viss Tux ville komma etter og redda venninna si, måtten han fara til Krystallgruva."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr "Nedst på lappen var ei kartskisse over Isbreøya. Ho viste ei bryggje og ein båt på nordsida."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr "Men før Tux klarte å ta innover seg alt, fylte eit høgt brøl rommet!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr "Ein ovstor yeti hadde dukka opp og stod no og slo seg på brystet!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr "Tux kom seg til ein balkong tvers over rommet. Han hadde ikkje noko val - han måtte hoppa!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
+msgstr "Dessverre ville ikkje yetien la Tux sleppa så lett unna …"
 
 #: data/levels/world1/scripts_crystal_mine.txt:2
 msgid ""
 "After a long swim across the antarctic waters, Tux arrived at the Glacier "
-"Isles the Yeti told him about."
-msgstr "Etter ein lang symjetur i Sørishavet kom Tux endeleg fram til Isbreøya, som yetien hadde fortalt om."
+"Isle mentioned in Nolok's note."
+msgstr "Etter ein lang symjetur i Sørishavet kom Tux endeleg fram til Isbreøya han hadde lese om på lappen."
 
 #: data/levels/world1/scripts_crystal_mine.txt:3
 msgid ""
-"A massive shaft layed before him leading down into the aforementioned "
-"Crystal Mine."
-msgstr "Ei lang sjakt låg føre han og førte ned i krystallgruva."
+"A massive shaft lay before him, leading down into the aforementioned Crystal"
+" Mine."
+msgstr "Ei djup sjakt låg føre han og førte ned i krystallgruva."
 
 #: data/levels/world1/scripts_crystal_mine.txt:4
 msgid ""
@@ -174,29 +222,33 @@ msgstr "Han hadde ei svak uro over at det kunne vera ei felle, men lét seg like
 msgid ""
 "At last, Tux made it through the crystal mine and found himself on the "
 "opposite end of the Glacier Isle."
-msgstr "Endeleg var Tux gjennom krystallgruva og var no kommen til den andre sida av Isbreøya."
+msgstr "Endeleg var Tux gjennom krystallgruva. Utgangen førte til den andre sida av Isbreøya."
 
 #: data/levels/world1/scripts_crystal_mine.txt:6
 msgid ""
-"As he was about the exit the mine, internally Tux was hoping that all the "
-"yeti said was true."
-msgstr "På veg ut gruva håpte han at det yetien hadde fortalt, var sant."
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
+msgstr "På veg ut gruva håpte han at det Nolok hadde skrive, var sant."
 
 #: data/levels/world1/scripts_crystal_mine.txt:7
 msgid ""
-"To his relief, Tux did find a boat still docked. With it he could sail up "
-"north, to the aforementioned forest."
-msgstr "Heldigvis fann han ein båt ankra opp. Med den kunne han segla nordover, til skogdekte øyer."
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
+msgstr "Og heldigvis fann han faktisk ein båt ankra opp. Med den kunne han segla nordover, finna Nolok og redda Penny."
 
 #: data/levels/world1/scripts_crystal_mine.txt:8
-msgid "Seems like the yeti did not lie to him after all."
-msgstr "Yetien hadde visst snakka sant likevel."
+msgid "It seemed the map in the note wasn't a trap after all."
+msgstr "Kartet på lappen var visst ikkje ei meint som ei felle likevel!"
 
 #: data/levels/world1/scripts_crystal_mine.txt:9
 msgid ""
-"The more he thought about it, he probably wasn't even meant to know about "
-"all this in the first place..."
-msgstr "Men jo meir han tenkte over det, jo sikrare vart han på at det ikkje var meininga at han skulle kjenna til dette …"
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
+msgstr "Men jo meir han tenkte på det, jo mindre sikker vart han på korfor Nolok hadde gjort som han gjorde. Korfor etterlata seg leietrådar?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Set inn filmsekvens her---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -239,26 +291,75 @@ msgid ""
 msgstr "Han såg borga til Nolok i det fjerne og la i veg!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Tux var trøytt etter den lange ferda og skulle nett til å ta ein rast i bakken."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the"
+" supposed castle of Nolok."
+msgstr "Etter ein heil dags vandring på Isøya var Tux no nesten framme med det som skulle vera borga til Nolok."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Men så høyrde han eit kraftig brøl eit stykke unna."
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
+msgstr "Det var ikkje heilt bra at han ikkje hadde fått blund på auga om natta, men han var fest bestemd på å halda fram likevel!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
-msgstr "Ein yeti hadde visst stått og sett på han."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
+msgstr "Han ville ikkje kasta vekk tid og sklei derfor nedover mot isdalen."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
-" ..."
-msgstr "Han vart uroa over at yetien hadde flykta, og la derfor straks i veg att."
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
+msgstr "Han var ikkje klar over at ein yeti stod eit stykke unna og følgde med."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "Og håpa verkeleg han ikkje kom til å støyta på yetien igjen."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr "Yetien brølte og la i veg etter den vesle pingvinen."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr "Han hadde klart det! Han hadde faktisk klart det! Tux hadde klart å slå den mektige yetien!"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he"
+" did not throw hands again."
+msgstr "Det ikkje tok lang tid for yetien å reisa seg att, men no gjekk han heldigvis ikkje lenger til åtak på Tux."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr "Men han var rasande! Han forstod ikkje korleis ein liten pingvin hadde klart å slå han."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr "Og han ensa knapt Tux i det han storma knurrande ut."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr "Tux vart ståande forfjamsa att - før han vandra kjapt vidare."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr "Når han kom ned til stranda, kunne han skimta Isbreøya i det fjerne."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr "Hadde han visst tidlegare at det var der Nolok hadde teke vegen, kunne han alt ha vore framme no."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
+msgstr "Kanskje det var derfor Nolok hadde skrive lappen ..."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"
@@ -283,19 +384,19 @@ msgstr "-Symjing\n!images/creatures/tux/big/swim-1.png\n#Når du er under vatn, 
 msgid "Stone Cold"
 msgstr "Steinkaldt"
 
-#: data/levels/world1/stone_cold.stl:191
+#: data/levels/world1/stone_cold.stl:195
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Gjenstandar\r\n#Du kan plukka opp gjenstandar med handlingstasten. Slepp tasten når du står i ro for å leggja frå deg gjenstanden.\r\n#Viss du slepper tasten når du er i rørsle, vil du kasta gjenstanden!"
+msgstr "-Gjenstandar\n#Du kan plukka opp gjenstandar med handlingstasten. Slepp tasten når du står i ro for å leggja frå deg gjenstanden.\n#Viss du slepper tasten når du er i rørsle, vil du kasta gjenstanden!"
 
-#: data/levels/world1/stone_cold.stl:200
+#: data/levels/world1/stone_cold.stl:204
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Kast oppover\r\n#Du kan kasta dei fleste gjenstandar oppover. Hald inne «Pil opp» samtidig som du slepp handlingstasten.\r\n#Viss du spring, vil du kasta gjenstanden i ein boge!"
+msgstr "-Kast oppover\n#Du kan kasta dei fleste gjenstandar oppover. Hald inne «Pil opp» samtidig som du slepp handlingstasten.\n#Viss du spring, vil du kasta gjenstanden i ein boge!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -305,32 +406,30 @@ msgstr "Under isen"
 msgid "Welcome to Antarctica"
 msgstr "Velkommen til Sørpolen"
 
-#: data/levels/world1/welcome_antarctica.stl:118
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Egg\n!images/powerups/egg/egg-shade.png\n#Egget får deg til å veksa deg større. Du kan då knusa trekassar med hovudet."
 
-#: data/levels/world1/welcome_antarctica.stl:127
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Eldblome\n!images/powerups/fireflower/fire_flower-0.png\n#Eldblomen gjev deg evna til å skyta eldkuler."
 
-#: data/levels/world1/welcome_antarctica.stl:136
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux Doll gives Tux 100 coins."
-msgstr "-Tux-dokke\n!images/powerups/1up/1up.png\n#Tux-dokka gjev deg 100 myntar."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr "-Tux-dokke\n!images/powerups/1up/1up.png\n#Tux-dokker er sjeldne samlegjenstandar du treng for å låsa opp bonusøyene!\n\n#Få tak i alle for å låsa opp nye og artige brett!"
 
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Isøya"
-
-#: data/levels/world1/worldmap.stwm:210
+#: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"
 msgstr "Du fann ein hemmeleg plass!"
 
@@ -339,5 +438,9 @@ msgid "No More Mr. Ice Guy"
 msgstr "Utan isbitar, takk!"
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
-msgstr "Yetien på haugen"
+msgid "An Unsuspected Follower"
+msgstr "Eit uventa haleheng"
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
+msgstr "Til Isbreøya"

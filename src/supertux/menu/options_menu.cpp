@@ -170,8 +170,16 @@ OptionsMenu::refresh()
 
       // Separated both translation strings so the latter can be removed if it is
       // no longer true, without requiring a new round of translating
+#ifndef __ANDROID__
       add_toggle(MNID_RUMBLING, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers)
         .set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the multiplayer options menu."));
+#else
+      add_toggle(-1, _("Enable Haptic Feedback"), &g_config->touch_haptic_feedback)
+        .set_help(_("Enable haptic feedback for touchscreen controls"));
+
+      add_toggle(-1, _("Only Haptic Feedback for D-Pad"), &g_config->touch_just_directional)
+        .set_help(_("Only enable haptic feedback for the D-Pad"));
+#endif
 
       add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
         .set_help(_("Configure key-action mappings"));
@@ -195,6 +203,9 @@ OptionsMenu::refresh()
 
       add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
         .set_help(_("Enable screen transitions and smooth menu animation"));
+
+      add_toggle(MNID_SHOW_GAME_TIMER, _("Show game timer"), &g_config->show_game_timer)
+        .set_help(_("Show a game timer while playing a level"));
 
       add_toggle(MNID_CUSTOM_TITLE_LEVELS, _("Custom title screen levels"), &g_config->custom_title_levels)
         .set_help(_("Allow overriding the title screen level, when loading certain worlds"));
@@ -226,12 +237,14 @@ OptionsMenu::refresh()
       add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
         .set_help(_("Automatically pause the game when the window loses focus"));
 
-#if defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD) && !defined(STEAM_BUILD)
+      // Note: there were complaints about Wayldn for steam (i think from the devs?), so it's off for now.
+#if (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
+     defined(__OPENBSD) || defined(__NetBSD)) && !(defined(STEAM_BUILD) || defined(__ANDROID__))
       add_toggle(MNID_PREFER_WAYLAND, _("Prefer Wayland"), &g_config->prefer_wayland)
         .set_help(_("If you experience any issues with Nvidia cards, your window border, or anything you believe is due to Wayland, disable this. (Requires restart)"));
 #endif
 
+#ifndef HIDE_NONMOBILE_OPTIONS
       add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
 
       add_toggle(MNID_CUSTOM_CURSOR, _("Use native custom cursor"), &g_config->custom_system_cursor).set_help(_("Whether the game uses a native custom cursor or renders it in the game"));
@@ -244,6 +257,7 @@ OptionsMenu::refresh()
 
       add_toggle(MNID_INVERT_WHEEL_Y, _("Invert vertical scrolling"), &g_config->invert_wheel_y)
         .set_help(_("Inverts scrolling in the Y-axis"));
+#endif
 
       // it kind of allows you to see outside of the game sessions typical
       // camera... so it's a developer option

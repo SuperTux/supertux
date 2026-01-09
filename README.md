@@ -104,12 +104,3 @@ In case you need help, feel free to reach out using the following means:
 * **Social Media:** Mostly on [Twitter](https://twitter.com/supertux_team) at
   the moment.
 * **Discord:** Also, you can join our [Discord server](https://discord.com/invite/AcvtHWz) to get in touch with us.
-
-## Development status
-
-As of now, with the release of SuperTux 0.6.3 (December 2021), the Forest World is almost
-finished, since the ghost forest section has been included. However, some levels, especially
-the Ghostree Level, are considered to be placeholders, because for the next version (0.7.0) a
-great overhaul is planned with new features like reworked boss fights, graphics, and worlds.
-If you have some Constructive Feedback, Contributions or ideas to share, don't hesitate
-to contact us with one of the possibilities given above.

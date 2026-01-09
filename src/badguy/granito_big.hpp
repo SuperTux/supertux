@@ -34,6 +34,7 @@ public:
   GranitoBig(const ReaderMapping& reader);
 
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void active_update(float dt_sec) override;
 
@@ -67,7 +68,6 @@ public:
   virtual void wave() override {}
   virtual void jump() override {}
   virtual void sit() override {}
-  virtual GranitoBig* get_carrier() const override { return nullptr; }
 
 public:
   Granito* m_carrying;

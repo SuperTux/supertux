@@ -31,15 +31,22 @@ SDLBaseVideoSystem::SDLBaseVideoSystem() :
   m_desktop_size(),
   m_last_fullscreen_state(g_config->use_fullscreen)
 {
+//#ifdef __ANDROID__
+  // FIXME: SDL_GetDesktopDisplayMode gives a "video system not initialised" error. I don't know why.
+//  SDL_VideoInit(nullptr);
+//#endif
+#ifndef __ANDROID__
   SDL_DisplayMode mode;
   if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
   {
     log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
+    //m_desktop_size = g_config->window_size;
   }
   else
   {
     m_desktop_size = Size(mode.w, mode.h);
   }
+#endif
 }
 
 SDLBaseVideoSystem::~SDLBaseVideoSystem()
@@ -55,7 +62,9 @@ SDLBaseVideoSystem::set_title(const std::string& title)
 void
 SDLBaseVideoSystem::set_icon(const SDL_Surface& icon)
 {
+#ifndef ANDROID
   SDL_SetWindowIcon(m_sdl_window.get(), const_cast<SDL_Surface*>(&icon));
+#endif
 }
 
 Size
@@ -160,7 +169,7 @@ SDLBaseVideoSystem::apply_video_mode()
   {
     SDL_SetWindowFullscreen(m_sdl_window.get(), 0);
 
-#ifdef WIN32
+#if 0
     // After un-fullscreening, the window border likely gets hidden offscreen,
     // so let's force it downwards so it can be dragged
     int x;

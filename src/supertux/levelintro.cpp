@@ -17,6 +17,7 @@
 #include "supertux/levelintro.hpp"
 
 #include "control/input_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -59,6 +60,7 @@ LevelIntro::~LevelIntro()
 void
 LevelIntro::setup()
 {
+  MouseCursor::current()->set_visible(false);
 }
 
 void
@@ -99,7 +101,8 @@ LevelIntro::update(float dt_sec, const Controller& controller)
 
       m_player_sprite[i]->set_action(bonus_prefix + "-jump-right");
     }
-    if (m_player_sprite_jump_timer[i]->check()) {
+    if (m_player_sprite_jump_timer[i]->check() || controller.pressed(Control::UP) &&
+        m_player_sprite_py[i] >= 0) {
       m_player_sprite_vy[i] = -300;
       m_player_sprite_jump_timer[i]->start(graphicsRandom.randf(2,3));
     }

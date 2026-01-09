@@ -73,7 +73,7 @@ WorldMapSector::WorldMapSector(WorldMap& parent) :
 {
   BIND_WORLDMAP_SECTOR(*this);
 
-  add<PlayerStatusHUD>(m_parent.get_savegame().get_player_status());
+  add<PlayerStatusHUD>(m_parent.get_savegame().get_player_status(), true);
 }
 
 WorldMapSector::~WorldMapSector()
@@ -369,7 +369,7 @@ WorldMapSector::update(float dt_sec)
           // update state and savegame
           m_parent.save_state();
           ScreenManager::current()->push_screen(std::move(game_session),
-                                                skip_cutscene ? nullptr : std::make_unique<ShrinkFade>(shrinkpos, 1.0f, LAYER_LIGHTMAP - 1));
+                                                skip_cutscene ? nullptr : std::make_unique<ShrinkFade>(shrinkpos, .9f, LAYER_LIGHTMAP - 1, ShrinkFade::FADEOUT, false, .2f));
 
           m_parent.m_in_level = true;
         } catch(std::exception& e) {
@@ -489,7 +489,10 @@ WorldMapSector::finished_level(Level* gamelevel)
   bool old_level_state = level->is_solved();
   level->set_solved(true);
 
-  // deal with statistics
+  /* Deal with statistics */
+  m_parent.get_savegame().get_player_status().add_tuxdolls(
+    std::max(0, gamelevel->m_stats.get_tuxdolls() - level->get_statistics().get_tuxdolls()));
+
   level->get_statistics().update(gamelevel->m_stats);
 
   if (level->get_statistics().completed(level->get_target_time())) {

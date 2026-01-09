@@ -22,7 +22,7 @@
 #include "video/drawing_context.hpp"
 
 EditorComment::EditorComment(const ReaderMapping& reader):
-  MovingObject(reader),
+  DraggableRegion(reader),
   m_comment(""),
   m_lines()
 {

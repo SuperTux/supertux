@@ -199,29 +199,14 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
 void PhysfsSubsystem::find_mount_datadir()
 {
 #ifndef __EMSCRIPTEN__
-  if (const char* assetpack = getenv("ANDROID_ASSET_PACK_PATH"))
-  {
-    // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
-    if (!PHYSFS_mount(std::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
+#ifdef __ANDROID__
+    if (!setup_android_datadir())
     {
-      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << physfsutil::get_last_error() << std::endl;
-      return;
-    }
-
-    PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
-    if (!data)
-    {
-      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << physfsutil::get_last_error() << std::endl;
-      return;
-    }
-
-    if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
-    {
-      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << physfsutil::get_last_error() << std::endl;
+      log_warning << "Couldn't setup android assets: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
     }
 
     return;
-  }
+#endif
 
   if (m_forced_datadir)
   {
@@ -426,6 +411,54 @@ void PhysfsSubsystem::print_search_path()
   PHYSFS_freeList(searchpath);
 }
 
+bool
+PhysfsSubsystem::setup_android_datadir() const
+{
+  /*
+  Only SDL knows about the data zip inside the APK
+  (this means only SDL knows how to use the JNI to load assets)
+  1. Copy the data zip inside the apk to userdir
+  2. Physfs mounts that new data zip
+  */
+
+  std::string zippath = "data.zip";
+  std::string newzip = m_forced_userdir.value();
+  newzip.append("/");
+  newzip.append(zippath);
+
+  size_t zipsz;
+  void* zipdata = SDL_LoadFile(zippath.c_str(), &zipsz);
+
+  bool newdata = true;
+  if (FileSystem::exists(newzip)) {
+    // Oh wait, the zip already exists?
+    // Well, is it different?
+    size_t currzipsz;
+    void* currzip = SDL_LoadFile(newzip.c_str(), &currzipsz);
+
+    newdata = (zipsz != currzipsz);
+
+    SDL_free(currzip);
+  }
+
+  if (newdata) {
+    // Copy
+    SDL_RWops* zipcp = SDL_RWFromFile(newzip.c_str(), "w");
+    if (!zipcp) {
+      SDL_free(zipdata);
+      return false;
+    }
+    SDL_RWwrite(zipcp, zipdata, sizeof(char), zipsz);
+    SDL_RWclose(zipcp);
+  }
+
+  SDL_free(zipdata);
+
+  PHYSFS_mount(newzip.c_str(), nullptr, 1);
+
+  return true;
+}
+
 PhysfsSubsystem::~PhysfsSubsystem()
 {
   PHYSFS_deinit();
@@ -436,7 +469,7 @@ SDLSubsystem::SDLSubsystem()
   Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
 
 #if SDL_VERSION_ATLEAST(2,0,22) && (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD)) && !defined(STEAM_BUILD)
+    defined(__OPENBSD) || defined(__NetBSD)) && !defined(STEAM_BUILD) && !defined(ANDROID)
   /* See commit 254fcc9 for SDL. Most of the Nvidia problems are knocked out (i
    * think) for now thanks to nvidia's open drivers. Wayland is needed for
    * precision scrolling to work (which is used for the editor) and most distros
@@ -455,6 +488,10 @@ SDLSubsystem::SDLSubsystem()
     msg << "Couldn't initialize SDL: " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
+
+#ifdef __ANDROID__
+  g_config->mobile_controls = SDL_GetNumTouchDevices() > 0;
+#endif
 
   if (TTF_Init() < 0)
   {
@@ -594,12 +631,11 @@ Main::launch_game(const CommandLineArguments& args)
 
   if (!args.filenames.empty())
   {
-    for(const auto& start_level : args.filenames)
+    for(auto start_level : args.filenames)
     {
       // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(start_level);
-      const std::string filename = FileSystem::basename(start_level);
       const std::string fileProtocol = "file://";
       const std::string::size_type position = dir.find(fileProtocol);
       if (position != std::string::npos) {
@@ -630,11 +666,11 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else if (StringUtil::has_suffix(start_level, ".stwm"))
       {
-        m_screen_manager->push_screen(std::make_unique<worldmap::WorldMap>(filename, *m_savegame));
+        m_screen_manager->push_screen(std::make_unique<worldmap::WorldMap>(start_level, *m_savegame));
       }
       else
       { // launch game
-        std::unique_ptr<GameSession> session = std::make_unique<GameSession>(filename, *m_savegame);
+        std::unique_ptr<GameSession> session = std::make_unique<GameSession>(start_level, *m_savegame);
 
         gameRandom.seed(g_config->random_seed);
         graphicsRandom.seed(0);
@@ -656,7 +692,6 @@ Main::launch_game(const CommandLineArguments& args)
           // FIXME: Specify start pos for multiple players
           session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
-
         session->restart_level();
         m_screen_manager->push_screen(std::move(session));
       }
@@ -721,8 +756,10 @@ Main::run(int argc, char** argv)
 
   int result = 0;
 
+#ifdef NDEBUG // We want exceptions to properly TRAP in debug mode
   try
   {
+#endif
     CommandLineArguments args;
     try
     {
@@ -736,7 +773,11 @@ Main::run(int argc, char** argv)
       return EXIT_FAILURE;
     }
 
-    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, args.userdir));
+#ifdef __ANDROID__
+    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, SDL_AndroidGetExternalStoragePath()));
+#else
+    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, args.userdir));
+#endif
     m_physfs_subsystem->print_search_path();
 
     s_timelog.log("config");
@@ -745,6 +786,7 @@ Main::run(int argc, char** argv)
 
     s_timelog.log("tinygettext");
     init_tinygettext();
+
     switch (args.get_action())
     {
       case CommandLineArguments::PRINT_VERSION:
@@ -767,20 +809,19 @@ Main::run(int argc, char** argv)
         launch_game(args);
         break;
     }
+#ifdef NDEBUG
   }
   catch(const std::exception& e)
   {
-    ErrorHandler::error_dialog_exception(e.what());
+    log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;
   }
   catch(...)
   {
-    /*
     log_fatal << "Unexpected exception" << std::endl;
-    */
-    ErrorHandler::error_dialog_exception();
     result = 1;
   }
+#endif
 
   g_dictionary_manager.reset();
 
@@ -788,7 +829,7 @@ Main::run(int argc, char** argv)
   // SDL2 keeps shared libraries loaded after the app is closed,
   // when we launch the app again the static initializers will run twice and crash the app.
   // So we just need to terminate the app process 'gracefully', without running destructors or atexit() functions.
-  _exit(result);
+  _Exit(result);
 #endif
 
   return result;

@@ -17,12 +17,13 @@
 #include "object/particle_zone.hpp"
 
 #include "editor/editor.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/resources.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 ParticleZone::ParticleZone(const ReaderMapping& reader) :
-  MovingObject(reader),
+  DraggableRegion(reader),
   m_enabled(),
   m_particle_name()
 {
@@ -76,28 +77,26 @@ ParticleZone::update(float dt_sec)
 void
 ParticleZone::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
-    Color c;
+  if (Editor::is_active() || g_debug.show_collision_rects) {
     switch(m_type) {
     case ParticleZoneType::Spawn:
-      c = Color(0.5f, 0.5f, 1.0f, 0.6f);
+      set_color(Color(0.5f, 0.5f, 1.0f, 0.6f));
       break;
     case ParticleZoneType::Life:
-      c = Color(0.5f, 1.0f, 0.5f, 0.6f);
+      set_color(Color(0.5f, 1.0f, 0.5f, 0.6f));
       break;
     case ParticleZoneType::LifeClear:
-      c = Color(1.0f, 1.0f, 0.5f, 0.6f);
+      set_color(Color(1.0f, 1.0f, 0.5f, 0.6f));
       break;
     case ParticleZoneType::Killer:
-      c = Color(1.0f, 0.75f, 0.5f, 0.6f);
+      set_color(Color(1.0f, 0.75f, 0.5f, 0.6f));
       break;
     case ParticleZoneType::Destroyer:
-      c = Color(1.0f, 0.5f, 0.5f, 0.6f);
+      set_color(Color(1.0f, 0.5f, 0.5f, 0.6f));
       break;
     }
 
-    context.color().draw_filled_rect(m_col.m_bbox, c,
-                           0.0f, LAYER_OBJECTS);
+    DraggableRegion::draw(context);
     context.color().draw_text(Resources::small_font,
                           m_particle_name,
                           m_col.m_bbox.p1(),

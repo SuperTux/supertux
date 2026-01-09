@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-17 08:18+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jaakko Muilu, 2025\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -30,12 +30,12 @@ msgstr "Lento 23"
 msgid "Above the Antarctic Skies"
 msgstr "Etelämantereen taivaan yllä"
 
-#: data/levels/world1/above_arctic_skies.stl:318
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
-"-Air Flower\r\n"
-"!images/powerups/airflower/air_flower-0.png\r\n"
+"-Air Flower\n"
+"!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
-msgstr "-Ilmakukka\n!images/powerups/airflower/air_flower-0.png\n#Ilmakukka antaa Tuxin liikkua nopeammin ja hypätä korkeammalle. Se antaa muutamaksi sekunniksi kyvyn liitää ilmassa pitämällä hyppynäppäintä pohjassa."
+msgstr ""
 
 #: data/levels/world1/antarctic_outpost.stl:3
 msgid "Antarctic Outpost"
@@ -77,7 +77,7 @@ msgstr "Luolan suu"
 msgid "A Fork in the Road?"
 msgstr "Tienhaarako?"
 
-#: data/levels/world1/fork_in_the_road.stl:741
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -90,6 +90,14 @@ msgstr "Jääkentät"
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "Jäävelat"
+
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Jääsaari"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr ""
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -111,19 +119,19 @@ msgstr "Elämä jääkaapissa"
 msgid "Oh No! More Snowballs!"
 msgstr "Voi ei! Lisää lumipalloja!"
 
-#: data/levels/world1/more_snowballs.stl:290
+#: data/levels/world1/more_snowballs.stl:319
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine vapauttamalla toimintanäppäin seisoessasi.\r\n#Jos vapautat toimintanäppäintä Tuxin liikkuessa, hän heittää sen!"
+msgstr ""
 
-#: data/levels/world1/more_snowballs.stl:299
+#: data/levels/world1/more_snowballs.stl:328
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Heitto ylös\n#Tux voi heittää useimpia esineitä ylöspäin pitämällä YLÖS-näppäintä pohjassa ja vapauttamalla toimintanäppäintä.\n#Juostessaan Tux heittää esineen kaaressa!"
+msgstr ""
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -241,6 +249,10 @@ msgid ""
 "The more he thought about it, the less he was sure about Nolok's "
 "motivations. Why would he leave clues behind?"
 msgstr "Mitä enemmän hän ajatteli sitä, sitä vähemmän hän oli varma Nolokin motiiveista. Miksi hän jättäisi vihjeitä jälkeensä?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Aseta Tähän Välikohtaus---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -376,19 +388,19 @@ msgstr "-Uiminen\n!images/creatures/tux/big/swim-1.png\n#Ui veden alla vapaasti 
 msgid "Stone Cold"
 msgstr "Kylmä kuin kivi"
 
-#: data/levels/world1/stone_cold.stl:191
+#: data/levels/world1/stone_cold.stl:195
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine vapauttamalla toimintanäppäintä.\r\n#Jos vapautat toimintanäppäintä Tuxin liikkuessa, hän heittää sen!"
+msgstr ""
 
-#: data/levels/world1/stone_cold.stl:200
+#: data/levels/world1/stone_cold.stl:204
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Heitto ylös\r\n#Tux voi heittää useimpia esineitä ylöspäin pitämällä YLÖS-näppäintä pohjassa ja vapauttamalla toimintanäppäintä\r.\n#Juostessaan Tux heittää esineen kaaressa!"
+msgstr ""
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -398,32 +410,30 @@ msgstr "Jään alla"
 msgid "Welcome to Antarctica"
 msgstr "Tervetuloa Etelämantereelle"
 
-#: data/levels/world1/welcome_antarctica.stl:118
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Munat\n!images/powerups/egg/egg-shade.png\n#Muna tekee Tuxista isomman, jolloin hän voi rikkoa puulaatikoita päällään."
 
-#: data/levels/world1/welcome_antarctica.stl:127
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Tulikukka\n!images/powerups/fireflower/fire_flower-0.png\n#Tulikukka antaa Tuxille kyvyn ampua tulipalloja."
 
-#: data/levels/world1/welcome_antarctica.stl:136
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux Doll gives Tux 100 coins."
-msgstr "-Tux-nukke\n!images/powerups/1up/1up.png\n#Tux-nukke antaa Tuxille 100 kolikkoa."
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr ""
 
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Jääsaari"
-
-#: data/levels/world1/worldmap.stwm:243
+#: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"
 msgstr "Löysit salaisen paikan!"
 

@@ -32,7 +32,7 @@
 static const float MESSAGE_TIME=3.5;
 
 SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
-  Trigger(reader),
+  Trigger(Color(0.0f, 1.0f, 0.0f, 0.6f), reader),
   message_timer(),
   message_displayed(false),
   message(),
@@ -65,7 +65,8 @@ SecretAreaTrigger::get_settings()
 void
 SecretAreaTrigger::draw(DrawingContext& context)
 {
-  if (message_timer.started()) {
+  if (message_timer.started())
+  {
     context.push_transform();
     context.set_translation(Vector(0, 0));
     context.transform().scale = 1.f;
@@ -73,36 +74,47 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.color().draw_text(Resources::normal_font, message, pos, FontAlignment::ALIGN_CENTER, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }
-  if (Editor::is_active() || g_debug.show_collision_rects) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 1.0f, 0.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
-  } else if (message_timer.check()) {
-    remove_me();
-  }
+
+  DraggableRegion::draw(context);
 }
 
 void
 SecretAreaTrigger::event(Player& , EventType type)
 {
-  if (type == EVENT_TOUCH) {
-    if (!message_displayed) {
+  if (type == EVENT_TOUCH)
+  {
+    if (!message_displayed)
+    {
       message_timer.start(MESSAGE_TIME);
       message_displayed = true;
       Sector::get().get_level().m_stats.increment_secrets();
       SoundManager::current()->play("sounds/welldone.ogg");
 
-      if (!fade_tilemap.empty()) {
+      if (!fade_tilemap.empty())
+      {
         // fade away tilemaps
-        for (auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
-          if (tm.get_name() == fade_tilemap) {
+        for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
+        {
+          if (tm.get_name() == fade_tilemap)
+          {
             tm.fade(0.0, 1.0);
           }
         }
       }
 
-      if (!script.empty()) {
+      if (!script.empty())
+      {
         Sector::get().run_script(script, "SecretAreaScript");
       }
     }
+  }
+}
+
+void
+SecretAreaTrigger::update(float)
+{
+  if (message_timer.check())
+  {
+    remove_me();
   }
 }

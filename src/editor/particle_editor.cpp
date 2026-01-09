@@ -683,7 +683,7 @@ ParticleEditor::draw(Compositor& compositor)
     }
   }
 
-  MouseCursor::current()->draw(context);
+  MouseCursor::current()->set_visible(true);
 }
 
 void

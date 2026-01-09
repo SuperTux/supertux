@@ -97,11 +97,10 @@ public:
 private:
   bool should_crush();
   bool should_finish_crushing(const CollisionHit& hit) const;
-  bool should_finish_recovering(const CollisionHit& hit) const;
   bool has_recovered();
   Rectf get_detect_box(CrusherDirection dir = CrusherDirection::ALL);
 
-  Vector get_direction_vector();
+  Vector get_direction_vector(CollisionObject* target = nullptr);
   static Direction direction_from_vector(const Vector& vec);
 
   void crush();

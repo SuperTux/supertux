@@ -24,6 +24,7 @@
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
@@ -36,6 +37,7 @@
 #include "sdk/integration.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -43,6 +45,7 @@
 #include "supertux/levelintro.hpp"
 #include "supertux/levelset_screen.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
@@ -56,7 +59,8 @@
 static const float SAFE_TIME = 1.0f;
 static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
 static const float TELEPORT_FADE_TIME = 1.0f;
-
+static const float TELEPORT_FADE_TIME_CIRCLE = 1.43f;
+static const float TELEPORT_SPEEDUP = 3.18f;
 
 GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   reset_button(false),
@@ -83,6 +87,7 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   m_tmp_playerstatus(0),
   m_play_time(0),
   m_levelintro_shown(false),
+  m_skip_intro(false),
   m_coins_at_start(),
   m_boni_at_start(),
   m_max_fire_bullets_at_start(),
@@ -164,7 +169,7 @@ GameSession::on_player_added(int id)
 
   if (player_status->m_num_players <= id)
     player_status->add_player();
-  
+
 
   // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
   auto& player = m_currentsector->add<Player>(*player_status, "Tux" + std::to_string(id + 1), id);
@@ -229,11 +234,11 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     if (FileSystem::dirname(m_levelfile) == "./") {
       m_levelfile = FileSystem::basename(m_levelfile);
     }
-    
+
 	// TODO: We currently storage the level as a stringstream, not ideal.
 	// Level was passed as an argument (likely from the editor)
 	// if (m_level == nullptr && !m_levelfile.empty())
-	
+
 	if (!m_levelstream)
       m_level_storage = LevelParser::from_file(m_levelfile, false, false);
 	else
@@ -242,7 +247,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 	  m_levelstream->seekg(0, std::ios::beg);
 	  m_level_storage = LevelParser::from_stream(*m_levelstream, "", false, false);
 	}
-	
+
 	m_level = m_level_storage.get();
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
@@ -309,9 +314,9 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   if (m_levelintro_shown && !m_skip_intro)
   {
     const Vector shrinkpos = get_fade_point();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER,  ShrinkFade::FADEIN));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME_CIRCLE, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
   }
-  
+
   if (!preserve_music)
   {
     auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
@@ -447,6 +452,7 @@ GameSession::toggle_pause()
     m_currentsector->stop_looping_sounds();
     SoundManager::current()->pause_music();
     m_game_pause = true;
+    MouseCursor::current()->set_visible(true);
   }
 
   // Unpause is done in update() after the menu is processed.
@@ -525,6 +531,9 @@ GameSession::draw(Compositor& compositor)
 
   if (m_game_pause)
     draw_pause(context);
+
+  if (g_config->show_game_timer && !g_debug.hide_player_hud)
+    draw_timer(context);
 }
 
 void
@@ -557,16 +566,19 @@ GameSession::setup()
   else
   {
     const Vector shrinkpos = get_fade_point();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME_CIRCLE, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
   }
   m_skip_intro = false;
 
   m_end_seq_started = false;
+
+  MouseCursor::current()->set_visible(false);
 }
 
 void
 GameSession::leave()
 {
+  MouseCursor::current()->set_visible(true);
   m_data_table.clear();
 }
 
@@ -646,7 +658,7 @@ GameSession::update(float dt_sec, const Controller& controller)
         const Vector spawn_point_position = sector->get_spawn_point_position(m_newspawnpoint);
         const Vector shrinkpos = get_fade_point(spawn_point_position);
 
-        ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN));
+        ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME_CIRCLE, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
         break;
       }
       default:
@@ -757,6 +769,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     assert(m_currentsector != nullptr);
     m_currentsector->play_looping_sounds();
     m_game_pause = false;
+    MouseCursor::current()->set_visible(false);
   }
 
   if (reset_button) {
@@ -828,19 +841,22 @@ GameSession::respawn_with_fade(const std::string& sector,
   m_spawn_with_invincibility = make_invincible;
 
   bool transition_takes_time = false;
+  float transition_time;
 
   switch (m_spawn_fade_type)
   {
     case ScreenFade::FadeType::FADE:
     {
-      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, TELEPORT_FADE_TIME));
+      transition_time = TELEPORT_FADE_TIME;
+      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, transition_time));
       transition_takes_time = true;
       break;
     }
     case ScreenFade::FadeType::CIRCLE:
     {
       const Vector shrinkpos = get_fade_point(fade_point);
-      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEOUT));
+      transition_time = TELEPORT_FADE_TIME_CIRCLE;
+      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, transition_time, SHRINKFADE_LAYER, ShrinkFade::FADEOUT, true, TELEPORT_SPEEDUP));
       transition_takes_time = true;
       break;
     }
@@ -850,12 +866,12 @@ GameSession::respawn_with_fade(const std::string& sector,
 
   if (transition_takes_time)
   {
-    m_spawn_fade_timer.start(TELEPORT_FADE_TIME);
+    m_spawn_fade_timer.start(transition_time);
 
     // Make all players safe during the fadeout transition
     for (Player* player : m_currentsector->get_players())
     {
-      player->make_temporarily_safe(TELEPORT_FADE_TIME);
+      player->make_temporarily_safe(transition_time);
     }
   }
 }
@@ -1022,4 +1038,32 @@ GameSession::drawstatus(DrawingContext& context)
   }
 
   m_level->m_stats.draw_ingame_stats(context, m_game_pause);
+}
+
+void
+GameSession::draw_timer(DrawingContext& context) const
+{
+  int ms = static_cast<int>(m_play_time * 1000.f);
+
+  const int h = ms / (1000 * 60 * 60);
+  ms -= h * (1000 * 60 * 60);
+
+  const int m = ms / (1000 * 60);
+  ms -= m * (1000 * 60);
+
+  const int s = ms / 1000;
+  ms -= s * 1000;
+
+  std::ostringstream out;
+  out << std::setfill('0')
+    << std::setw(2) << h << ':'
+    << std::setw(2) << m << ':'
+    << std::setw(2) << s << '.'
+    << std::setw(3) << ms;
+
+  context.color().draw_text(Resources::normal_bitmap_font, out.str(),
+                            Vector(context.get_width() / 2
+                                     + (m_currentsector->get_object_count<LevelTime>() > 0 ? context.get_width() * 0.10f : 0),
+                                   20.f),
+                            ALIGN_CENTER, LAYER_HUD);
 }

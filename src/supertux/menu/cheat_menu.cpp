@@ -57,6 +57,28 @@ CheatMenu::CheatMenu()
   add_back(_("Back"));
 }
 
+static void
+apply_callback(Player* single_player, std::function<void(Player* player)> action)
+{
+  if (single_player)
+  {
+    action(single_player);
+    MenuManager::instance().clear_menu_stack();
+  }
+  else
+  {
+    MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([action](Player& player){
+      action(&player);
+    }));
+  }
+}
+
+static std::function<void(Player* player)>
+apply_powerup(enum BonusType type)
+{
+  return [type](Player *player) { player->set_bonus(type); };
+}
+
 void
 CheatMenu::menu_action(MenuItem& item)
 {
@@ -68,83 +90,35 @@ CheatMenu::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_GROW:
-      if (single_player)
-      {
-        single_player->set_bonus(BONUS_GROWUP);
-        MenuManager::instance().clear_menu_stack();
-      }
-      else
-      {
-        MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player){
-          player.set_bonus(BONUS_GROWUP);
-        }));
-      }
+      ::apply_callback(single_player, ::apply_powerup(BONUS_GROWUP));
       break;
 
     case MNID_FIRE:
-      MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player){
-        player.set_bonus(BONUS_FIRE);
-      }));
+      ::apply_callback(single_player, ::apply_powerup(BONUS_FIRE));
       break;
 
     case MNID_ICE:
-      MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player){
-        player.set_bonus(BONUS_ICE);
-      }));
+      ::apply_callback(single_player, ::apply_powerup(BONUS_ICE));
       break;
 
     case MNID_AIR:
-      MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player){
-        player.set_bonus(BONUS_AIR);
-      }));
+      ::apply_callback(single_player, ::apply_powerup(BONUS_AIR));
       break;
 
     case MNID_EARTH:
-      MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player){
-        player.set_bonus(BONUS_EARTH);
-      }));
+      ::apply_callback(single_player, ::apply_powerup(BONUS_EARTH));
       break;
 
     case MNID_STAR:
-      if (single_player)
-      {
-        single_player->make_invincible();
-        MenuManager::instance().clear_menu_stack();
-      }
-      else
-      {
-        MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player){
-          player.make_invincible();
-        }));
-      }
+      ::apply_callback(single_player, [](Player* player) { player->make_invincible(); });
       break;
 
     case MNID_SHRINK:
-      if (single_player)
-      {
-        single_player->kill(false);
-        MenuManager::instance().clear_menu_stack();
-      }
-      else
-      {
-        MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player){
-          player.kill(false);
-        }));
-      }
+      ::apply_callback(single_player, [](Player* player) { player->kill(false); });
       break;
 
     case MNID_KILL:
-      if (single_player)
-      {
-        single_player->kill(true);
-        MenuManager::instance().clear_menu_stack();
-      }
-      else
-      {
-        MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player){
-          player.kill(true);
-        }));
-      }
+      ::apply_callback(single_player, [](Player* player) { player->kill(true); });
       break;
 
     case MNID_FINISH:
@@ -159,17 +133,12 @@ CheatMenu::menu_action(MenuItem& item)
     case MNID_UNGHOST:
       if (GameSession::current())
       {
-        if (single_player)
-        {
-          single_player->set_ghost_mode(!single_player->get_ghost_mode());
-          MenuManager::instance().clear_menu_stack();
-        }
-        else
-        {
-          MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([&item](Player& player){
-            player.set_ghost_mode(item.get_id() == MNID_GHOST);
-          }));
-        }
+        ::apply_callback(single_player, [&item, single_player](Player* player) {
+          if (player == single_player)
+            single_player->set_ghost_mode(!single_player->get_ghost_mode());
+          else
+            player->set_ghost_mode(item.get_id() == MNID_GHOST);
+        });
       }
       break;
 

@@ -365,6 +365,7 @@ GameObjectFactory::register_objects(ssq::VM& vm)
   Player::register_class(vm);
   RainParticleSystem::register_class(vm);
   ScriptedObject::register_class(vm);
+  worldmap::SpecialTile::register_class(vm);
   SoundObject::register_class(vm);
   Spotlight::register_class(vm);
   TextArrayObject::register_class(vm);
