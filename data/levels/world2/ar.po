@@ -96,7 +96,7 @@ msgstr "غابة متجذرة"
 
 #: data/levels/world2/info:3
 msgid "Work in Progress Rooted Forest for SuperTux v0.7."
-msgstr ""
+msgstr "الغابة المتجذرة قيد التطوير لسوبرتكس الاصدار 0.7."
 
 #: data/levels/world2/lost_sanctuary.stl:3
 msgid "Lost Sanctuary"
@@ -140,7 +140,7 @@ msgstr "البرج المتجذر"
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
-msgstr ""
+msgstr "---أدخل المشهد السينمائي هنا---"
 
 #: data/levels/world2/scripts_floral_blossom.txt:2
 msgid ""
@@ -164,7 +164,7 @@ msgstr "ولحسن حظه، ظهر أحد الغرانيتو، وهو على ق�
 msgid ""
 "The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
 " trying to escape the roots to the east coast."
-msgstr ""
+msgstr "تحدث الغرانيتو عن 3 مجموعات من رفاقه الغرانيتو الذين ضلوا طريقهم أثناء محاولتهم الهروب من الجذور إلى الساحل الشرقي."
 
 #: data/levels/world2/scripts_floral_blossom.txt:6
 msgid ""
@@ -187,20 +187,20 @@ msgstr "وبمساعدة الغرانيتو الذين تم إنقاذهم، ت�
 msgid ""
 "He was glad there were more Granito that had survived the Ghost Tree's "
 "overgrowth."
-msgstr ""
+msgstr "كان سعيداً بوجود المزيد من الغرانيتو الذين نجوا من شجرة الأشباح."
 
 #: data/levels/world2/scripts_floral_blossom.txt:10
 msgid ""
 "One of the Granito asked him what a penguin like him was doing so far from "
 "the Antarctic."
-msgstr ""
+msgstr "سأله أحد الغرانيتو: ماذا يفعل بطريق مثله بعيدًا جدًا عن القطب الجنوبي؟"
 
 #: data/levels/world2/scripts_floral_blossom.txt:11
 msgid ""
 "Tux replied, that he was looking for his friend Penny and that she was "
 "captured by an evil creature named \"Nolok\". A name the Granito remembered "
 "unpleasantly"
-msgstr ""
+msgstr "أجاب تكس بأنه كان يبحث عن صديقته بيني، وأنها اختُطفت على يد مخلوق شرير يُدعى \"نولوك\". اسمٌ يتذكره الغرانيتو بشكلٍ سيء."
 
 #: data/levels/world2/scripts_floral_blossom.txt:12
 msgid ""
@@ -224,7 +224,7 @@ msgstr "قبل تكس العرض بسرور، وسرعان ما شق طريقه 
 msgid ""
 "The remaining Granito would stay behind, slowly rebuilding their home, now "
 "that the corruption was finally vanquished..."
-msgstr ""
+msgstr "سيبقى أفراد الغرانيتو المتبقون في ديارهم، ويعيدون بناء منزلهم ببطء، بعد أن تم القضاء على الفساد نهائياً..."
 
 #: data/levels/world2/scripts_floral_blossom.txt:16
 #: data/levels/world2/scripts_floral_blossom.txt:17

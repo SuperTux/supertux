@@ -244,7 +244,7 @@ msgstr "Kartet på lappen var visst ikkje ei meint som ei felle likevel!"
 msgid ""
 "The more he thought about it, the less he was sure about Nolok's "
 "motivations. Why would he leave clues behind?"
-msgstr "Men jo meir han tenkte på det, jo mindre sikker vart han på korfor Nolok hadde gjort det han gjorde. Korfor etterlata seg leietrådar?"
+msgstr "Men jo meir han tenkte på det, jo mindre sikker vart han på korfor Nolok hadde gjort som han gjorde. Korfor etterlata seg leietrådar?"
 
 #: data/levels/world1/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
