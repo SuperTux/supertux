@@ -71,6 +71,8 @@ data/levels/more/
 *.diff
 
 # Android
+*.aab
+*.apk
 .gradle
 mk/android/app/.cxx
 mk/android/app/local.properties

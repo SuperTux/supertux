@@ -7,19 +7,21 @@ if (rootProject.file("${rootDir}/local.properties").exists()) {
     props.load(rootProject.file("${rootDir}/local.properties").newDataInputStream())
 }
 
-var APP_ID = "org.supertux.supertux2"
+final APP_ID = "org.supertux.supertux2"
+final TARGET_SDK = 35 // TODO: bump to 36
 
 android {
     namespace APP_ID
-    compileSdkVersion 35
+    compileSdkVersion TARGET_SDK
 
     defaultConfig {
         applicationId APP_ID
+        targetSdkVersion TARGET_SDK
+
         minSdkVersion 21
-        targetSdkVersion 35
 
         // NOTE: Don't forget to bump the version code!
-        versionCode 2
+        versionCode 3
         versionName "0.7.0-beta2"
 
         ndkVersion "29.0.14206865"
@@ -45,6 +47,11 @@ android {
     }
 
     assetPacks = [":assetpack"]
+    sourceSets {
+        main {
+            assets.srcDirs += ['../assetpack/src/main/assets']
+        }
+    }
 
     buildTypes {
         release {
