@@ -46,7 +46,7 @@ android {
         }
     }
 
-    if (!ext.ci) {
+    if (!rootProject.ext.ci) {
         // HACK: this just does not work on CI. whatever. it's meant for app bundles anyway.
         assetPacks = [":assetpack"]
     }
