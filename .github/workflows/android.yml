@@ -136,7 +136,7 @@ jobs:
 
           chmod +x ./gradlew
           ./gradlew assembleRelease \
-            -Pci=on \ # this value actually doesn't matter
+            -Pci=on \
             -Pcpuarch="${{ matrix.arch }}" \
             -Pcmake_args="-DGIT_HASH=$GIT_HASH;-DGIT_BRANCH=$GIT_BRANCH" \
             --info
