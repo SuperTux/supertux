@@ -106,6 +106,7 @@
       (z-pos 50)
       (level "intro.stl")
       (auto-play #t)
+      (color 0.6 0.8 1)
       (sprite "images/objects/invisible/invisible.sprite")
       (x 29)
       (y 20)
@@ -113,6 +114,7 @@
     (level
       (z-pos 50)
       (level "outro.stl")
+      (color 0.6 0.8 1)
       (sprite "images/objects/invisible/invisible.sprite")
       (x 52)
       (y 21)
