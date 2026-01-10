@@ -46,7 +46,10 @@ android {
         }
     }
 
-    assetPacks = [":assetpack"]
+    if (!ext.ci) {
+        // HACK: this just does not work on CI. whatever. it's meant for app bundles anyway.
+        assetPacks = [":assetpack"]
+    }
     sourceSets {
         main {
             assets.srcDirs += ['../assetpack/src/main/assets']
