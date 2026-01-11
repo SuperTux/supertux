@@ -318,7 +318,7 @@ PowerUp::update(float dt_sec)
       if (!no_physics)
         break;
 
-      set_pos(m_start_position + Vector(0, 16.f + std::sin(g_game_time) * 16.f));
+      set_pos(m_start_position + Vector(0, std::sin(g_game_time) * 16.f));
 
       break;
 
