@@ -72,6 +72,7 @@ protected:
   std::string script;
   bool no_physics;
   SpritePtr lightsprite;
+  SpritePtr m_shadesprite;
 
 private:
   PowerUp(const PowerUp&) = delete;
