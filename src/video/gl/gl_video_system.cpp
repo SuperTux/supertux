@@ -234,11 +234,12 @@ GLVideoSystem::create_gl_context()
   // Nothing to do.
 #elif defined(USE_OPENGLES1)
   // Nothing to do.
-#else
-#  ifdef USE_GLBINDING
+#elif defined(HAVE_EPOXY)
+  // Nothing to do
+#elif defined(USE_GLBINDING)
   glbinding::Binding::initialize();
 
-#    ifdef USE_GLBINDING_DEBUG_OUTPUT
+#  ifdef USE_GLBINDING_DEBUG_OUTPUT
   glbinding::setCallbackMask(glbinding::CallbackMask::After | glbinding::CallbackMask::ParametersAndReturnValue);
 
   glbinding::setAfterCallback([](const glbinding::FunctionCall & call) {
@@ -260,13 +261,13 @@ GLVideoSystem::create_gl_context()
 
       std::cout << std::endl;
     });
-#    endif
+#  endif
   static auto extensions = glbinding::ContextInfo::extensions();
   log_info << "Using glbinding" << std::endl;
   log_info << "ARB_texture_non_power_of_two: " << static_cast<int>(extensions.find(GLextension::GL_ARB_texture_non_power_of_two) != extensions.end()) << std::endl;
-#  else
+#else // Glew
   GLenum err = glewInit();
-#    ifdef GLEW_ERROR_NO_GLX_DISPLAY
+#  ifdef GLEW_ERROR_NO_GLX_DISPLAY
   // Glew can't open glx display when it's running on wayland session
   // and thus returns an error. But glXGetProcAddress is fully usable
   // on wayland, so we can just ignore the "no glx display" error.
@@ -279,7 +280,7 @@ GLVideoSystem::create_gl_context()
     log_info << "GLEW couldn't open GLX display" << std::endl;
   }
   else
-#    endif
+#  endif
     if (GLEW_OK != err)
     {
       std::ostringstream out;
@@ -294,7 +295,6 @@ GLVideoSystem::create_gl_context()
   log_info << "OpenGL: " << glGetString(GL_VERSION) << std::endl;
   log_info << "Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
   log_info << "GLEW_ARB_texture_non_power_of_two: " << static_cast<int>(GLEW_ARB_texture_non_power_of_two) << std::endl;
-#  endif
 #endif
 
   assert_gl();

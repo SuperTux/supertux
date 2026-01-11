@@ -24,6 +24,9 @@
 #  include <SDL_opengles2.h>
 #elif defined(USE_OPENGLES1)
 #  include <SDL_opengles.h>
+#elif defined(HAVE_EPOXY)
+#  include <epoxy/gl.h>
+#  define GL_NONE_BIT 0
 #else
 #  include <GL/glew.h>
 #  define GL_NONE_BIT 0

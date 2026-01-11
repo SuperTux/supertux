@@ -6,4 +6,5 @@
   (license "CC-BY-SA 4.0 International")
   (icon "/images/worlds/icon/tropicalparadise.png")
   (icon-locked "/images/worlds/locked/tropicalparadise.png")
+  (bkg "/images/worlds/background/***TODO***.png")
 )
