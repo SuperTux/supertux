@@ -66,20 +66,17 @@ SuperTux. (You can view these in the game menu as well.)
 
 ## Playing the game
 
-Both keyboards and joysticks/gamepads are supported. You can change
-the controls via the Options menu. Basically, the only keys you will
-need to use in-game are to do the following actions: jump, duck,
-right, left, action and 'P' to pause/unpause the game. There isn't much
-to tell about the first few, but the "action" key allows you to pick
-up objects and use any powerup you got. For instance, with the fire
-flower, you can shoot fireballs, or with the ice flower fire ice pellets.
+Both keyboards and joysticks/gamepads are supported. You can view/change the
+controls via **options > controls**. Basically, the only controls you will need
+to use in-game are the following: jump, duck, move left & right, do an action,
+and use the item pocket. An "action" allows you to pick up objects and use any
+powerup you have, such as shooting fireballs with the fire flower, or to fire
+ice pellets with the ice flower. The item pocket allows you to store a single
+additional item, which can be useful in dire situations.
 
 Other useful keys include the Esc key, which is used to go to the menu
 or to go up a level in the menu. The menu can be navigated using the
 arrow keys or the mouse.
-
-In the worldmap, the arrow keys are used to navigate and Enter to
-enter the current level.
 
 ## Community
 
