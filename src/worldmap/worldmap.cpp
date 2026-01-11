@@ -216,7 +216,8 @@ WorldMap::process_input(const Controller& controller)
     }
   }
 
-  if (controller.pressed_any(Control::START, Control::ESCAPE))
+  if (controller.pressed_any(Control::START, Control::ESCAPE) &&
+      !(m_in_world_select || m_in_level))
   {
     on_menu_button_press(MenuStorage::WORLDMAP_MENU);
   }
