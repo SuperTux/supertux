@@ -1438,6 +1438,7 @@
       3037 2943 2944 2945
       2946 112  1311 7394
       7396 7397 7398 7395
+      8014 0    0    0
 
       57   58   2841 2842
       59   60   2843 2844
@@ -2657,6 +2658,18 @@
     (object-name "bonusblock")
     (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 4)")
     (editor-images "objects/bonus_block/bonus-1up.png")
+    (data 4)
+    (fps 2)
+  )
+
+  (tile
+    (id 8014)
+    (images
+      "powerups/1up/1up.png"
+    )
+    (solid #t)
+    (object-name "powerup")
+    (object-data "(type \"oneup\")")
     (data 4)
     (fps 2)
   )
