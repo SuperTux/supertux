@@ -1,6 +1,6 @@
 (supertux-music
   (file "voc-daytime.ogg")
-  (authors "Marek \"Wansti\" Moeckel")
+  (authors "semajD")
   (license "CC-BY-SA / GPL 2+")
   (loop-begin 0)
   (loop-at    -1)

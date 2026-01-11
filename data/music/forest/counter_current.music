@@ -1,5 +1,7 @@
 (supertux-music
   (file "counter_current.ogg")
+  (authors "Servalot")
+  (license "CC-BY-SA 4.0")
   (loop-begin 38.34)
   (loop-at    213.58)
 )

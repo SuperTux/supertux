@@ -1,5 +1,7 @@
 (supertux-music
   (file "calm_ocean.ogg")
+  (authors "Chitan (Nathan Lieb)")
+  (license "Unknown")
   (loop-begin 16)
   (loop-at    -1)
 )

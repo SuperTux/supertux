@@ -1,5 +1,7 @@
 (supertux-music
   (file "late_sunset.ogg")
+  (authors "bruhmoent")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 2.790)
   (loop-at    92.090)
 )
