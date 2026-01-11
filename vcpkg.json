@@ -18,9 +18,7 @@
         "sdl2",
         "sdl2-image",
         "curl",
-        "openal-soft",
-        "libogg",
-        "libvorbis"
+        "openal-soft"
       ],
       "supports": "!emscripten"
     },
@@ -30,7 +28,14 @@
         "glew"
       ],
       "supports": "!(android | emscripten)"
+    },
+    "bidi": {
+      "description": "Add proper support for bidirectional text (kind of a hack)",
+      "dependencies": [
+        "libraqm"
+      ],
+      "supports": "!emscripten"
     }
   },
-  "default-features": ["nonwasm", "opengl"]
+  "default-features": ["nonwasm", "opengl", "bidi"]
 }
