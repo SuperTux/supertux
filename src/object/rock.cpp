@@ -187,7 +187,7 @@ Rock::collision_solid(const CollisionHit& hit)
 
   if (m_on_ground || (hit.bottom && m_on_ice)) {
     // Full friction!
-    m_physic.set_velocity_x(m_physic.get_velocity_x() * (1.f - (GROUND_FRICTION * (m_on_ice ? 0.5f : 1.f))));
+    m_physic.set_velocity_x(m_physic.get_velocity_x() * (1.f - (GROUND_FRICTION * (m_on_ice ? 0.3f : 1.f))));
   }
 }
 
