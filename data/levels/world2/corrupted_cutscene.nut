@@ -268,21 +268,21 @@ function textbox()
   
   wait(2.2);
   
-  Text.set_text(_("Since the rain had stopped and the sky was clear, Tux hoped to have found a nice, save place to take a short break."));
+  Text.set_text(_("Since the rain had stopped and the sky was clear, Tux hoped to have found a nice, safe place to take a short break."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(6);
   
-  Text.set_text(_("Just as he was about to rest, the sudden sound of rustling leaves from a bush near by startled Tux."));
+  Text.set_text(_("Just as he was about to rest, the sudden sound of rustling leaves from a bush nearby startled Tux."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(2.5);
   
-  Text.set_text(_("He went to investiagte and got startled again by a Vicious Ivy, tumbling out of the bushes!"));
+  Text.set_text(_("He went to investigate and got startled again by a Vicious Ivy, tumbling out of the bushes!"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -303,14 +303,14 @@ function textbox()
   
   wait(1.6);
   
-  Text.set_text(_("Massive purple roots, burst through the ground followed by an onslaught of many more coming closer and closer!"));
+  Text.set_text(_("Massive purple roots burst through the ground, followed by an onslaught of many more coming closer and closer!"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(11);
   
-  Text.set_text(_("Tux paniced! What ever these roots were, they were covering everything. Where could he go?"));
+  Text.set_text(_("Tux panicked! What ever these roots were, they were covering everything. Where could he go?"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);

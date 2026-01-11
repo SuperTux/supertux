@@ -103,35 +103,35 @@ function textbox()
   
   wait(4);
   
-  Text.set_text(_("Tux could not believe his eyes, but it seemed so! The roots began retreeding. The ground looked more vital again."));
+  Text.set_text(_("Tux could not believe his eyes, but it seemed so! The roots began retreating. The ground looked more vital again."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(5);
   
-  Text.set_text(_("Though as much as he was exstatic about seeing the land restored, beginning to heal... where to now?"));
+  Text.set_text(_("Though as much as he was ecstatic about seeing the land restored, beginning to heal... where to now?"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(2.2);
   
-  Text.set_text(_("This forest, the tower, those were the only leads Tux had. He had no clue where Nolok could be hiding if he even was here to beginn with. Or rather anymore."));
+  Text.set_text(_("The forest, the tower... those were the only leads Tux had. He had no clue where Nolok could be hiding, if he even was here to begin with. Or rather anymore."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(6);
   
-  Text.set_text(_("There was no one around Tux could ask for help. All but the remains of corrupted husks littering the ground as moved along in thought. No living creature in sight"));
+  Text.set_text(_("There was no one around Tux could ask for help. All but the remains of corrupted husks littering the ground as moved along in thought. No living creature in sight."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(2.2);
   
-  Text.set_text(_("Hoping to discover some kind of clue, anything, Tux best bet was to continue exploring this side of the forest, as destroyed as it may be."));
+  Text.set_text(_("Hoping to discover some kind of clue - anything! - Tux's best bet was to continue exploring this side of the forest, as destroyed as it may be."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);

@@ -153,7 +153,7 @@ function inside()
 function textbox()
 {
   wait(3);
-  Text.set_text(_("High on the very top of the dilapidated tower, once again Tux found... nothing"));
+  Text.set_text(_("High on the very top of the dilapidated tower, once again Tux found... nothing."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -174,21 +174,21 @@ function textbox()
   
   wait(2.2);
   
-  Text.set_text(_("Tux had not long to think about all this, the tower began shaking violetly. His assumtion prove correct instantly"));
+  Text.set_text(_("Tux had not long to think about all this, the tower began shaking violetly. His assumtion prove correct instantly."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(2.2);
   
-  Text.set_text(_("Tux watched in shock as the roots digged throuhgh the tower's walls, faster and faster. He had to get out of there, fast!"));
+  Text.set_text(_("Tux watched in shock as the roots digged through the tower's walls, faster and faster. He had to get out of there, fast!"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(2.2);
   
-  Text.set_text(_("The roots were now everywhere. The tower become more unstable by the second. Slowly it collapsed in on itself"));
+  Text.set_text(_("The roots were now everywhere. The tower become more unstable by the second. Slowly, it collapsed in on itself."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -202,7 +202,7 @@ function textbox()
   
   wait(2.2);
   
-  Text.set_text(_("Across the hallway, on the other side, there was a huge crack in the wall. Tux saw himself forced to take the leap of faith, if he wished to not be crushed"));
+  Text.set_text(_("Across the hallway, on the other side, there was a huge crack in the wall. Tux saw himself forced to take the leap of faith, if he wished to not be crushed."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);

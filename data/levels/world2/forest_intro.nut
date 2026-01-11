@@ -82,7 +82,7 @@ function textbox()
   
   wait(4);
   
-  Text.set_text(_("Tux was astonished by the scale of this colorful land which was quite diferent from his home."));
+  Text.set_text(_("Tux was astonished by the scale of this colorful land which was quite different from his home."));
   Text.fade_in(0.5);
   wait(5);
   Text.fade_out(0.5);
