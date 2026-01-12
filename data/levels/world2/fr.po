@@ -10,7 +10,7 @@
 # Nate Ready <mail@nathanaelready.com>, 2015
 # Raphaël Desprez-Le Goarant <raoulthegeek@gmail.com>, 2020
 # Sébastien Aperghis-Tramoni, 2015
-# Ștefan ILIE, 2025
+# Ștefan ILIE, 2025-2026
 # Sylvain St-Amand, 2019
 # 51251df01484cc547f4d59bd93cd7512, 2016,2018
 # zecas <jjorge@free.fr>, 2019
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Ștefan ILIE, 2025\n"
+"Last-Translator: Ștefan ILIE, 2025-2026\n"
 "Language-Team: French (http://app.transifex.com/arctic-games/supertux/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,6 +96,14 @@ msgstr "Terre Creuse"
 msgid "Home Dead Home"
 msgstr "Morte Demeure"
 
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Rooted Forest"
+msgstr "Forêt de racines"
+
+#: data/levels/world2/info:3
+msgid "Work in Progress Rooted Forest for SuperTux v0.7."
+msgstr "Forêt de racines en développement pour SuperTux v0.7.0."
+
 #: data/levels/world2/lost_sanctuary.stl:3
 msgid "Lost Sanctuary"
 msgstr "Le Sanctuaire Perdu"
@@ -136,6 +144,10 @@ msgstr "Un Lieu Où Prendre Racine"
 msgid "The Rooted Tower"
 msgstr "La Tour Enracinée"
 
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Insérer une Cinématique Ici---"
+
 #: data/levels/world2/scripts_floral_blossom.txt:2
 msgid ""
 "Despite the Ghost Tree's defeat and a sliver of life returning to the once "
@@ -156,8 +168,8 @@ msgstr "Heureusement pour lui, un Granito bien vivant apparut, excité de l’ap
 
 #: data/levels/world2/scripts_floral_blossom.txt:5
 msgid ""
-"The Granito spoke of 3 groups of his fellow Granito whoo had gotten lost "
-"when trying to escape the roots to the east coast."
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
 msgstr "Le Granito s'exprima au sujet de 3 groupes de ses compagnons Granitos qui avaient disparu dans leur tentative de s'échapper des racines vers la côte est."
 
 #: data/levels/world2/scripts_floral_blossom.txt:6
@@ -179,21 +191,21 @@ msgstr "Avec l'aide des Granitos rescapés, Tux parvint à atteindre l'autre cô
 
 #: data/levels/world2/scripts_floral_blossom.txt:9
 msgid ""
-"He was glad there were more Granito that had survied the Ghost Tree's "
+"He was glad there were more Granito that had survived the Ghost Tree's "
 "overgrowth."
 msgstr "Il fut heureux de constater que de nombreux Granitos avaient eux aussi survécus à la colonisation de la forêt par l'Arbre Fantôme."
 
 #: data/levels/world2/scripts_floral_blossom.txt:10
 msgid ""
-"One of the Granito asked him what, a penguin like him was doing so far from "
-"the Antarctic?"
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
 msgstr "Un des Granitos lui demanda ce qu'un manchot comme lui faisait ici, aussi loin de l'Antarctique."
 
 #: data/levels/world2/scripts_floral_blossom.txt:11
 msgid ""
-"Tux replyed, he was looking for his friend Penny and that she was captured "
-"by an evil creature named \"Nolok\". A name the Granito remember "
-"unpleasently"
+"Tux replied, that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly"
 msgstr "Tux répondit qu'il était à la recherche de son amie Penny, qui a été capturée par une créature maléfique du nom de Nolok. Un nom que le Granito ne connaissait malheureusement que trop bien..."
 
 #: data/levels/world2/scripts_floral_blossom.txt:12
@@ -216,7 +228,7 @@ msgstr "Tux accepta volontiers, et en compagnie de quelques Granitos, ils firent
 
 #: data/levels/world2/scripts_floral_blossom.txt:15
 msgid ""
-"The remaing Granito would stay behind, slowly rebuilding their home, now "
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
 "that the corruption was finally vanquished..."
 msgstr "Les autres Granitos resteraient en arrière pour reconstruire lentement mais sûrement leur demeure, maintenant que la corruption de la forêt fut vaincue..."
 
@@ -274,10 +286,6 @@ msgstr "-Portes !images/objects/door/door-0.png #Tux peut franchir une porte en 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Racines Boisées"
-
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "Forêt des racines"
 
 #: data/levels/world2/worldmap.stwm:318
 msgid "To be continued..."

@@ -481,6 +481,9 @@ SDLSubsystem::SDLSubsystem()
   if (g_config->prefer_wayland)
     SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
 
+# ifdef HAVE_EPOXY
+  SDL_SetHint(SDL_HINT_VIDEO_X11_FORCE_EGL, "1");
+# endif
 #endif
   if (SDL_Init(flags) < 0)
   {
@@ -636,7 +639,6 @@ Main::launch_game(const CommandLineArguments& args)
       // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(start_level);
-      const std::string filename = FileSystem::basename(start_level);
       const std::string fileProtocol = "file://";
       const std::string::size_type position = dir.find(fileProtocol);
       if (position != std::string::npos) {

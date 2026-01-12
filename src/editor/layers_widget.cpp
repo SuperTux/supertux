@@ -407,8 +407,6 @@ EditorLayersWidget::refresh()
   for (const auto& obj : m_editor.get_sector()->get_objects())
     add_layer(obj.get(), true);
 
-  refresh_layers();
-
   sort_layers();
   refresh_sector_text();
 }

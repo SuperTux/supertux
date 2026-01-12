@@ -231,26 +231,45 @@ if(ENABLE_DISCORD)
   add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
 endif()
 
+set(USE_GL_LIBRARY "glew" CACHE STRING "Which OpenGL function library to choose from (e.g. glew, libepoxy)")
+set_property(CACHE USE_GL_LIBRARY PROPERTY STRINGS glew libepoxy)
+
 set(HAVE_OPENGL NO)
+
+set(HAVE_GLEW NO)
+set(HAVE_EPOXY NO)
 # OpenGL for Emscripten is added in Emscripten.cmake
 if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
   set(OpenGL_GL_PREFERENCE "LEGACY")
   find_package(OpenGL)
 
   if(OPENGL_FOUND)
-    add_package(TARGET GLEW
-      PKG GLEW PKG_USE GLEW::GLEW CONFIG REQUIRED PKG_CONFIG glew
-      PREFER_PKGCONFIG)
+    if ("${USE_GL_LIBRARY}" STREQUAL "glew")
+      message(STATUS "Using glew")
+      add_package(TARGET GLEW
+        PKG GLEW PKG_USE GLEW::GLEW CONFIG REQUIRED PKG_CONFIG glew
+        PREFER_PKGCONFIG)
+      set(HAVE_OPENGL "${ADDPKG_GLEW_FOUND}")
+      set(HAVE_GLEW ON)
+    elseif ("${USE_GL_LIBRARY}" STREQUAL "libepoxy")
+      message(STATUS "Using libepoxy")
+      add_package(TARGET libepoxy
+        PKG libepoxy PKG_CONFIG epoxy libepoxy
+        PREFER_PKGCONFIG)
+      set(HAVE_OPENGL "${ADDPKG_libepoxy_FOUND}")
+      set(HAVE_EPOXY ON)
+    else()
+      message(FATAL_ERROR "An invalid GL library was chosen! Got \"${USE_GL_LIBRARY}\"")
+    endif()
   else()
     message(STATUS "OpenGL not found! OpenGL support is disabled.")
   endif()
 
-  set(HAVE_OPENGL "${ADDPKG_GLEW_FOUND}")
 
   if(HAVE_OPENGL AND OPENGL_FOUND)
-    message(STATUS "OpenGL & GLEW found! enabling OpenGL support.")
+    message(STATUS "OpenGL & ${USE_GL_LIBRARY} found! Enabling OpenGL support.")
   elseif(OPENGL_FOUND)
-    message(STATUS "Glew not found! OpenGL support is disabled.")
+    message(STATUS "${USE_GL_LIBRARY} not found! OpenGL support is disabled.")
   endif()
 endif()
 
@@ -431,7 +450,11 @@ if(NOT EMSCRIPTEN)
   endif()
 
   if(HAVE_OPENGL)
-    target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW)
+    if ("${USE_GL_LIBRARY}" STREQUAL "glew")
+      target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW)
+    else()
+      target_link_libraries(supertux2 PUBLIC OpenGL::GL libepoxy)
+    endif()
   endif()
 
   if(ENABLE_DISCORD)

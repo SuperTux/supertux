@@ -6,6 +6,7 @@
   (allow-item-pocket "on")
   (icon "/images/worlds/icon/icyisland.png")
   (icon-locked "/images/worlds/locked/icyisland.png")
+  (bkg "/images/worlds/background/icyisland.png")
   (sector
     (name "main")
     (init-script "import(\"levels/world1/worldmap.nut\");")

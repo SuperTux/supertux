@@ -4,14 +4,14 @@
 # 
 # Translators:
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
-# Karl Ove Hufthammer <karl@huftis.org>, 2004,2006-2009,2013-2016,2018-2020
+# Karl Ove Hufthammer <karl@huftis.org>, 2004,2006-2009,2013-2016,2018-2020,2026
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>, 2004,2006-2009,2013-2016,2018-2020,2026\n"
 "Language-Team: Norwegian Nynorsk (http://app.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +81,7 @@ msgstr "Tilleggskartet {} frå {} er no installert."
 #: src/object/bigsnowball.cpp:80 src/object/conveyor_belt.cpp:62
 #: src/object/pushbutton.cpp:65 src/object/bumper.cpp:59
 #: src/object/spotlight.cpp:108 src/trigger/switch.cpp:63
-#: src/badguy/badguy.cpp:1376 src/badguy/crusher.cpp:1250
+#: src/badguy/badguy.cpp:1376 src/badguy/crusher.cpp:1248
 msgid "Direction"
 msgstr "Retning"
 
@@ -179,20 +179,20 @@ msgstr "Usynleg"
 
 #: src/worldmap/special_tile.cpp:83
 msgid "Blocking path"
-msgstr ""
+msgstr "Blokkerer sti"
 
 #: src/worldmap/special_tile.cpp:84
 msgid ""
 "If true, the direction blocks the path. Useful for a \"fork in the road\" "
 "scenario."
-msgstr ""
+msgstr "Viss sann, blokkerer retninga stien. Nyttig for «vegen delar seg»-situasjonar."
 
 #: src/worldmap/special_tile.cpp:86
 msgid ""
 "One or more of \"north\", \"south\", \"east\", or \"west\". For example\n"
 "a value of \"north south east\" will set each respective direction for this\n"
 "special tile."
-msgstr ""
+msgstr "Éin eller fleire av verdiane «north», «south», «east» og «west».\nFor eksempel vil verdien «north south east» definera dei\nrespektive retningane for denne spesialflisa."
 
 #: src/worldmap/worldmap_object.cpp:75 src/object/bicycle_platform.cpp:201
 #: src/object/background.cpp:282 src/object/pneumatic_platform.cpp:164
@@ -519,104 +519,104 @@ msgid "Patch notes for v{}:"
 msgstr "Oppdateringsmerknad for v{}:"
 
 #: src/editor/toolbar_widget.cpp:55 src/supertux/menu/editor_menu.cpp:188
-#: src/supertux/menu/editor_menu.cpp:209
+#: src/supertux/menu/editor_menu.cpp:210
 msgid "Undo"
-msgstr ""
+msgstr "Angra"
 
 #: src/editor/toolbar_widget.cpp:60 src/supertux/menu/editor_menu.cpp:189
-#: src/supertux/menu/editor_menu.cpp:210
+#: src/supertux/menu/editor_menu.cpp:211
 msgid "Redo"
-msgstr ""
+msgstr "Gjer om"
 
 #: src/editor/toolbar_widget.cpp:78
 msgid "Change / Toggle grid size"
-msgstr ""
+msgstr "Endra/gøym rutestorleik"
 
 #: src/editor/toolbar_widget.cpp:83
 msgid "Test level"
-msgstr ""
+msgstr "Test brettet"
 
 #: src/editor/toolbar_widget.cpp:90
 msgid "Save level"
-msgstr ""
+msgstr "Lagra brettet"
 
 #: src/editor/toolbar_widget.cpp:95
 msgid "Toggle between object and tile mode"
-msgstr ""
+msgstr "Byt mellom objekt- og flismodus"
 
 #: src/editor/toolbar_widget.cpp:102
 msgid "Select or move the object under the mouse"
-msgstr ""
+msgstr "Vel eller flytt objektet under peikaren"
 
 #: src/editor/toolbar_widget.cpp:109
 msgid "Delete the tile or object under the mouse"
-msgstr ""
+msgstr "Slett flisa eller objektet under peikaren"
 
 #: src/editor/toolbar_widget.cpp:118
 msgid "Draw mode"
-msgstr ""
+msgstr "Teiknemodus"
 
 #: src/editor/toolbar_widget.cpp:125
 msgid "Box draw mode"
-msgstr ""
+msgstr "Boksteikningsmodus"
 
 #: src/editor/toolbar_widget.cpp:132
 msgid "Fill mode"
-msgstr ""
+msgstr "Fyllmodus"
 
 #: src/editor/toolbar_widget.cpp:139
 msgid "Replace mode"
-msgstr ""
+msgstr "Utbytingsmodus"
 
 #: src/editor/toolbar_widget.cpp:148
 msgid ""
 "Path edit mode (Clicking adds path nodes to the selected object if it "
 "supports them)"
-msgstr ""
+msgstr "Stiredigeringsmodus (klikk legg til stinodar til valt objekt dersom det støttar dette)"
 
 #: src/editor/toolbar_widget.cpp:155
 msgid "Select mode (Clicking selects the object under the mouse)"
-msgstr ""
+msgstr "Valmodus (trykk for å velja objekt under peikaren)"
 
 #: src/editor/toolbar_widget.cpp:162
 msgid "Duplicate mode (Clicking duplicates the object under the mouse)"
-msgstr ""
+msgstr "Kopimodus (trykk for å laga kopi av objektet under peikaren)"
 
-#: src/editor/overlay_widget.cpp:1030
+#: src/editor/overlay_widget.cpp:1041
 msgid "Cannot select deprecated tiles"
 msgstr "Kan ikkje velja utdaterte fliser"
 
-#: src/editor/overlay_widget.cpp:1649
+#: src/editor/overlay_widget.cpp:1663
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr "Slette-autoflisleggingsmodus er på («{}»)"
 
-#: src/editor/overlay_widget.cpp:1653
+#: src/editor/overlay_widget.cpp:1667
 msgid "Autotile erasing cannot be performed here"
 msgstr "Slette-autoflislegging kan ikkje gjerast her"
 
-#: src/editor/overlay_widget.cpp:1658
+#: src/editor/overlay_widget.cpp:1672
 msgid "Autotile mode is on (\"{}\")"
 msgstr "Autoflisleggingsmodus er på («{}»)"
 
-#: src/editor/overlay_widget.cpp:1662
+#: src/editor/overlay_widget.cpp:1676
 msgid "Selected tile isn't autotileable"
 msgstr "Den valde flisa kan ikkje autoflisleggjast"
 
-#: src/editor/overlay_widget.cpp:1668
+#: src/editor/overlay_widget.cpp:1682
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Hald inne «Ctrl» for slette-autoflislegging"
 
-#: src/editor/overlay_widget.cpp:1670
+#: src/editor/overlay_widget.cpp:1684
 msgid "Release Ctrl to use autotile erasing"
-msgstr ""
+msgstr "Slepp «Ctrl» for å bruka slette-autoflislegging"
 
-#: src/editor/overlay_widget.cpp:1675
+#: src/editor/overlay_widget.cpp:1689
 msgid "Hold Ctrl to enable autotile"
 msgstr "Hald inne «Ctrl» for autoflislegging"
 
-#: src/editor/overlay_widget.cpp:1677
+#: src/editor/overlay_widget.cpp:1691
 msgid "Release Ctrl to autotile"
-msgstr ""
+msgstr "Slepp «Ctrl» for autoflislegging"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -851,14 +851,14 @@ msgstr "Lagra"
 msgid "Save as"
 msgstr "Lagra som"
 
-#: src/editor/particle_editor.cpp:779 src/editor/editor.cpp:975
+#: src/editor/particle_editor.cpp:779 src/editor/editor.cpp:984
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/addon_preview_menu.cpp:141 src/gui/dialog.hpp:96
 msgid "No"
 msgstr "Nei"
 
-#: src/editor/particle_editor.cpp:783 src/editor/editor.cpp:979
+#: src/editor/particle_editor.cpp:783 src/editor/editor.cpp:988
 #: src/supertux/menu/editor_sectors_menu.cpp:45
 #: src/supertux/menu/editor_sectors_menu.cpp:88
 #: src/supertux/menu/editor_sectors_menu.cpp:93
@@ -889,7 +889,7 @@ msgstr "nei"
 
 #: src/editor/object_option.cpp:402 src/editor/object_option.cpp:591
 msgid "Edit..."
-msgstr ""
+msgstr "Rediger …"
 
 #: src/editor/object_option.cpp:443 src/editor/object_option.cpp:523
 msgid "invalid"
@@ -897,20 +897,20 @@ msgstr "ugyldig"
 
 #: src/editor/object_option.cpp:653
 msgid "Browse..."
-msgstr ""
+msgstr "Bla gjennom …"
 
 #: src/editor/object_option.cpp:711
 msgid "Mix..."
-msgstr ""
+msgstr "Bland …"
 
 #: src/editor/object_option.cpp:802
 msgid "Select..."
-msgstr ""
+msgstr "Vel …"
 
 #: src/editor/object_option.cpp:999 src/editor/object_option.cpp:1212
 #: src/editor/object_option.cpp:1246
 msgid "Change..."
-msgstr ""
+msgstr "Byt …"
 
 #: src/editor/object_option.cpp:1090
 msgid "Scale X"
@@ -945,29 +945,33 @@ msgstr "Opna partikkelredigering"
 msgid "Open"
 msgstr "Opna"
 
-#: src/editor/editor.cpp:549
-msgid "Level saved!"
-msgstr ""
+#: src/editor/editor.cpp:337
+msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
+msgstr "Merk: Drabare objekt er no gøymde. Trykk «Ctrl + H» for å visa dei."
 
-#: src/editor/editor.cpp:579
+#: src/editor/editor.cpp:562
+msgid "Level saved!"
+msgstr "Brettet er lagra"
+
+#: src/editor/editor.cpp:592
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
-msgstr ""
+msgstr "Du kan ikkje testa eit brett når du spelar frå verdskartet.\n\nAvslutt heller brettredigeringa."
 
-#: src/editor/editor.cpp:828
+#: src/editor/editor.cpp:841
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Brettet innheld utdaterte fliser.\nDet er sterkt tilrådd å byta ut alle desse flisene for å\nunngå kompatibilitetsproblem med nyare versjonar."
 
-#: src/editor/editor.cpp:830
+#: src/editor/editor.cpp:843
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Tips: Slå på «Vis utdaterte fliser» frå brettredigeringsmenyen."
 
-#: src/editor/editor.cpp:920
+#: src/editor/editor.cpp:933
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -975,26 +979,26 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Merk at brett og ressursar ikkje vert\nlagra mellom øktene.\nViss du vil ta vare på bretta, last dei\nned via menyen «Handsam ressursar»."
 
-#: src/editor/editor.cpp:965
+#: src/editor/editor.cpp:974
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
-msgstr ""
+msgstr "Brettet er ikkje lagra enno. Vil du heller lagra det?"
 
-#: src/editor/editor.cpp:967
+#: src/editor/editor.cpp:976
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Brettet har ulagra endringar. Vil du lagra dei?"
 
-#: src/editor/editor.cpp:968
+#: src/editor/editor.cpp:977
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Brettet kan ha ulagra endringar. Vil du lagra dei?"
 
-#: src/editor/editor.cpp:969
+#: src/editor/editor.cpp:978
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/addon_preview_menu.cpp:141 src/gui/dialog.hpp:95
 msgid "Yes"
 msgstr "Ja"
 
-#: src/editor/editor.cpp:1098
+#: src/editor/editor.cpp:1107
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1002,21 +1006,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Nokre utdaterte tilleggskart er framleis i bruk og\nkan føra til krasj med standard SuperTux-strukturar.\nDu kan framleis slå på desse tilleggskarta i menyen.\nSlår du dei av, vil spelet framleis hugsa kor langt du er kommen."
 
-#: src/editor/editor.cpp:1101
+#: src/editor/editor.cpp:1110
 msgid "Disable add-ons"
 msgstr "Slå av tilleggskart"
 
-#: src/editor/editor.cpp:1106
+#: src/editor/editor.cpp:1115
 msgid "Ignore (not advised)"
 msgstr "Ignorer (ikkje tilrådd)"
 
-#: src/editor/editor.cpp:1110
+#: src/editor/editor.cpp:1119
 msgid "Leave editor"
 msgstr "Forlat redigeringsprogram"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1427
+#: src/editor/editor.cpp:1441
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1025,7 +1029,7 @@ msgstr "Fann ikkje nokon sektor med namnet «main».\nByt namn på sektoren som 
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1434
+#: src/editor/editor.cpp:1448
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1034,7 +1038,7 @@ msgstr "Fann ikkje nokon startposisjon med namnet «main».\nByt namn på startp
 
 #: src/editor/layers_widget.cpp:160
 msgid "Unnamed {}"
-msgstr ""
+msgstr "Namnlaus {}"
 
 #: src/editor/layers_widget.cpp:419
 msgid "Sector: {}"
@@ -1070,7 +1074,7 @@ msgstr "Med SDL som reserve."
 msgid "Platform"
 msgstr "Plattform"
 
-#: src/object/wind.hpp:42 src/object/wind.cpp:104
+#: src/object/wind.hpp:40 src/object/wind.cpp:104
 msgid "Wind"
 msgstr "Vind"
 
@@ -1211,33 +1215,33 @@ msgstr "Massiv"
 msgid "Action"
 msgstr "Handling"
 
-#: src/object/particle_zone.cpp:49 src/object/particlesystem.cpp:64
+#: src/object/particle_zone.cpp:50 src/object/particlesystem.cpp:64
 #: src/object/spotlight.cpp:104 src/supertux/menu/addon_preview_menu.cpp:201
 #: src/badguy/darttrap.cpp:156
 msgid "Enabled"
 msgstr "På"
 
-#: src/object/particle_zone.cpp:50
+#: src/object/particle_zone.cpp:51
 msgid "Particle Name"
 msgstr "Partikkelnamn"
 
-#: src/object/particle_zone.cpp:61
+#: src/object/particle_zone.cpp:62
 msgid "Spawn"
 msgstr "Gjenoppstå"
 
-#: src/object/particle_zone.cpp:62
+#: src/object/particle_zone.cpp:63
 msgid "Life zone"
 msgstr "Livssone"
 
-#: src/object/particle_zone.cpp:63
+#: src/object/particle_zone.cpp:64
 msgid "Life zone (clear)"
 msgstr "Livssone (tømt)"
 
-#: src/object/particle_zone.cpp:64
+#: src/object/particle_zone.cpp:65
 msgid "Kill particles"
 msgstr "Drapspartiklar"
 
-#: src/object/particle_zone.cpp:65
+#: src/object/particle_zone.cpp:66
 msgid "Clear particles"
 msgstr "Fjern partiklar"
 
@@ -1302,7 +1306,7 @@ msgstr "Eldblome"
 
 #: src/object/powerup.cpp:63
 msgid "Ice Rosette"
-msgstr ""
+msgstr "Isrose"
 
 #: src/object/powerup.cpp:64
 msgid "Air Flower"
@@ -1310,7 +1314,7 @@ msgstr "Luftblome"
 
 #: src/object/powerup.cpp:65
 msgid "Rock Shroom"
-msgstr ""
+msgstr "Steinsopp"
 
 #: src/object/powerup.cpp:66 src/object/bonus_block.cpp:268
 msgid "Star"
@@ -1377,14 +1381,14 @@ msgstr "X-forskyving"
 msgid "Controllable"
 msgstr "Kontrollerbar"
 
-#: src/object/textscroller.cpp:353 src/trigger/text_area.cpp:144
+#: src/object/textscroller.cpp:353 src/trigger/text_area.cpp:143
 msgid "Anchor"
 msgstr "Anker"
 
 #: src/object/textscroller.cpp:355 src/object/textscroller.cpp:366
 #: src/supertux/menu/joystick_menu.cpp:73
 #: src/supertux/menu/keyboard_menu.cpp:77 src/math/anchor_point.cpp:36
-#: src/badguy/crusher.cpp:1251
+#: src/badguy/crusher.cpp:1249
 msgid "Left"
 msgstr "Venstre"
 
@@ -1397,7 +1401,7 @@ msgstr "Midten"
 #: src/object/textscroller.cpp:360 src/object/textscroller.cpp:371
 #: src/supertux/menu/joystick_menu.cpp:74
 #: src/supertux/menu/keyboard_menu.cpp:78 src/math/anchor_point.cpp:38
-#: src/badguy/crusher.cpp:1251
+#: src/badguy/crusher.cpp:1249
 msgid "Right"
 msgstr "Høgre"
 
@@ -1413,11 +1417,11 @@ msgstr "Primærfarge"
 msgid "Secondary Colour"
 msgstr "Sekundærfarge"
 
-#: src/object/gradient.cpp:102 src/badguy/crusher.cpp:1251
+#: src/object/gradient.cpp:102 src/badguy/crusher.cpp:1249
 msgid "Vertical"
 msgstr "Loddrett"
 
-#: src/object/gradient.cpp:102 src/badguy/crusher.cpp:1251
+#: src/object/gradient.cpp:102 src/badguy/crusher.cpp:1249
 msgid "Horizontal"
 msgstr "Vassrett"
 
@@ -1436,17 +1440,17 @@ msgstr "Teiknemål"
 
 #: src/object/gradient.cpp:107 src/object/coin.cpp:69 src/object/brick.cpp:59
 #: src/object/invisible_block.cpp:37 src/object/tilemap.cpp:352
-#: src/object/background.cpp:302 src/badguy/walkingleaf.cpp:35
-#: src/badguy/snail.cpp:70 src/badguy/bouncing_snowball.cpp:96
-#: src/badguy/mrbomb.cpp:65 src/badguy/smartball.cpp:34
-#: src/badguy/mrtree.cpp:50 src/badguy/kamikazesnowball.cpp:118
-#: src/badguy/snowball.cpp:40 src/badguy/viciousivy.cpp:44
-#: src/badguy/igel.cpp:194 src/badguy/mriceblock.cpp:63
+#: src/object/background.cpp:302 src/badguy/snail.cpp:70
+#: src/badguy/bouncing_snowball.cpp:96 src/badguy/mrbomb.cpp:65
+#: src/badguy/smartball.cpp:34 src/badguy/mrtree.cpp:50
+#: src/badguy/kamikazesnowball.cpp:118 src/badguy/snowball.cpp:40
+#: src/badguy/viciousivy.cpp:46 src/badguy/igel.cpp:194
+#: src/badguy/mriceblock.cpp:63
 msgid "Normal"
 msgstr "Normal"
 
 #: src/object/gradient.cpp:107 src/object/tilemap.cpp:352
-#: src/object/background.cpp:302 data/images/ice_world.strf:895
+#: src/object/background.cpp:302 data/images/ice_world.strf:908
 msgid "Lightmap"
 msgstr "Lyskart"
 
@@ -1476,7 +1480,7 @@ msgstr "Blåser"
 
 #: src/object/wind.cpp:89
 msgid "Affects Badguys"
-msgstr "Påverkar slemmingar"
+msgstr "Påverkar fiendar"
 
 #: src/object/wind.cpp:90
 msgid "Affects Objects"
@@ -1575,11 +1579,11 @@ msgstr "Liten"
 msgid "Large"
 msgstr "Stor"
 
-#: src/object/rock.cpp:322
+#: src/object/rock.cpp:331
 msgid "On-grab script"
 msgstr "Ved grabbe-skript"
 
-#: src/object/rock.cpp:323
+#: src/object/rock.cpp:332
 msgid "On-ungrab script"
 msgstr "Ved avgrabbe-skript"
 
@@ -1595,17 +1599,17 @@ msgstr "Knapp"
 msgid "Powerup"
 msgstr "Bonus"
 
-#: src/object/ambient_sound.cpp:86 src/object/sound_object.cpp:70
+#: src/object/ambient_sound.cpp:87 src/object/sound_object.cpp:70
 #: src/object/sound_object.hpp:40 src/supertux/menu/options_menu.cpp:150
-#: data/credits.stxt:239 data/credits.stxt:495
+#: data/credits.stxt:239 data/credits.stxt:504
 msgid "Sound"
 msgstr "Lyd"
 
-#: src/object/ambient_sound.cpp:87
+#: src/object/ambient_sound.cpp:88
 msgid "Radius (in tiles)"
 msgstr "Radius (talet på fliser)"
 
-#: src/object/ambient_sound.cpp:88 src/object/sound_object.cpp:71
+#: src/object/ambient_sound.cpp:89 src/object/sound_object.cpp:71
 msgid "Volume"
 msgstr "Lydstyrke"
 
@@ -1631,13 +1635,13 @@ msgstr "Figur"
 
 #: src/object/moving_sprite.cpp:202
 msgid "The sprite file used for this object."
-msgstr ""
+msgstr "Figurfila brukt for objektet."
 
 #: src/object/moving_sprite.cpp:204
 msgid ""
 "The layer this object is drawn on. Higher layers are drawn on top of lower "
 "layers."
-msgstr ""
+msgstr "Laget objektet vert teikna på. Øvre lag vert teikna oppå nedre laga."
 
 #: src/object/invisible_wall.hpp:36
 msgid "Invisible Wall"
@@ -1648,8 +1652,7 @@ msgid "Platforms"
 msgstr "Plattformer"
 
 #: src/object/bicycle_platform.cpp:205 src/object/circleplatform.cpp:57
-#: src/badguy/fish_swimming.cpp:104 src/badguy/rcrystallo.cpp:83
-#: src/badguy/crystallo.cpp:50 src/badguy/flame.cpp:110
+#: src/badguy/fish_swimming.cpp:104 src/badguy/flame.cpp:110
 msgid "Radius"
 msgstr "Radius"
 
@@ -1662,7 +1665,7 @@ msgid "Ghost Particles"
 msgstr "Spøkjelsespartiklar"
 
 #: src/object/music_object.hpp:41 src/supertux/menu/options_menu.cpp:152
-#: data/credits.stxt:225 data/credits.stxt:429
+#: data/credits.stxt:225 data/credits.stxt:435
 msgid "Music"
 msgstr "Musikk"
 
@@ -1766,7 +1769,7 @@ msgstr "Knus ved treff?"
 msgid "Bounce?"
 msgstr "Sprett?"
 
-#: src/object/ambient_sound.hpp:49
+#: src/object/ambient_sound.hpp:50
 msgid "Ambient Sound"
 msgstr "Omgjevnadslyd"
 
@@ -1784,7 +1787,7 @@ msgstr "manuell"
 
 #: src/object/camera.cpp:166
 msgid "free"
-msgstr ""
+msgstr "fri"
 
 #: src/object/camera.cpp:166
 msgid "autoscroll"
@@ -1925,7 +1928,7 @@ msgstr "Teljar"
 
 #: src/object/rock.hpp:39 src/object/bonus_block.cpp:269
 msgid "Rock"
-msgstr "Rock"
+msgstr "Stein"
 
 #: src/object/conveyor_belt.cpp:65
 msgid "Length"
@@ -1969,7 +1972,7 @@ msgstr "Veks (eldblome)"
 
 #: src/object/bonus_block.cpp:267
 msgid "Growth (Ice Rosette)"
-msgstr ""
+msgstr "Veks (isrose)"
 
 #: src/object/bonus_block.cpp:267
 msgid "Growth (air flower)"
@@ -1977,7 +1980,7 @@ msgstr "Veks (luftblome)"
 
 #: src/object/bonus_block.cpp:268
 msgid "Growth (Rock Shroom)"
-msgstr ""
+msgstr "Veks (steinsopp)"
 
 #: src/object/bonus_block.cpp:268
 msgid "Growth (retro)"
@@ -2171,27 +2174,27 @@ msgstr "Dør"
 msgid "Oneshot"
 msgstr "Eittskot"
 
-#: src/trigger/text_area.cpp:141
+#: src/trigger/text_area.cpp:140
 msgid "Once"
 msgstr "Éin gong"
 
-#: src/trigger/text_area.cpp:142
+#: src/trigger/text_area.cpp:141
 msgid "Text change time"
 msgstr "Tekstendringstid"
 
-#: src/trigger/text_area.cpp:143
+#: src/trigger/text_area.cpp:142
 msgid "Fade time"
 msgstr "Uttoningstid"
 
-#: src/trigger/text_area.cpp:148
+#: src/trigger/text_area.cpp:147
 msgid "Anchor offset X"
 msgstr "Ankerforskyving X"
 
-#: src/trigger/text_area.cpp:149
+#: src/trigger/text_area.cpp:148
 msgid "Anchor offset Y"
 msgstr "Ankerforskyving Y"
 
-#: src/trigger/text_area.cpp:150
+#: src/trigger/text_area.cpp:149
 msgid "Texts"
 msgstr "Tekstar"
 
@@ -2280,7 +2283,7 @@ msgstr "Versjon"
 msgid ""
 "The name of this object. Must not contain any spaces if this object is to be"
 " referenced from scripts"
-msgstr ""
+msgstr "Namnet på objektet. Kan ikkje innehalda mellomrom dersom du vil referera til det frå skript."
 
 #: src/supertux/game_object.cpp:151
 #: src/supertux/menu/editor_levelset_menu.cpp:55
@@ -2291,25 +2294,25 @@ msgstr "Type"
 msgid ""
 "The type of an object defines its theme and behaviour. This is mostly used "
 "to distinguish between forest and ice world types of this object"
-msgstr ""
+msgstr "Objekttypen definerer tema og åtferd til objektet. Dette er stort sett brukt til å skilja mellom skogs- og isvariantar av objektet."
 
 #: src/supertux/moving_object.cpp:71
 msgid "The horizontal location of the object in pixels from the left."
-msgstr ""
+msgstr "Vassrett plassering av objektet i pikslar, målt frå venstre."
 
 #: src/supertux/moving_object.cpp:73
 msgid "The vertical location of the object in pixels from the top."
-msgstr ""
+msgstr "Vassrett plassering av objektet i pikslar, målt frå toppen."
 
-#: src/supertux/title_screen.cpp:286
+#: src/supertux/title_screen.cpp:300
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:287
+#: src/supertux/title_screen.cpp:301
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Dette spelet kjem heilt utan nokon garantiar. Det er fri programvare, og du må gjerne\n gje det vidare til andre, under visse vilkår. Sjå lisensfila for meir informasjon.\n"
+msgstr "Dette spelet kjem heilt utan nokon garantiar. Det er fri programvare, og du må gjerne\ngje det vidare til andre, under visse vilkår. Sjå lisensfila for meir informasjon.\n"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "Usage: {} [OPTIONS] [LEVELFILE]"
@@ -2337,7 +2340,7 @@ msgstr "  --debug                      Vis endå fleire utvida meldingar."
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --log-tinygettext            Show tinygettext logs"
-msgstr ""
+msgstr "  --log-tinygettext            Vis tinygettext-loggar."
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid ""
@@ -2400,7 +2403,7 @@ msgstr "  --edit-level                 Opna valt brett i redigeringsprogram."
 
 #: src/supertux/command_line_arguments.cpp:117
 msgid "  --resave                     Load given level and saves it"
-msgstr ""
+msgstr "  --resave                     Opna valt brett og lagra det på nytt."
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "  --show-fps                   Display framerate in levels"
@@ -2447,7 +2450,7 @@ msgstr "Mappeval:"
 #: src/supertux/command_line_arguments.cpp:129
 msgid ""
 "  --datadir DIR                Set the directory for the game's data files"
-msgstr ""
+msgstr "  --datadir MAPPE              Vel mappe for datafiler til spelet."
 
 #: src/supertux/command_line_arguments.cpp:130
 msgid ""
@@ -2476,7 +2479,7 @@ msgstr "  SUPERTUX2_USER_DIR           Mappe for brukardata (lagra spel og likna
 #. l10n: Keep SUPERTUX2_DATA_DIR untranslated
 #: src/supertux/command_line_arguments.cpp:139
 msgid "  SUPERTUX2_DATA_DIR           Directory for the game's data files"
-msgstr ""
+msgstr "  SUPERTUX2_DATA_DIR           Mappe for datafiler til spelet."
 
 #: src/supertux/sector.cpp:519
 msgid "Press escape to skip"
@@ -2486,27 +2489,27 @@ msgstr "Trykk «Escape» for å hoppa over"
 msgid "Unknown object"
 msgstr "Ukjent objekt"
 
-#: src/supertux/levelintro.cpp:138
+#: src/supertux/levelintro.cpp:140
 msgid "contributed by {}"
 msgstr "Laga av {}"
 
-#: src/supertux/levelintro.cpp:176 src/supertux/statistics.cpp:184
+#: src/supertux/levelintro.cpp:178 src/supertux/statistics.cpp:184
 msgid "Best Level Statistics"
 msgstr "Brettrekordar"
 
-#: src/supertux/levelintro.cpp:185 src/supertux/statistics.cpp:323
+#: src/supertux/levelintro.cpp:187 src/supertux/statistics.cpp:323
 msgid "Coins"
 msgstr "Myntar"
 
-#: src/supertux/levelintro.cpp:191 src/supertux/statistics.cpp:351
+#: src/supertux/levelintro.cpp:193 src/supertux/statistics.cpp:351
 msgid "Secrets"
 msgstr "Hemmelegheitar"
 
-#: src/supertux/levelintro.cpp:197
+#: src/supertux/levelintro.cpp:199
 msgid "Best time"
 msgstr "Beste tid"
 
-#: src/supertux/levelintro.cpp:201
+#: src/supertux/levelintro.cpp:203
 msgid "Level target time"
 msgstr "Tidsmål"
 
@@ -2527,23 +2530,23 @@ msgstr "ned"
 msgid "auto"
 msgstr "auto"
 
-#: src/supertux/main.cpp:872
+#: src/supertux/main.cpp:875
 msgid "New release: SuperTux {}!"
-msgstr ""
+msgstr "Ny versjon: SuperTux {}!"
 
-#: src/supertux/main.cpp:873
+#: src/supertux/main.cpp:876
 msgid "Click for more details."
 msgstr "Trykk for fleire detaljar."
 
-#: src/supertux/main.cpp:876
+#: src/supertux/main.cpp:879
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
 "\n"
 "Do you want to visit the website now?"
-msgstr ""
+msgstr "Ein ny versjon av SuperTux ({}) er tilgjengeleg!\nSjå SuperTux-heimesida for meir informasjon.\n\nVil du gå til heimesida no?"
 
-#: src/supertux/main.cpp:887
+#: src/supertux/main.cpp:890
 msgid "Checking for new releases..."
 msgstr "Ser etter ny versjon …"
 
@@ -2666,15 +2669,15 @@ msgstr "Fullfør brettet"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:49
 msgid "Reset Level"
-msgstr "Tilbakestill brett"
+msgstr "Tilbakestill brettet"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:51
 msgid "Finish Worldmap"
-msgstr "Fullfør verdskart"
+msgstr "Fullfør verdskartet"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:52
 msgid "Reset Worldmap"
-msgstr "Tilbakestill verdskart"
+msgstr "Tilbakestill verdskartet"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:54
 msgid "Go to level"
@@ -2699,7 +2702,7 @@ msgstr "Tilbake til brettredigering"
 
 #: src/supertux/menu/editor_menu.cpp:57
 msgid "Save Worldmap"
-msgstr "Lagra verdskartet"
+msgstr "Lagra verdskartetet"
 
 #: src/supertux/menu/editor_menu.cpp:57
 msgid "Save Level"
@@ -2776,7 +2779,7 @@ msgstr "Marker alle utdaterte fliser på gjeldande fliskart (utan at du treng å
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Editor settings"
-msgstr ""
+msgstr "Redigeringsinnstillingar"
 
 #: src/supertux/menu/editor_menu.cpp:102
 #: src/supertux/menu/editor_level_menu.cpp:31
@@ -2795,11 +2798,11 @@ msgstr "Snøggtastar"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Close Level"
-msgstr ""
+msgstr "Lukk brettet"
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Reset level"
-msgstr ""
+msgstr "Tilbakestill brettet"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid "Exit Level Editor"
@@ -2811,19 +2814,19 @@ msgstr "Ønskjer du å pakka verda som eit tilleggskart?"
 
 #: src/supertux/menu/editor_menu.cpp:183
 msgid "Open Menu"
-msgstr ""
+msgstr "Opna menyen"
 
 #: src/supertux/menu/editor_menu.cpp:186
 msgid "Test at Cursor"
-msgstr ""
+msgstr "Test ved peikaren"
 
 #: src/supertux/menu/editor_menu.cpp:187
 msgid "Test at Last Position"
-msgstr ""
+msgstr "Test ved førre posisjon"
 
 #: src/supertux/menu/editor_menu.cpp:190
 msgid "Toggle Autotiling"
-msgstr ""
+msgstr "Slå på/av autoflislegging"
 
 #: src/supertux/menu/editor_menu.cpp:191
 #: src/supertux/menu/editor_settings.cpp:46
@@ -2841,79 +2844,83 @@ msgid "Show Grid"
 msgstr "Vis rutenett"
 
 #: src/supertux/menu/editor_menu.cpp:194
-msgid "Toggle Between Tileset/Objects Tool"
-msgstr ""
+msgid "Hide Triggers"
+msgstr "Gøym utløysarar"
 
 #: src/supertux/menu/editor_menu.cpp:195
-msgid "Ctrl+PLUS or Ctrl+Scroll Up = Zoom In"
-msgstr ""
+msgid "Toggle Between Tileset/Objects Tool"
+msgstr "Byt mellom flissamlings- og objektverktøyet"
 
 #: src/supertux/menu/editor_menu.cpp:196
-msgid "Ctrl+MINUS or Ctrl+Scroll Down = Zoom Out"
-msgstr ""
+msgid "Ctrl+PLUS or Ctrl+Scroll Up = Zoom In"
+msgstr "Ctrl + pluss eller Ctrl + rull opp = Forstørr"
 
 #: src/supertux/menu/editor_menu.cpp:197
-msgid "Reset Zoom"
-msgstr ""
+msgid "Ctrl+MINUS or Ctrl+Scroll Down = Zoom Out"
+msgstr "Ctrl + minus eller Ctrl + rull ned = Forminsk"
 
 #: src/supertux/menu/editor_menu.cpp:198
-msgid "Scripting Shortcuts"
-msgstr ""
+msgid "Reset Zoom"
+msgstr "Nullstill forstørring"
 
 #: src/supertux/menu/editor_menu.cpp:199
-msgid "Home = Go to beginning of line"
-msgstr "Heim = gå til starten av linja"
+msgid "Scripting Shortcuts"
+msgstr "Skriptsnøggtastar"
 
 #: src/supertux/menu/editor_menu.cpp:200
-msgid "End = Go to end of line"
-msgstr "End = gå til slutten av linja"
+msgid "Home = Go to beginning of line"
+msgstr "Heim = Gå til starten av linja"
 
 #: src/supertux/menu/editor_menu.cpp:201
-msgid "Left arrow = Go back in text"
-msgstr "Pil venstre = gå bakover i teksten"
+msgid "End = Go to end of line"
+msgstr "End = Gå til slutten av linja"
 
 #: src/supertux/menu/editor_menu.cpp:202
-msgid "Right arrow = Go forward in text"
-msgstr "Pil høgre = gå framover i teksten"
+msgid "Left arrow = Go back in text"
+msgstr "Pil venstre = Gå bakover i teksten"
 
 #: src/supertux/menu/editor_menu.cpp:203
-msgid "Backspace = Delete in front of text cursor"
-msgstr "Rettetast = slett framfor skrivemerket"
+msgid "Right arrow = Go forward in text"
+msgstr "Pil høgre = Gå framover i teksten"
 
 #: src/supertux/menu/editor_menu.cpp:204
-msgid "Delete = Delete behind text cursor"
-msgstr "Delete = slett bak skrivemerket"
+msgid "Backspace = Delete in front of text cursor"
+msgstr "Rettetast = Slett framfor skrivemerket"
 
 #: src/supertux/menu/editor_menu.cpp:205
-msgid "Cut whole line"
-msgstr ""
+msgid "Delete = Delete behind text cursor"
+msgstr "Delete = Slett bak skrivemerket"
 
 #: src/supertux/menu/editor_menu.cpp:206
-msgid "Copy whole line"
-msgstr ""
+msgid "Cut whole line"
+msgstr "Klipp ut heile linja"
 
 #: src/supertux/menu/editor_menu.cpp:207
-msgid "Paste"
-msgstr ""
+msgid "Copy whole line"
+msgstr "Kopier heile linja"
 
 #: src/supertux/menu/editor_menu.cpp:208
-msgid "Duplicate line"
-msgstr ""
+msgid "Paste"
+msgstr "Lim inn"
 
-#: src/supertux/menu/editor_menu.cpp:213
+#: src/supertux/menu/editor_menu.cpp:209
+msgid "Duplicate line"
+msgstr "Lag kopi av linja"
+
+#: src/supertux/menu/editor_menu.cpp:214
 #: src/supertux/menu/particle_editor_menu.cpp:122
 msgid "Got it!"
 msgstr "Forstått!"
 
-#: src/supertux/menu/editor_menu.cpp:246
+#: src/supertux/menu/editor_menu.cpp:247
 msgid "Deprecated tiles are still present in the level."
 msgstr "Det finst framleis utdaterte fliser på brettet."
 
-#: src/supertux/menu/editor_menu.cpp:253
+#: src/supertux/menu/editor_menu.cpp:254
 msgid "Do you want to show all deprecated tiles on active tilemaps?"
 msgstr "Vil du visa alle utdaterte fliser på aktive fliskart?"
 
-#: src/supertux/menu/editor_menu.cpp:260
+#: src/supertux/menu/editor_menu.cpp:261
 msgid "There are no more deprecated tiles in the level!"
 msgstr "Det finst ikkje fleire utdaterte fliser på brettet."
 
@@ -2932,12 +2939,12 @@ msgid ""
 msgstr "Bruk manuelt oppsett i staden for SDL2s automatiske spelkontrollarstøtte"
 
 #: src/supertux/menu/joystick_menu.cpp:71
-#: src/supertux/menu/keyboard_menu.cpp:75 src/badguy/crusher.cpp:1251
+#: src/supertux/menu/keyboard_menu.cpp:75 src/badguy/crusher.cpp:1249
 msgid "Up"
 msgstr "Opp"
 
 #: src/supertux/menu/joystick_menu.cpp:72
-#: src/supertux/menu/keyboard_menu.cpp:76 src/badguy/crusher.cpp:1251
+#: src/supertux/menu/keyboard_menu.cpp:76 src/badguy/crusher.cpp:1249
 msgid "Down"
 msgstr "Ned"
 
@@ -3005,7 +3012,7 @@ msgstr "Søk etter styrespakar"
 
 #: src/supertux/menu/joystick_menu.cpp:99
 msgid "Globally Ignore Joystick Axis"
-msgstr ""
+msgstr "Ignorer styrespak-akse globalt"
 
 #: src/supertux/menu/joystick_menu.cpp:127
 msgid "Press Button"
@@ -3067,17 +3074,17 @@ msgstr "Eit brett som skal brukast som tittelskjermen, etter at du går ut av ve
 
 #: src/supertux/menu/editor_levelset_menu.cpp:58
 msgid "Tux Dolls Required"
-msgstr ""
+msgstr "Krev Tux-dokker"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 msgid ""
 "Require the player to have collected a certain amount of Tux Dolls from "
 "Story Mode before they can enter the world."
-msgstr ""
+msgstr "Krev at spelaren har samla eit visst tal Tux-dokker i forteljingsmodus for å kunna komma inn i verda."
 
 #: src/supertux/menu/editor_settings.cpp:33
 msgid "Editor Settings"
-msgstr ""
+msgstr "Redigeringsinnstillingar"
 
 #: src/supertux/menu/editor_settings.cpp:37
 msgid "tiny tile (4px)"
@@ -3105,15 +3112,15 @@ msgstr "Teikn bakgrunn"
 
 #: src/supertux/menu/editor_settings.cpp:47
 msgid "Render Animations"
-msgstr ""
+msgstr "Teikn animasjonar"
 
 #: src/supertux/menu/editor_settings.cpp:48
 msgid "Invert Shift+Scroll"
-msgstr ""
+msgstr "Omvend Shift + rull"
 
 #: src/supertux/menu/editor_settings.cpp:49
 msgid "Centered Zoom"
-msgstr ""
+msgstr "Sentrert forstørring"
 
 #: src/supertux/menu/editor_settings.cpp:50
 msgid "Autotile Mode"
@@ -3129,27 +3136,27 @@ msgstr "Slå på historikk for objektangring"
 
 #: src/supertux/menu/editor_settings.cpp:54
 msgid "Show Properties Sidebar"
-msgstr ""
+msgstr "Vis sidestolpe med eigenskapar"
 
 #: src/supertux/menu/editor_settings.cpp:56
 msgid "Show Toolbar"
-msgstr ""
+msgstr "Vis verktøylinja"
 
 #: src/supertux/menu/editor_settings.cpp:57
 msgid "Remember Last Level"
-msgstr ""
+msgstr "Hugs siste brettet"
 
 #: src/supertux/menu/editor_settings.cpp:58
 msgid "Prefer Full Viewport"
-msgstr ""
+msgstr "Føretrekk fullt visingsområde"
 
 #: src/supertux/menu/editor_settings.cpp:59
 msgid "Blur Amount"
-msgstr ""
+msgstr "Mengd sløring"
 
 #: src/supertux/menu/editor_settings.cpp:60
 msgid "Preferred Text Editor"
-msgstr ""
+msgstr "Føretrekt skriveprogram"
 
 #: src/supertux/menu/editor_settings.cpp:63
 msgid "Undo Stack Size"
@@ -3342,7 +3349,7 @@ msgstr "Start på nytt frå bjøllestad"
 
 #: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
-msgstr ""
+msgstr "Rediger brettet"
 
 #: src/supertux/menu/game_menu.cpp:81
 msgid "Abort Level"
@@ -3355,15 +3362,15 @@ msgstr "Er du sikker?"
 
 #: src/supertux/menu/game_menu.cpp:124
 msgid "Couldn't open editor for this level. No worldmap!"
-msgstr ""
+msgstr "Klarte ikkje opna brettet for redigering. Manglar verdskart."
 
 #: src/supertux/menu/game_menu.cpp:151
 msgid "Couldn't open editor for this level."
-msgstr ""
+msgstr "Klarte ikkje opna brettet for redigering."
 
 #: src/supertux/menu/game_menu.cpp:157
 msgid "Couldn't open worldmap for this level."
-msgstr ""
+msgstr "Klarte ikkje opna verdskartet for redigering. "
 
 #: src/supertux/menu/debug_menu.cpp:36
 msgid "Debug"
@@ -3415,7 +3422,7 @@ msgstr "Vis spelar-HUD"
 
 #: src/supertux/menu/debug_menu.cpp:79
 msgid "Reload Resources"
-msgstr "Last inn ressusar på nytt"
+msgstr "Last inn ressursar på nytt"
 
 #: src/supertux/menu/debug_menu.cpp:80
 msgid "Reloads all fonts, textures, sprites and tilesets."
@@ -3773,13 +3780,13 @@ msgstr "Jamn kamerarørsle ved generering av mellombilete. Dette har ein merkbar
 
 #: src/supertux/menu/options_menu.cpp:127
 msgid "Fancy Effects"
-msgstr ""
+msgstr "Stilige effektar"
 
 #: src/supertux/menu/options_menu.cpp:128
 msgid ""
 "Applies fancy effects such as blur, clear tile refraction, and various other"
 " effects deemed \"fancy\". May significantly degrade performance."
-msgstr ""
+msgstr "Brukar ulike effektar, som sløring, lysbryting i klåre fliser og andre rekna som «stilige». Kan gjera spelet svært mykje tregare."
 
 #: src/supertux/menu/options_menu.cpp:136
 msgid "Camera Peek Multiplier"
@@ -3840,19 +3847,19 @@ msgstr "Denne funksjonen vert berre brukt i menyen for fleirspelarmodus."
 
 #: src/supertux/menu/options_menu.cpp:177
 msgid "Enable Haptic Feedback"
-msgstr ""
+msgstr "Bruk haptisk tilbakemelding"
 
 #: src/supertux/menu/options_menu.cpp:178
 msgid "Enable haptic feedback for touchscreen controls"
-msgstr ""
+msgstr "Bruk haptisk tilbakemelding for trykkskjerm-kontrollar"
 
 #: src/supertux/menu/options_menu.cpp:180
 msgid "Only Haptic Feedback for D-Pad"
-msgstr ""
+msgstr "Berre haptisk tilbakemelding for styrekross"
 
 #: src/supertux/menu/options_menu.cpp:181
 msgid "Only enable haptic feedback for the D-Pad"
-msgstr ""
+msgstr "Berre bruk haptisk tilbakemelding for styrekrossen"
 
 #: src/supertux/menu/options_menu.cpp:185
 msgid "Configure key-action mappings"
@@ -3889,11 +3896,11 @@ msgstr "Bruk skjermovergangar og jamne menyanimasjonar"
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Show game timer"
-msgstr ""
+msgstr "Vis speltid"
 
 #: src/supertux/menu/options_menu.cpp:208
 msgid "Show a game timer while playing a level"
-msgstr ""
+msgstr "Vis speltid ved speling av brett"
 
 #: src/supertux/menu/options_menu.cpp:210
 msgid "Custom title screen levels"
@@ -3905,7 +3912,7 @@ msgstr "Tillèt at enkelte verder overstyrer tittelskjerm-brettet"
 
 #: src/supertux/menu/options_menu.cpp:214
 msgid "Force Christmas Mode"
-msgstr ""
+msgstr "Tving julemodus"
 
 #: src/supertux/menu/options_menu.cpp:216
 msgid "Integrations and presence"
@@ -3948,13 +3955,13 @@ msgstr "Pausa automatisk spelet når vindauget mistar fokus"
 
 #: src/supertux/menu/options_menu.cpp:243
 msgid "Prefer Wayland"
-msgstr ""
+msgstr "Føretrekk Wayland"
 
 #: src/supertux/menu/options_menu.cpp:244
 msgid ""
 "If you experience any issues with Nvidia cards, your window border, or "
 "anything you believe is due to Wayland, disable this. (Requires restart)"
-msgstr ""
+msgstr "Om du opplever problem med NVIDIA-kort, vindaugsramma eller anna du trur skuldast Wayland, slå av dette (krev omstart)."
 
 #: src/supertux/menu/options_menu.cpp:248
 msgid "Use custom mouse cursor"
@@ -3974,39 +3981,39 @@ msgstr "Om spelet brukar innebygd tilpassa peikar eller teiknar han opp inni spe
 
 #: src/supertux/menu/options_menu.cpp:252
 msgid "Precise scrolling"
-msgstr ""
+msgstr "Nøyaktig rulling"
 
 #: src/supertux/menu/options_menu.cpp:253
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
-msgstr ""
+msgstr "Dei fleste styreplater sender nøyaktige rullehendingar.\nSlå av dersom rulling med ei vanleg mus fungerer dårleg (eller du mislikar korleis det verkar)."
 
 #: src/supertux/menu/options_menu.cpp:255
 msgid "Invert horizontal scrolling"
-msgstr ""
+msgstr "Omvend vassrett rulling"
 
 #: src/supertux/menu/options_menu.cpp:256
 msgid "Inverts scrolling in the X-axis"
-msgstr ""
+msgstr "Omvend rulling i X-retninga"
 
 #: src/supertux/menu/options_menu.cpp:258
 msgid "Invert vertical scrolling"
-msgstr ""
+msgstr "Omvend loddrett rulling"
 
 #: src/supertux/menu/options_menu.cpp:259
 msgid "Inverts scrolling in the Y-axis"
-msgstr ""
+msgstr "Omvend rulling i Y-retninga"
 
 #: src/supertux/menu/options_menu.cpp:265
 msgid "Force full viewport"
-msgstr ""
+msgstr "Tving fullt visingsområde"
 
 #: src/supertux/menu/options_menu.cpp:265
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
-msgstr ""
+msgstr "Ikkje prøv å skalera eller bruka fast breidd/høgd-forhold. Ignorerer nokre grafikkinnstillingar. Nyttig for arkadekabinett og uvanlege skjermtypar."
 
 #: src/supertux/menu/options_menu.cpp:269
 msgid "Check for new releases"
@@ -4291,7 +4298,7 @@ msgstr "Start spelet"
 
 #: src/supertux/menu/main_menu.cpp:55
 msgid "Bonus Levels"
-msgstr ""
+msgstr "Bonusbrett"
 
 #: src/supertux/menu/main_menu.cpp:59
 msgid "Add-ons"
@@ -4354,7 +4361,7 @@ msgid ""
 "Do you wish to remove them anyways?"
 msgstr "Åtvaring: Spelaren du prøver å fjerna\ner no med og spelar.\n\nVil du likevel fjerna han?"
 
-#: src/supertux/menu/editor_level_menu.cpp:35 data/credits.stxt:1447
+#: src/supertux/menu/editor_level_menu.cpp:35 data/credits.stxt:1456
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -4393,7 +4400,7 @@ msgstr "Skriv inn lisensen for brettet."
 
 #: src/supertux/menu/sorted_contrib_menu.cpp:45
 msgid "Collect {} more Tux Dolls in Story Mode to unlock!"
-msgstr ""
+msgstr "Samla {} Tux-dokker til i forteljingsmodus for å låsa opp!"
 
 #: src/supertux/menu/multiplayer_menu.cpp:30
 msgid "Auto-manage Players"
@@ -4475,7 +4482,7 @@ msgstr "Inga skildring er tilgjengeleg."
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: {}"
-msgstr ""
+msgstr "Overstyrer data: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
@@ -4531,25 +4538,25 @@ msgstr "Kan ikkje slå på/av tilleggskartet «{}»:\n{}"
 msgid "Fetching screenshot previews..."
 msgstr "Hentar skjermbilete for vising …"
 
-#: src/supertux/menu/addon_preview_menu.cpp:312
-msgid "Updating"
-msgstr "Oppdaterer"
+#: src/supertux/menu/addon_preview_menu.cpp:314
+msgid "Updating {}"
+msgstr "Oppdaterer {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:312
-msgid "Downloading"
-msgstr "Lastar ned"
+#: src/supertux/menu/addon_preview_menu.cpp:314
+msgid "Downloading {}"
+msgstr "Lastar ned {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:340
+#: src/supertux/menu/addon_preview_menu.cpp:342
 msgid "Add-on uninstalled successfully."
 msgstr "Tilleggskartet er no avinstallert."
 
-#: src/supertux/menu/addon_preview_menu.cpp:345
+#: src/supertux/menu/addon_preview_menu.cpp:347
 msgid ""
 "Error uninstalling add-on:\n"
 "{}"
 msgstr "Feil ved avinstallering av tillegskart:\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:373
+#: src/supertux/menu/addon_preview_menu.cpp:375
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
@@ -4668,11 +4675,11 @@ msgstr "Du er i ferd med å sletta verda «{}». Er du sikker?"
 
 #: src/supertux/menu/editor_temp_save_as.cpp:40
 msgid "Level name"
-msgstr ""
+msgstr "Brettnamn"
 
 #: src/supertux/menu/editor_temp_save_as.cpp:91
 msgid "Level created!"
-msgstr ""
+msgstr "Brettet er oppretta"
 
 #: src/supertux/statistics.cpp:68
 msgid "Enable Coins Statistic"
@@ -4704,7 +4711,7 @@ msgstr "Tidsmål:"
 
 #: src/supertux/statistics.cpp:92
 msgid "Tux Dolls collected:"
-msgstr ""
+msgstr "Tux-dokker samla:"
 
 #: src/supertux/statistics.cpp:297
 msgid "You"
@@ -4766,11 +4773,11 @@ msgstr "Rediger skript"
 
 #: src/gui/menu_script.cpp:56
 msgid "Open in editor"
-msgstr ""
+msgstr "Opna i redigering"
 
 #: src/gui/menu_script.cpp:57
 msgid "Open in \"{}\""
-msgstr ""
+msgstr "Opna i «{}»"
 
 #: src/gui/menu_color.cpp:29
 msgid "Mix the colour"
@@ -4860,7 +4867,7 @@ msgstr "Sitjande"
 msgid ""
 "The icon that is displayed at the top indicating how many lives this boss "
 "has left"
-msgstr ""
+msgstr "Ikonet som vert viste øvst og som syner kor mange liv hovudfienden har att"
 
 #: src/badguy/boss.cpp:97
 msgid "Lives"
@@ -4868,7 +4875,7 @@ msgstr "Liv"
 
 #: src/badguy/boss.cpp:98
 msgid "The maximum number of lives this boss has"
-msgstr ""
+msgstr "Maks tal liv hovudfienden har"
 
 #. l10n: Pinch Mode refers to a particular boss mode that gets
 #. activated once the boss has lost the specified amounts of lives.
@@ -4882,7 +4889,7 @@ msgstr "Liv til intensmodus"
 msgid ""
 "Specifies how many lives need to be spent until pinch mode (a special boss "
 "mode) is activated"
-msgstr ""
+msgstr "Definerer kor mange liv som må mistast før hovudfienden går inn i intensmodus (ein spesialmodus)"
 
 #. l10n: Pinch Mode refers to a particular boss mode that gets
 #. activated once the boss has lost the specified amounts of lives.
@@ -4894,12 +4901,12 @@ msgstr "Skript for intensmodus-aktivering"
 
 #: src/badguy/boss.cpp:111
 msgid "The script that gets run when pinch mode is activated"
-msgstr ""
+msgstr "Skriptet som vert køyrt når intensmodus vert starta"
 
-#: src/badguy/walkingleaf.cpp:36 src/badguy/snail.cpp:71
-#: src/badguy/fish_swimming.cpp:60 src/badguy/mrtree.cpp:51
-#: src/badguy/kamikazesnowball.cpp:119 src/badguy/viciousivy.cpp:45
-#: src/badguy/igel.cpp:195 src/badguy/jumpy.cpp:46
+#: src/badguy/snail.cpp:71 src/badguy/fish_swimming.cpp:60
+#: src/badguy/mrtree.cpp:51 src/badguy/kamikazesnowball.cpp:119
+#: src/badguy/viciousivy.cpp:47 src/badguy/igel.cpp:195
+#: src/badguy/jumpy.cpp:46
 msgid "Corrupted"
 msgstr "Forderva"
 
@@ -4927,7 +4934,7 @@ msgstr "Feitvengje"
 msgid ""
 "The direction the badguy is facing at the start of the level. AUTO makes the"
 " badguy face towards the player when activated."
-msgstr ""
+msgstr "Retninga fienden står i ved brettstart. Bruk verdien «AUTO» for å la han stå med ansiktet mot spelaren."
 
 #: src/badguy/badguy.cpp:1378
 msgid "Death script"
@@ -4935,11 +4942,11 @@ msgstr "Dødsskript"
 
 #: src/badguy/badguy.cpp:1379
 msgid "Script that is executed when the badguy dies."
-msgstr ""
+msgstr "Skript som vert køyrt når fienden døyr."
 
 #: src/badguy/badguy.cpp:1382
 msgid "Glinting"
-msgstr ""
+msgstr "Glitrar"
 
 #: src/badguy/root_sapling.hpp:41
 msgid "Root Sapling"
@@ -4984,7 +4991,7 @@ msgstr "Sporingsavstand"
 
 #: src/badguy/badguy.hpp:79
 msgid "Badguy"
-msgstr "Slemming"
+msgstr "Fiende"
 
 #: src/badguy/skydive.hpp:43
 msgid "Skydive"
@@ -5030,17 +5037,21 @@ msgstr "Forderva Granito"
 msgid "Snowman"
 msgstr "Snømann"
 
-#: src/badguy/tarantula.cpp:353 src/badguy/tarantula.hpp:39
+#: src/badguy/tarantula.cpp:413 src/badguy/tarantula.hpp:39
 msgid "Tarantula"
 msgstr "Tarantell"
 
-#: src/badguy/tarantula.cpp:354
+#: src/badguy/tarantula.cpp:414
 msgid "Spidermite"
 msgstr "Edderpjokk"
 
-#: src/badguy/tarantula.cpp:374
+#: src/badguy/tarantula.cpp:434
 msgid "Static"
 msgstr "Statisk"
+
+#: src/badguy/tarantula.cpp:435
+msgid "Flip"
+msgstr "Vend"
 
 #: src/badguy/yeti.hpp:39
 msgid "Yeti"
@@ -5080,7 +5091,7 @@ msgstr "Tilfeldig"
 
 #: src/badguy/dispenser.cpp:420
 msgid "Limit dispensed badguys"
-msgstr "Avgrens utsette slemmingar"
+msgstr "Avgrens utsette fiendar"
 
 #: src/badguy/dispenser.cpp:422
 msgid "Obey Gravity"
@@ -5088,7 +5099,7 @@ msgstr "Følg tyngdekrafta"
 
 #: src/badguy/dispenser.cpp:424
 msgid "Max concurrent badguys"
-msgstr "Makstal samtidige slemmingar"
+msgstr "Makstal samtidige fiendar"
 
 #. l10n: This is not a dropper in the medical sense. Dropper refers to a
 #. dispenser that drops objects from above
@@ -5126,11 +5137,11 @@ msgstr "Startpause"
 
 #: src/badguy/darttrap.cpp:155
 msgid "Time until the first dart is fired after the trap is activated."
-msgstr ""
+msgstr "Tid til den første pila vert skoten ut når fella vert aktivert."
 
 #: src/badguy/darttrap.cpp:157
 msgid "Whether the trap is enabled."
-msgstr ""
+msgstr "Om fella er aktivert."
 
 #: src/badguy/darttrap.cpp:158
 msgid "Fire delay"
@@ -5138,7 +5149,7 @@ msgstr "Eldpause"
 
 #: src/badguy/darttrap.cpp:159
 msgid "Time between consecutive darts."
-msgstr ""
+msgstr "Tid mellom etterfølgjande piler."
 
 #: src/badguy/darttrap.cpp:160
 msgid "Ammo"
@@ -5146,7 +5157,7 @@ msgstr "Ammo"
 
 #: src/badguy/darttrap.cpp:161
 msgid "Number of darts the trap can fire. A value of -1 means infinite."
-msgstr ""
+msgstr "Talet på piler som fella kan skyta ut. Verdien -1 tyder uendeleg."
 
 #: src/badguy/darttrap.cpp:162
 msgid "Dart sprite"
@@ -5154,7 +5165,7 @@ msgstr "Dartfigur"
 
 #: src/badguy/darttrap.cpp:163
 msgid "Sprite used for the dart."
-msgstr ""
+msgstr "Figuren brukt til dartfella."
 
 #: src/badguy/darttrap.cpp:175
 msgid "Skull"
@@ -5208,11 +5219,11 @@ msgstr "Forderva(normal)"
 msgid "Corrupted (big)"
 msgstr "Forderva (stor)"
 
-#: src/badguy/crusher.cpp:1251
+#: src/badguy/crusher.cpp:1249
 msgid "All"
 msgstr "Alle"
 
-#: src/badguy/crusher.cpp:1256
+#: src/badguy/crusher.cpp:1254
 msgid "Crush script"
 msgstr "Knuseskript"
 
@@ -5283,6 +5294,10 @@ msgstr "stein"
 msgid "Walking Candle"
 msgstr "Vandrande talglys"
 
+#: src/badguy/rcrystallo.cpp:83 src/badguy/crystallo.cpp:50
+msgid "Radius (pixels)"
+msgstr "Radius (pikslar)"
+
 #: src/badguy/snowball.cpp:41
 msgid "Bumpkin"
 msgstr "Braskar"
@@ -5303,7 +5318,7 @@ msgstr "Fru Isterning"
 msgid "Ghoul"
 msgstr "Lik-etar"
 
-#: src/badguy/viciousivy.hpp:33
+#: src/badguy/viciousivy.hpp:36
 msgid "Vicious Ivy"
 msgstr "Giftig eføy"
 
@@ -5316,12 +5331,12 @@ msgid "Will o' Wisp"
 msgstr "Vettelys"
 
 #: src/badguy/scrystallo.cpp:57
-msgid "Walk Radius"
-msgstr "Vandreradius"
+msgid "Walk Radius (pixels)"
+msgstr "Vandreradius (pikslar)"
 
 #: src/badguy/scrystallo.cpp:58
-msgid "Awakening Radius"
-msgstr "Vakneradius"
+msgid "Awakening Radius (pixels)"
+msgstr "Vakneradius (pikslar)"
 
 #: src/badguy/scrystallo.cpp:59
 msgid "Roof-attached"
@@ -5383,7 +5398,7 @@ msgstr "Haywire"
 msgid "Ghost Tree"
 msgstr "Spøkjelsetre"
 
-#: src/badguy/walkingleaf.hpp:33
+#: src/badguy/walkingleaf.hpp:30
 msgid "Walking Leaf"
 msgstr "Vandreblad"
 
@@ -5429,7 +5444,7 @@ msgstr "Pengesekk"
 
 #: data/credits.stxt:35
 msgid "The SuperTux Team"
-msgstr ""
+msgstr "SuperTux-gruppa"
 
 #: data/credits.stxt:41 data/credits.stxt:55 data/credits.stxt:83
 #: data/credits.stxt:90 data/credits.stxt:97 data/credits.stxt:111
@@ -5451,25 +5466,25 @@ msgstr "Grafikk, programmering, brettdesign"
 
 #: data/credits.stxt:76
 msgid "Graphics, Level Design"
-msgstr ""
+msgstr "Grafikk, brettdesign"
 
 #: data/credits.stxt:104
 msgid "Level Design, Music"
-msgstr ""
+msgstr "Brettdesign, musikk"
 
 #: data/credits.stxt:135
 msgid "Past Team Members"
-msgstr ""
+msgstr "Tidlegare medlemmar"
 
 #: data/credits.stxt:199 data/credits.stxt:364
 msgid "Graphics"
 msgstr "Grafikk"
 
-#: data/credits.stxt:265 data/credits.stxt:412
+#: data/credits.stxt:265 data/credits.stxt:418
 msgid "Level Design"
 msgstr "Brettdesign"
 
-#: data/credits.stxt:294 data/credits.stxt:562 data/images/tiles.strf:1835
+#: data/credits.stxt:294 data/credits.stxt:571 data/images/tiles.strf:1839
 msgid "Miscellaneous"
 msgstr "Ymse"
 
@@ -5483,91 +5498,91 @@ msgstr "Rettingar for Windows-bygging"
 
 #: data/credits.stxt:309
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentasjon"
 
 #: data/credits.stxt:313
 msgid "\"Flexlay\" Level Editor"
-msgstr ""
+msgstr "Brettredigeraren «Flexlay»"
 
 #: data/credits.stxt:317
 msgid "Translation Managing"
-msgstr ""
+msgstr "Handsaming av omsetjingar"
 
 #: data/credits.stxt:321
 msgid "Story"
-msgstr ""
+msgstr "Forteljinga"
 
 #: data/credits.stxt:329
 msgid "Additional Contributors"
-msgstr ""
+msgstr "Fleire bidragsytarar"
 
-#: data/credits.stxt:706
+#: data/credits.stxt:715
 msgid "Localization"
 msgstr "Omsetjing"
 
-#: data/credits.stxt:1410
+#: data/credits.stxt:1419
 msgid "Special Thanks to"
-msgstr ""
+msgstr "Ei særskild takk til"
 
-#: data/credits.stxt:1417
+#: data/credits.stxt:1426
 msgid "Original creator of SuperTux"
-msgstr ""
+msgstr "Den opphavlege utviklaren av SuperTux"
 
-#: data/credits.stxt:1425
+#: data/credits.stxt:1434
 msgid "Creator of Tux, the Linux penguin"
 msgstr "Skaparen av Tux, Linux-pingvinen"
 
-#: data/credits.stxt:1431
+#: data/credits.stxt:1440
 msgid "SDL, OpenAL and OpenGL"
 msgstr "SDL, OpenAL og OpenGL"
 
-#: data/credits.stxt:1432
+#: data/credits.stxt:1441
 msgid "For making such a great gaming experience possible on Linux"
-msgstr ""
+msgstr "For å ha gjort det mogleg å laga så gode spel på Linux"
 
-#: data/credits.stxt:1438
+#: data/credits.stxt:1447
 msgid "and you, the player"
 msgstr "og du, spelaren"
 
-#: data/credits.stxt:1439
+#: data/credits.stxt:1448
 msgid "for giving this game a chance and playing it"
 msgstr "For at du tok sjansen på å prøva dette spelet"
 
-#: data/credits.stxt:1454
+#: data/credits.stxt:1463
 msgid "Visit our webpage at"
 msgstr "Besøk heimesida vår:"
 
-#: data/credits.stxt:1465
+#: data/credits.stxt:1474
 msgid "For comments, ideas and suggestions,"
-msgstr ""
+msgstr "For kommentarar, idéar og forslag,"
 
-#: data/credits.stxt:1469
+#: data/credits.stxt:1478
 msgid "talk to us on Discord or IRC"
-msgstr ""
+msgstr "ta kontakt via Discord, IRC"
 
-#: data/credits.stxt:1473
+#: data/credits.stxt:1482
 msgid "or share them on the forum"
-msgstr ""
+msgstr "eller forumet vårt"
 
-#: data/credits.stxt:1481
+#: data/credits.stxt:1490
 msgid "Want to contribute to the game?"
-msgstr ""
+msgstr "Vil du bidra til utviklinga?"
 
-#: data/credits.stxt:1496
+#: data/credits.stxt:1505
 msgid "Want to help with localization?"
-msgstr ""
+msgstr "Vil du hjelpa til med omsetjing?"
 
-#: data/credits.stxt:1519
+#: data/credits.stxt:1528
 msgid "Thank you for"
 msgstr "Takk for at du"
 
-#: data/credits.stxt:1523
+#: data/credits.stxt:1532
 msgid "playing"
 msgstr "spelte"
 
-#: data/credits.stxt:1538
+#: data/credits.stxt:1547
 msgid "Penny awaits you in a tropical paradise..."
-msgstr ""
+msgstr "Penny ventar på deg i eit tropisk paradis …"
 
 #: data/images/engine/editor/objects.stoi:4
 msgid "Enemies"
@@ -5575,7 +5590,7 @@ msgstr "Fiendar"
 
 #: data/images/engine/editor/objects.stoi:162
 msgid "Bosses"
-msgstr "Sjefar"
+msgstr "Hovudfiendar"
 
 #: data/images/engine/editor/objects.stoi:173
 msgid "Projectiles"
@@ -5609,11 +5624,11 @@ msgstr "Høgtidsbasert"
 msgid "Structure"
 msgstr "Struktur"
 
-#: data/images/ice_world.strf:721
+#: data/images/ice_world.strf:734
 msgid "Pathing"
 msgstr "Stiar"
 
-#: data/images/ice_world.strf:881
+#: data/images/ice_world.strf:894
 msgid "Water"
 msgstr "Vatn"
 
@@ -5637,39 +5652,39 @@ msgstr "Forderva skog"
 msgid "Corrupted Background"
 msgstr "Forderva bakgrunn"
 
-#: data/images/tiles.strf:1386
+#: data/images/tiles.strf:1390
 msgid "Jagged Rocks"
 msgstr "Skarpe steinar"
 
-#: data/images/tiles.strf:1424
+#: data/images/tiles.strf:1428
 msgid "Block + Bonus"
 msgstr "Blokker + bonusar"
 
-#: data/images/tiles.strf:1521
+#: data/images/tiles.strf:1525
 msgid "Pole + Signs"
 msgstr "Stenger + skilt"
 
-#: data/images/tiles.strf:1575
+#: data/images/tiles.strf:1579
 msgid "Liquid"
 msgstr "Væske"
 
-#: data/images/tiles.strf:1600
+#: data/images/tiles.strf:1604
 msgid "Castle"
 msgstr "Borg"
 
-#: data/images/tiles.strf:1730 data/images/worldmap.strf:199
+#: data/images/tiles.strf:1734 data/images/worldmap.strf:199
 msgid "Halloween"
 msgstr "Allehelgensaftan"
 
-#: data/images/tiles.strf:1772
+#: data/images/tiles.strf:1776
 msgid "Industrial"
 msgstr "Industriell"
 
-#: data/images/tiles.strf:1807
+#: data/images/tiles.strf:1811
 msgid "Unisolid + Lightmap"
 msgstr "Einsidig massiv + lyskart"
 
-#: data/images/tiles.strf:1867
+#: data/images/tiles.strf:1871
 msgid "Retro Tiles"
 msgstr "Retrofliser"
 

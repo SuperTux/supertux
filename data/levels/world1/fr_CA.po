@@ -6,14 +6,14 @@
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # Jean-Philippe L'Étoile <letoile.jean.philippe@gmail.com>, 2018-2019
-# Ștefan ILIE, 2025
+# Ștefan ILIE, 2025-2026
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Ștefan ILIE, 2025\n"
+"Last-Translator: Ștefan ILIE, 2025-2026\n"
 "Language-Team: French (Canada) (http://app.transifex.com/arctic-games/supertux/language/fr_CA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgstr "23e unité Aérienne"
 msgid "Above the Antarctic Skies"
 msgstr "Au-dessus des cieux de l'Antarctique"
 
-#: data/levels/world1/above_arctic_skies.stl:318
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -90,6 +90,14 @@ msgstr "Les Champs de Glace"
 msgid "Ice in the Hole"
 msgstr "Glace dans le trou"
 
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Île Glacée"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Là où votre aventure commence."
+
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
 msgstr "Dans les Étoiles"
@@ -110,19 +118,19 @@ msgstr "La Vie Dans Un Frigo"
 msgid "Oh No! More Snowballs!"
 msgstr "Wow, plus de boules de neige!"
 
-#: data/levels/world1/more_snowballs.stl:290
+#: data/levels/world1/more_snowballs.stl:319
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr ""
+msgstr "-Portage d'objets\r#Tux peut prendre un objet en gardant appuyée la touche ACTION. Relâchez la touche ACTION tout en restant immobile pour laisser tomber l'objet.\r#Si vous relâchez la touche ACTION alors que Tux est en mouvement, il va lancer l'objet!"
 
-#: data/levels/world1/more_snowballs.stl:299
+#: data/levels/world1/more_snowballs.stl:328
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr ""
+msgstr "-Lancement vers le haut\r#Tux peut lancer la plupart des objets vers le haut, en gardant appuyée la touche HAUT tout en relâchant la touche ACTION.\r#Lorsqu'il est en pleine course, Tux lance l'objet dans un mouvement d'arche!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -240,6 +248,10 @@ msgid ""
 "The more he thought about it, the less he was sure about Nolok's "
 "motivations. Why would he leave clues behind?"
 msgstr "Plus il y pensait, moins il avait de certitude sur les motivations de Nolok. Pourquoi laisserait-il derrière des indices?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr ""
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -375,19 +387,19 @@ msgstr "-Nage!images/creatures/tux/big/swim-1.png#Lorsque immergé dans l'eau, u
 msgid "Stone Cold"
 msgstr "Pierre Froide"
 
-#: data/levels/world1/stone_cold.stl:191
+#: data/levels/world1/stone_cold.stl:195
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr ""
+msgstr "-Portage d'objets\r#Tux peut prendre un objet en gardant appuyée la touche ACTION. Relâchez la touche ACTION tout en restant immobile pour laisser tomber l'objet.\r#Si vous relâchez la touche ACTION alors que Tux est en mouvement, il va lancer l'objet!"
 
-#: data/levels/world1/stone_cold.stl:200
+#: data/levels/world1/stone_cold.stl:204
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr ""
+msgstr "-Lancement vers le haut\r#Tux peut lancer la plupart des objets vers le haut, en gardant appuyée la touche HAUT tout en relâchant la touche ACTION.\r#Lorsqu'il est en pleine course, Tux lance l'objet dans un mouvement d'arche!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -419,10 +431,6 @@ msgid ""
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
 msgstr "-Poupée Tux !images/powerups/1up/1up.png #Les Poupées Tux sont des items rares requis pour débloquer les Îles Bonus!  #Récupérez-les toutes pour débloquer des niveaux additionnels amusants!"
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Île Glacée"
 
 #: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"

@@ -6,6 +6,7 @@
   (allow-item-pocket "on")
   (icon "/images/worlds/icon/rootedforest.png")
   (icon-locked "/images/worlds/locked/rootedforest.png")
+  (bkg "/images/worlds/background/forest.png")
   (sector
     (name "main")
     (init-script "import(\"levels/world2/worldmap.nut\");")

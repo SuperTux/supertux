@@ -4,7 +4,7 @@
 # 
 # Translators:
 # 69fe870410d3e630a708a509aed5c0f9_e3efcca <3d48305986fd1b36087a0ec11b9a769d_288033>, 2015
-# Alejandro Moctezuma <moctezumaalejandro25@gmail.com>, 2025
+# Alejandro Moctezuma <moctezumaalejandro25@gmail.com>, 2025-2026
 # Diego Enmanuel Rosales Santander, 2025
 # Diego Enmanuel Rosales Santander, 2025
 # 69fe870410d3e630a708a509aed5c0f9_e3efcca <3d48305986fd1b36087a0ec11b9a769d_288033>, 2015
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: William Beltrán <wbeltranc@gmail.com>, 2015-2016\n"
+"Last-Translator: Alejandro Moctezuma <moctezumaalejandro25@gmail.com>, 2025-2026\n"
 "Language-Team: Spanish (http://app.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,12 +37,12 @@ msgstr "La 23ª división aérea"
 msgid "Above the Antarctic Skies"
 msgstr "Arriba de los Cielos Árticos"
 
-#: data/levels/world1/above_arctic_skies.stl:318
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
-msgstr ""
+msgstr "-Flor de Aire!images/powerups/airflower/air_flower-0.png#La Flor de Aire hace que Tux se mueva mucho más rápido y salte más alto. Esta da la habilidad de volar en el aire por unos segundos, presionando la tecla SALTAR luego de un salto."
 
 #: data/levels/world1/antarctic_outpost.stl:3
 msgid "Antarctic Outpost"
@@ -98,6 +98,14 @@ msgstr "Los campos congelantes"
 msgid "Ice in the Hole"
 msgstr "¡A cubierto, heladeros!"
 
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Heladisla"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Donde comienza tu aventura."
+
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
 msgstr "Hacia las estrellas"
@@ -118,19 +126,19 @@ msgstr "Mi refrigerada frigovida"
 msgid "Oh No! More Snowballs!"
 msgstr "¡Vaya! ¡Más bolas de nieve!"
 
-#: data/levels/world1/more_snowballs.stl:290
+#: data/levels/world1/more_snowballs.stl:319
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr ""
+msgstr "-Llevar objetos#Tux puede recoger objetos manteniendo pulsada la tecla ACCIÓN. Suéltala mientras estás quieto para soltar el objeto.#Si sueltas la tecla ACCIÓN mientras Tux se mueve, ¡lo lanzará!"
 
-#: data/levels/world1/more_snowballs.stl:299
+#: data/levels/world1/more_snowballs.stl:328
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr ""
+msgstr "-Lanzamiento hacia arriba#Tux puede lanzar la mayoría de los objetos hacia arriba manteniendo presionada la tecla ARRIBA mientras suelta la tecla ACCIÓN.#Al correr, ¡Tux lanza el objeto formando un arco!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -248,6 +256,10 @@ msgid ""
 "The more he thought about it, the less he was sure about Nolok's "
 "motivations. Why would he leave clues behind?"
 msgstr "Cuanto más lo pensaba, menos seguro estaba de las motivaciones de Nolok. ¿Por qué dejaría pistas?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Inserta Secuencia Cinemática Aquí---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -383,19 +395,19 @@ msgstr "-Nadar\n!images/creatures/tux/big/swim-1.png\n#Cuando Tux esté sumergid
 msgid "Stone Cold"
 msgstr "Frío y duro"
 
-#: data/levels/world1/stone_cold.stl:191
+#: data/levels/world1/stone_cold.stl:195
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr ""
+msgstr "-Llevar objetos#Tux puede recoger objetos manteniendo pulsada la tecla ACCIÓN. Suéltala para soltar el objeto.#Si sueltas la tecla ACCIÓN mientras Tux se mueve, ¡lo lanzará!"
 
-#: data/levels/world1/stone_cold.stl:200
+#: data/levels/world1/stone_cold.stl:204
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr ""
+msgstr "-Lanzamiento hacia arriba#Tux puede lanzar la mayoría de los objetos hacia arriba manteniendo presionada la tecla ARRIBA mientras se suelta la tecla ACCIÓN.#Al correr, ¡Tux lanza el objeto formando un arco!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -426,11 +438,7 @@ msgid ""
 "#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
-msgstr ""
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Heladisla"
+msgstr "-Muñeco de Tux!images/powerups/1up/1up.png#¡Los muñecos de Tux son un coleccionable raro que se necesita para desbloquear las islas extra!#¡Colecciónalos todos para desbloquear divertidos niveles adicionales!"
 
 #: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"
