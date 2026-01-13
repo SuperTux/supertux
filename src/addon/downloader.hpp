@@ -18,7 +18,8 @@
 
 #pragma once
 
-#ifndef EMSCRIPTEN
+#include <config.h>
+#ifdef NETWORKING
 #include <curl/curl.h>
 #include <curl/easy.h>
 #endif
@@ -117,7 +118,7 @@ class Transfer;
 class Downloader final
 {
 private:
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   CURLM* m_multi_handle;
 #endif
   std::map<TransferId, std::unique_ptr<Transfer> > m_transfers;

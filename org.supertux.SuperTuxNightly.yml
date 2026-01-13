@@ -9,6 +9,7 @@ rename-appdata-file: supertux2.appdata.xml
 finish-args:
   - --socket=wayland
   - --socket=fallback-x11
+  - --socket=x11
   - --share=ipc
   - --socket=pulseaudio
   - --share=network
@@ -16,6 +17,7 @@ finish-args:
 modules:
   - external/shared-modules/SDL2/SDL2_image.json
   - external/shared-modules/physfs/physfs.json
+  - external/shared-modules/glu/glu-9.json
   - external/shared-modules/glew/glew.json
   - name: glm
     buildsystem: cmake
@@ -31,7 +33,6 @@ modules:
       - -DINSTALL_SUBDIR_SHARE=share/supertux2
       - -DINSTALL_SUBDIR_BIN=bin
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
-      - -DENABLE_OPENGL=OFF # Need to hack around glew issues
     sources:
       - type:   git
         url:    https://github.com/SuperTux/supertux.git

@@ -70,9 +70,7 @@ inline void check_gl_error(const char* filename, int line)
 
 inline bool gl_needs_power_of_two()
 {
-#if defined(USE_OPENGLES2)
-  return true;
-#elif defined(USE_OPENGLES1)
+#if defined(USE_OPENGLES2) || defined(USE_OPENGLES1) || defined(HAVE_EPOXY)
   return true;
 #else
   return !GLEW_ARB_texture_non_power_of_two;

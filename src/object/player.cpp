@@ -868,8 +868,8 @@ Player::update(float dt_sec)
     {
       if (!m_jumping && !m_is_slidejump_falling)
       {
-        sliding_angle = math::degrees(math::angle(m_physic.get_velocity()));
-        if (m_physic.get_velocity_x() < 0.0f)
+        sliding_angle = math::degrees(math::angle(get_movement()));
+        if (get_movement().x < 0.0f)
         {
           sliding_angle -= 180.0f;
         }
@@ -973,11 +973,14 @@ Player::slide()
   }
   m_sliding = true;
 
-  if (m_physic.get_velocity_x() > 0.f) {
-    m_dir = Direction::RIGHT;
-  }
-  else if (m_physic.get_velocity_x() < 0.f) {
-    m_dir = Direction::LEFT;
+  if (on_ground())
+  {
+    if (m_physic.get_velocity_x() > 0.f) {
+      m_dir = Direction::RIGHT;
+    }
+    else if (m_physic.get_velocity_x() < 0.f) {
+      m_dir = Direction::LEFT;
+    }
   }
 
   //pre_slide helps us detect the ground where Tux is about to slide on because sometimes on_ground() doesn't work or isn't relevant
@@ -997,6 +1000,7 @@ Player::slide()
     }
     else
     {
+      m_current_sliding_angle = 0.f;
       //handle adding acceleration from falling down
       if (m_sliding && !on_ground() && m_floor_normal.x*m_physic.get_velocity_x() <= 0.f && m_physic.get_velocity_y() > 0.f)
       {
@@ -2512,7 +2516,7 @@ Player::make_temporarily_safe(float safe_time)
 void
 Player::kill(bool completely)
 {
-  if (m_dying || m_deactivated || is_winning() )
+  if (m_dying || m_deactivated || is_winning())
     return;
 
   if (!completely && (m_is_intentionally_safe || m_post_damage_safety_timer.started() || m_temp_safety_timer.started() || m_invincible_timer.started()))
@@ -2567,6 +2571,7 @@ Player::kill(bool completely)
     m_physic.set_velocity(0, -700);
     set_bonus(BONUS_NONE, true);
     m_dying = true;
+    m_duck = m_crawl = false;
     m_dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 

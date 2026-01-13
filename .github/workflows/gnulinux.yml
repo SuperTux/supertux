@@ -120,6 +120,7 @@ jobs:
             libcurl4-openssl-dev:i386 \
             zlib1g-dev:i386 \
             libfmt-dev:i386 \
+            libepoxy-dev:i386 \
             libglm-dev
 
           # Let's get out of this directory to disable vcpkg manifest mode.
@@ -129,7 +130,7 @@ jobs:
 
           # These libraries don't exist for 32-bit in Ubuntu repositories.
           vcpkg integrate install
-          vcpkg install --triplet x86-linux physfs glew libraqm
+          vcpkg install --triplet x86-linux physfs libraqm
 
           popd
 
@@ -187,6 +188,7 @@ jobs:
                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
                        "-DVCPKG_MANIFEST_MODE=OFF "
                        "-DPhysFS_PREFER_FIND_PACKAGE=ON"
+                       "-DUSE_GL_LIBRARY=libepoxy"
                      }) `
                      -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
                      -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `

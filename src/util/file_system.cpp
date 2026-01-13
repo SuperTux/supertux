@@ -294,7 +294,7 @@ open_editor(const std::string& filename)
 
 std::string escape_url(const std::string& url)
 {
-#ifndef __EMSCRIPTEN__
+#ifdef HAVE_CURL
   std::string result = url;
   char *output = curl_easy_escape(nullptr, url.c_str(), static_cast<int>(url.length()));
   if(output) {
@@ -303,8 +303,11 @@ std::string escape_url(const std::string& url)
   }
 
   return result;
-#else
+#elif defined(__EMSCRIPTEN__)
   return emscripten_run_script_string(("encodeURIComponent(" + url + ")").c_str());
+#else
+  // just to be safe, lets... return nothing ;-/
+  return "";
 #endif
 }
 

@@ -10,13 +10,13 @@
 # A-TNT DC, 2021
 # Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
 # Iknos <ze4lot@email.it>, 2004
-# aaaaaaaa, 2019-2020
-# aaaaaaaa, 2015
+# 100e8122fd6d1cb3ebb128781017c77a_795b949, 2019-2020
+# 100e8122fd6d1cb3ebb128781017c77a_795b949, 2015
 # Irene Di Rosa, 2014
 # 17c2573a89e395c6dd973e5d003db498_36e4c1e, 2013-2015
 # PoketMarty, 2024
-# aaaaaaaa, 2018
-# aaaaaaaa, 2018
+# 100e8122fd6d1cb3ebb128781017c77a_795b949, 2018
+# 100e8122fd6d1cb3ebb128781017c77a_795b949, 2018
 # Seb47 <seb47tv@gmail.com>, 2016
 # Simone Centonze <mypythonit@gmail.com>, 2018
 # Tommaso Macchiella, 2025-2026
@@ -59,7 +59,7 @@ msgstr "Componente aggiuntivo"
 
 #: src/addon/addon.cpp:87
 msgid "Language Pack"
-msgstr "Pacchetto della lingua"
+msgstr "Pacchetto di lingua"
 
 #: src/addon/addon.cpp:91
 msgid "Resource Pack"
@@ -87,11 +87,11 @@ msgstr "È possibile abilitare un solo pacchetto di risorse alla volta"
 
 #: src/addon/addon_manager.cpp:810
 msgid "Add-on {} by {} is already installed."
-msgstr "Il componente aggiuntivo {} da {} è già installato."
+msgstr "Il componente aggiuntivo {} di {} è già installato."
 
 #: src/addon/addon_manager.cpp:830
 msgid "Add-on {} by {} successfully installed."
-msgstr "Il componente aggiuntivo {} da {} è stato installato con successo."
+msgstr "Il componente aggiuntivo {} di {} è stato installato con successo."
 
 #: src/worldmap/spawn_point.cpp:79 src/worldmap/special_tile.cpp:85
 #: src/object/ispy.cpp:56 src/object/gradient.cpp:101
@@ -128,7 +128,7 @@ msgstr "Specifica mappa del mondo"
 
 #: src/worldmap/spawn_point.hpp:57 src/trigger/door.cpp:81
 msgid "Spawn point"
-msgstr "Punto di apparizione"
+msgstr "Punto di generazione"
 
 #: src/worldmap/sprite_change.hpp:34
 msgid "Sprite Change"
@@ -152,7 +152,7 @@ msgstr "Riproduzione automatica"
 
 #: src/worldmap/level_tile.cpp:156
 msgid "Title colour"
-msgstr "Colore titolo"
+msgstr "Colore del titolo"
 
 #: src/worldmap/teleporter.hpp:33
 msgid "Teleporter"
@@ -209,7 +209,7 @@ msgid ""
 "One or more of \"north\", \"south\", \"east\", or \"west\". For example\n"
 "a value of \"north south east\" will set each respective direction for this\n"
 "special tile."
-msgstr "Uno o più tra \"Nord\", \"Sud\", Est\", \"Ovest\". Per esempio\nun valore di \"Nord Sud Est\" selezionerà ogni rispettiva direzione per questa\ncasella speciale."
+msgstr "Uno o più tra \"north\", \"south\", east\", \"west\". Per esempio\nun valore di \"north south east\" selezionerà ogni rispettiva direzione per questa\ncasella speciale."
 
 #: src/worldmap/worldmap_object.cpp:75 src/object/bicycle_platform.cpp:201
 #: src/object/background.cpp:282 src/object/pneumatic_platform.cpp:164
@@ -347,152 +347,152 @@ msgstr "Allentamento"
 #: src/editor/node_marker.cpp:129 src/object/custom_particle_system.cpp:434
 #: src/object/custom_particle_system.cpp:469
 msgid "No easing"
-msgstr "No allentamento"
+msgstr "Nessun allentamento"
 
 #: src/editor/node_marker.cpp:130 src/object/custom_particle_system.cpp:435
 #: src/object/custom_particle_system.cpp:470
 msgid "Quad in"
-msgstr "Quad dentro"
+msgstr "Quad in"
 
 #: src/editor/node_marker.cpp:130 src/object/custom_particle_system.cpp:435
 #: src/object/custom_particle_system.cpp:470
 msgid "Quad out"
-msgstr "Quad fuori"
+msgstr "Quad out"
 
 #: src/editor/node_marker.cpp:130 src/object/custom_particle_system.cpp:435
 #: src/object/custom_particle_system.cpp:470
 msgid "Quad in/out"
-msgstr "Quad dentro/fuori"
+msgstr "Quad in/out"
 
 #: src/editor/node_marker.cpp:131 src/object/custom_particle_system.cpp:436
 #: src/object/custom_particle_system.cpp:471
 msgid "Cubic in"
-msgstr "Cubico dentro"
+msgstr "Cubic in"
 
 #: src/editor/node_marker.cpp:131 src/object/custom_particle_system.cpp:436
 #: src/object/custom_particle_system.cpp:471
 msgid "Cubic out"
-msgstr "Cubico fuori"
+msgstr "Cubic out"
 
 #: src/editor/node_marker.cpp:131 src/object/custom_particle_system.cpp:436
 #: src/object/custom_particle_system.cpp:471
 msgid "Cubic in/out"
-msgstr "Cubico dentro/fuori"
+msgstr "Cubic in/out"
 
 #: src/editor/node_marker.cpp:132 src/object/custom_particle_system.cpp:437
 #: src/object/custom_particle_system.cpp:472
 msgid "Quart in"
-msgstr "Quarto dentro"
+msgstr "Quart in"
 
 #: src/editor/node_marker.cpp:132 src/object/custom_particle_system.cpp:437
 #: src/object/custom_particle_system.cpp:472
 msgid "Quart out"
-msgstr "Quarto fuori"
+msgstr "Quart out"
 
 #: src/editor/node_marker.cpp:132 src/object/custom_particle_system.cpp:437
 #: src/object/custom_particle_system.cpp:472
 msgid "Quart in/out"
-msgstr "Quarto dentro/fuori"
+msgstr "Quart in/out"
 
 #: src/editor/node_marker.cpp:133 src/object/custom_particle_system.cpp:438
 #: src/object/custom_particle_system.cpp:473
 msgid "Quint in"
-msgstr "Quint dentro"
+msgstr "Quint in"
 
 #: src/editor/node_marker.cpp:133 src/object/custom_particle_system.cpp:438
 #: src/object/custom_particle_system.cpp:473
 msgid "Quint out"
-msgstr "Quint fuori"
+msgstr "Quint out"
 
 #: src/editor/node_marker.cpp:133 src/object/custom_particle_system.cpp:438
 #: src/object/custom_particle_system.cpp:473
 msgid "Quint in/out"
-msgstr "Quint dentro/fuori"
+msgstr "Quint in/out"
 
 #: src/editor/node_marker.cpp:134 src/object/custom_particle_system.cpp:439
 #: src/object/custom_particle_system.cpp:474
 msgid "Sine in"
-msgstr "Sine dentro"
+msgstr "Sine in"
 
 #: src/editor/node_marker.cpp:134 src/object/custom_particle_system.cpp:439
 #: src/object/custom_particle_system.cpp:474
 msgid "Sine out"
-msgstr "Sine fuori"
+msgstr "Sine out"
 
 #: src/editor/node_marker.cpp:134 src/object/custom_particle_system.cpp:439
 #: src/object/custom_particle_system.cpp:474
 msgid "Sine in/out"
-msgstr "Sine dentro/fuori"
+msgstr "Sine in/out"
 
 #: src/editor/node_marker.cpp:135 src/object/custom_particle_system.cpp:440
 #: src/object/custom_particle_system.cpp:475
 msgid "Circular in"
-msgstr "Circolare dentro"
+msgstr "Cicular in"
 
 #: src/editor/node_marker.cpp:135 src/object/custom_particle_system.cpp:440
 #: src/object/custom_particle_system.cpp:475
 msgid "Circular out"
-msgstr "Circolare fuori"
+msgstr "Circular out"
 
 #: src/editor/node_marker.cpp:135 src/object/custom_particle_system.cpp:440
 #: src/object/custom_particle_system.cpp:475
 msgid "Circular in/out"
-msgstr "Circolare dentro/fuori"
+msgstr "Circular in/out"
 
 #: src/editor/node_marker.cpp:136 src/object/custom_particle_system.cpp:441
 #: src/object/custom_particle_system.cpp:476
 msgid "Exponential in"
-msgstr "Esponenziale dentro"
+msgstr "Exponential in"
 
 #: src/editor/node_marker.cpp:136 src/object/custom_particle_system.cpp:441
 #: src/object/custom_particle_system.cpp:476
 msgid "Exponential out"
-msgstr "Esponenziale fuori"
+msgstr "Exponential out"
 
 #: src/editor/node_marker.cpp:136 src/object/custom_particle_system.cpp:441
 #: src/object/custom_particle_system.cpp:476
 msgid "Exponential in/out"
-msgstr "Esponenziale dentro/fuori"
+msgstr "Exponential in/out"
 
 #: src/editor/node_marker.cpp:137 src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477
 msgid "Elastic in"
-msgstr "Elastico dentro"
+msgstr "Elastic in"
 
 #: src/editor/node_marker.cpp:137 src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477
 msgid "Elastic out"
-msgstr "Elastico fuori"
+msgstr "Elastic out"
 
 #: src/editor/node_marker.cpp:137 src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477
 msgid "Elastic in/out"
-msgstr "Elastico dentro/fuori"
+msgstr "Elastic in/out"
 
 #: src/editor/node_marker.cpp:138 src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478
 msgid "Back in"
-msgstr "Indietro dentro"
+msgstr "Back in"
 
 #: src/editor/node_marker.cpp:138 src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478
 msgid "Back out"
-msgstr "Indietro fuori"
+msgstr "Back out"
 
 #: src/editor/node_marker.cpp:138 src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478
 msgid "Back in/out"
-msgstr "Indietro dentro/fuori"
+msgstr "Back in/out"
 
 #: src/editor/node_marker.cpp:139 src/object/custom_particle_system.cpp:444
 #: src/object/custom_particle_system.cpp:479
 msgid "Bounce in"
-msgstr "Rimbalzo dentro"
+msgstr "Bounce in"
 
 #: src/editor/node_marker.cpp:139 src/object/custom_particle_system.cpp:444
 #: src/object/custom_particle_system.cpp:479
 msgid "Bounce out"
-msgstr "Rimbalzo fuori"
+msgstr "Bounce out"
 
 #: src/editor/node_marker.cpp:139 src/object/custom_particle_system.cpp:444
 #: src/object/custom_particle_system.cpp:479
@@ -529,11 +529,11 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr "Verrà aggiornato l'oggetto alla sua funzione più recente.\nControlla le \"Note della Patch\" per ulteriori informazioni.\n\nTieni a mente che molto probabilmente potrebbe causare problemi al comportamento dell'oggetto.\nAccertati di ricontrollare ogni comportamento, correlato all'oggetto."
+msgstr "Verrà aggiornato l'oggetto alla sua funzione più recente.\nControlla le \"Note della Patch\" per ulteriori informazioni.\n\nTieni a mente che molto probabilmente potrebbe causare problemi al comportamento dell'oggetto.\nAccertati di ricontrollare ogni comportamento relativo all'oggetto."
 
 #: src/editor/object_menu.cpp:98
 msgid "Patch notes for v{}:"
-msgstr "Note della Patch per v{}:"
+msgstr "Note della Patch per la v{}:"
 
 #: src/editor/toolbar_widget.cpp:55 src/supertux/menu/editor_menu.cpp:188
 #: src/supertux/menu/editor_menu.cpp:210
@@ -3177,7 +3177,7 @@ msgstr "Editor di testo preferito"
 
 #: src/supertux/menu/editor_settings.cpp:63
 msgid "Undo Stack Size"
-msgstr "Annulla la dimensione della Stack"
+msgstr "Grandezza dello Stack di annullamenti"
 
 #: src/supertux/menu/editor_settings.cpp:65
 msgid "Autosave Frequency"
@@ -3310,7 +3310,7 @@ msgid "{} level"
 msgid_plural "{} levels"
 msgstr[0] "Livello {}"
 msgstr[1] "Livelli {}"
-msgstr[2] "Livelli {}"
+msgstr[2] "{} livello"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:116
 msgid "Create World"
@@ -4558,11 +4558,11 @@ msgstr "Ricerca di anteprime delle catture dello schermo..."
 
 #: src/supertux/menu/addon_preview_menu.cpp:314
 msgid "Updating {}"
-msgstr ""
+msgstr "Aggiornando {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:314
 msgid "Downloading {}"
-msgstr ""
+msgstr "Scaricando {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:342
 msgid "Add-on uninstalled successfully."

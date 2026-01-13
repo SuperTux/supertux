@@ -17,6 +17,7 @@
 #include "supertux/gameconfig.hpp"
 
 #include <ctime>
+#include <config.h>
 
 #include "editor/overlay_widget.hpp"
 #include "math/util.hpp"
@@ -179,7 +180,9 @@ Config::load()
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("custom_system_cursor", custom_system_cursor);
   config_mapping.get("do_release_check", do_release_check);
+#ifdef NETWORKING // don't bother parsing this otherwise, since it's true by default.
   config_mapping.get("disable_network", disable_network);
+#endif
   config_mapping.get("custom_title_levels", custom_title_levels);
 
   std::optional<ReaderMapping> config_integrations_mapping;

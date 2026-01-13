@@ -9,7 +9,7 @@
 # Matatabi Wang, 2024
 # Matatabi Wang, 2024
 # Sizhuang Liu <oldherl@gmail.com>, 2008
-# Wenbin Lv <wenbin816@gmail.com>, 2024
+# Wenbin Lv <wenbin816@gmail.com>, 2024,2026
 # CodingJellyfish <dumaosen_main01@outlook.com>, 2018-2020
 # 玉堂白鹤 <yjwork@qq.com>, 2018-2019
 # a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>, 2020
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>, 2020\n"
+"Last-Translator: Wenbin Lv <wenbin816@gmail.com>, 2024,2026\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4547,11 +4547,11 @@ msgstr "正在获取截图预览..."
 
 #: src/supertux/menu/addon_preview_menu.cpp:314
 msgid "Updating {}"
-msgstr ""
+msgstr "正在更新 {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:314
 msgid "Downloading {}"
-msgstr ""
+msgstr "正在下载 {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:342
 msgid "Add-on uninstalled successfully."

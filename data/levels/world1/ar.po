@@ -103,7 +103,7 @@ msgstr "الجزيرة الجليدية"
 
 #: data/levels/world1/info:3
 msgid "Where your adventure begins."
-msgstr ""
+msgstr "حيث تبدأ مغامرتك."
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -258,7 +258,7 @@ msgstr "كلما فكر في الأمر أكثر، قلت ثقته بشأن دو
 
 #: data/levels/world1/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
-msgstr ""
+msgstr "---أدخل المشهد السينمائي هنا---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."

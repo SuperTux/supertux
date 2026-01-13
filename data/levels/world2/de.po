@@ -155,7 +155,7 @@ msgstr "---Zwischensequenz hier einfügen---"
 msgid ""
 "Despite the Ghost Tree's defeat and a sliver of life returning to the once "
 "lush forest, the land was still in shambles."
-msgstr "Obwohl der Geisterbaum besiegt wurde und wieder ein Hauch Leben in den einst üppigen Wald zurückkehrte, lag das Land immer noch in Scherben."
+msgstr "Obwohl der Geisterbaum besiegt wurde und wieder ein Hauch Leben in den einst üppigen Wald zurückkehrte, lag das Land immer noch in Schutt und Asche."
 
 #: data/levels/world2/scripts_floral_blossom.txt:3
 msgid ""

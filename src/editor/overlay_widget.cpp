@@ -1081,6 +1081,8 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   }
 
   m_dragging = false;
+  m_last_target_pos = Vector(std::numeric_limits<int>::min(),
+                             std::numeric_limits<int>::min());
 
   // Return true anyways, because that's how it worked when this function only
   // had `m_dragging = false;` in its body.

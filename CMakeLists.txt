@@ -156,6 +156,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 endif()
 
 option(ENABLE_OPENGL "Enable OpenGL support" ON)
+option(ENABLE_NETWORKING "Turns on networking features, thus requiring libcurl" ON)
 
 # CI builds should never rely on this, as system SDL2_TTF has no RAQM support, causing Arabic to not be rendered properly.
 option(USE_SYSTEM_SDL2_TTF "Build SuperTux with system SDL2_TTF" OFF)
@@ -193,8 +194,10 @@ if(NOT EMSCRIPTEN)
     add_package(TARGET SDL2_ttf
       PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
   endif()
-  add_package(TARGET libcurl
-    PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
+  if(ENABLE_NETWORKING)
+    add_package(TARGET libcurl
+      PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
+  endif()
   add_package(TARGET OpenAL
     PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL openal)
   add_package(TARGET Ogg
@@ -231,26 +234,45 @@ if(ENABLE_DISCORD)
   add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
 endif()
 
+set(USE_GL_LIBRARY "glew" CACHE STRING "Which OpenGL function library to choose from (e.g. glew, libepoxy)")
+set_property(CACHE USE_GL_LIBRARY PROPERTY STRINGS glew libepoxy)
+
 set(HAVE_OPENGL NO)
+set(HAVE_CURL NO)
+set(HAVE_GLEW NO)
+set(HAVE_EPOXY NO)
 # OpenGL for Emscripten is added in Emscripten.cmake
 if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
   set(OpenGL_GL_PREFERENCE "LEGACY")
   find_package(OpenGL)
 
   if(OPENGL_FOUND)
-    add_package(TARGET GLEW
-      PKG GLEW PKG_USE GLEW::GLEW CONFIG REQUIRED PKG_CONFIG glew
-      PREFER_PKGCONFIG)
+    if ("${USE_GL_LIBRARY}" STREQUAL "glew")
+      message(STATUS "Using glew")
+      add_package(TARGET GLEW
+        PKG GLEW PKG_USE GLEW::GLEW CONFIG REQUIRED PKG_CONFIG glew
+        PREFER_PKGCONFIG)
+      set(HAVE_OPENGL "${ADDPKG_GLEW_FOUND}")
+      set(HAVE_GLEW ON)
+    elseif ("${USE_GL_LIBRARY}" STREQUAL "libepoxy")
+      message(STATUS "Using libepoxy")
+      add_package(TARGET libepoxy
+        PKG libepoxy PKG_CONFIG epoxy libepoxy
+        PREFER_PKGCONFIG)
+      set(HAVE_OPENGL "${ADDPKG_libepoxy_FOUND}")
+      set(HAVE_EPOXY ON)
+    else()
+      message(FATAL_ERROR "An invalid GL library was chosen! Got \"${USE_GL_LIBRARY}\"")
+    endif()
   else()
     message(STATUS "OpenGL not found! OpenGL support is disabled.")
   endif()
 
-  set(HAVE_OPENGL "${ADDPKG_GLEW_FOUND}")
 
   if(HAVE_OPENGL AND OPENGL_FOUND)
-    message(STATUS "OpenGL & GLEW found! enabling OpenGL support.")
+    message(STATUS "OpenGL & ${USE_GL_LIBRARY} found! Enabling OpenGL support.")
   elseif(OPENGL_FOUND)
-    message(STATUS "Glew not found! OpenGL support is disabled.")
+    message(STATUS "${USE_GL_LIBRARY} not found! OpenGL support is disabled.")
   endif()
 endif()
 
@@ -426,12 +448,17 @@ if(NOT EMSCRIPTEN)
     VorbisFile
   )
 
-  if(ADDPKG_CURL_FOUND)
+  if(ADDPKG_CURL_FOUND AND ENABLE_NETWORKING)
     target_link_libraries(supertux2 PUBLIC libcurl)
+    set(HAVE_CURL YES)
   endif()
 
   if(HAVE_OPENGL)
-    target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW)
+    if ("${USE_GL_LIBRARY}" STREQUAL "glew")
+      target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW)
+    else()
+      target_link_libraries(supertux2 PUBLIC OpenGL::GL libepoxy)
+    endif()
   endif()
 
   if(ENABLE_DISCORD)

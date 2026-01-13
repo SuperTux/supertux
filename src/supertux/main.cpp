@@ -481,6 +481,9 @@ SDLSubsystem::SDLSubsystem()
   if (g_config->prefer_wayland)
     SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
 
+# ifdef HAVE_EPOXY
+  SDL_SetHint(SDL_HINT_VIDEO_X11_FORCE_EGL, "1");
+# endif
 #endif
   if (SDL_Init(flags) < 0)
   {
