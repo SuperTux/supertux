@@ -141,7 +141,7 @@ Text.set_pos(0, -250);")
       (y 2800)
     )
     (music
-      (file "/music/battle_theme.music")
+      (file "/music/forest/ghostforest.music")
     )
     (particles-rain
     )
