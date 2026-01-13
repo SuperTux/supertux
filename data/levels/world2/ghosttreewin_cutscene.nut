@@ -1,3 +1,5 @@
+bonusbert <- ""
+
 function initialize()
 {
   start_cutscene();
@@ -8,6 +10,8 @@ function initialize()
   ///GHOSTTREE.set_action("decayed");
   
   Tux.deactivate();
+  bonusbert = Tux.get_bonus();
+  Tux.set_bonus("grow");
   wait(0.05);
   Tux.do_duck();
   Tux.disable_fancy_idling();
@@ -158,6 +162,7 @@ function end_level()
   //end sequence
   Effect.fade_out(2);
   wait(4);
+  Tux.set_bonus(bonusbert);
   stop_music(1);
   wait(1);
   Level.finish(true);
