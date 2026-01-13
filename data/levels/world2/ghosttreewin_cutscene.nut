@@ -66,7 +66,7 @@ function initialize()
   Tux.set_dir(true);
   // TUX.set_action("big-stand-right");
   wait(1.5);
-  Text.set_text(_("Though as much as he was ecstatic about seeing the land restored, beginning to heal... where to now?"));
+  Text.set_text(_("Though as much as he was ecstatic about seeing the land restored and beginning to heal... where to now?"));
   Text.fade_in(0.5);
   wait(0.5);
   Tux.set_dir(false);
@@ -106,7 +106,7 @@ function initialize()
   Effect.fade_in(1);
   
   wait(1.5);
-  Text.set_text(_("There was no one around Tux could ask for help. All but the remains of corrupted husks littering the ground as moved along in thought. No living creature in sight."));
+  Text.set_text(_("There was no one around Tux could ask for help. All but the remains of corrupted husks littered the ground as he moved along in thought. No living creature in sight."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);

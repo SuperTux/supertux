@@ -103,7 +103,7 @@ function outside()
   wait(0.6);
   root_attack2.start_moving();
   wait(0.4);
-  Text.set_text(_("Tux watched in shock as the roots digged through the tower's walls, faster and faster. He had to get out of there, fast!"));
+  Text.set_text(_("Tux watched in shock as the roots dug through the tower's walls, faster and faster. He had to get out of there, fast!"));
   Text.fade_in(0.5);
   root_attack3.start_moving();
   wait(4.5);
@@ -181,7 +181,7 @@ function inside()
   TUX1.set_velocity(200, -400);
   wait(0.8);
 
-  Text.set_text(_("Tux ran as fast as he could but the roots would not let him leave as they blocked of the only path to the main entrance."));
+  Text.set_text(_("Tux ran as fast as he could but the roots would not let him leave as they blocked off the only path to the main entrance."));
   Text.fade_in(0.5);
 
   Camera.scroll_to(750, Camera.get_y(), 4);

@@ -282,7 +282,7 @@ function textbox()
   
   wait(2.5);
   
-  Text.set_text(_("He went to investigate and got startled again by a Vicious Ivy, tumbling out of the bushes!"));
+  Text.set_text(_("He went to investigate and got startled by a Vicious Ivy, tumbling out of the bushes!"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -296,7 +296,7 @@ function textbox()
   
   wait(2);
   
-  Text.set_text(_("Before Tux even had the chance to think about what had happend to the poor thing, the ground began to shake violently..."));
+  Text.set_text(_("Before Tux even had the chance to think about what had happened to the poor thing, the ground began to shake violently..."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
