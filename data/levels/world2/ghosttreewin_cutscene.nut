@@ -1,12 +1,16 @@
 function initialize()
 {
   start_cutscene();
+
+  trigger_state("textbox");
   
-  TUX.set_action("big-duck-right");
+  // TUX.set_action("big-duck-right");
   ///GHOSTTREE.set_action("decayed");
   
   Tux.deactivate();
-  Tux.set_visible(false);
+  wait(0.05);
+  Tux.do_duck();
+  Tux.disable_fancy_idling();
   
   Camera.set_pos(420, 135);
   
@@ -18,75 +22,93 @@ function initialize()
   
   corrupted_solid.fade(0, 20);
   wait(4);
-  TUX.set_action("big-stand-right");
+  Tux.do_standup();
+  // TUX.set_action("big-stand-right");
   wait(2);
   Camera.scroll_to(250, Camera.get_y(), 0.5);
-  TUX.set_action("big-stand-left");
+  Tux.set_dir(false);
+  // TUX.set_action("big-stand-left");
   wait(0.5);
   Camera.scroll_to(240, Camera.get_y(), 3);
   wait(3);
   Camera.scroll_to(580, Camera.get_y(), 0.5);
-  TUX.set_action("big-stand-right");
+  Tux.set_dir(true);
+  // TUX.set_action("big-stand-right");
   wait(0.5);
   Camera.scroll_to(590, Camera.get_y(), 3);
   wait(3);
   Camera.scroll_to(480, Camera.get_y(), 22);
   wait(2);
-  TUX.set_action("big-walk-right");
-  TUX.set_velocity(120, 0);
+  Tux.walk(120);
+  // TUX.set_action("big-walk-right");
+  // TUX.set_velocity(120, 0);
   wait(2);
-  TUX.set_action("big-stand-right");
-  TUX.set_velocity(0, 0);
+  Tux.walk(0);
+  // TUX.set_action("big-stand-right");
+  // TUX.set_velocity(0, 0);
   wait(3);
-  TUX.set_action("big-stand-left");
+  Tux.set_dir(false);
+  // TUX.set_action("big-stand-left");
   wait(1);
-  TUX.set_action("big-stand-right");
+  Tux.set_dir(true);
+  // TUX.set_action("big-stand-right");
   wait(2);
-  TUX.set_action("big-walk-left");
-  TUX.set_velocity(-100, 0);
+  Tux.set_dir(false);
+  Tux.walk(-100);
+  // TUX.set_action("big-walk-left");
+  // TUX.set_velocity(-100, 0);
   wait(1.2);
-  TUX.set_action("big-stand-left");
-  TUX.set_velocity(0, 0);
+  Tux.walk(0);
+  // TUX.set_action("big-stand-left");
+  // TUX.set_velocity(0, 0);
   wait(3);
-  TUX.set_action("big-stand-right");
+  Tux.set_dir(true);
+  // TUX.set_action("big-stand-right");
   wait(2);
-  TUX.set_action("big-stand-left");
+  Tux.set_dir(false);
+  // TUX.set_action("big-stand-left");
   wait(5);
   
   Effect.fade_out(1);
   wait(1.5);
-  TUX.set_pos(2150, 480);
+  Tux.set_pos(2150, 480);
+  // TUX.set_pos(2250, 480);
   Camera.set_pos(1980, 135);
   Camera.scroll_to(4460, 90, 32);
-  TUX.set_action("big-walk-right");
-  TUX.set_velocity(120, 0);
+  Tux.set_dir(true);
+  // TUX.set_action("big-walk-right");
+  // TUX.set_velocity(120, 0);
+  Tux.walk(120);
   wait(0.5);
   Effect.fade_in(1);
   
   wait(12);
   play_sound("sounds/jump.wav");
-  TUX.set_action("big-jump-right");
-  TUX.set_velocity(120, -450);
+  Tux.do_jump(-450);
+  // TUX.set_action("big-jump-right");
+  // TUX.set_velocity(120, -450);
   wait(0.5);
-  TUX.set_action("big-fall-right");
+  // TUX.set_action("big-fall-right");
   wait(0.5);
-  TUX.set_action("big-walk-right");
+  // TUX.set_action("big-walk-right");
   wait(5);
   play_sound("sounds/jump.wav");
-  TUX.set_action("big-jump-right");
-  TUX.set_velocity(120, -450);
+  // TUX.set_action("big-jump-right");
+  // TUX.set_velocity(120, -450);
+  Tux.do_jump(-450);
   wait(0.5);
-  TUX.set_action("big-fall-right");
+  // TUX.set_action("big-fall-right");
   wait(0.2);
-  TUX.set_action("big-walk-right");
+  // TUX.set_action("big-walk-right");
   wait(2.3);
   play_sound("sounds/jump.wav");
-  TUX.set_action("big-jump-right");
-  TUX.set_velocity(120, -500);
+  // TUX.set_action("big-jump-right");
+  // TUX.set_velocity(120, -500);
+  Tux.do_jump(-450);
   wait(0.6);
-  TUX.set_action("big-fall-right");
+  // TUX.set_action("big-fall-right");
   wait(0.2);
-  TUX.set_action("big-walk-right");
+  // TUX.set_action("big-walk-right");
   
   trigger_state("end_level");
   
