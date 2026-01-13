@@ -2,7 +2,7 @@
   (file "worldmap_old.ogg")
   (authors "ZhayTee")
   (license "CC-BY-NC 2.0")
-  (title "supertux title")
+  (title "Supertux Worldmap (Retro)")
   (loop-begin 0)
   (loop-at    40)
 )

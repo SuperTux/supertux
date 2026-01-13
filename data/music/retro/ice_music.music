@@ -2,7 +2,7 @@
   (file "ice_music.ogg")
   (authors "ZhayTee")
   (license "CC-BY-NC 2.0")
-  (title "supertux ice level")
+  (title "Supertux Ice Level (Retro)")
   (loop-begin 0)
   (loop-at    137)
 )

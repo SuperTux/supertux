@@ -1,5 +1,6 @@
 (supertux-music
   (file "midday_alt.ogg")
+  (title "Midday (Alt)")
   (authors "SnugglyBun")
   (license "CC-BY-SA 4.0")
   (loop-begin 0)
