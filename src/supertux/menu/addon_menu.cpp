@@ -152,11 +152,15 @@ AddonMenu::rebuild_menu()
     {
       add_inactive(fmt::format(fmt::runtime(_("{} {} available")), addon_updates_count, addon_updates_count == 1 ? _("update") : _("updates")));
     }
+#ifdef NETWORKING
     add_entry(MNID_CHECK_ONLINE, _("Check for updates"));
+#endif
     add_hl();
   }
 
+#ifdef NETWORKING
   add_entry(MNID_BROWSE, m_langpacks_only ? _("Browse language packs") : _("Browse Add-ons"));
+#endif
 #ifndef __ANDROID__
   add_entry(MNID_INSTALL_FROM_FILE, _("Install from file"));
 #endif

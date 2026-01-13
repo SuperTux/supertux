@@ -51,7 +51,7 @@ size_t my_curl_string_append(void* ptr, size_t size, size_t nmemb, void* userdat
   return size * nmemb;
 }
 
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
 size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata)
 {
   PHYSFS_file* f = static_cast<PHYSFS_file*>(userdata);
@@ -241,7 +241,7 @@ protected:
   TransferId m_id;
 
   const std::string m_url;
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   CURL* m_handle;
   std::array<char, CURL_ERROR_SIZE> m_error_buffer;
 #endif
@@ -254,13 +254,13 @@ public:
     m_downloader(downloader),
     m_id(id),
     m_url(url),
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
     m_handle(),
     m_error_buffer({{'\0'}}),
 #endif
     m_status(new TransferStatus(m_downloader, id, url))
   {
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
     m_handle = curl_easy_init();
     if (!m_handle)
     {
@@ -294,7 +294,7 @@ public:
 
   virtual ~Transfer()
   {
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
     curl_easy_cleanup(m_handle);
 #endif
   }
@@ -304,7 +304,7 @@ public:
     return m_status;
   }
 
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   const char* get_error_buffer() const
   {
     return m_error_buffer.data();
@@ -316,7 +316,7 @@ public:
     return m_id;
   }
 
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   CURL* get_curl_handle() const
   {
     return m_handle;
@@ -343,7 +343,7 @@ public:
   }
 
 private:
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   static size_t on_data_wrap(const char* ptr, size_t size, size_t nmemb, void* userdata)
   {
     return static_cast<Transfer*>(userdata)->on_data(ptr, size, nmemb);
@@ -365,7 +365,7 @@ private:
 class FileTransfer final : public Transfer
 {
 private:
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   std::unique_ptr<PHYSFS_file, int(*)(PHYSFS_File*)> m_fout;
 #endif
 
@@ -373,19 +373,19 @@ public:
   FileTransfer(Downloader& downloader, TransferId id,
                const std::string& url, const std::string& outfile) :
     Transfer(downloader, id, url)
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
     ,
     m_fout(PHYSFS_openWrite(outfile.c_str()), PHYSFS_close)
 #endif
   {
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
     if (!m_fout)
     {
       std::ostringstream out;
       out << "PHYSFS_openRead() failed: " << physfsutil::get_last_error();
       throw std::runtime_error(out.str());
     }
-#else
+#elif defined(__EMSCRIPTEN__)
     // Sanitize input to prevent code injection from malicious callers.
     // Escape backslashes and single quotes in the URL and file path to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
@@ -396,7 +396,7 @@ public:
 
   size_t on_data(const char* ptr, size_t size, size_t nmemb) override
   {
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
     PHYSFS_writeBytes(m_fout.get(), ptr, size * nmemb);
 #endif
     return size * nmemb;
@@ -438,14 +438,14 @@ private:
 };
 
 Downloader::Downloader() :
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   m_multi_handle(),
 #endif
   m_transfers(),
   m_next_transfer_id(1),
   m_last_update_time(-1)
 {
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   curl_global_init(CURL_GLOBAL_ALL);
   m_multi_handle = curl_multi_init();
   if (!m_multi_handle)
@@ -457,7 +457,7 @@ Downloader::Downloader() :
 
 Downloader::~Downloader()
 {
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   for (auto& transfer : m_transfers)
   {
     curl_multi_remove_handle(m_multi_handle, transfer.second->get_curl_handle());
@@ -465,7 +465,7 @@ Downloader::~Downloader()
 #endif
   m_transfers.clear();
 
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   curl_multi_cleanup(m_multi_handle);
   curl_global_cleanup();
 #endif
@@ -481,7 +481,7 @@ Downloader::download(const std::string& url,
 
   log_info << "Downloading " << url << std::endl;
 
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   char error_buffer[CURL_ERROR_SIZE+1];
 
   CURL* curl_handle = curl_easy_init();
@@ -504,7 +504,7 @@ Downloader::download(const std::string& url,
     std::string why = error_buffer[0] ? error_buffer : "unhandled error";
     throw std::runtime_error(url + ": download failed: " + why);
   }
-#else
+#elif defined(__EMSCRIPTEN__)
   log_warning << "Direct download not yet implemented for Emscripten." << std::endl;
   // FUTURE MAINTAINERS: If this needs to be implemented, take a look at
   // emscripten_wget(), emscripten_async_wget(), emscripten_wget_data() and
@@ -530,12 +530,12 @@ Downloader::download(const std::string& url, const std::string& filename)
   if (g_config->disable_network)
     throw std::runtime_error("Networking is disabled");
 
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   log_info << "download: " << url << " to " << filename << std::endl;
   std::unique_ptr<PHYSFS_file, int(*)(PHYSFS_File*)> fout(PHYSFS_openWrite(filename.c_str()),
                                                           PHYSFS_close);
   download(url, my_curl_physfs_write, fout.get());
-#else
+#elif defined(__EMSCRIPTEN__)
   log_warning << "Direct download not yet implemented for Emscripten." << std::endl;
   // FUTURE MAINTAINERS: If this needs to be implemented, take a look at
   // emscripten_wget(), emscripten_async_wget(), emscripten_wget_data() and
@@ -556,7 +556,7 @@ Downloader::abort(TransferId id)
   {
     TransferStatusPtr status = (it->second)->get_status();
 
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
     curl_multi_remove_handle(m_multi_handle, it->second->get_curl_handle());
 #endif
     m_transfers.erase(it);
@@ -605,7 +605,7 @@ Downloader::update()
     return;
   }
 
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   // Prevent updating a Downloader multiple times in the same frame.
   if (m_last_update_time == g_real_time) return;
   m_last_update_time = g_real_time;
@@ -690,7 +690,7 @@ Downloader::update()
 TransferStatusPtr
 Downloader::add_transfer(std::unique_ptr<Transfer> transfer)
 {
-#ifndef EMSCRIPTEN
+#ifdef NETWORKING
   curl_multi_add_handle(m_multi_handle, transfer->get_curl_handle());
 #endif
   auto transferId = transfer->get_id();
