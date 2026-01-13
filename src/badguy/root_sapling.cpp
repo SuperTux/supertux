@@ -199,9 +199,7 @@ RootSapling::summon_root()
         default: assert(false); break;
       }
 
-      RaycastResult result = m_dir == Direction::LEFT || m_dir == Direction::UP ?
-                             Sector::get().get_first_line_intersection(eye, end, true, nullptr) :
-                             reverse_raycast(eye, end);
+      RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
 
       auto tile_p = std::get_if<const Tile*>(&result.hit);
       if (!tile_p || result.box.empty())
@@ -337,60 +335,6 @@ next_tilemap:
   }
 
   return false;
-}
-
-CollisionSystem::RaycastResult
-RootSapling::reverse_raycast(const Vector& line_start, const Vector& line_end)
-{
-  /*
-   * This "Raycasting" I've been using so far is not actual raycasting.
-   * It just checks for tiles/objects that intersect a line and returns
-   * the closest one to the top left (or whatever order it's on). Which
-   * means it only works properly when pointing down or right. If you
-   * try otherwise it will return the furthest tile/object in the line.
-   *
-   * FIXME: Rename this to "Intersection checking" or
-   * make it support other directions.
-   *
-   * Anyway, to work around this, copy the current intersection checking
-   * function and alter it to go in reverse
-   *
-   * Usually, when I write big comments, that means I won't need it. I hope
-   * that's the case.
-   *
-   * ~ MatusGuy
-   */
-
-  CollisionSystem::RaycastResult result{};
-
-  // Check if no tile is in the way.
-  const float lsx = std::max(line_start.x, line_end.x);
-  const float lex = std::min(line_start.x, line_end.x);
-  const float lsy = std::max(line_start.y, line_end.y);
-  const float ley = std::min(line_start.y, line_end.y);
-
-  for (float test_x = lsx; test_x >= lex; test_x -= 16) { // NOLINT.
-    for (float test_y = lsy; test_y >= ley; test_y -= 16) { // NOLINT.
-      for (const auto& solids : Sector::get().get_solid_tilemaps()) {
-        Vector test_vector(test_x, test_y);
-        if (solids->is_outside_bounds(test_vector))
-          continue;
-
-        const Tile* tile = &solids->get_tile_at(test_vector);
-
-        if (tile->get_attributes() & Tile::SOLID)
-        {
-          result.is_valid = true;
-          result.hit = tile;
-          result.box = solids->get_tile_bbox(static_cast<int>(test_vector.x / 32.f)+1, static_cast<int>(test_vector.y / 32.f)+1);
-          return result;
-        }
-      }
-    }
-  }
-
-  result.is_valid = false;
-  return result;
 }
 
 void

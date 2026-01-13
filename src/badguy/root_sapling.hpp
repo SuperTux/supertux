@@ -51,9 +51,6 @@ private:
   void summon_root();
   bool should_summon_root(const Rectf& bbox);
 
-  /** Fix raycasting down/right. More info in the implementation. */
-  CollisionSystem::RaycastResult reverse_raycast(const Vector& line_start, const Vector& line_end);
-
 private:
   Timer m_root_timer;
   bool m_dead;
