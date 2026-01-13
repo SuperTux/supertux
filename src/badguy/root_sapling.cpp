@@ -26,6 +26,7 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
 
 static const float ROOT_SAPLING_RANGE = 32.f * 20;
 static const float ROOT_SAPLING_SPAWN_TIME = 1.35f;
@@ -269,6 +270,47 @@ RootSapling::summon_root()
 bool
 RootSapling::should_summon_root(const Rectf& bbox)
 {
+  Vector groundpos;
+  switch (m_dir)
+  {
+    case Direction::UP:
+      groundpos.x = get_x();
+      groundpos.y = get_y()
+                    - get_sprite()->get_current_hitbox_y_offset()
+                    + get_sprite()->get_current_action_surface()->get_height();
+      break;
+
+    case Direction::DOWN:
+      groundpos.x = get_x();
+      groundpos.y = get_y()
+                    + get_sprite()->get_current_hitbox_y_offset()
+                    - get_sprite()->get_current_action_surface()->get_height()
+                    - get_height();
+      break;
+
+    case Direction::RIGHT:
+      groundpos.y = get_y();
+      groundpos.x = get_x()
+                    + get_sprite()->get_current_hitbox_x_offset()
+                    - get_sprite()->get_current_action_surface()->get_width()
+                    - get_width();
+      break;
+
+    case Direction::LEFT:
+      groundpos.y = get_y();
+      groundpos.x = get_x()
+                    - get_sprite()->get_current_hitbox_x_offset()
+                    + get_sprite()->get_current_action_surface()->get_width();
+      break;
+
+    default: assert(false); break;
+  }
+
+  // Check if the root spawns in the root sapling, and if so, prevent it.
+  Rectf selfcheck(groundpos, get_bbox().get_size());
+  if (selfcheck.grown(10.f).overlaps(bbox))
+    return false;
+
   for (const auto& solids : Sector::get().get_solid_tilemaps())
   {
     if (solids->get_path())
