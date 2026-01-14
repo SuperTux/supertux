@@ -23,7 +23,12 @@
 #cmakedefine USE_OPENGLES2
 #cmakedefine USE_OPENGLES1
 
-#cmakedefine HAVE_LIBCURL
+#cmakedefine HAVE_CURL
+#cmakedefine ENABLE_NETWORKING
+
+#if defined(HAVE_CURL) && defined(ENABLE_NETWORKING)
+# define NETWORKING
+#endif
 
 #define BUILD_DATA_DIR "${BUILD_DATA_DIR}"
 

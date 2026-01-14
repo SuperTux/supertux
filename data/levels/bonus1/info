@@ -5,4 +5,5 @@
   (contrib-type "official")
   (hide-from-contribs #f)
   (title-level "")
+  (tuxdolls-required 40)
 )

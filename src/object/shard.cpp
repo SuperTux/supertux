@@ -43,6 +43,8 @@ Shard::Shard(const Vector& pos, const Vector& velocity, const std::string& sprit
   m_stick_timer(),
   m_fadeout_timer()
 {
+  m_sticky = true;
+
   m_physic.enable_gravity(true);
   m_physic.set_velocity(velocity);
   set_action("default");
@@ -52,8 +54,6 @@ Shard::Shard(const Vector& pos, const Vector& velocity, const std::string& sprit
 void
 Shard::update(float dt_sec)
 {
-  m_sticky = true;
-
   if (m_physic.get_velocity() != Vector(0.f, 0.f) && !m_sticking)
     m_sprite->set_angle(math::degrees(math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()))));
 
@@ -68,20 +68,18 @@ Shard::update(float dt_sec)
   m_col.set_movement(m_physic.get_movement(dt_sec));
 
   StickyObject::update(dt_sec);
-}
 
-void
-Shard::collision_solid(const CollisionHit& hit)
-{
-  m_physic.set_velocity(0.f, 0.f);
-  m_physic.set_acceleration(0.f, 0.f);
-  m_physic.enable_gravity(hit.bottom);
-  m_sticking = true;
-
-  if (!m_stick_timer.started())
+  if (m_sticking)
   {
-    m_stick_timer.start(STICKING_TIME);
-    SoundManager::current()->play("sounds/crystallo-shardhit.ogg", get_pos());
+    m_physic.set_velocity(0.f, 0.f);
+    m_physic.set_acceleration(0.f, 0.f);
+    m_physic.enable_gravity(false);
+
+    if (!m_stick_timer.started())
+    {
+      m_stick_timer.start(STICKING_TIME);
+      SoundManager::current()->play("sounds/crystallo-shardhit.ogg", get_pos());
+    }
   }
 }
 
