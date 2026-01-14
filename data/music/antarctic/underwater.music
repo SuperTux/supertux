@@ -1,7 +1,0 @@
-(supertux-music
-  (file "underwater.ogg")
-  (authors "SnugglyBun")
-  (license "CC-BY-SA 4.0")
-  (loop-begin 19.198)
-  (loop-at 115.200)
-)

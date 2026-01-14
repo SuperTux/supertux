@@ -1,7 +1,0 @@
-(supertux-music
-  (file "cavetheme_alt.ogg")
-  (authors "SnugglyBun" "Marek \"Wansti\" Moeckel")
-  (license "CC-BY-SA 4.0")
-  (loop-begin 0)
-  (loop-at -1)
-)

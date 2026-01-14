@@ -1,7 +1,0 @@
-(supertux-music
-  (file "yetiboss.ogg")
-  (authors "SnugglyBun" "Marek \"Wansti\" Moeckel")
-  (license "CC-BY-SA 4.0")
-  (loop-begin 1.446)
-  (loop-at 82.410)
-)
