@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "From A Far It Spreads"))
+  (name (_ "From Afar It Spreads"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (allow-item-pocket "off")
