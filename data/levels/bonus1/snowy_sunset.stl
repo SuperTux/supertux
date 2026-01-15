@@ -1375,6 +1375,7 @@
       (version 2)
       (type "oneup")
       (z-pos 50)
+      (disable-physics #t)
       (x 3392)
       (y 768)
     )

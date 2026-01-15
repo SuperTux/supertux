@@ -589,7 +589,6 @@
     )
     (dispenser
       (z-pos -1)
-      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
@@ -599,7 +598,6 @@
     )
     (dispenser
       (z-pos -1)
-      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
@@ -609,7 +607,6 @@
     )
     (dispenser
       (z-pos -1)
-      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
@@ -619,7 +616,6 @@
     )
     (dispenser
       (z-pos -4)
-      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
@@ -629,7 +625,6 @@
     )
     (dispenser
       (z-pos -4)
-      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
@@ -639,7 +634,6 @@
     )
     (dispenser
       (z-pos -4)
-      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
@@ -1160,11 +1154,6 @@
       (name "d")
       (x 8616)
       (y 1792)
-    )
-    (spawnpoint
-      (name "z")
-      (x 7744)
-      (y 1248)
     )
     (sspiky
       (z-pos 50)

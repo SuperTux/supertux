@@ -239,6 +239,12 @@ Sprite::get_action_surfaces(const std::string& name) const
   return action->surfaces;
 }
 
+const SurfacePtr
+Sprite::get_current_action_surface() const
+{
+  return get_action_surfaces(get_action()).value()[get_current_frame()];
+}
+
 Rectf
 Sprite::get_current_hitbox() const
 {

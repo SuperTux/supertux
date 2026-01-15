@@ -163,8 +163,9 @@
     )
     (door
       (z-pos 1)
-      (sector "main")
+      (sector "secret")
       (locked #f)
+      (spawnpoint "secret2")
       (x 11296)
       (y 1664)
     )

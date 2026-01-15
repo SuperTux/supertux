@@ -91,6 +91,7 @@ public:
   int get_height() const;
 
   const std::optional<std::vector<SurfacePtr>> get_action_surfaces(const std::string& name) const;
+  const SurfacePtr get_current_action_surface() const;
 
   /** Return the "unisolid" property for the current action's hitbox. */
   inline bool is_current_hitbox_unisolid() const { return m_action->hitbox_unisolid; }
