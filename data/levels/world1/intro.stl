@@ -93,7 +93,7 @@ trigger_state(\"start\");")
     (scriptedobject
       (z-pos 50)
       (name "NOLOK")
-      (sprite "images/creatures/nolok/nolok.sprite")
+      (sprite "/images/creatures/nolok/dash.png")
       (x 3631)
       (y 1276)
     )
