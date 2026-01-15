@@ -301,18 +301,17 @@
       (y 1312)
       (glinting #f)
     )
-    (smartball
-      (z-pos 50)
-      (direction "left")
-      (x 10720)
-      (y 736)
-      (glinting #f)
-    )
     (smartblock
       (z-pos 50)
       (direction "left")
       (x 5056)
       (y 1088)
+      (glinting #f)
+    )
+    (smartblock
+      (z-pos 50)
+      (x 10724)
+      (y 736)
       (glinting #f)
     )
     (snowball
@@ -368,10 +367,6 @@
       (name "main")
       (x 96)
       (y 1408)
-    )
-    (spawnpoint
-      (x 9696)
-      (y 928)
     )
     (tilemap
       (solid #f)

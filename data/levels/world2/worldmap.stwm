@@ -201,12 +201,6 @@
     )
     (level
       (z-pos 50)
-      (level "floral_blossom.stl")
-      (x 94)
-      (y 24)
-    )
-    (level
-      (z-pos 50)
       (level "ancient_ruin.stl")
       (sprite "/images/worldmap/common/bonusdot.sprite")
       (x 19)
@@ -225,6 +219,12 @@
       (sprite "/images/worldmap/common/ghosttree.sprite")
       (x 81)
       (y 25)
+    )
+    (level
+      (z-pos 50)
+      (level "floral_blossom.stl")
+      (x 94)
+      (y 24)
     )
     (music
       (file "/music/forest/new_forest_map.music")

@@ -56,12 +56,6 @@
       (y 608)
     )
     (bonusblock
-      (z-pos 51)
-      (contents "1up")
-      (x 1312)
-      (y 800)
-    )
-    (bonusblock
       (type "orange")
       (z-pos 51)
       (x 5248)
@@ -307,7 +301,6 @@
     )
     (dispenser
       (z-pos -16)
-      (glinting #f)
       (cycle 5)
       (objects
         (short_fuse
@@ -323,7 +316,6 @@
     )
     (dispenser
       (z-pos -16)
-      (glinting #f)
       (cycle 3)
       (objects
         (short_fuse
@@ -339,7 +331,6 @@
     )
     (dispenser
       (z-pos -16)
-      (glinting #f)
       (cycle 2)
       (objects
         (short_fuse
@@ -354,7 +345,6 @@
     )
     (dispenser
       (z-pos -16)
-      (glinting #f)
       (cycle 5)
       (objects
         (short_fuse
@@ -580,6 +570,13 @@
       (running #f)
       (name "lift1")
       (path-ref "gen16572945631588809232352")
+    )
+    (powerup
+      (version 2)
+      (type "oneup")
+      (z-pos 50)
+      (x 1312)
+      (y 832)
     )
     (pushbutton
       (z-pos -99)

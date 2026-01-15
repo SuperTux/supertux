@@ -368,7 +368,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -384,7 +383,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -400,7 +398,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -416,7 +413,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -796,7 +792,7 @@
       (z-pos 50)
       (x 3024)
       (y 320)
-      (glinting #t)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
