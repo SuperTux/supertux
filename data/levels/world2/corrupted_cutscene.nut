@@ -303,7 +303,7 @@ function textbox()
   
   wait(11);
   
-  Text.set_text(_("Tux panicked! What ever these roots were, they were covering everything. Where could he go?"));
+  Text.set_text(_("Tux panicked! Whatever these roots were, they were covering everything. Where could he go?"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
