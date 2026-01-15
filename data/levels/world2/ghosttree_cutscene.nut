@@ -33,7 +33,7 @@ function initialize()
   
   wait(2.2);
   
-  Text.set_text(_("Did the yeti lie to him afterall? Did he walk into trap?"));
+  Text.set_text(_("Did Nolok's hints trick him afterall? Did he walk into a trap?"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
