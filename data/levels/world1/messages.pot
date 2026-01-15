@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.7.0-beta.1-99-geed8409be\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-136-gc3fa64ffe\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"POT-Creation-Date: 2026-01-15 08:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -377,7 +377,7 @@ msgstr ""
 msgid "The Somewhat Smaller Bath"
 msgstr ""
 
-#: data/levels/world1/somewhat_smaller_bath.stl:420
+#: data/levels/world1/somewhat_smaller_bath.stl:422
 msgid ""
 "-Swimming\n"
 "!images/creatures/tux/big/swim-1.png\n"
@@ -438,7 +438,7 @@ msgid ""
 "#Collect all of them to unlock fun, additional levels!"
 msgstr ""
 
-#: data/levels/world1/worldmap.stwm:246
+#: data/levels/world1/worldmap.stwm:247
 msgid "You found a secret area!"
 msgstr ""
 
