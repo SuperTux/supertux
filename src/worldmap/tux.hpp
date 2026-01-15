@@ -58,7 +58,6 @@ public:
 
 private:
   void stop();
-  std::string get_action_prefix_for_bonus(const BonusType& bonus) const;
   bool can_walk(int tile_data, Direction dir) const; /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
   void update_input_direction(); /**< if controller was pressed, update input_direction */
   void try_start_walking(); /**< try starting to walk in input_direction */
