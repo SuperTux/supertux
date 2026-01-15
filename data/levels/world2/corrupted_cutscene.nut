@@ -37,13 +37,8 @@ function initialize()
   wait(0.2);
   TUX.set_velocity(0, 0);
   TUX.set_action("big-stand-right");
-  wait(3.2);
+  wait(12.2);
   
-  TUX.set_action("rest-right");
-  wait(6);
-  
-  TUX.set_action("wake-right");
-  wait(3);
   Camera.scale_anchor(1.8, 4.8, 4);
   Camera.scroll_to(1050, Camera.get_y(), 4.8);
   TUX.set_velocity(50, 0);
@@ -58,7 +53,7 @@ function initialize()
   VICIOUS_IVY.set_visible(true);
   VICIOUS_IVY.set_velocity(-120, -200);
   play_sound("sounds/hop.ogg");
-  TUX.set_velocity(-100, -300);
+  TUX.set_velocity(-80, -300);
   TUX.set_action("big-fall-right");
   play_sound("sounds/jump.wav");
   wait(0.3);
@@ -67,25 +62,23 @@ function initialize()
   wait(0.3);
   TUX.set_velocity(0, 0);
   TUX.set_action("big-stand-right");
-  stop_music(10);
+  // stop_music(10);
   wait(5.7);
-  TUX.set_velocity(50, 0);
+  TUX.set_velocity(80, 0);
   TUX.set_action("big-walk-right");
-  wait(0.6);
+  wait(1.5);
   TUX.set_velocity(0, 0);
   TUX.set_action("big-stand-right");
-  wait(1);
-  TUX.set_action("bend-right");
-  wait(3);
+  wait(4);
   
   ///Player triggers state: "root_ambush"
   Tux.set_pos(1056, 33);
   
-  play_music("music/forest/wisphunt.music");
+  // play_music("music/forest/wisphunt.music");
   wait(2);
   Camera.start_earthquake(5, 0.01);
   wait(2.2);
-  TUX.set_velocity(-100, -300);
+  TUX.set_velocity(-80, -300);
   TUX.set_action("big-fall-right");
   play_sound("sounds/jump.wav");
   wait(0.6);

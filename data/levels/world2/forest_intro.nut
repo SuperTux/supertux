@@ -32,9 +32,7 @@ function initialize()
   TUX.set_action("big-stand-right");
   wait(0.5);
   TUX.set_action("big-stand-left");
-  wait(1);
-  TUX.set_action("bend-left");
-  wait(1);
+  wait(2);
   TUX.set_action("big-stand-left");
   wait(0.5);
   

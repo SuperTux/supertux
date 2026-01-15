@@ -82,7 +82,7 @@ trigger_state(\"start\");")
       (y 64)
     )
     (music
-      (file "/music/forest/granito_village.music")
+      (file "/music/forest/wisphunt.music")
     )
     (path
       (name "gen16783972542141288006016")
