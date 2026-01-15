@@ -319,7 +319,7 @@ msgstr "Die schlaflosen Nächte waren bestimmt nicht ideal gewesen, aber er hatt
 msgid ""
 "Not wanting to waste any more time, Tux continued on, sliding down the hill "
 "he was on into the icy valley up ahead."
-msgstr "Da er keine Zeit mehr zu verlieren hatte, ging Tux weiter und schlitt den Hügel, auf dem er sich befand hinunter in das eisige Tal, das vor ihm lag."
+msgstr "Da er keine Zeit mehr zu verlieren hatte, ging Tux weiter und schlitterte den Hügel, auf dem er sich befand hinab in das eisige Tal, das vor ihm lag."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""

@@ -5,11 +5,11 @@
 # Translators:
 # Angela <angelapellegrino@hotmail.it>, 2014
 # Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
-# aaaaaaaa, 2019
-# aaaaaaaa, 2015-2016
+# 100e8122fd6d1cb3ebb128781017c77a_795b949, 2019
+# 100e8122fd6d1cb3ebb128781017c77a_795b949, 2015-2016
 # 17c2573a89e395c6dd973e5d003db498_36e4c1e, 2013-2014
 # Mario Rossi, 2022
-# aaaaaaaa, 2018
+# 100e8122fd6d1cb3ebb128781017c77a_795b949, 2018
 # Tommaso Macchiella, 2025-2026
 msgid ""
 msgstr ""
@@ -217,7 +217,7 @@ msgstr "Dopo una lunga nuotata attraverso le acque artiche, Tux arrivò alle Iso
 msgid ""
 "A massive shaft lay before him, leading down into the aforementioned Crystal"
 " Mine."
-msgstr "Una vastissima miniera si distendeva a davanti a lui, scendendo verso la già menzionata Miniera di Cristallo. "
+msgstr "Una vastissima miniera si distendeva davanti a lui, scendendo verso la già menzionata Miniera di Cristallo. "
 
 #: data/levels/world1/scripts_crystal_mine.txt:4
 msgid ""
