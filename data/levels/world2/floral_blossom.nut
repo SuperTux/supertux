@@ -88,7 +88,7 @@ function textbox_outro()
   
   wait(1);
   
-  Text.set_text(_("Tux replied, that he was looking for his friend Penny and that she was captured by an evil creature named \"Nolok\". A name the Granito remembered unpleasantly..."));
+  Text.set_text(_("Tux replied that he was looking for his friend Penny and that she was captured by an evil creature named \"Nolok\". A name the Granito remembered unpleasantly..."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);

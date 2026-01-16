@@ -181,7 +181,7 @@ function inside()
   TUX1.set_velocity(200, -400);
   wait(0.8);
 
-  Text.set_text(_("Tux ran as fast as he could but the roots would not let him leave as they blocked off the only path to the main entrance."));
+  Text.set_text(_("Tux ran as fast as he could, but the roots would not let him leave as they blocked off the only path to the main entrance."));
   Text.fade_in(0.5);
 
   Camera.scroll_to(750, Camera.get_y(), 4);

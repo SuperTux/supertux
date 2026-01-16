@@ -43,7 +43,7 @@ msgid "Collapse Imminent"
 msgstr ""
 
 #: data/levels/world2/corrupted_cutscene.stl:3
-msgid "From A Far It Spreads"
+msgid "From Afar It Spreads"
 msgstr ""
 
 #: data/levels/world2/crumbling_path.stl:3
@@ -107,7 +107,7 @@ msgid "Rooted Forest"
 msgstr ""
 
 #: data/levels/world2/info:3
-msgid "Work in Progress Rooted Forest for SuperTux v0.7."
+msgid "Tux explores a new land, but a curse impedes his journey."
 msgstr ""
 
 #: data/levels/world2/lost_sanctuary.stl:3
@@ -267,7 +267,7 @@ msgstr ""
 
 #: data/levels/world2/scripts_floral_blossom.txt:11
 msgid ""
-"Tux replied, that he was looking for his friend Penny and that she was "
+"Tux replied that he was looking for his friend Penny and that she was "
 "captured by an evil creature named \"Nolok\". A name the Granito remembered "
 "unpleasantly..."
 msgstr ""
@@ -376,7 +376,7 @@ msgstr ""
 
 #: data/levels/world2/scripts_ghosttree_cutscene.txt:10
 msgid ""
-"Tux ran as fast as he could but the roots would not let him leave as they "
+"Tux ran as fast as he could, but the roots would not let him leave as they "
 "blocked off the only path to the main entrance."
 msgstr ""
 
