@@ -39,13 +39,22 @@
       (z-pos -290)
     )
     (background
-      (scroll-offset-y -200)
+      (scroll-offset-y -150)
       (color 1 1 1)
       (alignment "bottom")
       (speed 0.1)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain_trees.png")
+      (image-bottom "/images/background/forest/trees_bottom.png")
       (z-pos -230)
+    )
+    (background
+      (color 1 1 1)
+      (speed 0.3)
+      (image-top "/images/background/misc/transparent_up.png")
+      (image "/images/background/forest/woodland.png")
+      (image-bottom "/images/background/forest/woodland_bottom.png")
+      (z-pos -210)
     )
     (bonusblock
       (type "orange")
