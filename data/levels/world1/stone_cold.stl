@@ -22,6 +22,7 @@
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/antarctic/snowmountain_panorama.png")
+      (image-bottom "/images/background/antarctic/snowmountain_panorama.png")
       (z-pos -250)
     )
     (background
@@ -37,14 +38,18 @@
       (color 1 1 1)
       (scroll-speed-x -0.1)
       (speed 0)
+      (image-top "/images/background/misc/skybox.png")
       (image "/images/background/misc/skybox.png")
+      (image-bottom "/images/background/misc/skybox.png")
       (z-pos -290)
     )
     (background
       (color 1 1 1)
       (scroll-speed-x -2)
       (speed 0)
+      (image-top "/images/background/misc/clouds.png")
       (image "/images/background/misc/clouds.png")
+      (image-bottom "/images/background/misc/clouds.png")
       (z-pos -280)
     )
     (background
@@ -111,7 +116,7 @@
     )
     (decal
       (z-pos -10)
-      (sprite "/images/decal/sign_icons/icehold.png")
+      (sprite "/images/decal/sign_icons/bombhold.png")
       (x 10048)
       (y 928)
     )
@@ -261,6 +266,7 @@
     )
     (secretarea
       (fade-tilemap "secret")
+      (message (_ "You found a secret area!"))
       (width 352)
       (height 256)
       (x 7680)
