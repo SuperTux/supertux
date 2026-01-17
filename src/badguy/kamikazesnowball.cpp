@@ -27,7 +27,6 @@ namespace{
 KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader, const std::string& sprite_name) :
   BadGuy(reader, sprite_name)
 {
-  parse_type(reader);
   SoundManager::current()->preload(SPLAT_SOUND);
   set_action (m_dir, /* loops = */ -1);
 }
@@ -100,7 +99,7 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 LeafShot::LeafShot(const ReaderMapping& reader) :
   KamikazeSnowball(reader, "images/creatures/leafshot/leafshot.sprite")
 {
-
+  parse_type(reader);
 }
 
 void
