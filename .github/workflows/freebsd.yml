@@ -69,7 +69,7 @@ jobs:
             cd $GITHUB_WORKSPACE
             git config --global --add safe.directory /home/runner/work/supertux/supertux
             mkdir build && cd build
-            cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=OFF -DINSTALL_SUBDIR_SHARE=share/supertux2 -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DENABLE_DISCORD=ON
+            cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DWARNINGS=ON -DWERROR=OFF -DINSTALL_SUBDIR_SHARE=share/supertux2 -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DENABLE_DISCORD=ON
             ls
             make -j4 VERBOSE=1
             mkdir out
