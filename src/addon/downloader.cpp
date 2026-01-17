@@ -330,8 +330,14 @@ public:
 
   virtual size_t on_data(const char* ptr, size_t size, size_t nmemb) = 0;
 
-  int on_progress(double dltotal, double dlnow,
-                   double ultotal, double ulnow)
+  int on_progress(
+#if LIBCURL_VERSION_MAJOR > 7 || (LIBCURL_VERSION_MAJOR == 7 && LIBCURL_VERSION_MINOR >= 32)
+		curl_off_t dltotal, curl_off_t dlnow,
+		curl_off_t ultotal, curl_off_t ulnow)
+#else
+		double dltotal, double dlnow,
+		double ultotal, double ulnow)
+#endif
   {
     m_status->dltotal = static_cast<int>(dltotal);
     m_status->dlnow = static_cast<int>(dlnow);
@@ -350,8 +356,13 @@ private:
   }
 
   static int on_progress_wrap(void* userdata,
-                              double dltotal, double dlnow,
-                              double ultotal, double ulnow)
+#if LIBCURL_VERSION_MAJOR > 7 || (LIBCURL_VERSION_MAJOR == 7 && LIBCURL_VERSION_MINOR >= 32)
+		curl_off_t dltotal, curl_off_t dlnow,
+		curl_off_t ultotal, curl_off_t ulnow)
+#else
+		double dltotal, double dlnow,
+		double ultotal, double ulnow)
+#endif
   {
     return static_cast<Transfer*>(userdata)->on_progress(dltotal, dlnow, ultotal, ulnow);
   }
