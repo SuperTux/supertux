@@ -58,6 +58,7 @@ private:
   std::string m_description;
   std::string m_url;
   std::string m_md5;
+  std::string m_screenshots_base_url;
   std::vector<std::string> m_screenshots;
   std::vector<std::string> m_dependencies;
 
@@ -81,6 +82,7 @@ public:
   inline const std::string& get_description() const { return m_description; }
   inline const std::string& get_url() const { return m_url; }
   inline const std::string& get_md5() const { return m_md5; }
+  inline const std::string& get_screenshots_base_url() const { return m_screenshots_base_url; }
   inline const std::vector<std::string>& get_screenshots() const { return m_screenshots; }
   inline const std::vector<std::string>& get_dependencies() const { return m_dependencies; }
 
