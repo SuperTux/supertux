@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.7.0-beta.1-136-gc3fa64ffe\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-146-g3137e295f\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-15 08:59+0000\n"
+"POT-Creation-Date: 2026-01-17 08:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -389,7 +389,7 @@ msgstr ""
 msgid "Stone Cold"
 msgstr ""
 
-#: data/levels/world1/stone_cold.stl:195
+#: data/levels/world1/stone_cold.stl:200
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key "
@@ -397,12 +397,16 @@ msgid ""
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr ""
 
-#: data/levels/world1/stone_cold.stl:204
+#: data/levels/world1/stone_cold.stl:209
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing "
 "the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
+msgstr ""
+
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
+msgid "You found a secret area!"
 msgstr ""
 
 #: data/levels/world1/under_the_ice.stl:3
@@ -436,10 +440,6 @@ msgid ""
 "Islands!\n"
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
-msgstr ""
-
-#: data/levels/world1/worldmap.stwm:247
-msgid "You found a secret area!"
 msgstr ""
 
 #: data/levels/world1/yeti_boss.stl:3
