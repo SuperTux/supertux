@@ -310,6 +310,7 @@ function textbox()
   
   wait(1.5);
   
+  // l10n: "her" refers to Penny.
   Text.set_text(_("But he cannot give up now! Tux could not leave her behind. Not in a place being overrun by these violent roots."));
   Text.fade_in(0.5);
   wait(3.5);
