@@ -196,11 +196,13 @@ RCrystallo::kill_fall()
     if (is_valid())
     {
       remove_me();
+      Vector spawn_pos = m_col.m_bbox.get_middle()
+                         - Vector(m_col.m_bbox.get_width() * 0.5f, m_col.m_bbox.get_height() * 0.5f);
       // Create 4 shards that the enemy splits into, which serve as an additional threat.
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(100.f, -500.f));
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(270.f, -350.f));
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(-100.f, -500.f));
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(-270.f, -350.f));
+      Sector::get().add<Shard>(spawn_pos, Vector(100.f, -500.f));
+      Sector::get().add<Shard>(spawn_pos, Vector(270.f, -350.f));
+      Sector::get().add<Shard>(spawn_pos, Vector(-100.f, -500.f));
+      Sector::get().add<Shard>(spawn_pos, Vector(-270.f, -350.f));
     }
     run_dead_script();
   }
