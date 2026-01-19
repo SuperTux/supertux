@@ -11,15 +11,6 @@ if("underground_f" in state)
 if("corrupted" in state)
   state.corrupted = false
 
-// If Tux happens to be at the start of the WM, reset states.
-// we need the x and y of the main spawnpoint. If those change, adjust this accordingly.
-
-if (abs(worldmap.settings.get_tux_x() - (42 * 32)) < 40 && abs(worldmap.settings.get_tux_y() - (66 * 32)) < 40) {
-  if("underground" in state) {
-    state.underground = false;
-  }
-}
-
 // ============================================================================
 //   AMBIENT LIGHT
 // ============================================================================
