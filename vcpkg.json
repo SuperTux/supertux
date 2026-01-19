@@ -4,7 +4,6 @@
     "fmt",
     "libogg",
     "libvorbis",
-    "libraqm",
     "freetype",
     "physfs",
     "glm",
@@ -18,7 +17,8 @@
         "sdl2",
         "sdl2-image",
         "curl",
-        "openal-soft"
+        "openal-soft",
+        "libraqm"
       ],
       "supports": "!emscripten"
     },
