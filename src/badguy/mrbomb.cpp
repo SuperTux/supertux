@@ -36,6 +36,8 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   m_ticking_sound(),
   m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
+  parse_type(reader);
+
   walk_speed = 80;
   set_ledge_behavior(LedgeBehavior::SMART);
 
