@@ -8,6 +8,18 @@ fade_time_fast <- 0.1;
 
 state.underground = false  // icy underground state
 
+// If Tux happens to be at the start of the WM, reset states.
+// we need the x and y of the main spawnpoint. If those change, adjust this accordingly.
+
+if (abs(worldmap.settings.get_tux_x() - (22 * 32)) < 40 && abs(worldmap.settings.get_tux_y() - (59 * 32)) < 40) {
+  if("underground_f" in state) {
+    state.underground_f = false;
+  }
+  if("corrupted" in state) {
+    state.corrupted = false;
+  }
+}
+
 // ============================================================================
 //   UNDERGROUND
 // ============================================================================
