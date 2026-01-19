@@ -15,7 +15,7 @@
   (sector
     (name "main")
     (ambient-light
-      (color 0.3 0.35 0.4)
+      (color 0.4 0.45 0.5)
     )
     (background
       (color 1 1 1)
@@ -858,7 +858,7 @@
       (ammo -1)
       (x 13088)
       (y 2000)
-      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
+      (dart-sprite "/images/creatures/darttrap/skull/skull_dart.sprite")
     )
     (darttrap
       (type "skull")
@@ -868,7 +868,7 @@
       (ammo -1)
       (x 15392)
       (y 1840)
-      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
+      (dart-sprite "/images/creatures/darttrap/skull/skull_dart.sprite")
     )
     (darttrap
       (type "skull")
@@ -879,7 +879,7 @@
       (direction "right")
       (x 14272)
       (y 1712)
-      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
+      (dart-sprite "/images/creatures/darttrap/skull/skull_dart.sprite")
     )
     (darttrap
       (type "skull")
@@ -889,7 +889,7 @@
       (ammo -1)
       (x 15328)
       (y 1584)
-      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
+      (dart-sprite "/images/creatures/darttrap/skull/skull_dart.sprite")
     )
     (darttrap
       (type "skull")
@@ -900,17 +900,17 @@
       (direction "right")
       (x 14304)
       (y 1456)
-      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
+      (dart-sprite "/images/creatures/darttrap/skull/skull_dart.sprite")
     )
     (darttrap
       (type "skull")
       (z-pos -1)
       (initial-delay 0)
-      (fire-delay 2)
+      (fire-delay 4)
       (ammo -1)
       (x 21344)
       (y 2000)
-      (dart-sprite "images/creatures/darttrap/granito/root_dart.sprite")
+      (dart-sprite "/images/creatures/darttrap/skull/skull_dart.sprite")
     )
     (decal
       (z-pos 55)
