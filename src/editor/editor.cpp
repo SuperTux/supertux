@@ -1354,6 +1354,10 @@ Editor::sort_layers()
 void
 Editor::select_tilegroup(int id)
 {
+  // dumb hack around dumb design...
+  if (m_toolbox_widget->get_tilebox().get_input_type() != InputType::TILE)
+    m_toolbar_widget->toggle_tile_object_mode();
+
   m_toolbox_widget->select_tilegroup(id);
 }
 
@@ -1384,6 +1388,10 @@ Editor::change_tileset()
 void
 Editor::select_objectgroup(int id)
 {
+  // dumb hack around dumb design...
+  if (m_toolbox_widget->get_tilebox().get_input_type() != InputType::OBJECT)
+    m_toolbar_widget->toggle_tile_object_mode();
+
   m_toolbox_widget->select_objectgroup(id);
 }
 
