@@ -1000,7 +1000,6 @@ Player::slide()
     }
     else
     {
-      m_current_sliding_angle = 0.f;
       //handle adding acceleration from falling down
       if (m_sliding && !on_ground() && m_floor_normal.x*m_physic.get_velocity_x() <= 0.f && m_physic.get_velocity_y() > 0.f)
       {
