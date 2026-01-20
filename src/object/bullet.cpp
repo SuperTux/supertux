@@ -130,7 +130,8 @@ Bullet::draw(DrawingContext& context)
 void
 Bullet::collision_solid(const CollisionHit& hit)
 {
-  if (hit.slope_normal.x != 0.f)
+  if (hit.slope_normal.x != 0.f &&
+      hit.slope_normal.y <= 0.f)
   {
     float bounce_init_y = -300.f,
           bounce_init_x = 450.f;
