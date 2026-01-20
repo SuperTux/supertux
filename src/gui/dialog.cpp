@@ -219,9 +219,6 @@ Dialog::draw(DrawingContext& context)
     return;
 
   // Draw horizontal line.
-  constexpr float offset = 8.0f;
-  // TODO
-  /* Draw a horizontal line with a little 3d effect */
   context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35.0f),
                                          Sizef(bg_rect.get_width(), 2.0f)),
                                    g_config->hlcolor, LAYER_GUI);
