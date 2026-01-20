@@ -2741,10 +2741,13 @@ Player::set_dir(bool right)
 }
 
 void
-Player::set_ghost_mode(bool enable)
+Player::set_ghost_mode(bool enable, bool toggle)
 {
-  if (m_ghost_mode == enable)
+  if (!toggle && m_ghost_mode == enable)
     return;
+
+  if (toggle)
+    enable = m_ghost_mode = !m_ghost_mode;
 
   if (m_climbing) stop_climbing(*m_climbing);
 
