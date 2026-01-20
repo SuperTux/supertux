@@ -172,13 +172,17 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     ++i;
   }
 
+  // note: We set the tile mode widgets to "true" here and later when setting
+  //   m_widgets_width, do not factor that in. This used to not be the case, but
+  //   later it was decided that we should just show 'tiles' by default, so to
+  //   do that, we just go ahead and show those widgets by default.
   for (auto &widget : tile_mode_widgets)
   {
     Vector pos(32 * i, 0);
     widget->set_position(pos);
     widget->set_flat(true);
     widget->set_visible_in_object_mode(false);
-    widget->set_visible(false);
+    widget->set_visible(true);
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
     ++i;
   }
@@ -193,7 +197,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
     ++i;
   }
-  m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
+  m_widgets_width = 32.f * (i - object_mode_widgets.size());
 
   m_undo_widget = m_widgets[0].get();
   m_redo_widget = m_widgets[1].get();

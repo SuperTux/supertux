@@ -43,7 +43,7 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_tilegroup_id(0),
   m_objectgroup_id(0),
   m_object_tip(new Tip()),
-  m_input_type(InputType::NONE),
+  m_input_type(InputType::TILE),
   m_active_tilegroup(),
   m_active_objectgroup(),
   m_object_info(new ObjectInfo()),
@@ -341,6 +341,7 @@ EditorTilebox::setup()
 {
   on_window_resize();
   m_tiles->set_tile(0);
+  select_tilegroup(0);
 }
 
 void
