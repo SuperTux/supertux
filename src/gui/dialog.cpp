@@ -219,12 +219,12 @@ Dialog::draw(DrawingContext& context)
     return;
 
   // Draw horizontal line.
-  context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
-                                         Sizef(bg_rect.get_width(), 4)),
+  constexpr float offset = 8.0f;
+  // TODO
+  /* Draw a horizontal line with a little 3d effect */
+  context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35.0f),
+                                         Sizef(bg_rect.get_width(), 2.0f)),
                                    g_config->hlcolor, LAYER_GUI);
-  context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
-                                         Sizef(bg_rect.get_width(), 2)),
-                                   Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 
   // Draw buttons.
   for (int i = 0; i < static_cast<int>(m_buttons.size()); ++i)

@@ -27,14 +27,10 @@ ItemHorizontalLine::ItemHorizontalLine() :
 
 void
 ItemHorizontalLine::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
-  // TODO
-  /* Draw a horizontal line with a little 3d effect */
-  context.color().draw_filled_rect(Rectf(Vector(pos.x, pos.y - 6.0f),
-                                         Sizef(static_cast<float>(menu_width), 4.0f)),
+  constexpr float offset = 8.0f;
+  context.color().draw_filled_rect(Rectf(Vector(pos.x + offset, pos.y),
+                                         Sizef(static_cast<float>(menu_width) - offset * 2, 2.0f)),
                                    Color(g_config->hlcolor), LAYER_GUI);
-  context.color().draw_filled_rect(Rectf(Vector(pos.x, pos.y - 6.0f),
-                                         Sizef(static_cast<float>(menu_width), 2.0f)),
-                                   Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 }
 
 int
