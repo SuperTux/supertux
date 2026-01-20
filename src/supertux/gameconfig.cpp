@@ -232,7 +232,7 @@ Config::load()
     interface_colors_mapping->get("menuhelpfrontcolor", menuhelpfrontcolor_, ColorScheme::Menu::help_back_color.toVector());
     interface_colors_mapping->get("labeltextcolor", labeltextcolor_, ColorScheme::Menu::label_color.toVector());
     interface_colors_mapping->get("activetextkcolor", activetextcolor_, ColorScheme::Menu::active_color.toVector());
-    interface_colors_mapping->get("hlcolor", hlcolor_, ColorScheme::Menu::hl_color.toVector());
+    interface_colors_mapping->get("hlcolor2", hlcolor_, ColorScheme::Menu::hl_color.toVector());
     interface_colors_mapping->get("editorcolor", editorcolor_, ColorScheme::Editor::default_color.toVector());
     interface_colors_mapping->get("editorhovercolor", editorhovercolor_, ColorScheme::Editor::hover_color.toVector());
     interface_colors_mapping->get("editorgrabcolor", editorgrabcolor_, ColorScheme::Editor::grab_color.toVector());
@@ -469,7 +469,7 @@ Config::save()
   writer.write("menuhelpfrontcolor", menuhelpfrontcolor.toVector());
   writer.write("labeltextcolor", labeltextcolor.toVector());
   writer.write("activetextcolor", activetextcolor.toVector());
-  writer.write("hlcolor", hlcolor.toVector());
+  writer.write("hlcolor2", hlcolor.toVector());
   writer.write("editorcolor", editorcolor.toVector());
   writer.write("editorhovercolor", editorhovercolor.toVector());
   writer.write("editorgrabcolor", editorgrabcolor.toVector());
