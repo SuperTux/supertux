@@ -393,6 +393,9 @@ endif()
 
 if(EMSCRIPTEN)
   target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  # This option makes symbol names available for libc's backtrace().
+  target_link_options(supertux2 PUBLIC -rdynamic)
 endif()
 
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME "supertux2")
