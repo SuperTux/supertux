@@ -591,6 +591,12 @@ ScreenManager::handle_screen_switch()
 
       if (!quit_action_triggered)
       {
+        if (m_screen_stack.empty())
+        {
+          log_debug << "ScreenManager::handle_screen_switch(): screen stack is empty, quitting." << std::endl;
+          break;
+        }
+
         if (current_screen != m_screen_stack.back().get())
         {
           g_debug.set_game_speed_multiplier(1.f);
