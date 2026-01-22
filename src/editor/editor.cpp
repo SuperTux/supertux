@@ -591,6 +591,13 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
     return;
   }
 
+  if (m_level->is_worldmap() && !m_world)
+  {
+    Dialog::show_message(_("The worldmap cannot be tested when the editor was "
+                           "launched from the command line.\n\n"));
+    return;
+  }
+
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
 
