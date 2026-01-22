@@ -1,4 +1,4 @@
-.TH SUPERTUX2 6 "December 20, 2021" "SuperTux 0.6.3" "Games"
+.TH SUPERTUX2 6 "January 22, 2026" "SuperTux 0.7.0" "Games"
 .SH NAME
 supertux2 \- SuperTux, a classic jump'n'run platformer featuring Tux
 .SH SYNOPSIS
@@ -33,6 +33,9 @@ Print verbose messages
 .B \-\-debug
 Print extra verbose messages
 .TP
+.B \-\-log\-tinygettext 
+Show tinygettext logs
+.TP
 .B \-\-print\-datadir 
 Print SuperTux's primary data directory.
 .TP
@@ -57,7 +60,7 @@ Reset video settings to default values (\-g 800x600 \-a auto \-w)
 .B \-\-renderer RENDERER
 Render the game using the specified video renderer. Valid values are sdl, opengl20, opengl33, and auto (the default). 
 .TP
-.B \-\-disable\-sound, \-\-disable\-sfx
+.B \-\-disable\-sound
 Disable sound effects
 .TP
 .B \-\-disable\-music
@@ -102,12 +105,6 @@ Spawn Tux in SECTOR
 .B \-\-spawnpoint SPAWNPOINT
 Spawn Tux in SPAWNPOINT
 .TP
-.B \-\-record\-demo FILE LEVEL
-Record a demo to FILE
-.TP
-.B \-\-play\-demo FILE LEVEL
-Play a recorded demo
-.TP
 .B \-\-datadir DIR
 Set the directory for the games datafiles
 .TP
@@ -134,11 +131,6 @@ To play level /tmp/mylevel.stl in a window of size 800x600, run
 the program like this:
 .IP
 .B supertux2 --window --geometry 800x600 /tmp/mylevel.stl
-.LP
-To play a previously recorded demo /tmp/mylevel.demo of level 
-/tmp/mylevel.stl, run SuperTux like this: 
-.IP
-.B supertux2 --play-demo /tmp/mylevel.demo /tmp/mylevel.stl
 .LP
 .PP
 Custom-made levels can be conveniently stored in the overlay data folder. 
