@@ -636,6 +636,9 @@ Main::launch_game(const CommandLineArguments& args)
   {
     for(auto start_level : args.filenames)
     {
+      // PhysFS doesn't like relative paths
+      start_level = std::filesystem::weakly_canonical({ start_level });
+
       // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(start_level);
