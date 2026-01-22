@@ -17,6 +17,7 @@
 
 #include "worldmap/teleporter.hpp"
 
+#include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace worldmap {
@@ -30,7 +31,7 @@ Teleporter::Teleporter(const ReaderMapping& mapping) :
   m_message()
 {
   if (in_worldmap() && !has_found_sprite()) // In worldmap and no valid sprite is specified, remove it
-    m_sprite.reset();
+    m_sprite = SpriteManager::current()->create("images/worldmap/common/teleporterdot.sprite");
 
   mapping.get("worldmap", m_worldmap);
   mapping.get("sector", m_sector);
