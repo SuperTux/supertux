@@ -253,12 +253,6 @@ WalkingBadguy::turn_around()
 }
 
 void
-WalkingBadguy::freeze()
-{
-  BadGuy::freeze();
-}
-
-void
 WalkingBadguy::unfreeze(bool melt)
 {
   BadGuy::unfreeze(melt);

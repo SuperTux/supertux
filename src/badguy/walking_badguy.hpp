@@ -58,7 +58,6 @@ public:
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
-  virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;
 
   void active_update(float dt_sec, float target_velocity, float modifier = 1.f);
@@ -75,7 +74,6 @@ public:
 
   inline float get_walk_speed() const { return walk_speed; }
   void set_walk_speed (float);
-  inline bool is_active() const { return BadGuy::is_active(); }
 
   /** Set max_drop_height depending on the given behavior */
   void set_ledge_behavior(LedgeBehavior behavior);
