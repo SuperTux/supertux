@@ -24,7 +24,8 @@
 #include "video/video_system.hpp"
 
 MarkerObject::MarkerObject (const Vector& pos)
-  : arrow_surface(Surface::from_file("images/engine/editor/resize_arrow.png"))
+  : arrow_surface(Surface::from_file("images/engine/editor/resize_arrow.png")),
+    circle_surface(Surface::from_file("images/engine/editor/node_circle.png"))
 {
   m_col.m_bbox.set_p1(pos);
   m_col.m_bbox.set_size(16, 16);
@@ -54,12 +55,16 @@ void
 MarkerObject::draw(DrawingContext& context)
 {
   Vector dir = get_point_vector();
+  SurfacePtr marker_surface = nullptr;
   if (dir.x == 0 && dir.y == 0) {
     if (hide_if_no_offset())
       return;
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI-20);
+
+    marker_surface = circle_surface;
   } else {
-    context.color().draw_surface(arrow_surface, m_col.m_bbox.get_middle() - Vector(7, 7),
-                                 get_rotation(), Color::WHITE, Blend::BLEND, get_layer());
+    marker_surface = arrow_surface;
   }
+
+  context.color().draw_surface(marker_surface, m_col.m_bbox.get_middle() - Vector(7, 7),
+                               get_rotation(), Color::WHITE, Blend::BLEND, get_layer());
 }
