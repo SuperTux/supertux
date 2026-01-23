@@ -158,13 +158,13 @@ Dialog::process_input(const Controller& controller)
   if (m_passive) // Passive dialogs don't accept events.
     return;
 
-  if (controller.pressed(Control::LEFT))
+  if (controller.pressed_any(Control::LEFT, Control::PEEK_LEFT))
   {
     m_selected_button -= 1;
     m_selected_button = std::max(m_selected_button, 0);
   }
 
-  if (controller.pressed(Control::RIGHT))
+  if (controller.pressed_any(Control::RIGHT, Control::PEEK_RIGHT))
   {
     m_selected_button += 1;
     m_selected_button = std::min(m_selected_button, static_cast<int>(m_buttons.size()) - 1);
