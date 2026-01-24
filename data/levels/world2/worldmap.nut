@@ -113,18 +113,31 @@ if (!("crushmore_secret" in state))
   state.hollow_secret <- 0;
   state.strike_secret <- 0;
   state.granito_secret <- 0;
+  state.drop_secret <- 0;
 }
 
-state.crushmore_secret <- (state.crushmore_secret | SPECIALTILE_DIR_EAST | SPECIALTILE_DIR_WEST);
+state.crushmore_secret <- (state.crushmore_secret | SPECIALTILE_DIR_EAST | SPECIALTILE_DIR_EAST);
 state.granito_secret <- (state.granito_secret | SPECIALTILE_DIR_SOUTH);
 state.hollow_secret <- (state.hollow_secret | SPECIALTILE_DIR_SOUTH);
-state.strike_secret <- (state.strike_secret | SPECIALTILE_DIR_SOUTH | SPECIALTILE_DIR_NORTH );
+state.strike_secret <- (state.strike_secret | SPECIALTILE_DIR_SOUTH | SPECIALTILE_DIR_NORTH);
+state.drop_secret <- (state.drop_secret | SPECIALTILE_DIR_WEST | SPECIALTILE_DIR_EAST);
 
 worldmap.crushmore_secret.set_direction_mask(state.crushmore_secret);
 worldmap.granito_secret.set_direction_mask(state.granito_secret);
 worldmap.strike_secret.set_direction_mask(state.strike_secret);
 worldmap.hollow_secret.set_direction_mask(state.hollow_secret);
-// TODO: make paths fade
+worldmap.drop_secret.set_direction_mask(state.drop_secret);
+
+if(!(state.crushmore_secret & SPECIALTILE_DIR_NORTH)) worldmap.mc_secret.fade(0.2, 0);
+else worldmap.mc_secret.fade(1, 0);
+if(!(state.granito_secret & SPECIALTILE_DIR_EAST)) worldmap.gv_secret.fade(0.2, 0);
+else worldmap.gv_secret.fade(1, 0);
+if(!(state.strike_secret & SPECIALTILE_DIR_EAST)) worldmap.sw_secret.fade(0.2, 0);
+else worldmap.sw_secret.fade(1, 0);
+if(!(state.hollow_secret & SPECIALTILE_DIR_NORTH)) worldmap.he_secret.fade(0.2, 0);
+else worldmap.he_secret.fade(1, 0);
+if(!(state.drop_secret & SPECIALTILE_DIR_NORTH)) worldmap.db_secret.fade(0.2, 0);
+else worldmap.db_secret.fade(1, 0);
 
 if (("key_knowledge" in state)) {
 	  if (state.key_knowledge == true) {
