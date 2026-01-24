@@ -21,7 +21,7 @@
 
   ;; next-id: 7949
   ;; free/skipped ids (please use before any other):
-  ;; 4642-4660, 5061-5089, 5268-5283, 5453-5522
+  ;; 4660, 5082-5089, 5268-5283, 5453-5522
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
   (tilegroup
@@ -1547,13 +1547,21 @@
       481  482  4127 4128
       5199 5200 7399 7400
       5201 5202 7401 7402
-      7419 7420 7416 7417
-      7418 7421 7407 7408
-      7403 7404 7409 7410
-      7405 7406 7411 7412
-      7471 7413 7414 7415 
-      7472 0    0    0    
-      7473 0    7486 7487
+      4644 4645 4648 4649
+      4646 4647 4650 4651
+      4652 4653 4656 4657
+      4654 4655 4658 4659
+      5062 5063 5066 5067
+      5064 5065 5068 5069
+      5070 5071 5074 5075
+      5072 5073 5076 5077
+      5078 5079 7416 7417
+      5080 5081 7407 7408
+      7419 7420 7409 7410
+      7418 7421 7411 7412
+      7403 7404 7486 7471
+      7405 7406 7487 7472
+      7413 7414 7415 7473
 
       1348 1720 1719 1718
       79   80   1347 1722
@@ -4153,6 +4161,87 @@
       1630 1631
     )
     (images "tiles/signs/danger.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      4644 4645
+      4646 4647
+    )
+    (images "tiles/signs/flower_air.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      4648 4649
+      4650 4651
+    )
+    (images "tiles/signs/flower_earth.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      4652 4653
+      4654 4655
+    )
+    (images "tiles/signs/flower_fire.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      4656 4657
+      4658 4659
+    )
+    (images "tiles/signs/flower_ice.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5062 5063
+      5064 5065
+    )
+    (images "tiles/signs/potion_blue.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5066 5067
+      5068 5069
+    )
+    (images "tiles/signs/potion_red.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5070 5071
+      5072 5073
+    )
+    (images "tiles/signs/1up.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5074 5075
+      5076 5077
+    )
+    (images "tiles/signs/egg.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5078 5079
+      5080 5081
+    )
+    (images "tiles/signs/star.png")
   )
 
   (tiles
