@@ -97,6 +97,7 @@ public:
   std::string m_license;
   std::string m_filename;
   std::string m_note;
+  bool m_is_cutscene;
 
   std::vector<std::unique_ptr<Sector> > m_sectors;
 
