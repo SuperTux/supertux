@@ -23,6 +23,7 @@
 #include "control/input_manager.hpp"
 #include "control/joystick_manager.hpp"
 #include "gui/dialog.hpp"
+#include "gui/item_toggle.hpp"
 #include "object/player.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
@@ -37,7 +38,8 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
   add_label(fmt::format(_("Player {}"), player_id + 1));
   add_hl();
 
-  add_toggle(-1, _("Play with the keyboard"), &InputManager::current()->m_uses_keyboard[player_id]);
+  add_toggle(-1, _("Play with the keyboard"), &InputManager::current()->m_uses_keyboard[player_id])
+    .set_help(_("Don't automatically bind controllers to this player, and spawn it even if it has no controller."));
 
   if (player_id != 0 && GameSession::current()
       && !GameSession::current()->get_savegame().is_title_screen())
