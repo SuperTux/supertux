@@ -179,6 +179,7 @@ public:
   bool multiplayer_auto_manage_players;
   bool multiplayer_multibind;
   bool multiplayer_buzz_controllers;
+  bool multiplayer_no_limit;
 
   std::string repository_url;
 

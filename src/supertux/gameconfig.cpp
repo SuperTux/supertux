@@ -143,6 +143,7 @@ Config::Config() :
   // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
+  multiplayer_no_limit(false),
   touch_haptic_feedback(true),
   touch_just_directional(true),
   repository_url()
@@ -296,6 +297,7 @@ Config::load()
   config_mapping.get("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   config_mapping.get("multiplayer_multibind", multiplayer_multibind);
   config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  config_mapping.get("multiplayer_no_limit", multiplayer_no_limit);
   config_mapping.get("preferred_text_editor", preferred_text_editor);
 
   std::optional<ReaderMapping> config_video_mapping;
@@ -460,6 +462,7 @@ Config::save()
   writer.write("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   writer.write("multiplayer_multibind", multiplayer_multibind);
   writer.write("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  writer.write("multiplayer_no_limit", multiplayer_no_limit);
   writer.write("preferred_text_editor", preferred_text_editor);
 
   writer.start_list("interface_colors");
