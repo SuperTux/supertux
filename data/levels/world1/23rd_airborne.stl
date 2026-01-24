@@ -264,7 +264,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects
@@ -280,7 +279,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects
@@ -1095,7 +1093,7 @@
       (direction "left")
       (x 8640)
       (y 800)
-      (glinting #t)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
