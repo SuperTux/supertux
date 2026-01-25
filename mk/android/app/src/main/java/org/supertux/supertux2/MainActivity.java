@@ -14,16 +14,16 @@ public class MainActivity extends SDLActivity {
         currLocale = Locale.getDefault();
     }
 
-    public static char[] getLocale() {
-        return currLocale.toString().toCharArray();
+    public static String getLocale() {
+        return currLocale.toString();
     }
 
-    public static char[] getCountry() {
-        return currLocale.getCountry().toCharArray();
+    public static String getCountry() {
+        return currLocale.getCountry();
     }
 
-    public static char[] getLang() {
-        return currLocale.getLanguage().toCharArray();
+    public static String getLang() {
+        return currLocale.getLanguage();
     }
 
     @Override

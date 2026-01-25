@@ -1,37 +1,28 @@
-/*
-def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
-def buildAsApplication = !buildAsLibrary
-if (buildAsApplication) {
-    apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
 }
-else {
-    apply plugin: 'com.android.library'
-}
-*/
-apply plugin: 'com.android.application'
 
 Properties props = new Properties()
 if (rootProject.file("${rootDir}/local.properties").exists()) {
     props.load(rootProject.file("${rootDir}/local.properties").newDataInputStream())
 }
 
-var APP_ID = "org.supertux.supertux2"
+final APP_ID = "org.supertux.supertux2"
+final TARGET_SDK = 35 // TODO: bump to 36
 
 android {
-    compileSdkVersion 35
+    namespace APP_ID
+    compileSdkVersion TARGET_SDK
+
     defaultConfig {
-        /*
-        if (buildAsApplication) {
-            applicationId APP_ID
-        }
-        */
         applicationId APP_ID
+        targetSdkVersion TARGET_SDK
+
         minSdkVersion 21
-        targetSdkVersion 35
 
         // NOTE: Don't forget to bump the version code!
-        versionCode 1
-        versionName "0.7.0"
+        versionCode 3
+        versionName "0.7.0-beta2"
 
         ndkVersion "29.0.14206865"
         externalNativeBuild {
@@ -54,16 +45,24 @@ android {
             android.defaultConfig.externalNativeBuild.cmake.arguments.addAll(rootProject.ext.cmake_args)
         }
     }
+
+    if (!rootProject.ext.ci) {
+        // HACK: this just does not work on CI. whatever. it's meant for app bundles anyway.
+        assetPacks = [":assetpack"]
+    }
+    sourceSets {
+        main {
+            assets.srcDirs += ['../assetpack/src/main/assets']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    applicationVariants.all { variant ->
-        tasks["merge${variant.name.capitalize()}Assets"]
-            .dependsOn("externalNativeBuild${variant.name.capitalize()}")
-    }
+
     if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
         sourceSets.main {
             jniLibs.srcDir 'libs'
@@ -73,26 +72,11 @@ android {
                 path '../../../CMakeLists.txt'
             }
         }
-
     }
-    namespace APP_ID
+
     lint {
         abortOnError false
     }
-
-    /*
-    if (buildAsLibrary) {
-        libraryVariants.all { variant ->
-            variant.outputs.each { output ->
-                def outputFile = output.outputFile
-                if (outputFile != null && outputFile.name.endsWith(".aar")) {
-                    def fileName = "org.lethargik.supertux2.aar";
-                    output.outputFile = new File(outputFile.parent, fileName);
-                }
-            }
-        }
-    }
-    */
 }
 
 dependencies {

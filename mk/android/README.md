@@ -48,7 +48,7 @@ and build the game.
     fix that:
       
     ```
-    find $VCPKG_ROOT/installed -name '*.pc' -exec sed -i 's/-lc\+\+//g' {} \;
+    find $VCPKG_ROOT/installed/*-android -name '*.pc' -exec sed -i 's/-lc[+][+]//g' {} \;
     ```
 
 - Make sure you aren't installing the vcpkg manifest. We don't support that
@@ -61,3 +61,9 @@ and build the game.
 - When in doubt. ldd OR (from within android sdk)
   `toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-readelf --needed-libs` is your
   friend.
+
+- If you are getting an error about OpenSLES not being found, this could be because
+  of a faulty `openal-soft` vcpkg port. You might notice that it is trying to get
+  OpenSL from an NDK that isn't even installed, so you can potentially fix this by
+  reinstalling the port. Just make sure you have set the correct `ANDROID_NDK_HOME`
+  and/or `ANDROID_NDK_ROOT` environment variables.
