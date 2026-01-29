@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-   (name "working-left")
+   (name "left")
    (hitbox 20 61 55 35)
    (images "rocket_launcher-left.png"))
  
@@ -34,7 +34,7 @@
 		   "rocket_launcher-frozen-left4.png"))
  
  (action
-   (name "working-right")
+   (name "right")
    (hitbox 20 61 55 35)
    (images "rocket_launcher-right.png"))
  
