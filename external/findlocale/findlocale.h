@@ -3,6 +3,7 @@
 
 #ifdef __ANDROID__
 #include <jni.h>
+#include <android/log.h>
 
 // SDL headers not recognized, forward declaring
 

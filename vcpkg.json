@@ -22,10 +22,17 @@
       ],
       "supports": "!emscripten"
     },
-    "opengl": {
-      "description": "Add OpenGL support",
+    "glew": {
+      "description": "Use glew for OpenGL support",
       "dependencies": [
         "glew"
+      ],
+      "supports": "!(android | emscripten)"
+    },
+    "libepoxy": {
+      "description": "Use libepoxy for OpenGL support",
+      "dependencies": [
+        "libepoxy"
       ],
       "supports": "!(android | emscripten)"
     },
@@ -37,5 +44,5 @@
       "supports": "!emscripten"
     }
   },
-  "default-features": ["nonwasm", "opengl", "bidi"]
+  "default-features": ["nonwasm", "glew", "bidi"]
 }
