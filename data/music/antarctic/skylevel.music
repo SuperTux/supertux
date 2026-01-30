@@ -1,5 +1,6 @@
 (supertux-music
   (file "skylevel.ogg")
+  (title "Sky")
   (authors "SnugglyBun")
   (license "CC-BY-SA 4.0")
   (loop-begin 11.639)

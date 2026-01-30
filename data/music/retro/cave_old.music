@@ -2,7 +2,7 @@
   (file "cave_old.ogg")
   (authors "Marek \"Wansti\" Moeckel")
   (license "CC-BY-SA / GPL 2+")
-  (title "Super Tux - The Cave")
+  (title "The Cave (Retro)")
   (loop-begin 0)
   (loop-at    77)
 )
