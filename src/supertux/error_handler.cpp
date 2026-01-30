@@ -96,7 +96,7 @@ dewrangle(const std::string& symbol)
   char* dewrangled = abi::__cxa_demangle(just_symbol.c_str(), NULL, NULL, NULL);
   if (dewrangled)
   {
-    res << dewrangled << symbol.substr(offset, -1);
+    res << dewrangled << symbol.substr(offset);
     std::free(dewrangled);
     return res.str();
   }
