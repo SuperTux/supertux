@@ -234,27 +234,35 @@ if(ENABLE_DISCORD)
   add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
 endif()
 
-set(USE_GL_LIBRARY "glew" CACHE STRING "Which OpenGL function library to choose from (e.g. glew, libepoxy)")
+if(ANDROID)
+  set(USE_GL_LIBRARY_DEFAULT "libepoxy")
+else()
+  set(USE_GL_LIBRARY_DEFAULT "glew")
+endif()
+set(USE_GL_LIBRARY ${USE_GL_LIBRARY_DEFAULT} CACHE STRING "Which OpenGL function library to choose from (e.g. glew, libepoxy)")
 set_property(CACHE USE_GL_LIBRARY PROPERTY STRINGS glew libepoxy)
 
 set(HAVE_OPENGL NO)
 set(HAVE_CURL NO)
 set(HAVE_GLEW NO)
 set(HAVE_EPOXY NO)
-# OpenGL for Emscripten is added in Emscripten.cmake
-if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
+if(ANDROID)
+  # SDL already adds OpenGLES to the linker command
+  set(HAVE_OPENGL YES)
+  set(USE_OPENGLES2 YES)
+elseif(ENABLE_OPENGL AND NOT EMSCRIPTEN)
   set(OpenGL_GL_PREFERENCE "LEGACY")
-  find_package(OpenGL)
+  find_package(OpenGL QUIET)
 
-  if(OPENGL_FOUND)
-    if ("${USE_GL_LIBRARY}" STREQUAL "glew")
+  if(OPENGL_FOUND OR ANDROID)
+    if (USE_GL_LIBRARY STREQUAL "glew")
       message(STATUS "Using glew")
       add_package(TARGET GLEW
         PKG GLEW PKG_USE GLEW::GLEW CONFIG REQUIRED PKG_CONFIG glew
         PREFER_PKGCONFIG)
       set(HAVE_OPENGL "${ADDPKG_GLEW_FOUND}")
       set(HAVE_GLEW ON)
-    elseif ("${USE_GL_LIBRARY}" STREQUAL "libepoxy")
+    elseif (USE_GL_LIBRARY STREQUAL "libepoxy")
       message(STATUS "Using libepoxy")
       add_package(TARGET libepoxy
         PKG libepoxy PKG_CONFIG epoxy libepoxy
@@ -419,7 +427,6 @@ else()
   set_property(TARGET squirrel PROPERTY INTERPROCEDURAL_OPTIMIZATION OFF)
 endif()
 
-
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   target_include_directories(supertux2 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
@@ -456,11 +463,12 @@ if(NOT EMSCRIPTEN)
     set(HAVE_CURL YES)
   endif()
 
-  if(HAVE_OPENGL)
-    if ("${USE_GL_LIBRARY}" STREQUAL "glew")
-      target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW)
+  if(HAVE_OPENGL AND NOT ANDROID)
+    target_link_libraries(supertux2 PUBLIC OpenGL::GL)
+    if(USE_GL_LIBRARY STREQUAL "glew")
+      target_link_libraries(supertux2 PUBLIC GLEW)
     else()
-      target_link_libraries(supertux2 PUBLIC OpenGL::GL libepoxy)
+      target_link_libraries(supertux2 PUBLIC libepoxy)
     endif()
   endif()
 
@@ -484,21 +492,22 @@ configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 if(ANDROID)
   set(ANDROID_PROJECT_DIR "${PROJECT_SOURCE_DIR}/mk/android/" CACHE PATH
           "Path to the root of the root of the android project")
-  if(NOT EXISTS "${ANDROID_PROJECT_DIR}/assetpack/src/main/assets/data.zip")
-    get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
-    if(NOT EXISTS ${ANDROID_PROJECT_DIR}/assetpack/src/main/assets)
-      file(MAKE_DIRECTORY ${ANDROID_PROJECT_DIR}/assetpack/src/main/assets)
-    endif()
-    file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
-    #file(ARCHIVE_CREATE OUTPUT ${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
-    execute_process(COMMAND ${CMAKE_COMMAND} -E tar "cfv"
-            "${ANDROID_PROJECT_DIR}/assetpack/src/main/assets/data.zip"
-            --format=zip
-            ${DATA_CONTENTS}
+  set(ANDROID_ASSETS_DIR "${ANDROID_PROJECT_DIR}/assetpack/src/main/assets")
+  set(ANDROID_DATA_ZIP "${ANDROID_ASSETS_DIR}/data.zip")
+  get_filename_component(DATA_DIR ${PROJECT_SOURCE_DIR}/data REALPATH)
 
-            WORKING_DIRECTORY ${DATADIR}
-    )
+  if(NOT EXISTS "${ANDROID_ASSETS_DIR}")
+    file(MAKE_DIRECTORY "${ANDROID_ASSETS_DIR}")
   endif()
+
+  file(GLOB DATA_CONTENTS RELATIVE "${DATA_DIR}" "${DATA_DIR}/*")
+  add_custom_command(
+    OUTPUT "${ANDROID_DATA_ZIP}"
+    COMMAND ${CMAKE_COMMAND} -E tar "cfv" "${ANDROID_DATA_ZIP}" --format=zip ${DATA_CONTENTS}
+    WORKING_DIRECTORY "${DATA_DIR}"
+    COMMENT "Creating data.zip for android assets"
+  )
+  target_sources(supertux2 PRIVATE "${ANDROID_DATA_ZIP}")
 endif()
 
 ## Build tests

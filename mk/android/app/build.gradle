@@ -21,7 +21,7 @@ android {
         minSdkVersion 21
 
         // NOTE: Don't forget to bump the version code!
-        versionCode 3
+        versionCode 4
         versionName "0.7.0-beta2"
 
         ndkVersion "29.0.14206865"
@@ -35,7 +35,8 @@ android {
                           "-DSUPERTUX_NDK_HOME=" + props.getProperty("ndk_home", ""),
                           "-DVCPKG_MANIFEST_MODE=OFF",
                           "-DVCPKG_VERBOSE=ON",
-                          "-DENABLE_OPENGL=OFF",
+                          "-DENABLE_OPENGL=ON",
+                          "-DUSE_SYSTEM_SDL2_TTF=ON",
                           "-DANDROID_ALLOW_UNDEFINED_SYMBOLS=OFF", // Literally what the fuck
                           //"--debug-find", // If something isn't being found, uncomment this
                           "--log-level", "TRACE",
@@ -77,6 +78,8 @@ android {
     lint {
         abortOnError false
     }
+
+    genera
 }
 
 dependencies {
