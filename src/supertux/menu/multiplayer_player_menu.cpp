@@ -39,8 +39,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
 
   add_toggle(-1, _("Play with the keyboard"), &InputManager::current()->m_uses_keyboard[player_id]);
 
-  if (player_id != 0 && GameSession::current()
-      && !GameSession::current()->get_savegame().is_title_screen())
+  if (player_id != 0 && GameSession::current() && !GameSession::current()->is_cutscene())
   {
     bool player_is_in_sector = false;
 
@@ -58,7 +57,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       add_entry(_("Remove Player"), [player_id] {
         // Re-check everything that concerns the sector, it might have changed
         // (e. g. when unplugging a controller with auto-management enabled)
-        if (!GameSession::current() || GameSession::current()->get_savegame().is_title_screen())
+        if (!GameSession::current() || GameSession::current()->is_cutscene())
         {
           log_warning << "Attempt to force player to despawn while not in session"
                       << std::endl;
@@ -76,7 +75,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       add_entry(_("Respawn Player"), [player_id] {
         // Re-check everything that concerns the sector, it might have changed
         // (e. g. when unplugging a controller with auto-management enabled)
-        if (!GameSession::current() || GameSession::current()->get_savegame().is_title_screen())
+        if (!GameSession::current() || GameSession::current()->is_cutscene())
         {
           log_warning << "Attempt to force player to respawn while not in session"
                       << std::endl;
@@ -102,7 +101,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       add_entry(_("Spawn Player"), [player_id] {
         // Re-check everything that concerns the sector, it might have changed
         // (e. g. when unplugging a controller with auto-management enabled)
-        if (!GameSession::current() || GameSession::current()->get_savegame().is_title_screen())
+        if (!GameSession::current() || GameSession::current()->is_cutscene())
         {
           log_warning << "Attempt to force player to spawn while not in session"
                       << std::endl;

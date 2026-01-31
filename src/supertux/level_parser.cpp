@@ -172,6 +172,7 @@ LevelParser::load(const ReaderDocument& doc)
     level.get("target-time", m_level.m_target_time);
     level.get("suppress-pause-menu", m_level.m_suppress_pause_menu);
     level.get("note", m_level.m_note);
+    level.get("cutscene", m_level.m_is_cutscene);
     level.get("icon", m_level.m_icon);
     level.get("icon-locked", m_level.m_icon_locked);
     level.get("bkg", m_level.m_wmselect_bkg);
