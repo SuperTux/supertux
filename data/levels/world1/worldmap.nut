@@ -70,11 +70,11 @@ worldmap.fork_secret_obj.set_direction_mask(state.fork_secret_v2);
 worldmap.fridge_secret_obj.set_direction_mask(state.fridge_secret_v2);
 worldmap.slide_secret_obj.set_direction_mask(state.slide_secret_v2);
 
-if(!state.fork_secret_v2) fork_secret.fade(0.2, 0);
+if(!(state.fork_secret_v2 & SPECIALTILE_DIR_NORTH)) fork_secret.fade(0.2, 0);
 else fork_secret.fade(1, 0);
-if(!state.fridge_secret_v2) fridge_secret.fade(0.2, 0);
+if(!(state.fridge_secret_v2 & SPECIALTILE_DIR_SOUTH)) fridge_secret.fade(0.2, 0);
 else fridge_secret.fade(1, 0);
-if(!state.slide_secret_v2) slide_secret.fade(0.2, 0);
+if(!(state.slide_secret_v2 & SPECIALTILE_DIR_NORTH)) slide_secret.fade(0.2, 0);
 else slide_secret.fade(1, 0);
 
 if (("key_knowledge" in state)) {
