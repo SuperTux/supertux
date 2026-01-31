@@ -162,8 +162,7 @@ namespace {
 
     if (!shiftout)
     {
-      if (other_object && other_object->is_unisolid() &&
-          moving_object->get_group() != COLGROUP_MOVING_STATIC)
+      if (other_object && other_object->is_unisolid())
       {
         // Constrain only on fall on top of the unisolid object.
         if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top() - (other_object->get_movement().y - 5.f))
