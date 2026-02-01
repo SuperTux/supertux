@@ -68,8 +68,9 @@ GLPainter::GLPainter(GLVideoSystem& video_system, GLRenderer& renderer) :
 }
 
 void
-GLPainter::draw_texture(const TextureRequest& request)
+GLPainter::draw_texture(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<TextureRequest>(draw_req.request);
   assert_gl();
 
   const auto& texture = static_cast<const GLTexture&>(*request.texture);
@@ -79,7 +80,7 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   m_vertices.reserve(request.srcrects.size() * 12);
   m_uvs.reserve(request.srcrects.size() * 12);
-  
+
   m_vertices.clear();
   m_uvs.clear();
 
@@ -95,10 +96,10 @@ GLPainter::draw_texture(const TextureRequest& request)
     float uv_right = request.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
     float uv_bottom = request.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
 
-    if (request.flip & HORIZONTAL_FLIP)
+    if (draw_req.flip & HORIZONTAL_FLIP)
       std::swap(uv_left, uv_right);
 
-    if (request.flip & VERTICAL_FLIP)
+    if (draw_req.flip & VERTICAL_FLIP)
       std::swap(uv_top, uv_bottom);
 
     if (request.angles[i] == 0.0f)
@@ -166,14 +167,14 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.blend_func(sfactor(request.blend), dfactor(request.blend));
+  context.blend_func(sfactor(draw_req.blend), dfactor(draw_req.blend));
   context.bind_texture(texture, request.displacement_texture);
   context.set_texcoords(m_uvs.data(), sizeof(float) * m_uvs.size());
   context.set_positions(m_vertices.data(), sizeof(float) * m_vertices.size());
   context.set_color(Color(request.color.red,
                           request.color.green,
                           request.color.blue,
-                          request.color.alpha * request.alpha));
+                          request.color.alpha * draw_req.alpha));
 
   context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(request.srcrects.size() * 2 * 3));
 
@@ -181,8 +182,9 @@ GLPainter::draw_texture(const TextureRequest& request)
 }
 
 void
-GLPainter::draw_gradient(const GradientRequest& request)
+GLPainter::draw_gradient(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<GradientRequest>(draw_req.request);
   assert_gl();
 
   const Color& top = request.top;
@@ -199,7 +201,7 @@ GLPainter::draw_gradient(const GradientRequest& request)
     region.get_left(), region.get_bottom()
   };
 
-  context.blend_func(sfactor(request.blend), dfactor(request.blend));
+  context.blend_func(sfactor(draw_req.blend), dfactor(draw_req.blend));
   context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
   context.set_texcoord(0.0f, 0.0f);
@@ -231,14 +233,15 @@ GLPainter::draw_gradient(const GradientRequest& request)
 }
 
 void
-GLPainter::draw_filled_rect(const FillRectRequest& request)
+GLPainter::draw_filled_rect(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<FillRectRequest>(draw_req.request);
   assert_gl();
 
   GLContext& context = m_video_system.get_context();
 
   context.set_blur(request.blur);
-  context.blend_func(sfactor(request.blend), dfactor(request.blend));
+  context.blend_func(sfactor(draw_req.blend), dfactor(draw_req.blend));
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
   context.set_color(request.color);
@@ -314,8 +317,9 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
 }
 
 void
-GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
+GLPainter::draw_inverse_ellipse(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<InverseEllipseRequest>(draw_req.request);
   assert_gl();
 
   const float& x = request.pos.x;
@@ -384,7 +388,7 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.blend_func(sfactor(request.blend), dfactor(request.blend));
+  context.blend_func(sfactor(draw_req.blend), dfactor(draw_req.blend));
   context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
   context.set_texcoord(0.0f, 0.0f);
@@ -396,8 +400,9 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 }
 
 void
-GLPainter::draw_line(const LineRequest& request)
+GLPainter::draw_line(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<LineRequest>(draw_req.request);
   assert_gl();
 
   Vector viewport_scale = m_video_system.get_viewport().get_scale();
@@ -427,7 +432,7 @@ GLPainter::draw_line(const LineRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.blend_func(sfactor(request.blend), dfactor(request.blend));
+  context.blend_func(sfactor(draw_req.blend), dfactor(draw_req.blend));
   context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
   context.set_texcoord(0.0f, 0.0f);
@@ -439,8 +444,9 @@ GLPainter::draw_line(const LineRequest& request)
 }
 
 void
-GLPainter::draw_triangle(const TriangleRequest& request)
+GLPainter::draw_triangle(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<TriangleRequest>(draw_req.request);
   assert_gl();
 
   const float vertices[] = {
@@ -451,7 +457,7 @@ GLPainter::draw_triangle(const TriangleRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.blend_func(sfactor(request.blend), dfactor(request.blend));
+  context.blend_func(sfactor(draw_req.blend), dfactor(draw_req.blend));
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
   context.set_positions(vertices, sizeof(vertices));
@@ -474,8 +480,9 @@ GLPainter::clear(const Color& color)
 }
 
 void
-GLPainter::get_pixel(const GetPixelRequest& request) const
+GLPainter::get_pixel(const DrawingRequest& draw_req) const
 {
+  auto&& request = std::get<GetPixelRequest>(draw_req.request);
   assert_gl();
 
   const Rect& rect = m_renderer.get_rect();
