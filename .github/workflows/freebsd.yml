@@ -59,7 +59,8 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
         shell: freebsd {0}
         run: |
-            pkg install -y pkgconf git cmake googletest sdl2 sdl2_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm
+            pkg update -f
+            pkg install -y pkgconf git cmake googletest sdl2 sdl2_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm pcre2
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
@@ -76,8 +77,17 @@ jobs:
             mkdir out
             make install DESTDIR="./out" VERBOSE=1
             cd out/usr
-            echo -e '#!/bin/sh\n' './bin/supertux2' >> run.sh
+            echo -e '#!/bin/sh\n' 'export LD_LIBRARY_PATH=./lib/:$LD_LIBRARY_PATH\n' './bin/supertux2' >> run.sh
             chmod +x run.sh
+            cd lib
+            cp /usr/local/lib/libopenal.so ./
+            cp /usr/local/lib/libSDL2_image-2.0.so ./
+            cp /usr/local/lib/libphysfs.so ./
+            cp /usr/local/lib/libGLEW.so ./
+            ln libopenal.so libopenal.so.1
+            ln libGLEW.so libGLEW.so.2
+            ln libphysfs.so libphysfs.so.1
+            ln libSDL2_image-2.0.so libSDL2_image-2.0.so.0
 #Compiling with the -DWERROR=ON option on FreeBSD will cause the compilation to fail, so it is disabled
 
       - name: Package
@@ -85,10 +95,10 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
           freebsd_release: ${{ matrix.freebsd_release }}
         run: |
-            cd $GITHUB_WORKSPACE
-            cd build
+            cd $GITHUB_WORKSPACE/build
             mkdir upload
-            tar -czvf upload/SuperTux-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz out/usr
+            cd out/usr
+            tar -czvf $GITHUB_WORKSPACE/build/upload/SuperTux-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz ./
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v4
