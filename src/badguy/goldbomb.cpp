@@ -198,7 +198,8 @@ GoldBomb::explode()
   const bool was_glinting = m_is_glinting;
   MrBomb::explode();
 
-  if (was_glinting){
+  if (was_glinting)
+  {
     Sector::get().add<CoinExplode>(get_pos(), was_glinting);
   }
 }
