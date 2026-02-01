@@ -77,7 +77,7 @@ jobs:
             mkdir out
             make install DESTDIR="./out" VERBOSE=1
             cd out/usr
-            echo -e '#!/bin/sh\n' 'export LD_LIBRARY_PATH=./lib/:$LD_LIBRARY_PATH\n' './bin/supertux2' >> run.sh
+            echo -e '#!/bin/sh\n' 'export LD_LIBRARY_PATH=./lib/:$LD_LIBRARY_PATH\n' './bin/supertux2 "$@"' >> run.sh
             chmod +x run.sh
             cd lib
             cp /usr/local/lib/libopenal.so ./
