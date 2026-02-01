@@ -32,7 +32,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   m_dir(Direction::LEFT)
 {
   reader.get("script", m_script);
-
+  parse_type(reader);
   std::string dir_str;
   if (reader.get("direction", dir_str))
     m_dir = string_to_dir(dir_str);

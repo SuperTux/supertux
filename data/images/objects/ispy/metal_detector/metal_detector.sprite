@@ -1,7 +1,7 @@
 (supertux-sprite
   (action
     (name "idle-left")
-    (hitbox 0 0 32 34)
+    (hitbox -2 2 32 34)
     (fps 14)
     (images 
       "m-idle0.png"
@@ -15,12 +15,12 @@
   )
   (action
     (name "idle-right")
-    (hitbox 0 0 32 34)
+    (hitbox 3 2 32 34)
     (mirror-action "idle-left")
   )
   (action
     (name "alert-left")
-    (hitbox 0 0 32 34)
+    (hitbox -2 2 32 34)
     (fps 14)
     (images 
       "m-notice0.png"
@@ -41,13 +41,13 @@
   )
   (action
     (name "alert-right")
-    (hitbox 0 0 32 34)
+    (hitbox 3 2 32 34)
     (fps 14)
     (mirror-action "alert-left")
   )
   (action
     (name "hiding-left")
-    (hitbox 0 0 32 34)
+    (hitbox -2 2 32 34)
     (images 
       "m-notice5.png"
       "m-notice5.png"
@@ -57,12 +57,12 @@
   )
   (action
     (name "hiding-right")
-    (hitbox 0 0 32 34)
+    (hitbox 3 2 32 34)
     (mirror-action "hiding-left")
   )
   (action
     (name "showing-left")
-    (hitbox 0 0 32 34)
+    (hitbox -2 2 32 34)
     (fps 14)
     (images 
       "m-showing0.png"
@@ -76,13 +76,13 @@
   )
   (action
     (name "showing-right")
-    (hitbox 0 0 32 34)
+    (hitbox 3 2 32 34)
     (fps 14)
     (mirror-action "showing-left")
   )
   (action
     (name "idle-down")
-    (hitbox 0 0 34 28)
+    (hitbox 4 4 34 28)
     (fps 14)
     (images 
       "m-idle-down0.png"
@@ -96,7 +96,7 @@
   )
   (action
     (name "alert-down")
-    (hitbox 0 0 34 28)
+    (hitbox 4 4 34 28)
     (fps 14)
     (images 
       "m-notice-down0.png"
@@ -117,7 +117,7 @@
   )
   (action
     (name "hiding-down")
-    (hitbox 0 0 34 28)
+    (hitbox 4 4 34 28)
     (fps 14)
     (images 
       "m-notice-down5.png"
@@ -128,7 +128,7 @@
   )
   (action
     (name "showing-down")
-    (hitbox 0 0 34 28)
+    (hitbox 4 4 34 28)
     (fps 14)
     (images 
       "m-showing-down0.png"
@@ -142,22 +142,22 @@
   )
   (action
     (name "idle-up")
-    (hitbox 0 0 34 28)
+    (hitbox 4 -1 34 28)
     (flip-action "idle-down")
   )
   (action
     (name "alert-up")
-    (hitbox 0 0 34 28)
+    (hitbox 4 -1 34 28)
     (flip-action "alert-down")
   )
   (action
     (name "hiding-up")
-    (hitbox 0 0 34 28)
+    (hitbox 4 -1 34 28)
     (flip-action "hiding-down")
   )
   (action
     (name "showing-up")
-    (hitbox 0 0 34 28)
+    (hitbox 4 -1 34 28)
     (flip-action "showing-down")
   )
 )
