@@ -1,0 +1,164 @@
+(supertux-sprite
+  (action
+    (name "idle-left")
+    (hitbox 0 0 32 34)
+    (fps 14)
+    (images 
+      "m-idle0.png"
+      "m-idle0.png"
+      "m-idle0.png"
+      "m-idle0.png"
+      "m-idle0.png"
+      "m-idle0.png"
+      "m-idle1.png"
+    )
+  )
+  (action
+    (name "idle-right")
+    (hitbox 0 0 32 34)
+    (mirror-action "idle-left")
+  )
+  (action
+    (name "alert-left")
+    (hitbox 0 0 32 34)
+    (fps 14)
+    (images 
+      "m-notice0.png"
+      "m-notice1.png"
+      "m-notice0.png"
+      "m-notice1.png"
+      "m-notice0.png"
+      "m-notice1.png"
+      "m-notice0.png"
+      "m-notice1.png"
+      "m-notice0.png"
+      "m-notice1.png"
+      "m-notice2.png"
+      "m-notice3.png"
+      "m-notice4.png"
+      "m-notice5.png"
+    )
+  )
+  (action
+    (name "alert-right")
+    (hitbox 0 0 32 34)
+    (fps 14)
+    (mirror-action "alert-left")
+  )
+  (action
+    (name "hiding-left")
+    (hitbox 0 0 32 34)
+    (images 
+      "m-notice5.png"
+      "m-notice5.png"
+      "m-notice5.png"
+      "m-notice5.png"
+    )
+  )
+  (action
+    (name "hiding-right")
+    (hitbox 0 0 32 34)
+    (mirror-action "hiding-left")
+  )
+  (action
+    (name "showing-left")
+    (hitbox 0 0 32 34)
+    (fps 14)
+    (images 
+      "m-showing0.png"
+      "m-showing1.png"
+      "m-showing2.png"
+      "m-showing3.png"
+      "m-idle0.png"
+      "m-idle0.png"
+      "m-idle0.png"
+    )
+  )
+  (action
+    (name "showing-right")
+    (hitbox 0 0 32 34)
+    (fps 14)
+    (mirror-action "showing-left")
+  )
+  (action
+    (name "idle-down")
+    (hitbox 0 0 34 28)
+    (fps 14)
+    (images 
+      "m-idle-down0.png"
+      "m-idle-down0.png"
+      "m-idle-down0.png"
+      "m-idle-down0.png"
+      "m-idle-down0.png"
+      "m-idle-down0.png"
+      "m-idle-down1.png"
+    )
+  )
+  (action
+    (name "alert-down")
+    (hitbox 0 0 34 28)
+    (fps 14)
+    (images 
+      "m-notice-down0.png"
+      "m-notice-down1.png"
+      "m-notice-down0.png"
+      "m-notice-down1.png"
+      "m-notice-down0.png"
+      "m-notice-down1.png"
+      "m-notice-down0.png"
+      "m-notice-down1.png"
+      "m-notice-down0.png"
+      "m-notice-down1.png"
+      "m-notice-down2.png"
+      "m-notice-down3.png"
+      "m-notice-down4.png"
+      "m-notice-down5.png"
+    )
+  )
+  (action
+    (name "hiding-down")
+    (hitbox 0 0 34 28)
+    (fps 14)
+    (images 
+      "m-notice-down5.png"
+      "m-notice-down5.png"
+      "m-notice-down5.png"
+      "m-notice-down5.png"
+    )
+  )
+  (action
+    (name "showing-down")
+    (hitbox 0 0 34 28)
+    (fps 14)
+    (images 
+      "m-showing-down0.png"
+      "m-showing-down1.png"
+      "m-showing-down2.png"
+      "m-showing-down3.png"
+      "m-idle-down0.png"
+      "m-idle-down0.png"
+      "m-idle-down0.png"
+    )
+  )
+  (action
+    (name "idle-up")
+    (hitbox 0 0 34 28)
+    (flip-action "idle-down")
+  )
+  (action
+    (name "alert-up")
+    (hitbox 0 0 34 28)
+    (flip-action "alert-down")
+  )
+  (action
+    (name "hiding-up")
+    (hitbox 0 0 34 28)
+    (flip-action "hiding-down")
+  )
+  (action
+    (name "showing-up")
+    (hitbox 0 0 34 28)
+    (flip-action "showing-down")
+  )
+)
+
