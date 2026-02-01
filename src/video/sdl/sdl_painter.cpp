@@ -210,8 +210,9 @@ SDLPainter::SDLPainter(SDLVideoSystem& video_system, Renderer& renderer, SDL_Ren
 {}
 
 void
-SDLPainter::draw_texture(const TextureRequest& request)
+SDLPainter::draw_texture(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<TextureRequest>(draw_req.request);
   const auto& texture = static_cast<const SDLTexture&>(*request.texture);
 
   assert(request.srcrects.size() == request.dstrects.size());
@@ -225,19 +226,19 @@ SDLPainter::draw_texture(const TextureRequest& request)
     Uint8 r = static_cast<Uint8>(request.color.red * 255);
     Uint8 g = static_cast<Uint8>(request.color.green * 255);
     Uint8 b = static_cast<Uint8>(request.color.blue * 255);
-    Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
+    Uint8 a = static_cast<Uint8>(request.color.alpha * draw_req.alpha * 255);
 
     SDL_SetTextureColorMod(texture.get_texture(), r, g, b);
     SDL_SetTextureAlphaMod(texture.get_texture(), a);
-    SDL_SetTextureBlendMode(texture.get_texture(), blend2sdl(request.blend));
+    SDL_SetTextureBlendMode(texture.get_texture(), blend2sdl(draw_req.blend));
 
     SDL_RendererFlip flip = SDL_FLIP_NONE;
-    if ((request.flip & HORIZONTAL_FLIP) != 0)
+    if ((draw_req.flip & HORIZONTAL_FLIP) != 0)
     {
       flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
     }
 
-    if ((request.flip & VERTICAL_FLIP) != 0)
+    if ((draw_req.flip & VERTICAL_FLIP) != 0)
     {
       flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
     }
@@ -250,8 +251,9 @@ SDLPainter::draw_texture(const TextureRequest& request)
 }
 
 void
-SDLPainter::draw_gradient(const GradientRequest& request)
+SDLPainter::draw_gradient(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<GradientRequest>(draw_req.request);
   const Color& top = request.top;
   const Color& bottom = request.bottom;
   const GradientDirection& direction = request.direction;
@@ -343,15 +345,16 @@ SDLPainter::draw_gradient(const GradientRequest& request)
       a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
     }
 
-    SDL_SetRenderDrawBlendMode(m_sdl_renderer, blend2sdl(request.blend));
+    SDL_SetRenderDrawBlendMode(m_sdl_renderer, blend2sdl(draw_req.blend));
     SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
     SDL_RenderFillRect(m_sdl_renderer, &rect);
   }
 }
 
 void
-SDLPainter::draw_filled_rect(const FillRectRequest& request)
+SDLPainter::draw_filled_rect(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<FillRectRequest>(draw_req.request);
   SDL_FRect rect = request.rect.to_sdl();
 
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
@@ -419,8 +422,9 @@ SDLPainter::draw_filled_rect(const FillRectRequest& request)
 }
 
 void
-SDLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
+SDLPainter::draw_inverse_ellipse(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<InverseEllipseRequest>(draw_req.request);
   float x = request.pos.x;
   float w = request.size.x;
   float h = request.size.y;
@@ -475,8 +479,9 @@ SDLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 }
 
 void
-SDLPainter::draw_line(const LineRequest& request)
+SDLPainter::draw_line(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<LineRequest>(draw_req.request);
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);
   Uint8 b = static_cast<Uint8>(request.color.blue * 255);
@@ -536,8 +541,9 @@ draw_span_between_edges(SDL_Renderer* renderer, const Edge& e1, const Edge& e2)
 } // namespace
 
 void
-SDLPainter::draw_triangle(const TriangleRequest& request)
+SDLPainter::draw_triangle(const DrawingRequest& draw_req)
 {
+  auto&& request = std::get<TriangleRequest>(draw_req.request);
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);
   Uint8 b = static_cast<Uint8>(request.color.blue * 255);
@@ -614,8 +620,9 @@ SDLPainter::clear_clip_rect()
 }
 
 void
-SDLPainter::get_pixel(const GetPixelRequest& request) const
+SDLPainter::get_pixel(const DrawingRequest& draw_req) const
 {
+  auto&& request = std::get<GetPixelRequest>(draw_req.request);
   const Rect& rect = m_renderer.get_rect();
   const Size& logical_size = m_renderer.get_logical_size();
 
