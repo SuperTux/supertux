@@ -328,7 +328,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -344,7 +343,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -360,7 +358,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -376,7 +373,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -392,7 +388,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (objects
         (mrbomb
@@ -1439,7 +1434,6 @@ Level.spawn(\"go-back\", \"main\");")
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -1455,7 +1449,6 @@ Level.spawn(\"go-back\", \"main\");")
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -1471,7 +1464,6 @@ Level.spawn(\"go-back\", \"main\");")
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
@@ -1487,7 +1479,6 @@ Level.spawn(\"go-back\", \"main\");")
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 2)
       (objects
         (mrbomb
@@ -1667,7 +1658,7 @@ Level.spawn(\"go-back\", \"main\");")
       (z-pos 50)
       (x 3280)
       (y 144)
-      (glinting #t)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)

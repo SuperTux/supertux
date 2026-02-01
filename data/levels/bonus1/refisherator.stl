@@ -66,12 +66,6 @@
       (x 7328)
       (y 1696)
     )
-    (bonusblock
-      (z-pos 51)
-      (contents "1up")
-      (x 8432)
-      (y 1376)
-    )
     (camera
       (name "Camera")
       (mode "normal")
@@ -889,6 +883,13 @@
       (disable-physics #t)
       (x 8984.528)
       (y 923.9454)
+    )
+    (powerup
+      (version 2)
+      (type "oneup")
+      (z-pos 50)
+      (x 8432)
+      (y 1376)
     )
     (secretarea
       (width 400)

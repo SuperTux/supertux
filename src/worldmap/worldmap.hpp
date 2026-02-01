@@ -22,6 +22,7 @@
 #include "util/currenton.hpp"
 
 #include "control/controller.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/timer.hpp"
 #include "worldmap/worldmap_sector.hpp"
@@ -107,7 +108,7 @@ private:
 
   void process_input(const Controller& controller);
 
-  void on_escape_press();
+  void on_menu_button_press(MenuStorage::MenuId menu_type);
 
 private:
   WorldMapSector* m_sector; /* The currently active sector. */

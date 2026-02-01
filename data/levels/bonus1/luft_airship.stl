@@ -719,7 +719,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb
@@ -735,7 +734,6 @@
     (dispenser
       (name "d2")
       (z-pos 55)
-      (glinting #f)
       (cycle 2)
       (objects
         (skydive
@@ -748,7 +746,6 @@
     (dispenser
       (name "d1")
       (z-pos 55)
-      (glinting #f)
       (cycle 2)
       (objects
         (skydive
@@ -760,7 +757,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -772,7 +768,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -784,7 +779,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -796,7 +790,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -808,7 +801,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -820,7 +812,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (objects
         (skydive
@@ -832,7 +823,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects

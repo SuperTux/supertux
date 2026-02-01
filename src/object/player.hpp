@@ -342,8 +342,9 @@ public:
    * @scripting
    * @description Switches ghost mode on/off. Lets Tux float around and through solid objects.
    * @param bool $enable
+   * @param bool $toggle
    */
-  void set_ghost_mode(bool enable);
+  void set_ghost_mode(bool enable, bool toggle = false);
   /**
    * @scripting
    * @description Returns whether ghost mode is currently enabled.

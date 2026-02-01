@@ -27,7 +27,6 @@ public:
   Shard(const Vector& pos, const Vector& velocity, const std::string& sprite = "images/creatures/crystallo/shard.sprite");
 
   virtual void update(float dt_sec) override;
-  virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   static std::string class_name() { return "shard"; }
   virtual std::string get_class_name() const override { return class_name(); }

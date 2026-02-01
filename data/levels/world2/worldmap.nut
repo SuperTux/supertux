@@ -1,3 +1,4 @@
+if ("world_select" in state) state.world_select["/levels/world2/worldmap.stwm"].unlocked = true;
 
 fade_time <- 0.35;
 fade_time_fast <- 0.1;
@@ -101,26 +102,35 @@ if (state.underground_f && !state.corrupted) {
 //   ROAD FORKS
 // ============================================================================
 
-if (!("crushmore_secret" in state))
-{
-  // there is no compat... we ignore the old states for now. if they beat the
-  // level or didn't complete the fork in the road then things would just get
-  // weird regardless, like paths being opened despite never finding the
-  // secrets... since the worldmap is pretty much redone anyway, new players
-  // will start from the beginning anyway hopefully.
-  state.crushmore_secret <- 0;
-  state.hollow_secret <- 0;
-  state.strike_secret <- 0;
-  state.granito_secret <- 0;
+function add_secret(name, specialtile, always_allowed_dirs, tilemap, unlock_dirs) {
+  if (!(name in state))
+  {
+    // there is no compat... we ignore the old states for now. if they beat the
+    // level or didn't complete the fork in the road then things would just get
+    // weird regardless, like paths being opened despite never finding the
+    // secrets... since the worldmap is pretty much redone anyway, new players
+    // will start from the beginning anyway hopefully.
+    state[name] <- 0;
+  }
+
+  state[name] = state[name] | always_allowed_dirs;
+  specialtile.set_direction_mask(state[name]);
+
+  if((state[name] & unlock_dirs) != unlock_dirs) tilemap.fade(0.2, 0);
+  else tilemap.fade(1, 0);
 }
 
-state.crushmore_secret <- (state.crushmore_secret | SPECIALTILE_DIR_EAST | SPECIALTILE_DIR_WEST);
-state.granito_secret <- (state.granito_secret | SPECIALTILE_DIR_SOUTH);
-state.hollow_secret <- (state.hollow_secret | SPECIALTILE_DIR_SOUTH);
-state.strike_secret <- (state.strike_secret | SPECIALTILE_DIR_SOUTH | SPECIALTILE_DIR_NORTH );
+add_secret("crushmore_secret", worldmap.crushmore_secret, SPECIALTILE_DIR_WEST | SPECIALTILE_DIR_EAST,
+           worldmap.mc_secret, SPECIALTILE_DIR_NORTH)
+add_secret("hollow_secret", worldmap.hollow_secret, SPECIALTILE_DIR_SOUTH,
+           worldmap.he_secret, SPECIALTILE_DIR_NORTH)
+add_secret("strike_secret", worldmap.strike_secret, SPECIALTILE_DIR_SOUTH | SPECIALTILE_DIR_SOUTH,
+           worldmap.sw_secret, SPECIALTILE_DIR_EAST)
+add_secret("granito_secret", worldmap.granito_secret, SPECIALTILE_DIR_SOUTH,
+           worldmap.gv_secret, SPECIALTILE_DIR_EAST)
+add_secret("drop_secret", worldmap.drop_secret, SPECIALTILE_DIR_WEST | SPECIALTILE_DIR_EAST,
+           worldmap.db_secret, SPECIALTILE_DIR_NORTH)
 
-worldmap.crushmore_secret.set_direction_mask(state.crushmore_secret);
-worldmap.granito_secret.set_direction_mask(state.granito_secret);
-worldmap.strike_secret.set_direction_mask(state.strike_secret);
-worldmap.hollow_secret.set_direction_mask(state.hollow_secret);
-// TODO: make paths fade
+if (("key_knowledge" in state)) {
+	  if (state.key_knowledge == true) {
+        display_keys(true); }}

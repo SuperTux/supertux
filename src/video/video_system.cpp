@@ -155,7 +155,7 @@ VideoSystem::get_available_video_systems()
   output.push_back({ VIDEO_SDL, "SDL", _("Fast and stable renderer, which fits most players' needs.") });
 #ifdef HAVE_OPENGL
   const std::string opengl_desc = _("Provides additional features, such as reflection and shaders.\nMight be slow and unstable on some machines.");
-  output.push_back({ VIDEO_OPENGL_AUTO, _("OpenGL (AUTO)"), _("The recommended OpenGL video system for this device.") + '\n' + opengl_desc + '\n' + _("Fallbacks to SDL.") });
+  output.push_back({ VIDEO_OPENGL_AUTO, _("OpenGL (AUTO)"), _("The recommended OpenGL video system for this device.") + '\n' + opengl_desc + '\n' + _("Falls back to SDL.") });
   output.push_back({ VIDEO_OPENGL33CORE, "OpenGL 3.3", opengl_desc });
   output.push_back({ VIDEO_OPENGL20, "OpenGL 2.0", opengl_desc });
 #endif

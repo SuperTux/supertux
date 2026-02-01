@@ -59,7 +59,7 @@ void
 Totem::initialize()
 {
   if (!carried_by) {
-static const float WALKSPEED = 100;
+    static const float WALKSPEED = 100;
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -WALKSPEED : WALKSPEED);
     set_action("walking", m_dir);
     return;
@@ -76,7 +76,7 @@ Totem::active_update(float dt_sec)
   BadGuy::active_update(dt_sec);
 
   if (!carried_by) {
-    if (on_ground() && might_fall())
+    if (on_ground() && might_fall(20))
     {
       m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
       initialize();

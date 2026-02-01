@@ -155,7 +155,7 @@ public:
   void delete_markers();
   void sort_layers();
 
-  inline bool get_triggers_visible() { return m_show_triggers; }
+  inline bool get_draggables_visible() { return m_show_draggables; }
 
   inline void disable_testing() { m_testing_disabled = true; }
 
@@ -285,14 +285,12 @@ private:
 
   float m_scroll_speed;
   float m_new_scale;
-  bool m_show_triggers;
-  Timer m_show_triggers_hint;
+  bool m_show_draggables;
+  Timer m_show_draggables_hint;
 
   Vector m_mouse_pos;
 
   bool m_layers_widget_needs_refresh;
-
-  SpritePtr m_shadow;
 
 private:
   Editor(const Editor&) = delete;

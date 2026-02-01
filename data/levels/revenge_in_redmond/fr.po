@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Ștefan ILIE, 2025
+# Ștefan ILIE, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.7.0-beta.1-17-g514d7535a\n"
+"Project-Id-Version: SuperTux v0.7.0-beta.1-99-geed8409be\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2025-12-30 06:51+0000\n"
-"Last-Translator: Ștefan ILIE, 2025\n"
+"Last-Translator: Ștefan ILIE, 2026\n"
 "Language-Team: French (https://app.transifex.com/arctic-games/teams/95/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,6 +28,19 @@ msgstr "Antarctique 1"
 #: data/levels/revenge_in_redmond/get_to_choppa.stl:3
 msgid "Get to da Choppa!"
 msgstr "Rejoignez l'Hélico!"
+
+#: data/levels/revenge_in_redmond/info:2
+#: data/levels/revenge_in_redmond/worldmap.stwm:3
+msgid "Revenge in Redmond"
+msgstr "Vengeance à Redmond"
+
+#: data/levels/revenge_in_redmond/info:3
+msgid ""
+"A level pack celebrating the good ol' days of SuperTux for its 20th "
+"anniversary."
+msgstr ""
+"Un ensemble de niveaux célébrant le bon vieux temps de SuperTux à l'occasion"
+" de son 20ème anniversaire."
 
 #: data/levels/revenge_in_redmond/intro.stl:3
 msgid "A Blast From The Past"
@@ -65,6 +78,15 @@ msgid ""
 "\t\n"
 "-Super Tux"
 msgstr ""
+"-Un Sacré Passé!Ou n'était-ce qu'un rêve?\tTux et Gown étaient en train de "
+"profiter de leur agréable pique-nique,\tquand soudainement, Gown fut "
+"téléporté!!!\t\tUne minute... Gown?\tQui est ce manchot ressemblant\tà s'y "
+"méprendre à Penny?\t\tEt d'ailleurs, un hélicoptère?\tDepuis quand des "
+"hélicoptères survolent l'Antarctique\tpour le plaisir et enlèvent des "
+"manchots?\t\tBien que Tux demeurait visiblement confus\tconcernant les "
+"évènements dont il venait d'être témoin,\til ne pouvait pas rester là\tà ne "
+"rien faire. Il se lança donc\tà la poursuite de l'hélicoptère\tpour sauver "
+"cette pauvre fille!*Ceci semble être une mission pour ---\t-Super Tux"
 
 #: data/levels/revenge_in_redmond/long_office_nights.stl:3
 msgid "Long Office Nights"
@@ -119,6 +141,18 @@ msgid ""
 "-The End\n"
 " Or rather, the beginning...?"
 msgstr ""
+"-Il y a quelqu'un?\tTux se précipita dans la Salle du Trône du "
+"château,\tcherchant frénétiquement à retrouver Gown.\t\tHélas, il ne trouva "
+"ni Gown, ni le pilote\tde l'hélicoptère, mais plutôt une statue.\t\tElle "
+"reproduisait une créature recouverte d'écailles, les bras croisés.\tSon "
+"piédestal portait comme inscription\tle mot \"Nolok\". Peut-être était-ce un"
+" nom?\t\tTux ne savait pas qui est-ce que ou qu'est-ce que \tcette statue "
+"représentait.\t\tTout à coup, Tux se souvint...\t\tPenny et lui ont fait "
+"l'objet d'une embuscade \tpar cette même créature,\tdurant leur pique-nique "
+"sur les vallées de glace!\t\tTux ouvrit les yeux. Il était de retour\tsur "
+"les vallées de glace le long de la côte.\tPenny, quant à elle, avait "
+"disparu.\tEstomaqué, il se mit à chercher dans les alentours,\tmais il ne "
+"put trouver qu'une lettre...\t\t...de Nolok.-Fin Ou peut-être le début...?"
 
 #: data/levels/revenge_in_redmond/redmond_headquarters.stl:3
 msgid "Redmond Headquarters"
@@ -131,7 +165,3 @@ msgstr "Où est ma Super Cape?"
 #: data/levels/revenge_in_redmond/who_is_gown.stl:3
 msgid "Who Is This Gown?"
 msgstr "Qui est cette Gown?"
-
-#: data/levels/revenge_in_redmond/worldmap.stwm:3
-msgid "Revenge in Redmond"
-msgstr "Vengeance à Redmond"

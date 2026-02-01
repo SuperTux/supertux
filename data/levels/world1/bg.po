@@ -6,14 +6,14 @@
 # Любомир Василев, 2015-2016
 # Любомир Василев, 2021,2025
 # Любомир Василев, 2016,2018-2019
-# Любомир Василев, 2021,2025
+# Любомир Василев, 2021,2025-2026
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-30 06:11+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Любомир Василев, 2021,2025\n"
+"Last-Translator: Любомир Василев, 2021,2025-2026\n"
 "Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgstr "„Въздушна“ №23"
 msgid "Above the Antarctic Skies"
 msgstr "В антарктическите небеса"
 
-#: data/levels/world1/above_arctic_skies.stl:318
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -90,6 +90,14 @@ msgstr "Замръзналите полета"
 msgid "Ice in the Hole"
 msgstr "Лед в дупката"
 
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Леденият остров"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Където приключението започва."
+
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
 msgstr "Сред звездите"
@@ -110,14 +118,14 @@ msgstr "Живот в хладилник"
 msgid "Oh No! More Snowballs!"
 msgstr "О, не! Още снежни топки!"
 
-#: data/levels/world1/more_snowballs.stl:290
+#: data/levels/world1/more_snowballs.stl:319
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Носене на предмети\n#Тъкс може да взема предмети от земята като задържиш бутона за ДЕЙСТВИЕ. Пусни бутона за ДЕЙСТВИЕ, докато Тъкс стои неподвижно, за да го накараш да пусне предмета.\n#Ако пуснеш бутона за ДЕЙСТВИЕ, докато Тъкс се движи, той ще хвърли предмета!"
 
-#: data/levels/world1/more_snowballs.stl:299
+#: data/levels/world1/more_snowballs.stl:328
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
@@ -240,6 +248,10 @@ msgid ""
 "The more he thought about it, the less he was sure about Nolok's "
 "motivations. Why would he leave clues behind?"
 msgstr "Колкото повече разсъждаваше Тъкс, толкова по-неразбираеми му се струваха действията на Нолок. Защо оставя следи след себе си?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Да се добави филмче тук---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -375,14 +387,14 @@ msgstr "-Плуване\n!images/creatures/tux/big/swim-1.png\n#Когато с�
 msgid "Stone Cold"
 msgstr "Кучи студ"
 
-#: data/levels/world1/stone_cold.stl:191
+#: data/levels/world1/stone_cold.stl:195
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Носене на предмети\n#Тъкс може да взема предмети от земята като задържиш бутона за ДЕЙСТВИЕ. Пускането на бутона за ДЕЙСТВИЕ ще накара Тъкс да пусне предмета.\n#Ако пуснеш бутона за ДЕЙСТВИЕ, докато Тъкс се движи, той ще хвърли предмета!"
 
-#: data/levels/world1/stone_cold.stl:200
+#: data/levels/world1/stone_cold.stl:204
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
@@ -419,10 +431,6 @@ msgid ""
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
 msgstr "-Кукла Тъкс\n!images/powerups/1up/1up.png\n#Куклите Тъкс са рядък предмет за събиране, които са необходими за отключване на Допълнителните острови!\n\n#Събери всички, за да отключиш забавните допълнителни нива!"
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Леденият остров"
 
 #: data/levels/world1/worldmap.stwm:246
 msgid "You found a secret area!"

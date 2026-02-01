@@ -27,7 +27,7 @@
 #include "video/layer.hpp"
 
 TextArea::TextArea(const ReaderMapping& mapping) :
-  Trigger(mapping),
+  Trigger(Color(1.0f, 1.0f, 1.0f, 0.6f), mapping),
   m_once(false),
   m_items(),
   m_delay(4.0f),
@@ -53,7 +53,7 @@ TextArea::TextArea(const ReaderMapping& mapping) :
 void
 TextArea::draw(DrawingContext& context)
 {
-  Trigger::draw_special_filled_box(context, Color(1.0f, 1.0f, 1.0f, 0.6f));
+  draw_draggable_box(context);
 }
 
 void

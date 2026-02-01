@@ -156,6 +156,7 @@ Addon::parse(const ReaderMapping& mapping)
     mapping.get("url", addon->m_url);
     mapping.get("md5", addon->m_md5);
     mapping.get("format", addon->m_format);
+    mapping.get("screenshots-base-url", addon->m_screenshots_base_url);
     std::optional<ReaderCollection> screenshots_reader;
     if (mapping.get("screenshots", screenshots_reader))
     {

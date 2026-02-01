@@ -5,7 +5,7 @@
  )
  (action
   (name "display")
-  (images "fire_display.png")
+  (images "fire.png")
  )
  (action
   (name "outline")

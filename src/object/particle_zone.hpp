@@ -16,12 +16,13 @@
 
 #pragma once
 
+#include "object/draggable_region.hpp"
 #include "supertux/moving_object.hpp"
 
 #include "video/layer.hpp"
 
 /** Defines an area where a certain particle type can spawn */
-class ParticleZone final : public MovingObject
+class ParticleZone final : public DraggableRegion
 {
   // TODO: Scripting interface
 
@@ -31,7 +32,6 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual bool has_variable_size() const override { return true; }
   static std::string class_name() { return "particle-zone"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Particle zone"); }

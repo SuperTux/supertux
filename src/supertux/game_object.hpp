@@ -148,7 +148,8 @@ public:
   virtual bool is_singleton() const { return false; }
 
   /** Does this object have variable size
-      (secret area trigger, wind, etc.) */
+      (secret area trigger, wind, etc.)
+      A.K.A. "draggable" */
   virtual bool has_variable_size() const { return false; }
 
   /** Indicates if the object will be saved. If false, the object will
@@ -312,7 +313,7 @@ private:
   bool m_scheduled_for_removal;
 
   /** The object's settings at the time of the last state save.
-      Used to check for changes that may have occured. */
+      Used to check for changes that may have occurred. */
   std::optional<ObjectSettings> m_last_state;
 
   std::vector<std::unique_ptr<GameObjectComponent> > m_components;

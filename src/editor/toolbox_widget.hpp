@@ -78,7 +78,9 @@ private:
   Vector get_tool_coords(int pos) const;
   int get_tool_pos(const Vector& coords) const;
 
+  Rectf get_rect_from_hovered_item(HoveredItem item) const;
   Rectf get_hovered_item_rect() const;
+  Rectf get_active_item_rect() const;
 
   ToolIcon* get_mouse_icon() const;
   void update_last_active_group();

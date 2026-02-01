@@ -6,14 +6,14 @@
 # Любомир Василев, 2015-2016
 # Vankata 453, 2021
 # Любомир Василев, 2016,2018-2019
-# Любомир Василев, 2020-2021,2024-2025
+# Любомир Василев, 2020-2021,2024-2026
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-29 10:35+0000\n"
+"POT-Creation-Date: 2026-01-05 21:19+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Любомир Василев, 2020-2021,2024-2025\n"
+"Last-Translator: Любомир Василев, 2020-2021,2024-2026\n"
 "Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,6 +89,14 @@ msgstr "Куха земя"
 msgid "Home Dead Home"
 msgstr "Дом, мъртъв дом"
 
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Rooted Forest"
+msgstr "Вкоренената гора"
+
+#: data/levels/world2/info:3
+msgid "Work in Progress Rooted Forest for SuperTux v0.7."
+msgstr "В процес на разработка – „Вкоренената гора“ за Супер Тъкс версия 0.7."
+
 #: data/levels/world2/lost_sanctuary.stl:3
 msgid "Lost Sanctuary"
 msgstr "Изгубено убежище"
@@ -129,6 +137,10 @@ msgstr "Пълна подкрепа"
 msgid "The Rooted Tower"
 msgstr "Вкоренената кула"
 
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Да се добави филмче тук---"
+
 #: data/levels/world2/scripts_floral_blossom.txt:2
 msgid ""
 "Despite the Ghost Tree's defeat and a sliver of life returning to the once "
@@ -149,8 +161,8 @@ msgstr "За щастие, едно гранито – живо и здраво 
 
 #: data/levels/world2/scripts_floral_blossom.txt:5
 msgid ""
-"The Granito spoke of 3 groups of his fellow Granito whoo had gotten lost "
-"when trying to escape the roots to the east coast."
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
 msgstr "Гранитото му разказа за 3 групи от гранита, които са се изгубили докато са се опитвали да се измъкнат от корените към източния бряг."
 
 #: data/levels/world2/scripts_floral_blossom.txt:6
@@ -172,21 +184,21 @@ msgstr "С помощта на спасените гранита, Тъкс ус�
 
 #: data/levels/world2/scripts_floral_blossom.txt:9
 msgid ""
-"He was glad there were more Granito that had survied the Ghost Tree's "
+"He was glad there were more Granito that had survived the Ghost Tree's "
 "overgrowth."
 msgstr "Той с радост установи, че имаше още гранита, които бяха успели да се спасят от прекомерния растеж на призрачното дърво."
 
 #: data/levels/world2/scripts_floral_blossom.txt:10
 msgid ""
-"One of the Granito asked him what, a penguin like him was doing so far from "
-"the Antarctic?"
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
 msgstr "Едно от тях го попита какво прави пингвин като него толкова далеч от Антарктида."
 
 #: data/levels/world2/scripts_floral_blossom.txt:11
 msgid ""
-"Tux replyed, he was looking for his friend Penny and that she was captured "
-"by an evil creature named \"Nolok\". A name the Granito remember "
-"unpleasently"
+"Tux replied, that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly"
 msgstr "Тъкс отговори, че търси своята приятелка Пени, и че тя е била отвлечена от зло създание с името „Нолок“. Име, което извиква лоши спомени у гранитата."
 
 #: data/levels/world2/scripts_floral_blossom.txt:12
@@ -209,7 +221,7 @@ msgstr "Тъкс прие охотно и заедно с няколко гра�
 
 #: data/levels/world2/scripts_floral_blossom.txt:15
 msgid ""
-"The remaing Granito would stay behind, slowly rebuilding their home, now "
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
 "that the corruption was finally vanquished..."
 msgstr "Другите гранита останаха, за да изградят отново малко по малко своя дом – сега, след като покварата беше окончателно изчистена…"
 
@@ -267,10 +279,6 @@ msgstr "-Врати!images/objects/door/door-0.png#Тъкс може да пре
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Дървесни корени"
-
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "Вкоренената гора"
 
 #: data/levels/world2/worldmap.stwm:318
 msgid "To be continued..."

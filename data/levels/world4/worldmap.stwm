@@ -6,4 +6,5 @@
   (license "CC-BY-SA 4.0 International")
   (icon "/images/worlds/icon/mountainpeak.png")
   (icon-locked "/images/worlds/locked/mountainpeak.png")
+  (bkg "/images/worlds/background/***TODO***.png")
 )

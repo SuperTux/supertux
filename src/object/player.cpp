@@ -383,6 +383,9 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 void
 Player::update(float dt_sec)
 {
+  // sanity asserts
+  assert(!(m_duck && !is_big()));
+
   if (is_dead() || Sector::get().get_object_count<Player>() == 1)
   {
     m_tag_timer.stop();
@@ -865,8 +868,8 @@ Player::update(float dt_sec)
     {
       if (!m_jumping && !m_is_slidejump_falling)
       {
-        sliding_angle = math::degrees(math::angle(m_physic.get_velocity()));
-        if (m_physic.get_velocity_x() < 0.0f)
+        sliding_angle = math::degrees(math::angle(get_movement()));
+        if (get_movement().x < 0.0f)
         {
           sliding_angle -= 180.0f;
         }
@@ -970,11 +973,14 @@ Player::slide()
   }
   m_sliding = true;
 
-  if (m_physic.get_velocity_x() > 0.f) {
-    m_dir = Direction::RIGHT;
-  }
-  else if (m_physic.get_velocity_x() < 0.f) {
-    m_dir = Direction::LEFT;
+  if (on_ground())
+  {
+    if (m_physic.get_velocity_x() > 0.f) {
+      m_dir = Direction::RIGHT;
+    }
+    else if (m_physic.get_velocity_x() < 0.f) {
+      m_dir = Direction::LEFT;
+    }
   }
 
   //pre_slide helps us detect the ground where Tux is about to slide on because sometimes on_ground() doesn't work or isn't relevant
@@ -990,6 +996,7 @@ Player::slide()
   {
     if (!pre_slide) {
       m_physic.set_acceleration_x(0.f);
+
     }
     else
     {
@@ -1020,6 +1027,17 @@ Player::slide()
         if (m_floor_normal.x < 0.f) {
           m_physic.set_acceleration_x((m_dir == Direction::RIGHT ? -UP_SLIDE_ACCEL : -DOWN_SLIDE_ACCEL)*std::abs(m_floor_normal.x));
         }
+      }
+
+      // passed on from handle_collision_logic(), we'll give the player an
+      // initial speed boost if they slide
+      if (m_does_buttjump)
+      {
+        // ...but not if we're already moving a bit
+        if (std::abs(m_physic.get_velocity_x()) < 267.f)
+          m_physic.set_velocity_x((m_floor_normal.x > 0 ? 1 : -1) * (MAX_SLIDE_SPEED / 3.f));
+        m_does_buttjump = false;
+        m_buttjump_stomp = false;
       }
     }
   }
@@ -1208,6 +1226,18 @@ Player::handle_horizontal_input()
 
   if (m_duck && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT))) {
     m_crawl = true;
+  }
+
+  // player on slope -> duck? start sliding.
+  if (m_controller->hold(Control::DOWN) && on_ground() && m_floor_normal.y != 0)
+  {
+    if (get_bonus() == BONUS_EARTH)
+      m_stone = true;
+    m_sliding = true;
+    // silly nonsense; tuxs "unslides" back into tall tux if he's large and his
+    // action 'clips' through the ground. Don't blame me, i hate this file.
+    if (is_big())
+      m_duck = true;
   }
 
   if (m_crawl && on_ground() && std::abs(m_physic.get_velocity_x()) < WALK_SPEED)
@@ -1401,7 +1431,7 @@ Player::do_jump(float yspeed) {
     return;
 
   // jump only if it would make Tux go faster upwards
-  if (m_physic.get_velocity_y() > yspeed) {
+  if (m_can_walljump || m_physic.get_velocity_y() > yspeed) {
     m_physic.set_velocity_y(yspeed * (m_sliding ? 0.75f : 1.f));
     //bbox.move(Vector(0, -1));
     m_jumping = true;
@@ -1468,10 +1498,12 @@ Player::handle_vertical_input()
     } else {
       // airflower allows for higher jumps-
       // jump a bit higher if we are running; else do a normal jump
-      if (get_bonus() == BONUS_AIR)
-        do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
-      else
-        do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
+      if (!m_can_walljump) {
+        if (get_bonus() == BONUS_AIR)
+          do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
+        else
+          do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
+      }
     }
     //Stop the coyote timer only after calling do_jump, because do_jump also checks for the timer
     m_coyote_timer.stop();
@@ -1501,7 +1533,8 @@ Player::handle_vertical_input()
     }
   }
 
-  if (m_jump_early_apex && m_physic.get_velocity_y() >= 0) {
+  if (m_jump_early_apex && (m_physic.get_velocity_y() >= 0 ||
+      (m_can_walljump && m_controller->pressed(Control::JUMP)))) {
     do_jump_apex();
   }
 
@@ -1637,10 +1670,11 @@ Player::handle_input()
       {
         m_dir = swim_dir;
       }
-      Sector::get().add<Bullet>(pos, (m_swimming || m_water_jump) ?
-        m_physic.get_velocity() + (Vector(std::cos(m_swimming_angle), std::sin(m_swimming_angle)) * 600.f) :
-        Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f),
-        m_dir, get_bonus(), *this);
+      Sector::get().add<Bullet>(pos,
+        (m_swimming || m_water_jump) ?
+          ((Vector(std::cos(m_swimming_angle), std::sin(m_swimming_angle)) * 600.f) + m_physic.get_velocity()) :
+          (Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f)),
+        m_dir, get_bonus(), *this, !m_swimming);
       SoundManager::current()->play("sounds/shoot.wav", get_pos());
     }
   }
@@ -2171,8 +2205,6 @@ Player::draw(DrawingContext& context)
     {
       if (m_swimming || m_water_jump)
       {
-        if (m_water_jump && m_dir != m_old_dir)
-          log_debug << "Obracanko (:" << std::endl;
         if (glm::length(m_physic.get_velocity()) < 50.f)
           set_action(sa_prefix + "-float" + sa_postfix);
         else if (m_water_jump)
@@ -2353,20 +2385,31 @@ Player::handle_collision_logic(const CollisionHit& hit)
     m_slidejumping = false;
 
     // Butt Jump landed
-    if (m_does_buttjump) {
-      m_does_buttjump = false;
-      m_buttjump_stomp = true;
-      m_physic.set_velocity_y(-300);
-      m_on_ground_flag = false;
-      Sector::get().add<Particles>(
-        m_col.m_bbox.p2(),
-        50, 70, 260, 280, Vector(0, 300), 3,
-        Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().add<Particles>(
-        Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
-        -70, -50, 260, 280, Vector(0, 300), 3,
-        Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().get_camera().shake(.1f, 0.f, 10.f);
+    if (m_does_buttjump)
+    {
+      // don't boing if on a slope.
+      if (on_ground() && m_floor_normal.y != 0)
+      {
+        // m_does_buttjump will get processed/reset in slide(), as we want to
+        // also give the player an "oomph" if they buttjump while standing
+        // mostly still. At this point, the player will slide.
+      }
+      else
+      { // the buttjump
+        m_does_buttjump = false;
+        m_buttjump_stomp = true;
+        m_physic.set_velocity_y(-300);
+        m_on_ground_flag = false;
+        Sector::get().add<Particles>(
+          m_col.m_bbox.p2(),
+          50, 70, 260, 280, Vector(0, 300), 3,
+          Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+        Sector::get().add<Particles>(
+          Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
+          -70, -50, 260, 280, Vector(0, 300), 3,
+          Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+        Sector::get().get_camera().shake(.1f, 0.f, 10.f);
+      }
     }
 
   } else if (hit.top) {
@@ -2472,7 +2515,7 @@ Player::make_temporarily_safe(float safe_time)
 void
 Player::kill(bool completely)
 {
-  if (m_dying || m_deactivated || is_winning() )
+  if (m_dying || m_deactivated || is_winning())
     return;
 
   if (!completely && (m_is_intentionally_safe || m_post_damage_safety_timer.started() || m_temp_safety_timer.started() || m_invincible_timer.started()))
@@ -2527,6 +2570,7 @@ Player::kill(bool completely)
     m_physic.set_velocity(0, -700);
     set_bonus(BONUS_NONE, true);
     m_dying = true;
+    m_duck = m_crawl = false;
     m_dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 
@@ -2697,10 +2741,13 @@ Player::set_dir(bool right)
 }
 
 void
-Player::set_ghost_mode(bool enable)
+Player::set_ghost_mode(bool enable, bool toggle)
 {
-  if (m_ghost_mode == enable)
+  if (!toggle && m_ghost_mode == enable)
     return;
+
+  if (toggle)
+    enable = m_ghost_mode = !m_ghost_mode;
 
   if (m_climbing) stop_climbing(*m_climbing);
 

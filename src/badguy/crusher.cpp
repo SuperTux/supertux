@@ -215,7 +215,7 @@ Crusher::should_crush()
         right_top_zone.set_p1(Vector(crusher_bbox.get_right() - zone_width, zone_top_y));
         right_top_zone.set_size(zone_width, zone_height);
 
-        crushbox.set_p1(get_pos() + Vector(get_bbox().get_right(), 0.f));
+        crushbox.set_p1(get_pos() + Vector(get_width(), 0.f));
         crushbox.set_size(5.f, get_height());
 
         if (player_bbox.overlaps(right_top_zone) &&
@@ -257,18 +257,6 @@ Crusher::should_finish_crushing(const CollisionHit& hit) const
          ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.top)    ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.left)   ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.right);
-}
-
-bool
-Crusher::should_finish_recovering(const CollisionHit& hit) const
-{
-  if (m_dir == CrusherDirection::ALL)
-    return hit.bottom || hit.top || hit.left || hit.right;
-
-  return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN)  && hit.top)    ||
-         ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.bottom) ||
-         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.right)  ||
-         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.left);
 }
 
 bool
@@ -452,7 +440,7 @@ Crusher::get_direction_vector(CollisionObject* target)
         return Vector(0.f, 0.f);
 
       const Vector mid = get_bbox().get_middle();
-      return mid.x <= target->get_bbox().get_left() ? Vector(1.f, 0.f) : Vector(-1.f, 0.f);
+      return mid.x <= target->get_bbox().get_middle().x ? Vector(1.f, 0.f) : Vector(-1.f, 0.f);
     }
 
     case CrusherDirection::VERTICAL:
@@ -1058,10 +1046,6 @@ Crusher::collision_solid(const CollisionHit& hit)
   if (m_state == CRUSHING && should_finish_crushing(hit))
   {
     crushed(hit, true);
-  }
-  else if (m_state == RECOVERING && should_finish_recovering(hit))
-  {
-    idle();
   }
 }
 

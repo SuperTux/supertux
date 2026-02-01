@@ -6,8 +6,10 @@ fade_time <- 0.35;
 // If we are using world select to change WMs, then the states for other worlds won't get changed.
 // Here, we account for this.
 
-state.underground_f = false  // forest underground state
-state.corrupted = false
+if("underground_f" in state)
+  state.underground_f = false  // forest underground state
+if("corrupted" in state)
+  state.corrupted = false
 
 // ============================================================================
 //   AMBIENT LIGHT
@@ -68,9 +70,13 @@ worldmap.fork_secret_obj.set_direction_mask(state.fork_secret_v2);
 worldmap.fridge_secret_obj.set_direction_mask(state.fridge_secret_v2);
 worldmap.slide_secret_obj.set_direction_mask(state.slide_secret_v2);
 
-if(!state.fork_secret_v2) fork_secret.fade(0.2, 0);
+if(!(state.fork_secret_v2 & SPECIALTILE_DIR_NORTH)) fork_secret.fade(0.2, 0);
 else fork_secret.fade(1, 0);
-if(!state.fridge_secret_v2) fridge_secret.fade(0.2, 0);
+if(!(state.fridge_secret_v2 & SPECIALTILE_DIR_SOUTH)) fridge_secret.fade(0.2, 0);
 else fridge_secret.fade(1, 0);
-if(!state.slide_secret_v2) slide_secret.fade(0.2, 0);
+if(!(state.slide_secret_v2 & SPECIALTILE_DIR_NORTH)) slide_secret.fade(0.2, 0);
 else slide_secret.fade(1, 0);
+
+if (("key_knowledge" in state)) {
+	  if (state.key_knowledge == true) {
+        display_keys(true); }}

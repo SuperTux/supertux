@@ -385,14 +385,14 @@ Text.set_visible(false);
       (z-pos 50)
       (message (_ "!images/objects/ghost_block/ghost_block.png
 -Ghost Blocks
-Ghost will only allow enemies to enter them. Anything else such as Tux will be prevented from entering."))
+Ghost blocks will only allow enemies to enter them. Anything else such as Tux will be prevented from entering."))
       (x 256)
       (y 800)
     )
     (infoblock
       (z-pos 51)
       (message (_ "- Be careful!
-In this section your gonn have to beat the iceblock in a race to the end of the level! Make sure to go fast, as if you lose, you will have to restart the section."))
+In this section you're gonna have to beat the iceblock in a race to the end of the level! Make sure to go fast, as if you lose, you will have to restart the section."))
       (x 10896)
       (y 736)
     )

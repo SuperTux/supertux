@@ -69,6 +69,44 @@ ErrorHandler::set_handlers()
 static PCONTEXT pcontext = NULL;
 #endif
 
+#ifdef _GNU_SOURCE
+# include <cxxabi.h>
+#endif
+
+std::string
+dewrangle(const std::string& symbol)
+{
+#ifdef __GLIBCXX__
+  // backtrace_symbols does not dewrangle c++ functions (for good reason). there
+  // are probably much more briliant ways to get the backtrace (and directly
+  // just their symbols) but i am too damn tired to look, so just substr the
+  // dewrangled symbol in, but still safety return the original string on any
+  // failure. don't like doing this but i'm sorry ;-/
+  std::stringstream res;
+  size_t leftof = symbol.find('(');
+  size_t offset = symbol.find('+');
+  // check if this doesn't make sense
+  if (leftof == std::string::npos ||
+      offset == std::string::npos ||
+      leftof > offset)
+    return symbol;
+
+  res << symbol.substr(0, leftof + 1);
+  std::string just_symbol = symbol.substr(leftof + 1, offset - leftof - 1);
+  char* dewrangled = abi::__cxa_demangle(just_symbol.c_str(), NULL, NULL, NULL);
+  if (dewrangled)
+  {
+    res << dewrangled << symbol.substr(offset);
+    std::free(dewrangled);
+    return res.str();
+  }
+
+  return symbol;
+#else
+  return symbol;
+#endif
+}
+
 std::string
 ErrorHandler::get_stacktrace()
 {
@@ -204,7 +242,7 @@ ErrorHandler::get_stacktrace()
   std::stringstream stacktrace;
 
   for (size_t i = 0; i < size; i++)
-    stacktrace << functions[i] << "\n";
+    stacktrace << dewrangle(std::string(functions[i])) << "\n";
 
   std::free(functions);
 

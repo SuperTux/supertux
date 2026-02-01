@@ -72,7 +72,7 @@ Granito::active_update(float dt_sec)
   Rectf airbornebox = get_bbox();
   airbornebox.set_bottom(get_bbox().get_bottom() + 8.f);
   bool airbornebefore = m_airborne;
-  m_airborne = (Sector::get().is_free_of_statics(airbornebox));
+  m_airborne = (Sector::get().is_free_of_movingstatics(airbornebox, this));
 
   if (m_airborne && get_velocity_y() != 0)
   {

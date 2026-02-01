@@ -27,6 +27,7 @@ class MarkerObject : public MovingObject
 public:
   MarkerObject(const Vector& pos);
   MarkerObject();
+  ~MarkerObject() override;
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(MarkerObject)); }
 
   virtual void update(float dt_sec) override {}
@@ -36,6 +37,8 @@ public:
 
   virtual Vector get_point_vector() const = 0;
   virtual Vector get_offset() const = 0;
+
+  virtual int get_rotation() const;
   virtual bool hide_if_no_offset() const { return false; }
 
   virtual bool is_saveable() const override { return false; }
@@ -45,6 +48,10 @@ public:
 
   virtual void save_state() override = 0;
   virtual void check_state() override = 0;
+
+private:
+  SurfacePtr arrow_surface;
+  SurfacePtr circle_surface;
 
 private:
   MarkerObject(const MarkerObject&) = delete;
