@@ -28,37 +28,37 @@ NullPainter::~NullPainter()
 }
 
 void
-NullPainter::draw_texture(const TextureRequest& request)
+NullPainter::draw_texture(const DrawingRequest& request)
 {
   log_info << "NullPainter::draw_texture()" << std::endl;
 }
 
 void
-NullPainter::draw_gradient(const GradientRequest& request)
+NullPainter::draw_gradient(const DrawingRequest& request)
 {
   log_info << "NullPainter::draw_gradient()" << std::endl;
 }
 
 void
-NullPainter::draw_filled_rect(const FillRectRequest& request)
+NullPainter::draw_filled_rect(const DrawingRequest& request)
 {
   log_info << "NullPainter::draw_filled_rect()" << std::endl;
 }
 
 void
-NullPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
+NullPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
   log_info << "NullPainter::draw_inverse_ellipse()" << std::endl;
 }
 
 void
-NullPainter::draw_line(const LineRequest& request)
+NullPainter::draw_line(const DrawingRequest& request)
 {
   log_info << "NullPainter::draw_line()" << std::endl;
 }
 
 void
-NullPainter::draw_triangle(const TriangleRequest& request)
+NullPainter::draw_triangle(const DrawingRequest& request)
 {
   log_info << "NullPainter::draw_triangle()" << std::endl;
 }
@@ -71,7 +71,7 @@ NullPainter::clear(const Color& color)
 }
 
 void
-NullPainter::get_pixel(const GetPixelRequest& request) const
+NullPainter::get_pixel(const DrawingRequest& request) const
 {
   log_info << "NullPainter::get_pixel()" << std::endl;
 }
