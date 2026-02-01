@@ -169,7 +169,7 @@ Ispy::get_default_sprite_name() const
     case ISPY:
       return "images/objects/ispy/ispy.sprite";
     case METAL:
-      return "images/objects/ispy/metal_dectector/metal_dectector.sprite";
+      return "images/objects/ispy/metal_detector/metal_detector.sprite";
   }
       return "images/objects/ispy/ispy.sprite";
 }
