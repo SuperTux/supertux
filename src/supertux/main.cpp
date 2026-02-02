@@ -657,7 +657,6 @@ Main::launch_game(const CommandLineArguments& args)
         {
           auto editor = std::make_unique<Editor>();
           editor->set_level(start_level);
-          editor->update(0, Controller());
           m_screen_manager->push_screen(std::move(editor));
           MenuManager::instance().clear_menu_stack();
           m_sound_manager->stop_music(0.5);
