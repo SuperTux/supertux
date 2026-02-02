@@ -45,9 +45,9 @@ public:
   enum Filter { BELOW_LIGHTMAP, ABOVE_LIGHTMAP, ALL };
 
 public:
-  Canvas(DrawingContext& context, obstack& obst);
+  Canvas(DrawingContext& context);
   ~Canvas();
-  
+
   void draw_surface(const SurfacePtr& surface, const Vector& position, int layer);
   void draw_surface(const SurfacePtr& surface, const Vector& position, float angle, const Color& color, const Blend& blend,
                     int layer);
@@ -96,20 +96,21 @@ public:
 
   void clear();
   void render(Renderer& renderer, Filter filter);
-  
+
   void set_blur(int blur) { m_blur = blur; }
 
   inline DrawingContext& get_context() { return m_context; }
 
+
 private:
+  void find_or_insert_request(int layer, const DrawingRequest& req);
   Vector apply_translate(const Vector& pos) const;
   float scale() const;
 
 private:
   DrawingContext& m_context;
-  obstack& m_obst;
   int m_blur;
-  std::vector<DrawingRequest*> m_requests;
+  std::vector<std::pair<int, std::vector<DrawingRequest>>> m_requests;
 
 private:
   Canvas(const Canvas&) = delete;

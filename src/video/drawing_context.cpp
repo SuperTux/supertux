@@ -32,8 +32,8 @@ DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool o
   m_overlay(overlay),
   m_ambient_color(Color::WHITE),
   m_transform_stack({ DrawingTransform(m_video_system.get_viewport()) }),
-  m_colormap_canvas(*this, m_obst),
-  m_lightmap_canvas(*this, m_obst),
+  m_colormap_canvas(*this),
+  m_lightmap_canvas(*this),
   m_time_offset(time_offset)
 {
 }

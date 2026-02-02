@@ -99,10 +99,11 @@ struct DrawingRequest
   Flip flip;
   float alpha;
   Blend blend;
-  const Rect viewport;
+  Rect viewport;
   RequestVariant request;
 
-  DrawingRequest() = delete;
+  DrawingRequest() = default;
+  DrawingRequest(const DrawingRequest& request) = default;
   DrawingRequest(const DrawingTransform& transform) :
     layer(),
     flip(transform.flip),

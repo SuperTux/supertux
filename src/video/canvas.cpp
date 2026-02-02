@@ -22,7 +22,6 @@
 #include "supertux/globals.hpp"
 #include "supertux/gameconfig.hpp"
 #include "util/log.hpp"
-#include "util/obstackpp.hpp"
 #include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
 #include "video/painter.hpp"
@@ -30,13 +29,11 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
-Canvas::Canvas(DrawingContext& context, obstack& obst) :
+Canvas::Canvas(DrawingContext& context) :
   m_context(context),
-  m_obst(obst),
   m_requests(),
   m_blur(0)
 {
-  m_requests.reserve(500);
 }
 
 Canvas::~Canvas()
@@ -47,10 +44,6 @@ Canvas::~Canvas()
 void
 Canvas::clear()
 {
-  for (const auto& request : m_requests)
-  {
-    request->~DrawingRequest();
-  }
   m_requests.clear();
 }
 
@@ -61,44 +54,60 @@ Canvas::render(Renderer& renderer, Filter filter)
   // batching it was 1000-3000), the sort comparator function is
   // called approximatly 3-7 times for each request.
   std::stable_sort(m_requests.begin(), m_requests.end(),
-                   [](const DrawingRequest* r1, const DrawingRequest* r2){
-                     return r1->layer < r2->layer;
+                   [](auto& r1, auto& r2){
+                     return r1.first < r2.first;
                    });
 
   Painter& painter = renderer.get_painter();
 
-  for (const auto& i : m_requests)
+  for (const auto& [layer, requests] : m_requests)
   {
-    const DrawingRequest& request = *i;
-
-    if (filter == BELOW_LIGHTMAP && request.layer >= LAYER_LIGHTMAP)
+    if (filter == BELOW_LIGHTMAP && layer >= LAYER_LIGHTMAP)
       continue;
-    else if (filter == ABOVE_LIGHTMAP && request.layer <= LAYER_LIGHTMAP)
+    else if (filter == ABOVE_LIGHTMAP && layer <= LAYER_LIGHTMAP)
       continue;
 
-    painter.set_clip_rect(request.viewport);
-
-    std::visit([&request, &painter](auto&& arg)
+    for (const DrawingRequest& req : requests)
     {
-      using T = std::decay_t<decltype(arg)>;
-      if constexpr (std::is_same_v<T, TextureRequest>)
-        painter.draw_texture(request);
-      else if constexpr (std::is_same_v<T, GradientRequest>)
-        painter.draw_gradient(request);
-      else if constexpr (std::is_same_v<T, FillRectRequest>)
-        painter.draw_filled_rect(request);
-      else if constexpr (std::is_same_v<T, InverseEllipseRequest>)
-        painter.draw_inverse_ellipse(request);
-      else if constexpr (std::is_same_v<T, LineRequest>)
-        painter.draw_line(request);
-      else if constexpr (std::is_same_v<T, TriangleRequest>)
-        painter.draw_triangle(request);
-      else if constexpr (std::is_same_v<T, GetPixelRequest>)
-        painter.get_pixel(request);
-    }, request.request);
+      painter.set_clip_rect(req.viewport);
+
+      std::visit([&req, &painter](auto&& arg)
+      {
+        using T = std::decay_t<decltype(arg)>;
+        if constexpr (std::is_same_v<T, TextureRequest>)
+          painter.draw_texture(req);
+        else if constexpr (std::is_same_v<T, GradientRequest>)
+          painter.draw_gradient(req);
+        else if constexpr (std::is_same_v<T, FillRectRequest>)
+          painter.draw_filled_rect(req);
+        else if constexpr (std::is_same_v<T, InverseEllipseRequest>)
+          painter.draw_inverse_ellipse(req);
+        else if constexpr (std::is_same_v<T, LineRequest>)
+          painter.draw_line(req);
+        else if constexpr (std::is_same_v<T, TriangleRequest>)
+          painter.draw_triangle(req);
+        else if constexpr (std::is_same_v<T, GetPixelRequest>)
+          painter.get_pixel(req);
+      }, req.request);
+    }
   }
 
   painter.clear_clip_rect();
+}
+
+void
+Canvas::find_or_insert_request(int layer, const DrawingRequest& req)
+{
+  auto res = std::find_if(m_requests.begin(), m_requests.end(),
+                          [layer](auto& r1) {
+                            return r1.first == layer;
+                          });
+  if (res != m_requests.end())
+    res->second.emplace_back(std::move(req));
+  else
+  {
+    m_requests.emplace_back(std::make_pair(layer, std::vector<DrawingRequest>{req}));
+  }
 }
 
 void
@@ -117,14 +126,14 @@ Canvas::draw_surface(const SurfacePtr& surface,
      position.y + static_cast<float>(surface->get_height()) < cliprect.get_top())
     return;
 
-  auto req = new(m_obst) DrawingRequest(m_context.transform());
+  auto req = DrawingRequest(m_context.transform());
 
-  req->layer = std::min(layer, m_context.transform().max_layer);
-  req->flip = m_context.transform().flip ^ surface->get_flip();
-  req->blend = blend;
+  req.layer = std::min(layer, m_context.transform().max_layer);
+  req.flip = m_context.transform().flip ^ surface->get_flip();
+  req.blend = blend;
 
-  req->request = TextureRequest{};
-  auto&& req_var = std::get<TextureRequest>(req->request);
+  req.request = TextureRequest{};
+  auto&& req_var = std::get<TextureRequest>(req.request);
   req_var.srcrects.emplace_back(Rectf(surface->get_region()));
   req_var.dstrects.emplace_back(Rectf(apply_translate(position) * scale(),
                                  Sizef(static_cast<float>(surface->get_width()) * scale(),
@@ -134,7 +143,7 @@ Canvas::draw_surface(const SurfacePtr& surface,
   req_var.displacement_texture = surface->get_displacement_texture().get();
   req_var.color = color;
 
-  m_requests.push_back(req);
+  find_or_insert_request(layer, req);
 }
 
 void
@@ -157,15 +166,15 @@ Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const
 {
   if (!surface) return;
 
-  auto req = new(m_obst) DrawingRequest(m_context.transform());
+  auto req = DrawingRequest(m_context.transform());
 
-  req->layer = std::min(layer, m_context.transform().max_layer);
-  req->flip = m_context.transform().flip ^ surface->get_flip();
-  req->alpha = m_context.transform().alpha * style.get_alpha();
-  req->blend = style.get_blend();
+  req.layer = std::min(layer, m_context.transform().max_layer);
+  req.flip = m_context.transform().flip ^ surface->get_flip();
+  req.alpha = m_context.transform().alpha * style.get_alpha();
+  req.blend = style.get_blend();
 
-  req->request = TextureRequest{};
-  auto&& req_var = std::get<TextureRequest>(req->request);
+  req.request = TextureRequest{};
+  auto&& req_var = std::get<TextureRequest>(req.request);
   req_var.srcrects.emplace_back(srcrect);
   req_var.dstrects.emplace_back(apply_translate(dstrect.p1())*scale(), dstrect.get_size()*scale());
   req_var.angles.emplace_back(0.0f);
@@ -173,7 +182,7 @@ Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const
   req_var.displacement_texture = surface->get_displacement_texture().get();
   req_var.color = style.get_color();
 
-  m_requests.push_back(req);
+  find_or_insert_request(layer, req);
 }
 
 void
@@ -201,13 +210,13 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
 {
   if (!surface) return;
 
-  auto req = new(m_obst) DrawingRequest(m_context.transform());
+  auto req = DrawingRequest(m_context.transform());
 
-  req->layer = std::min(layer, m_context.transform().max_layer);
-  req->flip = m_context.transform().flip ^ surface->get_flip();
+  req.layer = std::min(layer, m_context.transform().max_layer);
+  req.flip = m_context.transform().flip ^ surface->get_flip();
 
-  req->request = TextureRequest{};
-  auto&& req_var = std::get<TextureRequest>(req->request);
+  req.request = TextureRequest{};
+  auto&& req_var = std::get<TextureRequest>(req.request);
   req_var.color = color;
 
   req_var.srcrects = std::move(srcrects);
@@ -222,7 +231,7 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
   req_var.texture = surface->get_texture().get();
   req_var.displacement_texture = surface->get_displacement_texture().get();
 
-  m_requests.push_back(req);
+  find_or_insert_request(layer, req);
 }
 
 Rectf
@@ -246,20 +255,20 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
                       const GradientDirection& direction, const Rectf& region,
                       const Blend& blend)
 {
-  auto req = new(m_obst) DrawingRequest(m_context.transform());
+  auto req = DrawingRequest(m_context.transform());
 
-  req->layer = std::min(layer, m_context.transform().max_layer);
-  req->blend = blend;
+  req.layer = std::min(layer, m_context.transform().max_layer);
+  req.blend = blend;
 
-  req->request = GradientRequest{};
-  auto&& req_var = std::get<GradientRequest>(req->request);
+  req.request = GradientRequest{};
+  auto&& req_var = std::get<GradientRequest>(req.request);
   req_var.top = top;
   req_var.bottom = bottom;
   req_var.direction = direction;
   req_var.region = Rectf(apply_translate(region.p1())*scale(),
                          apply_translate(region.p2())*scale());
 
-  m_requests.push_back(req);
+  find_or_insert_request(layer, req);
 }
 
 void
@@ -272,12 +281,12 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color,
 void
 Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer)
 {
-  auto req = new(m_obst) DrawingRequest(m_context.transform());
+  auto req = DrawingRequest(m_context.transform());
 
-  req->layer = std::min(layer, m_context.transform().max_layer);
+  req.layer = std::min(layer, m_context.transform().max_layer);
 
-  req->request = FillRectRequest{};
-  auto&& req_var = std::get<FillRectRequest>(req->request);
+  req.request = FillRectRequest{};
+  auto&& req_var = std::get<FillRectRequest>(req.request);
   req_var.rect = Rectf(apply_translate(rect.p1())*scale(),
                         rect.get_size()*scale());
   req_var.color = color;
@@ -285,59 +294,59 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   req_var.radius = radius;
   req_var.blur = g_config->fancy_gfx ? m_blur : 0;
 
-  m_requests.push_back(req);
+  find_or_insert_request(layer, req);
 }
 
 void
 Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color& color, int layer)
 {
-  auto req = new(m_obst) DrawingRequest(m_context.transform());
+  auto req = DrawingRequest(m_context.transform());
 
-  req->layer = std::min(layer, m_context.transform().max_layer);
+  req.layer = std::min(layer, m_context.transform().max_layer);
 
-  req->request = InverseEllipseRequest{};
-  auto&& req_var = std::get<InverseEllipseRequest>(req->request);
+  req.request = InverseEllipseRequest{};
+  auto&& req_var = std::get<InverseEllipseRequest>(req.request);
   req_var.pos          = apply_translate(pos)*scale();
   req_var.color        = color;
   req_var.color.alpha  = color.alpha * m_context.transform().alpha;
   req_var.size         = size*scale();
 
-  m_requests.push_back(req);
+  find_or_insert_request(layer, req);
 }
 
 void
 Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer)
 {
-  auto req = new(m_obst) DrawingRequest(m_context.transform());
+  auto req = DrawingRequest(m_context.transform());
 
-  req->layer = std::min(layer, m_context.transform().max_layer);
+  req.layer = std::min(layer, m_context.transform().max_layer);
 
-  req->request = LineRequest{};
-  auto&& req_var = std::get<LineRequest>(req->request);
+  req.request = LineRequest{};
+  auto&& req_var = std::get<LineRequest>(req.request);
   req_var.pos          = apply_translate(pos1)*scale();
   req_var.color        = color;
   req_var.color.alpha  = color.alpha * m_context.transform().alpha;
   req_var.dest_pos     = apply_translate(pos2)*scale();
 
-  m_requests.push_back(req);
+  find_or_insert_request(layer, req);
 }
 
 void
 Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer)
 {
-  auto req = new(m_obst) DrawingRequest(m_context.transform());
+  auto req = DrawingRequest(m_context.transform());
 
-  req->layer = std::min(layer, m_context.transform().max_layer);
+  req.layer = std::min(layer, m_context.transform().max_layer);
 
-  req->request = TriangleRequest{};
-  auto&& req_var = std::get<TriangleRequest>(req->request);
+  req.request = TriangleRequest{};
+  auto&& req_var = std::get<TriangleRequest>(req.request);
   req_var.pos1 = apply_translate(pos1)*scale();
   req_var.pos2 = apply_translate(pos2)*scale();
   req_var.pos3 = apply_translate(pos3)*scale();
   req_var.color = color;
   req_var.color.alpha = color.alpha * m_context.transform().alpha;
 
-  m_requests.push_back(req);
+  find_or_insert_request(layer, req);
 }
 
 void
@@ -377,15 +386,15 @@ Canvas::get_pixel(const Vector& position, const std::shared_ptr<Color>& color_ou
     return;
   }
 
-  auto req = new(m_obst) DrawingRequest(m_context.transform());
+  auto req = DrawingRequest(m_context.transform());
 
-  req->layer = LAYER_GETPIXEL;
-  req->request = GetPixelRequest{};
-  auto&& req_var = std::get<GetPixelRequest>(req->request);
+  req.layer = LAYER_GETPIXEL;
+  req.request = GetPixelRequest{};
+  auto&& req_var = std::get<GetPixelRequest>(req.request);
   req_var.pos = pos;
   req_var.color_ptr = color_out;
 
-  m_requests.push_back(req);
+  find_or_insert_request(LAYER_GETPIXEL, req);
 }
 
 Vector
