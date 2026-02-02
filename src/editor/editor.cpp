@@ -332,7 +332,8 @@ Editor::draw(Compositor& compositor)
     // Show a little indicator for testing
     if (m_ctrl_pressed && m_shift_pressed)
     {
-      MouseCursor::current()->set_visible(false);
+      if (m_enabled)
+        MouseCursor::current()->set_visible(false);
       context.color().draw_text(
         Resources::normal_font,
         "T",
@@ -342,7 +343,7 @@ Editor::draw(Compositor& compositor)
                                {{m_mouse_pos.x - 16.f, m_mouse_pos.y - 16.f}, Sizef{32.f, 32.f}},
                                LAYER_GUI + 1);
     }
-    else
+    else if (m_enabled)
       MouseCursor::current()->set_visible(true);
 
     if (!m_show_draggables && m_show_draggables_hint.get_progress() < 1.0f)
@@ -412,6 +413,8 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_deactivate_request) {
     m_enabled = false;
     m_deactivate_request = false;
+    if (!m_test_request)
+      MouseCursor::current()->set_visible(true);
     return;
   }
 
@@ -432,6 +435,12 @@ Editor::update(float dt_sec, const Controller& controller)
     m_enabled = true;
 
     m_ctrl_pressed = m_alt_pressed = false;
+    // any mouse events from earlier (i.e. in menu, testing) dont pass through
+    // the editor in those states, so as a lazy hack, let's just get the mouse
+    // position.
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
   }
 
   if (m_save_request) {
