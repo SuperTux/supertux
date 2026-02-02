@@ -292,6 +292,8 @@ private:
 
   bool m_layers_widget_needs_refresh;
 
+  SpritePtr m_test_icon;
+
 private:
   Editor(const Editor&) = delete;
   Editor& operator=(const Editor&) = delete;
