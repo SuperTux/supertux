@@ -548,7 +548,7 @@ GameObjectManager::redo()
 void
 GameObjectManager::update_editor_buttons()
 {
-  if (Editor::current() && Editor::current()->get_toolbar_widget())
+  if (Editor::current() && Editor::is_active() && Editor::current()->get_toolbar_widget())
   {
     Editor::current()->get_toolbar_widget()->set_undo_disabled(m_undo_stack.empty());
     Editor::current()->get_toolbar_widget()->set_redo_disabled(m_redo_stack.empty());
