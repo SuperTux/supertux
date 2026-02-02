@@ -6,15 +6,15 @@
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022-2023
 # Israa Zamzami, 2018
 # Israa Zamzami, 2018
-# Sera.L, 2026
-# Sera.L, 2026
+# Lotfi Labiod, 2026
+# Lotfi Labiod, 2026
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"POT-Creation-Date: 2026-01-17 08:59+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Sera.L, 2026\n"
+"Last-Translator: Lotfi Labiod, 2026\n"
 "Language-Team: Arabic (http://app.transifex.com/arctic-games/supertux/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,6 +46,10 @@ msgstr "- وردة الجليد\n!images/powerups/iceflower/ice_flower-0.png\n#�
 msgid "Collapse Imminent"
 msgstr "الانهيار وشيك"
 
+#: data/levels/world2/corrupted_cutscene.stl:3
+msgid "From Afar It Spreads"
+msgstr "ينتشر من بعيد"
+
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "مسار الانهيار"
@@ -70,9 +74,21 @@ msgstr "غرف مغمورة بالمياه"
 msgid "Floral Blossom"
 msgstr "أزهار متفتحة"
 
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "موقع جديد"
+
 #: data/levels/world2/ghosttree_boss.stl:3
 msgid "Roots of All Evil"
 msgstr "جذور كل الشر"
+
+#: data/levels/world2/ghosttree_cutscene.stl:3
+msgid "The Root Of The Problem"
+msgstr "أصل المشكلة"
+
+#: data/levels/world2/ghosttreewin_cutscene.stl:3
+msgid "Nature Is Healing"
+msgstr "الطبيعة تشفى"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -95,8 +111,8 @@ msgid "Rooted Forest"
 msgstr "غابة متجذرة"
 
 #: data/levels/world2/info:3
-msgid "Work in Progress Rooted Forest for SuperTux v0.7."
-msgstr "الغابة المتجذرة قيد التطوير لسوبرتكس الاصدار 0.7."
+msgid "Tux explores a new land, but a curse impedes his journey."
+msgstr "يستكشف تكس أرضًا جديدة، لكن لعنة تعيق رحلته."
 
 #: data/levels/world2/lost_sanctuary.stl:3
 msgid "Lost Sanctuary"
@@ -137,6 +153,62 @@ msgstr "الجذور من أجلك"
 #: data/levels/world2/rooted_tower.stl:3
 msgid "The Rooted Tower"
 msgstr "البرج المتجذر"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:2
+msgid "Never had Tux been missing sunlight more than ever before."
+msgstr "لم يسبق أن افتقد تكس ضوء الشمس أكثر من أي وقت مضى."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:3
+msgid ""
+"Since the rain had stopped and the sky was clear, Tux hoped to have found a "
+"nice, safe place to take a short break."
+msgstr "وبما أن المطر قد توقف والسماء صافية، فقد كان تكس يأمل في أن يكون قد وجد مكانا مريحا وآمنا ليأخذ استراحة قصيرة."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:4
+msgid ""
+"Just as he was about to rest, the sudden sound of rustling leaves from a "
+"bush nearby startled Tux."
+msgstr "وبينما كان على وشك أن يرتاح، أفزع تكس صوت حفيف أوراق مفاجئ من شجيرة قريبة"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:5
+msgid ""
+"He went to investigate and got startled by a Vicious Ivy, tumbling out of "
+"the bushes!"
+msgstr "ذهب للتحقق من الأمر، ففزع عندما رأى نبات اللبلاب الشرس يتساقط من بين الشجيرات!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:6
+msgid ""
+"However, this one looked different. Its usual bright green leaves seemed to "
+"have turned an ailing purple."
+msgstr "لكن هذه النبتة بدت مختلفة. فقد تحولت أوراقها الخضراء الزاهية المعتادة إلى لون بنفسجي باهت."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:7
+msgid ""
+"Before Tux even had the chance to think about what had happened to the poor "
+"thing, the ground began to shake violently..."
+msgstr "قبل أن تتاح الفرصة لتكس للتفكير فيما حدث للمسكين، بدأت الأرض تهتز بشدة..."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:8
+msgid ""
+"Massive purple roots burst through the ground, followed by an onslaught of "
+"many more coming closer and closer!"
+msgstr "انبثقت جذور بنفسجية ضخمة من الأرض، تبعها هجوم من جذور أخرى كثيرة تقترب أكثر فأكثر!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:9
+msgid ""
+"Tux panicked! Whatever these roots were, they were covering everything. "
+"Where could he go?"
+msgstr "انتاب تكس الذعر! مهما كانت هذه الجذور، فقد كانت تغطي كل شيء. إلى أين يمكنه الذهاب؟"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:10
+msgid ""
+"But he cannot give up now! Tux could not leave her behind. Not in a place "
+"being overrun by these violent roots."
+msgstr "لكن لا يمكنه الاستسلام الان! لم يستطع تكس تركها وراءه. ليس في مكان تغزوه هذه الجذور العنيفة."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:11
+msgid "He must rescue Penny! He must get to that tower!"
+msgstr "عليه أن ينقذ بيني! عليه أن يصل إلى ذلك البرج!"
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
@@ -197,10 +269,10 @@ msgstr "سأله أحد الغرانيتو: ماذا يفعل بطريق مثل�
 
 #: data/levels/world2/scripts_floral_blossom.txt:11
 msgid ""
-"Tux replied, that he was looking for his friend Penny and that she was "
+"Tux replied that he was looking for his friend Penny and that she was "
 "captured by an evil creature named \"Nolok\". A name the Granito remembered "
-"unpleasantly"
-msgstr "أجاب تكس بأنه كان يبحث عن صديقته بيني، وأنها اختُطفت على يد مخلوق شرير يُدعى \"نولوك\". اسمٌ يتذكره الغرانيتو بشكلٍ سيء."
+"unpleasantly..."
+msgstr "أجاب تكس بأنه كان يبحث عن صديقته بيني وأنها اختطفت على يد مخلوق شرير يدعى \"نولوك\". اسم تذكره الغرانيتو بمرارة..."
 
 #: data/levels/world2/scripts_floral_blossom.txt:12
 msgid ""
@@ -211,8 +283,8 @@ msgstr "ذكر الغرانيتو أنهم يعرفون موطنه. لكنهم �
 #: data/levels/world2/scripts_floral_blossom.txt:13
 msgid ""
 "They offered to show Tux the way. It was the least they could do to show "
-"their gratitute"
-msgstr "عرضوا على تكس أن يرشدوه إلى الطريق. كان هذا أقل ما يمكنهم فعله لإظهار امتنانهم."
+"their gratitute."
+msgstr "عرضوا أن يرشدوا تكس إلى الطريق. كان هذا أقل ما يمكنهم فعله لإظهار امتنانهم."
 
 #: data/levels/world2/scripts_floral_blossom.txt:14
 msgid ""
@@ -231,6 +303,133 @@ msgstr "سيبقى أفراد الغرانيتو المتبقون في ديار�
 #: data/levels/world2/scripts_floral_blossom.txt:18
 msgid "Granito freed!"
 msgstr "تم تحرير الغرانيتو!"
+
+#: data/levels/world2/scripts_forest_intro.txt:2
+msgid "After quite the long trip, Tux arrived at the new biome."
+msgstr "بعد رحلة طويلة، وصل تكس إلى المنطقة الجديدة."
+
+#: data/levels/world2/scripts_forest_intro.txt:3
+msgid ""
+"Tux was astonished by the scale of this colorful land which was quite "
+"different from his home."
+msgstr "أُصيب تكس بالدهشة من حجم هذه الأرض الملونة التي كانت مختلفة تماماً عن موطنه."
+
+#: data/levels/world2/scripts_forest_intro.txt:4
+msgid "But how was he ever going to find Nolok in this vast forest?"
+msgstr "لكن كيف سيتمكن من العثور على نولوك في هذه الغابة الشاسعة؟"
+
+#: data/levels/world2/scripts_forest_intro.txt:5
+msgid ""
+"Tux thought for a moment and decided to find a place high up to get a better"
+" view."
+msgstr "فكر تكس للحظة وقرر أن يجد مكانا مرتفعا ليحصل على رؤية أفضل."
+
+#: data/levels/world2/scripts_forest_intro.txt:6
+msgid ""
+"Maybe he could find some kind of landmark to help him locate Nolok, wherever"
+" he may be."
+msgstr "ربما يستطيع أن يجد نوعاً من المعالم التي تساعده في تحديد موقع نولوك، أينما كان."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:2
+msgid ""
+"High on the very top of the dilapidated tower, once again Tux found... "
+"nothing."
+msgstr "في أعلى البرج المتهالك، وجد تكس مرة أخرى... لا شيء."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:3
+msgid ""
+"He could not believe it. He was shocked. Confused. Was this not where he "
+"needed to go?"
+msgstr "لم يصدق ما رآه. لقد صدم. وارتبك. ألم يكن هذا هو المكان الذي يجب أن يذهب إليه؟"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:4
+msgid "Did Nolok's hints trick him afterall? Did he walk into a trap?"
+msgstr "هل خدع بتلميحات نولوك في النهاية؟ هل وقع في فخ؟"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:5
+msgid ""
+"Tux had not long to think about all this, the tower began shaking violetly. "
+"His assumption prove correct instantly."
+msgstr "لم يطل تكس التفكير في كل هذا، فقد بدأ البرج يهتز بشدة. وثبتت صحة افتراضاته على الفور."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:6
+msgid ""
+"He made it! He escaped the collapsing tower just in time as the structure "
+"now fully gave in. But the roots were not done yet!"
+msgstr "لقد نجح! لقد نجا من البرج المنهار في الوقت المناسب تماماً قبل أن ينهار الهيكل بالكامل. لكن الجذور لم تنتهِ بعد!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:7
+msgid ""
+"This was only the beginning, as he had found the root of the problem... "
+"towering over the small penguin."
+msgstr "كانت هذه مجرد البداية، فقد وجد أصل المشكلة... وهو أكبر من البطريق الصغير."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:8
+msgid ""
+"Tux watched in shock as the roots dug through the tower's walls, faster and "
+"faster. He had to get out of there, fast!"
+msgstr "شاهد تكس بصدمة الجذور وهي تحفر طريقها عبر جدران البرج، بسرعة متزايدة. كان عليه أن يخرج من هناك، بسرعة!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:9
+msgid ""
+"The roots were now everywhere. The tower become more unstable by the second."
+" Slowly, it collapsed in on itself."
+msgstr "انتشرت الجذور في كل مكان. يزداد عدم استقرار البرج كل ثانية. ببطء، انهار على نفسه."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:10
+msgid ""
+"Tux ran as fast as he could, but the roots would not let him leave as they "
+"blocked off the only path to the main entrance."
+msgstr "ركض تكس بأقصى سرعة ممكنة، لكن الجذور لم تسمح له بالمغادرة لأنها سدت الطريق الوحيد المؤدي إلى المدخل الرئيسي."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:11
+msgid ""
+"Across the hallway, on the other side, there was a huge crack in the wall. "
+"Tux saw himself forced to take the leap of faith, if he wished to not be "
+"crushed."
+msgstr "على الجانب الآخر من الرواق، كان هناك صدع هائل في الجدار. وجد تكس نفسه مضطرا إلى المخاطرة بحياته، إن أراد ألا يسحق."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
+msgid "Was it over? Was the nightmare finally over?"
+msgstr "هل انتهى الأمر؟ هل انتهى الكابوس أخيرا؟"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:3
+msgid ""
+"Tux could not believe his eyes, but it seemed so! The roots began "
+"retreating. The ground looked more vital again."
+msgstr "لم يصدق تكس عينيه، لكن بدا الأمر كذلك! بدأت الجذور بالتراجع. بدت الأرض أكثر حيوية من جديد."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
+msgid ""
+"Though as much as he was ecstatic about seeing the land restored and "
+"beginning to heal... where to now?"
+msgstr "على الرغم من سعادته البالغة برؤية الأرض تعود كما كاتت وتبدأ بالتعافي... إلى أين الآن؟"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:5
+msgid ""
+"The forest, the tower... those were the only leads Tux had. He had no clue "
+"where Nolok could be hiding, if he even was here to begin with. Or rather "
+"anymore."
+msgstr "الغابة، البرج... كانت تلك الأدلة الوحيدة التي يملكها تكس. لم يكن لديه أدنى فكرة عن مكان اختباء نولوك، أو حتى إن كان موجودا هنا أصلًا. أو بالأحرى، إن كان مازال موجودا الان"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
+msgid ""
+"There was no one around Tux could ask for help. All but the remains of "
+"corrupted husks littered the ground as he moved along in thought. No living "
+"creature in sight."
+msgstr "لم يكن هناك أحد بالقرب من تكس ليطلب منه المساعدة. لم يكن على الأرض سوى بقايا هياكل متعفنة، بينما كان يمضي في طريقه غارقا في أفكاره. لم يكن هناك أي كائن حي في الأفق."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
+msgid ""
+"Hoping to discover some kind of clue - anything! - Tux's best bet was to "
+"continue exploring this side of the forest, as destroyed as it may be."
+msgstr "على أمل اكتشاف أي نوع من الأدلة - أي شيء! - كان أمل تكس الوحيد هو مواصلة استكشاف هذا الجانب من الغابة، مهما كان مدمراً."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:8
+msgid ""
+"There must be something, somewhere, able to help him to find Nolok! "
+"Right...?"
+msgstr "لا بد أن يكون هناك شيء ما، في مكان ما، قادر على مساعدته في العثور على نولوك! أليس كذلك؟"
 
 #: data/levels/world2/shallow_green.stl:3
 msgid "Shallow Green"
@@ -281,11 +480,11 @@ msgstr "-الأبواب\n!images/objects/door/door-0.png\n#يستطيع تكس �
 msgid "Wooden Roots"
 msgstr "جذور خشبية"
 
-#: data/levels/world2/worldmap.stwm:318
+#: data/levels/world2/worldmap.stwm:355
 msgid "To be continued..."
 msgstr "يتبع..."
 
-#: data/levels/world2/worldmap.stwm:326 data/levels/world2/worldmap.stwm:336
+#: data/levels/world2/worldmap.stwm:363 data/levels/world2/worldmap.stwm:373
 msgid "You found a secret area!"
 msgstr "لقد وجدتَ منطقة سرية!"
 

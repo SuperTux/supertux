@@ -5,7 +5,7 @@
 # Translators:
 # Angela <angelapellegrino@hotmail.it>, 2014
 # A-TNT DC, 2021
-# aaaaaaaa, 2015
+# 100e8122fd6d1cb3ebb128781017c77a_795b949, 2015
 # Seb47 <seb47tv@gmail.com>, 2016
 # Andrius Štikonas <andrius@stikonas.eu>, 2006
 # Tommaso Macchiella, 2025

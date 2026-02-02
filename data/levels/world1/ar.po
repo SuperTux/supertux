@@ -8,19 +8,20 @@
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022-2023
 # Israa Zamzami, 2018
 # Israa Zamzami, 2018
+# Lotfi Labiod, 2026
 # Ramzy Guemr, 2025
 # Ramzy Guemr, 2025
-# Sera.L, 2026
-# Sera.L, 2026
+# Lotfi Labiod, 2026
+# Lotfi Labiod, 2026
 # Siradj <siradjlabiod4@gmail.com>, 2025
 # Hasan Nahleh <hasanznahleh@mailfence.com>, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"POT-Creation-Date: 2026-01-17 08:59+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Sera.L, 2026\n"
+"Last-Translator: Lotfi Labiod, 2026\n"
 "Language-Team: Arabic (http://app.transifex.com/arctic-games/supertux/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +96,7 @@ msgstr "الحقول المتجمدة"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
-msgstr "جليد في الحفرة"
+msgstr "جليد في الرواق"
 
 #: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
@@ -153,7 +154,7 @@ msgstr "طريق في السحاب"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
 msgid "At last, Tux managed to rush towards the final room of the icy castle."
-msgstr "في النهاية، تمكن توكس من الوصول الى الغرفة الأخيرة في القلعة الجليدية."
+msgstr "في النهاية، تمكن تكس من الوصول الى الغرفة الأخيرة في القلعة الجليدية."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
 msgid ""
@@ -169,7 +170,7 @@ msgstr "بالتأكيد كان عليهما أن يكونا هنا في مكا�
 msgid ""
 "After a bit of back and forth with himself, Tux noticed a small note "
 "attached to one of the pillars."
-msgstr "بعد فترة من التردد مع نفسه، لاحظ توكس ملاحظة صغيرة معلقة على أحد الأعمدة."
+msgstr "بعد فترة من التردد مع نفسه، لاحظ تكس ملاحظة صغيرة معلقة على أحد الأعمدة."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "It was yet another note, by that Nolok."
@@ -383,7 +384,7 @@ msgstr "الشريحة الزلقة"
 msgid "The Somewhat Smaller Bath"
 msgstr "الشريحة الزلقة"
 
-#: data/levels/world1/somewhat_smaller_bath.stl:420
+#: data/levels/world1/somewhat_smaller_bath.stl:422
 msgid ""
 "-Swimming\n"
 "!images/creatures/tux/big/swim-1.png\n"
@@ -394,19 +395,23 @@ msgstr "-السباحة\n!images/creatures/tux/big/swim-1.png\n#عند الدخ�
 msgid "Stone Cold"
 msgstr "الحجر البارد"
 
-#: data/levels/world1/stone_cold.stl:195
+#: data/levels/world1/stone_cold.stl:200
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-حمل الأشياء \n#يمكن لـتكس حمل الأشياء بالضغط المستمر على مفتاح الاجراءات. أفلت مفتاح الإجراءات لإسقاط الأشياء. \n#إذا تركت مفتاح الاجراءات أثناء تحرك تكس، فسوف يرمي الأشياء!"
 
-#: data/levels/world1/stone_cold.stl:204
+#: data/levels/world1/stone_cold.stl:209
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
 msgstr "-الرمي لأعلى\n#يستطيع تكس رمي معظم الأشياء لأعلى بالضغط المستمر على مفتاح الاتجاهات الأعلى و افلات مفتاح الاجراءات\n#أثناء الجري, تكس يرمي الأشياء لمسافة بعيدة"
+
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
+msgid "You found a secret area!"
+msgstr "لقد وجدتَ منطقة سرية!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -438,10 +443,6 @@ msgid ""
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
 msgstr "-دمية تكس\n!images/powerups/1up/1up.png\n#دمى تكس هي مجموعة نادرة مطلوبة لفتح جزر المكافات الاضافية\n\n#اجمعها كلها للحصول على المتعة, مستويات إضافية!"
-
-#: data/levels/world1/worldmap.stwm:246
-msgid "You found a secret area!"
-msgstr "لقد وجدتَ منطقة سرية!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"

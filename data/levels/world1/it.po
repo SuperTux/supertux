@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"POT-Creation-Date: 2026-01-17 08:59+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Tommaso Macchiella, 2025-2026\n"
 "Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
@@ -84,7 +84,7 @@ msgstr "Un bivio per la strada"
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
-msgstr "-Secret Exit\n#I livelli a volte possono contenere un'uscita segreta che rivelerà un passaggio nascosto alternativo! Quindi stai attento ai punti sospetti mappa del mondo."
+msgstr "-Uscite segrete\n#I livelli a volte possono contenere un'uscita segreta che rivelerà un passaggio nascosto alternativo! Quindi stai attento ai punti sospetti mappa del mondo."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
@@ -380,7 +380,7 @@ msgstr "Scivolo scivoloso"
 msgid "The Somewhat Smaller Bath"
 msgstr "Il bagno piuttosto piccino"
 
-#: data/levels/world1/somewhat_smaller_bath.stl:420
+#: data/levels/world1/somewhat_smaller_bath.stl:422
 msgid ""
 "-Swimming\n"
 "!images/creatures/tux/big/swim-1.png\n"
@@ -391,19 +391,23 @@ msgstr "-Nuotare\n!images/creatures/tux/big/swim-1.png\n#Quando sott'acqua, usa 
 msgid "Stone Cold"
 msgstr "Pietrafredda"
 
-#: data/levels/world1/stone_cold.stl:195
+#: data/levels/world1/stone_cold.stl:200
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Trasportare oggetti\n#Tux può prendere in mano alcuni oggetti tenendo premuto il tasto AZIONE. Rilascia il pulsante AZIONE mentre sei fermo per farlo cadere.\n#Se rilasci il tasto AZIONE mentre Tux si sta muovendo, lo lancerà!"
 
-#: data/levels/world1/stone_cold.stl:204
+#: data/levels/world1/stone_cold.stl:209
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
 msgstr "-Lancio in alto\n#Tux può lanciare la maggior parte degli oggetti verso l'alto, tenendo premuto il tasto SU e rilasciando nel mentre il tasto AZIONE.\n#Quando correndo, Tux lancerà gli oggetti con una traiettoria ad arco!"
+
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
+msgid "You found a secret area!"
+msgstr "Hai trovato un'area segreta!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -435,10 +439,6 @@ msgid ""
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
 msgstr "-Bambole Tux\n!images/powerups/1up/1up.png\n#Le bambole Tux sono un raro collezionabile necessario per sbloccare le Isole Bonus!\n\n#Collezionale tutte per sbloccare livelli nuovi e divertenti!"
-
-#: data/levels/world1/worldmap.stwm:246
-msgid "You found a secret area!"
-msgstr "Hai trovato un'area segreta!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
