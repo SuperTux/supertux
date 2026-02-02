@@ -187,6 +187,12 @@ Editor::Editor() :
 
 Editor::~Editor()
 {
+  // Though there are other editor checks, let's clear these early just to be
+  // safe, as some outside elements like sectors often interact with these (like
+  // the undo/redo buttons)
+  for (auto &widget : m_widgets)
+    widget.reset();
+
   if (m_on_exit_cb)
     m_on_exit_cb();
 
