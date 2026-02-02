@@ -81,7 +81,7 @@ GameObjectManager::GameObjectManager(GameObjectManager* gom) :
 	{
 		m_gameobjects.emplace_back(obj.get());
 	}
-	
+
 }
 
 GameObjectManager::~GameObjectManager()
@@ -511,7 +511,7 @@ GameObjectManager::undo()
   }
   m_undo_stack.pop_back();
 
-  update_editor_buttons();  
+  update_editor_buttons();
 }
 
 void
@@ -541,14 +541,14 @@ GameObjectManager::redo()
     m_undo_stack.push_back(std::move(change_set));
   }
   m_redo_stack.pop_back();
-  
+
   update_editor_buttons();
 }
 
 void
 GameObjectManager::update_editor_buttons()
 {
-  if (Editor::current())
+  if (Editor::current() && Editor::is_active() && Editor::current()->get_toolbar_widget())
   {
     Editor::current()->get_toolbar_widget()->set_undo_disabled(m_undo_stack.empty());
     Editor::current()->get_toolbar_widget()->set_redo_disabled(m_redo_stack.empty());

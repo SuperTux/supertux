@@ -264,15 +264,18 @@ OptionsMenu::refresh()
       if (g_config->developer_mode)
         add_toggle(MNID_MAX_VIEWPORT, _("Force full viewport"), &g_config->max_viewport).set_help(_("Don't attempt to scale or apply any aspect ratio. Ignores some video settings. Useful for arcade cabinets or unusual screens."));
 
-#ifndef __EMSCRIPTEN__
+#if defined(NETWORKING) && !defined(__EMSCRIPTEN__)
       if (!g_config->disable_network)
         add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
           .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
 #endif
 
+#ifdef NETWORKING
       add_toggle(MNID_DISABLE_NETWORK, _("Disable network"), &g_config->disable_network)
         .set_help(_("Prevents the game from connecting online"));
-
+#else
+      add_inactive(_("Network support is disabled."));
+#endif
       break;
     }
   }

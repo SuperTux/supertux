@@ -868,8 +868,8 @@ Player::update(float dt_sec)
     {
       if (!m_jumping && !m_is_slidejump_falling)
       {
-        sliding_angle = math::degrees(math::angle(m_physic.get_velocity()));
-        if (m_physic.get_velocity_x() < 0.0f)
+        sliding_angle = math::degrees(math::angle(get_movement()));
+        if (get_movement().x < 0.0f)
         {
           sliding_angle -= 180.0f;
         }
@@ -973,11 +973,14 @@ Player::slide()
   }
   m_sliding = true;
 
-  if (m_physic.get_velocity_x() > 0.f) {
-    m_dir = Direction::RIGHT;
-  }
-  else if (m_physic.get_velocity_x() < 0.f) {
-    m_dir = Direction::LEFT;
+  if (on_ground())
+  {
+    if (m_physic.get_velocity_x() > 0.f) {
+      m_dir = Direction::RIGHT;
+    }
+    else if (m_physic.get_velocity_x() < 0.f) {
+      m_dir = Direction::LEFT;
+    }
   }
 
   //pre_slide helps us detect the ground where Tux is about to slide on because sometimes on_ground() doesn't work or isn't relevant
@@ -2738,10 +2741,13 @@ Player::set_dir(bool right)
 }
 
 void
-Player::set_ghost_mode(bool enable)
+Player::set_ghost_mode(bool enable, bool toggle)
 {
-  if (m_ghost_mode == enable)
+  if (!toggle && m_ghost_mode == enable)
     return;
+
+  if (toggle)
+    enable = m_ghost_mode = !m_ghost_mode;
 
   if (m_climbing) stop_climbing(*m_climbing);
 

@@ -46,17 +46,20 @@ StickyObject::update(float dt_sec)
   const Rectf large_overlap_box = get_bbox().grown(8.f);
   for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
   {
-    if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
+    if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() &&
       !Sector::get().is_free_of_statics(large_overlap_box))
     {
-      m_col.set_movement(tm.get_movement(true));
-      if (!m_sticking)
-      {
-        m_displacement_from_owner = get_pos() - tm.get_bbox().p1();
-        m_sticking = true;
+      if (glm::length(tm.get_movement(true)) > (1.f * dt_sec) ||
+          glm::length(m_col.get_movement()) > (1.f * dt_sec)) {
+        m_col.set_movement(tm.get_movement(true));
+        if (!m_sticking)
+        {
+          m_sticking = true;
+          m_displacement_from_owner = get_pos() - tm.get_bbox().p1();
+        }
+        m_col.set_pos(tm.get_bbox().p1() + m_displacement_from_owner);
+        return;
       }
-      m_col.set_pos(tm.get_bbox().p1() + m_displacement_from_owner);
-      return;
     }
   }
 

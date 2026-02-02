@@ -196,7 +196,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 4)
       (objects
         (mrbomb
@@ -212,7 +211,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects
@@ -228,7 +226,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 4)
       (objects
         (haywire
@@ -244,7 +241,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects
@@ -260,7 +256,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 4)
       (type "cannon")
       (objects

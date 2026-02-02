@@ -219,8 +219,10 @@
     (music
       (file "/music/forest/forest_midday_alt.music")
     )
-    (sequencetrigger
-      (sequence "endsequence")
+    (scripttrigger
+      (script "state.drop_secret <- (\"drop_secret\" in state) ? (state.drop_secret | SPECIALTILE_DIR_EAST) : SPECIALTILE_DIR_EAST;
+Tux.trigger_sequence(\"endsequence\");")
+      (button #f)
       (width 32)
       (height 5600)
       (x 12640)
@@ -691,8 +693,10 @@ Camera.scale(1, 3);")
     )
     (music
     )
-    (sequencetrigger
-      (sequence "endsequence")
+    (scripttrigger
+      (script "state.drop_secret <- (\"drop_secret\" in state) ? (state.drop_secret | SPECIALTILE_DIR_NORTH) : SPECIALTILE_DIR_NORTH;
+Tux.trigger_sequence(\"endsequence\");")
+      (button #f)
       (width 32)
       (height 832)
       (x 2240)

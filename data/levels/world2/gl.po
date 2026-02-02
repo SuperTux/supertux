@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Xan Vieiro <gallaecia6@gmail.com>, 2019-2021
-# Xan Vieiro <gallaecia6@gmail.com>, 2021
+# 64eb61c3646b0eedec63063110e7a69b_6f71a2b <c69f892a6e1afe2fdf22d9fb0d5cf7f2_168233>, 2019-2021
+# nin hum <ninhum@gmx.com>, 2026
+# 64eb61c3646b0eedec63063110e7a69b_6f71a2b <c69f892a6e1afe2fdf22d9fb0d5cf7f2_168233>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"POT-Creation-Date: 2026-01-17 08:59+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Xan Vieiro <gallaecia6@gmail.com>, 2021\n"
+"Last-Translator: nin hum <ninhum@gmx.com>, 2026\n"
 "Language-Team: Galician (http://app.transifex.com/arctic-games/supertux/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,198 +20,472 @@ msgstr ""
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/levels/world2/ancient_ruins.stl:3
-msgid "Ancient Ruins"
-msgstr "Ruínas Antigas"
-
-#: data/levels/world2/ancient_ruins.stl:1463
-#: data/levels/world2/ancient_ruins.stl:1471
-#: data/levels/world2/bouncy_coils.stl:380
-#: data/levels/world2/bouncy_coils.stl:388
-#: data/levels/world2/bye_bye_forest.stl:1607
-#: data/levels/world2/crumbling_path.stl:278
-#: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:246
-#: data/levels/world2/going_underground.stl:1249
-#: data/levels/world2/mouldy_grotto.stl:559
-#: data/levels/world2/penguin_grow_trees.stl:459
-#: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:361
-#: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:223
-msgid "You found a secret area!"
-msgstr "Atopaches unha área secreta!"
-
-#: data/levels/world2/beside_bushes.stl:3
-msgid "Beside the Bushes"
-msgstr "Detrás dos Arbustos"
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
+msgstr "Ruína Antiga"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Espirais Chouteiras"
 
-#: data/levels/world2/bye_bye_forest.stl:3
-msgid "Bye Bye Forest"
-msgstr "Adeus Bosque Adeus"
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "Patrulla da Cova"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "Roseta de Xeo\n!images/powerups/iceflower/ice_flower-0.png\n#A Roseta de Xeo dá a Tux a capacidade de lanzar bolas de xeo que poden conxelar á maioría das criaturas.\n#As criaturas conxeladas poden ser colleitadas, transportadas e lanzadas!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "Colapso Inminente"
+
+#: data/levels/world2/corrupted_cutscene.stl:3
+msgid "From Afar It Spreads"
+msgstr "Espállase dende lonxe"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "O Camiño Esnaquizado"
 
-#: data/levels/world2/darkness_awaits.stl:3
-msgid "Darkness Awaits"
-msgstr "A Escuridade Agarda"
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "Solta a Bola"
 
-#: data/levels/world2/find_big_fish.stl:3
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "Enredado nas raíces"
+
+#: data/levels/world2/find_bigger_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Atopa o Peixe máis Grande!"
 
-#: data/levels/world2/find_big_fish.stl:1058
-msgid "-A big fish... for you."
-msgstr "-Un gran peixe... para ti."
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "Cámaras Asolagadas"
+
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "Floración Floral"
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
 msgstr "Unha Nova Localización"
 
-#: data/levels/world2/ghost_cutscene.stl:3
-msgid "What is Happening?"
-msgstr "Que está Pasando?"
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "Raíces de Todo Mal"
 
-#: data/levels/world2/ghostly_misery.stl:3
-msgid "Ghostly Misery"
-msgstr "Miseria Pantasmal"
+#: data/levels/world2/ghosttree_cutscene.stl:3
+msgid "The Root Of The Problem"
+msgstr "A Raíz do Problema"
 
-#: data/levels/world2/ghosttrees_challenges.stl:3
-msgid "Ghosttree's Challenges"
-msgstr "Os Desafíos da Árbore Pantasma"
-
-#: data/levels/world2/ghouls_lair.stl:3
-msgid "Ghouls' Lair"
-msgstr "O Agocho do Demo"
-
-#: data/levels/world2/ghouls_lair.stl:859
-msgid ""
-"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
-"of them."
-msgstr "#As lanternas utilízanse para solidificar os bloques máxicos, así poderás camiñar enriba deles."
+#: data/levels/world2/ghosttreewin_cutscene.stl:3
+msgid "Nature Is Healing"
+msgstr "A Natureza Cura"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Baixo Terra"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:3
-msgid "I Spy With My Little Eye"
-msgstr "Vexo, vexo.."
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "Aldea Granito"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:218
-msgid ""
-"-Ispy\n"
-"#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Semáforos\n#Os semáforos activarán cousas coma plataformas cando Tux as teña á vista."
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "Terra Oca"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:674
-msgid "Hint: Use snails to break blocks!"
-msgstr "Consello: Utiliza os caracois para romper os bloques!"
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "Fogares Mortos"
 
-#: data/levels/world2/leaf_wind.stl:3
-msgid "Like a leaf in the Wind"
-msgstr "Coma unha folla no Vento"
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Rooted Forest"
+msgstr "O Bosque con Raizame"
 
-#: data/levels/world2/lost_village.stl:3
-msgid "Lost Village"
-msgstr "Aldea Perdida"
+#: data/levels/world2/info:3
+msgid "Tux explores a new land, but a curse impedes his journey."
+msgstr "Tux explora unha nova terra, pero unha maldición impide a súa viaxe."
 
-#: data/levels/world2/lost_village.stl:185
-msgid "#Don't forget to hit the switch!"
-msgstr "#Non esquezas darlle ó interruptor!"
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "Santuario Perdido"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "A Gruta Balorenta"
 
-#: data/levels/world2/owls_again.stl:3
-msgid "The Owls again..."
-msgstr "Os Mouchos outra vez..."
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "Monte Crushmore"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
 msgstr "O Comando Paracaidista dos Mouchos"
 
-#: data/levels/world2/penguin_grow_trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr "Os pingüíns non medran nas Árbores"
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
+msgstr "Os Pingüíns Non Crecen nas Árbores"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "Rock 'n' Roll"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "Cogomelo de Rocha\n!images/powerups/earthflower/earth_flower-0.png\n#Ao manter premida a tecla ABAIXO mentres corre, o Cogomelo de Rocha dá a Tux un escudo de pedra.\n#Na súa forma de pedra, Tux é inmune á maioría dos tipos de dano. Con todo, se Tux se lanza contra un muro sólido, a súa defensa cesará, volvendo ser vulnerable."
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "Raíces a teu favor"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "A Torre Enraizada"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:2
+msgid "Never had Tux been missing sunlight more than ever before."
+msgstr "Nunca Tux botara tanto de menos a luz do sol como agora."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:3
+msgid ""
+"Since the rain had stopped and the sky was clear, Tux hoped to have found a "
+"nice, safe place to take a short break."
+msgstr "Como a choiva parara e o ceo estaba despexado, Tux esperaba ter atopado un lugar agradable e seguro para facer unha pequena pausa."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:4
+msgid ""
+"Just as he was about to rest, the sudden sound of rustling leaves from a "
+"bush nearby startled Tux."
+msgstr "Xusto cando estaba a piques de descansar, o son repentino de follas a se mover nun arbusto próximo sobresaltou a Tux."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:5
+msgid ""
+"He went to investigate and got startled by a Vicious Ivy, tumbling out of "
+"the bushes!"
+msgstr "Foi investigar e quedou abraiado ao ver unha Hedra Viciosa saíndo aos tombos dos arbustos!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:6
+msgid ""
+"However, this one looked different. Its usual bright green leaves seemed to "
+"have turned an ailing purple."
+msgstr "Porén, esta parecía diferente. As súas follas verde brillante habituais semellaban terse tornado dun púrpura enfermizo."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:7
+msgid ""
+"Before Tux even had the chance to think about what had happened to the poor "
+"thing, the ground began to shake violently..."
+msgstr "Antes de que Tux tivese tempo de pensar no que lle pasara á pobre criatura, o chan comezou a tremer violentamente…"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:8
+msgid ""
+"Massive purple roots burst through the ground, followed by an onslaught of "
+"many more coming closer and closer!"
+msgstr "Xigantescas raíces púrpuras irromperon do chan, seguidas por unha avalancha de moitas máis que se achegaban cada vez máis!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:9
+msgid ""
+"Tux panicked! Whatever these roots were, they were covering everything. "
+"Where could he go?"
+msgstr "Tux entrou en pánico! Fosen o que fosen aquelas raíces, estaban a cubrilo todo. A onde podía ir?"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:10
+msgid ""
+"But he cannot give up now! Tux could not leave her behind. Not in a place "
+"being overrun by these violent roots."
+msgstr "Pero non podía renderse agora! Tux non podía deixala atrás. Non nun lugar invadido por esas raíces violentas."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:11
+msgid "He must rescue Penny! He must get to that tower!"
+msgstr "Tiña que rescatar a Penny! Tiña que chegar a aquela torre!"
+
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Introduce Escena Aquí---"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "A pesar da derrota da Árbore Pantasma e de que unha chispa de vida volvía ao outrora frondoso bosque, a terra seguía en ruínas."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "O chan estaba cheo de fendas e crebas. E agora unha delas bloqueaba o camiño de Tux…"
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "Por sorte para el, un Granito, san e salvo, apareceu, entusiasmado ao velo ao outro lado da fenda."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
+msgstr "O Granito falou de 3 grupos doutros Granitos que se perderan ao tentar escapar das raíces cara á costa leste."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "Foron tragados pola terra cando o chan se derrubou sobre si mesmo. Se Tux podía axudalos a atopalos, eles poderían axudalo a chegar ao outro lado."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "Tux aceptou axudar! Pouco despois, ao notar unhas raíces moribundas que revelaban un camiño por baixo, comezou a súa busca polos Granitos perdidos."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "Coa axuda dos Granitos salvados, Tux conseguiu chegar ao outro lado."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survived the Ghost Tree's "
+"overgrowth."
+msgstr "Alegrouse de que houbese máis Granitos que sobreviviran ao crecemento descontrolado da Árbore Pantasma."
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
+msgstr "Un dos Granitos preguntoulle que facía un pingüín coma el tan lonxe da Antártida."
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replied that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly..."
+msgstr "Tux respondeu que estaba a buscar á súa amiga Penny e que fora capturada por unha criatura malvada chamada “Nolok”. Un nome co Granito lembraba con desagrado…"
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "O Granito mencionou que coñecían a súa terra natal. Pero se aínda a consideraba o seu fogar ou se mantiña a Penny alí, non o sabían con certeza."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute."
+msgstr "Ofrecéronse a amosarlle o camiño a Tux. Era o mínimo que podían facer para mostrar o seu agradecemento."
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "Tux aceptou encantado e, xunto cun pequeno grupo de Granitos, puxéronse en camiño cara aos trópicos, no nordeste."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "Os Granito restantes quedarían atrás, reconstruíndo pouco a pouco o seu fogar, agora que a corrupción fora finalmente derrotada…"
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "Granitos liberados!"
+
+#: data/levels/world2/scripts_forest_intro.txt:2
+msgid "After quite the long trip, Tux arrived at the new biome."
+msgstr "Despois dunha viaxe bastante longa, Tux chegou ao novo bioma."
+
+#: data/levels/world2/scripts_forest_intro.txt:3
+msgid ""
+"Tux was astonished by the scale of this colorful land which was quite "
+"different from his home."
+msgstr "Tux quedou abraiado coa magnitude desta terra chea de cor, tan diferente do seu fogar."
+
+#: data/levels/world2/scripts_forest_intro.txt:4
+msgid "But how was he ever going to find Nolok in this vast forest?"
+msgstr "Pero como ía atopar a Nolok neste bosque tan inmenso?"
+
+#: data/levels/world2/scripts_forest_intro.txt:5
+msgid ""
+"Tux thought for a moment and decided to find a place high up to get a better"
+" view."
+msgstr "Tux pensou un intre e decidiu atopar un lugar elevado para ter unha mellor vista."
+
+#: data/levels/world2/scripts_forest_intro.txt:6
+msgid ""
+"Maybe he could find some kind of landmark to help him locate Nolok, wherever"
+" he may be."
+msgstr "Quizais podería atopar algún punto de referencia co axudase a localizar a Nolok, estivese onde estivese."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:2
+msgid ""
+"High on the very top of the dilapidated tower, once again Tux found... "
+"nothing."
+msgstr "Ben no alto da torre derruída, unha vez máis, Tux atopou… nada."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:3
+msgid ""
+"He could not believe it. He was shocked. Confused. Was this not where he "
+"needed to go?"
+msgstr "Non o podía crer. Estaba conmocionado. Confundido. Non era este o lugar ao que tiña que ir?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:4
+msgid "Did Nolok's hints trick him afterall? Did he walk into a trap?"
+msgstr "As pistas de Nolok enganárano ao final? Caera nunha trampa?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:5
+msgid ""
+"Tux had not long to think about all this, the tower began shaking violetly. "
+"His assumption prove correct instantly."
+msgstr "Tux non tivo moito tempo para pensar niso: a torre comezou a tremer violentamente. A súa suposición demostrouse correcta ao instante."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:6
+msgid ""
+"He made it! He escaped the collapsing tower just in time as the structure "
+"now fully gave in. But the roots were not done yet!"
+msgstr "Conseguiuno! Escapou da torre en colapso xusto a tempo, cando a estrutura acabou por derrubarse. Pero as raíces aínda non remataran!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:7
+msgid ""
+"This was only the beginning, as he had found the root of the problem... "
+"towering over the small penguin."
+msgstr "Isto era só o comezo, pois atopara a raíz do problema… erguéndose sobre o pequeno pingüín."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:8
+msgid ""
+"Tux watched in shock as the roots dug through the tower's walls, faster and "
+"faster. He had to get out of there, fast!"
+msgstr "Tux observaba abraiado como as raíces atravesaban os muros da torre cada vez máis rápido. Tiña que saír de alí, e axiña!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:9
+msgid ""
+"The roots were now everywhere. The tower become more unstable by the second."
+" Slowly, it collapsed in on itself."
+msgstr "As raíces estaban agora por todas partes. A torre volvíase máis inestable a cada segundo. Pouco a pouco, derrubouse sobre si mesma."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:10
+msgid ""
+"Tux ran as fast as he could, but the roots would not let him leave as they "
+"blocked off the only path to the main entrance."
+msgstr "Tux correu tan rápido como puido, pero as raíces non o deixaban marchar, bloqueando o único camiño á entrada principal."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:11
+msgid ""
+"Across the hallway, on the other side, there was a huge crack in the wall. "
+"Tux saw himself forced to take the leap of faith, if he wished to not be "
+"crushed."
+msgstr "Ao outro lado do corredor había unha enorme fenda na parede. Tux viuse obrigado a dar un salto de fe se non quería ser esmagado."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
+msgid "Was it over? Was the nightmare finally over?"
+msgstr "Rematara todo? Por fin rematara o pesadelo?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:3
+msgid ""
+"Tux could not believe his eyes, but it seemed so! The roots began "
+"retreating. The ground looked more vital again."
+msgstr "Tux non podía crer o que vía, pero parecía que si! As raíces comezaron a retirarse. A terra volvía parecer chea de vida."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
+msgid ""
+"Though as much as he was ecstatic about seeing the land restored and "
+"beginning to heal... where to now?"
+msgstr "Aínda que estaba eufórico ao ver a terra restaurarse e comezar a curar… cara a onde agora?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:5
+msgid ""
+"The forest, the tower... those were the only leads Tux had. He had no clue "
+"where Nolok could be hiding, if he even was here to begin with. Or rather "
+"anymore."
+msgstr "O bosque, a torre… esas eran as únicas pistas que Tux tiña. Non tiña nin idea de onde podía estar agochado Nolok, se é que chegara a estar alí algunha vez. Ou se aínda o estaba."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
+msgid ""
+"There was no one around Tux could ask for help. All but the remains of "
+"corrupted husks littered the ground as he moved along in thought. No living "
+"creature in sight."
+msgstr "Non había ninguén a quen Tux puidese pedir axuda. Só restos de cascas corrompidas cubrían o chan mentres avanzaba pensativo. Non se vía ningunha criatura viva."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
+msgid ""
+"Hoping to discover some kind of clue - anything! - Tux's best bet was to "
+"continue exploring this side of the forest, as destroyed as it may be."
+msgstr "Coa esperanza de descubrir algunha pista —o que fose! - A mellor opción de Tux era seguir explorando este lado do bosque, por moi destruído que estivese."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:8
+msgid ""
+"There must be something, somewhere, able to help him to find Nolok! "
+"Right...?"
+msgstr "Tiña que haber algo, nalgún lugar, co axudase a atopar a Nolok! Non…?"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr "Verde pouco profundo"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Impactante"
 
-#: data/levels/world2/the_forest_is_rotting.stl:3
-msgid "The Forest Is Rotting"
-msgstr "O Bosque Apodrece"
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr " Raíz Cadrada da Anguria"
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "Paus e Pedras"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr "Madeira Rechamante"
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr "Tres follas ao Vento"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
 msgstr "A Través da Escuridade"
 
-#: data/levels/world2/through_dark.stl:96
-msgid ""
-"-Earth Flower\n"
-"!images/powerups/earthflower/earth_flower-1.png\n"
-"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
-"#This does not work while jumping or falling!"
-msgstr "-Flor de Terra\n!images/powerups/earthflower/earth_flower-1.png\n#A flor de terra dálle a Tux a capacidade de converterse nunha pedra premendo a Tecla de ACCIÓN e a tecla ABAIXO ó mesmo tempo.\n#Isto non funciona nin ó saltar nin ó caer!"
-
-#: data/levels/world2/tower_of_ghosts.stl:3
-msgid "Tower Of Ghosts"
-msgstr "A Torre Das Pantasmas"
-
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
 msgstr "Tux o Construtor"
-
-#: data/levels/world2/tux_builder.stl:77
-msgid ""
-"-Portable Objects:\n"
-"!images/objects/rock/rock.png\n"
-"#Tux can pick up certain objects and carry them around.\n"
-"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Obxectos Portátiles:\n!images/objects/rock/rock.png\n#Tux pode coller certos obxectos e levalos consigo.\n#Preme na tecla de ACCIÓN para apañar un obxecto e mantelo agarrado tanto tempo como queiras levar o obxecto. Solta a tecla de ACCIÓN para deixar caer o obxecto."
-
-#: data/levels/world2/tux_own_horror_show.stl:3
-msgid "Tux' Own Horror Show"
-msgstr "O Arrepiante Propio Show de Tux"
-
-#: data/levels/world2/tux_own_horror_show.stl:947
-msgid ""
-"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
-" often dangerous places."
-msgstr "#Os Asubía-bólas son pequenos, pantasmas molestóns, que te levan a diferentes, con frecuencia perigosos, lugares."
-
-#: data/levels/world2/walking_leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Follas Viventes"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
 msgstr "Benvida ó Bosque"
 
-#: data/levels/world2/welcome_forest.stl:50
+#: data/levels/world2/welcome_forest.stl:130
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
-"#Tux can go through a door by pressing the UP key."
-msgstr "-Portas\n!images/objects/door/door-0.png\n#Tux pode atravesar unha porta premendo a tecla ARRIBA."
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-Portas\n!images/objects/door/door-0.png\n#Tux pode atravesar unha porta premendo a tecla ARRIBA.\n#\n#Algunhas portas poden requirir unha chave para entrar!"
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Raíces de Madeira"
 
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "O Bosque con Raizame"
-
-#: data/levels/world2/worldmap.stwm:239
+#: data/levels/world2/worldmap.stwm:355
 msgid "To be continued..."
 msgstr "Continuará..."
+
+#: data/levels/world2/worldmap.stwm:363 data/levels/world2/worldmap.stwm:373
+msgid "You found a secret area!"
+msgstr "Atopaches unha área secreta!"
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "Peor ca a Salmonela"

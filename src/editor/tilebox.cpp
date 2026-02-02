@@ -54,8 +54,7 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_hovered_tile(-1),
   m_dragging(false),
   m_drag_start(0, 0),
-  m_mouse_pos(0, 0),
-  m_shadow(SpriteManager::current()->create("images/engine/editor/shadow2.png"))
+  m_mouse_pos(0, 0)
 {
 }
 
@@ -87,13 +86,12 @@ EditorTilebox::draw(DrawingContext& context)
   constexpr float SCROLL_SHADOW_MAX = 10.f;
   float scroll_shadow_size = std::clamp<float>(m_scroll_progress * 0.1, 0.f, SCROLL_SHADOW_MAX);
   float scroll_shadow_normal = scroll_shadow_size / SCROLL_SHADOW_MAX;
-
-  context.set_alpha(scroll_shadow_normal * 0.3);
-  m_shadow->draw_scaled(
-    context.color(),
-    Rectf{m_rect.get_left(), m_rect.get_top(), m_rect.get_right(), m_rect.get_top() + scroll_shadow_size},
-    LAYER_GUI+1);
-  context.set_alpha(1.0);
+  context.color().draw_gradient(Color(0.0f, 0.0f, 0.0f, scroll_shadow_normal * 0.3),
+                                Color(0.0f, 0.0f, 0.0f, 0.0f),
+                                LAYER_GUI + 1,
+                                GradientDirection::VERTICAL,
+                                Rectf{m_rect.get_left(), m_rect.get_top(),
+                                      m_rect.get_right(), m_rect.get_top() + scroll_shadow_size});
 
   context.push_transform();
   context.set_viewport(Rect(m_rect));

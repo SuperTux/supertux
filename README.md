@@ -4,8 +4,7 @@
 [![MacOS](https://github.com/SuperTux/supertux/actions/workflows/macos.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/macos.yml?branch=master)
 [![GNU/Linux](https://github.com/SuperTux/supertux/actions/workflows/gnulinux.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/gnulinux.yml?branch=master)
 [![Android](https://github.com/SuperTux/supertux/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/android.yml?branch=master)
-<!-- BSD disabled, see https://github.com/SuperTux/supertux/pull/2366#issuecomment-1670925526 -->
-<!-- [![BSD](https://github.com/SuperTux/supertux/actions/workflows/bsd.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/bsd.yml?branch=master) -->
+[![FreeBSD](https://github.com/SuperTux/supertux/actions/workflows/freebsd.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/freebsd.yml?branch=master)
 [![WebAssembly](https://github.com/SuperTux/supertux/actions/workflows/wasm.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/wasm.yml?branch=master)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
 
@@ -66,20 +65,17 @@ SuperTux. (You can view these in the game menu as well.)
 
 ## Playing the game
 
-Both keyboards and joysticks/gamepads are supported. You can change
-the controls via the Options menu. Basically, the only keys you will
-need to use in-game are to do the following actions: jump, duck,
-right, left, action and 'P' to pause/unpause the game. There isn't much
-to tell about the first few, but the "action" key allows you to pick
-up objects and use any powerup you got. For instance, with the fire
-flower, you can shoot fireballs, or with the ice flower fire ice pellets.
+Both keyboards and joysticks/gamepads are supported. You can view/change the
+controls via **options > controls**. Basically, the only controls you will need
+to use in-game are the following: jump, duck, move left & right, do an action,
+and use the item pocket. An "action" allows you to pick up objects and use any
+powerup you have, such as shooting fireballs with the fire flower, or to fire
+ice pellets with the ice flower. The item pocket allows you to store a single
+additional item, which can be useful in dire situations.
 
 Other useful keys include the Esc key, which is used to go to the menu
 or to go up a level in the menu. The menu can be navigated using the
 arrow keys or the mouse.
-
-In the worldmap, the arrow keys are used to navigate and Enter to
-enter the current level.
 
 ## Community
 
@@ -92,15 +88,10 @@ In case you need help, feel free to reach out using the following means:
   [client](https://kiwiirc.com/nextclient/irc.libera.chat:+6697/?nick=Guest?#supertux).
   Please stay around after asking questions, otherwise you will be disconnected
   and might miss potential answers.
-* **Matrix:** [#supertux:matrix.org](https://matrix.to/#/#supertux:matrix.org)
-  is bridged to our IRC room.
 * **[Forum](https://groups.f-hub.org/supertux):** The SuperTux
   community is also active on the forum, the discussions range from feature
   proposals to support questions. In particular, most community-contributed
   add-ons are published there, so this is worth checking.
-* **Mailing Lists:** The
-  [supertux-devel](http://lists.lethargik.org/listinfo.cgi/supertux-devel-lethargik.org)
-  mailing list is dead. Here is the [archive](https://github.com/supertux-community/supertux-devel-maillist).
 * **Social Media:** Mostly on [Twitter](https://twitter.com/supertux_team) at
   the moment.
 * **Discord:** Also, you can join our [Discord server](https://discord.com/invite/AcvtHWz) to get in touch with us.

@@ -493,21 +493,25 @@ AddonManager::request_download_addon_screenshots(const AddonId& addon_id)
     PHYSFS_mkdir(m_screenshots_cache_directory.c_str());
   }
 
-  const auto& screenshots = get_repository_addon(addon_id).get_screenshots();
+  const Addon& addon = get_repository_addon(addon_id);
+  const std::string& screenshots_base_url = addon.get_screenshots_base_url();
+  const auto& screenshots = addon.get_screenshots();
   for (size_t i = 0; i < screenshots.size(); i++)
   {
     const std::string filename = addon_id + "_" + std::to_string(i + 1) + FileSystem::extension(screenshots[i]);
     const std::string filepath = FileSystem::join(m_screenshots_cache_directory, filename);
     if (PHYSFS_exists(filepath.c_str())) continue; // Do not re-download existing screenshots.
 
+    const std::string url = FileSystem::join(screenshots_base_url, screenshots[i]);
+
     TransferStatusPtr status;
     try
     {
-      status = m_downloader.request_download(screenshots[i], filepath);
+      status = m_downloader.request_download(url, filepath);
     }
     catch (std::exception& err)
     {
-      log_warning << "Error downloading add-on screenshot from URL '" << screenshots[i]
+      log_warning << "Error downloading add-on screenshot from URL '" << url
                   << "' to file '" << filename << "': " << err.what() << std::endl;
       continue;
     }

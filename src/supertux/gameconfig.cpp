@@ -17,6 +17,7 @@
 #include "supertux/gameconfig.hpp"
 
 #include <ctime>
+#include <config.h>
 
 #include "editor/overlay_widget.hpp"
 #include "math/util.hpp"
@@ -142,6 +143,7 @@ Config::Config() :
   // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
+  multiplayer_no_limit(false),
   touch_haptic_feedback(true),
   touch_just_directional(true),
   repository_url()
@@ -179,7 +181,9 @@ Config::load()
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("custom_system_cursor", custom_system_cursor);
   config_mapping.get("do_release_check", do_release_check);
+#ifdef NETWORKING // don't bother parsing this otherwise, since it's true by default.
   config_mapping.get("disable_network", disable_network);
+#endif
   config_mapping.get("custom_title_levels", custom_title_levels);
 
   std::optional<ReaderMapping> config_integrations_mapping;
@@ -229,7 +233,7 @@ Config::load()
     interface_colors_mapping->get("menuhelpfrontcolor", menuhelpfrontcolor_, ColorScheme::Menu::help_back_color.toVector());
     interface_colors_mapping->get("labeltextcolor", labeltextcolor_, ColorScheme::Menu::label_color.toVector());
     interface_colors_mapping->get("activetextkcolor", activetextcolor_, ColorScheme::Menu::active_color.toVector());
-    interface_colors_mapping->get("hlcolor", hlcolor_, ColorScheme::Menu::hl_color.toVector());
+    interface_colors_mapping->get("hlcolor2", hlcolor_, ColorScheme::Menu::hl_color.toVector());
     interface_colors_mapping->get("editorcolor", editorcolor_, ColorScheme::Editor::default_color.toVector());
     interface_colors_mapping->get("editorhovercolor", editorhovercolor_, ColorScheme::Editor::hover_color.toVector());
     interface_colors_mapping->get("editorgrabcolor", editorgrabcolor_, ColorScheme::Editor::grab_color.toVector());
@@ -293,6 +297,7 @@ Config::load()
   config_mapping.get("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   config_mapping.get("multiplayer_multibind", multiplayer_multibind);
   config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  config_mapping.get("multiplayer_no_limit", multiplayer_no_limit);
   config_mapping.get("preferred_text_editor", preferred_text_editor);
 
   std::optional<ReaderMapping> config_video_mapping;
@@ -457,6 +462,7 @@ Config::save()
   writer.write("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   writer.write("multiplayer_multibind", multiplayer_multibind);
   writer.write("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  writer.write("multiplayer_no_limit", multiplayer_no_limit);
   writer.write("preferred_text_editor", preferred_text_editor);
 
   writer.start_list("interface_colors");
@@ -466,7 +472,7 @@ Config::save()
   writer.write("menuhelpfrontcolor", menuhelpfrontcolor.toVector());
   writer.write("labeltextcolor", labeltextcolor.toVector());
   writer.write("activetextcolor", activetextcolor.toVector());
-  writer.write("hlcolor", hlcolor.toVector());
+  writer.write("hlcolor2", hlcolor.toVector());
   writer.write("editorcolor", editorcolor.toVector());
   writer.write("editorhovercolor", editorhovercolor.toVector());
   writer.write("editorgrabcolor", editorgrabcolor.toVector());

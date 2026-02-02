@@ -31,15 +31,15 @@ class SDLPainter final : public Painter
 public:
   SDLPainter(SDLVideoSystem& video_system, Renderer& renderer, SDL_Renderer* sdl_renderer);
 
-  virtual void draw_texture(const TextureRequest& request) override;
-  virtual void draw_gradient(const GradientRequest& request) override;
-  virtual void draw_filled_rect(const FillRectRequest& request) override;
-  virtual void draw_inverse_ellipse(const InverseEllipseRequest& request) override;
-  virtual void draw_line(const LineRequest& request) override;
-  virtual void draw_triangle(const TriangleRequest& request) override;
+  virtual void draw_texture(const DrawingRequest& request) override;
+  virtual void draw_gradient(const DrawingRequest& request) override;
+  virtual void draw_filled_rect(const DrawingRequest& request) override;
+  virtual void draw_inverse_ellipse(const DrawingRequest& request) override;
+  virtual void draw_line(const DrawingRequest& request) override;
+  virtual void draw_triangle(const DrawingRequest& request) override;
 
   virtual void clear(const Color& color) override;
-  virtual void get_pixel(const GetPixelRequest& request) const override;
+  virtual void get_pixel(const DrawingRequest& request) const override;
 
   virtual void set_clip_rect(const Rect& rect) override;
   virtual void clear_clip_rect() override;

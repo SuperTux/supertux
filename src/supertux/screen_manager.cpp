@@ -43,6 +43,7 @@
 #include "util/log.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
+#include "worldmap/worldmap.hpp"
 
 #include <stdio.h>
 #include <chrono>
@@ -478,6 +479,27 @@ ScreenManager::process_events()
           }
         }
 #endif
+        // Toggle ghost mode
+        else if (event.key.keysym.sym == SDLK_g &&
+                 (event.key.keysym.mod & KMOD_ALT) &&
+                 (event.key.keysym.mod & KMOD_CTRL) &&
+                 g_config->developer_mode)
+        {
+          if (session && session->is_active())
+          {
+            for (Player* player : session->get_current_sector().get_players())
+            {
+              player->set_ghost_mode(false, true);
+            }
+          }
+          else if (worldmap::WorldMap::current() && worldmap::WorldMapSector::current())
+          {
+            auto worldmap_sector = worldmap::WorldMapSector::current();
+            auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
+
+            tux.toggle_ghost_mode();
+          }
+        }
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
@@ -569,6 +591,12 @@ ScreenManager::handle_screen_switch()
 
       if (!quit_action_triggered)
       {
+        if (m_screen_stack.empty())
+        {
+          log_debug << "ScreenManager::handle_screen_switch(): screen stack is empty, quitting." << std::endl;
+          break;
+        }
+
         if (current_screen != m_screen_stack.back().get())
         {
           g_debug.set_game_speed_multiplier(1.f);

@@ -78,6 +78,11 @@ EditorToolboxWidget::draw(DrawingContext& context)
                                      0.0f, LAYER_GUI - 5);
   }
 
+  Rectf item_rect = get_active_item_rect();
+  context.color().draw_gradient(Color(1.0f, 1.0f, 1.0f, 0.0f),
+                                Color(1.0f, 1.0f, 1.0f, 0.5f),
+                                LAYER_GUI, GradientDirection::HORIZONTAL, item_rect);
+
   context.color().draw_text(Resources::normal_font, _("Tiles"),
                             Vector(context.get_width(), 5),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
@@ -129,7 +134,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
-		  MenuManager::instance().current_menu()->set_item(m_tilebox->get_tilegroup_id());
+          MenuManager::instance().current_menu()->set_item(m_tilebox->get_tilegroup_id());
         }
         else
         {
@@ -143,7 +148,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
-		  MenuManager::instance().current_menu()->set_item(m_tilebox->get_objectgroup_id());
+          MenuManager::instance().current_menu()->set_item(m_tilebox->get_objectgroup_id());
         }
         else
         {
@@ -430,9 +435,9 @@ EditorToolboxWidget::get_tool_pos(const Vector& coords) const
 }
 
 Rectf
-EditorToolboxWidget::get_hovered_item_rect() const
+EditorToolboxWidget::get_rect_from_hovered_item(HoveredItem item) const
 {
-  switch (m_hovered_item)
+  switch (item)
   {
     case HoveredItem::TILEGROUP:
       return Rectf(Vector(m_pos_x, 0.f), Vector(static_cast<float>(SCREEN_WIDTH), 32.f));
@@ -449,6 +454,28 @@ EditorToolboxWidget::get_hovered_item_rect() const
     default:
       return Rectf();
   }
+}
+
+Rectf
+EditorToolboxWidget::get_active_item_rect() const
+{
+  InputType it_type = m_tilebox->get_input_type();
+  switch (it_type)
+  {
+    case InputType::TILE:
+      return get_rect_from_hovered_item(HoveredItem::TILEGROUP);
+    case InputType::OBJECT:
+      return get_rect_from_hovered_item(HoveredItem::OBJECTS);
+    case InputType::NONE:
+    default:
+      return {};
+  }
+}
+
+Rectf
+EditorToolboxWidget::get_hovered_item_rect() const
+{
+  return get_rect_from_hovered_item(m_hovered_item);
 }
 
 void

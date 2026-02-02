@@ -9,7 +9,7 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-secrets #t)
+    (enable-secrets #f)
   )
   (sector
     (name "main")
@@ -138,7 +138,6 @@ train_manager.start()")
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 3)
       (objects
         (mrbomb

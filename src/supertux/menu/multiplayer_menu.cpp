@@ -33,6 +33,9 @@ MultiplayerMenu::MultiplayerMenu()
   add_toggle(-2, _("Allow Multibind"), &g_config->multiplayer_multibind)
     .set_help(_("Allow binding multiple joysticks to a single player"));
 
+  add_toggle(-3, _("Unlock player limit"), &g_config->multiplayer_no_limit)
+    .set_help(_("Allow having more than 4 players. Some interface elements may overflow out of the screen."));
+
   add_submenu(_("Manage Players"), MenuStorage::MULTIPLAYER_PLAYERS_MENU);
 
   add_hl();

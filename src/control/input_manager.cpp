@@ -21,6 +21,8 @@
 #include "control/joystick_config.hpp"
 #include "control/joystick_manager.hpp"
 #include "control/keyboard_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/log.hpp"
 
 static constexpr int MAX_PLAYERS = 4;
@@ -56,7 +58,7 @@ InputManager::get_controller(int player_id)
 bool
 InputManager::can_add_user() const
 {
-  return get_num_users() < MAX_PLAYERS;
+  return get_num_users() < MAX_PLAYERS || g_config->multiplayer_no_limit;
 }
 
 void

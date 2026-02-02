@@ -313,7 +313,7 @@ private:
   bool m_scheduled_for_removal;
 
   /** The object's settings at the time of the last state save.
-      Used to check for changes that may have occured. */
+      Used to check for changes that may have occurred. */
   std::optional<ObjectSettings> m_last_state;
 
   std::vector<std::unique_ptr<GameObjectComponent> > m_components;

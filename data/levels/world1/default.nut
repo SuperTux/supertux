@@ -66,14 +66,14 @@ function display_keys(visibility)
 if(! ("key" in this))
  key <- {};
 
-local x = 0;
-local y = 85;
+local x = -5;
+local y = 50;
 
 foreach(name in ["air", "earth", "wood", "fire", "water"])
 {
   if(! (name in key) ) {
     key[name] <- FloatingImage("images/objects/keys/key_" + name + ".sprite");
-    key[name].set_anchor_point(ANCHOR_TOP_LEFT);
+    key[name].set_anchor_point(ANCHOR_TOP_RIGHT);
     key[name].set_pos(x, y);
     key[name].set_visible(false);
   }

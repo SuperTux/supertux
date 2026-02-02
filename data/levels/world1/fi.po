@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"POT-Creation-Date: 2026-01-17 08:59+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jaakko Muilu, 2025\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -377,7 +377,7 @@ msgstr "Liukas liuku"
 msgid "The Somewhat Smaller Bath"
 msgstr "Hieman pienempi kylpy"
 
-#: data/levels/world1/somewhat_smaller_bath.stl:420
+#: data/levels/world1/somewhat_smaller_bath.stl:422
 msgid ""
 "-Swimming\n"
 "!images/creatures/tux/big/swim-1.png\n"
@@ -388,19 +388,23 @@ msgstr "-Uiminen\n!images/creatures/tux/big/swim-1.png\n#Ui veden alla vapaasti 
 msgid "Stone Cold"
 msgstr "Kylmä kuin kivi"
 
-#: data/levels/world1/stone_cold.stl:195
+#: data/levels/world1/stone_cold.stl:200
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr ""
 
-#: data/levels/world1/stone_cold.stl:204
+#: data/levels/world1/stone_cold.stl:209
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
 msgstr ""
+
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
+msgid "You found a secret area!"
+msgstr "Löysit salaisen paikan!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -432,10 +436,6 @@ msgid ""
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
 msgstr ""
-
-#: data/levels/world1/worldmap.stwm:246
-msgid "You found a secret area!"
-msgstr "Löysit salaisen paikan!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"

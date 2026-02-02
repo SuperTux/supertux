@@ -1,6 +1,6 @@
 (supertux-level-subset
   (title (_ "Rooted Forest"))
-  (description (_ "Work in Progress Rooted Forest for SuperTux v0.7."))
+  (description (_ "Tux explores a new land, but a curse impedes his journey."))
   (levelset #f)
   (hide-from-contribs #t)
   (title-level "/levels/misc/menu_forest.stl")

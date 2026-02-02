@@ -51,6 +51,7 @@ public:
 
 private:
   SurfacePtr arrow_surface;
+  SurfacePtr circle_surface;
 
 private:
   MarkerObject(const MarkerObject&) = delete;

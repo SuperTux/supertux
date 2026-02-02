@@ -244,7 +244,7 @@ WorldSelect::update(float dt_sec, const Controller& controller)
     m_selected_world %= static_cast<int>(m_worlds.size());
   }
 
-  if (controller.pressed(Control::JUMP) && m_worlds[m_selected_world].unlocked) {
+  if (controller.pressed(Control::JUMP) && m_worlds[m_selected_world].unlocked && m_selected_world != m_current_world) {
     m_enabled = false;
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, 0.25f));
     worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "", DEFAULT_SPAWNPOINT_NAME);

@@ -168,7 +168,7 @@ Editor::Editor() :
   m_on_exit_cb(nullptr),
   m_save_temp_level(false),
   m_last_test_pos(std::nullopt),
-  m_shadow(SpriteManager::current()->create("images/engine/editor/shadow.png"))
+  m_test_icon(SpriteManager::current()->create("images/engine/editor/spawnpoint.png"))
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -310,16 +310,14 @@ Editor::draw(Compositor& compositor)
     line_color.alpha -= 0.2;
     context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
 
-    if (m_shadow)
-    {
-      Rectf shadow_rect = border_rect;
-      shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
-      shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
-      context.set_alpha(0.2);
-      m_shadow->draw_scaled(context.color(), shadow_rect, LAYER_GUI + 1);
-      context.set_alpha(1.0);
-    }
-
+    Rectf shadow_rect = border_rect;
+    shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
+    shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
+    context.color().draw_gradient(Color(0.0f, 0.0f, 0.0f, 0.0f),
+                                  Color(0.0f, 0.0f, 0.0f, 0.2f),
+                                  LAYER_GUI + 1,
+                                  GradientDirection::HORIZONTAL,
+                                  shadow_rect);
 
     Rectf layers_rect = Rectf{0, SCREEN_HEIGHT - 32.f - LINE_THICKNESS,
                               SCREEN_WIDTH - 128.f, SCREEN_HEIGHT - 32.f};
@@ -329,6 +327,24 @@ Editor::draw(Compositor& compositor)
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
+
+
+    // Show a little indicator for testing
+    if (m_ctrl_pressed && m_shift_pressed)
+    {
+      if (m_enabled)
+        MouseCursor::current()->set_visible(false);
+      context.color().draw_text(
+        Resources::normal_font,
+        "T",
+        { m_mouse_pos.x + 12.f, m_mouse_pos.y - 16.f - 12.f }, ALIGN_LEFT, LAYER_OBJECTS+1,
+        Color(1.0f, 1.0f, 0.6f, 0.8f));
+      m_test_icon->draw_scaled(context.color(),
+                               {{m_mouse_pos.x - 16.f, m_mouse_pos.y - 16.f}, Sizef{32.f, 32.f}},
+                               LAYER_GUI + 1);
+    }
+    else if (m_enabled)
+      MouseCursor::current()->set_visible(true);
 
     if (!m_show_draggables && m_show_draggables_hint.get_progress() < 1.0f)
     {
@@ -346,7 +362,8 @@ Editor::draw(Compositor& compositor)
                                         -100);
   }
 
-  MouseCursor::current()->set_visible(true);
+  if (!(m_ctrl_pressed && m_shift_pressed))
+    MouseCursor::current()->set_visible(true);
 }
 
 void
@@ -396,6 +413,8 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_deactivate_request) {
     m_enabled = false;
     m_deactivate_request = false;
+    if (!m_test_request)
+      MouseCursor::current()->set_visible(true);
     return;
   }
 
@@ -414,6 +433,14 @@ Editor::update(float dt_sec, const Controller& controller)
       }
     }
     m_enabled = true;
+
+    m_ctrl_pressed = m_alt_pressed = false;
+    // any mouse events from earlier (i.e. in menu, testing) dont pass through
+    // the editor in those states, so as a lazy hack, let's just get the mouse
+    // position.
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
   }
 
   if (m_save_request) {
@@ -815,6 +842,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   if (reset) {
     m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
+    m_toolbox_widget->get_tilebox().set_input_type(InputType::TILE);
+    m_toolbox_widget->get_tilebox().select_tilegroup(0);
   }
 
   load_sector(sector_name);
@@ -1357,6 +1386,10 @@ Editor::sort_layers()
 void
 Editor::select_tilegroup(int id)
 {
+  // dumb hack around dumb design...
+  if (m_toolbox_widget->get_tilebox().get_input_type() != InputType::TILE)
+    m_toolbar_widget->toggle_tile_object_mode();
+
   m_toolbox_widget->select_tilegroup(id);
 }
 
@@ -1376,17 +1409,22 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_toolbox_widget->get_tilebox().set_input_type(InputType::NONE);
+  m_toolbox_widget->get_tilebox().set_input_type(InputType::TILE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);
     }
   }
+  m_toolbox_widget->get_tilebox().select_tilegroup(0);
 }
 
 void
 Editor::select_objectgroup(int id)
 {
+  // dumb hack around dumb design...
+  if (m_toolbox_widget->get_tilebox().get_input_type() != InputType::OBJECT)
+    m_toolbar_widget->toggle_tile_object_mode();
+
   m_toolbox_widget->select_objectgroup(id);
 }
 
