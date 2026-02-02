@@ -78,8 +78,6 @@ android {
     lint {
         abortOnError false
     }
-
-    genera
 }
 
 dependencies {
