@@ -35,7 +35,9 @@ android {
                           "-DSUPERTUX_NDK_HOME=" + props.getProperty("ndk_home", ""),
                           "-DVCPKG_MANIFEST_MODE=OFF",
                           "-DVCPKG_VERBOSE=ON",
-                          "-DENABLE_OPENGL=ON",
+                          // FIXME: OpenGL is not working on Android right now.
+                          // This is because the shader is not compatible with GLES2.
+                          "-DENABLE_OPENGL=OFF",
                           "-DUSE_SYSTEM_SDL2_TTF=ON",
                           "-DANDROID_ALLOW_UNDEFINED_SYMBOLS=OFF", // Literally what the fuck
                           //"--debug-find", // If something isn't being found, uncomment this
