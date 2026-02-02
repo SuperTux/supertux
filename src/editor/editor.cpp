@@ -430,6 +430,8 @@ Editor::update(float dt_sec, const Controller& controller)
       }
     }
     m_enabled = true;
+
+    m_ctrl_pressed = m_alt_pressed = false;
   }
 
   if (m_save_request) {
