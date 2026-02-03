@@ -39,6 +39,7 @@ cmake_minimum_required(VERSION 3.22)
 
 ## Project name to use as command prefix.
 
+option(FLATPAK "Produce a flatpak optimized build" OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 if(ANDROID)
   include(SuperTux/Android)
