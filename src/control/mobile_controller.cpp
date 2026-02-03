@@ -106,7 +106,7 @@ MobileController::buzz()
 void
 MobileController::draw(DrawingContext& context)
 {
-  if (!g_config->mobile_controls)
+  if (!g_config->mobile_controls || !g_config->touch_controls_visible)
     return;
 
   if (m_screen_width != static_cast<int>(context.get_width()) ||

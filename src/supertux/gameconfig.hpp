@@ -111,6 +111,7 @@ public:
 
   bool mobile_controls;
   float m_mobile_controls_scale;
+  bool touch_controls_visible;
 
   struct Addon
   {

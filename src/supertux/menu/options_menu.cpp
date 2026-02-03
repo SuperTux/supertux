@@ -174,6 +174,9 @@ OptionsMenu::refresh()
       add_toggle(MNID_RUMBLING, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers)
         .set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the multiplayer options menu."));
 #else
+      add_toggle(-1, _("Show Touch Controls"), &g_config->touch_controls_visible)
+        .set_help(_("If disabled, touch controls will still work, but the buttons will remain hidden."));
+
       add_toggle(-1, _("Enable Haptic Feedback"), &g_config->touch_haptic_feedback)
         .set_help(_("Enable haptic feedback for touchscreen controls"));
 
