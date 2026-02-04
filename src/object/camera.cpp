@@ -248,6 +248,9 @@ Camera::reset(const Vector& tuxpos)
 void
 Camera::shake(float duration, float x, float y)
 {
+  if (!g_config->screen_shake)
+    return;
+
   m_shaketimer.start(duration*100.f);
   m_shakedepth_x = x;
   m_shakedepth_y = y;
@@ -257,6 +260,9 @@ Camera::shake(float duration, float x, float y)
 void
 Camera::start_earthquake(float strength, float delay)
 {
+  if (!g_config->screen_shake) {
+    return;
+  }
   if (strength <= 0.f)
   {
     log_warning << "Invalid earthquake strength value provided. Setting to 3." << std::endl;
@@ -427,6 +433,9 @@ Camera::update_shake()
 void
 Camera::update_earthquake()
 {
+  if (m_earthquake && !g_config->screen_shake)
+    stop_earthquake();
+
   if (!m_earthquake)
     return;
 

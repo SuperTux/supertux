@@ -79,6 +79,7 @@ public:
   int sound_volume;
   int music_volume;
   int flash_intensity;
+  bool screen_shake;
   bool precise_scrolling;
   bool invert_wheel_x;
   bool invert_wheel_y;

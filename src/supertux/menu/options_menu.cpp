@@ -129,6 +129,9 @@ OptionsMenu::refresh()
 
       add_flash_intensity();
 
+      add_toggle(MNID_SCREEN_SHAKE, _("Screen Shake"), &g_config->screen_shake)
+        .set_help(_("Toggle the full screen shaking effects"));
+
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
       add_aspect_ratio();
 #endif

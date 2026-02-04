@@ -65,6 +65,7 @@ Config::Config() :
   sound_volume(100),
   music_volume(50),
   flash_intensity(50),
+  screen_shake(true),
   max_viewport(false),
   fancy_gfx(true),
   precise_scrolling(true),
@@ -328,6 +329,7 @@ Config::load()
     config_video_mapping->get("aspect_width",  aspect_size.width);
     config_video_mapping->get("aspect_height", aspect_size.height);
     config_video_mapping->get("flash_intensity", flash_intensity);
+    config_video_mapping->get("screen_shake", screen_shake);
 
     config_video_mapping->get("magnification", magnification);
     config_video_mapping->get("fancy_gfx", fancy_gfx);
@@ -504,6 +506,7 @@ Config::save()
   writer.write("aspect_height", aspect_size.height);
 
   writer.write("flash_intensity", flash_intensity);
+  writer.write("screen_shake", screen_shake);
 
 #ifdef __EMSCRIPTEN__
   // Forcibly set autofit to true
