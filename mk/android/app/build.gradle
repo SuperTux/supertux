@@ -21,8 +21,8 @@ android {
         minSdkVersion 21
 
         // NOTE: Don't forget to bump the version code!
-        versionCode 4
-        versionName "0.7.0-beta2"
+        versionCode 5
+        versionName "0.7.0-beta.2"
 
         ndkVersion "29.0.14206865"
         externalNativeBuild {
