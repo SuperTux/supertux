@@ -820,7 +820,7 @@ Player::update(float dt_sec)
     }
   }
 
-  if (m_floor_normal.y < 0.f && m_crawl)
+  if (m_floor_normal.y < 0.f && m_crawl && !m_stone)
   {
     m_crawl = false;
     m_sliding = true;
