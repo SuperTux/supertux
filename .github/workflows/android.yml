@@ -91,6 +91,7 @@ jobs:
             zlib        \
             sdl2        \
             sdl2-image  \
+            sdl2-ttf    \
             curl        \
             openal-soft \
             libogg      \
