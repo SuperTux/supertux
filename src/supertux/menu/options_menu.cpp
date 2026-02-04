@@ -37,6 +37,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+#include <cassert>
 #include <sstream>
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -64,6 +65,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
   m_window_resolutions(),
   m_resolutions(),
   m_vsyncs(),
+  m_screen_shake_modes(),
   m_sound_volumes(),
   m_music_volumes(),
   m_flash_intensity_values(),
@@ -129,8 +131,7 @@ OptionsMenu::refresh()
 
       add_flash_intensity();
 
-      add_toggle(MNID_SCREEN_SHAKE, _("Screen Shake"), &g_config->screen_shake)
-        .set_help(_("Toggle the full screen shaking effects"));
+      add_screen_shake_mode();
 
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
       add_aspect_ratio();
@@ -501,6 +502,28 @@ OptionsMenu::add_vsync()
 }
 
 void
+OptionsMenu::add_screen_shake_mode() {
+  m_screen_shake_modes.list.push_back(_("off"));
+  m_screen_shake_modes.list.push_back(_("reduced"));
+  m_screen_shake_modes.list.push_back(_("full"));
+
+  switch (g_config->screen_shake_mode) {
+    case Config::ScreenShakeMode::OFF:
+      m_screen_shake_modes.next = 0;
+      break;
+    case Config::ScreenShakeMode::REDUCED:
+      m_screen_shake_modes.next = 1;
+      break;
+    case Config::ScreenShakeMode::FULL:
+      m_screen_shake_modes.next = 2;
+      break;
+  }
+
+  add_string_select(MNID_SCREEN_SHAKE_MODE, _("Screen shake"), &m_screen_shake_modes.next, m_screen_shake_modes.list)
+    .set_help(_("Adjust amount of screen shake effects"));
+}
+
+void
 OptionsMenu::add_sound_volume()
 {
   m_sound_volumes.list = { "0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
@@ -769,6 +792,27 @@ OptionsMenu::menu_action(MenuItem& item)
       }
       g_config->vsync = vsync;
       VideoSystem::current()->set_vsync(vsync);
+    }
+    break;
+
+    case MNID_SCREEN_SHAKE_MODE:
+    {
+      switch (m_screen_shake_modes.next)
+      {
+        case 0:
+          g_config->screen_shake_mode = Config::ScreenShakeMode::OFF;
+          break;
+        case 1:
+          g_config->screen_shake_mode = Config::ScreenShakeMode::REDUCED;
+          break;
+        case 2:
+          g_config->screen_shake_mode = Config::ScreenShakeMode::FULL;
+          break;
+        default:
+          assert(false);
+          break;
+      }
+
     }
     break;
 

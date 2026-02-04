@@ -248,7 +248,7 @@ Camera::reset(const Vector& tuxpos)
 void
 Camera::shake(float duration, float x, float y)
 {
-  if (!g_config->screen_shake)
+  if (g_config->screen_shake_mode == Config::ScreenShakeMode::OFF)
     return;
 
   m_shaketimer.start(duration*100.f);
@@ -260,7 +260,7 @@ Camera::shake(float duration, float x, float y)
 void
 Camera::start_earthquake(float strength, float delay)
 {
-  if (!g_config->screen_shake) {
+  if (g_config->screen_shake_mode != Config::ScreenShakeMode::FULL) {
     return;
   }
   if (strength <= 0.f)
@@ -433,7 +433,7 @@ Camera::update_shake()
 void
 Camera::update_earthquake()
 {
-  if (m_earthquake && !g_config->screen_shake)
+  if (m_earthquake && g_config->screen_shake_mode != Config::ScreenShakeMode::FULL)
     stop_earthquake();
 
   if (!m_earthquake)
