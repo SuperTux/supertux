@@ -696,7 +696,10 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
     if (hit.bottom) {
       m_physic.set_velocity_y(-250.f);
     }
-    player.collision_solid(hit);
+
+    // Odd. Why was Player::collision_solid being called here?
+    // ~ MatusGuy
+    //player.collision_solid(hit);
   }
   else
     player.kill(false);
