@@ -91,6 +91,7 @@ jobs:
             zlib        \
             sdl2        \
             sdl2-image  \
+            sdl2-ttf    \
             curl        \
             openal-soft \
             libogg      \
@@ -132,8 +133,11 @@ jobs:
           GIT_HASH: ${{ steps.slugify.outputs.sha }}
           GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
         run: |
+          tree
+
           chmod +x ./gradlew
           ./gradlew assembleRelease \
+            -Pci=on \
             -Pcpuarch="${{ matrix.arch }}" \
             -Pcmake_args="-DGIT_HASH=$GIT_HASH;-DGIT_BRANCH=$GIT_BRANCH" \
             --info
