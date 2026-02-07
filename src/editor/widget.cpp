@@ -21,22 +21,22 @@ Widget::event(const SDL_Event& ev)
 {
   switch (ev.type)
   {
-    case SDL_MOUSEBUTTONDOWN:
+    case SDL_EVENT_MOUSE_BUTTON_DOWN:
       return on_mouse_button_down(ev.button);
 
-    case SDL_MOUSEBUTTONUP:
+    case SDL_EVENT_MOUSE_BUTTON_UP:
       return on_mouse_button_up(ev.button);
 
-    case SDL_MOUSEMOTION:
+    case SDL_EVENT_MOUSE_MOTION:
       return on_mouse_motion(ev.motion);
 
-    case SDL_MOUSEWHEEL:
+    case SDL_EVENT_MOUSE_WHEEL:
       return on_mouse_wheel(ev.wheel);
 
-    case SDL_KEYDOWN:
+    case SDL_EVENT_KEY_DOWN:
       return on_key_down(ev.key);
 
-    case SDL_KEYUP:
+    case SDL_EVENT_KEY_UP:
       return on_key_up(ev.key);
 
     default:

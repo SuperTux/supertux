@@ -222,9 +222,9 @@ template<class T>
 bool
 ControlEnum<T>::on_key_up(const SDL_KeyboardEvent& key)
 {
-  if ((key.keysym.sym == SDLK_SPACE
-    || key.keysym.sym == SDLK_RETURN
-    || key.keysym.sym == SDLK_RETURN2) && m_has_focus) {
+  if ((key.key == SDLK_SPACE
+    || key.key == SDLK_RETURN
+    || key.key == SDLK_RETURN2) && m_has_focus) {
     m_open_list = !m_open_list;
     if (m_open_list)
       call_on_activate_callbacks();
@@ -241,7 +241,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
   if (!m_has_focus)
     return false;
 
-  if (key.keysym.sym == SDLK_DOWN) {
+  if (key.key == SDLK_DOWN) {
     bool is_next = false;
     // Hacky way to get the next one in the list
     for (const auto& option : m_options) {
@@ -260,7 +260,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
 
     call_on_change_callbacks();
     return true;
-  } else if (key.keysym.sym == SDLK_UP) {
+  } else if (key.key == SDLK_UP) {
 
     bool is_last = false;
     bool currently_on_first = true;

@@ -16,7 +16,7 @@
 
 #include "video/ttf_surface_manager.hpp"
 
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <numeric>
 #include <sstream>
 #include <iostream>

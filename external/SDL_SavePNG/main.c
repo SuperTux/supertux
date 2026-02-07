@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "savepng.h" // includes <png.h>, you must link with -lpng
 
