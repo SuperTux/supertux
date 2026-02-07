@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/root.hpp"
 #include "collision/collision_system.hpp"
+#include "math/aatriangle.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
@@ -129,6 +130,57 @@ RootSapling::get_allowed_directions() const
   return { Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT };
 }
 
+float
+RootSapling::get_tile_spawn_pos_offset(const Tile& tile)
+{
+  if (!tile.is_slope())
+    return 0.f;
+
+  AATriangle slope(tile.get_data());
+  int deform = slope.dir & AATriangle::DEFORM_MASK;
+
+  switch (m_dir)
+  {
+    case Direction::UP:
+      if (!slope.is_south())
+        return 0.f;
+
+      if (deform == AATriangle::DEFORM_TOP)
+        return 16.f;
+      else
+        return 32.f;
+
+    case Direction::DOWN:
+      if (slope.is_south())
+        return 0.f;
+
+      if (deform == AATriangle::DEFORM_BOTTOM)
+        return -16.f;
+      else
+        return -32.f;
+
+    case Direction::LEFT:
+      if (!slope.is_east())
+        return 0.f;
+
+      if (deform == AATriangle::DEFORM_LEFT)
+        return 16.f;
+      else
+        return 32.f;
+
+    case Direction::RIGHT:
+      if (slope.is_east())
+        return 0.f;
+
+      if (deform == AATriangle::DEFORM_RIGHT)
+        return -16.f;
+      else
+        return -32.f;
+
+    default: assert(false); break;
+  }
+}
+
 void
 RootSapling::summon_root()
 {
@@ -205,20 +257,24 @@ RootSapling::summon_root()
       if (!tile_p || result.box.empty())
         continue;
 
+      if ((*tile_p)->is_unisolid())
+        continue;
+
+      (*axis) = 0.f;
       switch (m_dir)
       {
-        case Direction::UP:
         case Direction::DOWN:
-          if ((*tile_p)->is_unisolid())
-            continue;
-          (*axis) = result.box.p1().y;
+          (*axis) += 32.f;
+          [[fallthrough]];
+        case Direction::UP:
+          (*axis) += result.box.p1().y + get_tile_spawn_pos_offset(*(*tile_p));
           break;
 
-        case Direction::LEFT:
         case Direction::RIGHT:
-          if ((*tile_p)->is_unisolid())
-            continue;
-          (*axis) = result.box.p1().x;
+          (*axis) += 32.f;
+          [[fallthrough]];
+        case Direction::LEFT:
+          (*axis) += result.box.p1().x + get_tile_spawn_pos_offset(*(*tile_p));
           break;
 
         default: assert(false); break;
