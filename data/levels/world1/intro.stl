@@ -6,6 +6,7 @@
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
+  (cutscene #t)
   (statistics
     (enable-coins #t)
     (enable-secrets #t)

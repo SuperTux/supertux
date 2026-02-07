@@ -35,6 +35,7 @@ EditorLevelMenu::EditorLevelMenu() :
   add_textfield(_("Contact"), &(level->m_contact));
   add_textfield(_("License"), &(level->m_license));
   add_textfield(_("Level Note"), &(level->m_note));
+  add_toggle(-1, _("Cinematic level"), &(level->m_is_cutscene));
   add_file(_("Tileset"), &(level->m_tileset), std::vector<std::string>(1, ".strf"), {}, true);
 
   std::vector<std::string> choices = {_("No"), _("Yes")};
