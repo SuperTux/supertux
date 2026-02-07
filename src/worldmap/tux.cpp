@@ -59,7 +59,8 @@ Tux::draw(DrawingContext& context)
 {
   if (m_worldmap->get_sector().get_camera().is_panning()) return;
 
-  std::string action = get_action_prefix_for_bonus(m_worldmap->get_savegame().get_player_status().bonus[0]);
+  BonusType bonus = m_worldmap->get_savegame().get_player_status().bonus[0];
+  std::string action = (bonus == BONUS_NONE ? "small" : "large");
   if (!action.empty())
   {
     if (m_moving && (get_axis().x != 0 || get_axis().y != 0))
@@ -89,26 +90,16 @@ Tux::draw(DrawingContext& context)
     log_debug << "Bonus type not handled in worldmap." << std::endl;
     m_sprite->set_action("large-stop");
   }
+
+  //TODO: Replace recoloring with proper costumes
+  Color power_color = (bonus == BONUS_FIRE ? Color(1.f, 0.7f, 0.5f) :
+    bonus == BONUS_ICE ? Color(0.7f, 1.f, 1.f) :
+    bonus == BONUS_AIR ? Color(0.7f, 1.f, 0.5f) :
+    bonus == BONUS_EARTH ? Color(1.f, 0.9f, 0.6f) :
+    Color(1.f, 1.f, 1.f));
+  m_sprite->set_color(power_color);
+
   m_sprite->draw(context.color(), get_pos(context.get_time_offset()), LAYER_OBJECTS + 1);
-}
-
-std::string
-Tux::get_action_prefix_for_bonus(const BonusType& bonus) const
-{
-  if (bonus == BONUS_GROWUP)
-    return "large";
-  if (bonus == BONUS_FIRE)
-    return "fire";
-  if (bonus == BONUS_ICE)
-    return "ice";
-  if (bonus == BONUS_AIR)
-    return "air";
-  if (bonus == BONUS_EARTH)
-    return "earth";
-  if (bonus == BONUS_NONE)
-    return "small";
-
-  return "";
 }
 
 Vector
