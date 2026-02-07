@@ -1,6 +1,7 @@
 (supertux-music
   (file "saharan_penguin.ogg")
   (authors "Enol \"Meji\" Monte")
+  (title "Saharan Penguin")
   (license "CC-BY-SA")
   (loop-begin 0)
   (loop-at    96)
