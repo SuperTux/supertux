@@ -8,7 +8,7 @@ if (rootProject.file("${rootDir}/local.properties").exists()) {
 }
 
 final APP_ID = "org.supertux.supertux2"
-final TARGET_SDK = 36 // TODO: bump to 36
+final TARGET_SDK = 35
 
 android {
     namespace APP_ID
