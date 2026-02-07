@@ -37,9 +37,9 @@ jobs:
     env:
       # SUPERTUX_VERSION is set later using git describe.
       SDL_TAG: 2.32.10
-      B_T_VERSION: 36.0.0
+      B_T_VERSION: 35.0.0
       NDK_VERSION: 29.0.14206865
-      SDK_VERSION: 36
+      SDK_VERSION: 35
       VCPKG_ROOT: ${{ github.workspace }}/vcpkg
 
     steps:
