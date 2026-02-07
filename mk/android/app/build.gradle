@@ -18,6 +18,13 @@ android {
         applicationId APP_ID
         targetSdkVersion TARGET_SDK
 
+        // FIXME: SuperTux can only run on Android 9 and up.
+        // This is because the SDL vcpkg port is attempting to use the system's iconv,
+        // which was introduced to Android in Android 9.
+        // However, if you attempt to change this minimum SDK version,
+        // you get weird libc++ errors that no one wants to deal with.
+        // So I'm leaving it like this for now. Sorry.
+        // ~ MatusGuy
         minSdkVersion 21
 
         // NOTE: Don't forget to bump the version code!
