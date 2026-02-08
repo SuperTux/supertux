@@ -71,6 +71,8 @@ data/levels/more/
 *.diff
 
 # Android
+*.aab
+*.apk
 .gradle
 mk/android/app/.cxx
 mk/android/app/local.properties
@@ -80,7 +82,6 @@ mk/android/gradle/wrapper/gradle-wrapper.jar
 mk/android/gradlew
 mk/android/gradlew.bat
 mk/android/local.properties
-mk/android/settings.gradle
 
 # Flatpak
 .flatpak-builder/
