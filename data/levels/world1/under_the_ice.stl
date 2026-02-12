@@ -3,6 +3,7 @@
   (name (_ "Under the Ice"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 65)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
