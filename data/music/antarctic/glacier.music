@@ -1,5 +1,6 @@
 (supertux-music
   (file "glacier.ogg")
+  (title "Glacier")
   (authors "SnugglyBun")
   (license "CC-BY-SA 4.0")
   (loop-begin 12.311)

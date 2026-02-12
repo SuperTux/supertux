@@ -1,6 +1,7 @@
 (supertux-music
   (file "clavelian_march.ogg")
   (authors "Treskalle")
+  (license "CC-BY-SA 4.0")
   (title "Clavelian March")
   (loop-begin 0.5)
   (loop-at    -1)

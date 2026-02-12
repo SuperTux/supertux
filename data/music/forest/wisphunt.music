@@ -1,5 +1,6 @@
 (supertux-music
   (file "wisphunt.ogg")
+  (title "Wisp Hunt")
   (authors "Marek \"Wansti\" Moeckel")
   (license "CC-BY-SA / GPL 2+")
   (loop-begin 21.08)
