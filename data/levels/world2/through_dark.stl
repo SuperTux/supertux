@@ -66,7 +66,7 @@
     (crusher
       (type "rock-krosh")
       (z-pos 50)
-      (direction "horizontal")
+      (direction "right")
       (x 2880)
       (y 928)
     )
@@ -127,7 +127,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb
@@ -143,7 +142,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb

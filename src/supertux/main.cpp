@@ -478,8 +478,14 @@ SDLSubsystem::SDLSubsystem()
    * When we migrate to SDL3, we can remove this snippet as they've now
    * defaulted to preferring Wayland (if i recall) -- Swagtoy
    */
+# ifdef FLATPAK
+  // We want to prefer wayland for flatpak regardless. I ran into issues with
+  // x11 being the default. Let's just force it for now.
+  SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
+# else
   if (g_config->prefer_wayland)
     SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
+# endif
 
 # ifdef HAVE_EPOXY
   SDL_SetHint(SDL_HINT_VIDEO_X11_FORCE_EGL, "1");

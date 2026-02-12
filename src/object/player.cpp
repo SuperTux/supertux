@@ -820,7 +820,7 @@ Player::update(float dt_sec)
     }
   }
 
-  if (m_floor_normal.y < 0.f && m_crawl)
+  if (m_floor_normal.y < 0.f && m_crawl && !m_stone)
   {
     m_crawl = false;
     m_sliding = true;
@@ -1232,7 +1232,10 @@ Player::handle_horizontal_input()
   if (m_controller->hold(Control::DOWN) && on_ground() && m_floor_normal.y != 0)
   {
     if (get_bonus() == BONUS_EARTH)
+    {
       m_stone = true;
+      m_does_buttjump = false;
+    }
     m_sliding = true;
     // silly nonsense; tuxs "unslides" back into tall tux if he's large and his
     // action 'clips' through the ground. Don't blame me, i hate this file.

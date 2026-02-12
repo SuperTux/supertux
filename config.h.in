@@ -22,6 +22,7 @@
 #cmakedefine HAVE_EPOXY
 #cmakedefine USE_OPENGLES2
 #cmakedefine USE_OPENGLES1
+#cmakedefine FLATPAK
 
 #cmakedefine HAVE_CURL
 #cmakedefine ENABLE_NETWORKING

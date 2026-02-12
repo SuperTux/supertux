@@ -1,37 +1,35 @@
-/*
-def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
-def buildAsApplication = !buildAsLibrary
-if (buildAsApplication) {
-    apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
 }
-else {
-    apply plugin: 'com.android.library'
-}
-*/
-apply plugin: 'com.android.application'
 
 Properties props = new Properties()
 if (rootProject.file("${rootDir}/local.properties").exists()) {
     props.load(rootProject.file("${rootDir}/local.properties").newDataInputStream())
 }
 
-var APP_ID = "org.supertux.supertux2"
+final APP_ID = "org.supertux.supertux2"
+final TARGET_SDK = 35
 
 android {
-    compileSdkVersion 35
+    namespace APP_ID
+    compileSdkVersion TARGET_SDK
+
     defaultConfig {
-        /*
-        if (buildAsApplication) {
-            applicationId APP_ID
-        }
-        */
         applicationId APP_ID
+        targetSdkVersion TARGET_SDK
+
+        // FIXME: SuperTux can only run on Android 9 and up.
+        // This is because the SDL vcpkg port is attempting to use the system's iconv,
+        // which was introduced to Android in Android 9.
+        // However, if you attempt to change this minimum SDK version,
+        // you get weird libc++ errors that no one wants to deal with.
+        // So I'm leaving it like this for now. Sorry.
+        // ~ MatusGuy
         minSdkVersion 21
-        targetSdkVersion 35
 
         // NOTE: Don't forget to bump the version code!
-        versionCode 1
-        versionName "0.7.0"
+        versionCode 5
+        versionName "0.7.0-beta.2"
 
         ndkVersion "29.0.14206865"
         externalNativeBuild {
@@ -44,7 +42,10 @@ android {
                           "-DSUPERTUX_NDK_HOME=" + props.getProperty("ndk_home", ""),
                           "-DVCPKG_MANIFEST_MODE=OFF",
                           "-DVCPKG_VERBOSE=ON",
+                          // FIXME: OpenGL is not working on Android right now.
+                          // This is because the shader is not compatible with GLES2.
                           "-DENABLE_OPENGL=OFF",
+                          "-DUSE_SYSTEM_SDL2_TTF=ON",
                           "-DANDROID_ALLOW_UNDEFINED_SYMBOLS=OFF", // Literally what the fuck
                           //"--debug-find", // If something isn't being found, uncomment this
                           "--log-level", "TRACE",
@@ -54,16 +55,24 @@ android {
             android.defaultConfig.externalNativeBuild.cmake.arguments.addAll(rootProject.ext.cmake_args)
         }
     }
+
+    if (!rootProject.ext.ci) {
+        // HACK: this just does not work on CI. whatever. it's meant for app bundles anyway.
+        assetPacks = [":assetpack"]
+    }
+    sourceSets {
+        main {
+            assets.srcDirs += ['../assetpack/src/main/assets']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    applicationVariants.all { variant ->
-        tasks["merge${variant.name.capitalize()}Assets"]
-            .dependsOn("externalNativeBuild${variant.name.capitalize()}")
-    }
+
     if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
         sourceSets.main {
             jniLibs.srcDir 'libs'
@@ -73,26 +82,11 @@ android {
                 path '../../../CMakeLists.txt'
             }
         }
-
     }
-    namespace APP_ID
+
     lint {
         abortOnError false
     }
-
-    /*
-    if (buildAsLibrary) {
-        libraryVariants.all { variant ->
-            variant.outputs.each { output ->
-                def outputFile = output.outputFile
-                if (outputFile != null && outputFile.name.endsWith(".aar")) {
-                    def fileName = "org.lethargik.supertux2.aar";
-                    output.outputFile = new File(outputFile.parent, fileName);
-                }
-            }
-        }
-    }
-    */
 }
 
 dependencies {

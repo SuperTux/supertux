@@ -123,8 +123,8 @@ function add_secret(name, specialtile, always_allowed_dirs, tilemap, unlock_dirs
 add_secret("crushmore_secret", worldmap.crushmore_secret, SPECIALTILE_DIR_WEST | SPECIALTILE_DIR_EAST,
            worldmap.mc_secret, SPECIALTILE_DIR_NORTH)
 add_secret("hollow_secret", worldmap.hollow_secret, SPECIALTILE_DIR_SOUTH,
-           worldmap.he_secret, SPECIALTILE_DIR_NORTH)
-add_secret("strike_secret", worldmap.strike_secret, SPECIALTILE_DIR_SOUTH | SPECIALTILE_DIR_SOUTH,
+           worldmap.he_secret, SPECIALTILE_DIR_EAST)
+add_secret("strike_secret", worldmap.strike_secret, SPECIALTILE_DIR_SOUTH | SPECIALTILE_DIR_NORTH,
            worldmap.sw_secret, SPECIALTILE_DIR_EAST)
 add_secret("granito_secret", worldmap.granito_secret, SPECIALTILE_DIR_SOUTH,
            worldmap.gv_secret, SPECIALTILE_DIR_EAST)

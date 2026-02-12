@@ -204,8 +204,18 @@ TextScroller::parse_content(const ReaderCollection& collection)
     }
     else if (item.get_name() == "blank")
     {
-      // Empty line
-      m_lines.emplace_back(new InfoBoxLine('\t', ""));
+      // default for just a single (blank)
+      int count = 1;
+
+      if (item.get_sexp().is_array() &&
+          item.get_sexp().as_array().size() > 1 &&
+          item.get_sexp().as_array()[1].as_int() >= 1)
+      {
+        count = item.get_sexp().as_array()[1].as_int();
+      }
+
+      for (int i = 0; i < count; ++i)
+        m_lines.emplace_back(new InfoBoxLine('\t', ""));
     }
     else if (item.get_name() == "text")
     {
@@ -357,7 +367,7 @@ TextScroller::get_settings()
         l10n: "Center" refers to the adjective "in the center" and not the verb "to center"
       */
       _("Center"),
-      _("Right") 
+      _("Right")
     },
     { "left", "center", "right" },
     static_cast<int>(XAnchor::SCROLLER_ANCHOR_CENTER), "x-anchor");

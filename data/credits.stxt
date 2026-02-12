@@ -3,72 +3,48 @@
   (speed 80)
   (content
   (image "images/engine/menu/logo.png")
-  
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-    (blank)
-  
+
+  (blank 24)
+
   (text
     (type "heading")
     (string (_ "The SuperTux Team"))
   )
   (blank)
-  
+
   (person
     (name "Tobias \"Tobbi\" Markus")
     (info (_ "Programming"))
   )
-  
+
   (blank)
-  
+
   (person
     (name "bruhmoent")
     (info (_ "Graphics, Programming"))
   )
-  
+
   (blank)
 
   (person
     (name "Hyland \"Swagtoy\" B.")
     (info (_ "Programming"))
   )
-  
+
   (blank)
 
   (person
     (name "Carsten \"RustyBox\" Wirtz")
     (info (_ "Graphics, Level Design, Story"))
   )
-  
+
   (blank)
-  
+
   (person
     (name "Daniel \"WeLuvGoatz\" Ward")
     (info (_ "Graphics, Programming, Level Design"))
   )
-  
+
   (blank)
 
   (person
@@ -89,54 +65,44 @@
     (name "Zwatotem")
     (info (_ "Programming"))
   )
-  
+
   (blank)
-  
+
   (person
     (name "HybridDog")
     (info (_ "Programming"))
   )
-  
+
   (blank)
-  
+
   (person
     (name "Alasdair \"Servalot\"")
     (info (_ "Level Design, Music"))
   )
-  
+
   (blank)
-  
+
   (person
     (name "provigz (Vankata453)")
     (info (_ "Programming"))
   )
-  
+
   (blank)
-  
+
   (person
     (name "MatusGuy")
     (info (_ "Programming"))
   )
-  
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  
+
+  (blank 11)
+
   (text
     (type "heading")
     (string (_ "Past Team Members"))
   )
-  
+
   (blank)
-  
+
   (text
     (type "reference")
     (string (_ "Programming"))
@@ -190,10 +156,9 @@
   (person
       (name "M. Teufel")
   )
-  
-  (blank)
-  (blank)
-  
+
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Graphics"))
@@ -216,10 +181,9 @@
   (person
       (name "Christoph Sommer")
   )
-  
-  (blank)
-  (blank)
-  
+
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Music"))
@@ -230,10 +194,9 @@
   (person
     (name "Marek \"Wansti\" Moeckel")
   )
-  
-  (blank)
-  (blank)
-  
+
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Sound"))
@@ -256,10 +219,9 @@
   (person
     (name "Christoph Sommer")
   )
-  
-  (blank)
-  (blank)
-  
+
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Level Design"))
@@ -285,10 +247,9 @@
   (person
     (name "Christoph Sommer")
   )
-  
-  (blank)
-  (blank)
-  
+
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Miscellaneous"))
@@ -320,16 +281,15 @@
     (name "Christine Webber")
     (info (_ "Story"))
   )
-  
-  (blank)
-  (blank)
+
+  (blank 2)
 
   (text
     (type "heading")
     (string (_ "Additional Contributors"))
   )
   (blank)
-  
+
   (text
     (type "reference")
     (string (_ "Programming"))
@@ -349,16 +309,15 @@
   (person
     (name "Richard Smith")
   )
-  (person 
+  (person
     (name "Matthew Taylor")
   )
   (person
     (name "Bastiaan \"basti_\" Zapf")
   )
-  
-  (blank)
-  (blank)
-  
+
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Graphics"))
@@ -409,10 +368,9 @@
   (text
     (string "FilipOK")
   )
-  
-  (blank)
-  (blank)
-    
+
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Level Design"))
@@ -427,9 +385,8 @@
     (name "Arvid Norlander")
   )
 
-  (blank)
-  (blank)
-  
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Music"))
@@ -496,9 +453,8 @@
     (string "RodirodDude")
   )
 
-  (blank)
-  (blank)
-    
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Sound"))
@@ -562,16 +518,15 @@
     (type "normal")
     (string "Bastian Zapf")
   )
-  
-  (blank)
-  (blank)
-  
+
+  (blank 2)
+
   (text
     (type "reference")
     (string (_ "Miscellaneous"))
   )
   (blank)
-  
+
   (person
     (name "Arian Behvandnejad")
   )
@@ -698,18 +653,9 @@
   (person
     (name "Sean Yeh")
   )
-  
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  
+
+  (blank 10)
+
   (text
     (type "heading")
     (string (_ "Localization"))
@@ -814,7 +760,7 @@
   (person
     (name "Tony Ivanov, G Vassilev, Lyubomir Vasilev")
   )
-  
+
   (blank)
 
   (text
@@ -867,7 +813,7 @@
   (person
     (name "Ilija Ćulap")
   )
-  
+
   (blank)
 
   (text
@@ -1018,7 +964,7 @@
   )
 
   (blank)
-  
+
   (text
     (type "reference")
     (string "Hebrew")
@@ -1338,7 +1284,7 @@
   )
 
   (blank)
-  
+
   (text
     (type "reference")
     (string "Swedish")
@@ -1403,37 +1349,28 @@
     (name "Phan Anh, Trong Dzang, nguyen vui")
   )
 
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-    
+  (blank 10)
+
   (text
     (type "heading")
     (string (_ "Special Thanks to"))
   )
-  
+
   (blank)
-    
+
   (person
     (name "Bill Kendrick")
     (info (_ "Original creator of SuperTux"))
     (image "images/credits/bill.png")
   )
-    
+
   (blank)
-    
+
   (person
     (name "Larry Ewing")
     (info (_ "Creator of Tux, the Linux penguin"))
   )
-    
+
   (blank)
 
   (person
@@ -1448,9 +1385,8 @@
     (info (_ "for giving this game a chance and playing it"))
   )
 
-  (blank)
-  (blank)
-      
+  (blank 2)
+
   (text
     (type "heading")
     (string (_ "Contact"))
@@ -1481,10 +1417,9 @@
     (type "normal")
     (string (_ "or share them on the forum"))
   )
-    
-  (blank)
-  (blank)
-      
+
+  (blank 2)
+
   (text
     (type "heading")
     (string (_ "Want to contribute to the game?"))
@@ -1496,10 +1431,9 @@
     (type "reference")
     (string "https://github.com/supertux")
   )
-      
-  (blank)
-  (blank)
-    
+
+  (blank 2)
+
   (text
     (type "heading")
     (string (_ "Want to help with localization?"))
@@ -1511,18 +1445,9 @@
     (type "reference")
     (string "https://www.transifex.com/arctic-games/supertux/")
   )
-    
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-  (blank)
-    
+
+  (blank 10)
+
   (text
     (type "heading")
     (string (_ "Thank you for"))
@@ -1531,22 +1456,18 @@
     (type "heading")
     (string (_ "playing"))
   )
-    
-  (blank)
-  (blank)
-  (blank)
-  
+
+  (blank 3)
+
   (image "images/engine/menu/logo.png")
-  
-  (blank)
-  (blank)
-  (blank)
-  
+
+  (blank 3)
+
   (text
     (type "normal")
     (string (_ "Penny awaits you in a tropical paradise..."))
   )
-  
+
   (blank)
   )
 )

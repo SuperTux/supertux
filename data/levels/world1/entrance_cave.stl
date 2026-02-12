@@ -3,6 +3,7 @@
   (name (_ "Entrance to the Cave"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 80)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
@@ -142,7 +143,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (objects
         (haywire
@@ -158,7 +158,6 @@
     )
     (dispenser
       (z-pos 55)
-      (glinting #f)
       (cycle 5)
       (objects
         (haywire

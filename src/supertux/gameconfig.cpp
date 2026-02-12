@@ -79,6 +79,7 @@ Config::Config() :
   ignore_joystick_axis(false),
   mobile_controls(false),
   m_mobile_controls_scale(1.3f),
+  touch_controls_visible(true),
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -373,6 +374,7 @@ Config::load()
     config_control_mapping->get("touch_haptic_feedback", touch_haptic_feedback);
     config_control_mapping->get("touch_just_directional", touch_just_directional);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 2);
+    config_control_mapping->get("touch_controls_visible", touch_controls_visible);
     config_control_mapping->get("precise_scrolling", precise_scrolling);
     config_control_mapping->get("invert_wheel_x", invert_wheel_x);
     config_control_mapping->get("invert_wheel_y", invert_wheel_y);
@@ -537,6 +539,7 @@ Config::save()
     writer.write("touch_haptic_feedback", touch_haptic_feedback);
     writer.write("touch_just_directional", touch_just_directional);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
+    writer.write("touch_controls_visible", touch_controls_visible);
     writer.write("precise_scrolling", precise_scrolling);
     writer.write("invert_wheel_x", invert_wheel_x);
     writer.write("invert_wheel_y", invert_wheel_y );

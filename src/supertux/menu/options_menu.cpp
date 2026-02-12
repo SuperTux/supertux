@@ -174,6 +174,9 @@ OptionsMenu::refresh()
       add_toggle(MNID_RUMBLING, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers)
         .set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the multiplayer options menu."));
 #else
+      add_toggle(-1, _("Show Touch Controls"), &g_config->touch_controls_visible)
+        .set_help(_("If disabled, touch controls will still work, but the buttons will remain hidden."));
+
       add_toggle(-1, _("Enable Haptic Feedback"), &g_config->touch_haptic_feedback)
         .set_help(_("Enable haptic feedback for touchscreen controls"));
 
@@ -239,7 +242,7 @@ OptionsMenu::refresh()
 
       // Note: there were complaints about Wayldn for steam (i think from the devs?), so it's off for now.
 #if (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-     defined(__OPENBSD) || defined(__NetBSD)) && !(defined(STEAM_BUILD) || defined(__ANDROID__))
+     defined(__OPENBSD) || defined(__NetBSD)) && !(defined(STEAM_BUILD) || defined(__ANDROID__) || defined(FLATPAK))
       add_toggle(MNID_PREFER_WAYLAND, _("Prefer Wayland"), &g_config->prefer_wayland)
         .set_help(_("If you experience any issues with Nvidia cards, your window border, or anything you believe is due to Wayland, disable this. (Requires restart)"));
 #endif

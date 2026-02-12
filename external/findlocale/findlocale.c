@@ -442,38 +442,57 @@ FL_FindLocale(FL_Locale **locale) {
 #elif defined(__ANDROID__)
   // normal method will always give default guess
   // use JNI instead
-  JNIEnv* env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+
+  JNIEnv* env;
+  jclass c_main;
+  jmethodID m_getlang, m_getcountry;
+  jstring v_lang, v_country;
+  int langc, countryc;
+  char *jnilang, *jnicountry;
+
+  __android_log_print(ANDROID_LOG_INFO, "findlocale", "Finding locale");
+
+  env = (JNIEnv*) SDL_AndroidGetJNIEnv();
   // TODO: Specify package name in a compiler definition
-  jclass cls = (*env)->FindClass(env, "org/supertux/supertux2/MainActivity");
-  if (cls != NULL) {
-    jmethodID getlang = (*env)->GetStaticMethodID(env, cls, "getLang", "()[C");
-    jmethodID getcountry = (*env)->GetStaticMethodID(env, cls, "getCountry", "()[C");
+  c_main = (*env)->FindClass(env, "org/supertux/supertux2/MainActivity");
+  if (c_main != NULL)
+  {
+    m_getlang = (*env)->GetStaticMethodID(env, c_main, "getLang", "()Ljava/lang/String;");
+    m_getcountry = (*env)->GetStaticMethodID(env, c_main, "getCountry", "()Ljava/lang/String;");
 
-    jcharArray langchararr = (*env)->CallStaticObjectMethod(env, cls, getlang);
-    jcharArray countrychararr = (*env)->CallStaticObjectMethod(env, cls, getcountry);
+    v_lang = (*env)->CallStaticObjectMethod(env, c_main, m_getlang);
+    v_country = (*env)->CallStaticObjectMethod(env, c_main, m_getcountry);
 
-    int langc = (*env)->GetArrayLength(env, langchararr);
-    int countryc = (*env)->GetArrayLength(env, countrychararr);
+    langc = (*env)->GetStringUTFLength(env, v_lang);
+    countryc = (*env)->GetStringUTFLength(env, v_country);
 
-    jchar* jnilang = (*env)->GetCharArrayElements(env, langchararr, 0);
-    jchar* jnicountry = (*env)->GetCharArrayElements(env, countrychararr, 0);
+    jnilang = (char*) (*env)->GetStringUTFChars(env, v_lang, NULL);
+    jnicountry = (char*) (*env)->GetStringUTFChars(env, v_country, NULL);
 
-    char* lang = SDL_iconv_string("UTF-8", "UTF-16", (const char *) jnilang, langc*2);
-    char* country = SDL_iconv_string("UTF-8", "UTF-16", (const char *) jnicountry, countryc*2);
+    rtn->lang = malloc(langc + 1);
+    strcpy((char* const) rtn->lang, jnilang);
 
-    char* variant = malloc(sizeof("UTF-8")+1);
-    strcpy(variant, "UTF-8");
+    rtn->country = malloc(countryc + 1);
+    strcpy((char* const) rtn->country, jnicountry);
 
-    rtn->lang = lang;
-    rtn->country = country;
-    rtn->variant = variant;
-
-    (*env)->ReleaseCharArrayElements(env, langchararr, jnilang, 0);
-    (*env)->ReleaseCharArrayElements(env, countrychararr, jnicountry, 0);
+    rtn->variant = malloc(sizeof("UTF-8") + 1);
+    strcpy((char* const) rtn->variant, "UTF-8");
 
     success = FL_CONFIDENT;
-  } else {
+    __android_log_print(ANDROID_LOG_INFO, "findlocale", "Found locale %s - %s (%s)",
+                        rtn->lang, rtn->country, rtn->variant);
+  }
+  else
+  {
     success = FL_FAILED;
+    __android_log_print(ANDROID_LOG_ERROR, "findlocale", "Cound not get JNI environment");
+  }
+
+android_fail:
+  if (env)
+  {
+    (*env)->ReleaseStringUTFChars(env, v_lang, jnilang);
+    (*env)->ReleaseStringUTFChars(env, v_country, jnicountry);
   }
 
 #else
