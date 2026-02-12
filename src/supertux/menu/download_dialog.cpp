@@ -88,7 +88,7 @@ DownloadDialog::update_text()
   else
   {
     int dlnow = m_complete ? m_download_total : m_status->get_download_now();
-    int percent = 100 * dlnow / dltotal;
+    int percent = (100.f * dlnow) / static_cast<float>(dltotal);
     out << dlnow / 1000 << "/"
         << dltotal / 1000 << " kB\n" << percent << "%";
   }
