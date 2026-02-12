@@ -465,7 +465,7 @@ corrupt_forest(true);")
       (stay-group "boat")
       (sprite "/images/worldmap/common/boat/boat.sprite")
       (x 23)
-      (y 107)
+      (y 106)
     )
     (sprite-change
       (z-pos 50)
