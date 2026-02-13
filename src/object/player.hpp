@@ -205,7 +205,7 @@ public:
   bool add_bonus(BonusType type, bool animate = false);
 
   /** like add_bonus, but can also downgrade the bonus items carried */
-  bool set_bonus(BonusType type, bool animate = false);
+  bool set_bonus(BonusType type, bool animate = false, bool pocket = true);
   inline BonusType get_bonus() const { return m_player_status.bonus[m_id]; }
 
   std::string bonus_to_string() const;

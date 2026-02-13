@@ -468,7 +468,7 @@ GameSession::abort_level()
   {
     try
     {
-      p->set_bonus(m_boni_at_start.at(p->get_id()));
+      p->set_bonus(m_boni_at_start.at(p->get_id()), false, false);
     }
     catch(const std::out_of_range&)
     {
