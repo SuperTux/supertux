@@ -128,6 +128,9 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
   if (!worldmap)
     return false;
   
+  if (!Editor::current())
+    m_savegame->get_profile().set_last_world(world.get_basename());
+
   ScreenManager::current()->push_screen(std::move(worldmap));
   return true;
 }
