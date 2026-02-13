@@ -22,7 +22,9 @@ while(1) {
  ///first move
  wait(2.5);
  play_sound(\"/sounds/thunder.wav\");
+lighto.fade(0.2, 0.1);
  wait(2);
+lighto.fade(0, 0.1);
  lightning.lightning();
  Camera.start_earthquake(3, 0.05);
  root_attack0.goto_node(0);
@@ -48,7 +50,9 @@ while(1) {
  ///second move
  wait(2.5);
  play_sound(\"/sounds/thunder.wav\");
+lighto.fade(0.2, 0.1);
  wait(2);
+lighto.fade(0, 0.1);
  lightning.lightning();
  Camera.start_earthquake(3, 0.05);
  root_attack0.goto_node(1);
@@ -1249,6 +1253,15 @@ Camera.stop_earthquake();")
       (width 2)
       (height 16)
       (tiles 6655 6656 6663 6664 6671 6672 6679 6680 6637 6638 6645 6646 6637 6638 6645 6646 6637 6638 6645 6646 6637 6638 6645 6646 6637 6638 6645 6646 6637 6638 6645 6646)
+    )
+    (tilemap
+      (solid #f)
+      (alpha 0)
+      (z-pos -50)
+      (name "lighto")
+      (width 625)
+      (height 85)
+      (tiles -624 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -1249 4215 2035 -37500 4215)
     )
     (viciousivy
       (type "corrupted")
