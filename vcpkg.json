@@ -4,6 +4,7 @@
     "fmt",
     "libogg",
     "libvorbis",
+    "libraqm",
     "freetype",
     "physfs",
     "sdl3",
@@ -17,8 +18,7 @@
       "description": "Add dependencies that aren't needed for WebAssembly",
       "dependencies": [
         "curl",
-        "openal-soft",
-        "libraqm"
+        "openal-soft"
       ],
       "supports": "!emscripten"
     },
