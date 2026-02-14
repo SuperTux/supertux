@@ -55,6 +55,7 @@ YetiStalactite::active_update(float dt_sec)
 void
 YetiStalactite::after_editor_set()
 {
+  Stalactite::after_editor_set();
   auto target_action = "yeti-stalactite";
   if (m_sprite->has_action(target_action) &&
       m_sprite->get_action() != target_action)
