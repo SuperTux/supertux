@@ -52,8 +52,8 @@ jobs:
           ./emsdk install latest
           ./emsdk activate latest
 
-          vcpkg integrate install
           vcpkg update
+          vcpkg integrate install
 
       - name: Use cached dependencies
         id: cache-dependencies
