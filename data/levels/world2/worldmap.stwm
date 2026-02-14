@@ -426,7 +426,7 @@ corrupt_forest(true);")
       (change-on-touch #t)
       (initial-stay-action #f)
       (sprite "/images/worldmap/common/tux.sprite")
-      (x 20)
+      (x 19)
       (y 59)
     )
     (sprite-change
