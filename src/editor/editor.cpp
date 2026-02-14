@@ -720,7 +720,7 @@ Editor::update_keyboard(const Controller& controller)
   if (MenuManager::instance().is_active() || MenuManager::instance().has_dialog())
     return;
 
-  const Uint8* keys = nullptr;
+  const bool* keys = nullptr;
   keys = SDL_GetKeyboardState(nullptr);
   assert(keys != nullptr);
 
@@ -1219,7 +1219,7 @@ Editor::event(const SDL_Event& ev)
 
   try
   {
-    if (ev.type == SDL_MOUSEMOTION)
+    if (ev.type == SDL_EVENT_MOUSE_MOTION)
     {
       m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
 
@@ -1228,7 +1228,7 @@ Editor::event(const SDL_Event& ev)
       if (!m_controls.empty() && Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f).contains(m_mouse_pos))
         return;
     }
-    else if (ev.type == SDL_MOUSEBUTTONDOWN)
+    else if (ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
     {
       switch (ev.button.button)
       {
@@ -1243,33 +1243,35 @@ Editor::event(const SDL_Event& ev)
       // If properties sidebar controls are active and the mouse is hovering over the sidebar,
       // do not propagate mouse events to the editor or its widgets.
       if (!m_controls.empty() &&
-          (ev.type == SDL_MOUSEBUTTONDOWN || ev.type == SDL_MOUSEBUTTONUP || ev.type == SDL_MOUSEWHEEL) &&
+          (ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN ||
+           ev.type == SDL_EVENT_MOUSE_BUTTON_UP ||
+           ev.type == SDL_EVENT_MOUSE_WHEEL) &&
           Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f).contains(m_mouse_pos))
       {
         return;
       }
 
-      if (ev.type == SDL_KEYDOWN)
+      if (ev.type == SDL_EVENT_KEY_DOWN)
       {
-        m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
-        m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
-        m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
+        m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
+        m_shift_pressed = ev.key.mod & SDL_KMOD_SHIFT;
+        m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
 
         if (m_ctrl_pressed)
           m_scroll_speed = 16.0f;
-        else if (ev.key.keysym.mod & KMOD_RSHIFT)
+        else if (ev.key.mod & SDL_KMOD_RSHIFT)
           m_scroll_speed = 96.0f;
 
-        if (ev.key.keysym.sym == SDLK_F6)
+        if (ev.key.key == SDLK_F6)
         {
           Compositor::s_render_lighting = !Compositor::s_render_lighting;
           return;
         }
         else if (m_ctrl_pressed)
         {
-          switch (ev.key.keysym.sym)
+          switch (ev.key.scancode)
           {
-            case SDLK_t:
+            case SDLK_T:
               if (m_shift_pressed && m_alt_pressed)
               {
                 test_level(m_last_test_pos);
@@ -1283,21 +1285,21 @@ Editor::event(const SDL_Event& ev)
 
               test_level(m_last_test_pos);
               break;
-            case SDLK_s:
+            case SDLK_S:
               save_level();
               break;
-            case SDLK_z:
+            case SDLK_Z:
               undo();
               break;
-            case SDLK_y:
+            case SDLK_Y:
               redo();
               break;
-            case SDLK_h:
+            case SDLK_H:
               m_show_draggables = !m_show_draggables;
               if (!m_show_draggables)
                 m_show_draggables_hint.start(6.7f);
               break;
-            case SDLK_x:
+            case SDLK_X:
               m_toolbar_widget->toggle_tile_object_mode();
               break;
             case SDLK_PAGEUP:
@@ -1317,7 +1319,7 @@ Editor::event(const SDL_Event& ev)
               m_key_zoomed = true;
               m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
               break;
-            case SDLK_d: // Reset zoom
+            case SDLK_D: // Reset zoom
               m_new_scale = 1.f;
               break;
             default:
@@ -1325,19 +1327,19 @@ Editor::event(const SDL_Event& ev)
           }
         }
       }
-      else if (ev.type == SDL_KEYUP)
+      else if (ev.type == SDL_EVENT_KEY_UP)
       {
-        m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
-        m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
-        m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
+        m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
+        m_shift_pressed = ev.key.mod & SDL_KMOD_SHIFT;
+        m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
 
-        if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
+        if (!m_ctrl_pressed && !(ev.key.mod & SDL_KMOD_RSHIFT))
           m_scroll_speed = 32.0f;
       }
-      else if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
+      else if (ev.type == SDL_EVENT_MOUSE_WHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
       {
-        float wheel_x = g_config->precise_scrolling ? ev.wheel.preciseX : ev.wheel.x;
-        float wheel_y = g_config->precise_scrolling ? ev.wheel.preciseY : ev.wheel.y;
+        float wheel_x = g_config->precise_scrolling ? ev.wheel.x : ev.wheel.integer_x;
+        float wheel_y = g_config->precise_scrolling ? ev.wheel.y : ev.wheel.integer_y;
         if (g_config->invert_wheel_x) wheel_x *= -1.f;
         if (g_config->invert_wheel_y) wheel_y *= -1.f;
         // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.

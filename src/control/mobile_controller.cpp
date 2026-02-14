@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #include "gui/menu_manager.hpp"
 #include "util/log.hpp"
@@ -194,11 +194,11 @@ MobileController::update()
   m_input.reset();
 
   // Allow using on-screen controls with the mouse
-  int x, y;
+  float x, y;
   auto buttons = SDL_GetMouseState(&x, &y);
   if ((buttons & SDL_BUTTON_LMASK) != 0)
   {
-    activate_widget_at_pos(static_cast<float>(x), static_cast<float>(y));
+    activate_widget_at_pos(x, y);
   }
 
   for (auto& i : m_fingers)
@@ -242,7 +242,7 @@ bool
 MobileController::process_finger_down_event(const SDL_TouchFingerEvent& event)
 {
   Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
-  m_fingers[event.fingerId] = pos;
+  m_fingers[event.fingerID] = pos;
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||
@@ -256,7 +256,7 @@ bool
 MobileController::process_finger_up_event(const SDL_TouchFingerEvent& event)
 {
   Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
-  m_fingers.erase(event.fingerId);
+  m_fingers.erase(event.fingerID);
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||
@@ -270,7 +270,7 @@ bool
 MobileController::process_finger_motion_event(const SDL_TouchFingerEvent& event)
 {
   Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
-  m_fingers[event.fingerId] = pos;
+  m_fingers[event.fingerID] = pos;
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||

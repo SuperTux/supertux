@@ -149,6 +149,9 @@ Config::Config() :
   touch_just_directional(true),
   repository_url()
 {
+  int num_touch_devices;
+  SDL_GetTouchDevices(&num_touch_devices);
+  mobile_controls = (num_touch_devices > 0);
 }
 
 void

@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 /** Simple Wrapper class around SDL_Surface that provides exception
     safety */
@@ -52,7 +52,7 @@ public:
 
   ~SDLSurfacePtr()
   {
-    SDL_FreeSurface(m_surface);
+    SDL_DestroySurface(m_surface);
   }
 
   SDL_Surface& operator*()
@@ -77,13 +77,13 @@ public:
 
   void reset(SDL_Surface* surface)
   {
-    SDL_FreeSurface(m_surface);
+    SDL_DestroySurface(m_surface);
     m_surface = surface;
   }
 
   void reset(SDLSurfacePtr& other)
   {
-    SDL_FreeSurface(m_surface);
+    SDL_DestroySurface(m_surface);
     m_surface = other.m_surface;
     other.m_surface = nullptr;
   }
