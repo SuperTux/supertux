@@ -2005,6 +2005,10 @@ Player::set_bonus(BonusType type, bool animate, bool pocket)
       else
         set_action("grow", m_dir , 1);
     }
+    else if (type == BONUS_GROWUP) {
+      // force-change Tux's sprite immediately when growing up
+      m_reset_action = true;
+    }
   }
 
   if (type == BONUS_NONE) {
