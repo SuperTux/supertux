@@ -53,6 +53,11 @@ jobs:
           ./emsdk activate latest
 
           vcpkg update
+
+          pushd $VCPKG_ROOT
+          git pull
+          popd $VCPKG_ROOT
+
           vcpkg integrate install
 
       - name: Use cached dependencies
