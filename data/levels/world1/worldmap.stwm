@@ -310,7 +310,7 @@ state.ambient_b <- 0.6;")
     (sprite-change
       (z-pos 50)
       (stay-action "empty-right")
-      (change-on-touch #t)
+      (change-on-touch #f)
       (initial-stay-action #t)
       (stay-group "boat")
       (sprite "/images/worldmap/common/boat/boat.sprite")
