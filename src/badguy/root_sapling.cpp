@@ -177,7 +177,7 @@ RootSapling::get_tile_spawn_pos_offset(const Tile& tile)
       else
         return -32.f;
 
-    default: assert(false); break;
+    default: assert(false); return 0.f;
   }
 }
 
