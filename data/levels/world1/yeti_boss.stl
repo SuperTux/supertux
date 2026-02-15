@@ -3,13 +3,12 @@
   (name (_ "No More Mr. Ice Guy"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
-  (target-time 508)
+  (target-time 75)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
   (statistics
     (enable-coins #f)
-    (enable-badguys #f)
     (enable-secrets #f)
   )
   (sector

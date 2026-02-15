@@ -164,7 +164,7 @@
     )
     (fish-swimming
       (type "corrupted")
-      (z-pos 200)
+      (z-pos 50)
       (glinting #f)
       (radius 50)
       (x 15296)
