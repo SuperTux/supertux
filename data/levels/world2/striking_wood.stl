@@ -18,6 +18,8 @@ Camera.start_earthquake(3, 0.05);
 wait(1);
 Camera.stop_earthquake();
 
+if(!(\"init_script_run\" in sector)) {
+ sector.init_script_run <- true;
 while(1) {
  ///first move
  wait(2.5);
@@ -74,6 +76,7 @@ lighto.fade(0, 0.1);
 
  wait(1.19);
  Camera.stop_earthquake();
+}
 }")
     (ambient-light
       (color 0.62 0.66 0.78)
