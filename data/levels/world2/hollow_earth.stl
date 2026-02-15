@@ -1048,6 +1048,12 @@ end_cutscene();")
       (x 11684)
       (y 384)
     )
+    (invisible_wall
+      (width 32)
+      (height 124)
+      (x 7044)
+      (y 1604)
+    )
     (jumpy
       (type "corrupted")
       (z-pos 50)
