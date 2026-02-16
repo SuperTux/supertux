@@ -99,7 +99,7 @@
     )
     (decal
       (z-pos -10)
-      (sprite "/images/objects/door/door.sprite")
+      (sprite "/images/objects/door/door-0.png")
       (x 2528)
       (y 3328)
     )
