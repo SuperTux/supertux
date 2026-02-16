@@ -1047,7 +1047,7 @@ Tux.use_scripting_controller(false);")
     )
     (decal
       (z-pos -10)
-      (sprite "/images/objects/door/door.sprite")
+      (sprite "/images/objects/door/door-0.png")
       (x 7424)
       (y 1856)
     )
