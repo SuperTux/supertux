@@ -21,8 +21,10 @@
 #include <filesystem>
 #include <fstream>
 
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_init.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <physfs.h>
 #include <tinygettext/log.hpp>
 #include <fmt/format.h>
@@ -223,9 +225,8 @@ void PhysfsSubsystem::find_mount_datadir()
   else
   {
     // check if we run from source dir
-    char* basepath_c = SDL_GetBasePath();
+    const char* basepath_c = SDL_GetBasePath();
     std::string basepath = basepath_c ? basepath_c : "./";
-    SDL_free(basepath_c);
 
     if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
     {
@@ -466,8 +467,13 @@ PhysfsSubsystem::~PhysfsSubsystem()
 
 SDLSubsystem::SDLSubsystem()
 {
-  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+  Uint32 flags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMEPAD;
 
+  // SDL3 TODO (this option is no longer needed)
+  // SDL3 TODO (this option is no longer needed)
+  // SDL3 TODO (this option is no longer needed)
+  // SDL3 TODO (this option is no longer needed)
+  // SDL3 TODO (this option is no longer needed)
 #if SDL_VERSION_ATLEAST(2,0,22) && (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
     defined(__OPENBSD) || defined(__NetBSD)) && !defined(STEAM_BUILD) && !defined(ANDROID)
   /* See commit 254fcc9 for SDL. Most of the Nvidia problems are knocked out (i
@@ -483,15 +489,13 @@ SDLSubsystem::SDLSubsystem()
   // x11 being the default. Let's just force it for now.
   SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
 # else
-  if (g_config->prefer_wayland)
-    SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
 # endif
 
 # ifdef HAVE_EPOXY
-  SDL_SetHint(SDL_HINT_VIDEO_X11_FORCE_EGL, "1");
+  SDL_SetHint(SDL_HINT_VIDEO_FORCE_EGL, "1");
 # endif
 #endif
-  if (SDL_Init(flags) < 0)
+  if (SDL_Init(flags) == false)
   {
     std::stringstream msg;
     msg << "Couldn't initialize SDL: " << SDL_GetError();
@@ -535,8 +539,14 @@ Main::init_video()
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(
-    (g_config->custom_mouse_cursor && !g_config->custom_system_cursor) ? SDL_DISABLE : SDL_ENABLE);
+  if (g_config->custom_mouse_cursor && !g_config->custom_system_cursor)
+  {
+    SDL_HideCursor();
+  }
+  else
+  {
+    SDL_ShowCursor();
+  }
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -843,7 +853,7 @@ Main::run(int argc, char** argv)
   g_dictionary_manager.reset();
 
 #ifdef __ANDROID__
-  // SDL2 keeps shared libraries loaded after the app is closed,
+  // SDL3 keeps shared libraries loaded after the app is closed,
   // when we launch the app again the static initializers will run twice and crash the app.
   // So we just need to terminate the app process 'gracefully', without running destructors or atexit() functions.
   _Exit(result);

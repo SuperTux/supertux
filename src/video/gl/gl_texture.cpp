@@ -99,6 +99,7 @@ GLTexture::reload(const SDL_Surface& image)
   m_image_height = image.h;
 
   SDLSurfacePtr convert = SDLSurface::create_rgba(m_texture_width, m_texture_height);
+  const SDL_PixelFormatDetails* format = SDL_GetPixelFormatDetails(convert->format);
 
   SDL_SetSurfaceBlendMode(const_cast<SDL_Surface*>(&image), SDL_BLENDMODE_NONE);
   SDL_BlitSurface(const_cast<SDL_Surface*>(&image), nullptr, convert.get(), nullptr);
@@ -129,13 +130,13 @@ GLTexture::reload(const SDL_Surface& image)
 
     if (m_image_width != m_texture_width && m_image_height != m_texture_height)
     {
-      const int bpp = convert->format->BytesPerPixel;
+      const int bpp = format->bytes_per_pixel;
       const int x = m_image_width - 1;
       const int y = m_image_height - 1;
       Uint32 color = 0;
       memcpy(&color, static_cast<uint8_t*>(convert->pixels) + y * convert->pitch + x * bpp, bpp);
       SDL_Rect dstrect{m_image_width, m_image_height, m_texture_width, m_texture_height};
-      SDL_FillRect(convert.get(), &dstrect, color);
+      SDL_FillSurfaceRect(convert.get(), &dstrect, color);
     }
 
     if (SDL_MUSTLOCK(convert)) {
@@ -149,9 +150,9 @@ GLTexture::reload(const SDL_Surface& image)
 
   try {
     GLenum sdl_format;
-    if (convert->format->BytesPerPixel == 3) {
+    if (format->bytes_per_pixel == 3) {
       sdl_format = GL_RGB;
-    } else if (convert->format->BytesPerPixel == 4) {
+    } else if (format->bytes_per_pixel == 4) {
       sdl_format = GL_RGBA;
     } else {
       sdl_format = GL_RGBA; // NOLINT.
@@ -161,11 +162,11 @@ GLTexture::reload(const SDL_Surface& image)
     glBindTexture(GL_TEXTURE_2D, m_handle);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 #if defined(GL_UNPACK_ROW_LENGTH)
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, convert->pitch/convert->format->BytesPerPixel);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, convert->pitch/format->bytes_per_pixel);
 #else
     /* OpenGL ES doesn't support UNPACK_ROW_LENGTH, let's hope SDL didn't add
      * padding bytes, otherwise we need some extra code here... */
-    assert(convert->pitch == static_cast<int>(m_texture_width * convert->format->BytesPerPixel));
+    assert(convert->pitch == static_cast<int>(m_texture_width * format->bytes_per_pixel));
 #endif
 
     if (SDL_MUSTLOCK(convert)) {

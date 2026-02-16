@@ -39,10 +39,11 @@ namespace {
 bool vline_empty(const SDLSurfacePtr& surface, int x, int start_y, int end_y, Uint8 threshold)
 {
   const Uint8* pixels = static_cast<Uint8*>(surface->pixels);
+  const SDL_PixelFormatDetails* format = SDL_GetPixelFormatDetails(surface->format);
 
   for (int y = start_y; y < end_y; ++y)
   {
-    const Uint8& p = pixels[surface->pitch*y + x*surface->format->BytesPerPixel + 3];
+    const Uint8& p = pixels[surface->pitch * y + x * format->bytes_per_pixel + 3];
     if (p > threshold)
     {
       return false;

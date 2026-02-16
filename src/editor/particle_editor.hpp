@@ -20,7 +20,7 @@
 #include <vector>
 #include <memory>
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "interface/control.hpp"
 #include "interface/control_button.hpp"

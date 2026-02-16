@@ -16,10 +16,10 @@
 
 #include "gui/mousecursor.hpp"
 
-#include <SDL.h>
-#include <SDL_error.h>
-#include <SDL_events.h>
-#include <SDL_mouse.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_error.h>
+#include <SDL3/SDL_events.h>
+#include <SDL3/SDL_mouse.h>
 #include <memory>
 
 #include "supertux/gameconfig.hpp"
@@ -67,7 +67,7 @@ MouseCursor::set_cursor_action(const std::string& action)
     std::string filename = (*surfaces)[0]->get_filename();
     SDLSurfacePtr surface = SDLSurface::from_file(filename);
     m_cursors[action] =
-      std::move(std::shared_ptr<SDL_Cursor>(SDL_CreateColorCursor(surface.get(), 0, 0), &SDL_FreeCursor));
+      std::move(std::shared_ptr<SDL_Cursor>(SDL_CreateColorCursor(surface.get(), 0, 0), &SDL_DestroyCursor));
     if (m_cursors[action])
     {
       SDL_SetCursor(m_cursors[action].get());
@@ -91,7 +91,7 @@ MouseCursor::apply_state(MouseCursorState state)
   if (!m_visible)
   {
     if (!(g_config->custom_mouse_cursor) || g_config->custom_system_cursor)
-      SDL_ShowCursor(SDL_DISABLE);
+      SDL_HideCursor();
     m_applied_state = state;
     return;
   }
@@ -117,7 +117,7 @@ MouseCursor::apply_state(MouseCursorState state)
 
       case MouseCursorState::HIDE:
         if (g_config->custom_system_cursor)
-          SDL_ShowCursor(SDL_DISABLE);
+          SDL_HideCursor();
         break;
     }
   }
@@ -136,7 +136,7 @@ MouseCursor::set_visible(bool visibility)
   m_visible = visibility;
   m_visibility_changed = true;
   if (m_visible && (!(g_config->custom_mouse_cursor) || g_config->custom_system_cursor))
-    SDL_ShowCursor(SDL_ENABLE);
+    SDL_ShowCursor();
 
   apply_state(m_applied_state);
 }
@@ -148,10 +148,10 @@ MouseCursor::draw(DrawingContext& context)
   {
     if (m_custom_cursor_last)
     {
-      SDL_Cursor* default_cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+      SDL_Cursor* default_cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT);
       if (default_cursor)
         SDL_SetCursor(default_cursor);
-      SDL_FreeCursor(default_cursor);
+      SDL_DestroyCursor(default_cursor);
       m_custom_cursor_last = false;
     }
     return;
@@ -159,12 +159,12 @@ MouseCursor::draw(DrawingContext& context)
 
   if (m_state != MouseCursorState::HIDE && m_visible)
   {
-    int x, y;
+    float x, y;
     Uint32 ispressed = SDL_GetMouseState(&x, &y);
 
-    if (g_config->custom_system_cursor && SDL_ShowCursor(SDL_QUERY) == SDL_DISABLE)
+    if (g_config->custom_system_cursor && !SDL_CursorVisible())
     {
-      SDL_ShowCursor(SDL_ENABLE);
+      SDL_ShowCursor();
     }
 
     if (m_mobile_mode)
@@ -173,7 +173,7 @@ MouseCursor::draw(DrawingContext& context)
       y = m_y;
     }
 
-    if (ispressed & SDL_BUTTON(1) || ispressed & SDL_BUTTON(2))
+    if (ispressed & SDL_BUTTON_MASK(1) || ispressed & SDL_BUTTON_MASK(2))
     {
       apply_state(MouseCursorState::CLICK);
     }

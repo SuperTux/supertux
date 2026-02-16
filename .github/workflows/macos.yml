@@ -81,7 +81,6 @@ jobs:
           sudo rm -f /usr/local/bin/idle3* /usr/local/bin/pip3* /usr/local/bin/pydoc3* /usr/local/bin/python3* || true
           arch -x86_64 /usr/local/bin/brew install cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl2 sdl2_image libraqm freetype libpng \
-                       glib gtk-doc zlib physfs fmt
 
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \

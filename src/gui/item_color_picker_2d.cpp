@@ -29,7 +29,7 @@ namespace {
 
 /** Get the color of a pixel from an 8-bit RGB image
  *
- * @param surface SDL2 surface containing the image
+ * @param surface SDL3 surface containing the image
  * @param pos Floating-point pixel coordinates in [0,1]^2
  *
  * @return Color of the pixel at the integer position which corresponds to pos
@@ -37,7 +37,8 @@ namespace {
 Color
 get_pixel(const SDLSurfacePtr& surface, const Vector& pos)
 {
-  assert(surface->format->BytesPerPixel == 3);
+  const SDL_PixelFormatDetails* format = SDL_GetPixelFormatDetails(surface->format);
+  assert(format->bytes_per_pixel == 3);
   int x = math::clamp(
     static_cast<int>(pos.x * static_cast<float>(surface->w - 1) + 0.5f),
     0,
@@ -104,9 +105,9 @@ ItemColorPicker2D::draw(DrawingContext& context, const Vector& pos,
 void
 ItemColorPicker2D::event(const SDL_Event& ev)
 {
-  bool is_mouseclick = ev.type == SDL_MOUSEBUTTONDOWN
+  bool is_mouseclick = ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN
     && ev.button.button == SDL_BUTTON_LEFT;
-  bool is_hold_mousemove = ev.type == SDL_MOUSEMOTION
+  bool is_hold_mousemove = ev.type == SDL_EVENT_MOUSE_MOTION
     && (ev.motion.state & SDL_BUTTON_LMASK);
   if (is_mouseclick) {
     m_mousedown = true;

@@ -67,11 +67,11 @@ ItemScriptLine::get_width() const
 void
 ItemScriptLine::event(const SDL_Event& ev)
 {
-  if (ev.type == SDL_KEYDOWN)
+  if (ev.type == SDL_EVENT_KEY_DOWN)
   {
-    if (SDL_GetModState() & KMOD_CTRL) // Commands which require CTRL
+    if (SDL_GetModState() & SDL_KMOD_CTRL) // Commands which require CTRL
     {
-      if (ev.key.keysym.sym == SDLK_d) // Duplicate line
+      if (ev.key.key == SDLK_D) // Duplicate line
       {
         duplicate_line();
       }
