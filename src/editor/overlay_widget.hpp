@@ -77,6 +77,8 @@ public:
 
   inline Vector get_sector_pos() const { return m_sector_pos; }
 
+  void update_autotile_mode();
+
 private:
   static bool action_pressed;
   static bool alt_pressed;
