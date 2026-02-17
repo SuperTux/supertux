@@ -25,6 +25,7 @@
 #include "supertux/fadetoblack.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/info_box_line.hpp"
+#include "supertux/level.hpp"
 #include "supertux/screen_manager.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
