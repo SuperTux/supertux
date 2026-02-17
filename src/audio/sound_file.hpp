@@ -39,6 +39,7 @@ public:
     m_rate(),
     m_bits_per_sample(),
     m_size(),
+    m_volume(1.0f),
     m_authors(),
     m_license(),
     m_title()
@@ -55,6 +56,8 @@ public:
   int m_bits_per_sample;
   /// size in bytes
   size_t m_size;
+  /// innate volume adjustment, 0.0 to 1.0
+  float m_volume;
   std::vector<std::string> m_authors;
   std::string m_license;
   std::string m_title;
