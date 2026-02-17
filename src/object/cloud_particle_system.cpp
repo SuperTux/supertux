@@ -247,9 +247,10 @@ CloudParticleSystem::remove_clouds(int amount, float fade_time)
   {
 
     auto particle = dynamic_cast<CloudParticle*>(particles.at(i).get());
-    if (particle->target_alpha != 1.f || particle->target_time_remaining != 0.f) // Invalid particle.
+    if (particle->target_alpha != 1.f || particle->target_time_remaining != 0.f)
     {
-      --i;
+      // Invalid particle.
+      continue;
     }
     else
     {
