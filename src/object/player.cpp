@@ -2496,6 +2496,8 @@ Player::on_flip(float height)
   Vector pos = get_pos();
   pos.y = height - pos.y - get_bbox().get_height();
   set_pos_reset(pos);
+
+  position_grabbed_object(true);
 }
 
 void
