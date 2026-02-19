@@ -1,7 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-// Is running in CI mode
-ext.ci = hasProperty("ci")
+for (String task : gradle.startParameter.getTaskNames()) {
+    if (task.startsWith("bundle")) {
+        ext.bundle = true
+        break
+    }
+}
 
 if (hasProperty("cpuarch")) {
     ext.cpuarch = property("cpuarch").split()
