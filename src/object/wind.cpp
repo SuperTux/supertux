@@ -106,7 +106,8 @@ Wind::get_types() const
     /*
       l10n: Note: "Current" refers to "water current" and is not meant to be understood in terms of time.
     */
-    { "current", _("Current") }
+    { "current", _("Current") },
+    { "new_wind", _("New Wind") }
   };
 }
 
@@ -129,6 +130,7 @@ Wind::update(float dt_sec_)
     {
       const float angle = std::atan2(speed.y, speed.x) * float(180.0 / M_PI);
       switch (m_type) {
+        case NEW_WIND:
         case WIND: // Normal wind
           Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, 0, Color::WHITE, angle);
           break;
@@ -152,22 +154,30 @@ Wind::collision(MovingObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*> (&other);
   if (player && affects_player)
   {
-    player->override_velocity();
-    if (!player->on_ground())
-	  {
-      player->add_velocity(speed * acceleration * dt_sec, speed);
-    }
-    else
-    {
-      if (player->get_controller().hold(Control::RIGHT) || player->get_controller().hold(Control::LEFT))
-	    {
-	      player->add_velocity(Vector(speed.x, 0) * acceleration * dt_sec, speed);
-	    }
-	    else
+    if (m_type != NEW_WIND) {
+      player->override_velocity();
+      if (!player->on_ground())
       {
-	      // When on ground, get blown slightly differently, but the max speed is less than it would be otherwise seen as we take "friction" into account
-	      player->add_velocity((Vector(speed.x, 0) * 0.1f) * (acceleration+1), (Vector(speed.x, speed.y) * 0.5f));
-	    }
+        player->add_velocity(speed * acceleration * dt_sec, speed);
+      }
+      else
+      {
+        if (player->get_controller().hold(Control::RIGHT) || player->get_controller().hold(Control::LEFT))
+        {
+          player->add_velocity(Vector(speed.x, 0) * acceleration * dt_sec, speed);
+        }
+        else
+        {
+          // When on ground, get blown slightly differently, but the max speed is less than it would be otherwise seen as we take "friction" into account
+          player->add_velocity((Vector(speed.x, 0) * 0.1f) * (acceleration+1), (Vector(speed.x, speed.y) * 0.5f));
+        }
+      }
+    }
+    else {
+      if (player->get_wind_accel() < 1.0f) {
+        player->set_wind_accel(std::min(1.0f, player->get_wind_accel() + (acceleration * dt_sec)));
+      }
+      player->set_wind_boost(speed * player->get_wind_accel() * (player->on_ground() ? 0.5f : 1.0f));
     }
   }
 

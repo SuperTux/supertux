@@ -38,6 +38,7 @@
 #include "object/particles.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
+#include "object/wind.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
@@ -97,6 +98,8 @@ const float MAX_WALLCLING_YM = 64;
 const float WALK_SPEED = 100;
 /** rate at which m_boost decreases */
 const float BOOST_DECREASE_RATE = 500;
+/** rate at which m_wind_accel decreases */
+const float WIND_DECEL_RATE = 1;
 /** rate at which the speed decreases if going above maximum */
 const float OVERSPEED_DECELERATION = 100;
 
@@ -185,6 +188,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_in_walljump_tile(false),
   m_can_walljump(false),
   m_boost(0.f),
+  m_wind_boost(Vector(0.f, 0.f)),
+  m_wind_accel(0.f),
   m_speedlimit(0), //no special limit
   m_velocity_override(),
   m_scripting_controller_old(nullptr),
@@ -425,6 +430,13 @@ Player::update(float dt_sec)
         return is_out_of_water || hits_solid;
       });
   }
+
+  Rectf wind_box = get_bbox();
+  for (auto& wind : Sector::get().get_objects_by_type<Wind>()) {
+      if (!wind_box.overlaps(wind.get_bbox()) && m_wind_accel > 0.f) {
+        m_wind_accel = std::max(0.f, m_wind_accel - (WIND_DECEL_RATE * dt_sec));
+      }
+    }
 
   // Skip if in multiplayer respawn
   if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p) { return p.is_active() && &p != this; }))
@@ -766,7 +778,7 @@ Player::update(float dt_sec)
   }
 
   // calculate movement for this frame
-  m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0));
+  m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0) + m_wind_boost);
 
   if (m_grabbed_object != nullptr && !m_dying)
   {

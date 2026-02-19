@@ -86,6 +86,7 @@ private:
   enum Type {
     WIND,
     CURRENT,
+    NEW_WIND
   };
 
 private:
