@@ -432,11 +432,17 @@ Player::update(float dt_sec)
   }
 
   Rectf wind_box = get_bbox();
+  bool in_wind = false;
   for (auto& wind : Sector::get().get_objects_by_type<Wind>()) {
-      if (!wind_box.overlaps(wind.get_bbox()) && m_wind_accel > 0.f) {
-        m_wind_accel = std::max(0.f, m_wind_accel - (WIND_DECEL_RATE * dt_sec));
-      }
+    if (wind_box.overlaps(wind.get_bbox())) {
+      in_wind = true;
     }
+  }
+  if (!in_wind && m_wind_accel > 0.f) {
+    m_wind_accel = 0.f;
+    m_physic.set_velocity(m_physic.get_velocity() + (m_wind_boost));
+    m_wind_boost = Vector(0.f, 0.f);
+  }
 
   // Skip if in multiplayer respawn
   if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p) { return p.is_active() && &p != this; }))
@@ -778,7 +784,7 @@ Player::update(float dt_sec)
   }
 
   // calculate movement for this frame
-  m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0) + m_wind_boost);
+  m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0) + (m_wind_boost * dt_sec));
 
   if (m_grabbed_object != nullptr && !m_dying)
   {
@@ -2769,6 +2775,9 @@ Player::set_ghost_mode(bool enable)
     return;
 
   if (m_climbing) stop_climbing(*m_climbing);
+
+  m_wind_accel = 0.f;
+  m_wind_boost = Vector(0.f, 0.f);
 
   ungrab_object();
 
