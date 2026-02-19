@@ -439,6 +439,7 @@ Player::update(float dt_sec)
     }
   }
   if (!in_wind && m_wind_accel > 0.f) {
+    // convert final wind boost to velocity
     m_wind_accel = 0.f;
     m_physic.set_velocity(m_physic.get_velocity() + (m_wind_boost));
     m_wind_boost = Vector(0.f, 0.f);

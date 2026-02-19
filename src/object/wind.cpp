@@ -177,7 +177,7 @@ Wind::collision(MovingObject& other, const CollisionHit& )
       if (player->get_wind_accel() < 1.0f) {
         player->set_wind_accel(std::min(1.0f, player->get_wind_accel() + (acceleration * dt_sec)));
       }
-      player->set_wind_boost(speed * player->get_wind_accel() * (player->on_ground() ? 0.5f : 1.0f));
+      player->set_wind_boost(speed * player->get_wind_accel() * Vector(player->on_ground() ? 0.5f : 1.0f, 1.0f));
     }
   }
 
