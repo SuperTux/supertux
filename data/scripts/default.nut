@@ -5,7 +5,7 @@
 
 function end_level()
 {
-  play_music("music/misc/leveldone.ogg");
+  play_music("music/misc/leveldone.wav");
   Tux.deactivate();
   wait(6);
   Effect.fade_out(2);

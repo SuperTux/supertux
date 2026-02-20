@@ -283,7 +283,7 @@ std::unordered_map<std::string, std::string> fallback_paths = {
   {"intro.music", "/music/misc/intro.music"},
   {"intro.ogg", "/music/misc/intro.ogg"},
   {"invincible.ogg", "/music/misc/invincible.ogg"},
-  {"leveldone.ogg", "/music/misc/leveldone.ogg"},
+  {"leveldone.wav", "/music/misc/leveldone.wav"},
   {"theme.music", "/music/misc/theme.music"},
   {"theme.ogg", "/music/misc/theme.ogg"},
   {"cave_old.music", "/music/retro/cave_old.music"},

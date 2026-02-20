@@ -1008,7 +1008,7 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
 
   m_end_sequence->start();
 
-  SoundManager::current()->play_music("music/misc/leveldone.ogg", false);
+  SoundManager::current()->play_music("music/misc/leveldone.wav", false);
   for (auto* p : m_currentsector->get_players())
   {
     p->set_winning();
