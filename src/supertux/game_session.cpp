@@ -159,6 +159,9 @@ GameSession::reset_level()
 void
 GameSession::on_player_added(int id)
 {
+  if (!is_cutscene() || !m_currentsector)
+    return;
+
   PlayerStatus* player_status;
   if (m_savegame)
   {
@@ -183,7 +186,7 @@ bool
 GameSession::on_player_removed(int id)
 {
   // Sectors in worldmaps have no Player's of that class
-  if (!m_currentsector)
+  if (!is_cutscene() || !m_currentsector)
     return false;
 
   for (Player* player : m_currentsector->get_players())

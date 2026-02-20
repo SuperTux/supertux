@@ -7,6 +7,7 @@
   (suppress-pause-menu #t)
   (icon "")
   (icon-locked "")
+  (cutscene #t)
   (sector
     (name "main")
     (init-script "Tux.deactivate();

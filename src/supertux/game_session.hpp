@@ -151,6 +151,8 @@ public:
 
   void set_scheduler(SquirrelScheduler& new_scheduler);
 
+  inline bool is_cutscene() const { return m_level && !m_level->m_is_cutscene; }
+
 private:
   void check_end_conditions();
 
