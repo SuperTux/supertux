@@ -1,5 +1,6 @@
 (supertux-music
   (file "crystalmine_intro.ogg")
+  (title "Crystal Mine Intro")
   (authors "SnugglyBun")
   (license "CC-BY-SA 4.0")
   (loop-begin 0)

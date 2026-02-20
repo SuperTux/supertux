@@ -1,5 +1,6 @@
 (supertux-music
   (file "halloween_1.ogg")
+  (title "Halloween Theme")
   (authors "Forty-Two")
   (license "CC-BY-SA 4.0")
   (loop-begin 37.60)

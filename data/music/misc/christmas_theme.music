@@ -1,5 +1,8 @@
 (supertux-music
   (file "christmas_theme.ogg")
+  (title "Supertux Title Theme (Christmas)")
+  (authors "Krobonil")
+  (license "CC-BY-SA 2.0")
   (loop-begin 9)
   (loop-at    -1)
 )

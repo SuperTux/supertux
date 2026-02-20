@@ -1,5 +1,6 @@
 (supertux-music
   (file "worldmap_ice.ogg")
+  (title "Ice Worldmap Theme")
   (authors "SnugglyBun")
   (license "CC-BY-SA 4.0")
   (loop-begin 0)

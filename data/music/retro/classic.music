@@ -1,6 +1,7 @@
 (supertux-music
   (file "classic.ogg")
-  (title "SuperTux 0.0.4 music")
+  (title "Turnpoint")
+  (author "Retro")
   (loop-begin 0)
   (loop-at    97)
 )
