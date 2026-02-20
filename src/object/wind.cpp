@@ -180,7 +180,7 @@ Wind::collision(MovingObject& other, const CollisionHit& )
         player->set_wind_accel(std::min(1.0f, player->get_wind_accel() + (acceleration * dt_sec)));
       }
       player->set_wind_boost(speed * player->get_wind_accel() * Vector(player->on_ground() ? 0.5f : 1.0f, 1.0f));
-      if (player->get_velocity_y() > 0.f && speed.y < 0.f) { // allow wind to push players up that are going down
+      if (player->get_velocity_y() > 0.f && speed.y < 0.f && !player->is_swimming()) { // allow wind to push players up that are going down
         player->get_physic().set_velocity_y(0.f);
       }
     }
