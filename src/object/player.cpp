@@ -2556,6 +2556,8 @@ Player::kill(bool completely)
 
   m_physic.set_velocity_x(0);
   m_boost = 0.f;
+  m_wind_accel = 0.f;
+  m_wind_boost = Vector(0.f, 0.f);
 
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);
