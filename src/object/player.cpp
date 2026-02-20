@@ -2496,6 +2496,8 @@ Player::on_flip(float height)
   Vector pos = get_pos();
   pos.y = height - pos.y - get_bbox().get_height();
   set_pos_reset(pos);
+
+  position_grabbed_object(true);
 }
 
 void
@@ -2749,13 +2751,10 @@ Player::set_dir(bool right)
 }
 
 void
-Player::set_ghost_mode(bool enable, bool toggle)
+Player::set_ghost_mode(bool enable)
 {
-  if (!toggle && m_ghost_mode == enable)
+  if (m_ghost_mode == enable)
     return;
-
-  if (toggle)
-    enable = m_ghost_mode = !m_ghost_mode;
 
   if (m_climbing) stop_climbing(*m_climbing);
 

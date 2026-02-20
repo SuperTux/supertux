@@ -56,13 +56,13 @@ android {
         }
     }
 
-    if (!rootProject.ext.ci) {
-        // HACK: this just does not work on CI. whatever. it's meant for app bundles anyway.
+    if (rootProject.ext.bundle) {
         assetPacks = [":assetpack"]
-    }
-    sourceSets {
-        main {
-            assets.srcDirs += ['../assetpack/src/main/assets']
+    } else {
+        sourceSets {
+            main {
+                assets.srcDirs += ['../assetpack/src/main/assets']
+            }
         }
     }
 

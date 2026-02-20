@@ -159,12 +159,6 @@
       (y 928)
     )
     (decal
-      (z-pos -3)
-      (sprite "/images/creatures/larry/larry.png")
-      (x 400)
-      (y 3648)
-    )
-    (decal
       (z-pos 0)
       (sprite "/images/decal/sign_icons/rockcrusher.png")
       (x 5888)

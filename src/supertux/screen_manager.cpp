@@ -43,7 +43,6 @@
 #include "util/log.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
-#include "worldmap/worldmap.hpp"
 
 #include <stdio.h>
 #include <chrono>
@@ -479,27 +478,6 @@ ScreenManager::process_events()
           }
         }
 #endif
-        // Toggle ghost mode
-        else if (event.key.keysym.sym == SDLK_g &&
-                 (event.key.keysym.mod & KMOD_ALT) &&
-                 (event.key.keysym.mod & KMOD_CTRL) &&
-                 g_config->developer_mode)
-        {
-          if (session && session->is_active())
-          {
-            for (Player* player : session->get_current_sector().get_players())
-            {
-              player->set_ghost_mode(false, true);
-            }
-          }
-          else if (worldmap::WorldMap::current() && worldmap::WorldMapSector::current())
-          {
-            auto worldmap_sector = worldmap::WorldMapSector::current();
-            auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
-
-            tux.toggle_ghost_mode();
-          }
-        }
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
