@@ -82,24 +82,20 @@ JoystickManager::on_joystick_added(int joystick_index)
 
     if (!parent->m_use_game_controller && g_config->multiplayer_auto_manage_players)
     {
-      int id = parent->get_num_users();
+      // If a player already exists, bind it immediately without waiting for the user to press a button.
       for (int i = 0; i < parent->get_num_users(); i++)
       {
         if (!parent->has_corresponsing_controller(i) && !parent->m_uses_keyboard[i])
         {
-          id = i;
+          joysticks[joystick] = i;
+
+          if (i != 0)
+          {
+            GameSession::current()->on_player_added(i);
+          }
+
           break;
         }
-      }
-
-      if (id == parent->get_num_users())
-        parent->push_user();
-
-      joysticks[joystick] = id;
-
-      if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen() && id != 0)
-      {
-        GameSession::current()->on_player_added(id);
       }
     }
   }
@@ -274,8 +270,20 @@ void
 JoystickManager::set_joy_controls(SDL_JoystickID joystick, Control id, bool value)
 {
   auto it = joysticks.find(SDL_JoystickFromInstanceID(joystick));
-  if (it == joysticks.end() || it->second < 0)
+  if (it == joysticks.end())
     return;
+
+  if (it->second < 0)
+  {
+    if (g_config->multiplayer_auto_manage_players)
+    {
+      autobind_joystick(it->first);
+    }
+    else
+    {
+      return;
+    }
+  }
 
   if (m_joystick_config.m_jump_with_up_joy &&
       id == Control::UP)
@@ -345,4 +353,22 @@ JoystickManager::bind_joystick(SDL_Joystick* controller, int player_id)
     for (auto& pair2 : joysticks)
       if (pair2.second == player_id && pair2.first != controller)
         pair2.second = -1;
+}
+
+void
+JoystickManager::autobind_joystick(SDL_Joystick* joystick)
+{
+  // This function only binds unbound joysticks to a new player; binding to an
+  // existing player or rebinding an already bound joystick should be dealt with
+  // elsewhere.
+  assert(joysticks[joystick] == -1);
+
+  int id = parent->get_num_users();
+  parent->push_user();
+  joysticks[joystick] = id;
+
+  if (GameSession::current())
+  {
+    GameSession::current()->on_player_added(id);
+  }
 }

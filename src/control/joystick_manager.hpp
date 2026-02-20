@@ -64,6 +64,9 @@ public:
   inline std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
 
 private:
+  void autobind_joystick(SDL_Joystick* joystick);
+
+private:
   InputManager* parent;
   JoystickConfig& m_joystick_config;
 

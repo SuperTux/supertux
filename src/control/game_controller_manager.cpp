@@ -47,14 +47,33 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
 {
   int player_id;
 
+  SDL_GameController* sdl_controller = SDL_GameControllerFromInstanceID(ev.which);
+
+  if (!sdl_controller)
   {
-    auto it = m_game_controllers.find(SDL_GameControllerFromInstanceID(ev.which));
-
-    if (it == m_game_controllers.end() || it->second < 0)
-      return;
-
-    player_id = it->second;
+    // This should never happen in practice
+    log_warning << "Received an event from an invalid joystick; ignoring" << std::endl;
+    return;
   }
+
+  auto it = m_game_controllers.find(sdl_controller);
+
+  if (it == m_game_controllers.end())
+    return;
+
+  if (it->second < 0)
+  {
+    if (g_config->multiplayer_auto_manage_players)
+    {
+      autobind_controller(sdl_controller);
+    }
+    else
+    {
+      return;
+    }
+  }
+
+  player_id = it->second;
 
   //log_info << "button event: " << static_cast<int>(ev.button) << " " << static_cast<int>(ev.state) << std::endl;
   Controller& controller = m_parent->get_controller(player_id);
@@ -229,24 +248,19 @@ GameControllerManager::on_controller_added(int joystick_index)
 
       if (m_parent->m_use_game_controller && g_config->multiplayer_auto_manage_players)
       {
-        int id = m_parent->get_num_users();
+        // If a player already exists, bind it immediately without waiting for the user to press a button.
         for (int i = 0; i < m_parent->get_num_users(); i++)
         {
           if (!m_parent->has_corresponsing_controller(i) && !m_parent->m_uses_keyboard[i])
           {
-            id = i;
+            m_game_controllers[game_controller] = i;
+
+            if (i != 0)
+            {
+              GameSession::current()->on_player_added(i);
+            }
             break;
           }
-        }
-
-        if (id == m_parent->get_num_users())
-          m_parent->push_user();
-
-        m_game_controllers[game_controller] = id;
-
-        if (GameSession::current() && (savegame && savegame->is_title_screen()) && id != 0)
-        {
-          GameSession::current()->on_player_added(id);
         }
       }
     }
@@ -342,4 +356,22 @@ GameControllerManager::bind_controller(SDL_GameController* controller, int playe
     for (auto& pair2 : m_game_controllers)
       if (pair2.second == player_id && pair2.first != controller)
         pair2.second = -1;
+}
+
+void
+GameControllerManager::autobind_controller(SDL_GameController* game_controller)
+{
+  // This function only binds unbound controllers to a new player; binding to an
+  // existing player or rebinding an already bound controller should be dealt
+  // with elsewhere.
+  assert(m_game_controllers[game_controller] == -1);
+
+  int id = m_parent->get_num_users();
+  m_parent->push_user();
+  m_game_controllers[game_controller] = id;
+
+  if (GameSession::current())
+  {
+    GameSession::current()->on_player_added(id);
+  }
 }
