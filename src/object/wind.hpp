@@ -86,7 +86,8 @@ private:
   enum Type {
     WIND,
     CURRENT,
-    NEW_WIND
+    WIND_ADDITIVE,
+    CURRENT_ADDITIVE
   };
 
 private:

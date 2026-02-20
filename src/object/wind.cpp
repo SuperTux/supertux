@@ -107,7 +107,8 @@ Wind::get_types() const
       l10n: Note: "Current" refers to "water current" and is not meant to be understood in terms of time.
     */
     { "current", _("Current") },
-    { "new_wind", _("New Wind") }
+    { "wind_additive", _("Wind (Additive)") },
+    { "current_additive", _("Current (Additive)") }
   };
 }
 
@@ -130,10 +131,11 @@ Wind::update(float dt_sec_)
     {
       const float angle = std::atan2(speed.y, speed.x) * float(180.0 / M_PI);
       switch (m_type) {
-        case NEW_WIND:
+        case WIND_ADDITIVE:
         case WIND: // Normal wind
           Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, 0, Color::WHITE, angle);
           break;
+        case CURRENT_ADDITIVE:
         case CURRENT: // Current variant
           Sector::get().add<SpriteParticle>("images/particles/water_piece1.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, 0, Color::WHITE, angle);
           break;
@@ -154,7 +156,7 @@ Wind::collision(MovingObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*> (&other);
   if (player && affects_player)
   {
-    if (m_type != NEW_WIND) {
+    if (m_type != WIND_ADDITIVE && m_type != CURRENT_ADDITIVE) {
       player->override_velocity();
       if (!player->on_ground())
       {
@@ -178,7 +180,7 @@ Wind::collision(MovingObject& other, const CollisionHit& )
         player->set_wind_accel(std::min(1.0f, player->get_wind_accel() + (acceleration * dt_sec)));
       }
       player->set_wind_boost(speed * player->get_wind_accel() * Vector(player->on_ground() ? 0.5f : 1.0f, 1.0f));
-      if (player->get_velocity_y() > 0.f) { // allow wind to push players that are obeying gravity at the moment
+      if (player->get_velocity_y() > 0.f && speed.y < 0.f) { // allow wind to push players up that are going down
         player->get_physic().set_velocity_y(0.f);
       }
     }
