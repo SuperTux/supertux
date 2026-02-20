@@ -51,6 +51,7 @@ private:
   void add_window_resolutions();
   void add_resolutions();
   void add_vsync();
+  void add_screen_shake_mode();
   void add_sound_volume();
   void add_music_volume();
   void add_flash_intensity();
@@ -73,6 +74,7 @@ private:
     MNID_SOUND_VOLUME,
     MNID_MUSIC_VOLUME,
     MNID_FLASH_INTENSITY,
+    MNID_SCREEN_SHAKE_MODE,
     MNID_RUMBLING,
     MNID_DEVELOPER_MODE,
     MNID_CHRISTMAS_MODE,
@@ -108,6 +110,7 @@ private:
   StringOption m_window_resolutions;
   StringOption m_resolutions;
   StringOption m_vsyncs;
+  StringOption m_screen_shake_modes;
   StringOption m_sound_volumes;
   StringOption m_music_volumes;
   StringOption m_flash_intensity_values;

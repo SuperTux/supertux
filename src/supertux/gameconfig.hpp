@@ -28,6 +28,11 @@
 class Config final
 {
 public:
+  enum class ScreenShakeMode {
+    OFF, REDUCED, FULL
+  };
+
+public:
   Config();
 
   void load();
@@ -79,6 +84,7 @@ public:
   int sound_volume;
   int music_volume;
   int flash_intensity;
+  ScreenShakeMode screen_shake_mode;
   bool precise_scrolling;
   bool invert_wheel_x;
   bool invert_wheel_y;
