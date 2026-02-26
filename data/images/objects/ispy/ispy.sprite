@@ -1,164 +1,202 @@
 (supertux-sprite
   (action
     (name "idle-left")
-    (hitbox 0 0 32 34)
+    (hitbox -2 2 32 34)
+    (fps 14)
     (images 
-      "i-idle.png"
+      "i-idle0.png"
+      "i-idle1.png"
+      "i-idle1.png"
+      "i-idle1.png"
+      "i-idle1.png"
+      "i-idle1.png"
+      "i-idle0.png"
+      "i-idle2.png"
+      "i-idle3.png"
+      "i-idle4.png"
+      "i-idle4.png"
+      "i-idle4.png"
+      "i-idle4.png"
+      "i-idle4.png"
+      "i-idle3.png"
+      "i-idle2.png"
+      "i-idle0.png"
+      "i-idle5.png"
+      "i-idle6.png"
+      "i-idle7.png"
+      "i-idle8.png"
+      "i-idle8.png"
+      "i-idle8.png"
+      "i-idle8.png"
+      "i-idle8.png"
+      "i-idle7.png"
+      "i-idle6.png"
+      "i-idle5.png"
+
     )
   )
   (action
     (name "idle-right")
-    (hitbox 0 0 32 34)
+    (hitbox 3 2 32 34)
     (mirror-action "idle-left")
   )
   (action
     (name "alert-left")
-    (hitbox 0 0 32 34)
+    (hitbox -2 2 32 34)
     (fps 14)
     (images 
-      "i-idle.png"
-      "i-idle.png"
-      "i-idle.png"
-      "i-idle.png"
-      "i-shaking.png"
-      "i-shaking2.png"
-      "i-shaking.png"
-      "i-shaking2.png"
-      "i-shaking.png"
-      "i-shaking2.png"
-      "i-shaking.png"
-      "i-shaking2.png"
-      "i-shaking3.png"
-      "i-showing2.png"
-      "i-showing1.png"
-      "i-hiding.png"
+      "i-idle0.png"
+      "i-idle1.png"
+      "i-notice0.png"
+      "i-notice1.png"
+      "i-notice1.png"
+      "i-notice1.png"
+      "i-notice2.png"
+      "i-idle0.png"
+      "i-notice3.png"
+      "i-notice4.png"
+      "i-notice5.png"
+      "i-notice6.png"
+      "i-notice7.png"
     )
   )
   (action
     (name "alert-right")
-    (hitbox 0 0 32 34)
+    (hitbox 3 2 32 34)
     (fps 14)
     (mirror-action "alert-left")
   )
   (action
     (name "hiding-left")
-    (hitbox 0 0 32 34)
+    (hitbox -2 2 32 34)
     (images 
-      "i-hiding.png"
-      "i-hiding.png"
-      "i-hiding.png"
-      "i-hiding.png"
-      "i-hiding.png"
-      "i-hiding.png"
-      "i-hiding.png"
-      "i-hiding.png"
-      "i-hiding.png"
-      "i-hiding.png"
+      "i-notice7.png"
+      "i-notice7.png"
+      "i-notice7.png"
+      "i-notice7.png"
     )
   )
   (action
     (name "hiding-right")
-    (hitbox 0 0 32 34)
+    (hitbox 3 2 32 34)
     (mirror-action "hiding-left")
   )
   (action
     (name "showing-left")
-    (hitbox 0 0 32 34)
+    (hitbox -2 2 32 34)
     (fps 14)
     (images 
-      "i-hiding.png"
-      "i-showing1.png"
-      "i-showing2.png"
-      "i-showing3.png"
-      "i-idle.png"
-      "i-idle.png"
+      "i-notice7.png"
+      "i-notice6.png"
+      "i-notice5.png"
+      "i-notice4.png"
+      "i-notice3.png"
+      "i-idle0.png"
     )
   )
   (action
     (name "showing-right")
-    (hitbox 0 0 32 34)
+    (hitbox 3 2 32 34)
     (fps 14)
     (mirror-action "showing-left")
   )
   (action
     (name "idle-down")
-    (hitbox 0 0 34 28)
+    (hitbox 4 4 34 28)
     (fps 14)
     (images 
-      "i-idle-down.png"
+      "i-idle-down0.png"
+      "i-idle-down1.png"
+      "i-idle-down1.png"
+      "i-idle-down1.png"
+      "i-idle-down1.png"
+      "i-idle-down1.png"
+      "i-idle-down0.png"
+      "i-idle-down2.png"
+      "i-idle-down3.png"
+      "i-idle-down4.png"
+      "i-idle-down4.png"
+      "i-idle-down4.png"
+      "i-idle-down4.png"
+      "i-idle-down4.png"
+      "i-idle-down3.png"
+      "i-idle-down2.png"
+      "i-idle-down0.png"
+      "i-idle-down5.png"
+      "i-idle-down6.png"
+      "i-idle-down7.png"
+      "i-idle-down8.png"
+      "i-idle-down8.png"
+      "i-idle-down8.png"
+      "i-idle-down8.png"
+      "i-idle-down8.png"
+      "i-idle-down7.png"
+      "i-idle-down6.png"
+      "i-idle-down5.png"
     )
   )
   (action
     (name "alert-down")
-    (hitbox 0 0 34 28)
+    (hitbox 4 4 34 28)
     (fps 14)
     (images 
-      "i-idle-down.png"
-      "i-idle-down.png"
-      "i-idle-down.png"
-      "i-idle-down.png"
-      "i-shaking-down.png"
-      "i-shaking2-down.png"
-      "i-shaking-down.png"
-      "i-shaking2-down.png"
-      "i-shaking-down.png"
-      "i-shaking2-down.png"
-      "i-shaking-down.png"
-      "i-shaking2-down.png"
-      "i-shaking3-down.png"
-      "i-showing2-down.png"
-      "i-showing1-down.png"
-      "i-hiding-down.png"
+      "i-idle-down0.png"
+      "i-idle-down1.png"
+      "i-notice-down0.png"
+      "i-notice-down1.png"
+      "i-notice-down1.png"
+      "i-notice-down1.png"
+      "i-notice-down2.png"
+      "i-idle-down0.png"
+      "i-notice-down3.png"
+      "i-notice-down4.png"
+      "i-notice-down5.png"
+      "i-notice-down6.png"
+      "i-notice-down7.png"
     )
   )
   (action
     (name "hiding-down")
-    (hitbox 0 0 34 28)
+    (hitbox 4 4 34 28)
     (fps 14)
     (images 
-      "i-hiding-down.png"
-      "i-hiding-down.png"
-      "i-hiding-down.png"
-      "i-hiding-down.png"
-      "i-hiding-down.png"
-      "i-hiding-down.png"
-      "i-hiding-down.png"
-      "i-hiding-down.png"
-      "i-hiding-down.png"
-      "i-hiding-down.png"
+      "i-notice-down7.png"
+      "i-notice-down7.png"
+      "i-notice-down7.png"
+      "i-notice-down7.png"
     )
   )
   (action
     (name "showing-down")
-    (hitbox 0 0 34 28)
+    (hitbox 4 4 34 28)
     (fps 14)
     (images 
-      "i-hiding-down.png"
-      "i-showing1-down.png"
-      "i-showing2-down.png"
-      "i-showing3-down.png"
-      "i-idle-down.png"
-      "i-idle-down.png"
+      "i-notice-down7.png"
+      "i-notice-down6.png"
+      "i-notice-down5.png"
+      "i-notice-down4.png"
+      "i-notice-down3.png"
+      "i-idle-down0.png"
     )
   )
   (action
     (name "idle-up")
-    (hitbox 0 0 34 28)
+    (hitbox 4 -1 34 28)
     (flip-action "idle-down")
   )
   (action
     (name "alert-up")
-    (hitbox 0 0 34 28)
+    (hitbox 4 -1 34 28)
     (flip-action "alert-down")
   )
   (action
     (name "hiding-up")
-    (hitbox 0 0 34 28)
+    (hitbox 4 -1 34 28)
     (flip-action "hiding-down")
   )
   (action
     (name "showing-up")
-    (hitbox 0 0 34 28)
+    (hitbox 4 -1 34 28)
     (flip-action "showing-down")
   )
 )
