@@ -540,10 +540,14 @@ EditorLayersWidget::set_selected_tilemap(TileMap* tilemap)
 {
   TileMap* selected_tilemap = get_selected_tilemap();
   if (selected_tilemap)
+  {
     selected_tilemap->m_editor_active = false;
+    selected_tilemap->set_alpha(0.5f);
+  }
 
   m_selected_tilemap = tilemap->get_uid();
   tilemap->m_editor_active = true;
+  tilemap->set_alpha(1.0f);
 }
 
 Vector
