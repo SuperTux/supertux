@@ -674,6 +674,18 @@ Editor::open_level_directory()
 }
 
 void
+Editor::open_level_in_external_editor()
+{
+  auto temp_filename = get_readonly_levelname(m_levelfile);
+  m_level->save(FileSystem::join(get_level_directory(), temp_filename));
+  
+  auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
+  auto level_path = FileSystem::join(path, temp_filename);
+
+  FileSystem::open_editor(level_path);
+}
+
+void
 Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
