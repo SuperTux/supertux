@@ -49,6 +49,18 @@ SmartBall::get_default_sprite_name() const
 }
 
 bool
+SmartBall::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("kirby.sprite") != std::string::npos)
+  {
+    type = "pumpkin";
+    return true;
+  }
+
+  return false;
+}
+
+bool
 SmartBall::is_freezable() const
 {
   return m_type == PUMPKIN;
