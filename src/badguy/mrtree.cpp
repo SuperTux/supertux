@@ -107,18 +107,44 @@ MrTree::collision_squished(MovingObject& object)
     return true;
   }
 
-  // Replace with Stumpy.
-  Vector stumpy_pos = get_pos();
-  stumpy_pos.x += 8;
-  stumpy_pos.y += 28;
-  auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir);
-  if (m_is_glinting)
-    stumpy.m_is_glinting = true;
-  remove_me();
-
   // Give feedback.
   SoundManager::current()->play("sounds/mr_tree.ogg", get_pos());
   if (player) player->bounce(*this);
+
+  // Calculate position of Stumpy
+  Vector stumpy_pos = get_pos();
+  stumpy_pos.x += 8;
+  stumpy_pos.y += 28;
+
+  int leaves_spawned = 0;
+
+  if (!m_frozen) { // Mr.Trees that are frozen don't spawn any Vicious Ivys.
+    // Spawn ViciousIvy.
+    Vector leaf1_pos(stumpy_pos.x - VICIOUSIVY_WIDTH - 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
+    Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + VICIOUSIVY_WIDTH, leaf1_pos.y + VICIOUSIVY_HEIGHT);
+    if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
+      auto& leaf1 = Sector::get().add<ViciousIvy>(leaf1_bbox.p1(), Direction::LEFT);
+      if (m_is_glinting)
+        leaf1.m_is_glinting = true;
+      ++leaves_spawned;
+    }
+
+    // Spawn ViciousIvy.
+    Vector leaf2_pos(stumpy_pos.x + m_sprite->get_current_hitbox_width() + 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
+    Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + VICIOUSIVY_WIDTH, leaf2_pos.y + VICIOUSIVY_HEIGHT);
+    if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {
+      auto& leaf2 = Sector::get().add<ViciousIvy>(leaf2_bbox.p1(), Direction::RIGHT);
+      if (m_is_glinting)
+        leaf2.m_is_glinting = true;
+      ++leaves_spawned;
+    }
+  }
+
+  // Replace with Stumpy.
+  auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir, 3 - leaves_spawned);
+  if (m_is_glinting)
+    stumpy.m_is_glinting = true;
+  remove_me();
 
   // Spawn some particles.
   // TODO: Provide convenience function in MovingSprite or MovingObject?
@@ -138,25 +164,6 @@ MrTree::collision_squished(MovingObject& object)
                                            LAYER_OBJECTS-1);
   }
 
-  if (!m_frozen) { // Mr.Trees that are frozen don't spawn any Vicious Ivys.
-    // Spawn ViciousIvy.
-    Vector leaf1_pos(stumpy_pos.x - VICIOUSIVY_WIDTH - 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
-    Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + VICIOUSIVY_WIDTH, leaf1_pos.y + VICIOUSIVY_HEIGHT);
-    if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
-      auto& leaf1 = Sector::get().add<ViciousIvy>(leaf1_bbox.p1(), Direction::LEFT);
-      if (m_is_glinting)
-        leaf1.m_is_glinting = true;
-    }
-
-    // Spawn ViciousIvy.
-    Vector leaf2_pos(stumpy_pos.x + m_sprite->get_current_hitbox_width() + 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
-    Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + VICIOUSIVY_WIDTH, leaf2_pos.y + VICIOUSIVY_HEIGHT);
-    if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {
-      auto& leaf2 = Sector::get().add<ViciousIvy>(leaf2_bbox.p1(), Direction::RIGHT);
-      if (m_is_glinting)
-        leaf2.m_is_glinting = true;
-    }
-  }
   return true;
 }
 

@@ -23,7 +23,7 @@ class Stumpy final : public WalkingBadguy
 {
 public:
   Stumpy(const ReaderMapping& reader);
-  Stumpy(const Vector& pos, Direction d);
+  Stumpy(const Vector& pos, Direction d, int glint_coins = 1);
 
   virtual void initialize() override;
   virtual void active_update(float dt_sec) override;
@@ -51,6 +51,7 @@ protected:
 private:
   MyState mystate;
   Timer   invincible_timer;
+  int     m_glint_coins;
 
 private:
   Stumpy(const Stumpy&) = delete;
