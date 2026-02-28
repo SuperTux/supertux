@@ -222,7 +222,7 @@
       (glinting #f)
     )
     (music
-      (file "/music/forest/ghostforest2.music")
+      (file "/music/forest/root_sapling_shuffle.ogg")
     )
     (path
       (name "gen17250383212248318861952")
