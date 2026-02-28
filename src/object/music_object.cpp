@@ -57,7 +57,8 @@ MusicObject::play_music(MusicType type)
       break;
 
     case HERRING_MUSIC:
-      SoundManager::current()->play_music("music/misc/invincible.ogg");
+      SoundManager::current()->stop_music();
+      SoundManager::current()->play_music("music/misc/invincible.music");
       break;
 
     case HERRING_WARNING_MUSIC:
