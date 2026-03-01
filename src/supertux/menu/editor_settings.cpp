@@ -16,6 +16,7 @@
 
 #include "supertux/menu/editor_settings.hpp"
 
+#include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
@@ -47,7 +48,15 @@ EditorSettings::EditorSettings()
   add_toggle(-1, _("Render Animations"), &(g_config->editor_render_animations));
   add_toggle(-1, _("Invert Shift+Scroll"), &(g_config->editor_invert_shift_scroll));
   add_toggle(-1, _("Centered Zoom"), &(g_config->editor_zoom_centered));
-  add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
+  add_toggle(-1, _("Autotile Mode"), [] { return g_config->editor_autotile_mode; },
+    [] (bool v)
+    {
+      g_config->editor_autotile_mode = v;
+      if (Editor::current())
+      {
+        Editor::current()->update_autotile_mode();
+      }
+    });
   add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
   add_toggle(-1, _("Enable Object Undo Tracking"), &(g_config->editor_undo_tracking));
 #if 0 // The option exists for those to mess with, but hidden because it's still a WIP
