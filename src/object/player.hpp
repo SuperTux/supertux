@@ -279,6 +279,14 @@ public:
    * @description Returns Tux’s velocity in Y direction.
    */
   inline float get_velocity_y() const { return m_physic.get_velocity_y(); }
+
+  inline Vector get_wind_boost() const { return m_wind_boost; }
+
+  inline void set_wind_boost(Vector v) { m_wind_boost = v; }
+
+  inline float get_wind_accel() const { return m_wind_accel; }
+
+  inline void set_wind_accel(float a) { m_wind_accel = a; }
   /**
    * @scripting
    * @description Sets the velocity of the player to a programmable/variable speed.
@@ -543,6 +551,8 @@ private:
   bool m_in_walljump_tile;
   bool m_can_walljump;
   float m_boost;
+  Vector m_wind_boost;
+  float m_wind_accel;
   float m_speedlimit;
   bool m_velocity_override;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
