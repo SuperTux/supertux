@@ -18,6 +18,7 @@
 
 #include <ctime>
 #include <config.h>
+#include <string>
 
 #include "editor/overlay_widget.hpp"
 #include "math/util.hpp"
@@ -65,6 +66,7 @@ Config::Config() :
   sound_volume(100),
   music_volume(50),
   flash_intensity(50),
+  screen_shake_mode(ScreenShakeMode::FULL),
   max_viewport(false),
   fancy_gfx(true),
   precise_scrolling(true),
@@ -328,6 +330,19 @@ Config::load()
     config_video_mapping->get("aspect_width",  aspect_size.width);
     config_video_mapping->get("aspect_height", aspect_size.height);
     config_video_mapping->get("flash_intensity", flash_intensity);
+    {
+      std::string screen_shake_mode_string;
+      config_video_mapping->get("screen_shake_mode", screen_shake_mode_string, "full");
+      if (screen_shake_mode_string == "off") {
+        screen_shake_mode = ScreenShakeMode::OFF;
+      } else if (screen_shake_mode_string == "reduced") {
+        screen_shake_mode = ScreenShakeMode::REDUCED;
+      } else if (screen_shake_mode_string == "full") {
+        screen_shake_mode = ScreenShakeMode::FULL;
+      } else {
+        throw std::runtime_error("invalid screen shake mode, valid values are 'off', 'reduced', and 'full'");
+      }
+    }
 
     config_video_mapping->get("magnification", magnification);
     config_video_mapping->get("fancy_gfx", fancy_gfx);
@@ -504,6 +519,21 @@ Config::save()
   writer.write("aspect_height", aspect_size.height);
 
   writer.write("flash_intensity", flash_intensity);
+  {
+    std::string screen_shake_mode_string;
+    switch (screen_shake_mode) {
+      case ScreenShakeMode::OFF:
+        screen_shake_mode_string = "off";
+        break;
+      case ScreenShakeMode::REDUCED:
+        screen_shake_mode_string = "reduced";
+        break;
+      case ScreenShakeMode::FULL:
+        screen_shake_mode_string = "full";
+        break;
+    }
+    writer.write("screen_shake_mode", screen_shake_mode_string);
+  }
 
 #ifdef __EMSCRIPTEN__
   // Forcibly set autofit to true
