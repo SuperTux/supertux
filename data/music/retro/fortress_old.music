@@ -2,7 +2,7 @@
   (file "fortress_old.ogg")
   (authors "Marek \"Wansti\" Moeckel")
   (license "CC-BY-SA / GPL 2+")
-  (title "Super Tux - Fortress")
+  (title "The Fortress (Retro)")
   (loop-begin 0)
   (loop-at    46)
 )
