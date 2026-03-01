@@ -56,6 +56,9 @@ public:
   inline std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
 
 private:
+  void autobind_controller(SDL_GameController* game_controller);
+
+private:
   InputManager* m_parent;
   int m_deadzone;
   std::unordered_map<SDL_GameController*, int> m_game_controllers;
