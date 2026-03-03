@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <array>
 #include <vector>
 #include <unordered_map>
@@ -50,6 +51,7 @@ public:
 
   /** @returns 0 if success, 1 if controller doesn't support rumbling, 2 if game doesn't support rumbling */
   int rumble(SDL_GameController* controller) const;
+  int rumble(SDL_GameController* controller, uint16_t low_frequency_rumble, uint16_t high_frequency_rumble, uint32_t duration_ms) const;
 
   void bind_controller(SDL_GameController* controller, int player_id);
 
