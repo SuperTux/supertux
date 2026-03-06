@@ -66,8 +66,8 @@ MainMenu::MainMenu()
   add_entry(MNID_LEVELEDITOR, _("Level Editor"));
 #endif
   add_entry(MNID_CREDITS, _("Credits"));
-#ifndef STEAM_BUILD
-  // Links to external purchases are not allowed on Steam, including donations
+#if !defined(STEAM_BUILD) && !defined(GOOGLE_PLAY)
+  // Links to external purchases are not allowed on Steam or Google Play, including donations
   add_entry(MNID_DONATE, _("Donate"));
 #endif
 #ifndef REMOVE_QUIT_BUTTON

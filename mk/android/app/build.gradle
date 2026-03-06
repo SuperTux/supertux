@@ -28,7 +28,7 @@ android {
         minSdkVersion 21
 
         // NOTE: Don't forget to bump the version code!
-        versionCode 5
+        versionCode 6
         versionName "0.7.0-beta.2"
 
         ndkVersion "29.0.14206865"
@@ -51,6 +51,9 @@ android {
                           "--log-level", "TRACE",
                           "-Wno-dev"
                 abiFilters rootProject.ext.cpuarch as String[]
+            }
+            if (rootProject.ext.googleplay) {
+                android.defaultConfig.externalNativeBuild.cmake.arguments.add("-DSUPERTUX_GOOGLE_PLAY=ON")
             }
             android.defaultConfig.externalNativeBuild.cmake.arguments.addAll(rootProject.ext.cmake_args)
         }

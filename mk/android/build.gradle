@@ -8,6 +8,8 @@ for (String task : gradle.startParameter.getTaskNames()) {
     }
 }
 
+ext.googleplay = hasProperty("googleplay")
+
 if (hasProperty("cpuarch")) {
     ext.cpuarch = property("cpuarch").split()
 } else {
