@@ -48,7 +48,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_widgets_width(0.f),
   m_widgets_width_offset(0.f)
 {
-    std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
+    std::array<std::unique_ptr<EditorToolbarButtonWidget>, 9> general_widgets = {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
         std::bind(&Editor::undo, Editor::current()),
@@ -88,6 +88,12 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
         Editor::current()->save_level();
       },
       _("Save level")),
+
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
+      [this] {
+        Editor::current()->open_level_in_external_editor();
+      },
+      _("Open level in external editor")),
 
     // Mode button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
