@@ -71,6 +71,7 @@ Stumpy::active_update(float dt_sec)
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
+      set_group(COLGROUP_MOVING_STATIC);
       if (invincible_timer.check()) {
         mystate = STATE_NORMAL;
         WalkingBadguy::initialize();
@@ -78,6 +79,7 @@ Stumpy::active_update(float dt_sec)
       BadGuy::active_update(dt_sec);
       break;
     case STATE_NORMAL:
+      set_group(COLGROUP_MOVING);
       WalkingBadguy::active_update(dt_sec);
       break;
   }
