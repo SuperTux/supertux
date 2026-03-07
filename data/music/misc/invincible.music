@@ -1,0 +1,6 @@
+(supertux-music
+  (file "invincible.ogg")
+  (title "Invincibility Theme")
+  (loop-begin 2)
+  (loop-at    14)
+)
