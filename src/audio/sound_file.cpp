@@ -300,6 +300,7 @@ std::unordered_map<std::string, std::string> fallback_paths = {
   {"saharan_penguin.ogg", "/music/tropical/saharan_penguin.ogg"},
   {"tropicalbreeze.music", "/music/tropical/tropicalbreeze.music"},
   {"tropicalbreeze.ogg", "/music/tropical/tropicalbreeze.ogg"},
+  {"tuxvictorious.ogg", "/music/misc/tuxvictorious.ogg"},
 };
 
 const std::string& get_fallback_path(const std::string& file_path)
