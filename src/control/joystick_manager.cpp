@@ -97,7 +97,7 @@ JoystickManager::on_joystick_added(int joystick_index)
 
       joysticks[joystick] = id;
 
-      if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen() && id != 0)
+      if (GameSession::current() && id != 0)
       {
         GameSession::current()->on_player_added(id);
       }

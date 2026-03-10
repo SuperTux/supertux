@@ -44,6 +44,7 @@ Level::Level(bool worldmap) :
   m_license(),
   m_filename(),
   m_note(),
+  m_is_cutscene(false),
   m_sectors(),
   m_stats(),
   m_target_time(),
@@ -82,11 +83,10 @@ Level::initialize()
     &GameSession::current()->get_savegame() : nullptr);
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : s_dummy_player_status;
 
-  // Condition 1: If there is a savegame, it shouldn't be from the title screen. (Don't load HUD on title screen)
+  // Condition 1: Don't load HUD on a cutscene level
   // Condition 2: Pause menu shouldn't be suppressed.
   // Condition 3: The level shouldn't be loaded in the editor.
-  if ((!savegame || !savegame->is_title_screen()) &&
-      !m_suppress_pause_menu && !Editor::is_active())
+  if (!m_is_cutscene && !m_suppress_pause_menu && !Editor::is_active())
   {
     for (auto& sector : m_sectors)
       sector->add<PlayerStatusHUD>(player_status);
@@ -96,7 +96,7 @@ Level::initialize()
   Sector* sector = m_sectors.at(0).get();
   sector->add<Player>(player_status, "Tux", 0);
 
-  if (savegame && !savegame->is_title_screen())
+  if (!m_is_cutscene)
   {
     for (int id = 1; id < InputManager::current()->get_num_users() || id == 0; id++)
     {
@@ -198,6 +198,10 @@ Level::save(Writer& writer)
   }
   if(m_suppress_pause_menu) {
     writer.write("suppress-pause-menu", m_suppress_pause_menu);
+  }
+
+  if (m_is_cutscene) {
+    writer.write("cutscene", m_is_cutscene);
   }
 
   writer.write("allow-item-pocket", get_setting_name(static_cast<Level::Setting>(m_allow_item_pocket)));
