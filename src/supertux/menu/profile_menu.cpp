@@ -170,6 +170,7 @@ ProfileMenu::menu_action(MenuItem& item)
     Dialog::show_confirmation(message, [this]() {
       ProfileManager::current()->delete_profile(g_config->profile);
       g_config->profile = 1;
+      m_current_profile = nullptr;
       refresh();
     });
   }
@@ -181,6 +182,7 @@ ProfileMenu::menu_action(MenuItem& item)
         manager->delete_profile(profile->get_id());
 
       g_config->profile = 1;
+      m_current_profile = nullptr;
       refresh();
     });
   }
