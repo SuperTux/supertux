@@ -86,6 +86,10 @@ mk/android/local.properties
 # Flatpak
 .flatpak-builder/
 *.flatpak
+#Just the generated ones
+mk/flatpak/org.supertux.*.yml
+#This one should not exist someday
+org.supertux.SuperTux*.yml
 
 # Annoying OS Generated Files
 .DS_Store

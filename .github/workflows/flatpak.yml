@@ -45,12 +45,16 @@ jobs:
           sh mk/flatpak/gen_flatpaks.sh
           ls -la mk/flatpak/gen_flatpaks.sh
 
+        # TODO: I generate the outputs for the releases still in the source
+        # dir. Switching to mk/flatpak is easy for teh output files, but i'm too
+        # lazy.
+
       - name: Nightly build
         #if: !startsWith(github.ref, 'refs/tags/')
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: SuperTuxNightly.flatpak
-          manifest-path: mk/flatpak/org.supertux.SuperTuxNightly.yml
+          manifest-path: org.supertux.SuperTuxNightly.yml
           cache-key: flatpak-builder-nightly-${{ github.sha }}
 
       - name: Release build (TODO)
@@ -58,5 +62,5 @@ jobs:
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: SuperTux.flatpak
-          manifest-path: mk/flatpak/org.supertux.SuperTux.yml
+          manifest-path: org.supertux.SuperTux.yml
           cache-key: flatpak-builder-release-${{ github.sha }}

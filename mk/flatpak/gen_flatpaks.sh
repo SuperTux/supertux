@@ -4,11 +4,13 @@ DIR=$(dirname "$0")
 
 generate ()
 {
+    # TODO: Install in the "correct" direction (not ../../). Just lazy and need
+    # to get this working for now.
     printf "$(cat $DIR/org.supertux.template.yml.in)\n" \
            "${1}" \
            "${2}" \
            "${3}" \
-        > "$DIR/org.supertux.${1}.yml"
+        > "$DIR/../../org.supertux.${1}.yml"
 }
 
 # I actually felt kind of clever for this. It's nice to actually feel something
@@ -16,7 +18,7 @@ generate ()
 if [ "$1" == "clean" ]; then
     generate ()
     {
-        rm -f "$DIR/org.supertux.${1}.yml"
+        rm -f "$DIR/../../org.supertux.${1}.yml"
     }
 fi
 
