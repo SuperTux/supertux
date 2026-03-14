@@ -42,8 +42,8 @@ jobs:
 
       - name: Generate flatpak release/debug inputs
         run:
-          sh mk/android/gen_flatpaks.sh
-          ls -la mk/android/gen_flatpaks.sh
+          sh mk/flatpak/gen_flatpaks.sh
+          ls -la mk/flatpak/gen_flatpaks.sh
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
