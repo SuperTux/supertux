@@ -21,7 +21,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-#      - master
+      - master
     tags:
       - '*'
   pull_request: {}

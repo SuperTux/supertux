@@ -20,7 +20,6 @@ on:
   push:
     branches:
       - master
-      - flatpak-release-build
     tags:
       - '*'
 
