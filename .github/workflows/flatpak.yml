@@ -50,7 +50,7 @@ jobs:
         # lazy.
 
       - name: Nightly build
-        if: !startsWith(github.ref, 'refs/tags/')
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: SuperTuxNightly.flatpak
@@ -58,7 +58,7 @@ jobs:
           cache-key: flatpak-builder-nightly-${{ github.sha }}
 
       - name: Release build
-        if: startsWith(github.ref, 'refs/tags/')
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: SuperTux.flatpak
