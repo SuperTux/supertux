@@ -688,7 +688,7 @@
     (string "Arabic")
   )
   (person
-    (name "Fahad Al-Saidi, IAN RODRÍGUEZ Lorenzo, Israa Zamzami")
+    (name "Fahad Al-Saidi, Ramzy Guemr, Sera.L, IAN RODRÍGUEZ Lorenzo, Hasan Nahleh, Siradj, Israa Zamzami")
   )
 
   (blank)
@@ -728,7 +728,7 @@
     (string "Basque")
   )
   (person
-    (name "Bingen Galartza Iparragirre, Mielanjel Iraeta, Urtzi Odriozola")
+    (name "Bingen Galartza Iparragirre, Mielanjel (pospolos) Iraeta, Urtzi Odriozola")
   )
 
   (blank)
@@ -768,7 +768,7 @@
     (string "Bulgarian")
   )
   (person
-    (name "Tony Ivanov, G Vassilev, Lyubomir Vasilev")
+    (name "Любомир Василев, Tony Ivanov, G Vassilev, Lyubomir Vasilev")
   )
 
   (blank)
@@ -821,7 +821,7 @@
     (string "Croatian")
   )
   (person
-    (name "Ilija Ćulap, Igor Dobrača")
+    (name "Ilija Ćulap, Igor Dobrača, Issa1552")
   )
 
   (blank)
@@ -831,7 +831,7 @@
     (string "Czech")
   )
   (person
-    (name "fri, Matouš Dřízhal, Ondřej Hošek, Hume, Jiří Paleček, Jakub Vaněk")
+    (name "Matouš Dřízhal, fri, Ondřej Hošek, Hume, Jiří Paleček, slrslr, Jakub Vaněk")
   )
 
   (blank)
@@ -890,7 +890,7 @@
     (string "Finnish")
   )
   (person
-    (name "Jiri Grönroos, Jaakoppi Horila, Lapamiko, Jaakko Muilu, Lassi,")
+    (name "Jiri Grönroos, Jaakoppi Horila, Lapamiko, Lassi, Jaakko Muilu,")
   )
   (person
     (name "Oi Suomi On!, Lauri \"xet7\" Ojansivu, Jan Solanti, Saku Tiihonen,")
@@ -918,10 +918,10 @@
     (name "Florian HEGRON, Inperpetuammemoriam, Jean-Philippe L'Étoile,")
   )
   (person
-    (name "Simon Le Guével, Benjamin Leduc, Céline Marmin, Lucas Mascaro, MCMic,")
+    (name "Simon Le Guével, Ștefan ILIE, Benjamin Leduc, Céline Marmin, Lucas Mascaro,")
   )
   (person
-    (name "mol1, Nexus nexus, Irriep Nala Novram, Léo Poughon, Nathanael Ready,")
+    (name "MCMic, mol1, Nexus nexus, Irriep Nala Novram, Léo Poughon, Nathanael Ready,")
   )
   (person
     (name "Frederic Rodrigo, Semphris, Sylvain St-Amand, zecas \"zezinho\"")
@@ -961,10 +961,21 @@
 
   (text
     (type "reference")
+    (string "Georgian")
+  )
+  (person
+    (name "Temuri Doghonadze")
+  )
+
+
+  (blank)
+
+  (text
+    (type "reference")
     (string "German")
   )
   (person
-    (name "Anonymouse, Ettore Atalan, Matthias Braun, cvcxc, divVerent, firewiremb")
+    (name "Anonymouse, Ettore Atalan, Matthias Braun, cvcxc, divVerent, FabianF, firewiremb")
   )
   (person
     (name "Florian Forster, Moritz Hofmann, Inperpetuammemoriam, Iwan Gabovitch,")
@@ -1015,7 +1026,7 @@
     (name "Andy1210, Baráth Béla, Levente Krisztián Büte, Tibor Buzási, Galp Flark,")
   )
   (person
-    (name " Krisztián Gyurász, gyeben, Kristóf Kófiás, Norbert Molnár,")
+    (name "Guih48, Krisztián Gyurász, gyeben, Kristóf Kófiás, Norbert Molnár,")
   )
   (person
     (name "Balázs Podolcsák, D. J. S., symvizan, Haba Tamás, Balázs Úr, Kővágó Zoltán")
@@ -1060,10 +1071,10 @@
     (name "Sebastiano Guerrini, Iknos, Manuela Kessler, Riccardo Di Maio,")
   )
   (person
-    (name "Tommaso Macchiella, PoketMarty, Irene Di Rosa, Airina Santonocito, Seb47TV,")
+    (name "Tommaso Macchiella, PoketMarty, Irene Di Rosa, Mario Rossi,")
   )
   (person
-    (name "Ioma Taani")
+    (name "Airina Santonocito, Seb47TV, Ioma Taani")
   )
 
   (blank)
@@ -1086,7 +1097,7 @@
     (string "Korean")
   )
   (person
-    (name "Go Nam Hyeon, Roland Kim, JungHee Lee, Myeongjin")
+    (name "Youngjun Choi, Go Nam Hyeon, Roland Kim, JungHee Lee, Myeongjin, 이명진")
   )
 
   (blank)
@@ -1136,7 +1147,7 @@
     (string "Malayalam")
   )
   (person
-    (name "Adharsh 01, Adithyan S S, Balasankar C")
+    (name "Adharsh P S, Adithyan S S, Balasankar C")
   )
 
   (blank)
@@ -1179,16 +1190,16 @@
     (string "Polish")
   )
   (person
-    (name "Arkadiusz Chojnicki, Seba D., Tomasz Dądela, Alina Gobarov, Łukasz Hryniuk,")
+    (name "Arkadiusz Chojnicki, Seba D., dominik232, Tomasz Dądela, Alina Gobarov,")
   )
   (person
-    (name "Dominik Klementowski, Marcin Kocur, Simon Kornowski, Marcin Kralka, MarPiRK,")
+    (name "Łukasz Hryniuk, Dominik Klementowski, Marcin Kocur, Simon Kornowski, Marcin Kralka,")
   )
   (person
-    (name "mkkot, Rob PlayZ, Grzegorz Przybylski, Marcin S, Krzysiek Szeląg,")
+    (name "MarPiRK, mkkot, Rob PlayZ, Grzegorz Przybylski, Marcin S, Krzysiek Szeląg,")
   )
   (person
-    (name "Grzegorz Szymaszek, Paweł Talar")
+    (name "Grzegorz Szymaszek, Paweł Talar, Ziemowit Zabawa")
   )
 
   (blank)
@@ -1198,7 +1209,7 @@
     (string "Portuguese (Brazilian)")
   )
   (person
-    (name "Fúlvio Alves, Gabriel Arruda, Marcelo Bitencourt, Melo Everton,")
+    (name "Fúlvio Alves, Anyon, Gabriel Arruda, Marcelo Bitencourt, Melo Everton,")
   )
   (person
     (name "Thiago Corbari Feldhaus (Ninja Apps), Daniela Ferraz, Victor Gonçalves,")
@@ -1220,7 +1231,7 @@
     (string "Portuguese (European)")
   )
   (person
-    (name "BlaCoiso, Hugo Carvalho, Ricardo Cruz, Daniela Ferraz, João Frade, José Fryxell")
+    (name "BlaCoiso, Hugo Carvalho, Ricardo Cruz, Daniela (Dani) Ferraz, João Frade, José Fryxell")
   )
   (person
     (name "Jose Jorge (zecas), lecalam, Sérgio Lopes, Ian Rodríguez Lorenzo, Sérgio Marques,")
@@ -1304,13 +1315,16 @@
     (name "Jacob Burroughs, G BR, Fernando Carmona, Tam Ezquerra, Franchulo,")
   )
   (person
-    (name "Germana, Kory Giles, juanda097, Joel Gil Leon, Alejandro Moctezuma,")
+    (name "Germana, Kory Giles, juanda097, Joel Gil Leon, Jorge, Alejandro Moctezuma,")
   )
   (person
-    (name "Pedro Montaño, Diego J. Romero López, Rami Slicer, Swyter, Josep Tomàs,")
+    (name "Pedro Montaño, Diego J. Romero López, JUAN DAVID JARAMILLO ORTIZ,")
   )
   (person
-    (name "Alejandro Torres, Juan José Trujillo")
+    (name "Diego Enmanuel Rosales Santander, Rami Slicer, Swyter, Josep Tomàs,")
+  )
+  (person
+    (name "Alejandro Torres, Juan José Trujillo, Ulices")
   )
 
   (blank)
@@ -1320,7 +1334,7 @@
     (string "Spanish (Argentinian)")
   )
   (person
-    (name "Salomón Duarte, Dylan's_yt, Alejo Fernandez")
+    (name "Salomón Duarte, Dylan's_yt, Tam Ezquerra, Alejo Fernandez")
   )
 
   (blank)
@@ -1357,6 +1371,16 @@
   )
   (person
     (name "Bulat Ibrahim, Timur Seber")
+  )
+
+  (blank)
+
+  (text
+    (type "reference")
+    (string "Telugu")
+  )
+  (person
+    (name "జయంత్ వర్మ బెల్లపుకొండ, Nanowarrior")
   )
 
   (blank)
