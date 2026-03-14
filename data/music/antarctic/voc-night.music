@@ -1,6 +1,7 @@
 (supertux-music
   (file "voc-night.ogg")
-  (authors "Marek \"Wansti\" Moeckel")
+  (title "VOC Night")
+  (authors "semajD")
   (license "CC-BY-SA / GPL 2+")
   (loop-begin 4.648)
   (loop-at    73.231)

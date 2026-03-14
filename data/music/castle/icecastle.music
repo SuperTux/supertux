@@ -1,5 +1,6 @@
 (supertux-music
   (file "icecastle.ogg")
+  (title "Ice Castle")
   (authors "SnugglyBun" "Marek \"Wansti\" Moeckel")
   (license "CC-BY-SA 4.0")
   (loop-begin 9.235)

@@ -1,5 +1,8 @@
 (supertux-music
   (file "deeply_rooted.ogg")
+  (title "Deeply Rooted")
+  (authors "Servalot")
+  (license "CC-BY-SA 4.0")
   (loop-begin 0)
   (loop-at    69.81)
 )

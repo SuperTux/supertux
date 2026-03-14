@@ -1,5 +1,6 @@
 (supertux-music
   (file "ghostforest_map.ogg")
+  (title "Ghostforest Map")
   (authors "Jason Lavallée")
   (license "CC-BY-SA / GPL 2+")
   (loop-begin 0)

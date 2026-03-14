@@ -2,6 +2,7 @@
   (file "treeboss.ogg")
   (authors "Marek \"Wansti\" Moeckel")
   (license "CC-BY-SA / GPL 2+")
+  (title "Tree Boss")
   (loop-begin 32.15)
   (loop-at    -1)
 )
