@@ -44,6 +44,7 @@ Level::Level(bool worldmap) :
   m_license(),
   m_filename(),
   m_note(),
+  m_save_version(1),
   m_sectors(),
   m_stats(),
   m_target_time(),
@@ -182,6 +183,9 @@ Level::save(Writer& writer)
   // Starts writing to supertux level file. Keep this at the very beginning.
 
   writer.write("version", 3);
+  if (m_is_worldmap)
+    writer.write("save-version", m_save_version);
+
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
   if (!m_note.empty()) {

@@ -18,6 +18,7 @@
 #include "supertux/savegame.hpp"
 
 #include <algorithm>
+#include <filesystem>
 #include <physfs.h>
 
 #include "control/input_manager.hpp"
@@ -125,7 +126,8 @@ Savegame::Savegame(Profile& profile, const std::string& world_name) :
   m_profile(profile),
   m_world_name(world_name),
   m_player_status(new PlayerStatus(InputManager::current()->get_num_users())),
-  m_state_table()
+  m_state_table(),
+  m_save_version(1)
 {
 }
 
@@ -183,11 +185,7 @@ Savegame::load(bool base_data)
 
         int version = 1;
         mapping.get("version", version);
-        if (version != 1)
-        {
-          throw std::runtime_error("incompatible savegame version");
-        }
-        else
+        if (version == 1)
         {
           /** Load Tux */
           std::optional<ReaderMapping> tux;
@@ -195,9 +193,7 @@ Savegame::load(bool base_data)
           {
             throw std::runtime_error("No tux section in savegame");
           }
-          {
-            m_player_status->read(*tux);
-          }
+          m_player_status->read(*tux);
 
           if (base_data)
             return;
@@ -208,6 +204,38 @@ Savegame::load(bool base_data)
             throw std::runtime_error("No state section in savegame");
           else
             load_squirrel_table(m_state_table, *state);
+        }
+        else if (version == 2)
+        {
+          std::optional<ReaderMapping> save_mapping;
+          if (!mapping.get("save", save_mapping))
+            throw std::runtime_error("No save data in savegame");
+
+          /** Load Tux */
+          std::optional<ReaderMapping> tux;
+          if (!save_mapping->get("tux", tux))
+          {
+            throw std::runtime_error("No tux section in savegame");
+          }
+          m_player_status->read(*tux);
+
+          // it's notable here, but later, the above and below savedata we just
+          // loaded could get trashed later if this save-version is later invalid
+          save_mapping->get("save-version", m_save_version);
+
+          if (base_data)
+            return;
+
+          /** Load "state" table */
+          std::optional<ReaderMapping> state;
+          if (!save_mapping->get("state", state))
+            throw std::runtime_error("No state section in savegame");
+          else
+            load_squirrel_table(m_state_table, *state);
+        }
+        else
+        {
+          throw std::runtime_error("incompatible savegame version");
         }
       }
     }
@@ -228,8 +256,9 @@ Savegame::clear_state_table()
 }
 
 void
-Savegame::save()
+Savegame::save(bool initial)
 {
+  using namespace worldmap;
   if (m_world_name.empty())
   {
     log_debug << "no world name set for savegame, skipping save" << std::endl;
@@ -241,34 +270,66 @@ Savegame::save()
 
   m_profile.save(); // Make sure profile directory exists, save profile info
 
+  if (WorldMap::current())
+  {
+    log_debug << "Got save version " << m_save_version << " and the current"
+      " save version is " << WorldMap::current()->get_save_version() << std::endl;
+    log_debug << "initial save: " << initial << std::endl;
+    // We can't move an initial, empty save!
+    if (!initial && WorldMap::current()->get_save_version() != m_save_version)
+    {
+      std::string writedir = PHYSFS_getWriteDir();
+
+      log_debug << "Backing up old save "
+        << FileSystem::join(writedir, filename) << " to "
+        << FileSystem::join(writedir, filename + ".old");
+
+      // It's a bit of a quirk to do this during save, but i think it works
+      FileSystem::rename(filename, filename + ".old");
+    }
+  }
+
   Writer writer(filename);
 
   writer.start_list("supertux-savegame");
-  writer.write("version", 1);
+  writer.write("version", 2);
 
-  using namespace worldmap;
-  if (WorldMap::current() != nullptr)
+  // TODO: I _started_ implementing savegame versioning, but struggled nesting
+  // the old save data with sexpcpp. This doesn't matter for 0.7 (what's being
+  // released), and it's not often that save-version will be bumped, so we can
+  // leave this be.
+  //
+  // But i'd really love to actually utilize this save list here, but for now we
+  // do not (kind of to open the door, starting at 0.7), and i really hope it
+  // doesn't bother people forever that it remains unused...
+  writer.start_list("save");
   {
-    std::ostringstream title;
-    title << WorldMap::current()->get_title();
-    title << " (" << WorldMap::current()->solved_level_count()
-          << "/" << WorldMap::current()->level_count() << ")";
-    writer.write("title", title.str());
-  }
+    if (WorldMap::current() != nullptr)
+    {
+      std::ostringstream title;
+      title << WorldMap::current()->get_title();
+      title << " (" << WorldMap::current()->solved_level_count()
+            << "/" << WorldMap::current()->level_count() << ")";
+      writer.write("title", title.str());
+      writer.write("save-version",
+        (m_save_version = WorldMap::current()->get_save_version()));
+    }
 
-  writer.start_list("tux");
-  m_player_status->write(writer);
-  writer.end_list("tux");
+    writer.start_list("tux");
+    m_player_status->write(writer);
+    writer.end_list("tux");
 
-  writer.start_list("state");
-  try
-  {
-    save_squirrel_table(m_state_table, writer);
+    writer.start_list("state");
+    try
+    {
+      save_squirrel_table(m_state_table, writer);
+    }
+    catch(const std::exception&)
+    {
+    }
+    writer.end_list("state");
   }
-  catch(const std::exception&)
-  {
-  }
-  writer.end_list("state");
+  writer.end_list("save");
 
   writer.end_list("supertux-savegame");
 }

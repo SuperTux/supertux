@@ -91,7 +91,9 @@ public:
   std::vector<std::string> get_worldmaps();
   WorldmapState get_worldmap_state(const std::string& name);
 
-  void save();
+  inline int get_save_version() { return m_save_version; }
+
+  void save(bool initial = false);
 
   bool is_title_screen() const;
 
@@ -104,6 +106,7 @@ private:
   std::string m_world_name;
   std::unique_ptr<PlayerStatus> m_player_status;
   ssq::Table m_state_table;
+  int m_save_version;
 
 private:
   Savegame(const Savegame&) = delete;

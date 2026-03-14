@@ -95,6 +95,8 @@ public:
 
   const std::string& get_filename() const;
 
+  inline int get_save_version() const { return m_save_version; }
+
   void start_level(bool skip_cutscene = false) {
     m_really_enter_level = true;
     m_skip_cutscene = skip_cutscene;
@@ -120,6 +122,7 @@ private:
   TileSet* m_tileset;
 
   std::string m_name;
+  int m_save_version;
   std::string m_map_filename;
   std::string m_levels_path;
 

@@ -18,6 +18,7 @@
 
 #include "worldmap/worldmap_state.hpp"
 
+#include <fmt/format.h>
 #include "math/vector.hpp"
 #include "object/music_object.hpp"
 #include "object/tilemap.hpp"
@@ -41,78 +42,96 @@ WorldMapState::WorldMapState(WorldMap& worldmap) :
 {
 }
 
+void
+WorldMapState::new_save()
+{
+
+  // Set default properties.
+  if (!m_worldmap.m_sector)
+    m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false); // If no current sector is present, set it to "main", or the default one.
+
+  // Create a new initial save.
+  save_state(true);
+}
 
 void
 WorldMapState::load_state()
 {
   log_debug << "loading worldmap state" << std::endl;
 
+  Savegame& savegame = m_worldmap.get_savegame();
+
   ssq::VM& vm = SquirrelVirtualMachine::current()->get_vm();
-  try
+  if (savegame.get_save_version() == m_worldmap.get_save_version())
   {
-    /** Get state table for all worldmaps. **/
-    ssq::Table worlds_table = vm.findTable("state").findTable("worlds");
-
-    // If a non-canonical entry is present, replace it with a canonical one.
-    const std::string old_map_filename = m_worldmap.m_map_filename.substr(1);
-    if (worlds_table.hasEntry(old_map_filename.c_str()))
-      worlds_table.rename(old_map_filename.c_str(), m_worldmap.m_map_filename.c_str());
-
-    /** Get state table for the current worldmap. **/
-    ssq::Table worldmap_table = worlds_table.findTable(m_worldmap.m_map_filename.c_str());
-
-    // Load the current sector.
-    ssq::Table sector_table;
-    if (worldmap_table.hasEntry("sector")) // Load the current sector only if a "sector" property exists.
-    {
-      const std::string sector_name = worldmap_table.get<std::string>("sector");
-      if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the new sector.
-        m_worldmap.set_sector(sector_name, "", false);
-
-      /** Get state table for the current sector. **/
-      sector_table = worldmap_table.findTable(m_worldmap.get_sector().get_name().c_str());
-    }
-    else // Sector property does not exist, which may indicate outdated save file.
-    {
-      if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the main one.
-        m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false);
-
-      sector_table = worldmap_table;
-    }
-
-    if (!m_worldmap.m_sector)
-    {
-      // Quit loading worldmap state, if there is still no current sector loaded.
-      throw std::runtime_error("No sector set.");
-    }
-
     try
     {
-      ssq::Object music = sector_table.find("music");
-      auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
-      music_object.set_music(music.toString());
+      /** Get state table for all worldmaps. **/
+      ssq::Table worlds_table = vm.findTable("state").findTable("worlds");
+
+      // If a non-canonical entry is present, replace it with a canonical one.
+      const std::string old_map_filename = m_worldmap.m_map_filename.substr(1);
+      if (worlds_table.hasEntry(old_map_filename.c_str()))
+        worlds_table.rename(old_map_filename.c_str(), m_worldmap.m_map_filename.c_str());
+
+      /** Get state table for the current worldmap. **/
+      ssq::Table worldmap_table = worlds_table.findTable(m_worldmap.m_map_filename.c_str());
+
+      // Load the current sector.
+      ssq::Table sector_table;
+      if (worldmap_table.hasEntry("sector")) // Load the current sector only if a "sector" property exists.
+      {
+        const std::string sector_name = worldmap_table.get<std::string>("sector");
+        if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the new sector.
+          m_worldmap.set_sector(sector_name, "", false);
+
+        /** Get state table for the current sector. **/
+        sector_table = worldmap_table.findTable(m_worldmap.get_sector().get_name().c_str());
+      }
+      else // Sector property does not exist, which may indicate outdated save file.
+      {
+        if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the main one.
+          m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false);
+
+        sector_table = worldmap_table;
+      }
+
+      if (!m_worldmap.m_sector)
+      {
+        // Quit loading worldmap state, if there is still no current sector loaded.
+        throw std::runtime_error("No sector set.");
+      }
+
+      try
+      {
+        ssq::Object music = sector_table.find("music");
+        auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+        music_object.set_music(music.toString());
+      }
+      catch (const ssq::NotFoundException&)
+      {
+        log_debug << "Could not find \"music\" in the worldmap sector state table." << std::endl;
+      }
+
+      /** Load objects. **/
+      load_tux(sector_table);
+      load_levels(sector_table);
+      load_tilemap_visibility(sector_table);
+      load_sprite_change_objects(sector_table);
     }
-    catch (const ssq::NotFoundException&)
+    catch (const std::exception& err)
     {
-      log_debug << "Could not find \"music\" in the worldmap sector state table." << std::endl;
+      log_warning << "Not loading worldmap state: " << err.what() << std::endl;
+      new_save();
     }
-
-    /** Load objects. **/
-    load_tux(sector_table);
-    load_levels(sector_table);
-    load_tilemap_visibility(sector_table);
-    load_sprite_change_objects(sector_table);
   }
-  catch (const std::exception& err)
+  else
   {
-    log_warning << "Not loading worldmap state: " << err.what() << std::endl;
-
-    // Set default properties.
-    if (!m_worldmap.m_sector)
-      m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false); // If no current sector is present, set it to "main", or the default one.
-
-    // Create a new initial save.
-    save_state();
+    log_warning <<
+      fmt::format("Save version doesn't match (got {}), worldmap expects {}. "
+                  "Creating a new save.",
+                  savegame.get_save_version(), m_worldmap.get_save_version());
+    new_save();
   }
 
   m_worldmap.m_in_level = false;
@@ -248,7 +267,7 @@ WorldMapState::load_sprite_change_objects(const ssq::Table& table)
 
 
 void
-WorldMapState::save_state() const
+WorldMapState::save_state(bool initial) const
 {
   WorldMapSector& sector = m_worldmap.get_sector();
 
@@ -317,7 +336,7 @@ WorldMapState::save_state() const
     log_warning << "Failed to save worldmap state: " << err.what() << std::endl;
   }
 
-  m_worldmap.get_savegame().save();
+  m_worldmap.get_savegame().save(initial);
 }
 
 } // namespace worldmap
