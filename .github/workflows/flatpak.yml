@@ -20,6 +20,7 @@ on:
   push:
     branches:
       - master
+      - flatpak-release-build
     tags:
       - '*'
 
@@ -39,8 +40,12 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - name: Generate flatpak release/debug inputs
+        run:
+          echo hi
+
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: SuperTuxNightly.flatpak
+          bundle: mk/flatpak/SuperTuxNightly.flatpak
           manifest-path: ${{ env.APPID }}.yml
           cache-key: flatpak-builder-${{ github.sha }}

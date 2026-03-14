@@ -21,7 +21,7 @@ on:
     inputs: {}
   push:
     branches:
-      - master
+#      - master
       - android-workflows
     tags:
       - '*'
