@@ -42,10 +42,11 @@ jobs:
 
       - name: Generate flatpak release/debug inputs
         run:
-          echo hi
+          sh mk/android/gen_flatpaks.sh
+          ls -la mk/android/gen_flatpaks.sh
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: mk/flatpak/SuperTuxNightly.flatpak
-          manifest-path: ${{ env.APPID }}.yml
+          bundle: SuperTuxNightly.flatpak
+          manifest-path: mk/android/${{ env.APPID }}.yml
           cache-key: flatpak-builder-${{ github.sha }}
