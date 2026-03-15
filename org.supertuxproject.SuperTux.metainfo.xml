@@ -43,7 +43,7 @@
       through the Icy Island and beyond.
     </p>
   </description>
-  <developer id="supertuxproject.org">
+  <developer id="org.supertuxproject">
     <name>The SuperTux Team</name>
   </developer>
   <url type="homepage">https://www.supertux.org</url>
@@ -83,11 +83,36 @@
     <binary>supertux2</binary>
   </provides>
   <releases>
-    <release version="0.6.3" date="2021-12-22" />
-    <release version="0.6.2" date="2020-05-14" />
-    <release version="0.6.1.1" date="2019-12-19" />
-    <release version="0.6.1" date="2019-12-15" />
-    <release version="0.6.0" date="2018-12-23" />
-    <release version="0.5.1" date="2016-11-05" />
+    <release version="0.7.0" date="2026-03-14">
+      <url>https://www.supertux.org/news/2026/03/14/0.7.0</url>
+      <description>
+        <p>The SuperTux Team is pleased to announce the stable release of version 0.7.0!
+          You may wonder what took us so long to develop another release.
+          Over the past couple of years, we’ve made dozens of changes and improvements to the game,
+          bringing it to a much more polished state.
+          As such, this is likely one of the biggest releases since Milestone 2! Despite that,
+          SuperTux remains the trusted run’n’jump game as you know well…
+          but with this update, it should bring it into a much more finishable state moving forward.
+        </p>
+      </description>
+    </release>
+    <release version="0.6.3" date="2021-12-22">
+      <url>https://www.supertux.org/news/2021/12/23/0.6.3</url>
+    </release>
+    <release version="0.6.2" date="2020-05-14">
+      <url>https://www.supertux.org/news/2020/05/14/0.6.2</url>
+    </release>
+    <release version="0.6.1" date="2019-12-15">
+      <url>https://www.supertux.org/news/2019/12/15/0.6.1</url>
+    </release>
+    <release version="0.6.0" date="2018-12-23">
+      <url>https://www.supertux.org/news/2018/12/23/0.6.0</url>
+    </release>
+    <release version="0.5.1" date="2016-11-05">
+      <url>https://www.supertux.org/news/2016/11/05/0.5.1</url>
+    </release>
+    <release version="0.5.0" date="2016-09-25">
+      <url>https://www.supertux.org/news/2016/09/25/0.5.0</url>
+    </release>
   </releases>
 </component>
