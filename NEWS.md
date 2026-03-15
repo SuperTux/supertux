@@ -1,7 +1,7 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.7.0 (2025-03-15)
+SuperTux 0.7.0 (2026-03-15)
 ---------------------------
 The SuperTux Team is pleased to announce the stable release of version 0.7.0!
 You may wonder what took us so long to develop another release. Over the past
