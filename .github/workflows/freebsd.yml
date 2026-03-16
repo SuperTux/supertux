@@ -95,11 +95,12 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
           freebsd_release: ${{ matrix.freebsd_release }}
         run: |
+            $Env:GIT_TAG = (& git describe --tags --abbrev=0)
             cd $GITHUB_WORKSPACE/build
             mkdir upload
             cd out
             mv usr supertux
-            tar -czvf $GITHUB_WORKSPACE/build/upload/SuperTux-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz ./
+            tar -czvf $GITHUB_WORKSPACE/build/upload/SuperTux-$Env:GIT_TAG-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz ./
 
       - name: Upload tar archives
         uses: actions/upload-artifact@v7
