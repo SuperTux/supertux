@@ -59,47 +59,48 @@
     <category>Game</category>
     <category>ActionGame</category>
     <category>ArcadeGame</category>
+    <category>AdventureGame</category>
   </categories>
   <screenshots>
     <screenshot type="default">
       <image>https://www.supertux.org/images/0_7_0/07-1.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>The Journey Begins (Icy Island)</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-2.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>23rd Airborne (Icy Island)</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-3.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Night Chill (Icy Island)</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-4.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Slippery Slide (Icy Island)</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-5.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>The Crystal Mine (Icy Island)</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-6.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Welcome To The Forest (Rooted Forest)</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-7.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Rock 'n' Roll (Rooted Forest)</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-8.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Penguins Don't Grow On Trees (Rooted Forest)</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-9.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Owls' Skydive Commando (Rooted Forest)</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-10.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Ancient Ruin (Rooted Forest)</caption>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">supertux2.desktop</launchable>
