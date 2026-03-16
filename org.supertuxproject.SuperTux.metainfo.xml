@@ -63,43 +63,43 @@
   <screenshots>
     <screenshot type="default">
       <image>https://www.supertux.org/images/0_7_0/07-1.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Tux running through icy-island.</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-2.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Tux climbing.</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-3.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Tux swimming through a level.</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-4.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Tux sliding down a slope.</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-5.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Tux standing before a gap in a cave, with a crusher in the way.</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-6.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Tux running through the Rooted Forest world.</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-7.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Tux rolling in his rock form.</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-8.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Tux standing in the Rooted Forest.</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-9.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>Tux running through the night with an owl above him.</caption>
     </screenshot>
     <screenshot>
       <image>https://www.supertux.org/images/0_7_0/07-10.png</image>
-      <caption>In-game screenshot</caption>
+      <caption>A bunch of granitos standing behind Tux.</caption>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">supertux2.desktop</launchable>
