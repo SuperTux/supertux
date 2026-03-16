@@ -128,7 +128,9 @@ GoldBomb::active_update(float dt_sec)
         return;
     }
 
-    normalize();
+    if (m_state != MB_STATE_NORMAL)
+      normalize();
+
     return;
   }
 
@@ -170,6 +172,7 @@ GoldBomb::active_update(float dt_sec)
       m_physic.set_velocity_x(0);
       m_physic.set_acceleration_x(0);
       m_dir = vecdist.x > 0 ? Direction::RIGHT : Direction::LEFT;
+      set_ledge_behavior(LedgeBehavior::FALL);
       set_action("flee", m_dir);
       m_state = GB_STATE_REALIZING;
       m_realize_timer.start(REALIZE_TIME);

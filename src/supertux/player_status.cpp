@@ -428,7 +428,12 @@ PlayerStatus::PocketPowerUp::update(float dt_sec)
   bool check = m_cooldown_timer.check();
   if (!m_cooldown_timer.started() && !check && m_col.m_group != COLGROUP_TOUCHABLE)
   {
-    m_cooldown_timer.start(1.3f);
+    float sector_gravity = Sector::get().get_gravity();
+    if (sector_gravity == 0.0f) {
+      // prevent potential division by zero
+      sector_gravity = 0.01f;
+    }
+    m_cooldown_timer.start(1.3f * 10.0f / sector_gravity);
     m_blink_timer.start(.15f, true);
   }
 

@@ -16,6 +16,7 @@
 
 #include "gui/menu_script.hpp"
 
+#include <config.h>
 #include <fmt/format.h>
 #include "editor/editor.hpp"
 #include "menu_manager.hpp"
@@ -53,6 +54,7 @@ ScriptMenu::ScriptMenu(UID uid, const std::string& key, std::string* script_) :
     Editor::current()->m_script_manager.register_script(m_uid, m_key, base_script);
 
   add_hl();
+#ifndef FLATPAK
   add_entry((g_config->preferred_text_editor.empty() ? _("Open in editor")
                                                      : fmt::format(fmt::runtime(_("Open in \"{}\"")), g_config->preferred_text_editor)),
     [this]{
@@ -60,6 +62,7 @@ ScriptMenu::ScriptMenu(UID uid, const std::string& key, std::string* script_) :
       MenuManager::current()->pop_menu();
     }
   );
+#endif
   add_back(_("OK"));
 }
 

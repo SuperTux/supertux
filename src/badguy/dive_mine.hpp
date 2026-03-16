@@ -44,6 +44,8 @@ public:
   virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override { return true; }
 
+  virtual bool can_be_affected_by_wind() const override { return false; }
+
   static std::string class_name() { return "dive-mine"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Dive Mine"); }

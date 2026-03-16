@@ -343,3 +343,15 @@ GameControllerManager::bind_controller(SDL_GameController* controller, int playe
       if (pair2.second == player_id && pair2.first != controller)
         pair2.second = -1;
 }
+
+void
+GameControllerManager::rebind_controllers()
+{
+  int i = 0;
+  for (auto& controller : m_game_controllers)
+  {
+    assert(controller.first != nullptr);
+    if (controller.second == -1)
+      bind_controller(controller.first, i++);
+  }
+}

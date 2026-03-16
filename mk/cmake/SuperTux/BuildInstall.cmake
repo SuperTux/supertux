@@ -33,8 +33,8 @@ else()
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
 
   else()
-
-    if(IS_SUPERTUX_RELEASE)
+    # HACK: Flatpak is dumb right now and still uses nightly icons, so ignore that case
+    if(IS_SUPERTUX_RELEASE AND NOT FLATPAK)
       set(LINUX_DESKTOP_ICON "supertux2")
       install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
     else()

@@ -220,4 +220,3 @@ jobs:
             build/SuperTux-*-portable.zip
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
-

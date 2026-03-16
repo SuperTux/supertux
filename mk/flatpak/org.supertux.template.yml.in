@@ -1,9 +1,9 @@
-id: org.supertux.SuperTuxNightly
+id: org.supertux.%s
 runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 command: supertux2
-rename-icon: supertux-nightly
+rename-icon: %s
 rename-desktop-file: supertux2.desktop
 rename-appdata-file: supertux2.appdata.xml
 finish-args:
@@ -17,12 +17,8 @@ finish-args:
 modules:
   - external/shared-modules/SDL2/SDL2_image.json
   - external/shared-modules/physfs/physfs.json
-  - external/shared-modules/glu/glu-9.json
-  - external/shared-modules/glew/glew.json
   - name: glm
     buildsystem: cmake
-    config-opts:
-      - -DGLM_TEST_ENABLE=OFF
     sources:
       - type:   archive
         url:    https://github.com/g-truc/glm/archive/refs/tags/1.0.2.tar.gz
@@ -33,7 +29,12 @@ modules:
       - -DINSTALL_SUBDIR_SHARE=share/supertux2
       - -DINSTALL_SUBDIR_BIN=bin
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DFLATPAK=On
+      - -DUSE_GL_LIBRARY=libepoxy
+      - -DIS_SUPERTUX_RELEASE=%s
     sources:
+      - type:   dir
+        path:   .
       - type:   git
         url:    https://github.com/SuperTux/supertux.git
         branch: master

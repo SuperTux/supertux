@@ -20,6 +20,7 @@
 #include <simplesquirrel/vm.hpp>
 
 #include "editor/resize_marker.hpp"
+#include "object/portable.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -101,6 +102,11 @@ MovingObject::editor_select()
 void
 MovingObject::on_flip(float height)
 {
+  auto portable = dynamic_cast<Portable*>(this);
+  if (portable && portable->is_grabbed())
+    // The positioning of the grabbed object shall be handled by the player.
+    return;
+
   Vector pos = get_pos();
   pos.y = height - pos.y - get_bbox().get_height();
   set_pos(pos);

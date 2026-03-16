@@ -10,6 +10,9 @@
   (bkg "/images/worlds/background/icyisland.png")
   (sector
     (name "main")
+    (init-script "if (\"ambient_b\" in state && \"ambient_g\" in state && \"ambient_r\" in state) {
+      worldmap.settings.fade_to_ambient_light(state.ambient_r, state.ambient_g, state.ambient_b, 0.1);
+    }")
     (ambient-light
       (color 1 1 1)
     )

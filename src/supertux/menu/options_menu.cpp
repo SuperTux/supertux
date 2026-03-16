@@ -37,6 +37,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+#include <cassert>
 #include <sstream>
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -64,6 +65,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
   m_window_resolutions(),
   m_resolutions(),
   m_vsyncs(),
+  m_screen_shake_modes(),
   m_sound_volumes(),
   m_music_volumes(),
   m_flash_intensity_values(),
@@ -129,6 +131,8 @@ OptionsMenu::refresh()
 
       add_flash_intensity();
 
+      add_screen_shake_mode();
+
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
       add_aspect_ratio();
 #endif
@@ -174,6 +178,9 @@ OptionsMenu::refresh()
       add_toggle(MNID_RUMBLING, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers)
         .set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the multiplayer options menu."));
 #else
+      add_toggle(-1, _("Show Touch Controls"), &g_config->touch_controls_visible)
+        .set_help(_("If disabled, touch controls will still work, but the buttons will remain hidden."));
+
       add_toggle(-1, _("Enable Haptic Feedback"), &g_config->touch_haptic_feedback)
         .set_help(_("Enable haptic feedback for touchscreen controls"));
 
@@ -239,7 +246,7 @@ OptionsMenu::refresh()
 
       // Note: there were complaints about Wayldn for steam (i think from the devs?), so it's off for now.
 #if (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-     defined(__OPENBSD) || defined(__NetBSD)) && !(defined(STEAM_BUILD) || defined(__ANDROID__))
+     defined(__OPENBSD) || defined(__NetBSD)) && !(defined(STEAM_BUILD) || defined(__ANDROID__) || defined(FLATPAK))
       add_toggle(MNID_PREFER_WAYLAND, _("Prefer Wayland"), &g_config->prefer_wayland)
         .set_help(_("If you experience any issues with Nvidia cards, your window border, or anything you believe is due to Wayland, disable this. (Requires restart)"));
 #endif
@@ -492,6 +499,28 @@ OptionsMenu::add_vsync()
 
   add_string_select(MNID_VSYNC, _("VSync"), &m_vsyncs.next, m_vsyncs.list)
     .set_help(_("Set the VSync mode"));
+}
+
+void
+OptionsMenu::add_screen_shake_mode() {
+  m_screen_shake_modes.list.push_back(_("off"));
+  m_screen_shake_modes.list.push_back(_("reduced"));
+  m_screen_shake_modes.list.push_back(_("full"));
+
+  switch (g_config->screen_shake_mode) {
+    case Config::ScreenShakeMode::OFF:
+      m_screen_shake_modes.next = 0;
+      break;
+    case Config::ScreenShakeMode::REDUCED:
+      m_screen_shake_modes.next = 1;
+      break;
+    case Config::ScreenShakeMode::FULL:
+      m_screen_shake_modes.next = 2;
+      break;
+  }
+
+  add_string_select(MNID_SCREEN_SHAKE_MODE, _("Screen shake"), &m_screen_shake_modes.next, m_screen_shake_modes.list)
+    .set_help(_("Adjust amount of screen shake effects"));
 }
 
 void
@@ -763,6 +792,27 @@ OptionsMenu::menu_action(MenuItem& item)
       }
       g_config->vsync = vsync;
       VideoSystem::current()->set_vsync(vsync);
+    }
+    break;
+
+    case MNID_SCREEN_SHAKE_MODE:
+    {
+      switch (m_screen_shake_modes.next)
+      {
+        case 0:
+          g_config->screen_shake_mode = Config::ScreenShakeMode::OFF;
+          break;
+        case 1:
+          g_config->screen_shake_mode = Config::ScreenShakeMode::REDUCED;
+          break;
+        case 2:
+          g_config->screen_shake_mode = Config::ScreenShakeMode::FULL;
+          break;
+        default:
+          assert(false);
+          break;
+      }
+
     }
     break;
 

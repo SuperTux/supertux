@@ -100,6 +100,7 @@ LeafShot::LeafShot(const ReaderMapping& reader) :
   KamikazeSnowball(reader, "images/creatures/leafshot/leafshot.sprite")
 {
   parse_type(reader);
+  set_action (m_dir, /* loops = */ -1);
 }
 
 void

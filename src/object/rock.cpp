@@ -273,7 +273,7 @@ Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
   Vector movement = pos - get_pos();
   m_col.set_movement(movement);
   m_last_movement = movement;
-  set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
+  set_group(COLGROUP_DISABLED);
   m_on_ground = false;
   m_at_ceiling = false;
 

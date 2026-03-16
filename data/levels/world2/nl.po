@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"POT-Creation-Date: 2026-02-02 08:15+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>, 2021\n"
 "Language-Team: Dutch (http://app.transifex.com/arctic-games/supertux/language/nl/)\n"
@@ -20,198 +20,472 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/levels/world2/ancient_ruins.stl:3
-msgid "Ancient Ruins"
-msgstr "Eeuwenoude ruïnes"
-
-#: data/levels/world2/ancient_ruins.stl:1463
-#: data/levels/world2/ancient_ruins.stl:1471
-#: data/levels/world2/bouncy_coils.stl:380
-#: data/levels/world2/bouncy_coils.stl:388
-#: data/levels/world2/bye_bye_forest.stl:1607
-#: data/levels/world2/crumbling_path.stl:278
-#: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:246
-#: data/levels/world2/going_underground.stl:1249
-#: data/levels/world2/mouldy_grotto.stl:559
-#: data/levels/world2/penguin_grow_trees.stl:459
-#: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:361
-#: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:223
-msgid "You found a secret area!"
-msgstr "Je hebt een geheim gebied gevonden!"
-
-#: data/levels/world2/beside_bushes.stl:3
-msgid "Beside the Bushes"
-msgstr "Achter de bosjes"
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
+msgstr "Oude ruïne"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Springende spiralen"
 
-#: data/levels/world2/bye_bye_forest.stl:3
-msgid "Bye Bye Forest"
-msgstr "Dag, dag, oerbos"
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "Grotpatrouille"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "-IJsrozet\n!images/powerups/iceflower/ice_flower-0.png\n#De ijsrozet geeft Tux de mogelijkheid om ijskogels te schieten die de meeste wezens kunnen bevriezen.\n#Bevroren wezens kunnen worden opgepakt, gedragen en gegooid!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "Instorting dreigt"
+
+#: data/levels/world2/corrupted_cutscene.stl:3
+msgid "From Afar It Spreads"
+msgstr "Van ver verspreidt het zich"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Afbrokkelend pad"
 
-#: data/levels/world2/darkness_awaits.stl:3
-msgid "Darkness Awaits"
-msgstr "Duisternis ligt op de loer"
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "De bal laten vallen"
 
-#: data/levels/world2/find_big_fish.stl:3
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "Verstrikt in wortels"
+
+#: data/levels/world2/find_bigger_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Zoek de grotere vis!"
 
-#: data/levels/world2/find_big_fish.stl:1058
-msgid "-A big fish... for you."
-msgstr "-Een grote vis... voor jou."
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "Overstroomde kamers"
+
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "Bloesem"
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
 msgstr "Een nieuwe locatie"
 
-#: data/levels/world2/ghost_cutscene.stl:3
-msgid "What is Happening?"
-msgstr "Wat gebeurt er allemaal?"
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "De wortels van alle kwaad"
 
-#: data/levels/world2/ghostly_misery.stl:3
-msgid "Ghostly Misery"
-msgstr "Spookachtige misère"
+#: data/levels/world2/ghosttree_cutscene.stl:3
+msgid "The Root Of The Problem"
+msgstr "De oorzaak van het probleem"
 
-#: data/levels/world2/ghosttrees_challenges.stl:3
-msgid "Ghosttree's Challenges"
-msgstr "Uitdagingen van de spookboom"
-
-#: data/levels/world2/ghouls_lair.stl:3
-msgid "Ghouls' Lair"
-msgstr "Geestenverblijf"
-
-#: data/levels/world2/ghouls_lair.stl:859
-msgid ""
-"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
-"of them."
-msgstr "#Lantaarns worden gebruikt om magische blokken te egaliseren zodat je er over kunt lopen."
+#: data/levels/world2/ghosttreewin_cutscene.stl:3
+msgid "Nature Is Healing"
+msgstr "De natuur geneest"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Ondergronds gaan"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:3
-msgid "I Spy With My Little Eye"
-msgstr "Ik zie, ik zie wat jij niet ziet"
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "Granito Dorp"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:218
-msgid ""
-"-Ispy\n"
-"#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Bespeurders\n#Bespeurders activeren dingen als platformen zodra Tux er dichtbij is."
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "Holle aarde"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:674
-msgid "Hint: Use snails to break blocks!"
-msgstr "Tip: gebruik slakken om ijsblokken te breken!"
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "Home Dood Home"
 
-#: data/levels/world2/leaf_wind.stl:3
-msgid "Like a leaf in the Wind"
-msgstr "Als een blad in de wind"
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Rooted Forest"
+msgstr "Boomwortelbos"
 
-#: data/levels/world2/lost_village.stl:3
-msgid "Lost Village"
-msgstr "Verloren gewaand dorp"
+#: data/levels/world2/info:3
+msgid "Tux explores a new land, but a curse impedes his journey."
+msgstr "Tux verkent een nieuw land, maar een vloek belemmert zijn reis."
 
-#: data/levels/world2/lost_village.stl:185
-msgid "#Don't forget to hit the switch!"
-msgstr "#Vergeet niet de schakelaar om te zetten!"
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "Verloren toevluchtsoord"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Een beschimmelde Grotto"
 
-#: data/levels/world2/owls_again.stl:3
-msgid "The Owls again..."
-msgstr "Alwéér die uilen..."
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "Mount Crushmore"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
 msgstr "Skydive-opdracht van de uilen"
 
-#: data/levels/world2/penguin_grow_trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr "Pinguins groeien niet aan bomen"
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
+msgstr "Pinguïns groeien niet aan bomen"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "Rock-'n-roll"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "-Rock Shroom\n!images/powerups/earthflower/earth_flower-0.png\n#Als je tijdens het rennen de DOWN-toets ingedrukt houdt, geeft de Rock Shroom Tux een rotsenschild.\n#In zijn rotsvorm is Tux immuun voor de meeste soorten schade. Als Tux echter tegen een stevige muur botst, verdwijnt zijn verdediging en wordt hij weer kwetsbaar. "
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "Ik moedig je aan"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "De gewortelde toren"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:2
+msgid "Never had Tux been missing sunlight more than ever before."
+msgstr "Nooit had Tux het zonlicht meer gemist dan nu."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:3
+msgid ""
+"Since the rain had stopped and the sky was clear, Tux hoped to have found a "
+"nice, safe place to take a short break."
+msgstr "Omdat het was opgehouden met regenen en de lucht helder was, hoopte Tux een mooie, veilige plek te hebben gevonden om even uit te rusten."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:4
+msgid ""
+"Just as he was about to rest, the sudden sound of rustling leaves from a "
+"bush nearby startled Tux."
+msgstr "Net toen hij op het punt stond om uit te rusten, schrok Tux op van het plotselinge geluid van ritselende bladeren uit een struik in de buurt."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:5
+msgid ""
+"He went to investigate and got startled by a Vicious Ivy, tumbling out of "
+"the bushes!"
+msgstr "Hij ging op onderzoek uit en schrok zich rot toen er een Vicious Ivy uit de struiken tevoorschijn kwam!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:6
+msgid ""
+"However, this one looked different. Its usual bright green leaves seemed to "
+"have turned an ailing purple."
+msgstr "Deze zag er echter anders uit. De gebruikelijke heldergroene bladeren leken een ziekelijke paarse kleur te hebben gekregen."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:7
+msgid ""
+"Before Tux even had the chance to think about what had happened to the poor "
+"thing, the ground began to shake violently..."
+msgstr "Voordat Tux zelfs maar de kans had om na te denken over wat er met het arme ding was gebeurd, begon de grond hevig te beven..."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:8
+msgid ""
+"Massive purple roots burst through the ground, followed by an onslaught of "
+"many more coming closer and closer!"
+msgstr "Enorme paarse wortels barsten door de grond, gevolgd door een aanval van nog veel meer die steeds dichterbij komen!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:9
+msgid ""
+"Tux panicked! Whatever these roots were, they were covering everything. "
+"Where could he go?"
+msgstr "Tux raakte in paniek! Wat deze wortels ook waren, ze bedekten alles. Waar kon hij heen?"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:10
+msgid ""
+"But he cannot give up now! Tux could not leave her behind. Not in a place "
+"being overrun by these violent roots."
+msgstr "Maar hij kan nu niet opgeven! Tux kon haar niet achterlaten. Niet op een plek die overspoeld werd door deze gewelddadige wortels."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:11
+msgid "He must rescue Penny! He must get to that tower!"
+msgstr "Hij moet Penny redden! Hij moet naar die toren gaan!"
+
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Voeg hier een overgangsscène in---"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "Ondanks de nederlaag van de Spookboom en het feit dat er weer een sprankje leven terugkeerde in het eens zo weelderige bos, was het land nog steeds een puinhoop."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "De grond zat vol scheuren en spleten. En nu blokkeerde een daarvan het pad van Tux..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "Gelukkig voor hem kwam een Granito, levend en wel, tevoorschijn, opgewonden om hem aan de andere kant van de kloof te zien."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
+msgstr "De Granito vertelde over drie groepen van zijn mede-Granito's die verdwaald waren geraakt toen ze probeerden te ontsnappen naar de oostkust."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "Ze werden door de aarde opgeslokt toen de grond instortte. Als Tux zou helpen hen te vinden, zouden zij hem kunnen helpen de andere kant te bereiken."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "Tux stemde toe om te helpen! Kort nadat hij een stervende boomwortel had opgemerkt die een pad eronder onthulde, begon hij zijn zoektocht naar de verdwenen Granito."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "Met de hulp van de geredde Granito slaagde Tux erin de andere kant te bereiken."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survived the Ghost Tree's "
+"overgrowth."
+msgstr "Hij was blij dat er meer Granito waren die de woekergroei van de Spookboom hadden overleefd."
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
+msgstr "Een van de Granito's vroeg hem wat een pinguïn als hij zo ver van Antarctica deed."
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replied that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly..."
+msgstr "Tux antwoordde dat hij op zoek was naar zijn vriendin Penny en dat zij gevangen was genomen door een kwaadaardig wezen genaamd \"Nolok\". Een naam die de Granito zich met een onaangenaam gevoel herinnerde..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "De Granito zeiden dat ze zijn vaderland kenden. Maar of hij het nog steeds zijn thuis noemde en of hij Penny daar vasthield, weten ze niet zeker."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute."
+msgstr "Ze boden aan om Tux de weg te wijzen. Dat was het minste wat ze konden doen om hun dankbaarheid te tonen."
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "Tux nam het aanbod graag aan en samen met een handvol Granito begaven ze zich al snel naar de tropen, in het noordoosten."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "De overgebleven Granito zouden achterblijven en langzaam hun huis weer opbouwen, nu de corruptie eindelijk was overwonnen..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "Granito vrijgelaten!"
+
+#: data/levels/world2/scripts_forest_intro.txt:2
+msgid "After quite the long trip, Tux arrived at the new biome."
+msgstr "Na een behoorlijk lange reis kwam Tux aan in het nieuwe biotoop."
+
+#: data/levels/world2/scripts_forest_intro.txt:3
+msgid ""
+"Tux was astonished by the scale of this colorful land which was quite "
+"different from his home."
+msgstr "Tux was verbaasd over de omvang van dit kleurrijke land, dat heel anders was dan zijn thuisland."
+
+#: data/levels/world2/scripts_forest_intro.txt:4
+msgid "But how was he ever going to find Nolok in this vast forest?"
+msgstr "Maar hoe zou hij Nolok ooit kunnen vinden in dit uitgestrekte bos?"
+
+#: data/levels/world2/scripts_forest_intro.txt:5
+msgid ""
+"Tux thought for a moment and decided to find a place high up to get a better"
+" view."
+msgstr "Tux dacht even na en besloot een plek hoog in de lucht te zoeken om een beter uitzicht te hebben."
+
+#: data/levels/world2/scripts_forest_intro.txt:6
+msgid ""
+"Maybe he could find some kind of landmark to help him locate Nolok, wherever"
+" he may be."
+msgstr "Misschien kon hij een soort herkenningspunt vinden om Nolok te lokaliseren, waar hij ook mocht zijn."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:2
+msgid ""
+"High on the very top of the dilapidated tower, once again Tux found... "
+"nothing."
+msgstr "Hoog op de top van de vervallen toren vond Tux opnieuw... niets."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:3
+msgid ""
+"He could not believe it. He was shocked. Confused. Was this not where he "
+"needed to go?"
+msgstr "Hij kon het niet geloven. Hij was geschokt. Verward. Was dit niet waar hij heen moest?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:4
+msgid "Did Nolok's hints trick him afterall? Did he walk into a trap?"
+msgstr "Heeft Nolok hem uiteindelijk toch in de val gelokt? Is hij in een val gelopen?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:5
+msgid ""
+"Tux had not long to think about all this, the tower began shaking violetly. "
+"His assumption prove correct instantly."
+msgstr "Tux had niet lang de tijd om hierover na te denken, want de toren begon hevig te schudden. Zijn vermoeden bleek meteen juist."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:6
+msgid ""
+"He made it! He escaped the collapsing tower just in time as the structure "
+"now fully gave in. But the roots were not done yet!"
+msgstr "Hij heeft het gehaald! Hij ontsnapte net op tijd uit de instortende toren, die nu volledig instortte. Maar de wortels waren nog niet klaar!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:7
+msgid ""
+"This was only the beginning, as he had found the root of the problem... "
+"towering over the small penguin."
+msgstr "Dit was nog maar het begin, want hij had de oorzaak van het probleem gevonden... die boven de kleine pinguïn uittorende."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:8
+msgid ""
+"Tux watched in shock as the roots dug through the tower's walls, faster and "
+"faster. He had to get out of there, fast!"
+msgstr "Tux keek geschokt toe hoe de wortels zich steeds sneller door de muren van de toren heen groeven. Hij moest daar snel weg!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:9
+msgid ""
+"The roots were now everywhere. The tower become more unstable by the second."
+" Slowly, it collapsed in on itself."
+msgstr "De wortels waren nu overal. De toren werd met de seconde instabieler. Langzaam stortte hij in elkaar."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:10
+msgid ""
+"Tux ran as fast as he could, but the roots would not let him leave as they "
+"blocked off the only path to the main entrance."
+msgstr "Tux rende zo snel hij kon, maar de wortels lieten hem niet gaan, omdat ze de enige weg naar de hoofdingang blokkeerden."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:11
+msgid ""
+"Across the hallway, on the other side, there was a huge crack in the wall. "
+"Tux saw himself forced to take the leap of faith, if he wished to not be "
+"crushed."
+msgstr "Aan de andere kant van de gang zat een enorme scheur in de muur. Tux zag zich genoodzaakt een sprong in het diepe te wagen, als hij niet verpletterd wilde worden."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
+msgid "Was it over? Was the nightmare finally over?"
+msgstr "Was het voorbij? Was de nachtmerrie eindelijk voorbij?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:3
+msgid ""
+"Tux could not believe his eyes, but it seemed so! The roots began "
+"retreating. The ground looked more vital again."
+msgstr "Tux kon zijn ogen niet geloven, maar het leek er wel op! De wortels begonnen zich terug te trekken. De grond zag er weer levendiger uit."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
+msgid ""
+"Though as much as he was ecstatic about seeing the land restored and "
+"beginning to heal... where to now?"
+msgstr "Hoewel hij dolblij was dat het land hersteld was en begon te genezen... waar moest hij nu heen?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:5
+msgid ""
+"The forest, the tower... those were the only leads Tux had. He had no clue "
+"where Nolok could be hiding, if he even was here to begin with. Or rather "
+"anymore."
+msgstr "Het bos, de toren... dat waren de enige aanwijzingen die Tux had. Hij had geen idee waar Nolok zich zou kunnen schuilhouden, als hij hier überhaupt was geweest. Of liever gezegd, nog steeds was."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
+msgid ""
+"There was no one around Tux could ask for help. All but the remains of "
+"corrupted husks littered the ground as he moved along in thought. No living "
+"creature in sight."
+msgstr "Er was niemand in de buurt die Tux om hulp kon vragen. Terwijl hij voortging, zag hij alleen maar de overblijfselen van verrotte omhulsels op de grond liggen. Er was geen levend wezen te bekennen."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
+msgid ""
+"Hoping to discover some kind of clue - anything! - Tux's best bet was to "
+"continue exploring this side of the forest, as destroyed as it may be."
+msgstr "In de hoop een aanwijzing te vinden - wat dan ook! - kon Tux het beste deze kant van het bos blijven verkennen, hoe verwoest het ook was."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:8
+msgid ""
+"There must be something, somewhere, able to help him to find Nolok! "
+"Right...?"
+msgstr "Er moet toch ergens iets zijn dat hem kan helpen om Nolok te vinden! Toch...?"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr "Ondiep groen"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Schokkend"
 
-#: data/levels/world2/the_forest_is_rotting.stl:3
-msgid "The Forest Is Rotting"
-msgstr "Dit oerbos rot weg"
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr "Wortel van de kwelling"
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "Stokken en stenen"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr "Opvallend hout"
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr "Drie vellen in de wind"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
 msgstr "Door het duister"
 
-#: data/levels/world2/through_dark.stl:96
-msgid ""
-"-Earth Flower\n"
-"!images/powerups/earthflower/earth_flower-1.png\n"
-"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
-"#This does not work while jumping or falling!"
-msgstr "-Aardbloem\n!images/powerups/earthflower/earth_flower-1.png\n#De aardbloem zorgt ervoor dat Tux in steen kan veranderen door de actietoets en pijltje omlaag gelijktijdig in te drukken.\n#Dit werkt niet tijdens springen of vallen!"
-
-#: data/levels/world2/tower_of_ghosts.stl:3
-msgid "Tower Of Ghosts"
-msgstr "Spooktoren"
-
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
 msgstr "Tux de Bouwer"
-
-#: data/levels/world2/tux_builder.stl:77
-msgid ""
-"-Portable Objects:\n"
-"!images/objects/rock/rock.png\n"
-"#Tux can pick up certain objects and carry them around.\n"
-"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Draagbare objecten:\n!images/objects/rock/rock.png\n#Tux kan bepaalde objecten oppakken en meenemen.\n#Druk op de actietoets om een object te pakken. Houdt de actietoets ingedrukt totdat je het object wilt loslaten."
-
-#: data/levels/world2/tux_own_horror_show.stl:3
-msgid "Tux' Own Horror Show"
-msgstr "Tux' eigen horrorshow"
-
-#: data/levels/world2/tux_own_horror_show.stl:947
-msgid ""
-"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
-" often dangerous places."
-msgstr "#Wilgenzwaluwen zijn kleine, irritante spoken die je naar andere, vaak gevaarlijke, locaties teleporteren."
-
-#: data/levels/world2/walking_leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Wandelende bladeren"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
 msgstr "Welkom in het bos"
 
-#: data/levels/world2/welcome_forest.stl:50
+#: data/levels/world2/welcome_forest.stl:130
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
-"#Tux can go through a door by pressing the UP key."
-msgstr "-Deuren\n!images/objects/door/door-0.png\n#Tux kan door een deur gaan door op pijltje omhoog te drukken."
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-Deuren\n!images/objects/door/door-0.png\n#Tux kan door een deur gaan door op de UP-toets te drukken.\n#\n#Voor sommige deuren heb je een sleutel nodig om binnen te komen!"
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Houten wortels"
 
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "Boomwortelbos"
-
-#: data/levels/world2/worldmap.stwm:239
+#: data/levels/world2/worldmap.stwm:355
 msgid "To be continued..."
 msgstr "Wordt vervolgd..."
+
+#: data/levels/world2/worldmap.stwm:363 data/levels/world2/worldmap.stwm:373
+msgid "You found a secret area!"
+msgstr "Je hebt een geheim gebied gevonden!"
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "Erger dan salmonella"

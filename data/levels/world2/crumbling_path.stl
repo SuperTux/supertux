@@ -149,7 +149,7 @@
     )
     (decal
       (z-pos -10)
-      (sprite "/images/objects/door/door.sprite")
+      (sprite "/images/objects/door/door-0.png")
       (x 10912)
       (y 1120)
     )
@@ -1062,7 +1062,7 @@ granito_vine.walk();")
       (bottom_color 0.88 0.45 0)
     )
     (music
-      (file "/music/forest/forest_sunset.music")
+      (file "/music/forest/forest_midday_alt.music")
     )
     (spawnpoint
       (name "secret1")

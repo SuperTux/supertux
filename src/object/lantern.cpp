@@ -123,6 +123,7 @@ void
 Lantern::grab(MovingObject& object, const Vector& pos, Direction dir)
 {
   Rock::grab(object, pos, dir);
+  set_group(COLGROUP_TOUCHABLE);
 
   // if lantern is not lit, draw it as opened
   if (is_open()) {

@@ -90,8 +90,7 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   m_skip_intro(false),
   m_coins_at_start(),
   m_boni_at_start(),
-  m_max_fire_bullets_at_start(),
-  m_max_ice_bullets_at_start(),
+  m_pockets_at_start(),
   m_active(false),
   m_end_seq_started(false),
   m_pause_target_timer(false),
@@ -101,6 +100,7 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
   m_boni_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
+  m_pockets_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
 
   m_data_table.clear();
 }
@@ -131,7 +131,8 @@ GameSession::reset_level()
   {
     try
     {
-      p->set_bonus(m_boni_at_start.at(p->get_id()));
+      p->set_bonus(m_boni_at_start.at(p->get_id()), false, false);
+      p->get_status().add_item_to_pocket(m_pockets_at_start.at(p->get_id()), p);
     }
     catch(const std::out_of_range&)
     {
@@ -143,6 +144,7 @@ GameSession::reset_level()
     PlayerStatus& currentStatus = m_savegame->get_player_status();
     currentStatus.coins = m_coins_at_start;
     currentStatus.bonus = m_boni_at_start;
+    currentStatus.m_item_pockets = m_pockets_at_start;
   }
 
   clear_respawn_points();
@@ -203,6 +205,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     const PlayerStatus& currentStatus = m_savegame->get_player_status();
     m_coins_at_start = currentStatus.coins;
     m_boni_at_start = currentStatus.bonus;
+    m_pockets_at_start = currentStatus.m_item_pockets;
 
     // Needed for the title screen apparently.
     if (m_currentsector)
@@ -211,8 +214,11 @@ GameSession::restart_level(bool after_death, bool preserve_music)
       {
         for (const auto& p : m_currentsector->get_players())
         {
-          p->set_bonus(m_boni_at_start.at(p->get_id()), false);
+          p->set_bonus(m_boni_at_start.at(p->get_id()), false, false);
           m_boni_at_start[p->get_id()] = currentStatus.bonus[p->get_id()];
+
+          p->get_status().add_item_to_pocket(m_pockets_at_start.at(p->get_id()), p);
+          m_pockets_at_start[p->get_id()] = currentStatus.get_item_pocket(p);
         }
       }
       catch (const std::out_of_range&)
@@ -468,7 +474,8 @@ GameSession::abort_level()
   {
     try
     {
-      p->set_bonus(m_boni_at_start.at(p->get_id()));
+      p->set_bonus(m_boni_at_start.at(p->get_id()), false, false);
+      p->get_status().add_item_to_pocket(m_pockets_at_start.at(p->get_id()), p);
     }
     catch(const std::out_of_range&)
     {

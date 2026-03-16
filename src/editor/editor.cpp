@@ -167,7 +167,8 @@ Editor::Editor() :
   m_script_manager(),
   m_on_exit_cb(nullptr),
   m_save_temp_level(false),
-  m_last_test_pos(std::nullopt)
+  m_last_test_pos(std::nullopt),
+  m_test_icon(SpriteManager::current()->create("images/engine/editor/spawnpoint.png"))
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -327,6 +328,24 @@ Editor::draw(Compositor& compositor)
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
 
+
+    // Show a little indicator for testing
+    if (m_ctrl_pressed && m_shift_pressed)
+    {
+      if (m_enabled)
+        MouseCursor::current()->set_visible(false);
+      context.color().draw_text(
+        Resources::normal_font,
+        "T",
+        { m_mouse_pos.x + 12.f, m_mouse_pos.y - 16.f - 12.f }, ALIGN_LEFT, LAYER_OBJECTS+1,
+        Color(1.0f, 1.0f, 0.6f, 0.8f));
+      m_test_icon->draw_scaled(context.color(),
+                               {{m_mouse_pos.x - 16.f, m_mouse_pos.y - 16.f}, Sizef{32.f, 32.f}},
+                               LAYER_GUI + 1);
+    }
+    else if (m_enabled)
+      MouseCursor::current()->set_visible(true);
+
     if (!m_show_draggables && m_show_draggables_hint.get_progress() < 1.0f)
     {
       context.color().draw_text(
@@ -343,7 +362,8 @@ Editor::draw(Compositor& compositor)
                                         -100);
   }
 
-  MouseCursor::current()->set_visible(true);
+  if (!(m_ctrl_pressed && m_shift_pressed))
+    MouseCursor::current()->set_visible(true);
 }
 
 void
@@ -393,6 +413,8 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_deactivate_request) {
     m_enabled = false;
     m_deactivate_request = false;
+    if (!m_test_request)
+      MouseCursor::current()->set_visible(true);
     return;
   }
 
@@ -411,6 +433,14 @@ Editor::update(float dt_sec, const Controller& controller)
       }
     }
     m_enabled = true;
+
+    m_ctrl_pressed = m_alt_pressed = false;
+    // any mouse events from earlier (i.e. in menu, testing) dont pass through
+    // the editor in those states, so as a lazy hack, let's just get the mouse
+    // position.
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
   }
 
   if (m_save_request) {

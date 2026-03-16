@@ -44,7 +44,6 @@ public:
 
   inline void set_direction(Direction dir) { m_input_direction = dir; }
 
-  inline void toggle_ghost_mode() { m_ghost_mode = !m_ghost_mode; }
   inline void set_ghost_mode(bool enabled) { m_ghost_mode = enabled; }
   inline bool get_ghost_mode() const { return m_ghost_mode; }
 

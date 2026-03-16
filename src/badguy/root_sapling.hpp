@@ -48,6 +48,7 @@ protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
+  float get_tile_spawn_pos_offset(const Tile& tile);
   void summon_root();
   bool should_summon_root(const Rectf& bbox);
 

@@ -346,3 +346,15 @@ JoystickManager::bind_joystick(SDL_Joystick* controller, int player_id)
       if (pair2.second == player_id && pair2.first != controller)
         pair2.second = -1;
 }
+
+void
+JoystickManager::rebind_joysticks()
+{
+  int i = 0;
+  for (const auto& joystick : joysticks)
+  {
+    assert(joystick.first != nullptr);
+    if (joystick.second == -1)
+      bind_joystick(joystick.first, i++);
+  }
+}

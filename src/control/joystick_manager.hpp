@@ -60,6 +60,7 @@ public:
   int rumble(SDL_Joystick* joystick) const;
 
   void bind_joystick(SDL_Joystick* joystick, int player_id);
+  void rebind_joysticks();
 
   inline std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
 

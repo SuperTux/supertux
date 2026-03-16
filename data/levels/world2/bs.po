@@ -1,0 +1,488 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the SuperTux package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Bosnian (http://app.transifex.com/arctic-games/supertux/language/bs/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bs\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
+msgstr "Drevna ruševina"
+
+#: data/levels/world2/bouncy_coils.stl:3
+msgid "Bouncy Coils"
+msgstr "Napuhane zavojnice"
+
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "Patrula pećine"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "-Ledeni rozet\n!images/powerups/iceflower/ice_flower-0.png\n#Ledeni rozet daje Tuxu sposobnost da ispaljuje ledene kugle koje mogu zamrznuti većinu stvorenja.\n#Zamrznuta stvorenja se mogu podići, nositi i bacati!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "Neizbježni kolaps"
+
+#: data/levels/world2/corrupted_cutscene.stl:3
+msgid "From Afar It Spreads"
+msgstr "Iz daljine se širi"
+
+#: data/levels/world2/crumbling_path.stl:3
+msgid "Crumbling Path"
+msgstr "Raspadajući put"
+
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "Pusti loptu"
+
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "Upetljan u korijenje"
+
+#: data/levels/world2/find_bigger_fish.stl:3
+msgid "Find the Bigger Fish!"
+msgstr "Pronađite veću ribu!"
+
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "Poplavljene komore"
+
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "Cvjetanje"
+
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "Nova lokacija"
+
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "Korijeni svega zla"
+
+#: data/levels/world2/ghosttree_cutscene.stl:3
+msgid "The Root Of The Problem"
+msgstr "Korijen problema"
+
+#: data/levels/world2/ghosttreewin_cutscene.stl:3
+msgid "Nature Is Healing"
+msgstr "Priroda liječi"
+
+#: data/levels/world2/going_underground.stl:3
+msgid "Going Underground"
+msgstr "Spuštanje pod zemlju"
+
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "Granito Village"
+
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "Šuplja Zemlja"
+
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "Dom mrtvih dom"
+
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Rooted Forest"
+msgstr "Ukorijenjena šuma"
+
+#: data/levels/world2/info:3
+msgid "Tux explores a new land, but a curse impedes his journey."
+msgstr "Tux istražuje novu zemlju, ali ga kletva ometa na putovanju."
+
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "Izgubljeno utočište"
+
+#: data/levels/world2/mouldy_grotto.stl:3
+msgid "A Mouldy Grotto"
+msgstr "Pljesniva pećina"
+
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "Planina Kršmore"
+
+#: data/levels/world2/owls_skydive_commando.stl:3
+msgid "Owls' Skydive Commando"
+msgstr "Padobranski komandos \"Sove\""
+
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
+msgstr "Pingvini ne rastu na drveću"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "Rokenrol"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "-Kamena gljiva\n!images/powerups/earthflower/earth_flower-0.png\n#Kada držite tipku DOLE dok trčite, Kamena gljiva Tuxu daje kameni štit.\n#U svom kamenom obliku Tux je imun na većinu vrsta štete. Međutim, ako Tux udari u čvrsti zid, njegova odbrana prestaje i ponovo postaje ranjiv. "
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "Navijam za tebe"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "Ukorenjeni toranj"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:2
+msgid "Never had Tux been missing sunlight more than ever before."
+msgstr "Nikada Tux nije toliko nedostajao sunčevu svjetlost kao nikad prije."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:3
+msgid ""
+"Since the rain had stopped and the sky was clear, Tux hoped to have found a "
+"nice, safe place to take a short break."
+msgstr "Pošto je kiša prestala i nebo je bilo vedro, Tux se nadao da je pronašao lijepo, sigurno mjesto za kratku pauzu."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:4
+msgid ""
+"Just as he was about to rest, the sudden sound of rustling leaves from a "
+"bush nearby startled Tux."
+msgstr "Upravo kad se spremao odmoriti, iznenadni šum lišća iz obližnjeg grma preplašio je Tuxa."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:5
+msgid ""
+"He went to investigate and got startled by a Vicious Ivy, tumbling out of "
+"the bushes!"
+msgstr "Otišao je istražiti i prepao se otrovnog bršljana koji je iskočio iz grmlja!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:6
+msgid ""
+"However, this one looked different. Its usual bright green leaves seemed to "
+"have turned an ailing purple."
+msgstr "Međutim, ovaj je izgledao drugačije. Njegovi uobičajeni svijetlozeleni listovi činilo se da su poprimili bolesno ljubičastu boju."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:7
+msgid ""
+"Before Tux even had the chance to think about what had happened to the poor "
+"thing, the ground began to shake violently..."
+msgstr "Prije nego što je Tux uopće imao priliku razmisliti o tome šta se dogodilo jadnom stvorenju, tlo je počelo nasilno da se trese..."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:8
+msgid ""
+"Massive purple roots burst through the ground, followed by an onslaught of "
+"many more coming closer and closer!"
+msgstr "Masivne ljubičaste korijene probijaju se kroz zemlju, a za njima slijedi navaljivanje još mnogo njih koji se sve više približavaju!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:9
+msgid ""
+"Tux panicked! Whatever these roots were, they were covering everything. "
+"Where could he go?"
+msgstr "Tux je paničario! Šta god da su bile te korijene, prekrivale su sve. Kuda bi mogao otići?"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:10
+msgid ""
+"But he cannot give up now! Tux could not leave her behind. Not in a place "
+"being overrun by these violent roots."
+msgstr "Ali on sada ne može odustati! Tux je nije mogao ostaviti. Ne na mjestu koje su preplavile ove nasilne korijene."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:11
+msgid "He must rescue Penny! He must get to that tower!"
+msgstr "On mora spasiti Penny! On mora stići do te kule!"
+
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "Umetni cutscenu ovdje"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "Uprkos porazu Duševnog drveta i trunčici života koja se vraćala nekada bujnoj šumi, zemlja je i dalje bila u ruševinama."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "Tlo je bilo prepuno pukotina i razdora. A sada je jedna od njih blokirala Tuxov put..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "Srećom po njega, Granito, živ i zdrav, otkrio se, uzbuđen što ga vidi na drugoj strani pukotine."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
+msgstr "Granito je govorio o tri grupe svojih saboraca Granito koji su se izgubili dok su pokušavali pobjeći korijenima na istočnu obalu."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "Zemlja ih je progutala dok se tlo urušavalo. Ako bi Tux mogao pomoći da ih pronađe, oni bi mu mogli pomoći da stigne na drugu stranu."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "Tux je pristao pomoći! Ubrzo nakon što je primijetio umiruće korijenje koje je otkrivalo put ispod, započeo je potragu za izgubljenim Granitom."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "Uz pomoć spašenog Granita, Tux je uspio stići na drugu stranu."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survived the Ghost Tree's "
+"overgrowth."
+msgstr "Bio je sretan što je preživjelo više Granitoa nakon što ih je prekrio rast Duševo drveta."
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
+msgstr "Jedan od Granita ga je pitao šta pingvin poput njega radi tako daleko od Antarktika."
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replied that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly..."
+msgstr "Tux je odgovorio da traži svoju prijateljicu Penny i da ju je zarobilo zlo stvorenje po imenu \"Nolok\". Ime koje su Granito neugodno pamtili..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "Granito je spomenuo da su znali njegovu domovinu. Ali ne znaju sa sigurnošću ni da li ju je i dalje nazivao svojim domom, niti da li je tamo držao Penny."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute."
+msgstr "Ponudili su da pokažu Tuxu put. To je bilo najmanje što su mogli učiniti da pokažu svoju zahvalnost."
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "Tux je rado pristao i zajedno s nekoliko Granito članova ubrzo su se uputili prema tropima na sjeveroistoku."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "Preostali Granito bi ostali, polako obnavljajući svoj dom, sada kada je korupcija konačno poražena..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "Granito oslobođen!"
+
+#: data/levels/world2/scripts_forest_intro.txt:2
+msgid "After quite the long trip, Tux arrived at the new biome."
+msgstr "Nakon prilično dugog putovanja, Tux je stigao u novi biom."
+
+#: data/levels/world2/scripts_forest_intro.txt:3
+msgid ""
+"Tux was astonished by the scale of this colorful land which was quite "
+"different from his home."
+msgstr "Tux je bio zapanjen razmjerom ove šarene zemlje koja se znatno razlikovala od njegovog doma."
+
+#: data/levels/world2/scripts_forest_intro.txt:4
+msgid "But how was he ever going to find Nolok in this vast forest?"
+msgstr "Ali kako je ikada namjeravao pronaći Noloka u ovoj prostranoj šumi?"
+
+#: data/levels/world2/scripts_forest_intro.txt:5
+msgid ""
+"Tux thought for a moment and decided to find a place high up to get a better"
+" view."
+msgstr "Tux je na trenutak razmislio i odlučio pronaći mjesto visoko kako bi imao bolji pogled."
+
+#: data/levels/world2/scripts_forest_intro.txt:6
+msgid ""
+"Maybe he could find some kind of landmark to help him locate Nolok, wherever"
+" he may be."
+msgstr "Možda bi mogao pronaći neku vrstu znamenitosti koja bi mu pomogla da pronađe Noloka, gdje god da se nalazi."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:2
+msgid ""
+"High on the very top of the dilapidated tower, once again Tux found... "
+"nothing."
+msgstr "Visoko na samom vrhu oronule kule, Tux je ponovo pronašao... ništa."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:3
+msgid ""
+"He could not believe it. He was shocked. Confused. Was this not where he "
+"needed to go?"
+msgstr "Nije mogao vjerovati. Bio je šokiran. Zbunjen. Zar ovo nije mjesto kamo je trebao ići?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:4
+msgid "Did Nolok's hints trick him afterall? Did he walk into a trap?"
+msgstr "Jesu li ga Nolokove naznake na kraju prevarile? Je li upao u zamku?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:5
+msgid ""
+"Tux had not long to think about all this, the tower began shaking violetly. "
+"His assumption prove correct instantly."
+msgstr "Tux nije imao puno vremena da razmisli o svemu ovome, jer se kula počela nasilno tresti. Njegova pretpostavka se odmah pokazala tačnom."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:6
+msgid ""
+"He made it! He escaped the collapsing tower just in time as the structure "
+"now fully gave in. But the roots were not done yet!"
+msgstr "Uspio je! Upravo na vrijeme je pobjegao iz rušeće se kule, dok se struktura sada potpuno srušila. Ali korijeni još nisu bili gotovi!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:7
+msgid ""
+"This was only the beginning, as he had found the root of the problem... "
+"towering over the small penguin."
+msgstr "Ovo je bio tek početak, jer je pronašao korijen problema... nadvijajući se nad malim pingvinom."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:8
+msgid ""
+"Tux watched in shock as the roots dug through the tower's walls, faster and "
+"faster. He had to get out of there, fast!"
+msgstr "Tux je u šoku gledao kako korijenje probija zidove kule, sve brže i brže. Morao je brzo pobjeći odatle!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:9
+msgid ""
+"The roots were now everywhere. The tower become more unstable by the second."
+" Slowly, it collapsed in on itself."
+msgstr "Korijeni su sada bili posvuda. Kula je iz sekunde u sekundu postajala sve nestabilnija. Polako se urušavala sama u sebe."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:10
+msgid ""
+"Tux ran as fast as he could, but the roots would not let him leave as they "
+"blocked off the only path to the main entrance."
+msgstr "Tux je trčao što je mogao brže, ali korijenje ga nije pustilo da ode jer je blokiralo jedini put do glavnog ulaza."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:11
+msgid ""
+"Across the hallway, on the other side, there was a huge crack in the wall. "
+"Tux saw himself forced to take the leap of faith, if he wished to not be "
+"crushed."
+msgstr "Preko hodnika, s druge strane, na zidu je bila ogromna pukotina. Tux je bio primoran na skok vjere ako nije želio biti zdrobljen."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
+msgid "Was it over? Was the nightmare finally over?"
+msgstr "Je li bilo gotovo? Je li noćna mora konačno završila?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:3
+msgid ""
+"Tux could not believe his eyes, but it seemed so! The roots began "
+"retreating. The ground looked more vital again."
+msgstr "Tux nije mogao vjerovati svojim očima, ali činilo se tako! Korijeni su se počeli povlačiti. Tlo je ponovo izgledalo življe."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
+msgid ""
+"Though as much as he was ecstatic about seeing the land restored and "
+"beginning to heal... where to now?"
+msgstr "Iako je bio oduševljen što je vidio da je zemlja obnovljena i počinje da se oporavlja... kuda sada?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:5
+msgid ""
+"The forest, the tower... those were the only leads Tux had. He had no clue "
+"where Nolok could be hiding, if he even was here to begin with. Or rather "
+"anymore."
+msgstr "Šuma, kula... to su bili jedini tragovi koje je Tux imao. Nije imao pojma gdje bi se Nolok mogao skrivati, ako je uopće i bio ovdje. Ili, bolje rečeno, više nije."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
+msgid ""
+"There was no one around Tux could ask for help. All but the remains of "
+"corrupted husks littered the ground as he moved along in thought. No living "
+"creature in sight."
+msgstr "Nigdje nije bilo nikoga koga bi Tux mogao pitati za pomoć. Osim ostataka iskvarenih ljuski, tlo je bilo posuto dok je on zamišljeno koračao. Nijedno živo biće na vidiku."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
+msgid ""
+"Hoping to discover some kind of clue - anything! - Tux's best bet was to "
+"continue exploring this side of the forest, as destroyed as it may be."
+msgstr "Nadajući se da će pronaći neki trag – bilo šta! – Tuxova najbolja opcija bila je nastaviti istraživati ovu stranu šume, ma koliko god bila uništena."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:8
+msgid ""
+"There must be something, somewhere, able to help him to find Nolok! "
+"Right...?"
+msgstr "Mora da negdje postoji nešto što mu može pomoći da pronađe Noloka! Zar ne...?"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr "Plitko zeleno"
+
+#: data/levels/world2/shocking.stl:3
+msgid "Shocking"
+msgstr "Šokantno"
+
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr "Kvadratni korijen agonije"
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "Stik i kamenje"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr "Udaranje drveta"
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr "Tri papira na vjetru"
+
+#: data/levels/world2/through_dark.stl:3
+msgid "Through the Dark"
+msgstr "Kroz tamu"
+
+#: data/levels/world2/tux_builder.stl:3
+msgid "Tux the Builder"
+msgstr "Graditelj Tux"
+
+#: data/levels/world2/welcome_forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "Dobrodošli u šumu"
+
+#: data/levels/world2/welcome_forest.stl:130
+msgid ""
+"-Doors\n"
+"!images/objects/door/door-0.png\n"
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-Vrata\n!images/objects/door/door-0.png\n#Tux može proći kroz vrata pritiskom na tipku GORE.\n#\n#Neka vrata mogu zahtijevati ključ za ulazak!"
+
+#: data/levels/world2/wooden_roots.stl:3
+msgid "Wooden Roots"
+msgstr "Drveni korijeni"
+
+#: data/levels/world2/worldmap.stwm:355
+msgid "To be continued..."
+msgstr "Nastavak slijedi..."
+
+#: data/levels/world2/worldmap.stwm:363 data/levels/world2/worldmap.stwm:373
+msgid "You found a secret area!"
+msgstr "Pronašli ste tajno područje!"
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "Gore od salmonele"

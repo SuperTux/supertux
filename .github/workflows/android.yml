@@ -91,6 +91,7 @@ jobs:
             zlib        \
             sdl2        \
             sdl2-image  \
+            sdl2-ttf    \
             curl        \
             openal-soft \
             libogg      \
@@ -132,6 +133,8 @@ jobs:
           GIT_HASH: ${{ steps.slugify.outputs.sha }}
           GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
         run: |
+          tree
+
           chmod +x ./gradlew
           ./gradlew assembleRelease \
             -Pcpuarch="${{ matrix.arch }}" \
@@ -204,7 +207,8 @@ jobs:
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: "mk/android/app/build/outputs/apk/release/SuperTux-${{ env.SUPERTUX_VERSION }}-${{ matrix.arch }}.apk"
+          files: "build/upload/*"
           draft: true
-          token: ${{ secrets.GITHUB_TOKEN }}
