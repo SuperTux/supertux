@@ -106,7 +106,7 @@ ViciousIvy::active_update(float dt_sec)
     floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
 
     const bool ignore_unisolid = on_top_of_water || m_physic.get_velocity_y() < 0.0f;
-    bool float_here = (Sector::get().is_free_of_statics(floatbox, nullptr, ignore_unisolid));
+    bool float_here = (Sector::get().is_free_of_movingstatics(floatbox, this, ignore_unisolid));
 
     if (in_water)
     {
