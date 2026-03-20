@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/crusher.hpp"
 #include "badguy/badguy.hpp"
-#include "badguy/granito_big.hpp"
 #include "object/coin.hpp"
 #include "object/explosion.hpp"
 #include "object/lit_object.hpp"
@@ -225,6 +224,17 @@ Rock::collision(MovingObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
+
+  {
+    /**
+     * Heavy objects such as Granitos shouldn't be pushed!
+     */
+    const BadGuy* heavyGuy = dynamic_cast<BadGuy*>(&other);
+    if(heavyGuy && heavyGuy->is_heavy()){
+      return ABORT_MOVE;
+    }
+  }
+
   float sector_gravity = Sector::get().get_gravity();
 
   if ((hit.bottom && sector_gravity >= 0.f) || (hit.top && sector_gravity <= 0.f)) {
@@ -233,10 +243,7 @@ Rock::collision(MovingObject& other, const CollisionHit& hit)
       m_physic.set_velocity_y(sector_gravity >= 0.f ? -250.f : 250.f);
     }
 
-    const auto* granito = dynamic_cast<Granito*>(&other);
-    if (granito) {
-      return ABORT_MOVE;
-    }
+    
   }
 
   // Don't fall further if we are on a rock which is on the ground.

@@ -38,6 +38,7 @@ public:
   virtual bool is_freezable() const override { return false; }
   virtual bool is_hurtable() const override { return false; }
   virtual bool is_snipable() const override { return false; }
+  virtual bool is_heavy() const override { return true; }
 
   GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
