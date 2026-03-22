@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.7.0-beta.1-212-g8c082b32c\n"
+"Project-Id-Version: SuperTux v0.7.0-rev.1-8-g9b66f2e8e\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,7 +89,7 @@ msgstr ""
 msgid "Ice in the Hole"
 msgstr ""
 
-#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
 msgid "Icy Island"
 msgstr ""
 
@@ -107,6 +107,11 @@ msgstr ""
 
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
+msgstr ""
+
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
 msgstr ""
 
 #: data/levels/world1/living_inside_fridge.stl:3
@@ -403,10 +408,6 @@ msgid ""
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing "
 "the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr ""
-
-#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
-msgid "You found a secret area!"
 msgstr ""
 
 #: data/levels/world1/under_the_ice.stl:3

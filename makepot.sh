@@ -33,7 +33,7 @@ find data/ -name "*.strf" -print0 | xargs -0 xgettext --keyword='_:1' \
   --package-name="${package_name}" --package-version="${package_version}" \
   --msgid-bugs-address=https://github.com/SuperTux/supertux/issues
 
-msgcat data/locale/main.pot data/locale/credits.pot data/locale/objects.pot data/locale/tilesets.pot data/locale/converters.pot > data/locale/messages.pot
+msgcat --sort-by-file data/locale/main.pot data/locale/credits.pot data/locale/objects.pot data/locale/tilesets.pot data/locale/converters.pot > data/locale/messages.pot
 rm -f data/locale/main.pot data/locale/credits.pot data/locale/objects.pot data/locale/tilesets.pot data/locale/converters.pot
 
 # Prepare script files for inclusion in tinygettext
