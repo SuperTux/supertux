@@ -155,12 +155,14 @@ WorldMapState::load_tux(const ssq::Table& table)
     log_warning << "Player position not set, respawning." << std::endl;
     sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
     m_position_was_reset = true;
+    return;
   }
 
   std::string back_str;
   tux.get("back", back_str);
   sector.m_tux->m_back_direction = string_to_direction(back_str);
   sector.m_tux->set_tile_pos(p);
+  Direction back_dir = string_to_direction(back_str);
 
   int tile_data = sector.tile_data_at(p);
   if (!(tile_data & (Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST)))
@@ -168,6 +170,18 @@ WorldMapState::load_tux(const ssq::Table& table)
     log_warning << "Player at illegal position " << p.x << ", " << p.y << " respawning." << std::endl;
     sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
     m_position_was_reset = true;
+    return;
+  }
+
+  sector.m_tux->m_back_direction = back_dir;
+  sector.m_tux->set_tile_pos(p);
+  sector.m_tux->set_last_stable_tile_pos(p);
+  sector.m_tux->set_last_stable_back_direction(back_dir);
+
+  if (sector.at_object<LevelTile>(p))
+  {
+    sector.m_tux->set_last_level_tile_pos(p);
+    sector.m_tux->set_last_level_back_direction(back_dir);
   }
 }
 
@@ -296,10 +310,16 @@ WorldMapState::save_state(bool initial) const
     sector_table.set("music", music_object.get_music());
 
     /** Save Tux **/
+    const Vector save_pos = sector.m_tux->get_last_stable_tile_pos();
+    const Direction save_back = sector.m_tux->get_last_stable_back_direction();
+
     ssq::Table tux = sector_table.addTable("tux");
     tux.set("x", sector.m_tux->get_tile_pos().x);
     tux.set("y", sector.m_tux->get_tile_pos().y);
     tux.set("back", direction_to_string(sector.m_tux->m_back_direction));
+    tux.set("x", save_pos.x);
+    tux.set("y", save_pos.y);
+    tux.set("back", direction_to_string(save_back));
 
     /** Save levels **/
     ssq::Table levels = sector_table.addTable("levels");
