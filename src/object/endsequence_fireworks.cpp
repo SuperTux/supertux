@@ -40,7 +40,7 @@ void
 EndSequenceFireworks::starting()
 {
   EndSequence::starting();
-  endsequence_timer.start(7.3f * ScreenManager::current()->get_speed());
+  endsequence_timer.start(10.0f * ScreenManager::current()->get_speed());
   Sector::get().add<Fireworks>();
 }
 
