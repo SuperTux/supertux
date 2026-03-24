@@ -33,6 +33,9 @@ make_unit_test(CollisionTest SOURCE collision_test.cpp
   EXTERNAL math/rectf.cpp
   LIBRARIES SDL2 glm DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 
+make_unit_test(HeavyCoinWaterPhysicsTest SOURCE heavy_coin_water_test.cpp
+  LIBRARIES SDL2 glm DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
+
 message("ALL TESTS: ${all_test_targets}")
 
 add_custom_target(tests DEPENDS ${all_test_targets})
