@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Jiří Paleček <narre@protonmail.com>, 2021
+# Jiří Paleček <narre@protonmail.com>, 2021,2026
 # Jiří Paleček <narre@protonmail.com>, 2013,2015
 # Jiří Paleček <narre@protonmail.com>, 2020
 # Jiří Paleček <narre@protonmail.com>, 2018,2020
@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"POT-Creation-Date: 2026-02-02 08:15+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021,2026\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,198 +24,472 @@ msgstr ""
 "Language: cs\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: data/levels/world2/ancient_ruins.stl:3
-msgid "Ancient Ruins"
-msgstr "Prastaré ruiny"
-
-#: data/levels/world2/ancient_ruins.stl:1463
-#: data/levels/world2/ancient_ruins.stl:1471
-#: data/levels/world2/bouncy_coils.stl:380
-#: data/levels/world2/bouncy_coils.stl:388
-#: data/levels/world2/bye_bye_forest.stl:1607
-#: data/levels/world2/crumbling_path.stl:278
-#: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:246
-#: data/levels/world2/going_underground.stl:1249
-#: data/levels/world2/mouldy_grotto.stl:559
-#: data/levels/world2/penguin_grow_trees.stl:459
-#: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:361
-#: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:223
-msgid "You found a secret area!"
-msgstr "Našel jsi tajnou skrýš!"
-
-#: data/levels/world2/beside_bushes.stl:3
-msgid "Beside the Bushes"
-msgstr "Mezi keři"
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
+msgstr "Prastará ruina"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Trampolíny"
 
-#: data/levels/world2/bye_bye_forest.stl:3
-msgid "Bye Bye Forest"
-msgstr "Lesu na shledanou"
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "Jeskynní hlídka"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "-Ledová růžice\n!images/powerups/iceflower/ice_flower-0.png\n#Ledová růžice dává Tuxovi schopnost střílet ledové koule, které mohou zmrazit většinu zlejšků.\n#Zmrzlé zlejšky je možné přenášet a házet s nimi!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "Brzy se zhroutí!"
+
+#: data/levels/world2/corrupted_cutscene.stl:3
+msgid "From Afar It Spreads"
+msgstr "Šíří se z daleka"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Drolící se pěšina"
 
-#: data/levels/world2/darkness_awaits.stl:3
-msgid "Darkness Awaits"
-msgstr "Temnota čeká"
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "Kutálenda"
 
-#: data/levels/world2/find_big_fish.stl:3
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "Zamotán v kořenech"
+
+#: data/levels/world2/find_bigger_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Najdi větší rybu!"
 
-#: data/levels/world2/find_big_fish.stl:1058
-msgid "-A big fish... for you."
-msgstr "-Velká ryba... pro tebe."
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "Zatopené komnaty"
+
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "Rozkvět"
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
 msgstr "Nové místo"
 
-#: data/levels/world2/ghost_cutscene.stl:3
-msgid "What is Happening?"
-msgstr "Co se to děje?"
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "Kořeny zla"
 
-#: data/levels/world2/ghostly_misery.stl:3
-msgid "Ghostly Misery"
-msgstr "Bída a duchové"
+#: data/levels/world2/ghosttree_cutscene.stl:3
+msgid "The Root Of The Problem"
+msgstr "Kořen problému"
 
-#: data/levels/world2/ghosttrees_challenges.stl:3
-msgid "Ghosttree's Challenges"
-msgstr "Výzvy stromu duchů"
-
-#: data/levels/world2/ghouls_lair.stl:3
-msgid "Ghouls' Lair"
-msgstr "Doupě démonů"
-
-#: data/levels/world2/ghouls_lair.stl:859
-msgid ""
-"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
-"of them."
-msgstr "#Lucerny dokáží zpevnit kouzelné bloky, aby se po nich dalo projít."
+#: data/levels/world2/ghosttreewin_cutscene.stl:3
+msgid "Nature Is Healing"
+msgstr "Příroda se uzdravuje"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Jde se do podzemí"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:3
-msgid "I Spy With My Little Eye"
-msgstr "Před pikolou za pikolou"
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "Vesnice granitů"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:218
-msgid ""
-"-Ispy\n"
-"#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Čidlo\n#Čidla aktivují věci (jako třeba plošiny), kdykoliv spatří Tuxe."
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "Dutá země"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:674
-msgid "Hint: Use snails to break blocks!"
-msgstr "Tip: Použij šneky pro rozbití bloků!"
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "Domov, mrtvý domov"
 
-#: data/levels/world2/leaf_wind.stl:3
-msgid "Like a leaf in the Wind"
-msgstr "Jako list ve větru"
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Rooted Forest"
+msgstr "Vzrostlý les"
 
-#: data/levels/world2/lost_village.stl:3
-msgid "Lost Village"
-msgstr "Ztracená vesnice"
+#: data/levels/world2/info:3
+msgid "Tux explores a new land, but a curse impedes his journey."
+msgstr "Tux zkoumá novou zem, ale jeho výpravu překazí kletba."
 
-#: data/levels/world2/lost_village.stl:185
-msgid "#Don't forget to hit the switch!"
-msgstr "#Nezapomeň zatáhnout za páčku!"
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "Ztracené městečko"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Prohnilá sluj"
 
-#: data/levels/world2/owls_again.stl:3
-msgid "The Owls again..."
-msgstr "A zase sovy..."
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "Drtihory"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
 msgstr "Komando sov"
 
-#: data/levels/world2/penguin_grow_trees.stl:3
-msgid "Penguins don't grow on Trees"
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
 msgstr "Tučňáci nerostou na stromech"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "Rock 'n' Roll"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "-Kamenná houba\n!images/powerups/earthflower/earth_flower-0.png\n#Při držení klávesy DOLŮ za běhu umožní kamenná houba Tuxovi přetvořit se v kamenný štít.\n#Ve své kamenné podobě je Tux imunní vůči většině zranení, ale pokud narazí do pevné zdi, jeho ochrana zmizí a bude opět zranitelný."
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "Kořením ti palce"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "Prorostlá věž"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:2
+msgid "Never had Tux been missing sunlight more than ever before."
+msgstr "Nikdy předtím Tux nebyl takhle rád, že vidí denní světlo."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:3
+msgid ""
+"Since the rain had stopped and the sky was clear, Tux hoped to have found a "
+"nice, safe place to take a short break."
+msgstr "Jelikož přestalo pršet a obloha se vyjasnila, Tux doufal, že najde vhodné, bezpečné místo na krátkou přestávku."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:4
+msgid ""
+"Just as he was about to rest, the sudden sound of rustling leaves from a "
+"bush nearby startled Tux."
+msgstr "Ale jakmile se Tux snažil trochu si odpočinout, z nedalekého keře ho vyrušil zvuk šustění listů."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:5
+msgid ""
+"He went to investigate and got startled by a Vicious Ivy, tumbling out of "
+"the bushes!"
+msgstr "Rozhodl se tedy tento zvuk vyšetřit a objevil jarní list, který se trmácel z porostu."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:6
+msgid ""
+"However, this one looked different. Its usual bright green leaves seemed to "
+"have turned an ailing purple."
+msgstr "Tenhle ale vypadal jinak. Namísto jeho jasné zelené barvy byl tenhle zbarvený do nezdravé fialové."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:7
+msgid ""
+"Before Tux even had the chance to think about what had happened to the poor "
+"thing, the ground began to shake violently..."
+msgstr "Než měl Tux sebemenši šanci si rozmyslet, co to právě viděl, země se začala silně třást..."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:8
+msgid ""
+"Massive purple roots burst through the ground, followed by an onslaught of "
+"many more coming closer and closer!"
+msgstr "Vyrazily z ní obrovské fialové kořeny následované dalšími a dalšími, čím dál tím blíže!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:9
+msgid ""
+"Tux panicked! Whatever these roots were, they were covering everything. "
+"Where could he go?"
+msgstr "Tux zpanikařil! Ať tyto kořeny byly cokoliv, tak zakrývaly úplně všechno. Kam může jenom jít?"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:10
+msgid ""
+"But he cannot give up now! Tux could not leave her behind. Not in a place "
+"being overrun by these violent roots."
+msgstr "Ale teď to nemůže vzdát! Tux nemůže nechat Penny. Ne na takovém místě zarostlém těmito násilnými kořeny."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:11
+msgid "He must rescue Penny! He must get to that tower!"
+msgstr "Musí jí zachránít! Musí se dostat do té věže!"
+
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Vlož sem scénu.---"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "I přes porážku Stromu duchů a špetky naděje na návrat do dříve bujného lesa byla země pořád v troskách."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "Byla plná různých prasklin a trhlin. A jedna z nich teď blokovala Tuxovu cestu..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "Naštěstí pro něj, jeden granito, živý a zdravý, se Tuxovi odhalil, nadšený, že ho vidí na druhé straně trhliny."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
+msgstr "Granito Tuxovi řekl o třech skupinách dalších granitů, kteří se ztratili při snaze uniknout před kořeny na východní pobřeží."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "Pohltila je zem, jak zkolabovala sama na sebe. Pokud by Tux mohl pomoci, oni by na oplátku mohli pomoci jemu dostat se na druhou stranu trhliny."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "Tux s pomocí souhlasil! Brzy poté si všiml, že skomírající kořeny odhalily cestu v podzemí, tak se tam rozhodl vydat a najít ztracené granity."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "Za pomoci zachráněných granitů se Tuxovi podařilo dostat se na druhou stranu."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survived the Ghost Tree's "
+"overgrowth."
+msgstr "Byl rád, že nadvládu Stromu duchů přežilo granitů více."
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
+msgstr "Jeden z nich se zeptal, co tučňák jako Tux dělá tak daleko od Antarktidy."
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replied that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly..."
+msgstr "Tux odpověděl, že hledá svou přítelkyni Penny a že jí unesl zlý tvor jménem Nolok. To jméno si granitové pamatovali - nepříjemné vzpomínky."
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "Granito zmínil, že znají jeho domov, ale jestli tam stále žije či zda tam drží Penny, tím si nebyl jistý."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute."
+msgstr "Granitové nabídli Tuxovi ukázat cestu. Bylo to to nejmenší, co pro něj mohli udělat, aby ukázali svou vděčnost."
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "Tux šťastně přijal a spolu s několika granity se brzy přesunul do tropů na severovýchodě."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "Zbývající granitové zůstali pozadu a začali pomalu obnovovat svoje domovy..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "Granitové zachráněni!"
+
+#: data/levels/world2/scripts_forest_intro.txt:2
+msgid "After quite the long trip, Tux arrived at the new biome."
+msgstr "Po celkem dlouhé výpravě Tux dorazil do nového prostředí."
+
+#: data/levels/world2/scripts_forest_intro.txt:3
+msgid ""
+"Tux was astonished by the scale of this colorful land which was quite "
+"different from his home."
+msgstr "Barevnost a rozmanitost této obrovské země ho překvapila - rozdíl oproti jeho domovu byl ohromující."
+
+#: data/levels/world2/scripts_forest_intro.txt:4
+msgid "But how was he ever going to find Nolok in this vast forest?"
+msgstr "Ale jak v tomto rozsáhlém lese může najít Noloka?"
+
+#: data/levels/world2/scripts_forest_intro.txt:5
+msgid ""
+"Tux thought for a moment and decided to find a place high up to get a better"
+" view."
+msgstr "Tux se na chvíli zamyslel a rozhodl se najít vyvýšené místo, odkud by se mohl lépe rozhlédnout."
+
+#: data/levels/world2/scripts_forest_intro.txt:6
+msgid ""
+"Maybe he could find some kind of landmark to help him locate Nolok, wherever"
+" he may be."
+msgstr "Možná uvidí nějaký mezník, který by mu pomohl najít Noloka, ať je kde je."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:2
+msgid ""
+"High on the very top of the dilapidated tower, once again Tux found... "
+"nothing."
+msgstr "Na vrchu rozpadlé věže Tux našel... nic."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:3
+msgid ""
+"He could not believe it. He was shocked. Confused. Was this not where he "
+"needed to go?"
+msgstr "Nemohl tomu uvěřit. Byl šokován. Zmatený. Copak tohle nebylo to místo, kam měl jít?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:4
+msgid "Did Nolok's hints trick him afterall? Did he walk into a trap?"
+msgstr "Možná ho Nolokovy nápovědy přeci jen oklamaly. Přišel právě do pasti?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:5
+msgid ""
+"Tux had not long to think about all this, the tower began shaking violetly. "
+"His assumption prove correct instantly."
+msgstr "Tux o tom nemusel dlouho uvažovat. Věž se začala silně otřásat a jeho obavy se rychle potvrdily."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:6
+msgid ""
+"He made it! He escaped the collapsing tower just in time as the structure "
+"now fully gave in. But the roots were not done yet!"
+msgstr "Dokázal to! Utekl z kolabující věže včas než stačila zcela spadnout. Ale ty kořeny ještě pořád neměly dost!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:7
+msgid ""
+"This was only the beginning, as he had found the root of the problem... "
+"towering over the small penguin."
+msgstr "Tohle byl jenom začátek. Tux objevil zdroj celého problému; věžil se přímo před ním."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:8
+msgid ""
+"Tux watched in shock as the roots dug through the tower's walls, faster and "
+"faster. He had to get out of there, fast!"
+msgstr "Tux se šokovaně díval, jak kořeny prorvaly základy a zdi věže, rychleji a rychleji. Musí se odtud dostat. Hned!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:9
+msgid ""
+"The roots were now everywhere. The tower become more unstable by the second."
+" Slowly, it collapsed in on itself."
+msgstr "Kořeny už byly úplně všude. Věž teď byla každou vteřinou víc a víc nestabilní. Pomalu se hroutila."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:10
+msgid ""
+"Tux ran as fast as he could, but the roots would not let him leave as they "
+"blocked off the only path to the main entrance."
+msgstr "Tux běžel tak rychle, jak jenom mohl, ale kořeny ho nechtěly nechat a zablokovaly mu cestu k hlavnímu vstupu."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:11
+msgid ""
+"Across the hallway, on the other side, there was a huge crack in the wall. "
+"Tux saw himself forced to take the leap of faith, if he wished to not be "
+"crushed."
+msgstr "Na druhé straně chodby Tux spatřil obrovskou trhlinu ve zdi. Už viděl, že bude muset naslepo skočit, pokud nechce být zaživa udrcen."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
+msgid "Was it over? Was the nightmare finally over?"
+msgstr "Byl to konec? Skončila tahle noční můra konečně?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:3
+msgid ""
+"Tux could not believe his eyes, but it seemed so! The roots began "
+"retreating. The ground looked more vital again."
+msgstr "Tux nemohl uvěřit svým očím, ale vypadalo to tak! Kořeny se začaly stahovat; země zase vypadala živě a bujně."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
+msgid ""
+"Though as much as he was ecstatic about seeing the land restored and "
+"beginning to heal... where to now?"
+msgstr "Ale ačkoliv byl Tux nadšený z vidiny země, která se začala obživivat... kam dál?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:5
+msgid ""
+"The forest, the tower... those were the only leads Tux had. He had no clue "
+"where Nolok could be hiding, if he even was here to begin with. Or rather "
+"anymore."
+msgstr "Les, věž, to byly jediné indicie, které Tux měl. Neměl sebemenší ponětí, kde se Nolok schovává, ani jestli tady vůbec někdy byl. Nebo spíše jestli tady pořád je."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
+msgid ""
+"There was no one around Tux could ask for help. All but the remains of "
+"corrupted husks littered the ground as he moved along in thought. No living "
+"creature in sight."
+msgstr "Okolo nebyl nikdo, koho by se Tux mohl zeptat. Nikdo kromě zbytků zkorumpovaných skořápek, které ležely na zemi. Tux plaval ve vlastních myšlenkách. Žádná živá duše na dohled."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
+msgid ""
+"Hoping to discover some kind of clue - anything! - Tux's best bet was to "
+"continue exploring this side of the forest, as destroyed as it may be."
+msgstr "Tux doufal, že objeví nějakou indicii - cokoliv! Jeho nejlepší možnost byla pokračovat v prozkoumávání této strany lesa, ať byla zničená jak byla zničená."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:8
+msgid ""
+"There must be something, somewhere, able to help him to find Nolok! "
+"Right...?"
+msgstr "Někde musí být někdo nebo něco, co mu pomůže najít Noloka! Nebo ne...?"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr "Mělká zeleň"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Blýskání"
 
-#: data/levels/world2/the_forest_is_rotting.stl:3
-msgid "The Forest Is Rotting"
-msgstr "Les hnije"
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr "Odmocnina z agónie."
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "Klacky a kameny"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr "Úderné lesy"
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr "Větrem..."
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
 msgstr "Temnotou"
 
-#: data/levels/world2/through_dark.stl:96
-msgid ""
-"-Earth Flower\n"
-"!images/powerups/earthflower/earth_flower-1.png\n"
-"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
-"#This does not work while jumping or falling!"
-msgstr "-Zemní květina\n!images/powerups/earthflower/earth_flower-1.png\n#Zemní květina umožní Tuxovi zkamenět stisknutím kláves AKCE a DOLŮ současně, pokud je zrovna na zemi."
-
-#: data/levels/world2/tower_of_ghosts.stl:3
-msgid "Tower Of Ghosts"
-msgstr "Věž duchů"
-
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
 msgstr "Tux stavitel"
-
-#: data/levels/world2/tux_builder.stl:77
-msgid ""
-"-Portable Objects:\n"
-"!images/objects/rock/rock.png\n"
-"#Tux can pick up certain objects and carry them around.\n"
-"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Přenosné objekty:\n!images/objects/rock/rock.png\n#Tux umí zvednout některé objekty a nosit je.\n#Stiskni klávesu AKCE pro zvednutí objektu a drž jí, dokud ho nechceš pustit. Pusť klávesu AKCE pro upuštění objektu."
-
-#: data/levels/world2/tux_own_horror_show.stl:3
-msgid "Tux' Own Horror Show"
-msgstr "Tuxova vlastní hororová show"
-
-#: data/levels/world2/tux_own_horror_show.stl:947
-msgid ""
-"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
-" often dangerous places."
-msgstr "#Bludičky jsou malí, otravní duchové, kteří dokáží přenést Tuxe do jiných, často nebezpečných míst."
-
-#: data/levels/world2/walking_leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Chodící listí"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
 msgstr "Vítej v lese"
 
-#: data/levels/world2/welcome_forest.stl:50
+#: data/levels/world2/welcome_forest.stl:130
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
-"#Tux can go through a door by pressing the UP key."
-msgstr "-Dveře\n!images/objects/door/door-0.png\n#Tux může projít dveřmi stisknutím klávesy NAHORU."
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-Dveře\n!images/objects/door/door-0.png\n#Tux může procházet dveřmi pomocí klávesy NAHORU.\n#\n#Některé dveře mohou vyžadovat klíč!"
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Dřevěné kořeny"
 
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "Vzrostlý les"
-
-#: data/levels/world2/worldmap.stwm:239
+#: data/levels/world2/worldmap.stwm:355
 msgid "To be continued..."
 msgstr "Pokračování příště..."
+
+#: data/levels/world2/worldmap.stwm:363 data/levels/world2/worldmap.stwm:373
+msgid "You found a secret area!"
+msgstr "Našel jsi tajnou skrýš!"
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "Horší než salmonela"

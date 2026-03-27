@@ -193,7 +193,14 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 {
   Integration::close_all();
 
-  GameManager::current()->save();
+  // XXX: This was an old thing to attempt to 'save' the game on exit, but
+  // because this game is very weird it will save the worldmap when you exit
+  // even when you're on the titlescreen, but this can now break your save
+  // because of the save-version check. A proper solution could be employed, but
+  // 0.7 releases today so I'm just gonna turn it off. It's rather harmless,
+  // anyway.
+
+  //  GameManager::current()->save();
 
 #ifdef __EMSCRIPTEN__
   g_config->save();
@@ -406,9 +413,9 @@ ScreenManager::process_events()
     }
     m_input_manager.process_event(event);
 
-    m_menu_manager->event(event);
-
-#define LOGMOUSEY(var) VideoSystem::current()->get_viewport().to_logical(0, var).y
+    // Because of mouse{X,Y}
+#if SDL_VERSION_ATLEAST(2,26,0)
+# define LOGMOUSEY(var) VideoSystem::current()->get_viewport().to_logical(0, var).y
     // If the console is focused, try to funnel mouse events into that. Lisp
     // programmers would be proud!
     // TODO: Dragging-like logic is a little funky, but it's not a big deal
@@ -422,8 +429,15 @@ ScreenManager::process_events()
         Console::current()->scroll(-event.wheel.y * 2);
     }
     else
+    {
+      m_menu_manager->event(event);
       m_screen_stack.back()->event(event);
-#undef LOGMOUSEY
+    }
+# undef LOGMOUSEY
+#else
+    m_menu_manager->event(event);
+    m_screen_stack.back()->event(event);
+#endif
 
     switch (event.type)
     {

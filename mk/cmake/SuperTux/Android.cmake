@@ -1,5 +1,7 @@
 message(STATUS "ANDROID_ABI: ${ANDROID_ABI} :)")
 
+option(SUPERTUX_GOOGLE_PLAY NO "Build SuperTux for Google Play")
+
 if(NOT DEFINED ENV{ANDROID_NDK_HOME})
   set(ndk_home "${SUPERTUX_NDK_HOME}")
 else()
@@ -25,6 +27,10 @@ else()
 endif()
 
 add_compile_options(-D__ANDROID__)
+
+if(SUPERTUX_GOOGLE_PLAY)
+  add_compile_definitions(GOOGLE_PLAY)
+endif()
 
 set(ANDROID_STL "c++_shared")
 set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE ${ndk_home}/build/cmake/android.toolchain.cmake)

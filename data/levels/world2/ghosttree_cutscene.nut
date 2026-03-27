@@ -5,6 +5,8 @@ function initialize()
   TUX.set_action("big-walk-right");
   
   Camera.set_pos(2100, 120);
+  Tux.deactivate();
+  Tux.set_visible(false);
   
   Effect.sixteen_to_nine(0);
   Effect.fade_in(2);

@@ -35,7 +35,7 @@ void copy(const std::string& source_path, const std::string& target_path);
 /** returns the path of the directory the file is in */
 std::string dirname(const std::string& filename);
 
-/** returns the name of the file 
+/** returns the name of the file
  * @param filename The path to get the basename from.
  * @param greedy If true, then attempt to strip any slashes from the end first.
  *               This fixes situations like /some/dir/ where they really meant /some/dir.
@@ -69,11 +69,19 @@ std::string escape_url(const std::string& url);
     @return true when successfully removed, false otherwise */
  bool remove(const std::string& path);
 
+/**
+ * Rename the file
+ * @param old_filename The original filename.
+ * @param new_filenaem Resulting file.
+ * @return true if successfully renamed, false otherwise.
+ */
+bool rename(const std::string& old_filename, const std::string& new_filename);
+
 /** Opens a file path with the user's preferred app for that file.
  * @param path path to open
  */
  void open_path(const std::string& path);
- 
+
 /** Opens a file in the users preferred text editor.
  * @param filename File to edit
  */

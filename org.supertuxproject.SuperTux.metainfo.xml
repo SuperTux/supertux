@@ -43,7 +43,7 @@
       through the Icy Island and beyond.
     </p>
   </description>
-  <developer id="supertuxproject.org">
+  <developer id="org.supertuxproject">
     <name>The SuperTux Team</name>
   </developer>
   <url type="homepage">https://www.supertux.org</url>
@@ -62,20 +62,44 @@
   </categories>
   <screenshots>
     <screenshot type="default">
-      <image>https://www.supertux.org/images/0_6_0/0_6_0_3.png</image>
-      <caption>An Icy Island level</caption>
+      <image>https://www.supertux.org/images/0_7_0/07-1.png</image>
+      <caption>Tux running through icy-island.</caption>
     </screenshot>
     <screenshot>
-      <image>https://www.supertux.org/images/0_6_0/0_6_0_2.png</image>
-      <caption>The Icy Island world map</caption>
+      <image>https://www.supertux.org/images/0_7_0/07-2.png</image>
+      <caption>Tux climbing.</caption>
     </screenshot>
     <screenshot>
-      <image>https://www.supertux.org/images/0_6_0/0_6_0_4.png</image>
-      <caption>Another Icy Island level</caption>
+      <image>https://www.supertux.org/images/0_7_0/07-3.png</image>
+      <caption>Tux swimming through a level.</caption>
     </screenshot>
     <screenshot>
-      <image>https://www.supertux.org/images/0_6_0/0_6_0_14.png</image>
-      <caption>A Rooted Forest level</caption>
+      <image>https://www.supertux.org/images/0_7_0/07-4.png</image>
+      <caption>Tux sliding down a slope.</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.supertux.org/images/0_7_0/07-5.png</image>
+      <caption>Tux standing before a gap in a cave, with a crusher in the way.</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.supertux.org/images/0_7_0/07-6.png</image>
+      <caption>Tux running through the Rooted Forest world.</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.supertux.org/images/0_7_0/07-7.png</image>
+      <caption>Tux rolling in his rock form.</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.supertux.org/images/0_7_0/07-8.png</image>
+      <caption>Tux standing in the Rooted Forest.</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.supertux.org/images/0_7_0/07-9.png</image>
+      <caption>Tux running through the night with an owl above him.</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.supertux.org/images/0_7_0/07-10.png</image>
+      <caption>A bunch of granitos standing behind Tux.</caption>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">supertux2.desktop</launchable>
@@ -83,11 +107,36 @@
     <binary>supertux2</binary>
   </provides>
   <releases>
-    <release version="0.6.3" date="2021-12-22" />
-    <release version="0.6.2" date="2020-05-14" />
-    <release version="0.6.1.1" date="2019-12-19" />
-    <release version="0.6.1" date="2019-12-15" />
-    <release version="0.6.0" date="2018-12-23" />
-    <release version="0.5.1" date="2016-11-05" />
+    <release version="0.7.0" date="2026-03-14">
+      <url>https://www.supertux.org/news/2026/03/14/0.7.0</url>
+      <description>
+        <p>The SuperTux Team is pleased to announce the stable release of version 0.7.0!
+          You may wonder what took us so long to develop another release.
+          Over the past couple of years, we’ve made dozens of changes and improvements to the game,
+          bringing it to a much more polished state.
+          As such, this is likely one of the biggest releases since Milestone 2! Despite that,
+          SuperTux remains the trusted run’n’jump game as you know well…
+          but with this update, it should bring it into a much more finishable state moving forward.
+        </p>
+      </description>
+    </release>
+    <release version="0.6.3" date="2021-12-22">
+      <url>https://www.supertux.org/news/2021/12/23/0.6.3</url>
+    </release>
+    <release version="0.6.2" date="2020-05-14">
+      <url>https://www.supertux.org/news/2020/05/14/0.6.2</url>
+    </release>
+    <release version="0.6.1" date="2019-12-15">
+      <url>https://www.supertux.org/news/2019/12/15/0.6.1</url>
+    </release>
+    <release version="0.6.0" date="2018-12-23">
+      <url>https://www.supertux.org/news/2018/12/23/0.6.0</url>
+    </release>
+    <release version="0.5.1" date="2016-11-05">
+      <url>https://www.supertux.org/news/2016/11/05/0.5.1</url>
+    </release>
+    <release version="0.5.0" date="2016-09-25">
+      <url>https://www.supertux.org/news/2016/09/25/0.5.0</url>
+    </release>
   </releases>
 </component>

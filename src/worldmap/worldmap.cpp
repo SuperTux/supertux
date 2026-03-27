@@ -55,6 +55,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_savegame(nullptr),
   m_tileset(nullptr),
   m_name(),
+  m_save_version(1),
   m_map_filename(),
   m_levels_path(),
   m_has_next_worldmap(false),
@@ -97,6 +98,7 @@ WorldMap::load(const std::string& filename, Savegame& savegame,
     throw std::runtime_error("file isn't a supertux-level file.");
 
   auto mapping = root.get_mapping();
+  mapping.get("save-version", m_save_version);
 
   mapping.get("name", m_name);
 

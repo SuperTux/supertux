@@ -33,17 +33,19 @@ Stumpy::Stumpy(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_tree/stumpy.sprite","left","right", LAYER_OBJECTS,
                 "images/objects/lightmap_light/lightmap_light-large.sprite"),
   mystate(STATE_NORMAL),
-  invincible_timer()
+  invincible_timer(),
+  m_glint_coins(1)
 {
   walk_speed = STUMPY_SPEED;
   set_ledge_behavior(LedgeBehavior::SMART);
   SoundManager::current()->preload("sounds/mr_treehit.ogg");
 }
 
-Stumpy::Stumpy(const Vector& pos, Direction d) :
+Stumpy::Stumpy(const Vector& pos, Direction d, int glint_coins) :
   WalkingBadguy(pos, d, "images/creatures/mr_tree/stumpy.sprite","left","right"),
   mystate(STATE_INVINCIBLE),
-  invincible_timer()
+  invincible_timer(),
+  m_glint_coins(glint_coins)
 {
   walk_speed = STUMPY_SPEED;
   set_ledge_behavior(LedgeBehavior::SMART);
@@ -71,6 +73,7 @@ Stumpy::active_update(float dt_sec)
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
+      set_group(COLGROUP_MOVING_STATIC);
       if (invincible_timer.check()) {
         mystate = STATE_NORMAL;
         WalkingBadguy::initialize();
@@ -78,6 +81,7 @@ Stumpy::active_update(float dt_sec)
       BadGuy::active_update(dt_sec);
       break;
     case STATE_NORMAL:
+      set_group(COLGROUP_MOVING);
       WalkingBadguy::active_update(dt_sec);
       break;
   }
@@ -130,7 +134,7 @@ Stumpy::collision_squished(MovingObject& object)
 int
 Stumpy::get_coins_worth() const
 {
-  return (m_is_glinting) ? 3 : 0;
+  return (m_is_glinting) ? m_glint_coins : 0;
 }
 
 void

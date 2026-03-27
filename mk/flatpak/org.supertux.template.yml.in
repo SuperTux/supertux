@@ -1,9 +1,9 @@
-id: org.supertux.SuperTuxNightly
+id: org.supertux.%s
 runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 command: supertux2
-rename-icon: supertux-nightly
+rename-icon: %s
 rename-desktop-file: supertux2.desktop
 rename-appdata-file: supertux2.appdata.xml
 finish-args:
@@ -31,6 +31,7 @@ modules:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DFLATPAK=On
       - -DUSE_GL_LIBRARY=libepoxy
+      - -DIS_SUPERTUX_RELEASE=%s
     sources:
       - type:   dir
         path:   .

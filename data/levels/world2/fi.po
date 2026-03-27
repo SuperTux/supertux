@@ -3,17 +3,18 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Jaakko Muilu, 2025
+# Jaakko Muilu, 2025-2026
 # Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018-2023
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2025
 # Oi Suomi On! <oisuomion@protonmail.com>, 2020
 # Lauri Ojansivu <x@xet7.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-17 08:18+0000\n"
+"POT-Creation-Date: 2026-02-02 08:15+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Jaakko Muilu, 2025\n"
+"Last-Translator: Jaakko Muilu, 2025-2026\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,198 +22,472 @@ msgstr ""
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/levels/world2/ancient_ruins.stl:3
-msgid "Ancient Ruins"
-msgstr "Muinaiset rauniot"
-
-#: data/levels/world2/ancient_ruins.stl:1463
-#: data/levels/world2/ancient_ruins.stl:1471
-#: data/levels/world2/bouncy_coils.stl:380
-#: data/levels/world2/bouncy_coils.stl:388
-#: data/levels/world2/bye_bye_forest.stl:1607
-#: data/levels/world2/crumbling_path.stl:278
-#: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:246
-#: data/levels/world2/going_underground.stl:1249
-#: data/levels/world2/mouldy_grotto.stl:559
-#: data/levels/world2/penguin_grow_trees.stl:459
-#: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:361
-#: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:223
-msgid "You found a secret area!"
-msgstr "Löysit salaisen paikan!"
-
-#: data/levels/world2/beside_bushes.stl:3
-msgid "Beside the Bushes"
-msgstr "Läpi pensaiden"
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
+msgstr "Muinainen raunio"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Hyvä jousitus"
 
-#: data/levels/world2/bye_bye_forest.stl:3
-msgid "Bye Bye Forest"
-msgstr "Hyvästi, metsä"
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "Luolapartio"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "-Jääruusuke\n!images/powerups/iceflower/ice_flower-0.png\n#Jääruusuke antaa Tuxille kyvyn ampua jääpalloja, jotka jäädyttävät useimpia olentoja.\n#Jäätyneitä olentoja voi poimia, kantaa ja heittää!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "Romahdusvaroitus"
+
+#: data/levels/world2/corrupted_cutscene.stl:3
+msgid "From Afar It Spreads"
+msgstr "Kaukaa se leviää"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Mureneva polku"
 
-#: data/levels/world2/darkness_awaits.stl:3
-msgid "Darkness Awaits"
-msgstr "Pimeys odottaa"
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "Pudota pallo"
 
-#: data/levels/world2/find_big_fish.stl:3
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "Juuriin sotkeutunut"
+
+#: data/levels/world2/find_bigger_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Etsi isompi kala!"
 
-#: data/levels/world2/find_big_fish.stl:1058
-msgid "-A big fish... for you."
-msgstr "-Siinä sinulle iso kala."
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "Tulvivat kammiot"
+
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "Kukoistavat kukat"
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
-msgstr "Uusi maailma"
+msgstr "Uusi sijainti"
 
-#: data/levels/world2/ghost_cutscene.stl:3
-msgid "What is Happening?"
-msgstr "Mitä tapahtuu?"
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "Kaiken pahan alku ja juuri"
 
-#: data/levels/world2/ghostly_misery.stl:3
-msgid "Ghostly Misery"
-msgstr "Kurjuutta kummituksilta"
+#: data/levels/world2/ghosttree_cutscene.stl:3
+msgid "The Root Of The Problem"
+msgstr "Ongelman juuri"
 
-#: data/levels/world2/ghosttrees_challenges.stl:3
-msgid "Ghosttree's Challenges"
-msgstr "Kummituspuun haasteet"
-
-#: data/levels/world2/ghouls_lair.stl:3
-msgid "Ghouls' Lair"
-msgstr "Aaveiden luola"
-
-#: data/levels/world2/ghouls_lair.stl:859
-msgid ""
-"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
-"of them."
-msgstr "#Lyhdyillä muutetaan taikapalikoita kiinteiksi, jolloin niiden päällä voi kävellä."
+#: data/levels/world2/ghosttreewin_cutscene.stl:3
+msgid "Nature Is Healing"
+msgstr "Luonto parantaa"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Maan alle"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:3
-msgid "I Spy With My Little Eye"
-msgstr "Isoveli valvoo"
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "Graniittikylä"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:218
-msgid ""
-"-Ispy\n"
-"#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Silmäilijä\n#Silmäilijät käynnistävät asioita, kuten alustoja, jos Tuxin on niiden näköpiirissä."
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "Ontto maa"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:674
-msgid "Hint: Use snails to break blocks!"
-msgstr "Vihje: riko palikoita etanoilla!"
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "Koti kalman kallis"
 
-#: data/levels/world2/leaf_wind.stl:3
-msgid "Like a leaf in the Wind"
-msgstr "Kuin lehti tuulessa"
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Rooted Forest"
+msgstr "Juurimetsä"
 
-#: data/levels/world2/lost_village.stl:3
-msgid "Lost Village"
-msgstr "Kadonnut kylä"
+#: data/levels/world2/info:3
+msgid "Tux explores a new land, but a curse impedes his journey."
+msgstr "Tux tutkii uutta maata, mutta kirous haittaa hänen matkaansa."
 
-#: data/levels/world2/lost_village.stl:185
-msgid "#Don't forget to hit the switch!"
-msgstr "#Muista vääntää vivusta!"
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "Kadonnut turvapaikka"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Tunkkainen luola"
 
-#: data/levels/world2/owls_again.stl:3
-msgid "The Owls again..."
-msgstr "Pöllöjen paluu..."
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "Crushmore-vuori"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
 msgstr "Kommandopöllöjen ilmaisku"
 
-#: data/levels/world2/penguin_grow_trees.stl:3
-msgid "Penguins don't grow on Trees"
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
 msgstr "Pingviinit eivät kasva puissa"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "Rock 'n' Roll"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "-Kivisieni\n!images/powerups/earthflower/earth_flower-0.png\n#Kun ALAS-näppäintä pitää pohjassa juostessa, kivisieni antaa Tuxille kivikilven.\n#Kivimuodossa Tux on immuuni useimmille vahinkotyypeille. Jos Tux törmää seinään, hänen puolustuksensa raukeaa ja hän on taas haavoittuvainen."
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "Juurtua sinuun"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "Juuritorni"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:2
+msgid "Never had Tux been missing sunlight more than ever before."
+msgstr "Tux ei ollut koskaan kaivannut auringonvaloa enemmän kuin nyt."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:3
+msgid ""
+"Since the rain had stopped and the sky was clear, Tux hoped to have found a "
+"nice, safe place to take a short break."
+msgstr "Kun sade oli lakannut ja taivas oli selkeä, Tux toivoi löytävänsä kivan turvapaikan lyhyttä taukoa varten."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:4
+msgid ""
+"Just as he was about to rest, the sudden sound of rustling leaves from a "
+"bush nearby startled Tux."
+msgstr "Juuri kun hän oli aikeissa levätä, äkillinen lehtien kahina läheisestä puskasta säikäytti Tuxin."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:5
+msgid ""
+"He went to investigate and got startled by a Vicious Ivy, tumbling out of "
+"the bushes!"
+msgstr "Hän meni tutkimaan, ja hänet säikäytti Ilkeä Muratti, joka kupsahti pensaista ulos!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:6
+msgid ""
+"However, this one looked different. Its usual bright green leaves seemed to "
+"have turned an ailing purple."
+msgstr "Tämä kuitenkin näytti erilaiselta. Sen epätavalliset kirkkaat lehdet ovat näköjään muuttuneet sairaan vihreiksi."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:7
+msgid ""
+"Before Tux even had the chance to think about what had happened to the poor "
+"thing, the ground began to shake violently..."
+msgstr "Ennen kuin Tux ehti ajatella, mitä raukkaparalle oli tapahtunut, maa alkoi räristä rajusti..."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:8
+msgid ""
+"Massive purple roots burst through the ground, followed by an onslaught of "
+"many more coming closer and closer!"
+msgstr "Massiiviset purppurajuuret tulivat maasta, minkä perässä vyöryi yhä useampi lähestyen yhä enemmän!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:9
+msgid ""
+"Tux panicked! Whatever these roots were, they were covering everything. "
+"Where could he go?"
+msgstr "Tux panikoi! Mitä nämä juuret olivat, ne peittivät kaiken. Minne häne voisi mennä?"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:10
+msgid ""
+"But he cannot give up now! Tux could not leave her behind. Not in a place "
+"being overrun by these violent roots."
+msgstr "Mutta hän ei nyt luovuta! Tux ei voinut jättää häntä jälkeen. Ei siihen paikkaan, jota nuo rajut juuret jyräävät."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:11
+msgid "He must rescue Penny! He must get to that tower!"
+msgstr "Hänen täytyy pelastaa Penny! Hänen on päästävä siihen torniin!"
+
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Aseta Tähän Välikohtaus---"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "Maa oli edelleen raunioina huolimatta Aavepuun tappiosta ja elämänkipinän paluusta entiseen rehevään metsään."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "Maaperä oli täynnä halkeamia ja railoja. Ja nyt yksi niistä esti Tuxia kulkemasta..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "Hänen onnekseen Graniitti, ilmielävänä, paljasti itsensä innokkaana nähdessään hänet rotkon toisella puolella."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
+msgstr "Graniitti puhui kolmesta kaveriporukastaan, jotka olivat eksyneet yrittäessään paeta juuria itärannikolle."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "Maa nielaisi heidät maaperän romahtaessa. Jos Tux auttaisi löytämään heidät, he auttaisivat häntä pääsemään toiselle puolelle."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "Tux suostui auttamaan! Heti kun hän huomasi kuolevat juuret, jotka paljastivat alla olevan polun, hän alkoi etsiä kadonnutta Graniitti."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "Pelastamansa Graniitti avulla Tuxin onnistui päästä toiselle puolelle."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survived the Ghost Tree's "
+"overgrowth."
+msgstr "Hän oli iloinen, kun muutkin Graniitit olivat selvinneet Aavepuun liikakasvusta. "
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
+msgstr "Yksi Graniiteista kysyi, mitä hänenlaisensa pingviini teki niin kaukana etelänavalta."
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replied that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly..."
+msgstr "Tux vastasi, että hän oli etsimässä ystäväänsä Pennyä ja että paha otus nimeltä \"Nolok\" oli vanginnut hänet. Sen nimen Graniitti muisti ikävästi."
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "Graniitti mainitsi, että he tunsivat hänen kotimaansa, mutta he eivät tienneet varmuudella, kutsuiko Nolok sitä yhä kodikseen tai pitikö hän Pennyä siellä."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute."
+msgstr "He tarjoutuivat opastamaan Tuxia. Vähintäänkin sitä he voivat tehdä kiitollisuuden osoituksena."
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "Tux suostui ilomielin, ja yhdessä kourallisen Graniitteja kanssa he lähtivät pian koilliseen kohti tropiikkia."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "Jäljelle jääneet Graniitit jäisivät rakentamaan kotinsa hitaasti ennalleen, kun turmelus oli nyt viimein voitettu..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "Graniitti vapaa!"
+
+#: data/levels/world2/scripts_forest_intro.txt:2
+msgid "After quite the long trip, Tux arrived at the new biome."
+msgstr "Pitkähkön matkan jälkeen Tux saapui uuteen biomiin."
+
+#: data/levels/world2/scripts_forest_intro.txt:3
+msgid ""
+"Tux was astonished by the scale of this colorful land which was quite "
+"different from his home."
+msgstr "Tuxia hämmästytti tämän värikkään maan laajuus, mikä erosi hänen kodistaan melkolailla."
+
+#: data/levels/world2/scripts_forest_intro.txt:4
+msgid "But how was he ever going to find Nolok in this vast forest?"
+msgstr "Vaan miten hän ikinä löytäisi Nolokin tästä suuresta mestästä?"
+
+#: data/levels/world2/scripts_forest_intro.txt:5
+msgid ""
+"Tux thought for a moment and decided to find a place high up to get a better"
+" view."
+msgstr "Tux mietti hetken ja päätti etsiä korkean paikan nähdäkseen paremmin."
+
+#: data/levels/world2/scripts_forest_intro.txt:6
+msgid ""
+"Maybe he could find some kind of landmark to help him locate Nolok, wherever"
+" he may be."
+msgstr "Ehkäpä hän löytäisi jonkinlaisen maamerkin Nolokin paikallistamiseksi, olipa hän sitten missä hyvänsä."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:2
+msgid ""
+"High on the very top of the dilapidated tower, once again Tux found... "
+"nothing."
+msgstr "Korkealla rapautuneen tornin huipulla Tux jälleen kerran... ei löytänyt mitään."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:3
+msgid ""
+"He could not believe it. He was shocked. Confused. Was this not where he "
+"needed to go?"
+msgstr "Hän ei voinut uskoa. Hän oli järkyttynyt. Hämillään. Tännekö hänen ei pitänyt mennä?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:4
+msgid "Did Nolok's hints trick him afterall? Did he walk into a trap?"
+msgstr "Juksasivatko Nolokin vihjeet häntä? Kävelikö hän ansaan?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:5
+msgid ""
+"Tux had not long to think about all this, the tower began shaking violetly. "
+"His assumption prove correct instantly."
+msgstr "Tux ei ehtinyt miettiä sitä, sillä torni alkoi täristä voimakkaasti. Hänen olettamuksensa osui oitis oikeaan."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:6
+msgid ""
+"He made it! He escaped the collapsing tower just in time as the structure "
+"now fully gave in. But the roots were not done yet!"
+msgstr "Hän selvisi! Hän pakeni sortuvasta tornista juuri ajoissa, kun rakennelma petti nyt tykkänään. Mutta juuret olivat vielä kesken!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:7
+msgid ""
+"This was only the beginning, as he had found the root of the problem... "
+"towering over the small penguin."
+msgstr "Tämä oli vasta alkua, sillä hän oli löytänyt ongelman juuren... joka kohosi pikku pingviinin ylle."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:8
+msgid ""
+"Tux watched in shock as the roots dug through the tower's walls, faster and "
+"faster. He had to get out of there, fast!"
+msgstr "Tux katseli järkyttyneenä, kun juuret kaivautuivat tornin seinistä läpi. Hänen oli päästävä pois pian!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:9
+msgid ""
+"The roots were now everywhere. The tower become more unstable by the second."
+" Slowly, it collapsed in on itself."
+msgstr "Juuria oli nyt kaikkialla. Tornista tuli hetkessä epävakaampi. Se romahti hitaasti itsekseen."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:10
+msgid ""
+"Tux ran as fast as he could, but the roots would not let him leave as they "
+"blocked off the only path to the main entrance."
+msgstr "Tux juoksi niin lujaa kuin pystyi, mutta juuret eivät antaisi hänen mennä, sillä ne tukkivat ainoan reitin pääsisäänkäynnille."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:11
+msgid ""
+"Across the hallway, on the other side, there was a huge crack in the wall. "
+"Tux saw himself forced to take the leap of faith, if he wished to not be "
+"crushed."
+msgstr "Vastapäisessä seinässä oli valtava halkeama käytävän toisella puolella. Tux joutui tekemään uskonloikan, jos hän ei halunnut murskaantua."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
+msgid "Was it over? Was the nightmare finally over?"
+msgstr "Oliko se ohi? Oliko painajainen vihdoinkin ohi?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:3
+msgid ""
+"Tux could not believe his eyes, but it seemed so! The roots began "
+"retreating. The ground looked more vital again."
+msgstr "Tux ei voinut uskoa silmiään, mutta siltä näytti! Juuret alkoivat vetäytyä. Maa näytti jälleen ehyemmältä."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
+msgid ""
+"Though as much as he was ecstatic about seeing the land restored and "
+"beginning to heal... where to now?"
+msgstr "Vaikka hän oli haltioitunut nähdessään maan ennallistuvan ja alkavan tulla kuntoon… minnepäin nyt?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:5
+msgid ""
+"The forest, the tower... those were the only leads Tux had. He had no clue "
+"where Nolok could be hiding, if he even was here to begin with. Or rather "
+"anymore."
+msgstr "Metsä, torni... ne olivat Tuxin ainoat johtolangat. Hänellä ei ollut hajuakaan, missä Nolok voisi piilotella, jos hän edes oli ollut täällä alkujaan, tai pikemminkin enää."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
+msgid ""
+"There was no one around Tux could ask for help. All but the remains of "
+"corrupted husks littered the ground as he moved along in thought. No living "
+"creature in sight."
+msgstr "Ainoastaan turmeltuneiden kuorien jäänteet peittivät maan hänen kulkiessaan ajatuksissaan. Ei elävää olentoa näköpiirissä."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
+msgid ""
+"Hoping to discover some kind of clue - anything! - Tux's best bet was to "
+"continue exploring this side of the forest, as destroyed as it may be."
+msgstr "Toivoen löytävänsä jonkinlaisen vihjeen – mitä tahansa! Tuxin paras vaihtoehto oli jatkaa tämän metsänpuolen tutkimista, vaikka se olikin tuhoutunut."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:8
+msgid ""
+"There must be something, somewhere, able to help him to find Nolok! "
+"Right...?"
+msgstr "Täytyi olla jotakin, jossakin, joka auttaisi löytämään Nolokin! Eikö...?"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr "Pinnallinen vihreä"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Sata salamaa"
 
-#: data/levels/world2/the_forest_is_rotting.stl:3
-msgid "The Forest Is Rotting"
-msgstr "Mätänevä metsä"
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr "Tuskien neliöjuuri"
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "Kivit ja kepit"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr "Iskevä puu"
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr "Kolme piirua tuuleen"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
 msgstr "Halki pimeän"
 
-#: data/levels/world2/through_dark.stl:96
-msgid ""
-"-Earth Flower\n"
-"!images/powerups/earthflower/earth_flower-1.png\n"
-"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
-"#This does not work while jumping or falling!"
-msgstr "-Maakukka\n!images/powerups/earthflower/earth_flower-1.png\n#Maakukka antaa Tuxille kyvyn muuttua kiveksi painamalla toiminta- ja ALAS-näppäintä yhtä aikaa.\n#Tämä ei toimi hypätessä tai pudotessa!"
-
-#: data/levels/world2/tower_of_ghosts.stl:3
-msgid "Tower Of Ghosts"
-msgstr "Kummitusten torni"
-
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
 msgstr "Rakentaja-Tux"
-
-#: data/levels/world2/tux_builder.stl:77
-msgid ""
-"-Portable Objects:\n"
-"!images/objects/rock/rock.png\n"
-"#Tux can pick up certain objects and carry them around.\n"
-"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Kannettavat esineet:\n!images/objects/rock/rock.png\n#Tux voi poimia ja kantaa tiettyjä esineitä.\n#Poimi esine painamalla toimintanäppäintä ja pidä pohjassa niin kauan kuin haluat kantaa esinettä. Pudota esine vapauttamalla toimintanäppäintä."
-
-#: data/levels/world2/tux_own_horror_show.stl:3
-msgid "Tux' Own Horror Show"
-msgstr "Tuxin pahin painajainen"
-
-#: data/levels/world2/tux_own_horror_show.stl:947
-msgid ""
-"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
-" often dangerous places."
-msgstr "#Virvatulet ovat pieniä, ärsyttäviä aaveita, jotka siirtävät sinut erilaisiin, yleensä vaarallisiin paikkoihin."
-
-#: data/levels/world2/walking_leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Vaeltavat lehdet"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
 msgstr "Tervetuloa metsään"
 
-#: data/levels/world2/welcome_forest.stl:50
+#: data/levels/world2/welcome_forest.stl:130
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
-"#Tux can go through a door by pressing the UP key."
-msgstr "-Ovet\n!images/objects/door/door-0.png\n#Tux voi mennä ovista painamalla YLÖS-näppäintä."
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-Ovet\n!images/objects/door/door-0.png\n#Tux voi mennä ovista painamalla YLÖS-näppäintä.\n#\n#Jotkut ovet voivat tarvita avaimen!"
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Puiset juuret"
 
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "Juurimetsä"
-
-#: data/levels/world2/worldmap.stwm:239
+#: data/levels/world2/worldmap.stwm:355
 msgid "To be continued..."
 msgstr "Jatkuu..."
+
+#: data/levels/world2/worldmap.stwm:363 data/levels/world2/worldmap.stwm:373
+msgid "You found a secret area!"
+msgstr "Löysit salaisen paikan!"
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "Salmonellaa pahempi"

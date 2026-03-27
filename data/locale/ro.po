@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-17 08:59+0000\n"
+"POT-Creation-Date: 2026-02-02 08:15+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Ștefan ILIE, 2025-2026\n"
 "Language-Team: Romanian (http://app.transifex.com/arctic-games/supertux/language/ro/)\n"
@@ -408,8 +408,8 @@ msgstr "Desenați ținta"
 #: src/object/background.cpp:302 src/object/tilemap.cpp:352
 #: src/object/coin.cpp:69 src/object/invisible_block.cpp:37
 #: src/badguy/snail.cpp:70 src/badguy/viciousivy.cpp:46
-#: src/badguy/smartball.cpp:34 src/badguy/mrbomb.cpp:65
-#: src/badguy/mriceblock.cpp:63 src/badguy/kamikazesnowball.cpp:118
+#: src/badguy/smartball.cpp:34 src/badguy/mrbomb.cpp:67
+#: src/badguy/mriceblock.cpp:63 src/badguy/kamikazesnowball.cpp:117
 #: src/badguy/bouncing_snowball.cpp:96 src/badguy/snowball.cpp:40
 #: src/badguy/igel.cpp:194 src/badguy/mrtree.cpp:50
 msgid "Normal"
@@ -1298,7 +1298,7 @@ msgstr "Tentă"
 msgid "Following path"
 msgstr "Urmând calea"
 
-#: src/object/tilemap.cpp:370 src/editor/toolbox_widget.cpp:81
+#: src/object/tilemap.cpp:370 src/editor/toolbox_widget.cpp:86
 #: src/supertux/menu/editor_tilegroup_menu.cpp:26
 msgid "Tiles"
 msgstr "Placi"
@@ -1563,7 +1563,7 @@ msgid "Bind"
 msgstr "Lega"
 
 #: src/gui/menu_paths.cpp:48 src/gui/menu_filesystem.cpp:123
-#: src/gui/menu_list.cpp:38 src/editor/editor.cpp:988
+#: src/gui/menu_list.cpp:38 src/editor/editor.cpp:1017
 #: src/editor/particle_editor.cpp:783
 #: src/supertux/menu/editor_sectors_menu.cpp:45
 #: src/supertux/menu/editor_sectors_menu.cpp:88
@@ -1589,10 +1589,10 @@ msgstr ""
 msgid "Path {}"
 msgstr ""
 
-#: src/gui/menu_paths.cpp:67 src/supertux/menu/multiplayer_player_menu.cpp:187
+#: src/gui/menu_paths.cpp:67 src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/debug_menu.cpp:85
 #: src/supertux/menu/addon_browse_menu.cpp:162
-#: src/supertux/menu/multiplayer_players_menu.cpp:94
+#: src/supertux/menu/multiplayer_players_menu.cpp:106
 #: src/supertux/menu/addon_preview_menu.cpp:205
 #: src/supertux/menu/worldmap_cheat_menu.cpp:57
 #: src/supertux/menu/worldmap_cheat_menu.cpp:185
@@ -1606,7 +1606,7 @@ msgstr ""
 #: src/supertux/menu/video_system_menu.cpp:52
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/editor_levelset_select_menu.cpp:118
-#: src/supertux/menu/multiplayer_menu.cpp:39
+#: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/editor_new_levelset_menu.cpp:40
 #: src/supertux/menu/editor_delete_level_menu.cpp:68
 #: src/supertux/menu/profile_name_menu.cpp:45
@@ -1656,14 +1656,14 @@ msgstr "Nu mai afișa din nou"
 msgid "Close"
 msgstr "Închide"
 
-#: src/gui/dialog.hpp:95 src/editor/editor.cpp:978
+#: src/gui/dialog.hpp:95 src/editor/editor.cpp:1007
 #: src/supertux/menu/addon_preview_menu.cpp:141
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "Da"
 
-#: src/gui/dialog.hpp:96 src/editor/editor.cpp:984
+#: src/gui/dialog.hpp:96 src/editor/editor.cpp:1013
 #: src/editor/particle_editor.cpp:779
 #: src/supertux/menu/addon_preview_menu.cpp:141
 #: src/supertux/menu/editor_level_menu.cpp:40
@@ -1701,7 +1701,7 @@ msgstr "Deschide în \"{}\""
 
 #: src/gui/menu_filesystem.cpp:121
 msgid "Open Directory"
-msgstr ""
+msgstr "Deschide repertoriul"
 
 #: src/video/video_system.cpp:155
 msgid "Fast and stable renderer, which fits most players' needs."
@@ -1722,8 +1722,8 @@ msgid "The recommended OpenGL video system for this device."
 msgstr "Sistemul video OpenGL recomandat pentru dispozitivul ăsta."
 
 #: src/video/video_system.cpp:158
-msgid "Fallbacks to SDL."
-msgstr "Folosește SDL ca și soluție de schimb"
+msgid "Falls back to SDL."
+msgstr "Jocul o să basculeze pe SDL în cazul unui probleme."
 
 #: src/addon/addon.cpp:75 src/supertux/menu/editor_levelset_menu.cpp:55
 msgid "Levelset"
@@ -1766,78 +1766,78 @@ msgstr "extensie"
 msgid "add-ons"
 msgstr "extensii"
 
-#: src/addon/addon_manager.cpp:553
+#: src/addon/addon_manager.cpp:557
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr "Doar un singur pachet de resurse poate fi activat la un moment dat."
 
-#: src/addon/addon_manager.cpp:810
+#: src/addon/addon_manager.cpp:814
 msgid "Add-on {} by {} is already installed."
 msgstr ""
 
-#: src/addon/addon_manager.cpp:830
+#: src/addon/addon_manager.cpp:834
 msgid "Add-on {} by {} successfully installed."
 msgstr ""
 
 #: src/math/anchor_point.cpp:33
 msgid "Top Left"
-msgstr ""
+msgstr "Stânga sus"
 
 #: src/math/anchor_point.cpp:34
 msgid "Top"
-msgstr ""
+msgstr "Sus"
 
 #: src/math/anchor_point.cpp:35
 msgid "Top Right"
-msgstr ""
+msgstr "Dreapta sus"
 
 #: src/math/anchor_point.cpp:37
 msgid "Middle"
-msgstr ""
+msgstr "Mijloc"
 
 #: src/math/anchor_point.cpp:39
 msgid "Bottom Left"
-msgstr ""
+msgstr "Stânga jos"
 
 #: src/math/anchor_point.cpp:40
 msgid "Bottom"
-msgstr ""
+msgstr "Jos"
 
 #: src/math/anchor_point.cpp:41
 msgid "Bottom Right"
-msgstr ""
+msgstr "Dreapta jos"
 
-#: src/editor/toolbox_widget.cpp:84 src/badguy/dispenser.cpp:417
+#: src/editor/toolbox_widget.cpp:89 src/badguy/dispenser.cpp:417
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
 msgid "Objects"
 msgstr "Obiecte"
 
-#: src/editor/editor.cpp:337
+#: src/editor/editor.cpp:353
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
 msgstr "Remarcă: Zonele deplasabile sunt acum ascunse. Apasă pe Ctrl+H pentru a le afișa din nou."
 
-#: src/editor/editor.cpp:562
+#: src/editor/editor.cpp:589
 msgid "Level saved!"
 msgstr "Nivelul a fost înregistrat!"
 
-#: src/editor/editor.cpp:592
+#: src/editor/editor.cpp:619
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
 msgstr ""
 
-#: src/editor/editor.cpp:841
+#: src/editor/editor.cpp:870
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr ""
 
-#: src/editor/editor.cpp:843
+#: src/editor/editor.cpp:872
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr ""
 
-#: src/editor/editor.cpp:933
+#: src/editor/editor.cpp:962
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1845,19 +1845,19 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Nu uitați că nivelurile și activele dvs\nnu sunt salvate între sesiuni!\nDacă doriți să vă păstrați nivelurile, descărcați-le\ndin meniul „Gestionează active”."
 
-#: src/editor/editor.cpp:974
+#: src/editor/editor.cpp:1003
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr "Acest nivel n-a fost încă înregistrat. Dorești să-l înregistrezi?"
 
-#: src/editor/editor.cpp:976
+#: src/editor/editor.cpp:1005
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Acest nivel conține modificări neînregistrate, dorești să-l înregistrezi?"
 
-#: src/editor/editor.cpp:977
+#: src/editor/editor.cpp:1006
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Acest nivel poate conține schimbări neînregistrate, dorești să-le înregistrezi?"
 
-#: src/editor/editor.cpp:1107
+#: src/editor/editor.cpp:1136
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1865,21 +1865,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Câteva extensii perimate sunt încă active și pot intra în conflict cu structura implicită lui SuperTux. Poți reactiva aceste extensii din meniu. Dezactivarea acestor extensii nu va suprima progresul realizat în joc."
 
-#: src/editor/editor.cpp:1110
+#: src/editor/editor.cpp:1139
 msgid "Disable add-ons"
 msgstr "Dezactivează extensiile"
 
-#: src/editor/editor.cpp:1115
+#: src/editor/editor.cpp:1144
 msgid "Ignore (not advised)"
 msgstr "Ignora (nu este recomandat)"
 
-#: src/editor/editor.cpp:1119
+#: src/editor/editor.cpp:1148
 msgid "Leave editor"
 msgstr "Lăsați editorul"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1441
+#: src/editor/editor.cpp:1479
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1888,7 +1888,7 @@ msgstr "Nu s-a putut găsi un sector cu numele „main”. Schimbă numele secto
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1448
+#: src/editor/editor.cpp:1486
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1897,7 +1897,7 @@ msgstr "Nu s-a putut găsi un punct de apariție cu numele „main”. Schimbă 
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
-msgstr ""
+msgstr "Modifică textura... ->"
 
 #: src/editor/particle_editor.cpp:126
 msgid "Max amount"
@@ -1990,7 +1990,7 @@ msgstr "Modul offscreen"
 
 #: src/editor/particle_editor.cpp:229
 msgid "Clear"
-msgstr ""
+msgstr "Șterge"
 
 #: src/editor/particle_editor.cpp:245
 msgid "<- General settings"
@@ -2010,11 +2010,11 @@ msgstr "Talie (x, y)"
 
 #: src/editor/particle_editor.cpp:332
 msgid "Hitbox scale (x, y)"
-msgstr ""
+msgstr "Talia zonei de coliziuni (x, y)"
 
 #: src/editor/particle_editor.cpp:353
 msgid "Hitbox offset relative to scale"
-msgstr ""
+msgstr "Decalajul zonei de coliziuni comparat cu talia ei"
 
 #: src/editor/particle_editor.cpp:372
 msgid "Change texture..."
@@ -2049,51 +2049,51 @@ msgstr "Sector: {}"
 msgid "Add Layer"
 msgstr "Adaugă un strat"
 
-#: src/editor/overlay_widget.cpp:1041
+#: src/editor/overlay_widget.cpp:1042
 msgid "Cannot select deprecated tiles"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1665
+#: src/editor/overlay_widget.cpp:1666
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1669
+#: src/editor/overlay_widget.cpp:1670
 msgid "Autotile erasing cannot be performed here"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1674
+#: src/editor/overlay_widget.cpp:1675
 msgid "Autotile mode is on (\"{}\")"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1678
+#: src/editor/overlay_widget.cpp:1679
 msgid "Selected tile isn't autotileable"
 msgstr "Piața selectată nu poate fi îndosabilă automat"
 
-#: src/editor/overlay_widget.cpp:1684
+#: src/editor/overlay_widget.cpp:1685
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Țineți apăsat Ctrl pentru a activa ștergerea automată"
 
-#: src/editor/overlay_widget.cpp:1686
+#: src/editor/overlay_widget.cpp:1687
 msgid "Release Ctrl to use autotile erasing"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1691
+#: src/editor/overlay_widget.cpp:1692
 msgid "Hold Ctrl to enable autotile"
 msgstr "Țineți apăsat Ctrl pentru a activa țigla automată"
 
-#: src/editor/overlay_widget.cpp:1693
+#: src/editor/overlay_widget.cpp:1694
 msgid "Release Ctrl to autotile"
 msgstr ""
 
 #: src/editor/toolbar_widget.cpp:55 src/supertux/menu/editor_menu.cpp:188
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Undo"
-msgstr ""
+msgstr "Anulează"
 
 #: src/editor/toolbar_widget.cpp:60 src/supertux/menu/editor_menu.cpp:189
 #: src/supertux/menu/editor_menu.cpp:211
 msgid "Redo"
-msgstr ""
+msgstr "Refă"
 
 #: src/editor/toolbar_widget.cpp:78
 msgid "Change / Toggle grid size"
@@ -2452,7 +2452,7 @@ msgid "Roof Crystallo"
 msgstr "Acoperiș Crystallo"
 
 #: src/badguy/snail.cpp:71 src/badguy/viciousivy.cpp:47
-#: src/badguy/kamikazesnowball.cpp:119 src/badguy/fish_swimming.cpp:60
+#: src/badguy/kamikazesnowball.cpp:118 src/badguy/fish_swimming.cpp:60
 #: src/badguy/jumpy.cpp:46 src/badguy/igel.cpp:195 src/badguy/mrtree.cpp:51
 msgid "Corrupted"
 msgstr "Corupt"
@@ -2477,7 +2477,7 @@ msgstr "Scriptul executat când moare un adversar."
 
 #: src/badguy/badguy.cpp:1382
 msgid "Glinting"
-msgstr ""
+msgstr "Strălucire"
 
 #: src/badguy/crusher.cpp:127
 msgid "Ice (normal)"
@@ -2730,7 +2730,7 @@ msgstr "Zeekling"
 msgid "Pumpkin"
 msgstr "Dovleac"
 
-#: src/badguy/mrbomb.cpp:66
+#: src/badguy/mrbomb.cpp:68
 msgid "Classic"
 msgstr "Clasic"
 
@@ -2764,7 +2764,7 @@ msgstr "Transporta"
 
 #: src/badguy/mriceblock.cpp:64
 msgid "Laptop"
-msgstr ""
+msgstr "Laptop"
 
 #: src/badguy/goldbomb.hpp:34
 msgid "Gold Bomb"
@@ -2828,7 +2828,7 @@ msgstr ""
 
 #: src/badguy/fish_chasing.cpp:208
 msgid "Chase Speed"
-msgstr ""
+msgstr "Viteza fugăririi "
 
 #: src/badguy/snowman.hpp:29
 msgid "Snowman"
@@ -2975,7 +2975,7 @@ msgstr "Spiky"
 
 #: src/badguy/tarantula.cpp:414
 msgid "Spidermite"
-msgstr ""
+msgstr "Păianjen parazit"
 
 #: src/badguy/tarantula.cpp:434
 msgid "Static"
@@ -3087,7 +3087,7 @@ msgstr "Chiar doriți să ștergeți acest sector?"
 msgid "Delete sector"
 msgstr "Ștergeți sectorul"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:37
+#: src/supertux/menu/multiplayer_player_menu.cpp:38
 #: src/supertux/menu/multiplayer_players_menu.cpp:39
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:36
 #: src/supertux/menu/cheat_apply_menu.cpp:36
@@ -3095,45 +3095,51 @@ msgstr "Ștergeți sectorul"
 msgid "Player {}"
 msgstr "Jucătorul {}"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:40
+#: src/supertux/menu/multiplayer_player_menu.cpp:41
 msgid "Play with the keyboard"
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:58
+#: src/supertux/menu/multiplayer_player_menu.cpp:42
+msgid ""
+"Don't automatically bind controllers to this player, and spawn it even if it"
+" has no controller."
+msgstr ""
+
+#: src/supertux/menu/multiplayer_player_menu.cpp:60
 msgid "Remove Player"
 msgstr "Scoate un jucător"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:76
+#: src/supertux/menu/multiplayer_player_menu.cpp:78
 msgid "Respawn Player"
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:102
+#: src/supertux/menu/multiplayer_player_menu.cpp:104
 msgid "Spawn Player"
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:118
+#: src/supertux/menu/multiplayer_player_menu.cpp:120
 msgid "Controllers"
 msgstr "Manete"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:134
+#: src/supertux/menu/multiplayer_player_menu.cpp:136
 msgid ""
 "This controller does not support rumbling;\n"
 "please check the controllers manually."
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:139
+#: src/supertux/menu/multiplayer_player_menu.cpp:141
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "controllers; please check the controllers manually."
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:166
+#: src/supertux/menu/multiplayer_player_menu.cpp:168
 msgid ""
 "This joystick does not support rumbling;\n"
 "please check the joysticks manually."
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:171
+#: src/supertux/menu/multiplayer_player_menu.cpp:173
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "joysticks; please check the joysticks manually."
@@ -3256,20 +3262,24 @@ msgid "Multiplayer"
 msgstr ""
 
 #: src/supertux/menu/multiplayer_players_menu.cpp:48
-msgid "Add Player"
-msgstr "Adaugă un jucător"
+msgid "Add Player (Keyboard)"
+msgstr "Adaugă un jucător (tastatură)"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:62
+#: src/supertux/menu/multiplayer_players_menu.cpp:60
+msgid "Add Player (Controller)"
+msgstr "Adaugă un jucător (manetă)"
+
+#: src/supertux/menu/multiplayer_players_menu.cpp:74
 msgid "Remove Last Player"
 msgstr "Scoate ultimul jucător"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:65
+#: src/supertux/menu/multiplayer_players_menu.cpp:77
 msgid ""
 "Warning: The player you are trying to\n"
 "remove is currently in-game.\n"
 "\n"
 "Do you wish to remove them anyways?"
-msgstr ""
+msgstr "Atenție: jucătorul pe care încerci\nsă-l elimini este în joc.\n\nDorești să-l elimini oricum?"
 
 #: src/supertux/menu/editor_save_as.cpp:33
 #: src/supertux/menu/editor_menu.cpp:59
@@ -3559,7 +3569,7 @@ msgstr "Testați harta lumii"
 
 #: src/supertux/menu/editor_menu.cpp:67
 #: src/supertux/menu/options_select_menu.cpp:29
-#: src/supertux/menu/game_menu.cpp:79 src/supertux/menu/main_menu.cpp:63
+#: src/supertux/menu/game_menu.cpp:80 src/supertux/menu/main_menu.cpp:63
 #: src/supertux/menu/worldmap_menu.cpp:31
 msgid "Options"
 msgstr "Optiuni"
@@ -3686,7 +3696,7 @@ msgstr "Ctrl+MINUS sau Ctrl+Defilare spre în jos = Micșorare"
 
 #: src/supertux/menu/editor_menu.cpp:198
 msgid "Reset Zoom"
-msgstr ""
+msgstr "Reinițializează zoom-ul"
 
 #: src/supertux/menu/editor_menu.cpp:199
 msgid "Scripting Shortcuts"
@@ -3718,15 +3728,15 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:206
 msgid "Cut whole line"
-msgstr ""
+msgstr "Taie toată linia"
 
 #: src/supertux/menu/editor_menu.cpp:207
 msgid "Copy whole line"
-msgstr ""
+msgstr "Copiază toată linia"
 
 #: src/supertux/menu/editor_menu.cpp:208
 msgid "Paste"
-msgstr ""
+msgstr "Inserează"
 
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Duplicate line"
@@ -3801,7 +3811,7 @@ msgstr "Audio"
 #: src/supertux/menu/options_select_menu.cpp:39
 #: src/supertux/menu/options_menu.cpp:169
 msgid "Controls"
-msgstr ""
+msgstr "Comenzi"
 
 #: src/supertux/menu/options_select_menu.cpp:40
 #: src/supertux/menu/options_menu.cpp:195
@@ -3821,36 +3831,36 @@ msgstr "Încărcați fișierul cu particule"
 msgid "Continue"
 msgstr "Continuă"
 
-#: src/supertux/menu/game_menu.cpp:63
-msgid "Restart Level"
-msgstr "Repornește nivelul"
-
-#: src/supertux/menu/game_menu.cpp:66
+#: src/supertux/menu/game_menu.cpp:65
 msgid "Restart from Checkpoint"
 msgstr "Reporniți de la punctul de control"
 
-#: src/supertux/menu/game_menu.cpp:75
+#: src/supertux/menu/game_menu.cpp:68
+msgid "Restart Level"
+msgstr "Repornește nivelul"
+
+#: src/supertux/menu/game_menu.cpp:76
 msgid "Edit Level"
 msgstr "Editează nivelul"
 
-#: src/supertux/menu/game_menu.cpp:81
+#: src/supertux/menu/game_menu.cpp:82
 msgid "Abort Level"
 msgstr "Abandonează nivelul"
 
-#: src/supertux/menu/game_menu.cpp:97 src/supertux/menu/game_menu.cpp:108
-#: src/supertux/menu/game_menu.cpp:173
+#: src/supertux/menu/game_menu.cpp:98 src/supertux/menu/game_menu.cpp:109
+#: src/supertux/menu/game_menu.cpp:174
 msgid "Are you sure?"
 msgstr "Esti sigur?"
 
-#: src/supertux/menu/game_menu.cpp:124
+#: src/supertux/menu/game_menu.cpp:125
 msgid "Couldn't open editor for this level. No worldmap!"
 msgstr "Nu s-a putut deschide editorul pentru nivelul ăsta. Nu-i nici-o hartă a lumii!"
 
-#: src/supertux/menu/game_menu.cpp:151
+#: src/supertux/menu/game_menu.cpp:152
 msgid "Couldn't open editor for this level."
 msgstr "Nu s-a putut deschide editorul pentru nivelul ăsta."
 
-#: src/supertux/menu/game_menu.cpp:157
+#: src/supertux/menu/game_menu.cpp:158
 msgid "Couldn't open worldmap for this level."
 msgstr "Nu s-a putut deschide harta lumii pentru nivelul ăsta."
 
@@ -4105,12 +4115,12 @@ msgstr "Reinițializează"
 #: src/supertux/menu/profile_menu.cpp:103
 #: src/supertux/menu/profile_menu.cpp:105
 msgid "Reset all"
-msgstr ""
+msgstr "Reinițializează-le pe toate"
 
 #: src/supertux/menu/profile_menu.cpp:113
 #: src/supertux/menu/profile_menu.cpp:115
 msgid "Delete all"
-msgstr ""
+msgstr "Suprimă-le pe toate"
 
 #: src/supertux/menu/profile_menu.cpp:148
 msgid ""
@@ -4157,7 +4167,7 @@ msgstr ""
 msgid ""
 "Automatically add and remove players when controllers are plugged or "
 "unplugged"
-msgstr ""
+msgstr "Adaugă și elimină jucători în mod automat la conexiunea și deconexiunea unei manete "
 
 #: src/supertux/menu/multiplayer_menu.cpp:33
 msgid "Allow Multibind"
@@ -4168,8 +4178,18 @@ msgid "Allow binding multiple joysticks to a single player"
 msgstr ""
 
 #: src/supertux/menu/multiplayer_menu.cpp:36
+msgid "Unlock player limit"
+msgstr "Deblochează limita pe numărul de jucători"
+
+#: src/supertux/menu/multiplayer_menu.cpp:37
+msgid ""
+"Allow having more than 4 players. Some interface elements may overflow out "
+"of the screen."
+msgstr "Permite adăugarea de mai mult de 4 jucători. Câteva elemente al interfeței pot exceda partea vizibilă al ecranului."
+
+#: src/supertux/menu/multiplayer_menu.cpp:39
 msgid "Manage Players"
-msgstr ""
+msgstr "Gestionează jucătorii"
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New World"
@@ -4289,7 +4309,7 @@ msgstr ""
 
 #: src/supertux/menu/addon_file_install_menu.cpp:34
 msgid "Drag and drop add-on ZIP archive"
-msgstr ""
+msgstr "Trage și plasează arhiva ZIP a extensiei"
 
 #: src/supertux/menu/contrib_menu.cpp:71
 msgid "Contrib Levels"
@@ -4480,7 +4500,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_settings.cpp:49
 msgid "Centered Zoom"
-msgstr ""
+msgstr "Zoom centrat"
 
 #: src/supertux/menu/editor_settings.cpp:50
 msgid "Autotile Mode"
@@ -4599,7 +4619,7 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:139
 msgid "Change Video System"
-msgstr ""
+msgstr "Schimbă sistemul video"
 
 #: src/supertux/menu/options_menu.cpp:140
 msgid "Change video system used to render graphics"
@@ -4761,7 +4781,7 @@ msgstr "Indiferent dacă jocul își redă propriul cursor sau folosește cursor
 
 #: src/supertux/menu/options_menu.cpp:250
 msgid "Use native custom cursor"
-msgstr ""
+msgstr "Folosește cursorul personalizat nativ"
 
 #: src/supertux/menu/options_menu.cpp:250
 msgid "Whether the game uses a native custom cursor or renders it in the game"
@@ -5408,15 +5428,15 @@ msgstr "Tu"
 msgid "Best"
 msgstr "Record"
 
-#: src/supertux/main.cpp:878
+#: src/supertux/main.cpp:886
 msgid "New release: SuperTux {}!"
 msgstr "Nouă versiune: SuperTux {}!"
 
-#: src/supertux/main.cpp:879
+#: src/supertux/main.cpp:887
 msgid "Click for more details."
 msgstr "Clichează pentru mai multe amănunte."
 
-#: src/supertux/main.cpp:882
+#: src/supertux/main.cpp:890
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -5424,7 +5444,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "O nouă versiune de SuperTux ({}) este disponibilă!\nPentru mai multe amănunte, poți vizita situl web al lui SuperTux.\n\nVrei să vizitezi situl web acum?"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:901
 msgid "Checking for new releases..."
 msgstr "Se caută noi versiuni..."
 

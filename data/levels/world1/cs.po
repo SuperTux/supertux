@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Jiří Paleček <narre@protonmail.com>, 2021-2022,2025
+# Jiří Paleček <narre@protonmail.com>, 2021-2022,2025-2026
 # Jiří Paleček <narre@protonmail.com>, 2015-2016
 # Jiří Paleček <narre@protonmail.com>, 2013-2015
 # Jiří Paleček <narre@protonmail.com>, 2020
@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2026-02-02 08:15+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2022,2025\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2022,2025-2026\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,10 +33,10 @@ msgstr "23. letecká"
 msgid "Above the Antarctic Skies"
 msgstr "Nad antarktickou oblohou"
 
-#: data/levels/world1/above_arctic_skies.stl:318
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
-"-Air Flower\r\n"
-"!images/powerups/airflower/air_flower-0.png\r\n"
+"-Air Flower\n"
+"!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
 msgstr "-Vzdušná květina\n\n!images/powerups/airflower/air_flower-0.png\n\n#Vzdušná květina umožňuje Tuxovi rychleji běžet a výše skákat. Rovněž umožňuje nekolik sekund plachtit vzduchem při držení klávesy skoku."
 
@@ -51,6 +51,10 @@ msgstr "Mezi dvěma ledovci"
 #: data/levels/world1/bouncy_mountainside.stl:3
 msgid "Bouncy, Bouncy Mountainside"
 msgstr "Hora horolezců"
+
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr "Nikdo není doma"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -76,7 +80,7 @@ msgstr "Vchod do jeskyně"
 msgid "A Fork in the Road?"
 msgstr "Rozcestí?"
 
-#: data/levels/world1/fork_in_the_road.stl:750
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -89,6 +93,14 @@ msgstr "Namrzlá pole"
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "Ledová štola"
+
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+msgid "Icy Island"
+msgstr "Zmrzlý ostrov"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Kde začíná Tvé dobrodružství."
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -110,17 +122,17 @@ msgstr "Život v ledničce"
 msgid "Oh No! More Snowballs!"
 msgstr "Ale ne! Více sněhových koulí!"
 
-#: data/levels/world1/more_snowballs.stl:290
+#: data/levels/world1/more_snowballs.stl:319
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Přenosné předměty\n\n#Tux může přenášet předměty podržením klávesy AKCE. Pro upuštění předmětu pusť klávesu AKCE, když Tux stojí.\n\n#Pustíš-li klávesu AKCE, když je Tux v pohybu, předmět hodí!"
 
-#: data/levels/world1/more_snowballs.stl:299
+#: data/levels/world1/more_snowballs.stl:328
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
 msgstr "-Házení nahoru\n\n#Tux může většinu předmětů házet nahoru. Docílíš toho puštěním klávesy AKCE při současném držení klávesy NAHORU.\n\n#Při běhu Tux předmět hodí obloukem!"
 
@@ -137,38 +149,74 @@ msgid "A Path in the Clouds"
 msgstr "Stezka v oblacích"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux se dostal na konec hradu."
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
+msgstr "Konečně, Tuxovi se podařilo dostat do poslední místnosti ledového hradu."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Ale k jeho překvapení tam byl jenom dopis."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
+msgstr "K jeho překvapení tam ale nikdo nebyl. Ani Penny, ani tenhle... divný cápek Nolok."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Dopis od Penny, říkající Tuxovi, že jí Nolok přemístil do jiného hradu, kdesi ve vzdáleném lese."
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
+msgstr "Určitě tady někde musejí být, že? Možná v nějaké skryté místnosti?"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Nejistý, co jí Nolok dělá, se Tux začal o svou milovanou Penny strachovat."
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
+msgstr "Po chvíli nejistoty a přemýšlení si Tux všiml malé poznámky připnuté k jednomu ze sloupů."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Dokud najednou..."
+msgid "It was yet another note, by that Nolok."
+msgstr "Byla to další poznámka od toho Noloka."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr "Bylo na ní napsáno, že již opustil Zmrzlý ostrov směrem na sever. Pokud chce Tux zachránit Penny, bude ho muset následovat a dostat se přes Křišťálový důl."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr "Dole byla načrtnutá mapa Ledovcového ostrova, spolu s lodí a jakýmsi malým kotvištěm na druhé straně."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr "Ale než se v tom Tux zvládl zorientovat, místnost zaplnilo hlasité skřehotání!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr "Objevil se mocný Yeti, a, snažíce se zastrašit Tuxe, si bušil na hruď!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr "Tux se rychle přesunul směrem k balkónu na druhé straně místnosti. Nemaje jiné možnosti, skočil!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
+msgstr "Naneštěstí ho Yeti nehodlal nechat běžet takhle snadno..."
 
 #: data/levels/world1/scripts_crystal_mine.txt:2
 msgid ""
 "After a long swim across the antarctic waters, Tux arrived at the Glacier "
-"Isles the Yeti told him about."
-msgstr "Po dlouhém plavání napříč antarktickými vodami se Tux ocitl na Ledovcových ostrovech, o kterých mu řekl Yeti."
+"Isle mentioned in Nolok's note."
+msgstr "Po dlouhém plavání napříč antarktickými vodami se Tux ocitl na Ledovcovém ostrově zmíněném v Nolokově poznámce."
 
 #: data/levels/world1/scripts_crystal_mine.txt:3
 msgid ""
-"A massive shaft layed before him leading down into the aforementioned "
-"Crystal Mine."
+"A massive shaft lay before him, leading down into the aforementioned Crystal"
+" Mine."
 msgstr "Nacházela se před ním obrovská šachta, která vedla do již zmíněného Křišťálového dolu."
 
 #: data/levels/world1/scripts_crystal_mine.txt:4
@@ -185,25 +233,29 @@ msgstr "Konečně, Tux se dostal skrz kříšťálový důl na druhou stranu Led
 
 #: data/levels/world1/scripts_crystal_mine.txt:6
 msgid ""
-"As he was about the exit the mine, internally Tux was hoping that all the "
-"yeti said was true."
-msgstr "Když se Tux chystal opustit důl, uvnitř doufal, že to, co mu Yeti pověděl, byla pravda."
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
+msgstr "Když se Tux chystal opustit důl, vnitřně doufal, že to, co Nolok napsal, byla pravda."
 
 #: data/levels/world1/scripts_crystal_mine.txt:7
 msgid ""
-"To his relief, Tux did find a boat still docked. With it he could sail up "
-"north, to the aforementioned forest."
-msgstr "Tuxovi se ulevilo - skutečně zde našel ukotvenou loď. S ní nyní mohl odplout na sever, do zmíněného lesa."
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
+msgstr "Tuxovi se ulevilo - skutečně zde našel ukotvenou loď. S ní nyní může odplout na sever a zachránit Penny."
 
 #: data/levels/world1/scripts_crystal_mine.txt:8
-msgid "Seems like the yeti did not lie to him after all."
-msgstr "Vypadalo to, že mu Yeti skutečně nelhal."
+msgid "It seemed the map in the note wasn't a trap after all."
+msgstr "Vypadalo to, že mapa v Nolokově poznámce nakonec přeci jen nebyla past."
 
 #: data/levels/world1/scripts_crystal_mine.txt:9
 msgid ""
-"The more he thought about it, he probably wasn't even meant to know about "
-"all this in the first place..."
-msgstr "Čím více nad tím uvažoval, tím více mu docházelo, že o tomhle všem nejspíš vůbec neměl vědět..."
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
+msgstr "Čím více o tom Tux přemýšlel, tím méně si byl jistý Nolokovými motivacemi. Proč by za sebou nechával stopy?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Vlož sem scénu.---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -246,26 +298,75 @@ msgid ""
 msgstr "Rozhlédl se, v dáli spatřil Nolokův hrad, a vydal se na cestu."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Vyčerpán ze své výpravy, Tux se rozhodl si chvíli odpočinout."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the"
+" supposed castle of Nolok."
+msgstr "Po celém dni překonávání Zmrzlého ostrova Tux téměř došel k údajnému Nolokovu hradu."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Ale potom, znenadání, zaslechl z dáli hlasitý řev."
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
+msgstr "Nedostatek spánku během noci nebyl ideální, ale byl odhodlán pokračovat dále!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
-msgstr "Vypadalo to, že ho z dálky pozoruje nějaký yeti."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
+msgstr "Jelikož nechtěl Tux ztrácet další čas, rozhodl se pokračovat ve své výpravě - po břiše se sklouzl z kopce, na kterém byl, do ledového údolí."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
-" ..."
-msgstr "Vystrašen yetiho náhlým ústupem se Tux rozhodl pokračovat ve své výpravě, ..."
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
+msgstr "Aniž by to věděl, jeho přítomnosti si všiml Yeti a na veškeré jeho pohyby si dával pozor."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "...zatímco tajně doufal, že na onoho yetiho znovu nenarazí."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr "Yeti hlasitě zaskřehotal a začal tučňáka následovat."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr "On to dokázal! Tux to dokázal! On porazil mocného Yetiho!"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he"
+" did not throw hands again."
+msgstr "Ačkoliv Yetimu netrvalo dlouho se znovu postavit na nohy, k Tuxově úlevě se nepokoušel znovu něco zkoušet."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr "Byl ale zuřivý! Nemohl pochopit, jak ho mohl porazit takový malinký tučňák, jako je Tux."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr "Jakoby zapoměl, že tam Tux vůbec je, se Yeti odebral a něco si při tom mumlal."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr "Tux si byl nejistý, co si o tom všem myslet, ale rozhodl se pokračovat."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr "Jakmile se dostal na břeh, na horizontu uviděl Ledovcový ostrov."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr "Kdyby věděl, že tam Nolok šel dříve, mohl tam už dávno být"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
+msgstr "Možná to byl Nolokův cíl, když za sebou zanechal tu poznámku..."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"
@@ -279,7 +380,7 @@ msgstr "Kluzký svah"
 msgid "The Somewhat Smaller Bath"
 msgstr "Taková menší koupel"
 
-#: data/levels/world1/somewhat_smaller_bath.stl:420
+#: data/levels/world1/somewhat_smaller_bath.stl:422
 msgid ""
 "-Swimming\n"
 "!images/creatures/tux/big/swim-1.png\n"
@@ -290,19 +391,23 @@ msgstr "-Plavání\n!images/creatures/tux/big/swim-1.png\n#Když je Tux ponořen
 msgid "Stone Cold"
 msgstr "Chladný jako kámen"
 
-#: data/levels/world1/stone_cold.stl:191
+#: data/levels/world1/stone_cold.stl:200
 msgid ""
-"-Carrying Objects\r\n"
-"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Přenosné předměty\n\n#Tux může přenášet předměty podržením klávesy AKCE. Pro upuštění předmětu pusť klávesu AKCE, když Tux stojí.\n\n#Pustíš-li klávesu AKCE, když je Tux v pohybu, předmět hodí!"
 
-#: data/levels/world1/stone_cold.stl:200
+#: data/levels/world1/stone_cold.stl:209
 msgid ""
-"-Up-Throwing\r\n"
-"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\r\n"
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
 msgstr "-Házení nahoru\n\n#Tux může většinu předmětů házet nahoru. Docílíš toho puštěním klávesy AKCE při současném držení klávesy NAHORU.\n\n#Při běhu Tux předmět hodí obloukem!"
+
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
+msgid "You found a secret area!"
+msgstr "Našel jsi tajnou skrýš!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -312,39 +417,37 @@ msgstr "Pod ledem"
 msgid "Welcome to Antarctica"
 msgstr "Vítej na Antarktidě"
 
-#: data/levels/world1/welcome_antarctica.stl:118
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Vejce\n!images/powerups/egg/egg-shade.png\n#Vejce zvětší Tuxe. Potom může svou hlavou rozbíjet dřevěné bedny."
 
-#: data/levels/world1/welcome_antarctica.stl:127
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Ohnivá květina\n!images/powerups/fireflower/fire_flower-0.png\n#Ohnivá květina dá Tuxovi schopnost střílet ohnivé střely."
 
-#: data/levels/world1/welcome_antarctica.stl:136
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux Doll gives Tux 100 coins."
-msgstr "-Tučňáčí stokoruna\n!images/powerups/1up/1up.png\n#Tučňáčí stokoruna dá Tuxovi sto mincí."
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Zmrzlý ostrov"
-
-#: data/levels/world1/worldmap.stwm:210
-msgid "You found a secret area!"
-msgstr "Našel jsi tajnou skrýš!"
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr "-Tučňáčí token\n!images/powerups/1up/1up.png\n#Tučňáčí tokeny jsou vzácné sbíratelné předměty, které jsou potřeba k odemknutí Bonusových ostrovů!\n\n#Najdi je včechny, abys odemkl zábavné bonusové úrovně!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
 msgstr "Zkáza sněžného muže"
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
-msgstr "Yeti v dálce"
+msgid "An Unsuspected Follower"
+msgstr "Nenápadný pozorovatel"
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
+msgstr "Na ledovcový ostrov"

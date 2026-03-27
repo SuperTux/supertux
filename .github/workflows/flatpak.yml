@@ -39,8 +39,36 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      - name: Generate flatpak release/debug inputs
+        run: |
+          sh mk/flatpak/gen_flatpaks.sh
+          ls -la mk/flatpak/gen_flatpaks.sh
+
+        # TODO: I generate the outputs for the releases still in the source
+        # dir. Switching to mk/flatpak is easy for teh output files, but i'm too
+        # lazy.
+
+      - name: Nightly build
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: SuperTuxNightly.flatpak
-          manifest-path: ${{ env.APPID }}.yml
-          cache-key: flatpak-builder-${{ github.sha }}
+          manifest-path: org.supertux.SuperTuxNightly.yml
+          cache-key: flatpak-builder-nightly-${{ github.sha }}
+
+      - name: Release build
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: SuperTux.flatpak
+          manifest-path: org.supertux.SuperTux.yml
+          cache-key: flatpak-builder-release-${{ github.sha }}
+
+      - name: Create Release
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: 'build/upload/SuperTux*'
+          draft: true

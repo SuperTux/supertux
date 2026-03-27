@@ -163,6 +163,8 @@ LevelParser::load(const ReaderDocument& doc)
   }
   else if (version == 2 || version == 3)
   {
+    if (m_level.m_is_worldmap)
+      level.get("save-version", m_level.m_save_version);
     level.get("tileset", m_level.m_tileset);
 
     level.get("name", m_level.m_name);

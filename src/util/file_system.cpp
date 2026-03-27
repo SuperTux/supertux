@@ -17,6 +17,7 @@
 #include "util/file_system.hpp"
 #include "supertux/globals.hpp"
 
+#include <physfs.h>
 #include <filesystem>
 #include <iostream>
 #include <sstream>
@@ -228,6 +229,39 @@ bool remove(const std::string& path)
 {
   fs::path location(path);
   return fs::remove(location);
+}
+
+bool
+rename(const std::string& old_filename, const std::string& new_filename)
+{
+  std::unique_ptr<PHYSFS_File, decltype(&PHYSFS_close)> oldfile
+    { PHYSFS_openRead(old_filename.c_str()), PHYSFS_close };
+
+  if (!oldfile)
+  {
+    return false;
+  }
+
+  size_t oldfile_len = PHYSFS_fileLength(oldfile.get());
+  char* oldfile_data = new char[oldfile_len];
+
+  if (PHYSFS_readBytes(oldfile.get(), oldfile_data, oldfile_len) != oldfile_len)
+  {
+    // give up to be safe
+    delete[] oldfile_data;
+    return false;
+  }
+
+  std::unique_ptr<PHYSFS_File, decltype(&PHYSFS_close)> newfile =
+    { PHYSFS_openWrite(new_filename.c_str()), PHYSFS_close };
+  if (PHYSFS_writeBytes(newfile.get(), oldfile_data, oldfile_len) != oldfile_len)
+  {
+    delete[] oldfile_data;
+    return false;
+  }
+
+  oldfile.reset();
+  return PHYSFS_delete(old_filename.c_str()) != 0;
 }
 
 void open_path(const std::string& path)

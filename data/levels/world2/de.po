@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-17 08:59+0000\n"
+"POT-Creation-Date: 2026-02-02 08:15+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2019,2025-2026\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
@@ -207,7 +207,7 @@ msgstr "Massive violette Wurzeln durchstießen den Boden gefolgt von einer ganze
 msgid ""
 "Tux panicked! Whatever these roots were, they were covering everything. "
 "Where could he go?"
-msgstr ""
+msgstr "Tux geriet in Panik! Was auch immer diese Wurzeln waren, so bedeckten sie doch alles. Wo könnte er nur hingehen?"
 
 #: data/levels/world2/scripts_corrupted_cutscene.txt:10
 msgid ""

@@ -11,6 +11,7 @@
 # Heimen Stoffels <vistausss@fastmail.com>, 2021-2022,2024-2025
 # Heimen Stoffels <vistausss@fastmail.com>, 2015-2016,2018-2020
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
+# Issa1552 <fairfull.playing@gmail.com>, 2025
 # thetuxgirl, 2024
 # P. De Decker, 2007,2013
 # P. De Decker, 2007,2013
@@ -22,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-17 08:59+0000\n"
+"POT-Creation-Date: 2026-02-02 08:15+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>, 2021-2022,2024-2025\n"
+"Last-Translator: thetuxgirl, 2024\n"
 "Language-Team: Dutch (http://app.transifex.com/arctic-games/supertux/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,20 +124,20 @@ msgstr "Onzichtbaar"
 
 #: src/worldmap/special_tile.cpp:83
 msgid "Blocking path"
-msgstr ""
+msgstr "Blokkerend pad"
 
 #: src/worldmap/special_tile.cpp:84
 msgid ""
 "If true, the direction blocks the path. Useful for a \"fork in the road\" "
 "scenario."
-msgstr ""
+msgstr "Als dit waar is, blokkeert de richting het pad. Handig voor een scenario met een \"splitsing in de weg\"."
 
 #: src/worldmap/special_tile.cpp:86
 msgid ""
 "One or more of \"north\", \"south\", \"east\", or \"west\". For example\n"
 "a value of \"north south east\" will set each respective direction for this\n"
 "special tile."
-msgstr ""
+msgstr "Een of meer van \"noord\", \"zuid\", \"oost\" of \"west\". Een waarde van bijvoorbeeld \"noord zuid oost\" stelt elke respectieve richting voor deze speciale tegel in."
 
 #: src/worldmap/level_tile.cpp:86
 msgid "<no title>"
@@ -417,8 +418,8 @@ msgstr "Doelwit tekenen"
 #: src/object/background.cpp:302 src/object/tilemap.cpp:352
 #: src/object/coin.cpp:69 src/object/invisible_block.cpp:37
 #: src/badguy/snail.cpp:70 src/badguy/viciousivy.cpp:46
-#: src/badguy/smartball.cpp:34 src/badguy/mrbomb.cpp:65
-#: src/badguy/mriceblock.cpp:63 src/badguy/kamikazesnowball.cpp:118
+#: src/badguy/smartball.cpp:34 src/badguy/mrbomb.cpp:67
+#: src/badguy/mriceblock.cpp:63 src/badguy/kamikazesnowball.cpp:117
 #: src/badguy/bouncing_snowball.cpp:96 src/badguy/snowball.cpp:40
 #: src/badguy/igel.cpp:194 src/badguy/mrtree.cpp:50
 msgid "Normal"
@@ -495,13 +496,13 @@ msgstr "Sprite"
 
 #: src/object/moving_sprite.cpp:202
 msgid "The sprite file used for this object."
-msgstr ""
+msgstr "Het spritebestand dat voor dit object wordt gebruikt."
 
 #: src/object/moving_sprite.cpp:204
 msgid ""
 "The layer this object is drawn on. Higher layers are drawn on top of lower "
 "layers."
-msgstr ""
+msgstr "De laag waarop dit object is getekend. Hogere lagen worden bovenop lagere lagen getekend."
 
 #: src/object/bicycle_platform.cpp:204
 msgid "Platforms"
@@ -542,7 +543,7 @@ msgstr "handmatig"
 
 #: src/object/camera.cpp:166
 msgid "free"
-msgstr ""
+msgstr "gratis"
 
 #: src/object/camera.cpp:166
 msgid "autoscroll"
@@ -1307,7 +1308,7 @@ msgstr "Tint"
 msgid "Following path"
 msgstr "Volgpad"
 
-#: src/object/tilemap.cpp:370 src/editor/toolbox_widget.cpp:81
+#: src/object/tilemap.cpp:370 src/editor/toolbox_widget.cpp:86
 #: src/supertux/menu/editor_tilegroup_menu.cpp:26
 msgid "Tiles"
 msgstr "Tegels"
@@ -1572,7 +1573,7 @@ msgid "Bind"
 msgstr "Binden"
 
 #: src/gui/menu_paths.cpp:48 src/gui/menu_filesystem.cpp:123
-#: src/gui/menu_list.cpp:38 src/editor/editor.cpp:988
+#: src/gui/menu_list.cpp:38 src/editor/editor.cpp:1017
 #: src/editor/particle_editor.cpp:783
 #: src/supertux/menu/editor_sectors_menu.cpp:45
 #: src/supertux/menu/editor_sectors_menu.cpp:88
@@ -1598,10 +1599,10 @@ msgstr "Wil je het pad klonen om het afzonderlijk te bewerken,\nof wil je beide 
 msgid "Path {}"
 msgstr "Pad {}"
 
-#: src/gui/menu_paths.cpp:67 src/supertux/menu/multiplayer_player_menu.cpp:187
+#: src/gui/menu_paths.cpp:67 src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/debug_menu.cpp:85
 #: src/supertux/menu/addon_browse_menu.cpp:162
-#: src/supertux/menu/multiplayer_players_menu.cpp:94
+#: src/supertux/menu/multiplayer_players_menu.cpp:106
 #: src/supertux/menu/addon_preview_menu.cpp:205
 #: src/supertux/menu/worldmap_cheat_menu.cpp:57
 #: src/supertux/menu/worldmap_cheat_menu.cpp:185
@@ -1615,7 +1616,7 @@ msgstr "Pad {}"
 #: src/supertux/menu/video_system_menu.cpp:52
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/editor_levelset_select_menu.cpp:118
-#: src/supertux/menu/multiplayer_menu.cpp:39
+#: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/editor_new_levelset_menu.cpp:40
 #: src/supertux/menu/editor_delete_level_menu.cpp:68
 #: src/supertux/menu/profile_name_menu.cpp:45
@@ -1665,14 +1666,14 @@ msgstr "Niet opnieuw tonen"
 msgid "Close"
 msgstr "Sluiten"
 
-#: src/gui/dialog.hpp:95 src/editor/editor.cpp:978
+#: src/gui/dialog.hpp:95 src/editor/editor.cpp:1007
 #: src/supertux/menu/addon_preview_menu.cpp:141
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "Ja"
 
-#: src/gui/dialog.hpp:96 src/editor/editor.cpp:984
+#: src/gui/dialog.hpp:96 src/editor/editor.cpp:1013
 #: src/editor/particle_editor.cpp:779
 #: src/supertux/menu/addon_preview_menu.cpp:141
 #: src/supertux/menu/editor_level_menu.cpp:40
@@ -1702,11 +1703,11 @@ msgstr "Script bewerken"
 
 #: src/gui/menu_script.cpp:56
 msgid "Open in editor"
-msgstr ""
+msgstr "Openen in editor"
 
 #: src/gui/menu_script.cpp:57
 msgid "Open in \"{}\""
-msgstr ""
+msgstr "Openen in \"{}\""
 
 #: src/gui/menu_filesystem.cpp:121
 msgid "Open Directory"
@@ -1731,8 +1732,8 @@ msgid "The recommended OpenGL video system for this device."
 msgstr "Het aanbevolen OpenGL videosysteem voor dit apparaat."
 
 #: src/video/video_system.cpp:158
-msgid "Fallbacks to SDL."
-msgstr "Terugvallen op SDL."
+msgid "Falls back to SDL."
+msgstr "Valt terug op SDL."
 
 #: src/addon/addon.cpp:75 src/supertux/menu/editor_levelset_menu.cpp:55
 msgid "Levelset"
@@ -1775,15 +1776,15 @@ msgstr "add-on"
 msgid "add-ons"
 msgstr "add-ons"
 
-#: src/addon/addon_manager.cpp:553
+#: src/addon/addon_manager.cpp:557
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr "Er kan maar één resource pack tegelijk ingeschakeld zijn."
 
-#: src/addon/addon_manager.cpp:810
+#: src/addon/addon_manager.cpp:814
 msgid "Add-on {} by {} is already installed."
 msgstr "Add-on {} van {} is al geïnstalleerd."
 
-#: src/addon/addon_manager.cpp:830
+#: src/addon/addon_manager.cpp:834
 msgid "Add-on {} by {} successfully installed."
 msgstr "Add-on {} van {} succesvol geïnstalleerd."
 
@@ -1815,38 +1816,38 @@ msgstr "Onderaan"
 msgid "Bottom Right"
 msgstr "Rechtsonder"
 
-#: src/editor/toolbox_widget.cpp:84 src/badguy/dispenser.cpp:417
+#: src/editor/toolbox_widget.cpp:89 src/badguy/dispenser.cpp:417
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
 msgid "Objects"
 msgstr "Objecten"
 
-#: src/editor/editor.cpp:337
+#: src/editor/editor.cpp:353
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
-msgstr ""
+msgstr "Opmerking: Draggables zijn nu verborgen. Druk op Ctrl+H om ze weer weer te geven."
 
-#: src/editor/editor.cpp:562
+#: src/editor/editor.cpp:589
 msgid "Level saved!"
-msgstr ""
+msgstr "Level opgeslagen!"
 
-#: src/editor/editor.cpp:592
+#: src/editor/editor.cpp:619
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
-msgstr ""
+msgstr "Je kunt een level niet testen wanneer je vanaf de wereldkaart speelt. Sluit in plaats daarvan de level-editor af."
 
-#: src/editor/editor.cpp:841
+#: src/editor/editor.cpp:870
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Dit niveau bevat verouderde tiles.\nHet wordt sterk aangeraden om alle verouderde tiles te vervangen\nom verlies van compatibiliteit in toekomstige versies te voorkomen."
 
-#: src/editor/editor.cpp:843
+#: src/editor/editor.cpp:872
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Tip: Zet \"Show Deprecated Tiles\" aan in het menu van de editor."
 
-#: src/editor/editor.cpp:933
+#: src/editor/editor.cpp:962
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1854,19 +1855,19 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Vergeet niet dat uw niveaus en activa\nworden niet opgeslagen tussen sessies!\nAls je je levels wilt behouden, download ze dan\nin het menu \"Activa beheren\"."
 
-#: src/editor/editor.cpp:974
+#: src/editor/editor.cpp:1003
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
-msgstr ""
+msgstr "Dit niveau is nog niet opgeslagen. Wilt u het alsnog opslaan?"
 
-#: src/editor/editor.cpp:976
+#: src/editor/editor.cpp:1005
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Dit level bevat niet-opgeslagen aanpassingen. Wil je het opslaan?"
 
-#: src/editor/editor.cpp:977
+#: src/editor/editor.cpp:1006
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Dit niveau bevat mogelijk niet-opgeslagen wijzigingen, wil je deze opslaan?"
 
-#: src/editor/editor.cpp:1107
+#: src/editor/editor.cpp:1136
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1874,21 +1875,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Sommige verouderde add-ons zijn nog steeds actief\nen kunnen botsingen veroorzaken met de standaard SuperTux structuur.\nJe kunt deze add-ons nog steeds inschakelen in het menu.\nHet uitschakelen van deze add-ons verwijdert je spelvoortgang niet."
 
-#: src/editor/editor.cpp:1110
+#: src/editor/editor.cpp:1139
 msgid "Disable add-ons"
 msgstr "Uitbreidingen uitschakelen"
 
-#: src/editor/editor.cpp:1115
+#: src/editor/editor.cpp:1144
 msgid "Ignore (not advised)"
 msgstr "Negeren (niet aan te raden)"
 
-#: src/editor/editor.cpp:1119
+#: src/editor/editor.cpp:1148
 msgid "Leave editor"
 msgstr "Bewerker afsluiten"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1441
+#: src/editor/editor.cpp:1479
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1897,7 +1898,7 @@ msgstr "Kon geen sector vinden met de naam \"main\".\nVerander de naam van de se
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1448
+#: src/editor/editor.cpp:1486
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -2048,7 +2049,7 @@ msgstr "Opslaan als"
 
 #: src/editor/layers_widget.cpp:160
 msgid "Unnamed {}"
-msgstr ""
+msgstr "Naamloos {}"
 
 #: src/editor/layers_widget.cpp:417
 msgid "Sector: {}"
@@ -2058,105 +2059,105 @@ msgstr "Sector: {}"
 msgid "Add Layer"
 msgstr "Laag toevoegen"
 
-#: src/editor/overlay_widget.cpp:1041
+#: src/editor/overlay_widget.cpp:1042
 msgid "Cannot select deprecated tiles"
 msgstr "Kan geen verouderde tegels selecteren"
 
-#: src/editor/overlay_widget.cpp:1665
+#: src/editor/overlay_widget.cpp:1666
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr "Automatisch wissen staat aan (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1669
+#: src/editor/overlay_widget.cpp:1670
 msgid "Autotile erasing cannot be performed here"
 msgstr "Autotiel wissen kan hier niet worden uitgevoerd"
 
-#: src/editor/overlay_widget.cpp:1674
+#: src/editor/overlay_widget.cpp:1675
 msgid "Autotile mode is on (\"{}\")"
 msgstr "Autotielmodus is ingeschakeld (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1678
+#: src/editor/overlay_widget.cpp:1679
 msgid "Selected tile isn't autotileable"
 msgstr "De geselecteerde tegel kan niet automatisch worden ingevuld"
 
-#: src/editor/overlay_widget.cpp:1684
+#: src/editor/overlay_widget.cpp:1685
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Houd Ctrl ingedrukt om automatisch wissen in te schakelen"
 
-#: src/editor/overlay_widget.cpp:1686
+#: src/editor/overlay_widget.cpp:1687
 msgid "Release Ctrl to use autotile erasing"
-msgstr ""
+msgstr "Laat Ctrl los om automatisch wissen te gebruiken"
 
-#: src/editor/overlay_widget.cpp:1691
+#: src/editor/overlay_widget.cpp:1692
 msgid "Hold Ctrl to enable autotile"
 msgstr "Houd Ctrl ingedrukt om autotile in te schakelen"
 
-#: src/editor/overlay_widget.cpp:1693
+#: src/editor/overlay_widget.cpp:1694
 msgid "Release Ctrl to autotile"
-msgstr ""
+msgstr "Laat Ctrl los om automatisch te betegelen"
 
 #: src/editor/toolbar_widget.cpp:55 src/supertux/menu/editor_menu.cpp:188
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Undo"
-msgstr ""
+msgstr "Ongedaan maken"
 
 #: src/editor/toolbar_widget.cpp:60 src/supertux/menu/editor_menu.cpp:189
 #: src/supertux/menu/editor_menu.cpp:211
 msgid "Redo"
-msgstr ""
+msgstr "Opnieuw"
 
 #: src/editor/toolbar_widget.cpp:78
 msgid "Change / Toggle grid size"
-msgstr ""
+msgstr "Wijzigen / Rastergrootte wisselen"
 
 #: src/editor/toolbar_widget.cpp:83
 msgid "Test level"
-msgstr ""
+msgstr "Testniveau"
 
 #: src/editor/toolbar_widget.cpp:90
 msgid "Save level"
-msgstr ""
+msgstr "Sla niveau op"
 
 #: src/editor/toolbar_widget.cpp:95
 msgid "Toggle between object and tile mode"
-msgstr ""
+msgstr "Schakel tussen object- en tegelmodus"
 
 #: src/editor/toolbar_widget.cpp:102
 msgid "Select or move the object under the mouse"
-msgstr ""
+msgstr "Selecteer of verplaats het object onder de muis"
 
 #: src/editor/toolbar_widget.cpp:109
 msgid "Delete the tile or object under the mouse"
-msgstr ""
+msgstr "Verwijder de tegel of het object onder de muis"
 
 #: src/editor/toolbar_widget.cpp:118
 msgid "Draw mode"
-msgstr ""
+msgstr "Tekenenmodus"
 
 #: src/editor/toolbar_widget.cpp:125
 msgid "Box draw mode"
-msgstr ""
+msgstr "Box draw-modus"
 
 #: src/editor/toolbar_widget.cpp:132
 msgid "Fill mode"
-msgstr ""
+msgstr "Opvulmodus"
 
 #: src/editor/toolbar_widget.cpp:139
 msgid "Replace mode"
-msgstr ""
+msgstr "Vervangmodus"
 
 #: src/editor/toolbar_widget.cpp:148
 msgid ""
 "Path edit mode (Clicking adds path nodes to the selected object if it "
 "supports them)"
-msgstr ""
+msgstr "Padbewerkingsmodus (door te klikken worden padknooppunten toegevoegd aan het geselecteerde object, indien dit deze ondersteunt)"
 
 #: src/editor/toolbar_widget.cpp:155
 msgid "Select mode (Clicking selects the object under the mouse)"
-msgstr ""
+msgstr "Selecteer modus (door te klikken selecteert u het object onder de muis)"
 
 #: src/editor/toolbar_widget.cpp:162
 msgid "Duplicate mode (Clicking duplicates the object under the mouse)"
-msgstr ""
+msgstr "Duplicatiemodus (door te klikken wordt het object onder de muis gedupliceerd)"
 
 #: src/editor/tip.cpp:80
 msgid ""
@@ -2235,7 +2236,7 @@ msgstr "vals"
 
 #: src/editor/object_option.cpp:402 src/editor/object_option.cpp:591
 msgid "Edit..."
-msgstr ""
+msgstr "Bewerken..."
 
 #: src/editor/object_option.cpp:443 src/editor/object_option.cpp:523
 msgid "invalid"
@@ -2243,20 +2244,20 @@ msgstr "ongeldig"
 
 #: src/editor/object_option.cpp:653
 msgid "Browse..."
-msgstr ""
+msgstr "Bladeren…"
 
 #: src/editor/object_option.cpp:711
 msgid "Mix..."
-msgstr ""
+msgstr "Meng..."
 
 #: src/editor/object_option.cpp:802
 msgid "Select..."
-msgstr ""
+msgstr "Selecteer..."
 
 #: src/editor/object_option.cpp:999 src/editor/object_option.cpp:1212
 #: src/editor/object_option.cpp:1246
 msgid "Change..."
-msgstr ""
+msgstr "Wijzig..."
 
 #: src/editor/object_option.cpp:1090
 msgid "Scale X"
@@ -2461,7 +2462,7 @@ msgid "Roof Crystallo"
 msgstr "Dak Crystallo"
 
 #: src/badguy/snail.cpp:71 src/badguy/viciousivy.cpp:47
-#: src/badguy/kamikazesnowball.cpp:119 src/badguy/fish_swimming.cpp:60
+#: src/badguy/kamikazesnowball.cpp:118 src/badguy/fish_swimming.cpp:60
 #: src/badguy/jumpy.cpp:46 src/badguy/igel.cpp:195 src/badguy/mrtree.cpp:51
 msgid "Corrupted"
 msgstr "Beschadigd"
@@ -2474,7 +2475,7 @@ msgstr "Kugelblitz"
 msgid ""
 "The direction the badguy is facing at the start of the level. AUTO makes the"
 " badguy face towards the player when activated."
-msgstr ""
+msgstr "De richting waarin de slechterik aan het begin van het level kijkt. AUTO zorgt ervoor dat de slechterik naar de speler kijkt wanneer deze functie wordt geactiveerd."
 
 #: src/badguy/badguy.cpp:1378
 msgid "Death script"
@@ -2482,11 +2483,11 @@ msgstr "Doodsvonnis"
 
 #: src/badguy/badguy.cpp:1379
 msgid "Script that is executed when the badguy dies."
-msgstr ""
+msgstr "Script dat wordt uitgevoerd wanneer de slechterik sterft."
 
 #: src/badguy/badguy.cpp:1382
 msgid "Glinting"
-msgstr ""
+msgstr "Glinsteren"
 
 #: src/badguy/crusher.cpp:127
 msgid "Ice (normal)"
@@ -2532,11 +2533,11 @@ msgstr "Crush script"
 
 #: src/badguy/scrystallo.cpp:57
 msgid "Walk Radius (pixels)"
-msgstr ""
+msgstr "Loopradius (pixels)"
 
 #: src/badguy/scrystallo.cpp:58
 msgid "Awakening Radius (pixels)"
-msgstr ""
+msgstr "Ontwakingsradius (pixels)"
 
 #: src/badguy/scrystallo.cpp:59
 msgid "Roof-attached"
@@ -2635,7 +2636,7 @@ msgstr "Stuiterende sneeuwbal"
 msgid ""
 "The icon that is displayed at the top indicating how many lives this boss "
 "has left"
-msgstr ""
+msgstr "Het pictogram dat bovenaan wordt weergegeven en aangeeft hoeveel levens deze baas nog heeft"
 
 #: src/badguy/boss.cpp:97
 msgid "Lives"
@@ -2643,7 +2644,7 @@ msgstr "Levens"
 
 #: src/badguy/boss.cpp:98
 msgid "The maximum number of lives this boss has"
-msgstr ""
+msgstr "Het maximale aantal levens dat deze baas heeft"
 
 #. l10n: Pinch Mode refers to a particular boss mode that gets
 #. activated once the boss has lost the specified amounts of lives.
@@ -2657,7 +2658,7 @@ msgstr "Leeft naar knijpmodus"
 msgid ""
 "Specifies how many lives need to be spent until pinch mode (a special boss "
 "mode) is activated"
-msgstr ""
+msgstr "Geeft aan hoeveel levens er nodig zijn om de pinch-modus (een speciale baasmodus) te activeren"
 
 #. l10n: Pinch Mode refers to a particular boss mode that gets
 #. activated once the boss has lost the specified amounts of lives.
@@ -2669,7 +2670,7 @@ msgstr "Script voor activering van knijpmodus"
 
 #: src/badguy/boss.cpp:111
 msgid "The script that gets run when pinch mode is activated"
-msgstr ""
+msgstr "Het script dat wordt uitgevoerd wanneer de knijpmodus is geactiveerd"
 
 #: src/badguy/dart.hpp:46
 msgid "Dart"
@@ -2739,13 +2740,13 @@ msgstr "Zeekling"
 msgid "Pumpkin"
 msgstr "Pompoen"
 
-#: src/badguy/mrbomb.cpp:66
+#: src/badguy/mrbomb.cpp:68
 msgid "Classic"
 msgstr "Klassiek"
 
 #: src/badguy/crystallo.cpp:50 src/badguy/rcrystallo.cpp:83
 msgid "Radius (pixels)"
-msgstr ""
+msgstr "Straal (pixels)"
 
 #: src/badguy/mole_rock.hpp:44
 msgid "Mole's rock"
@@ -2908,11 +2909,11 @@ msgstr "Initiële vertraging"
 
 #: src/badguy/darttrap.cpp:155
 msgid "Time until the first dart is fired after the trap is activated."
-msgstr ""
+msgstr "Tijd totdat de eerste pijl wordt afgevuurd nadat de val is geactiveerd."
 
 #: src/badguy/darttrap.cpp:157
 msgid "Whether the trap is enabled."
-msgstr ""
+msgstr "Of de val is ingeschakeld."
 
 #: src/badguy/darttrap.cpp:158
 msgid "Fire delay"
@@ -2920,7 +2921,7 @@ msgstr "Vuurvertraging"
 
 #: src/badguy/darttrap.cpp:159
 msgid "Time between consecutive darts."
-msgstr ""
+msgstr "Tijd tussen opeenvolgende pijlen."
 
 #: src/badguy/darttrap.cpp:160
 msgid "Ammo"
@@ -2928,7 +2929,7 @@ msgstr "Ammunitie"
 
 #: src/badguy/darttrap.cpp:161
 msgid "Number of darts the trap can fire. A value of -1 means infinite."
-msgstr ""
+msgstr "Aantal pijlen dat de val kan afvuren. Een waarde van -1 betekent oneindig."
 
 #: src/badguy/darttrap.cpp:162
 msgid "Dart sprite"
@@ -2936,7 +2937,7 @@ msgstr "Dart sprite"
 
 #: src/badguy/darttrap.cpp:163
 msgid "Sprite used for the dart."
-msgstr ""
+msgstr "Sprite gebruikt voor de dart."
 
 #: src/badguy/darttrap.cpp:175
 msgid "Skull"
@@ -2992,7 +2993,7 @@ msgstr "Statisch"
 
 #: src/badguy/tarantula.cpp:435
 msgid "Flip"
-msgstr ""
+msgstr "Spiegelen"
 
 #: src/badguy/fish_chasing.hpp:32
 msgid "Chasing Fish"
@@ -3096,7 +3097,7 @@ msgstr "Weet je zeker dat je dit onderdeel wilt verwijderen?"
 msgid "Delete sector"
 msgstr "Onderdeel verwijderen"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:37
+#: src/supertux/menu/multiplayer_player_menu.cpp:38
 #: src/supertux/menu/multiplayer_players_menu.cpp:39
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:36
 #: src/supertux/menu/cheat_apply_menu.cpp:36
@@ -3104,45 +3105,51 @@ msgstr "Onderdeel verwijderen"
 msgid "Player {}"
 msgstr "Speler {}"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:40
+#: src/supertux/menu/multiplayer_player_menu.cpp:41
 msgid "Play with the keyboard"
 msgstr "Spelen met het toetsenbord"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:58
+#: src/supertux/menu/multiplayer_player_menu.cpp:42
+msgid ""
+"Don't automatically bind controllers to this player, and spawn it even if it"
+" has no controller."
+msgstr "Koppel controllers niet automatisch aan deze speler en spawneer deze zelfs als er geen controller is."
+
+#: src/supertux/menu/multiplayer_player_menu.cpp:60
 msgid "Remove Player"
 msgstr "Verwijder speler"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:76
+#: src/supertux/menu/multiplayer_player_menu.cpp:78
 msgid "Respawn Player"
 msgstr "Respawnen Speler"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:102
+#: src/supertux/menu/multiplayer_player_menu.cpp:104
 msgid "Spawn Player"
 msgstr "Spawnen Speler"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:118
+#: src/supertux/menu/multiplayer_player_menu.cpp:120
 msgid "Controllers"
 msgstr "Verwerkingsverantwoordelijken"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:134
+#: src/supertux/menu/multiplayer_player_menu.cpp:136
 msgid ""
 "This controller does not support rumbling;\n"
 "please check the controllers manually."
 msgstr "Deze controller ondersteunt geen gerommel;\ncontroleer de regelaars handmatig."
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:139
+#: src/supertux/menu/multiplayer_player_menu.cpp:141
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "controllers; please check the controllers manually."
 msgstr "Deze SuperTux build ondersteunt geen rommelende\ncontrollers; controleer de controllers handmatig."
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:166
+#: src/supertux/menu/multiplayer_player_menu.cpp:168
 msgid ""
 "This joystick does not support rumbling;\n"
 "please check the joysticks manually."
 msgstr "Deze joystick ondersteunt geen gerommel;\ncontroleer de joysticks handmatig."
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:171
+#: src/supertux/menu/multiplayer_player_menu.cpp:173
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "joysticks; please check the joysticks manually."
@@ -3265,14 +3272,18 @@ msgid "Multiplayer"
 msgstr "Multispeler"
 
 #: src/supertux/menu/multiplayer_players_menu.cpp:48
-msgid "Add Player"
-msgstr "Speler Toevoegen"
+msgid "Add Player (Keyboard)"
+msgstr "Speler toevoegen (toetsenbord)"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:62
+#: src/supertux/menu/multiplayer_players_menu.cpp:60
+msgid "Add Player (Controller)"
+msgstr "Speler toevoegen (controller)"
+
+#: src/supertux/menu/multiplayer_players_menu.cpp:74
 msgid "Remove Last Player"
 msgstr "Laatste Speler Verwijderen"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:65
+#: src/supertux/menu/multiplayer_players_menu.cpp:77
 msgid ""
 "Warning: The player you are trying to\n"
 "remove is currently in-game.\n"
@@ -3355,7 +3366,7 @@ msgstr "Geen beschrijving beschikbaar."
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: {}"
-msgstr ""
+msgstr "Overschrijft gegevens: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
@@ -3413,11 +3424,11 @@ msgstr "Schermafbeeldingen ophalen..."
 
 #: src/supertux/menu/addon_preview_menu.cpp:314
 msgid "Updating {}"
-msgstr ""
+msgstr "Bijwerken {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:314
 msgid "Downloading {}"
-msgstr ""
+msgstr "Downloaden {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:342
 msgid "Add-on uninstalled successfully."
@@ -3568,7 +3579,7 @@ msgstr "Wereldkaart testen"
 
 #: src/supertux/menu/editor_menu.cpp:67
 #: src/supertux/menu/options_select_menu.cpp:29
-#: src/supertux/menu/game_menu.cpp:79 src/supertux/menu/main_menu.cpp:63
+#: src/supertux/menu/game_menu.cpp:80 src/supertux/menu/main_menu.cpp:63
 #: src/supertux/menu/worldmap_menu.cpp:31
 msgid "Options"
 msgstr "Instellingen"
@@ -3613,7 +3624,7 @@ msgstr "Geef alle afgeschreven tiles op de actieve tilemap aan, zonder dat u er 
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Editor settings"
-msgstr ""
+msgstr "Editor instellingen"
 
 #: src/supertux/menu/editor_menu.cpp:102
 #: src/supertux/menu/editor_level_menu.cpp:31
@@ -3632,11 +3643,11 @@ msgstr "Sneltoetsen"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Close Level"
-msgstr ""
+msgstr "Sluit niveau"
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Reset level"
-msgstr ""
+msgstr "Niveau resetten"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid "Exit Level Editor"
@@ -3648,19 +3659,19 @@ msgstr "Wil je deze wereld als add-on verpakken?"
 
 #: src/supertux/menu/editor_menu.cpp:183
 msgid "Open Menu"
-msgstr ""
+msgstr "Menu openen"
 
 #: src/supertux/menu/editor_menu.cpp:186
 msgid "Test at Cursor"
-msgstr ""
+msgstr "Test bij cursor"
 
 #: src/supertux/menu/editor_menu.cpp:187
 msgid "Test at Last Position"
-msgstr ""
+msgstr "Test op laatste positie"
 
 #: src/supertux/menu/editor_menu.cpp:190
 msgid "Toggle Autotiling"
-msgstr ""
+msgstr "Automatisch betegelen in- en uitschakelen"
 
 #: src/supertux/menu/editor_menu.cpp:191
 #: src/supertux/menu/editor_settings.cpp:46
@@ -3679,27 +3690,27 @@ msgstr "Raster tonen"
 
 #: src/supertux/menu/editor_menu.cpp:194
 msgid "Hide Triggers"
-msgstr ""
+msgstr "Triggers verbergen"
 
 #: src/supertux/menu/editor_menu.cpp:195
 msgid "Toggle Between Tileset/Objects Tool"
-msgstr ""
+msgstr "Schakelen tussen tegelset/objecten-tool"
 
 #: src/supertux/menu/editor_menu.cpp:196
 msgid "Ctrl+PLUS or Ctrl+Scroll Up = Zoom In"
-msgstr ""
+msgstr "Ctrl+PLUS of Ctrl+Scroll omhoog = Inzoomen"
 
 #: src/supertux/menu/editor_menu.cpp:197
 msgid "Ctrl+MINUS or Ctrl+Scroll Down = Zoom Out"
-msgstr ""
+msgstr "Ctrl+MINUS of Ctrl+Scroll Down = Uitzoomen"
 
 #: src/supertux/menu/editor_menu.cpp:198
 msgid "Reset Zoom"
-msgstr ""
+msgstr "Zoom resetten"
 
 #: src/supertux/menu/editor_menu.cpp:199
 msgid "Scripting Shortcuts"
-msgstr ""
+msgstr "Snelkoppelingen voor scripts"
 
 #: src/supertux/menu/editor_menu.cpp:200
 msgid "Home = Go to beginning of line"
@@ -3727,19 +3738,19 @@ msgstr "Delete = achter tekstcursor verwijderen"
 
 #: src/supertux/menu/editor_menu.cpp:206
 msgid "Cut whole line"
-msgstr ""
+msgstr "Hele regel knippen"
 
 #: src/supertux/menu/editor_menu.cpp:207
 msgid "Copy whole line"
-msgstr ""
+msgstr "Kopieer hele regel"
 
 #: src/supertux/menu/editor_menu.cpp:208
 msgid "Paste"
-msgstr ""
+msgstr "Plakken"
 
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Duplicate line"
-msgstr ""
+msgstr "Dubbele regel"
 
 #: src/supertux/menu/editor_menu.cpp:214
 #: src/supertux/menu/particle_editor_menu.cpp:122
@@ -3830,38 +3841,38 @@ msgstr "Particle-bestand laden"
 msgid "Continue"
 msgstr "Hervatten"
 
-#: src/supertux/menu/game_menu.cpp:63
-msgid "Restart Level"
-msgstr "Level herstarten"
-
-#: src/supertux/menu/game_menu.cpp:66
+#: src/supertux/menu/game_menu.cpp:65
 msgid "Restart from Checkpoint"
 msgstr "Herstarten vanaf controlepunt"
 
-#: src/supertux/menu/game_menu.cpp:75
-msgid "Edit Level"
-msgstr ""
+#: src/supertux/menu/game_menu.cpp:68
+msgid "Restart Level"
+msgstr "Level herstarten"
 
-#: src/supertux/menu/game_menu.cpp:81
+#: src/supertux/menu/game_menu.cpp:76
+msgid "Edit Level"
+msgstr "Bewerk niveau"
+
+#: src/supertux/menu/game_menu.cpp:82
 msgid "Abort Level"
 msgstr "Level afbreken"
 
-#: src/supertux/menu/game_menu.cpp:97 src/supertux/menu/game_menu.cpp:108
-#: src/supertux/menu/game_menu.cpp:173
+#: src/supertux/menu/game_menu.cpp:98 src/supertux/menu/game_menu.cpp:109
+#: src/supertux/menu/game_menu.cpp:174
 msgid "Are you sure?"
 msgstr "Weet je het zeker?"
 
-#: src/supertux/menu/game_menu.cpp:124
+#: src/supertux/menu/game_menu.cpp:125
 msgid "Couldn't open editor for this level. No worldmap!"
-msgstr ""
+msgstr "Kan de editor voor dit level niet openen. Geen wereldkaart!"
 
-#: src/supertux/menu/game_menu.cpp:151
+#: src/supertux/menu/game_menu.cpp:152
 msgid "Couldn't open editor for this level."
-msgstr ""
+msgstr "Kan de editor voor dit niveau niet openen."
 
-#: src/supertux/menu/game_menu.cpp:157
+#: src/supertux/menu/game_menu.cpp:158
 msgid "Couldn't open worldmap for this level."
-msgstr ""
+msgstr "Kan de wereldkaart voor dit niveau niet openen."
 
 #: src/supertux/menu/cheat_apply_menu.cpp:33
 msgid "All Players"
@@ -4062,13 +4073,13 @@ msgstr "Een level dat wordt gebruikt voor het titelscherm, na het verlaten van d
 
 #: src/supertux/menu/editor_levelset_menu.cpp:58
 msgid "Tux Dolls Required"
-msgstr ""
+msgstr "Tux-poppen vereist"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 msgid ""
 "Require the player to have collected a certain amount of Tux Dolls from "
 "Story Mode before they can enter the world."
-msgstr ""
+msgstr "Vereis dat de speler een bepaald aantal Tux Dolls heeft verzameld in de Story Mode voordat hij de wereld kan betreden."
 
 #: src/supertux/menu/video_system_menu.cpp:40
 msgid "Select Video System"
@@ -4176,6 +4187,16 @@ msgid "Allow binding multiple joysticks to a single player"
 msgstr "Meerdere joysticks binden aan één speler toestaan"
 
 #: src/supertux/menu/multiplayer_menu.cpp:36
+msgid "Unlock player limit"
+msgstr "Spelerlimiet ontgrendelen"
+
+#: src/supertux/menu/multiplayer_menu.cpp:37
+msgid ""
+"Allow having more than 4 players. Some interface elements may overflow out "
+"of the screen."
+msgstr "Sta meer dan 4 spelers toe. Sommige interface-elementen kunnen buiten het scherm vallen."
+
+#: src/supertux/menu/multiplayer_menu.cpp:39
 msgid "Manage Players"
 msgstr "Spelers Beheren"
 
@@ -4189,7 +4210,7 @@ msgstr "Voer een naam in voor deze level-subset."
 
 #: src/supertux/menu/editor_temp_save_as.cpp:40
 msgid "Level name"
-msgstr ""
+msgstr "Naam van niveau"
 
 #: src/supertux/menu/editor_temp_save_as.cpp:79
 #: src/supertux/menu/editor_level_menu.cpp:94
@@ -4198,7 +4219,7 @@ msgstr "Voer een naam in voor dit level."
 
 #: src/supertux/menu/editor_temp_save_as.cpp:91
 msgid "Level created!"
-msgstr ""
+msgstr "Level aangemaakt!"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:55
 #: src/supertux/menu/editor_level_select_menu.cpp:93
@@ -4440,7 +4461,7 @@ msgstr "Discord (uitgeschakeld; niet gecompileerd)"
 
 #: src/supertux/menu/sorted_contrib_menu.cpp:45
 msgid "Collect {} more Tux Dolls in Story Mode to unlock!"
-msgstr ""
+msgstr "Verzamel nog {} Tux-poppetjes in de verhaalmodus om te ontgrendelen!"
 
 #: src/supertux/menu/worldmap_menu.cpp:28
 msgid "Pause"
@@ -4452,7 +4473,7 @@ msgstr "Wereld verlaten"
 
 #: src/supertux/menu/editor_settings.cpp:33
 msgid "Editor Settings"
-msgstr ""
+msgstr "Editor instellingen"
 
 #: src/supertux/menu/editor_settings.cpp:37
 msgid "tiny tile (4px)"
@@ -4480,15 +4501,15 @@ msgstr "Achtergrond renderen"
 
 #: src/supertux/menu/editor_settings.cpp:47
 msgid "Render Animations"
-msgstr ""
+msgstr "Animaties weergeven"
 
 #: src/supertux/menu/editor_settings.cpp:48
 msgid "Invert Shift+Scroll"
-msgstr ""
+msgstr "Omkeren Shift+Scroll"
 
 #: src/supertux/menu/editor_settings.cpp:49
 msgid "Centered Zoom"
-msgstr ""
+msgstr "Gecentreerd zoomen"
 
 #: src/supertux/menu/editor_settings.cpp:50
 msgid "Autotile Mode"
@@ -4504,27 +4525,27 @@ msgstr "Object Ongedaan maken traceren inschakelen"
 
 #: src/supertux/menu/editor_settings.cpp:54
 msgid "Show Properties Sidebar"
-msgstr ""
+msgstr "Eigenschappenvenster weergeven"
 
 #: src/supertux/menu/editor_settings.cpp:56
 msgid "Show Toolbar"
-msgstr ""
+msgstr "Toon werkbalk"
 
 #: src/supertux/menu/editor_settings.cpp:57
 msgid "Remember Last Level"
-msgstr ""
+msgstr "Onthoud laatste niveau"
 
 #: src/supertux/menu/editor_settings.cpp:58
 msgid "Prefer Full Viewport"
-msgstr ""
+msgstr "Geef de voorkeur aan volledig weergavegebied"
 
 #: src/supertux/menu/editor_settings.cpp:59
 msgid "Blur Amount"
-msgstr ""
+msgstr "Vervagingshoeveelheid"
 
 #: src/supertux/menu/editor_settings.cpp:60
 msgid "Preferred Text Editor"
-msgstr ""
+msgstr "Voorkeursteksteditor"
 
 #: src/supertux/menu/editor_settings.cpp:63
 msgid "Undo Stack Size"
@@ -4643,19 +4664,19 @@ msgstr "Deze functie wordt momenteel alleen gebruikt in het optiemenu voor meerd
 
 #: src/supertux/menu/options_menu.cpp:177
 msgid "Enable Haptic Feedback"
-msgstr ""
+msgstr "Haptische feedback inschakelen"
 
 #: src/supertux/menu/options_menu.cpp:178
 msgid "Enable haptic feedback for touchscreen controls"
-msgstr ""
+msgstr "Haptische feedback voor touchscreenbediening inschakelen"
 
 #: src/supertux/menu/options_menu.cpp:180
 msgid "Only Haptic Feedback for D-Pad"
-msgstr ""
+msgstr "Alleen haptische feedback voor D-pad"
 
 #: src/supertux/menu/options_menu.cpp:181
 msgid "Only enable haptic feedback for the D-Pad"
-msgstr ""
+msgstr "Schakel alleen haptische feedback in voor de D-Pad"
 
 #: src/supertux/menu/options_menu.cpp:184
 #: src/supertux/menu/keyboard_menu.cpp:73
@@ -4692,11 +4713,11 @@ msgstr "Schermovergangen en vloeiend effect voor het menu inschakelen"
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Show game timer"
-msgstr ""
+msgstr "Tijd van de wedstrijd weergeven"
 
 #: src/supertux/menu/options_menu.cpp:208
 msgid "Show a game timer while playing a level"
-msgstr ""
+msgstr "Toon een gametimer tijdens het spelen van een level"
 
 #: src/supertux/menu/options_menu.cpp:210
 msgid "Custom title screen levels"
@@ -4708,7 +4729,7 @@ msgstr "Toestaan dat het niveau van het titelscherm wordt overschreven bij het l
 
 #: src/supertux/menu/options_menu.cpp:214
 msgid "Force Christmas Mode"
-msgstr ""
+msgstr "Kerstmodus forceren"
 
 #: src/supertux/menu/options_menu.cpp:216
 msgid "Integrations and presence"
@@ -4777,39 +4798,39 @@ msgstr "Of het spel een eigen aangepaste cursor gebruikt of deze weergeeft in he
 
 #: src/supertux/menu/options_menu.cpp:252
 msgid "Precise scrolling"
-msgstr ""
+msgstr "Nauwkeurig scrollen"
 
 #: src/supertux/menu/options_menu.cpp:253
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
-msgstr ""
+msgstr "De meeste moderne touchpads geven nauwkeurige scrollgebeurtenissen door.\nSchakel deze functie uit als scrollen met een gewone muis ongebruikelijk aanvoelt of als u er gewoonweg een hekel aan hebt"
 
 #: src/supertux/menu/options_menu.cpp:255
 msgid "Invert horizontal scrolling"
-msgstr ""
+msgstr "Horizontale schuifbalk omkeren"
 
 #: src/supertux/menu/options_menu.cpp:256
 msgid "Inverts scrolling in the X-axis"
-msgstr ""
+msgstr "Keert scrollen om in de X-as"
 
 #: src/supertux/menu/options_menu.cpp:258
 msgid "Invert vertical scrolling"
-msgstr ""
+msgstr "Verticaal scrollen omkeren"
 
 #: src/supertux/menu/options_menu.cpp:259
 msgid "Inverts scrolling in the Y-axis"
-msgstr ""
+msgstr "Keert scrollen in de Y-as om"
 
 #: src/supertux/menu/options_menu.cpp:265
 msgid "Force full viewport"
-msgstr ""
+msgstr "Volledig scherm forceren"
 
 #: src/supertux/menu/options_menu.cpp:265
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
-msgstr ""
+msgstr "Probeer niet te schalen of een beeldverhouding toe te passen. Negeert sommige video-instellingen. Handig voor arcadekasten of ongebruikelijke schermen."
 
 #: src/supertux/menu/options_menu.cpp:269
 msgid "Check for new releases"
@@ -4831,7 +4852,7 @@ msgstr "Voorkomt dat het spel online verbinding maakt"
 
 #: src/supertux/menu/options_menu.cpp:277
 msgid "Network support is disabled."
-msgstr ""
+msgstr "Netwerkondersteuning is uitgeschakeld."
 
 #: src/supertux/menu/options_menu.cpp:307
 #: src/supertux/menu/options_menu.cpp:350 src/supertux/direction.cpp:76
@@ -5155,11 +5176,11 @@ msgstr "Druk op een toets"
 
 #: src/supertux/moving_object.cpp:71
 msgid "The horizontal location of the object in pixels from the left."
-msgstr ""
+msgstr "De horizontale positie van het object in pixels vanaf de linkerkant."
 
 #: src/supertux/moving_object.cpp:73
 msgid "The vertical location of the object in pixels from the top."
-msgstr ""
+msgstr "De verticale positie van het object in pixels vanaf de bovenkant."
 
 #: src/supertux/levelintro.cpp:140
 msgid "contributed by {}"
@@ -5193,13 +5214,13 @@ msgstr "Versie"
 msgid ""
 "The name of this object. Must not contain any spaces if this object is to be"
 " referenced from scripts"
-msgstr ""
+msgstr "De naam van dit object. Mag geen spaties bevatten als naar dit object vanuit scripts moet worden verwezen"
 
 #: src/supertux/game_object.cpp:152
 msgid ""
 "The type of an object defines its theme and behaviour. This is mostly used "
 "to distinguish between forest and ice world types of this object"
-msgstr ""
+msgstr "Het type van een object bepaalt het thema en het gedrag ervan. Dit wordt meestal gebruikt om onderscheid te maken tussen bos- en ijswereldtypes van dit object"
 
 #: src/supertux/tile_set.cpp:139
 msgid "Others"
@@ -5215,23 +5236,23 @@ msgstr "Algemene instellingen:"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  -h, --help                   Show this help message and quit"
-msgstr "  -h, --help Deze hulptekst tonen en afsluiten"
+msgstr "  -h, --help                   Deze hulptekst tonen en afsluiten"
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr "  -v, --version Toon de versie van SuperTux en sluit af"
+msgstr "  -v, --version                Toon de versie van SuperTux en sluit af"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --verbose                    Print verbose messages"
-msgstr "  --verbose Toon uitgebreide berichten"
+msgstr "  --verbose                    Toon uitgebreide berichten"
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "  --debug                      Print extra verbose messages"
-msgstr "  --debug Print extra uitgebreide berichten"
+msgstr "  --debug                      Print extra uitgebreide berichten"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --log-tinygettext            Show tinygettext logs"
-msgstr ""
+msgstr "  --log-tinygettext            Toon tinygettext-logs"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid ""
@@ -5250,27 +5271,27 @@ msgstr "Videokaart-opties:"
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "  -f, --fullscreen Speel in de beeldvullende modus"
+msgstr "  -f, --fullscreen             Speel in de beeldvullende modus"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "  -w, --window                 Run in window mode"
-msgstr "  -w, --window Speel in de venstermodus"
+msgstr "  -w, --window                 Speel in de venstermodus"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "  -g, --geometry BREEDTExHOOGTE Speel SuperTux in de opgegeven resolutie"
+msgstr "  -g, --geometry WIDTHxHEIGHT  Speel SuperTux in de opgegeven resolutie"
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "  -a, --aspect BREEDTE:HOOGTE Speel SuperTux met de opgegeven beeldverhouding"
+msgstr "  -a, --aspect WIDTH:HEIGHT    Speel SuperTux met de opgegeven beeldverhouding"
 
 #: src/supertux/command_line_arguments.cpp:108
 msgid "  -d, --default                Reset video settings to default values"
-msgstr "  -d, --default Zet de videokaart-instellingen terug naar de standaardwaarden"
+msgstr "  -d, --default                Zet de videokaart-instellingen terug naar de standaardwaarden"
 
 #: src/supertux/command_line_arguments.cpp:109
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "  --renderer RENDERER Gebruik sdl, opengl of auto om het spel op het scherm te tonen"
+msgstr "  --renderer RENDERER          Gebruik sdl, opengl of auto om het spel op het scherm te tonen"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid "Audio Options:"
@@ -5278,11 +5299,11 @@ msgstr "Audio-opties:"
 
 #: src/supertux/command_line_arguments.cpp:112
 msgid "  --disable-sound              Disable sound effects"
-msgstr "  --disable-sound Geluidseffecten uitschakelen"
+msgstr "  --disable-sound              Geluidseffecten uitschakelen"
 
 #: src/supertux/command_line_arguments.cpp:113
 msgid "  --disable-music              Disable music"
-msgstr "  --disable-music Muziek uitschakelen"
+msgstr "  --disable-music              Muziek uitschakelen"
 
 #: src/supertux/command_line_arguments.cpp:115
 msgid "Game Options:"
@@ -5290,41 +5311,41 @@ msgstr "Spelopties:"
 
 #: src/supertux/command_line_arguments.cpp:116
 msgid "  --edit-level                 Open given level in editor"
-msgstr "  --edit-lever Open het opgegeven level in de bewerker"
+msgstr "  --edit-level                 Open het opgegeven level in de bewerker"
 
 #: src/supertux/command_line_arguments.cpp:117
 msgid "  --resave                     Load given level and saves it"
-msgstr ""
+msgstr "  --resave                     Laad het gegeven niveau en sla het op"
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "  --show-fps Framerate tonen in levels"
+msgstr "  --show-fps                   Framerate tonen in levels"
 
 #: src/supertux/command_line_arguments.cpp:119
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "  --no-show-fps Framerate niet tonen in levels"
+msgstr "  --no-show-fps                Framerate niet tonen in levels"
 
 #: src/supertux/command_line_arguments.cpp:120
 msgid "  --show-pos                   Display player's current position"
-msgstr "  --show-pos Huidige positie van speler tonen"
+msgstr "  --show-pos                   Huidige positie van speler tonen"
 
 #: src/supertux/command_line_arguments.cpp:121
 msgid "  --no-show-pos                Do not display player's position"
-msgstr "  --no-show-pos Huidige positie van speler niet tonen"
+msgstr "  --no-show-pos                Huidige positie van speler niet tonen"
 
 #: src/supertux/command_line_arguments.cpp:122
 msgid "  --developer                  Switch on developer feature"
-msgstr "  --ontwikkelaar Schakel de ontwikkelaarsmodus in"
+msgstr "  --developer                  Schakel de ontwikkelaarsmodus in"
 
 #: src/supertux/command_line_arguments.cpp:123
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "  -s, --debug-scripts Schakel de script-foutopsporing in."
+msgstr "  -s, --debug-scripts          Schakel de script-foutopsporing in."
 
 #: src/supertux/command_line_arguments.cpp:124
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
-msgstr "  --spawn-pos X,Y De positie in het level waar je wilt dat Tux verschijnt. Alleen gebruiken als je een level opgeeft."
+msgstr "  --spawn-pos X,Y              De positie in het level waar je wilt dat Tux verschijnt. Alleen gebruiken als je een level opgeeft."
 
 #: src/supertux/command_line_arguments.cpp:125
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
@@ -5341,13 +5362,13 @@ msgstr "Mapopties:"
 #: src/supertux/command_line_arguments.cpp:129
 msgid ""
 "  --datadir DIR                Set the directory for the game's data files"
-msgstr ""
+msgstr "  --datadir DIR                Stel de map in voor de gegevensbestanden van het spel"
 
 #: src/supertux/command_line_arguments.cpp:130
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "  --userdir DIR Stel de map in voor de gebruikersgegevens (opgeslagen spellen, etc.)"
+msgstr "  --userdir DIR                Stel de map in voor de gebruikersgegevens (opgeslagen spellen, etc.)"
 
 #: src/supertux/command_line_arguments.cpp:132
 msgid "Add-On Options:"
@@ -5355,7 +5376,7 @@ msgstr "Uitbreidingsinstellingen:"
 
 #: src/supertux/command_line_arguments.cpp:133
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
-msgstr "  --repository-url URL Stel de url in van de uitbreidingspakketbron"
+msgstr "  --repository-url URL         Stel de url in van de uitbreidingspakketbron"
 
 #: src/supertux/command_line_arguments.cpp:135
 msgid "Environment variables:"
@@ -5370,7 +5391,7 @@ msgstr "  SUPERTUX2_USER_DIR           Map voor gebruikersgegevens (opgeslagen s
 #. l10n: Keep SUPERTUX2_DATA_DIR untranslated
 #: src/supertux/command_line_arguments.cpp:139
 msgid "  SUPERTUX2_DATA_DIR           Directory for the game's data files"
-msgstr ""
+msgstr "  SUPERTUX2_DATA_DIR           Map voor de gegevensbestanden van het spel"
 
 #: src/supertux/sector.cpp:519
 msgid "Press escape to skip"
@@ -5406,7 +5427,7 @@ msgstr "Doeltijd van het level:"
 
 #: src/supertux/statistics.cpp:92
 msgid "Tux Dolls collected:"
-msgstr ""
+msgstr "Verzamelde Tux-poppen:"
 
 #: src/supertux/statistics.cpp:297
 msgid "You"
@@ -5416,23 +5437,23 @@ msgstr "Jij"
 msgid "Best"
 msgstr "Beste"
 
-#: src/supertux/main.cpp:878
+#: src/supertux/main.cpp:886
 msgid "New release: SuperTux {}!"
-msgstr ""
+msgstr "Nieuwe release: SuperTux {}!"
 
-#: src/supertux/main.cpp:879
+#: src/supertux/main.cpp:887
 msgid "Click for more details."
 msgstr "Klik voor meer details."
 
-#: src/supertux/main.cpp:882
+#: src/supertux/main.cpp:890
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
 "\n"
 "Do you want to visit the website now?"
-msgstr ""
+msgstr "Er is een nieuwe versie van SuperTux ({}) beschikbaar! Ga voor meer informatie naar de website van SuperTux. Wilt u nu naar de website gaan?"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:901
 msgid "Checking for new releases..."
 msgstr "Controleren op nieuwe releases..."
 
@@ -5538,7 +5559,7 @@ msgstr "Localisatie"
 
 #: data/credits.stxt:1419
 msgid "Special Thanks to"
-msgstr " Dank in het bijzonder aan"
+msgstr "Met speciale dank aan"
 
 #: data/credits.stxt:1426
 msgid "Original creator of SuperTux"
@@ -5570,15 +5591,15 @@ msgstr "Bezoek onze webpagina op"
 
 #: data/credits.stxt:1474
 msgid "For comments, ideas and suggestions,"
-msgstr "Commentaar, ideeën en suggesties"
+msgstr "Voor opmerkingen, ideeën en suggesties,"
 
 #: data/credits.stxt:1478
 msgid "talk to us on Discord or IRC"
-msgstr "zijn welkom op onze Discord- of irc-server,"
+msgstr "praat met ons op Discord of IRC"
 
 #: data/credits.stxt:1482
 msgid "or share them on the forum"
-msgstr " of op ons forum"
+msgstr "of deel ze op het forum"
 
 #: data/credits.stxt:1490
 msgid "Want to contribute to the game?"

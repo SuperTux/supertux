@@ -1,6 +1,37 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.7.0 (2026-03-15)
+---------------------------
+The SuperTux Team is pleased to announce the stable release of version 0.7.0!
+You may wonder what took us so long to develop another release. Over the past
+couple of years, we've made dozens of changes and improvements to the game,
+bringing it to a much more polished state. As such, this is likely one of the
+biggest releases since Milestone 2! Never fear, SuperTux remains a fun
+run'n'jump game, but with this update, it should bring it into a much more
+finishable state moving forward.
+ 
+Here are some of the most notable changes since the previous release:
+- Brand new sprites and abilities for Tux: slope sliding, strong buttjumping,
+  rock rolling, and crawling
+- Revamped graphics for most backgrounds, tiles, objects, and badguys
+- Complete level design + story rework of the Story Mode, Revenge in Redmond,
+  and Bonus Island I
+- Not only new NPCs (e.g: Granito) and enemies (e.g: DiveMine, Fish, and
+  Corrupted Granito), but also revamps for numerous enemies such as: GoldBomb,
+  Igel, Ghoul, and both bosses (Yeti and Ghost Tree)
+- New music
+- Level editor revamp
+- Local multiplayer mode
+- New gameplay mechanics such as glinted enemies, keys, the item pocket, and
+  unlockable bonus islands via Tux Dolls
+- Many improvements to engine mechanics, such as moving to SimpleSquirrel
+- Improvements to compilation/porting, including CMake refactor, Android
+  revival, and Flatpak builds
+ 
+And many more changes and bugfixes not listed here! Really, check the game out
+to see all the changes!
+
 SuperTux 0.6.3 (2021-12-22)
 ---------------------------
 The SuperTux team is excited to announce the release of SuperTux 0.6.3 after approximately 1.5 years of development.  This release introduces many new features; perhaps the most new features in a long time!

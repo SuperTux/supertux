@@ -65,6 +65,14 @@ void
 InputManager::use_game_controller(bool v)
 {
   m_use_game_controller = v;
+
+  // The 'rebinding' here is kind of a hack imo, but this is better than this
+  // option just not working at all...
+  if (m_use_game_controller)
+    game_controller_manager->rebind_controllers();
+  else
+    joystick_manager->rebind_joysticks();
+
 }
 
 void

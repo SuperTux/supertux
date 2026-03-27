@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.7.0-beta.1-212-g8c082b32c\n"
+"Project-Id-Version: SuperTux v0.7.0-rev.1-8-g9b66f2e8e\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,8 +49,8 @@ msgstr ""
 msgid "End of the Ice Age"
 msgstr ""
 
-#: data/levels/bonus1/end_of_ice_age.stl:1966
-#: data/levels/bonus1/end_of_ice_age.stl:1973
+#: data/levels/bonus1/end_of_ice_age.stl:1968
+#: data/levels/bonus1/end_of_ice_age.stl:1975
 msgid "You found a secret area!"
 msgstr ""
 
@@ -177,6 +177,6 @@ msgstr ""
 msgid "...Where Everything Is Possible"
 msgstr ""
 
-#: data/levels/bonus1/worldmap.stwm:219 data/levels/bonus1/worldmap.stwm:233
+#: data/levels/bonus1/worldmap.stwm:222 data/levels/bonus1/worldmap.stwm:236
 msgid "cave entrance/exit"
 msgstr ""

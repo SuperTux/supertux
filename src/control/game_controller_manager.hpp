@@ -52,6 +52,7 @@ public:
   int rumble(SDL_GameController* controller) const;
 
   void bind_controller(SDL_GameController* controller, int player_id);
+  void rebind_controllers();
 
   inline std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
 

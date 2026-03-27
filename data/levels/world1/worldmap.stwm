@@ -1,5 +1,6 @@
 (supertux-level
   (version 3)
+  (save-version 2)
   (name (_ "Icy Island"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
