@@ -31,6 +31,7 @@
 #include "object/brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
+#include "object/bounce_jump_state.hpp"
 #include "object/display_effect.hpp"
 #include "object/falling_coin.hpp"
 #include "object/key.hpp"
@@ -1457,6 +1458,24 @@ Player::do_jump(float yspeed) {
       SoundManager::current()->play("sounds/jump.wav", get_pos());
     }
   }
+}
+
+void
+Player::clear_jump_state_for_bounce()
+{
+  PlayerBounceState state{
+    m_jumping,
+    m_is_slidejump_falling,
+    m_jump_early_apex,
+    m_physic.get_gravity_modifier()
+  };
+
+  clear_player_bounce_state(state);
+
+  m_jumping = state.jumping;
+  m_is_slidejump_falling = state.slidejump_falling;
+  m_jump_early_apex = state.jump_early_apex;
+  m_physic.set_gravity_modifier(state.gravity_modifier);
 }
 
 void

@@ -33,6 +33,9 @@ make_unit_test(CollisionTest SOURCE collision_test.cpp
   EXTERNAL math/rectf.cpp
   LIBRARIES SDL2 glm DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 
+make_unit_test(BounceJumpStateTest SOURCE bounce_jump_state_test.cpp
+  EXTERNAL object/bounce_jump_state.cpp)
+
 message("ALL TESTS: ${all_test_targets}")
 
 add_custom_target(tests DEPENDS ${all_test_targets})
