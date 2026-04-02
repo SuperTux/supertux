@@ -165,6 +165,9 @@
   (object
     (class "roottrap")
     (icon "images/creatures/mole/corrupted/root_base.png"))
+  (object
+    (class "granito_sentinel")
+    (icon "images/creatures/granito/corrupted/idle_left-0.png"))
  )
 
  (objectgroup
