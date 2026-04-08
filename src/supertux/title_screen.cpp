@@ -136,6 +136,7 @@ TitleScreen::refresh_level()
       try
       {
         new_session = std::make_unique<GameSession>(title_level, m_savegame, nullptr);
+        new_session->restart_level(false, true);
       }
       catch (const std::exception& err)
       {
@@ -144,9 +145,10 @@ TitleScreen::refresh_level()
         if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
         {
           new_session = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr);
+          new_session->restart_level(false, true);
         }
       }
-      new_session->restart_level(false, true);
+
       if (new_session)
       {
         m_titlesession = std::move(new_session);
