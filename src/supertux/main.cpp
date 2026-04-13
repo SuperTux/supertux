@@ -365,7 +365,7 @@ if (FileSystem::is_directory(olduserdir)) {
 }
 #endif
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
   m_userdir = "/home/web_user/.local/share/supertux2/";
 #endif
 
@@ -375,7 +375,7 @@ if (FileSystem::is_directory(olduserdir)) {
     log_info << "Created SuperTux userdir: " << m_userdir << std::endl;
   }
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
   EM_ASM({
     try {
       FS.mount(IDBFS, {}, m_userdir);
@@ -590,7 +590,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   s_timelog.log("commandline");
 
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
   auto video = g_config->video;
   if (args.resave && *args.resave) {
     if (args.video) {

@@ -24,7 +24,7 @@
 #include <limits>
 #include <unordered_map>
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
