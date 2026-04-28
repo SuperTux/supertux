@@ -790,8 +790,6 @@ Main::run(int argc, char** argv)
       return EXIT_FAILURE;
     }
 
-    throw std::runtime_error("This will crash as hard as your diabetic mom after eating an entire cheesecake!");
-
 #ifdef __ANDROID__
     m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, SDL_AndroidGetExternalStoragePath()));
 #else
