@@ -44,7 +44,7 @@
 #include <DbgHelp.h>
 #endif
 //#include <VersionHelpers.h>
-
+#include <errhandlingapi.h>
 #ifdef _MSC_VER
 #pragma comment(lib, "DbgHelp.lib")
 #endif
@@ -208,7 +208,8 @@ ErrorHandler::get_stacktrace()
       if (!SymFromAddr(hProcess, stackframe.AddrPC.Offset,
                         &sym_displacement, symbol))
       {
-        callstack << "<no symbol available>\n";
+        DWORD last_error_code = GetLastError();
+        callstack << "<no symbol available> (" << last_error_code << ")\n";
         continue;
       }
 
