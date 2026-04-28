@@ -180,6 +180,7 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
   m_datadir(),
   m_userdir()
 {
+  int a = 1 / 0;
   if (!PHYSFS_init(argv0))
   {
     std::stringstream msg;
