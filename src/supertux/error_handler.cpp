@@ -151,6 +151,9 @@ ErrorHandler::get_stacktrace()
       return "";
     }
 
+    auto pdb_filename = "supertux2.pdb";
+    SymLoadModuleExW(hProcess, NULL, pdb_filename.c_str(), NULL, 0x10000000, 0, NULL, 0);
+
     SymSetOptions(SYMOPT_LOAD_LINES);
     first_time = false;
   }
