@@ -151,7 +151,7 @@ ErrorHandler::get_stacktrace()
       return "";
     }
 
-    auto pdb_filename = "supertux2.pdb";
+    std::string pdb_filename = "supertux2.pdb";
     SymLoadModuleExW(hProcess, NULL, pdb_filename.c_str(), NULL, 0, 0, NULL, 0);
 
     SymSetOptions(SYMOPT_LOAD_LINES);
