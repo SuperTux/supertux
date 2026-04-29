@@ -113,8 +113,8 @@ ErrorHandler::get_stacktrace()
   // Windows stacktraces are disabled for now until there's a way to get it
   // to recognize symbol names (and therefore make it... work). Otherwise,
   // users will report obfuscated stacktraces, thinking they are useful to developers.
-//#ifdef WIN32
-#if 0
+#ifdef WIN32
+// #if 0
   // Adapted from SuperTuxKart, (C) 2013-2015 Lionel Fuentes, GPLv3
 
   if (pcontext == NULL)
