@@ -177,7 +177,6 @@ ErrorHandler::get_stacktrace()
     stackframe.AddrFrame.Offset = pcontext->Fp;
     const DWORD machine_type    = IMAGE_FILE_MACHINE_ARM64;
 #elif defined(_WIN64)
-  #error "This is just a way to see if _WIN64 is defined"
     stackframe.AddrPC.Offset    = pcontext->Rip;
     stackframe.AddrStack.Offset = pcontext->Rsp;
     stackframe.AddrFrame.Offset = pcontext->Rbp;
@@ -211,7 +210,7 @@ ErrorHandler::get_stacktrace()
       {
         DWORD last_error_code = GetLastError();
         callstack << "<no symbol available> (" << last_error_code << ")\n";
-Sy      continue;
+        continue;
       }
 
       IMAGEHLP_LINE64 line64;
