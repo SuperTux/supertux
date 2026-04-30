@@ -139,21 +139,15 @@ ErrorHandler::get_stacktrace()
     // Get the file path of the executable
     std::string path(MAX_PATH, 0);
     GetModuleFileName(NULL, &path[0], MAX_PATH);
-
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), NULL, 0);
-    std::wstring wpath(size_needed, 0);
-    MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), &wpath[0], size_needed);
+    SymSetOptions(SYMOPT_LOAD_LINES | SYMOPT_DEBUG);
 
     // Finally initialize the symbol handler.
-    BOOL bOk = SymInitializeW(hProcess, wpath.empty() ? NULL : wpath.c_str(), TRUE);
+    BOOL bOk = SymInitializeW(hProcess, NULL, TRUE);
     if (!bOk)
     {
       return "";
     }
 
-    SymLoadModuleExW(hProcess, NULL, L"supertux2.pdb", NULL, 0x10000000, 0x1000, NULL, 0);
-
-    SymSetOptions(SYMOPT_LOAD_LINES);
     first_time = false;
   }
 
