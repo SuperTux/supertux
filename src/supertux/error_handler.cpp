@@ -132,10 +132,6 @@ ErrorHandler::get_stacktrace()
   // Initialize the symbol hander for the process
   if (first_time)
   {
-    // Get the file path of the executable
-    std::string path(MAX_PATH, 0);
-    GetModuleFileName(NULL, &path[0], MAX_PATH);
-
     // Finally initialize the symbol handler.
     BOOL bOk = SymInitializeW(hProcess, NULL, TRUE);
     if (!bOk)
