@@ -135,7 +135,7 @@ namespace {
 
     bool shiftout = false;
 
-    if (!other_object || !other_object->is_unisolid())
+    if ((!other_object || !other_object->is_unisolid()) && (!moving_object || !moving_object->is_unisolid()))
     {
       if (fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
         if (ileft < SHIFT_DELTA) {
@@ -169,6 +169,17 @@ namespace {
         {
           constraints.constrain_bottom(other_obj_rect.get_top());
           constraints.hit.bottom = true;
+        }
+      }
+      else if (other_object && other_object->get_group() == COLGROUP_MOVING_STATIC &&
+               moving_object && moving_object->is_unisolid())
+      {
+        // Similar to the above, except... hacky?
+        // This prevents weird issues with rocks and granitos.
+        if (grown_other_obj_rect.get_top() - other_object->get_movement().y <= moving_obj_rect.get_top() - (obj_movement.y - 5.f))
+        {
+          constraints.constrain_top(moving_obj_rect.get_top());
+          constraints.hit.top = true;
         }
       }
       else
@@ -688,6 +699,21 @@ CollisionSystem::update()
 }
 
 bool
+CollisionSystem::is_free_of(const Rectf& rect, uint8_t colgroups, const CollisionObject* ignore_object, const bool ignore_unisolid) const
+{
+  for (const auto& object : m_objects) {
+    if (object == ignore_object) continue;
+    if (!object->is_valid()) continue;
+    if (object->is_unisolid() && ignore_unisolid) continue;
+    if ((1 << object->get_group()) & colgroups) {
+      if (rect.overlaps(object->get_bbox())) return false;
+    }
+  }
+
+  return true;
+}
+
+bool
 CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, uint32_t tiletype) const
 {
   using namespace collision;
@@ -724,56 +750,24 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
 bool
 CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
 {
-  using namespace collision;
-
   if (!is_free_of_tiles(rect, ignoreUnisolid, tiletype)) return false;
 
-  for (const auto& object : m_objects) {
-    if (object == ignore_object) continue;
-    if (!object->is_valid()) continue;
-    if (object->get_group() == COLGROUP_STATIC) {
-      if (rect.overlaps(object->get_bbox())) return false;
-    }
-  }
-
-  return true;
+  return is_free_of(rect, (1 << COLGROUP_STATIC), ignore_object, ignoreUnisolid);
 }
 
 bool
 CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignore_unisolid) const
 {
-  using namespace collision;
-
   if (!is_free_of_tiles(rect, ignore_unisolid)) return false;
 
-  for (const auto& object : m_objects) {
-    if (object == ignore_object) continue;
-    if (!object->is_valid()) continue;
-    if (object->is_unisolid() && ignore_unisolid) continue;
-    if ((object->get_group() == COLGROUP_MOVING)
-      || (object->get_group() == COLGROUP_MOVING_STATIC)
-      || (object->get_group() == COLGROUP_STATIC)) {
-      if (rect.overlaps(object->get_bbox())) return false;
-    }
-  }
-
-  return true;
+  return is_free_of(rect, (1 << COLGROUP_STATIC) | (1 << COLGROUP_MOVING_STATIC) | (1 << COLGROUP_MOVING),
+                    ignore_object, ignore_unisolid);
 }
 
 bool
 CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
 {
-  using namespace collision;
-
-  for (const auto& object : m_objects) {
-    if (object == ignore_object) continue;
-    if (!object->is_valid()) continue;
-    if ((object->get_group() == COLGROUP_MOVING_STATIC)
-      && (rect.overlaps(object->get_bbox())))
-      return false;
-  }
-
-  return true;
+  return is_free_of(rect, (1 << COLGROUP_MOVING_STATIC), ignore_object, false);
 }
 
 CollisionSystem::RaycastResult

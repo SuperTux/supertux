@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>, 2021\n"
 "Language-Team: Dutch (http://app.transifex.com/arctic-games/supertux/language/nl/)\n"
@@ -104,7 +104,7 @@ msgstr "Holle aarde"
 msgid "Home Dead Home"
 msgstr "Home Dood Home"
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:4
 msgid "Rooted Forest"
 msgstr "Boomwortelbos"
 
@@ -465,7 +465,7 @@ msgstr "Tux de Bouwer"
 msgid "Welcome to the Forest"
 msgstr "Welkom in het bos"
 
-#: data/levels/world2/welcome_forest.stl:130
+#: data/levels/world2/welcome_forest.stl:135
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
@@ -474,17 +474,18 @@ msgid ""
 "#Some doors may require a key to enter!"
 msgstr "-Deuren\n!images/objects/door/door-0.png\n#Tux kan door een deur gaan door op de UP-toets te drukken.\n#\n#Voor sommige deuren heb je een sleutel nodig om binnen te komen!"
 
+#: data/levels/world2/welcome_forest.stl:194
+#: data/levels/world2/worldmap.stwm:364 data/levels/world2/worldmap.stwm:374
+msgid "You found a secret area!"
+msgstr "Je hebt een geheim gebied gevonden!"
+
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Houten wortels"
 
-#: data/levels/world2/worldmap.stwm:355
+#: data/levels/world2/worldmap.stwm:356
 msgid "To be continued..."
 msgstr "Wordt vervolgd..."
-
-#: data/levels/world2/worldmap.stwm:363 data/levels/world2/worldmap.stwm:373
-msgid "You found a secret area!"
-msgstr "Je hebt een geheim gebied gevonden!"
 
 #: data/levels/world2/worse_salmonella.stl:3
 msgid "Worse Than Salmonella"

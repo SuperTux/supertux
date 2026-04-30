@@ -791,9 +791,9 @@ Main::run(int argc, char** argv)
     }
 
 #ifdef __ANDROID__
-    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, SDL_AndroidGetExternalStoragePath()));
+    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, SDL_AndroidGetExternalStoragePath()));
 #else
-    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, args.userdir));
+    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, args.userdir));
 #endif
     m_physfs_subsystem->print_search_path();
 

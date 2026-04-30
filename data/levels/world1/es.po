@@ -9,7 +9,7 @@
 # Diego Enmanuel Rosales Santander, 2025
 # 69fe870410d3e630a708a509aed5c0f9_e3efcca <3d48305986fd1b36087a0ec11b9a769d_288033>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
-# Jorge <jorgesumle@freakspot.net>, 2023
+# Jorge <jorgesumle@freakspot.net>, 2023,2026
 # Jorge <jorgesumle@freakspot.net>, 2023
 # Swyter <Swyterzone@gmail.com>, 2018,2021,2023
 # Tam Ezquerra <namarie.tam@gmail.com>, 2019
@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Ulices, 2026\n"
+"Last-Translator: Jorge <jorgesumle@freakspot.net>, 2023,2026\n"
 "Language-Team: Spanish (http://app.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,7 +99,7 @@ msgstr "Los campos congelantes"
 msgid "Ice in the Hole"
 msgstr "¡A cubierto, heladeros!"
 
-#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
 msgid "Icy Island"
 msgstr "Heladisla"
 
@@ -118,6 +118,11 @@ msgstr "De pícnic con Penny"
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
 msgstr "Comienza la aventura"
+
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
+msgstr "¡Hallaste un área secreta!"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living In A Fridge"
@@ -276,7 +281,7 @@ msgstr "Tux se despertó, mareado, y descubrió que Penny había desaparecido!"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Tux comenzaba a preocuparse. Luego, vió una carta que decía:"
+msgstr "Tux comenzaba a preocuparse. Luego vio una carta que decía esto:"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid ""
@@ -409,10 +414,6 @@ msgid ""
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
 msgstr "-Lanzamiento hacia arriba#Tux puede lanzar la mayoría de los objetos hacia arriba manteniendo presionada la tecla ARRIBA mientras se suelta la tecla ACCIÓN.#Al correr, ¡Tux lanza el objeto formando un arco!"
-
-#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
-msgid "You found a secret area!"
-msgstr "¡Hallaste un área secreta!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"

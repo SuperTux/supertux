@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Salomón Duarte <juanaestelaruizdiaz@gmail.com>, 2021,2026\n"
 "Language-Team: Spanish (Argentina) (http://app.transifex.com/arctic-games/supertux/language/es_AR/)\n"
@@ -62,7 +62,7 @@ msgstr "La Mina de Cristal"
 
 #: data/levels/world1/deep_dive_chill.stl:3
 msgid "Deep Dive 'n' Chill"
-msgstr "Pileta profunda"
+msgstr "Zona profunda"
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
@@ -90,13 +90,13 @@ msgstr "Los campos congelados"
 msgid "Ice in the Hole"
 msgstr "Hielo en el pozo"
 
-#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
 msgid "Icy Island"
 msgstr "Isla Helada"
 
 #: data/levels/world1/info:3
 msgid "Where your adventure begins."
-msgstr "Donde tu aventura comienza"
+msgstr "Donde tu aventura comienza."
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -104,11 +104,16 @@ msgstr "Por las estrellas"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "Picnic con Penny"
+msgstr "Pícnic con Penny"
 
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
 msgstr "La aventura empieza"
+
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
+msgstr "¡Encontraste un área secreta!"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living In A Fridge"
@@ -116,7 +121,7 @@ msgstr "Viviendo en una heladera"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
-msgstr "¡Oh No! ¡Más Bolas de Nieve!"
+msgstr "¡Ay No! ¡Más Bolas de Nieve!"
 
 #: data/levels/world1/more_snowballs.stl:319
 msgid ""
@@ -173,13 +178,13 @@ msgid ""
 "It read that he had already left Icy Island towards the far north. If he "
 "wished to follow him and save his beloved friend, he would have to come to "
 "the Crystal Mine."
-msgstr "Decía que ya había huido de la Isla Helada rumbo al norte. Y que, si quería rescatar a su querida amiga, tendría que seguirlo a la Mina de Cristal."
+msgstr "Decía que ya se tomó el palo de la Isla Helada rumbo al norte. Y que, si quería rescatar a su querida amiga, tendría que seguirlo a la Mina de Cristal."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:8
 msgid ""
 "Marked below was a rough map of the Glacier Isle, showing a boat and some "
 "kind of small pier on the other end."
-msgstr "Debajo se veía un mapa pitero de la Isla Glaciar, que mostraba un bote y como una especie de pequeño muelle en el otro extremo."
+msgstr "Debajo se veía un mapa pitero de la Isla Glaciar, que mostraba un bote y como un tipo de pequeño muelle en el otro extremo."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:9
 msgid ""
@@ -191,13 +196,13 @@ msgstr "Pero antes de que Tux pudiera tan siquiera entender algo, ¡un fuerte ru
 msgid ""
 "The mighty Yeti had made his appearence, busting his chest in an "
 "intimidating fashion!"
-msgstr "El poderoso Yeti apareció, pegándose en el pecho intimidatoriamente."
+msgstr "El gran Yeti apareció, pegándose en el pecho intimidatoriamente."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:11
 msgid ""
 "Tux made his way towards a balcony on the other end of the room. With no "
 "other option, he jumped!"
-msgstr "Tux llegó hacia un balcón en la otra pieza. Sin otra opción, ¡brincó!"
+msgstr "Tux llegó hacia un balcón en la otra pieza. Sin otra chance, ¡saltó!"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:12
 msgid "Unfortunately, the Yeti would not let him go so easily..."
@@ -225,13 +230,13 @@ msgstr "Aun avivándose de no caer en ninguna trampa, Tux lentamente descendió 
 msgid ""
 "At last, Tux made it through the crystal mine and found himself on the "
 "opposite end of the Glacier Isle."
-msgstr "Por fin Tux pasó por la Mina de Cristal, y llegó al otro lado de la Isla Glaciar."
+msgstr "Por fin, Tux pasó por la Mina de Cristal, y llegó al otro lado de la Isla Glaciar."
 
 #: data/levels/world1/scripts_crystal_mine.txt:6
 msgid ""
 "As he was about to exit the mine, Tux was internally hoping that all Nolok "
 "wrote in the note was true."
-msgstr "Cuando estaba por irse de la cueva, Tux esperaba que Nolok le hubiera dicho la verdad."
+msgstr "Cuando estaba por irse de la cueva, Tux esperaba que Nolok le hubiera tirado la posta."
 
 #: data/levels/world1/scripts_crystal_mine.txt:7
 msgid ""
@@ -259,15 +264,15 @@ msgstr "En algún lado en las costas de la Antártida..."
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "Tux el pingüino fue a juntarse con su amiga Penny para hacer un pícnic."
+msgstr "Tux el pingüino fue de quinta con su amiga Penny para hacer un pícnic."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Tux se levantó mareado, ¡para enterarse de que Penny desapareció!"
+msgstr "Tux se levantó rematado, ¡para enterarse de que Penny desapareció!"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Tux empezó a preocuparse. Pero luego, vio una nota que decía:"
+msgstr "Justo cuando Tux se empezó a preocupar, vio una nota que decía:"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid ""
@@ -277,7 +282,7 @@ msgstr "\"Tux, secuestré a tu querida Penny y la llevé a mi castillo.\""
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"El camino hacia mi castillo está infestado con mis ayudantes.\""
+msgstr "\"El camino hacia mi castillo está llenísimo de mis ayudantes.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
@@ -303,13 +308,13 @@ msgstr "Después de un día enterito de navegar por la Isla Helada, a Tux ya le 
 msgid ""
 "The lack of sleep during the night may not have been ideal but he was "
 "determined to keep going!"
-msgstr "Capaz que, trasnochar no era la mejor idea, ¡pero estaba dispuesto a seguir!"
+msgstr "Capaz que, trasnochar no era la mejor idea, ¡pero no iba a soltar la toalla!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid ""
 "Not wanting to waste any more time, Tux continued on, sliding down the hill "
 "he was on into the icy valley up ahead."
-msgstr "Sin querer perder más el tiempo, Tux siguió, deslizándose cuesta abajo por la colina hacia el valle helado que tenía al frente."
+msgstr "Sin querer perder más tiempo, Tux siguió, deslizándose cuesta abajo por la colina hacia el valle helado que tenía de frente."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
@@ -324,19 +329,19 @@ msgstr "El Yeti rugió fuerte y procedió a seguir al pingüino."
 
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:2
 msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
-msgstr "¡Lo logró! ¡Posta lo logró! ¡Tux le ganó al poderoso Yeti!"
+msgstr "¡Lo logró! ¡Posta que lo logró! ¡Tux le ganó al Yeti!"
 
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:3
 msgid ""
 "While it did not take long for the yeti to get up again, to Tux's relief, he"
 " did not throw hands again."
-msgstr "Aunque el Yeti no tardó en levantarse, por suerte, no quiso pelear devuelta."
+msgstr "Aunque el Yeti se levantó al toque, por suerte, no quiso pelear devuelta."
 
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:4
 msgid ""
 "The yeti was furious however! He could not understand how a tiny penguin "
 "like Tux could have beaten him in a fight."
-msgstr "¡Pero el Yeti estaba re caliente! No podía entender cómo un pingüinito le pudo ganar en una pelea."
+msgstr "¡Pero el Yeti estaba recaliente! No entendía cómo un pingüinito le pudo ganar en una pelea."
 
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:5
 msgid ""
@@ -346,7 +351,7 @@ msgstr "Dándose cuenta de que lo acaban de dejar pillo, el Yeti se fue, renegá
 
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:6
 msgid "Not sure what to make of it, Tux decided to continue moving onwards."
-msgstr "Sin querer prestarle más atención, Tux se fue también a continuar con su recorrido."
+msgstr "Sin querer darle más bola, Tux se fue también a continuar con su recorrido."
 
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:7
 msgid ""
@@ -358,7 +363,7 @@ msgstr "Al llegar a la costa, Tux ya pudo ver desde cada vez más cerca la Isla 
 msgid ""
 "If he knew Nolok went over there sooner, he could have been there much "
 "faster."
-msgstr "Si hubiera sabido que Nolok estaría ahí, Tux hubiera llegado mucho más pronto que él."
+msgstr "Si tan solo se hubiera avivado un toque más, Tux hubiera llegado al toque antes que Nolok."
 
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:9
 msgid "Perhaps that was Nolok's goal with the note he left behind..."
@@ -401,10 +406,6 @@ msgid ""
 "#When running, Tux throws the object in an arch!"
 msgstr "-Lanzar Arriba \n#Tux puede lanzar la mayoría de los objetos hacia arriba. Mantené presionada la tecla ARRIBA mientras soltás la tecla de ACCIÓN. \n#Al correr, ¡Tux tira el objeto en forma de arco!"
 
-#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
-msgid "You found a secret area!"
-msgstr "¡Encontraste un área secreta!"
-
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
 msgstr "Debajo del hielo"
@@ -434,7 +435,7 @@ msgid ""
 "#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
-msgstr "-Muñeco Tux \n!images/powerups/1up/1up.png# \n#¡Los Muñecos Tux son un coleccionable raro que necesitás para desbloquear islas extra! \n \n#¡Coleccionálos todos para desbloquear niveles adicionales divertidos!"
+msgstr "-Muñeco Tux \n!images/powerups/1up/1up.png \n#¡Los Muñecos Tux son un coleccionable raro que necesitás para desbloquear islas extra! \n \n#¡Coleccionálos todos para desbloquear niveles adicionales divertidos!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
@@ -442,7 +443,7 @@ msgstr "Basta, Sr. de hielo"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "An Unsuspected Follower"
-msgstr "Un seguidor insospechado"
+msgstr "Un raro seguidor"
 
 #: data/levels/world1/yetiwin_cutscene.stl:3
 msgid "Off to the Glacier Isles"

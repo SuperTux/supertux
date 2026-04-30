@@ -106,7 +106,9 @@ ViciousIvy::active_update(float dt_sec)
     floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
 
     const bool ignore_unisolid = on_top_of_water || m_physic.get_velocity_y() < 0.0f;
-    bool float_here = (Sector::get().is_free_of_statics(floatbox, nullptr, ignore_unisolid));
+    bool float_here = (Sector::get().is_free_of_tiles(floatbox, ignore_unisolid)
+                       && Sector::get().is_free_of(floatbox, (1 << COLGROUP_STATIC) | (1 << COLGROUP_MOVING_STATIC),
+                                                   this, ignore_unisolid));
 
     if (in_water)
     {
@@ -124,15 +126,22 @@ ViciousIvy::active_update(float dt_sec)
       }
     }
 
-    if (!float_here) {
-      set_action(m_dir);
-    } else {
+    if (float_here) {
       set_action("float", m_dir);
       if (m_physic.get_velocity_y() >= m_fall_speed && !in_water) {
         m_physic.set_velocity_y(m_fall_speed);
       }
     }
   }
+}
+
+void
+ViciousIvy::collision_solid(const CollisionHit& hit)
+{
+  if (is_active() && hit.bottom)
+    set_action(m_dir);
+
+  WalkingBadguy::collision_solid(hit);
 }
 
 std::string

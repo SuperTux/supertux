@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Sera.L, 2026\n"
 "Language-Team: Arabic (http://app.transifex.com/arctic-games/supertux/language/ar/)\n"
@@ -98,7 +98,7 @@ msgstr "الحقول المتجمدة"
 msgid "Ice in the Hole"
 msgstr "جليد في الرواق"
 
-#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
 msgid "Icy Island"
 msgstr "الجزيرة الجليدية"
 
@@ -117,6 +117,11 @@ msgstr "نزهة مع بيني"
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
 msgstr "الرحلة بدأت"
+
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
+msgstr "لقد وجدتَ منطقة سرية!"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living In A Fridge"
@@ -408,10 +413,6 @@ msgid ""
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
 msgstr "-الرمي لأعلى\n#يستطيع تكس رمي معظم الأشياء لأعلى بالضغط المستمر على مفتاح الاتجاهات الأعلى و افلات مفتاح الاجراءات\n#أثناء الجري, تكس يرمي الأشياء لمسافة بعيدة"
-
-#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
-msgid "You found a secret area!"
-msgstr "لقد وجدتَ منطقة سرية!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
