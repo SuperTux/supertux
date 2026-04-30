@@ -114,7 +114,6 @@ ErrorHandler::get_stacktrace()
   // to recognize symbol names (and therefore make it... work). Otherwise,
   // users will report obfuscated stacktraces, thinking they are useful to developers.
 #ifdef WIN32
-// #if 0
   // Adapted from SuperTuxKart, (C) 2013-2015 Lionel Fuentes, GPLv3
 
   if (pcontext == NULL)
@@ -139,7 +138,7 @@ ErrorHandler::get_stacktrace()
     // Get the file path of the executable
     std::string path(MAX_PATH, 0);
     GetModuleFileName(NULL, &path[0], MAX_PATH);
-    SymSetOptions(SYMOPT_LOAD_LINES | SYMOPT_DEBUG);
+    SymSetOptions(SYMOPT_LOAD_LINES);
 
     // Finally initialize the symbol handler.
     BOOL bOk = SymInitializeW(hProcess, NULL, TRUE);
