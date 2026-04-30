@@ -151,7 +151,7 @@ ErrorHandler::get_stacktrace()
       return "";
     }
 
-    SymLoadModuleExW(hProcess, NULL, L"supertux2.pdb", NULL, 0, 0, NULL, 0);
+    SymLoadModuleExW(hProcess, NULL, L"supertux2.pdb", NULL, 0x10000000, 0x1000, NULL, 0);
 
     SymSetOptions(SYMOPT_LOAD_LINES);
     first_time = false;
