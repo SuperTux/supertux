@@ -110,9 +110,6 @@ dewrangle(const std::string& symbol)
 std::string
 ErrorHandler::get_stacktrace()
 {
-  // Windows stacktraces are disabled for now until there's a way to get it
-  // to recognize symbol names (and therefore make it... work). Otherwise,
-  // users will report obfuscated stacktraces, thinking they are useful to developers.
 #ifdef WIN32
   // Adapted from SuperTuxKart, (C) 2013-2015 Lionel Fuentes, GPLv3
 
@@ -138,7 +135,6 @@ ErrorHandler::get_stacktrace()
     // Get the file path of the executable
     std::string path(MAX_PATH, 0);
     GetModuleFileName(NULL, &path[0], MAX_PATH);
-    SymSetOptions(SYMOPT_LOAD_LINES);
 
     // Finally initialize the symbol handler.
     BOOL bOk = SymInitializeW(hProcess, NULL, TRUE);
@@ -147,6 +143,7 @@ ErrorHandler::get_stacktrace()
       return "";
     }
 
+    SymSetOptions(SYMOPT_LOAD_LINES);
     first_time = false;
   }
 
