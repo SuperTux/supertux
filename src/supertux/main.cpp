@@ -37,6 +37,7 @@ extern "C" {
 #include "addon/addon_manager.hpp"
 #include "addon/downloader.hpp"
 #include "audio/sound_manager.hpp"
+#include "cheevos/cheevo_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_info.hpp"
@@ -634,6 +635,8 @@ Main::launch_game(const CommandLineArguments& args)
   s_timelog.log(nullptr);
 
   m_savegame = std::make_unique<Savegame>(m_profile_manager->get_current_profile(), "");
+  g_cheevos.init();
+  g_cheevos.unlock(0, g_config->profile);
 
   m_game_manager.reset(new GameManager());
   m_screen_manager.reset(new ScreenManager(*m_video_system, *m_input_manager));
