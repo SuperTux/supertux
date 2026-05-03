@@ -1463,19 +1463,10 @@ Player::do_jump(float yspeed) {
 void
 Player::clear_jump_state_for_bounce()
 {
-  PlayerBounceState state{
-    m_jumping,
-    m_is_slidejump_falling,
-    m_jump_early_apex,
-    m_physic.get_gravity_modifier()
-  };
-
-  clear_player_bounce_state(state);
-
-  m_jumping = state.jumping;
-  m_is_slidejump_falling = state.slidejump_falling;
-  m_jump_early_apex = state.jump_early_apex;
-  m_physic.set_gravity_modifier(state.gravity_modifier);
+  m_jumping = false;
+  m_is_slidejump_falling = false;
+  m_jump_early_apex = false;
+  m_physic.set_gravity_modifier(1.f);
 }
 
 void
