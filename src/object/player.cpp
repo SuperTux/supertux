@@ -31,7 +31,6 @@
 #include "object/brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
-#include "object/bounce_jump_state.hpp"
 #include "object/display_effect.hpp"
 #include "object/falling_coin.hpp"
 #include "object/key.hpp"
