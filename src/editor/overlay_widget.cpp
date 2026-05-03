@@ -1318,6 +1318,12 @@ EditorOverlayWidget::get_autotileset_key_range() const
 }
 
 void
+EditorOverlayWidget::update_autotile_mode()
+{
+  m_autotile_mode = g_config->editor_autotile_mode;
+}
+
+void
 EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
   if (m_editor.get_tileselect_input_type() == InputType::TILE)

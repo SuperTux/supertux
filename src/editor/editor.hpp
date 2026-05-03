@@ -202,6 +202,10 @@ public:
   void pack_addon();
   inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
+  inline void update_autotile_mode() {
+    m_overlay_widget->update_autotile_mode();
+  }
+
 private:
   void set_sector(Sector* sector);
   void reload_level();
