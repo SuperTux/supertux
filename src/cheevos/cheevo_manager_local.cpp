@@ -18,11 +18,13 @@
 
 #include <cmath>
 #include <cinttypes>
+#include <sstream>
 
 #include "util/log.hpp"
 
 static void
-read_unlocked_cheevos(std::istream& stream, std::vector<bool>& out) {
+read_unlocked_cheevos(std::istream& stream, std::vector<bool>& out)
+{
   std::size_t size, startpos;
   char* cheevobytes = nullptr;
 
@@ -35,7 +37,8 @@ read_unlocked_cheevos(std::istream& stream, std::vector<bool>& out) {
   stream.read(cheevobytes, size);
 
   out.reserve(size * 8);
-  for (int i = 0; i < out.capacity(); ++i) {
+  for (int i = 0; i < out.capacity(); ++i)
+  {
     out.push_back((cheevobytes[i / 8] & 1 << (i % 8)) != 0);
   }
 
@@ -48,21 +51,38 @@ CheevoManager::init_local()
   // TODO: init addon files
   // TODO: add header to file format
 
-  for (auto& [id, data] : m_profiledata) {
+  for (auto& [id, data] : m_profiledata)
+  {
     std::string path = Profile::get_basedir(id) + "/cheevos";
 
+    try
     {
       IFileStream istream(path);
       read_unlocked_cheevos(istream, data.unlocked_local);
     }
+    catch (std::runtime_error&)
+    {
+      // File does not exist.
+    }
 
-    data.file = std::make_unique<OFileStream>(path);
+    data.file = PHYSFS_openWrite(path.c_str());
+    if (data.file == nullptr)
+    {
+      std::stringstream msg;
+      msg << "Couldn't open file '" << path << "': "
+          << physfsutil::get_last_error();
+      throw std::runtime_error(msg.str());
+    }
   }
 }
 
-void CheevoManager::deinit_local()
+void
+CheevoManager::deinit_local()
 {
-  // nothing
+  for (auto& [id, data] : m_profiledata) {
+    if (data.file)
+      PHYSFS_close(data.file);
+  }
 }
 
 void CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const Addon* addon)
@@ -79,19 +99,20 @@ void CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const 
     unlocked.resize(cheevo + 1);
   unlocked[cheevo] = true;
 
-  OFileStream& stream = *it->second.file;
+  PHYSFS_File* file = it->second.file;
 
-  // stream.seekp(std::ios::beg);
+  PHYSFS_seek(file, 0);
 
   char cheevobyte = 0, bit = 0;
-  for (int i = 0; i < unlocked.size(); ++i) {
+  for (int i = 0; i < unlocked.size(); ++i)
+  {
     bit = i % 8;
     cheevobyte |= 1 << bit;
 
     if (bit == 7)
     {
       // Last bit
-      stream.put(cheevobyte);
+      PHYSFS_writeBytes(file, &cheevobyte, 1);
       cheevobyte = 0;
     }
   }
@@ -99,10 +120,10 @@ void CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const 
   // Write leftover bits
   if (bit != 7)
   {
-    stream.put(cheevobyte);
+    PHYSFS_writeBytes(file, &cheevobyte, 1);
   }
 
-  stream.flush();
+  PHYSFS_flush(file);
 }
 
 const std::vector<bool>& CheevoManager::get_unlocked_local(const Profile& profile, const Addon* addon)

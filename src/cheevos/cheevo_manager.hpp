@@ -37,6 +37,7 @@ public:
   void unlock(CheevoId cheevo, const Profile& profile, const Addon* addon = nullptr);
   const std::vector<bool>& get_unlocked(const Profile& profile, const Addon* addon = nullptr);
 
+private:
   // Local cheevo provider
   void init_local();
   void deinit_local();
@@ -44,13 +45,13 @@ public:
   const std::vector<bool>& get_unlocked_local(const Profile& profile, const Addon* addon = nullptr);
 
 private:
-  struct ProfileCheevoData {
+  struct CheevoProfileData {
     // Local cheevo provider members
-    std::unique_ptr<OFileStream> file;
+    PHYSFS_File* file; // I have given up on OFileStream. It is buggy nonsense.
     std::vector<bool> unlocked_local;
   };
 
-  std::unordered_map<int, ProfileCheevoData> m_profiledata;
+  std::unordered_map<int, CheevoProfileData> m_profiledata;
 };
 
 extern CheevoManager g_cheevos;

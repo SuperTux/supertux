@@ -31,7 +31,7 @@ CheevoManager::init()
 {
   std::vector<Profile*> profiles = ProfileManager::current()->get_profiles();
   for (Profile* profile : profiles) {
-    m_profiledata.try_emplace(profile->get_id(), ProfileCheevoData{});
+    m_profiledata.try_emplace(profile->get_id(), CheevoProfileData{});
   }
 
   init_local();
