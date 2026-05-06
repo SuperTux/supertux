@@ -304,27 +304,18 @@ Tux::try_continue_walking(float dt_sec)
       (teleporter) ||
       m_ghost_mode)
   {
-    if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message()) {
-      m_worldmap->set_passive_message({}, 0.0f);
-    }
+      if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message()) {
+        m_worldmap->set_passive_message({}, 0.0f);
+      }
 
-    if (const auto level = worldmap_sector->at_object<LevelTile>(); level)
-    {
-      m_last_level_tile_pos = m_tile_pos;
-      m_last_level_back_direction = m_back_direction;
-      m_last_stable_tile_pos = m_tile_pos;
-      m_last_stable_back_direction = m_back_direction;
-    }
-    else if (!m_ghost_mode)
-    {
-      m_last_stable_tile_pos = m_tile_pos;
-      m_last_stable_back_direction = m_back_direction;
-    }
-    else
-    {
-      m_last_stable_tile_pos = m_last_level_tile_pos;
-      m_last_stable_back_direction = m_last_level_back_direction;
-    }
+      if (worldmap_sector->at_object<LevelTile>() != nullptr){
+        m_last_level_tile_pos = m_tile_pos;
+        m_last_level_back_direction = m_back_direction;
+      }
+
+      m_last_stable_tile_pos = m_ghost_mode ? m_last_level_tile_pos : m_tile_pos;
+      m_last_stable_back_direction = m_ghost_mode ? m_last_level_back_direction : m_back_direction;
+  }
 
     stop();
     return;

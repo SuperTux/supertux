@@ -152,7 +152,6 @@ WorldMapState::load_tux(const ssq::Table& table)
   Vector p(0.0f, 0.0f);
   if (!tux.get("x", p.x) || !tux.get("y", p.y))
   {
-    log_warning << "Player position not set, respawning." << std::endl;
     sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
     m_position_was_reset = true;
     return;
