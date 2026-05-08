@@ -111,6 +111,19 @@ WeakBlock::get_default_sprite_name() const
   }
 }
 
+bool
+WeakBlock::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("strawbox.sprite") != std::string::npos)
+  {
+    type = "hay";
+    return true;
+  }
+
+  return false;
+}
+
+
 HitResponse
 WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
