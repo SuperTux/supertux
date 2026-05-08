@@ -51,6 +51,6 @@ enum Cheevo : CheevoId {
 // Don't expect these strings to be translated.
 // In order to get the real information, use the CheevoData::get_* methods.
 static const CheevoData g_cheevo_data[] = {
-  {_("Angry Fuzzball"),   _("Beat the Yeti"),       "", CHEEVO_RARITY_NORMAL},
-  {_("Nature's Vaccine"), _("Beat the Ghost Tree"), "", CHEEVO_RARITY_RARE  },
+  {_("Angry Fuzzball"),   _("Beat the Yeti"),       "images/engine/cheevos/cool.png", CHEEVO_RARITY_NORMAL},
+  {_("Nature's Vaccine"), _("Beat the Ghost Tree"), "images/engine/cheevos/cool.png", CHEEVO_RARITY_RARE  },
 };

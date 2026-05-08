@@ -28,6 +28,7 @@ DebugCheevosMenu::DebugCheevosMenu():
   add_entry(_("Reset Local Achievement Progress for this Profile"), []{
     g_cheevos.reset_all_local(ProfileManager::current()->get_current_profile());
   });
+  add_hl();
 
   {
     Profile& profile = ProfileManager::current()->get_current_profile();

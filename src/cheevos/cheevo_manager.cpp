@@ -60,6 +60,7 @@ CheevoManager::unlock_notify(CheevoId cheevo, const Addon* addon)
 
   const CheevoData& cheevodata = g_cheevo_data[cheevo];
   auto notif = std::make_unique<Notification>("cheevo_unlock_" + std::to_string(cheevo), 20.f, false, true);
+  notif->set_image(cheevodata.image);
   notif->set_text(fmt::format(fmt::runtime(_("Achievement unlocked: \"{}\"")), cheevodata.get_name()));
   notif->set_mini_text(cheevodata.get_requirement());
   MenuManager::instance().set_notification(std::move(notif));
