@@ -54,6 +54,18 @@ public:
   inline void set_initial_pos(const Vector& pos) { m_initial_tile_pos = pos / 32.f; }
   inline void set_tile_pos(const Vector& pos) { m_tile_pos = pos; }
 
+  inline Vector get_last_stable_tile_pos() const { return m_last_stable_tile_pos; }
+  inline void set_last_stable_tile_pos(const Vector& pos) { m_last_stable_tile_pos = pos; }
+
+  inline Vector get_last_level_tile_pos() const { return m_last_level_tile_pos; }
+  inline void set_last_level_tile_pos(const Vector& pos) { m_last_level_tile_pos = pos; }
+
+  inline Direction get_last_stable_back_direction() const { return m_last_stable_back_direction; }
+  inline void set_last_stable_back_direction(Direction dir) { m_last_stable_back_direction = dir; }
+
+  inline Direction get_last_level_back_direction() const { return m_last_level_back_direction; }
+  inline void set_last_level_back_direction(Direction dir) { m_last_level_back_direction = dir; }
+
   void process_special_tile(SpecialTile* special_tile);
 
 private:
@@ -78,6 +90,10 @@ private:
   Direction m_direction;
   Vector m_initial_tile_pos;
   Vector m_tile_pos;
+  Vector m_last_stable_tile_pos;
+  Vector m_last_level_tile_pos;
+  Direction m_last_stable_back_direction;
+  Direction m_last_level_back_direction;
   /** Length by which tux is away from its current tile, length is in
       input_direction direction */
   float m_offset;
