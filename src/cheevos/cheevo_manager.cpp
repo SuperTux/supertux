@@ -16,7 +16,12 @@
 
 #include "cheevo_manager.hpp"
 
+#include <fmt/format.h>
+
 #include "supertux/profile_manager.hpp"
+#include "gui/menu_manager.hpp"
+#include "gui/notification.hpp"
+#include "util/log.hpp"
 
 CheevoManager g_cheevos;
 
@@ -44,12 +49,34 @@ CheevoManager::deinit()
 }
 
 void
+CheevoManager::unlock_notify(CheevoId cheevo, const Addon* addon)
+{
+  if (MenuManager::current() == nullptr)
+  {
+    log_warning << "Attempted to show cheevo " << cheevo <<
+                   " unlock notification with null MenuManager." << std::endl;
+    return;
+  }
+
+  const CheevoData& cheevodata = g_cheevo_data[cheevo];
+  auto notif = std::make_unique<Notification>("cheevo_unlock_" + std::to_string(cheevo), 20.f, false, true);
+  notif->set_text(fmt::format(fmt::runtime(_("Achievement unlocked: \"{}\"")), cheevodata.get_name()));
+  notif->set_mini_text(cheevodata.get_requirement());
+  MenuManager::instance().set_notification(std::move(notif));
+}
+
+void
 CheevoManager::unlock(CheevoId cheevo, const Profile& profile, const Addon* addon)
 {
+  log_info << "Unlocked cheevo: " << cheevo;
+
+  unlock_notify(cheevo, addon);
+
   unlock_local(cheevo, profile, addon);
 }
 
-const std::vector<bool>& CheevoManager::get_unlocked(const Profile& profile, const Addon* addon)
+std::vector<bool> const&
+CheevoManager::get_unlocked(const Profile& profile, const Addon* addon)
 {
   return get_unlocked_local(profile, addon);
 }

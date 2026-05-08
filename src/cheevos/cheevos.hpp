@@ -16,6 +16,41 @@
 
 #pragma once
 
+#include <string>
+#include <cinttypes>
+
+#include "util/gettext.hpp"
+
+enum CheevoRarity : std::uint8_t {
+  CHEEVO_RARITY_NORMAL,
+  CHEEVO_RARITY_RARE
+};
+
+struct CheevoData {
+  std::string name;
+  std::string requirement;
+  std::string image;
+  CheevoRarity rarity;
+
+  inline std::string get_name() const {
+    return _(name);
+  }
+
+  inline std::string get_requirement() const {
+    return _(requirement);
+  }
+};
+
 using CheevoId = unsigned;
 
-// TODO: Cheevo enum with CheevoId as integral type.
+enum Cheevo : CheevoId {
+  CHEEVO_BEAT_YETI,
+  CHEEVO_BEAT_GHOSTTREE
+};
+
+// Don't expect these strings to be translated.
+// In order to get the real information, use the CheevoData::get_* methods.
+static const CheevoData g_cheevo_data[] = {
+  {_("Angry Fuzzball"),   _("Beat the Yeti"),       "", CHEEVO_RARITY_NORMAL},
+  {_("Nature's Vaccine"), _("Beat the Ghost Tree"), "", CHEEVO_RARITY_RARE  },
+};

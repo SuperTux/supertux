@@ -35,19 +35,23 @@ public:
   void init();
   void deinit();
   void unlock(CheevoId cheevo, const Profile& profile, const Addon* addon = nullptr);
-  const std::vector<bool>& get_unlocked(const Profile& profile, const Addon* addon = nullptr);
+  std::vector<bool> const& get_unlocked(const Profile& profile, const Addon* addon = nullptr);
+
+  void reset_all_local(const Profile& profile, const Addon* addon = nullptr);
 
 private:
+  void unlock_notify(CheevoId cheevo, const Addon* addon = nullptr);
+
   // Local cheevo provider
   void init_local();
   void deinit_local();
   void unlock_local(CheevoId cheevo, const Profile& profile, const Addon* addon = nullptr);
-  const std::vector<bool>& get_unlocked_local(const Profile& profile, const Addon* addon = nullptr);
+  std::vector<bool> const& get_unlocked_local(const Profile& profile, const Addon* addon = nullptr);
 
 private:
   struct CheevoProfileData {
     // Local cheevo provider members
-    PHYSFS_File* file; // I have given up on OFileStream. It is buggy nonsense.
+    std::string filename;
     std::vector<bool> unlocked_local;
   };
 

@@ -19,24 +19,25 @@
 #include <cmath>
 #include <cinttypes>
 #include <sstream>
+#include <cstring>
 
 #include "util/log.hpp"
 
 static void
 read_unlocked_cheevos(std::istream& stream, std::vector<bool>& out)
 {
-  std::size_t size, startpos;
+  std::size_t /*size, startpos,*/ cheevocount, cheevobytes_size;
   char* cheevobytes = nullptr;
 
-  startpos = stream.tellg();
-  stream.seekg(std::ios::end);
-  size = stream.gcount();
+  stream >> cheevocount;
+  cheevobytes_size = std::ceil(cheevocount / 8);
 
-  cheevobytes = new char[size];
-  stream.seekg(startpos);
-  stream.read(cheevobytes, size);
+  cheevobytes = new char[cheevobytes_size];
+  std::memset(cheevobytes, 0, cheevobytes_size);
+  // stream.seekg(startpos);
+  stream.read(cheevobytes, cheevobytes_size);
 
-  out.reserve(size * 8);
+  out.reserve(cheevocount * 8);
   for (int i = 0; i < out.capacity(); ++i)
   {
     out.push_back((cheevobytes[i / 8] & 1 << (i % 8)) != 0);
@@ -49,29 +50,21 @@ void
 CheevoManager::init_local()
 {
   // TODO: init addon files
+  // TODO: update with profile changes
   // TODO: add header to file format
 
   for (auto& [id, data] : m_profiledata)
   {
-    std::string path = Profile::get_basedir(id) + "/cheevos";
+    data.filename = Profile::get_basedir(id) + "/cheevos";
 
     try
     {
-      IFileStream istream(path);
+      IFileStream istream(data.filename);
       read_unlocked_cheevos(istream, data.unlocked_local);
     }
     catch (std::runtime_error&)
     {
       // File does not exist.
-    }
-
-    data.file = PHYSFS_openWrite(path.c_str());
-    if (data.file == nullptr)
-    {
-      std::stringstream msg;
-      msg << "Couldn't open file '" << path << "': "
-          << physfsutil::get_last_error();
-      throw std::runtime_error(msg.str());
     }
   }
 }
@@ -79,13 +72,10 @@ CheevoManager::init_local()
 void
 CheevoManager::deinit_local()
 {
-  for (auto& [id, data] : m_profiledata) {
-    if (data.file)
-      PHYSFS_close(data.file);
-  }
 }
 
-void CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const Addon* addon)
+void
+CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const Addon* addon)
 {
   auto it = m_profiledata.find(profile.get_id());
   if (it == m_profiledata.end())
@@ -99,15 +89,26 @@ void CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const 
     unlocked.resize(cheevo + 1);
   unlocked[cheevo] = true;
 
-  PHYSFS_File* file = it->second.file;
+  PHYSFS_File* file = PHYSFS_openWrite(it->second.filename.c_str());
+  if (file == nullptr)
+  {
+    std::stringstream msg;
+    msg << "Couldn't open file '" << it->second.filename << "': "
+        << physfsutil::get_last_error();
+    throw std::runtime_error(msg.str());
+  }
 
   PHYSFS_seek(file, 0);
 
+  const std::size_t cheevocount = unlocked.size();
+  PHYSFS_writeBytes(file, &cheevocount, sizeof(cheevocount));
+
   char cheevobyte = 0, bit = 0;
-  for (int i = 0; i < unlocked.size(); ++i)
+  for (int i = 0; i < cheevocount; ++i)
   {
     bit = i % 8;
-    cheevobyte |= 1 << bit;
+    if (unlocked[i])
+      cheevobyte |= 1 << bit;
 
     if (bit == 7)
     {
@@ -124,9 +125,11 @@ void CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const 
   }
 
   PHYSFS_flush(file);
+  PHYSFS_close(file);
 }
 
-const std::vector<bool>& CheevoManager::get_unlocked_local(const Profile& profile, const Addon* addon)
+std::vector<bool> const&
+CheevoManager::get_unlocked_local(const Profile& profile, const Addon* addon)
 {
   auto it = m_profiledata.find(profile.get_id());
   if (it == m_profiledata.end())
@@ -136,4 +139,33 @@ const std::vector<bool>& CheevoManager::get_unlocked_local(const Profile& profil
   }
 
   return it->second.unlocked_local;
+}
+
+void
+CheevoManager::reset_all_local(const Profile& profile, const Addon* addon)
+{
+  auto it = m_profiledata.find(profile.get_id());
+  if (it == m_profiledata.end())
+  {
+    log_warning << "Unable to unlock cheevo " " in profile " << profile.get_id() << ": Local cheevo store unavailable.";
+    return;
+  }
+
+  CheevoProfileData& profiledata = it->second;
+  profiledata.unlocked_local.erase(profiledata.unlocked_local.begin(),
+                                   profiledata.unlocked_local.end());
+
+  PHYSFS_File* file = PHYSFS_openWrite(profiledata.filename.c_str());
+  if (file == nullptr)
+  {
+    std::stringstream msg;
+    msg << "Couldn't open file '" << profiledata.filename << "': "
+        << physfsutil::get_last_error();
+    throw std::runtime_error(msg.str());
+  }
+
+  // Write nothing
+
+  PHYSFS_flush(file);
+  PHYSFS_close(file);
 }
