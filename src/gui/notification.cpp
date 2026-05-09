@@ -31,6 +31,7 @@
 #include "video/viewport.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
+#include "math/util.hpp"
 #include <cstdlib>
 
 constexpr float DRAG_DEADZONE = 10.f;
@@ -138,7 +139,7 @@ Notification::draw(DrawingContext& context)
     m_vel -= 0.8;
     m_drag += m_vel;
 
-    if (m_drag.x < -400 || m_drag.x > 0)
+    if (!math::in_bounds(m_drag.x, -400.f, 0.f))
     {
       if (MouseCursor::current() && m_mouse_over)
         MouseCursor::current()->set_state(MouseCursorState::NORMAL);

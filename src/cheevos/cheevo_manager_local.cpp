@@ -26,11 +26,15 @@
 static void
 read_unlocked_cheevos(std::istream& stream, std::vector<bool>& out)
 {
-  std::size_t /*size, startpos,*/ cheevocount, cheevobytes_size;
+  std::size_t /*size, startpos,*/ cheevobytes_size = 0;
+  std::uint16_t cheevocount = 0;
   char* cheevobytes = nullptr;
 
-  stream >> cheevocount;
-  cheevobytes_size = std::ceil(cheevocount / 8);
+  if (stream.eof())
+    return;
+
+  stream.read(reinterpret_cast<char*>(&cheevocount), sizeof(cheevocount));
+  cheevobytes_size = std::ceil(cheevocount / 8.f);
 
   cheevobytes = new char[cheevobytes_size];
   std::memset(cheevobytes, 0, cheevobytes_size);
@@ -64,7 +68,18 @@ CheevoManager::init_local()
     }
     catch (std::runtime_error&)
     {
-      // File does not exist.
+      // File probably does not exist. Create it now.
+      // This is here in order to prevent lag spikes.
+      PHYSFS_File* file = PHYSFS_openWrite(data.filename.c_str());
+      if (file == nullptr)
+      {
+        std::stringstream msg;
+        msg << "Couldn't open file '" << data.filename << "': "
+            << physfsutil::get_last_error();
+        throw std::runtime_error(msg.str());
+      }
+
+      PHYSFS_close(file);
     }
   }
 }
@@ -100,7 +115,7 @@ CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const Addon
 
   PHYSFS_seek(file, 0);
 
-  const std::size_t cheevocount = unlocked.size();
+  const std::uint16_t cheevocount = std::min(unlocked.size(), static_cast<std::size_t>(UINT16_MAX));
   PHYSFS_writeBytes(file, &cheevocount, sizeof(cheevocount));
 
   char cheevobyte = 0, bit = 0;

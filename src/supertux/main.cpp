@@ -636,7 +636,6 @@ Main::launch_game(const CommandLineArguments& args)
 
   m_savegame = std::make_unique<Savegame>(m_profile_manager->get_current_profile(), "");
   g_cheevos.init();
-  g_cheevos.unlock(0, g_config->profile);
 
   m_game_manager.reset(new GameManager());
   m_screen_manager.reset(new ScreenManager(*m_video_system, *m_input_manager));
