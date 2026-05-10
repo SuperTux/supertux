@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7949
+  ;; next-id: 8111
   ;; free/skipped ids (please use before any other):
   ;; 4642-4660, 5061-5089, 5268-5283, 5453-5522
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
@@ -169,6 +169,18 @@
 
       5400 5401 5402 5403
       5404 5405 5406 5407
+      
+      8076 8077 8083 8084
+      8100 8101 8097 8098
+      8071 8072 8073 8074
+      8085 8086 8087 8088
+      8099 0    0    8102
+      8079 8080 8081 8082
+      8093 8094 8095 8096
+      8107 8108 8109 8110
+      8075 0    0    8078
+      8089 8090 8091 8092
+      8103 8104 8105 8106
 
       5287 5284 5285 5286
 
@@ -1585,14 +1597,23 @@
       2019 2140 2141 2142
       2020 2020 2020 2020
     
-      191  192  193  194
-      187  188  189  190
-      183  184  185  186
-      179  180  181  182
-      175  176  177  178
-      195  176  177  196
-      197  198  198  199
+    ;; waterfall
     
+      8019 8017 8018 8020
+      8027 8025 8026 8028
+      8015 8016 8022 8021
+      8023 8024 8030 8029
+      8035 8033 8034 8036
+      8043 8041 8042 8044
+      8031 8032 8038 8037
+      8039 8040 8046 8045
+      8051 8049 8050 8052
+      8059 8057 8058 8060
+      8047 8048 8054 8053
+      8055 8056 8062 8061
+      8069 8070 8067 8068
+      8063 8064 8065 8066
+      0    0    0    0
     ;; Lava
     
       2136 2137 2138 2139
@@ -2984,12 +3005,13 @@
       512 512 512 512
     )
     (images
-      "tiles/waterfall/trans-0.png"
-      "tiles/waterfall/trans-1.png"
-      "tiles/waterfall/trans-2.png"
-      "tiles/waterfall/trans-3.png"
+      "tiles/waterfall/deprecated/trans-0.png"
+      "tiles/waterfall/deprecated/trans-1.png"
+      "tiles/waterfall/deprecated/trans-2.png"
+      "tiles/waterfall/deprecated/trans-3.png"
     )
     (fps 10)
+    (deprecated #t)
   )
 
   (tiles
@@ -2999,10 +3021,10 @@
       197 198 199
     )
     (images
-      "tiles/waterfall/foam-0.png"
-      "tiles/waterfall/foam-1.png"
-      "tiles/waterfall/foam-2.png"
-      "tiles/waterfall/foam-3.png"
+      "tiles/waterfall/deprecated/foam-0.png"
+      "tiles/waterfall/deprecated/foam-1.png"
+      "tiles/waterfall/deprecated/foam-2.png"
+      "tiles/waterfall/deprecated/foam-3.png"
     )
     (attributes
       512 0   512
@@ -3010,6 +3032,7 @@
     )
     (water #t)
     (fps 10)
+    (deprecated #t)
   )
 
   (tile
@@ -9263,8 +9286,82 @@
   )
 )
 
+;; NEW WATERFALL
+(tiles
+  (width 8)(height 7)
+  (ids
+    8015 8016 8017 8018 8019 8020 8021 8022
+    8023 8024 8025 8026 8027 8028 8029 8030
+    8031 8032 8033 8034 8035 8036 8037 8038
+    8039 8040 8041 8042 8043 8044 8045 8046
+    8047 8048 8049 8050 8051 8052 8053 8054
+    8055 8056 8057 8058 8059 8060 8061 8062
+    8063 8064 8065 8066 8067 8068 8069 8070
+    
+  )
+  (attributes
+    512 512 528 528 528 528 512 512
+    512 512 528 528 528 528 512 512
+    512 512 512 512 512 512 512 512
+    512 512 512 512 512 512 512 512
+    512 512 512 512 512 512 512 512
+    512 512 512 512 512 512 512 512
+    0 0 0 0 0 0 0 0
 
+  )
+  (datas
+    0 0 50 64 50 64 0 0
+    0 0 50 64 50 64 0 0
+    0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0
+  )
+  (images
+    "tiles/waterfall/waterfall-0000.png"
+    "tiles/waterfall/waterfall-0001.png"
+    "tiles/waterfall/waterfall-0002.png"
+    "tiles/waterfall/waterfall-0003.png"
+    "tiles/waterfall/waterfall-0004.png"
+    "tiles/waterfall/waterfall-0005.png"
+    "tiles/waterfall/waterfall-0006.png"
+    "tiles/waterfall/waterfall-0007.png"
+    "tiles/waterfall/waterfall-0008.png"
+    "tiles/waterfall/waterfall-0009.png"
+    "tiles/waterfall/waterfall-0010.png"
+    "tiles/waterfall/waterfall-0011.png"
+    "tiles/waterfall/waterfall-0012.png"
+    "tiles/waterfall/waterfall-0013.png"
+    "tiles/waterfall/waterfall-0014.png"
+    "tiles/waterfall/waterfall-0015.png"
+  )
+  ;;(editor-images "tiles/waterfall/waterfall-debug.png")
+  (fps 24)
+)
 
+;; SLOPED ICE SPIKES    
+(tiles
+  (width 14)(height 3)
+  (ids
+    8071 8072 8073 8074 8075 8076 8077 8078 8079 8080 8081 8082 8083 8084
+    8085 8086 8087 8088 8089 8090 8091 8092 8093 8094 8095 8096 8097 8098
+    8099 8100 8101 8102 8103 8104 8105 8106 8107 8108 8109 8110 0    0
+  )
+  (attributes
+    1040 1040 1040 1040 0    1040 1040 0    1040 1040 0    0    0    0
+    1040 1040 1040 1040 1040 1040 1040 1040 1040 1040 1040 1040 1040 1040
+    0    0    0    0    1040 1040 1040 1040 0    0    1040 1040 0    0
+  )
+  (datas
+    18 34 32 16 0  66 48 0  2  0  0  0  0  0
+    19 35 33 17 32 16 18 34 3  1  0  2  65 51
+    0  0  0  0  33 17 19 35 0  0  1  3  0  0
+  )
+  (images
+    "tiles/snow/spike2.png"
+  )
+)
   
   ;; Additional attributes
   (additional
