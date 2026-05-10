@@ -44,7 +44,7 @@
 #include <DbgHelp.h>
 #endif
 //#include <VersionHelpers.h>
-
+#include <errhandlingapi.h>
 #ifdef _MSC_VER
 #pragma comment(lib, "DbgHelp.lib")
 #endif
@@ -110,11 +110,7 @@ dewrangle(const std::string& symbol)
 std::string
 ErrorHandler::get_stacktrace()
 {
-  // Windows stacktraces are disabled for now until there's a way to get it
-  // to recognize symbol names (and therefore make it... work). Otherwise,
-  // users will report obfuscated stacktraces, thinking they are useful to developers.
-//#ifdef WIN32
-#if 0
+#ifdef WIN32
   // Adapted from SuperTuxKart, (C) 2013-2015 Lionel Fuentes, GPLv3
 
   if (pcontext == NULL)
@@ -136,16 +132,8 @@ ErrorHandler::get_stacktrace()
   // Initialize the symbol hander for the process
   if (first_time)
   {
-    // Get the file path of the executable
-    std::string path(MAX_PATH, 0);
-    GetModuleFileName(NULL, &path[0], MAX_PATH);
-
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), NULL, 0);
-    std::wstring wpath(size_needed, 0);
-    MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), &wpath[0], size_needed);
-
     // Finally initialize the symbol handler.
-    BOOL bOk = SymInitializeW(hProcess, wpath.empty() ? NULL : wpath.c_str(), TRUE);
+    BOOL bOk = SymInitializeW(hProcess, NULL, TRUE);
     if (!bOk)
     {
       return "";
@@ -208,7 +196,8 @@ ErrorHandler::get_stacktrace()
       if (!SymFromAddr(hProcess, stackframe.AddrPC.Offset,
                         &sym_displacement, symbol))
       {
-        callstack << "<no symbol available>\n";
+        DWORD last_error_code = GetLastError();
+        callstack << "<no symbol available> (" << last_error_code << ")\n";
         continue;
       }
 
