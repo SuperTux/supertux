@@ -9337,7 +9337,7 @@
     "tiles/waterfall/waterfall-0015.png"
   )
   ;;(editor-images "tiles/waterfall/waterfall-debug.png")
-  (fps 24)
+  (fps 30)
 )
 
 ;; SLOPED ICE SPIKES    
