@@ -34,7 +34,7 @@ jobs:
       matrix:
         vm_os: [freebsd]
         build_type: [Debug, Release]
-        freebsd_release: ["15.0", "14.3"]
+        freebsd_release: ["15.0", "14.3", "14.4"]
         include:
           - release: ON
 
@@ -95,7 +95,7 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
           freebsd_release: ${{ matrix.freebsd_release }}
         run: |
-            GIT_TAG=$(git describe --tags --abbrev=0)
+            export GIT_TAG=$(git describe --tags --abbrev=0)
             cd $GITHUB_WORKSPACE/build
             mkdir upload
             cd out
