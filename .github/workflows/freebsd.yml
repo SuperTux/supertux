@@ -48,7 +48,7 @@ jobs:
 
       - name: Start VM
         id: vm
-        uses: vmactions/freebsd-vm@v1.4.3
+        uses: vmactions/freebsd-vm@v1.4.5
         with:
           sync: nfs
           release: "${{ matrix.freebsd_release }}"
