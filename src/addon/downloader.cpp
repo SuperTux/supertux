@@ -27,7 +27,7 @@
 #include <stdexcept>
 #include <version.h>
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
@@ -429,7 +429,7 @@ public:
     Transfer(downloader, id, url),
     m_out(outstr)
   {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     // Sanitize input to prevent code injection from malicious callers.
     // Escape backslashes and single quotes in the URL to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
@@ -723,7 +723,7 @@ Downloader::request_string_download(const std::string& url, std::string& out_str
   return add_transfer(std::make_unique<StringTransfer>(*this, m_next_transfer_id++, url, out_string));
 }
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 void
 Downloader::onDownloadProgress(int id, int loaded, int total)
 {

@@ -61,6 +61,8 @@ public:
     return m_ground_movement_manager;
   }
 
+  bool is_free_of(const Rectf& rect, std::uint8_t colgroups, const CollisionObject* ignore_object = nullptr, const bool ignore_unisolid = false) const;
+
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype = Tile::SOLID) const;
   bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignore_unisolid = false) const;

@@ -24,7 +24,7 @@
 #include <limits>
 #include <unordered_map>
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
@@ -528,8 +528,6 @@ Editor::update(float dt_sec, const Controller& controller)
     m_key_zoomed = false;
     m_new_scale = 0.f;
   }
-
-  m_sector->pause_camera_interpolation();
 
   camera.update(dt_sec);
 }

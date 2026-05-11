@@ -471,7 +471,7 @@ ScreenManager::process_events()
         {
           g_config->show_fps = !g_config->show_fps;
         }
-#ifndef EMSCRIPTEN // Emscripten builds manage this through JS code
+#ifndef __EMSCRIPTEN__ // Emscripten builds manage this through JS code
         else if (event.key.keysym.sym == SDLK_F11 ||
                  ((event.key.keysym.mod & KMOD_LALT || event.key.keysym.mod & KMOD_RALT) &&
                  (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)))
@@ -694,7 +694,7 @@ void ScreenManager::loop_iter()
 
   handle_screen_switch();
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
   EM_ASM({
     supertux2_syncfs();
   }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument

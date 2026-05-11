@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: Ștefan ILIE, 2025-2026\n"
 "Language-Team: French (http://app.transifex.com/arctic-games/supertux/language/fr/)\n"
@@ -112,7 +112,7 @@ msgstr "Terre Creuse"
 msgid "Home Dead Home"
 msgstr "Morte Demeure"
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:4
 msgid "Rooted Forest"
 msgstr "Forêt de racines"
 
@@ -473,7 +473,7 @@ msgstr "Tux le Bricoleur"
 msgid "Welcome to the Forest"
 msgstr "Bienvenue dans la Forêt"
 
-#: data/levels/world2/welcome_forest.stl:130
+#: data/levels/world2/welcome_forest.stl:135
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
@@ -482,17 +482,18 @@ msgid ""
 "#Some doors may require a key to enter!"
 msgstr "-Portes\n!images/objects/door/door-0.png\n#Tux peut franchir une porte en appuyant sur la touche HAUT.\n#\n#Certaines portes peuvent nécessiter une clé pour les franchir!"
 
+#: data/levels/world2/welcome_forest.stl:194
+#: data/levels/world2/worldmap.stwm:364 data/levels/world2/worldmap.stwm:374
+msgid "You found a secret area!"
+msgstr "Vous avez trouvé un passage secret"
+
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Racines Boisées"
 
-#: data/levels/world2/worldmap.stwm:355
+#: data/levels/world2/worldmap.stwm:356
 msgid "To be continued..."
 msgstr "À suivre..."
-
-#: data/levels/world2/worldmap.stwm:363 data/levels/world2/worldmap.stwm:373
-msgid "You found a secret area!"
-msgstr "Vous avez trouvé un passage secret"
 
 #: data/levels/world2/worse_salmonella.stl:3
 msgid "Worse Than Salmonella"

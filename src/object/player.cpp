@@ -1430,7 +1430,7 @@ Player::do_backflip() {
 
 void
 Player::do_jump(float yspeed) {
-  if (!m_can_walljump && !m_in_walljump_tile && !on_ground() && !m_coyote_timer.started())
+  if (!m_can_walljump && !on_ground() && !m_coyote_timer.started())
     return;
 
   // jump only if it would make Tux go faster upwards

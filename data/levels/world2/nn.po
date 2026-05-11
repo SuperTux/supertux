@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
 "Language-Team: Norwegian Nynorsk (http://app.transifex.com/arctic-games/supertux/language/nn/)\n"
@@ -44,6 +44,10 @@ msgstr "-Isrose\n!images/powerups/iceflower/ice_flower-0.png\n#Isrosa lèt deg s
 msgid "Collapse Imminent"
 msgstr "Stor rasfare"
 
+#: data/levels/world2/corrupted_cutscene.stl:3
+msgid "From Afar It Spreads"
+msgstr "Dei spreier seg"
+
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Vaklande veg"
@@ -68,9 +72,21 @@ msgstr "Overfløymde rom"
 msgid "Floral Blossom"
 msgstr "Blomsterflor"
 
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "Ei ny øy"
+
 #: data/levels/world2/ghosttree_boss.stl:3
 msgid "Roots of All Evil"
 msgstr "Rota til alt vondt"
+
+#: data/levels/world2/ghosttree_cutscene.stl:3
+msgid "The Root Of The Problem"
+msgstr "Rota til alle problema"
+
+#: data/levels/world2/ghosttreewin_cutscene.stl:3
+msgid "Nature Is Healing"
+msgstr "Naturen lækjer"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -88,17 +104,17 @@ msgstr "Rotbløyte"
 msgid "Home Dead Home"
 msgstr "Heim, døde heim"
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:4
 msgid "Rooted Forest"
 msgstr "Rotskogen"
 
 #: data/levels/world2/info:3
-msgid "Work in Progress Rooted Forest for SuperTux v0.7."
-msgstr "Arbeid pågår med Rotskogen for SuperTux v0.7."
+msgid "Tux explores a new land, but a curse impedes his journey."
+msgstr "Tux utforskar nytt land, men ei forbanning hindrar han på vegen."
 
 #: data/levels/world2/lost_sanctuary.stl:3
 msgid "Lost Sanctuary"
-msgstr "Den tapte fristad"
+msgstr "Den tapte fristaden"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
@@ -136,6 +152,62 @@ msgstr "Berre rot"
 msgid "The Rooted Tower"
 msgstr "Rot-tårnet"
 
+#: data/levels/world2/scripts_corrupted_cutscene.txt:2
+msgid "Never had Tux been missing sunlight more than ever before."
+msgstr "Aldri før hadde Tux sakna sollys meir."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:3
+msgid ""
+"Since the rain had stopped and the sky was clear, Tux hoped to have found a "
+"nice, safe place to take a short break."
+msgstr "Sidan det hadde slutta å regna og himmelen var skyfri, håpa Tux han no hadde funne ein trygg og triveleg stad å ta ein rast."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:4
+msgid ""
+"Just as he was about to rest, the sudden sound of rustling leaves from a "
+"bush nearby startled Tux."
+msgstr "Men nett då han skulle til å ta ein pust i bakken, kvakk han til av rørsler i nokre buskar."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:5
+msgid ""
+"He went to investigate and got startled by a Vicious Ivy, tumbling out of "
+"the bushes!"
+msgstr "Han gjekk for å undersøka nærare, men vart overrumpla av ein giftig eføy som hoppa fram!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:6
+msgid ""
+"However, this one looked different. Its usual bright green leaves seemed to "
+"have turned an ailing purple."
+msgstr "Og eføyen såg litt rar ut. Han hadde inntørka lilla blad i staden for friske grøne."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:7
+msgid ""
+"Before Tux even had the chance to think about what had happened to the poor "
+"thing, the ground began to shake violently..."
+msgstr "Men før Tux fekk tid til å undra seg over kva som hadde hendt den stakkars planta, starta bakken under han å skjelva ..."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:8
+msgid ""
+"Massive purple roots burst through the ground, followed by an onslaught of "
+"many more coming closer and closer!"
+msgstr "Kraftige lilla røter sprengde seg gjennom jordskorpa - og dei kom nærmare og nærmare!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:9
+msgid ""
+"Tux panicked! Whatever these roots were, they were covering everything. "
+"Where could he go?"
+msgstr "Tux fekk panikk! Røtene - eller kva det no var - dekte snart alt. Kor kunne han flykta?"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:10
+msgid ""
+"But he cannot give up now! Tux could not leave her behind. Not in a place "
+"being overrun by these violent roots."
+msgstr "Men han måtte ikkje gje opp! Han kunne jo ikkje etterlata Penny her, omringa av valdelege røter."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:11
+msgid "He must rescue Penny! He must get to that tower!"
+msgstr "Han måtte redda ho! Han måtte komma seg til tårnet!"
+
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
 msgstr "---Set inn animasjonssekvens her---"
@@ -150,7 +222,7 @@ msgstr "Spøkjelsetreet var knust, og det var no ein kime til liv i den før så
 msgid ""
 "The ground was riddled with cracks and crevices. And now one of them was "
 "blocking Tux's path..."
-msgstr "Bakken var full av sprekker og kløfter. Og ei av kløftene sperra no vegen vidare for Tux …"
+msgstr "Bakken var full av sprekker og kløfter. Og ei av kløftene sperra no vegen vidare for Tux ..."
 
 #: data/levels/world2/scripts_floral_blossom.txt:4
 msgid ""
@@ -195,10 +267,10 @@ msgstr "Ein av granitoane spurde kva ein pingvin som han gjorde så langt frå S
 
 #: data/levels/world2/scripts_floral_blossom.txt:11
 msgid ""
-"Tux replied, that he was looking for his friend Penny and that she was "
+"Tux replied that he was looking for his friend Penny and that she was "
 "captured by an evil creature named \"Nolok\". A name the Granito remembered "
-"unpleasantly"
-msgstr "Tux fortalde at han leita etter venninna si Penny, som var teken til fange av ein ufyseleg fyr med namn Nolok. Namnet fekk granitoane til å grøssa."
+"unpleasantly..."
+msgstr "Tux fortalde at han leita etter venninna si Penny, som var teken til fange av ein ufyseleg fyr med namn Nolok. Namnet fekk granitoane til å grøssa ..."
 
 #: data/levels/world2/scripts_floral_blossom.txt:12
 msgid ""
@@ -209,7 +281,7 @@ msgstr "Dei sa at dei kjende til heimlandet til Nolok. Men om han framleis heldt
 #: data/levels/world2/scripts_floral_blossom.txt:13
 msgid ""
 "They offered to show Tux the way. It was the least they could do to show "
-"their gratitute"
+"their gratitute."
 msgstr "Dei kunne uansett visa Tux vegen. Dei var så takksame for hjelpa, så det var det minste dei kunne gjera!"
 
 #: data/levels/world2/scripts_floral_blossom.txt:14
@@ -222,13 +294,140 @@ msgstr "Tux tok imot tilbodet, og han og ei handfull granitoar la i veg nordaust
 msgid ""
 "The remaining Granito would stay behind, slowly rebuilding their home, now "
 "that the corruption was finally vanquished..."
-msgstr "Resten av granitoane vart verande for å byggja opp att heimlandet, no som rota til ròtenskapen var rydda av vegen …"
+msgstr "Resten av granitoane vart verande for å byggja opp att heimlandet, no som rota til ròtenskapen var rydda av vegen ..."
 
 #: data/levels/world2/scripts_floral_blossom.txt:16
 #: data/levels/world2/scripts_floral_blossom.txt:17
 #: data/levels/world2/scripts_floral_blossom.txt:18
 msgid "Granito freed!"
 msgstr "Granitoar sette fri!"
+
+#: data/levels/world2/scripts_forest_intro.txt:2
+msgid "After quite the long trip, Tux arrived at the new biome."
+msgstr "Etter ein lang seglas gjekk Tux i land på ei ny øy, med eit heilt anna klima."
+
+#: data/levels/world2/scripts_forest_intro.txt:3
+msgid ""
+"Tux was astonished by the scale of this colorful land which was quite "
+"different from his home."
+msgstr "Han vart overvelda over dette vidstrekte, fargerike landskapet som var så annleis enn heimtraktene hans."
+
+#: data/levels/world2/scripts_forest_intro.txt:4
+msgid "But how was he ever going to find Nolok in this vast forest?"
+msgstr "Men korleis kunne han finna Nolok i denne enorme skogen?"
+
+#: data/levels/world2/scripts_forest_intro.txt:5
+msgid ""
+"Tux thought for a moment and decided to find a place high up to get a better"
+" view."
+msgstr "Han tenkte seg litt om og gav seg så i leit etter eit utkikkspunkt der han lettare kunne få oversikt."
+
+#: data/levels/world2/scripts_forest_intro.txt:6
+msgid ""
+"Maybe he could find some kind of landmark to help him locate Nolok, wherever"
+" he may be."
+msgstr "Kanskje han kunne finna eit landemerke å navigera etter i jakta på Nolok, kor no enn han var?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:2
+msgid ""
+"High on the very top of the dilapidated tower, once again Tux found... "
+"nothing."
+msgstr "Frå toppen av det falleferdige tårnet såg Tux igjen - ingenting."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:3
+msgid ""
+"He could not believe it. He was shocked. Confused. Was this not where he "
+"needed to go?"
+msgstr "Han kunne ikkje tru det. Han var sjokkert. Forvirra. Hadde han gått feil?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:4
+msgid "Did Nolok's hints trick him afterall? Did he walk into a trap?"
+msgstr "Hadde Nolok likevel klart å lura han? Var han narra i ei felle?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:5
+msgid ""
+"Tux had not long to think about all this, the tower began shaking violetly. "
+"His assumption prove correct instantly."
+msgstr "Men han fekk ikkje lang tid til å tenkja over dette. Tårnet starta å rista. Ja, det var nok ei felle!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:6
+msgid ""
+"He made it! He escaped the collapsing tower just in time as the structure "
+"now fully gave in. But the roots were not done yet!"
+msgstr "Han greidde det! Nett før tårnet fall saman, klarte han å hoppa ut. Men røtene var enno ikkje ferdige med han!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:7
+msgid ""
+"This was only the beginning, as he had found the root of the problem... "
+"towering over the small penguin."
+msgstr "Dette var berre starten. Han hadde funne rota til alle problema ... Og det tårna seg no over den vesle pingvinen."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:8
+msgid ""
+"Tux watched in shock as the roots dug through the tower's walls, faster and "
+"faster. He had to get out of there, fast!"
+msgstr "Tux såg i vantru på at røtene grov seg gjennom tårnmuren. Han måtte komma seg ut, og det fort!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:9
+msgid ""
+"The roots were now everywhere. The tower become more unstable by the second."
+" Slowly, it collapsed in on itself."
+msgstr "Røtene var no overalt. Tårnet vart stadig meir ustabilt. Snart ville det rasa saman."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:10
+msgid ""
+"Tux ran as fast as he could, but the roots would not let him leave as they "
+"blocked off the only path to the main entrance."
+msgstr "Tux sprang alt det føtene bar, men røtene hadde ikkje tenkt å la han sleppa unna; dei blokkerte den einaste vegen til utgangen."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:11
+msgid ""
+"Across the hallway, on the other side, there was a huge crack in the wall. "
+"Tux saw himself forced to take the leap of faith, if he wished to not be "
+"crushed."
+msgstr "Men på andre sida av rommet var det ein stor sprekk i muren. Om han ikkje ville verta knust, var han nøydd til å ta sjansen ..."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
+msgid "Was it over? Was the nightmare finally over?"
+msgstr "Var det slutt? Var marerittet endeleg over?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:3
+msgid ""
+"Tux could not believe his eyes, but it seemed so! The roots began "
+"retreating. The ground looked more vital again."
+msgstr "Tux kunne knapt tru det, men det såg slik ut! Røtene starta å trekkja seg tilbake. Bakken såg meir livskraftig ut."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
+msgid ""
+"Though as much as he was ecstatic about seeing the land restored and "
+"beginning to heal... where to now?"
+msgstr "Han var sjølvsagt overlukkeleg over å sjå landskapet komma til live igjen, men kor skulle han no dra?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:5
+msgid ""
+"The forest, the tower... those were the only leads Tux had. He had no clue "
+"where Nolok could be hiding, if he even was here to begin with. Or rather "
+"anymore."
+msgstr "Skogen, tårnet ... Det var dei einaste leietrådane han hadde. Han ante ikkje kor Nolok gøymde seg, eller om han enno var her."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
+msgid ""
+"There was no one around Tux could ask for help. All but the remains of "
+"corrupted husks littered the ground as he moved along in thought. No living "
+"creature in sight."
+msgstr "Det var ingen Tux kunne spørja om hjelp. Berre dei ròtne restane av røtene låg att på bakken. Ikkje eit levande vesen å sjå."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
+msgid ""
+"Hoping to discover some kind of clue - anything! - Tux's best bet was to "
+"continue exploring this side of the forest, as destroyed as it may be."
+msgstr "Han håpte å finna ein leietråd. Kva som helst! Den var nok lurast å utforska resten av skogen, sjølv om han var nesten øydelagd."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:8
+msgid ""
+"There must be something, somewhere, able to help him to find Nolok! "
+"Right...?"
+msgstr "Det måtte vel vera noko der som kunne setja han på sporet av Nolok! Eller ...?"
 
 #: data/levels/world2/shallow_green.stl:3
 msgid "Shallow Green"
@@ -266,7 +465,7 @@ msgstr "Byggmeister Tux"
 msgid "Welcome to the Forest"
 msgstr "Velkommen til skogen"
 
-#: data/levels/world2/welcome_forest.stl:130
+#: data/levels/world2/welcome_forest.stl:135
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
@@ -275,17 +474,18 @@ msgid ""
 "#Some doors may require a key to enter!"
 msgstr "-Dører\n!images/objects/door/door-0.png\n#Trykk på opptasten for å gå gjennom dører.#\n#Nokre dører er låste og treng ein nøkkel!"
 
+#: data/levels/world2/welcome_forest.stl:194
+#: data/levels/world2/worldmap.stwm:364 data/levels/world2/worldmap.stwm:374
+msgid "You found a secret area!"
+msgstr "Du fann ein hemmeleg plass!"
+
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Trerøter"
 
-#: data/levels/world2/worldmap.stwm:318
+#: data/levels/world2/worldmap.stwm:356
 msgid "To be continued..."
-msgstr "Framhald følgjer …"
-
-#: data/levels/world2/worldmap.stwm:326 data/levels/world2/worldmap.stwm:336
-msgid "You found a secret area!"
-msgstr "Du fann ein hemmeleg plass!"
+msgstr "Framhald følgjer ..."
 
 #: data/levels/world2/worse_salmonella.stl:3
 msgid "Worse Than Salmonella"

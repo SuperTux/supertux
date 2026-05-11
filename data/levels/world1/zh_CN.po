@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: 玉堂白鹤 <yjwork@qq.com>, 2018\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
@@ -93,7 +93,7 @@ msgstr "霜冻田野"
 msgid "Ice in the Hole"
 msgstr "洞中的冰"
 
-#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
 msgid "Icy Island"
 msgstr "寒冰岛"
 
@@ -112,6 +112,11 @@ msgstr "与恋人的午餐"
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
 msgstr "旅程开始了"
+
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
+msgstr "你找到了一个秘密区域！"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living In A Fridge"
@@ -403,10 +408,6 @@ msgid ""
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
 msgstr "-向上投掷\n#按住“上”键的同时松开“动作”键，可以使 Tux 向上投掷大多数物体。\n#奔跑时，Tux 会以抛物线轨迹投掷物品！"
-
-#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
-msgid "You found a secret area!"
-msgstr "你找到了一个秘密区域！"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"

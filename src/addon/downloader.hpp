@@ -146,7 +146,7 @@ public:
   TransferStatusPtr request_string_download(const std::string& url, std::string& out_string);
   void abort(TransferId id);
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
   void onDownloadProgress(int id, int loaded, int total);
   void onDownloadFinished(int id, const char* data);
   void onDownloadError(int id);

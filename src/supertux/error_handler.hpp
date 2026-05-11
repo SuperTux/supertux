@@ -38,7 +38,7 @@ namespace ErrorHandler {
 #else
   [[ noreturn ]] void handle_error(int sig);
 #endif
-  void report_error(const std::string& details);
+  void report_crash(const std::string& details);
 
   [[ noreturn ]] void close_program();
 }

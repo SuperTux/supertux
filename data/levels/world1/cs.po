@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2022,2025-2026\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
@@ -94,7 +94,7 @@ msgstr "Namrzlá pole"
 msgid "Ice in the Hole"
 msgstr "Ledová štola"
 
-#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
 msgid "Icy Island"
 msgstr "Zmrzlý ostrov"
 
@@ -113,6 +113,11 @@ msgstr "Piknik s Penny"
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
 msgstr "Výprava začíná"
+
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
+msgstr "Našel jsi tajnou skrýš!"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living In A Fridge"
@@ -404,10 +409,6 @@ msgid ""
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
 msgstr "-Házení nahoru\n\n#Tux může většinu předmětů házet nahoru. Docílíš toho puštěním klávesy AKCE při současném držení klávesy NAHORU.\n\n#Při běhu Tux předmět hodí obloukem!"
-
-#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:247
-msgid "You found a secret area!"
-msgstr "Našel jsi tajnou skrýš!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"

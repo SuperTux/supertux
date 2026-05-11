@@ -46,6 +46,7 @@ public:
 protected:
   virtual std::string get_explosion_sprite() const;
   virtual bool collision_squished(MovingObject& object) override;
+  virtual void collision_solid(const CollisionHit &hit) override;
 
   virtual void on_type_change(int old_type) override;
 

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-02-02 08:15+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021,2026\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
@@ -108,7 +108,7 @@ msgstr "Dutá země"
 msgid "Home Dead Home"
 msgstr "Domov, mrtvý domov"
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:4
 msgid "Rooted Forest"
 msgstr "Vzrostlý les"
 
@@ -469,7 +469,7 @@ msgstr "Tux stavitel"
 msgid "Welcome to the Forest"
 msgstr "Vítej v lese"
 
-#: data/levels/world2/welcome_forest.stl:130
+#: data/levels/world2/welcome_forest.stl:135
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
@@ -478,17 +478,18 @@ msgid ""
 "#Some doors may require a key to enter!"
 msgstr "-Dveře\n!images/objects/door/door-0.png\n#Tux může procházet dveřmi pomocí klávesy NAHORU.\n#\n#Některé dveře mohou vyžadovat klíč!"
 
+#: data/levels/world2/welcome_forest.stl:194
+#: data/levels/world2/worldmap.stwm:364 data/levels/world2/worldmap.stwm:374
+msgid "You found a secret area!"
+msgstr "Našel jsi tajnou skrýš!"
+
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Dřevěné kořeny"
 
-#: data/levels/world2/worldmap.stwm:355
+#: data/levels/world2/worldmap.stwm:356
 msgid "To be continued..."
 msgstr "Pokračování příště..."
-
-#: data/levels/world2/worldmap.stwm:363 data/levels/world2/worldmap.stwm:373
-msgid "You found a secret area!"
-msgstr "Našel jsi tajnou skrýš!"
 
 #: data/levels/world2/worse_salmonella.stl:3
 msgid "Worse Than Salmonella"
