@@ -60,7 +60,7 @@ jobs:
         shell: freebsd {0}
         run: |
             pkg update -f
-            pkg install -y pkgconf git cmake googletest sdl2 sdl2_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm pcre2
+            pkg install -y pkgconf git cmake googletest sdl2 sdl2_image sdl3 sdl3_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm pcre2
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
