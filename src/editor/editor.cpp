@@ -438,7 +438,7 @@ Editor::update(float dt_sec, const Controller& controller)
     // any mouse events from earlier (i.e. in menu, testing) dont pass through
     // the editor in those states, so as a lazy hack, let's just get the mouse
     // position.
-    int x, y;
+    float x, y;
     SDL_GetMouseState(&x, &y);
     m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
   }
