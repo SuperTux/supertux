@@ -487,34 +487,8 @@ ScreenManager::process_events()
           }
         }
 #endif
-<<<<<<< HEAD
-        else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
-                 event.key.keysym.sym == SDLK_F12)
-=======
-        // Toggle ghost mode
-        else if (event.key.sym == SDLK_g &&
-                 (event.key.keysym.mod & KMOD_ALT) &&
-                 (event.key.keysym.mod & KMOD_CTRL) &&
-                 g_config->developer_mode)
-        {
-          if (session && session->is_active())
-          {
-            for (Player* player : session->get_current_sector().get_players())
-            {
-              player->set_ghost_mode(false, true);
-            }
-          }
-          else if (worldmap::WorldMap::current() && worldmap::WorldMapSector::current())
-          {
-            auto worldmap_sector = worldmap::WorldMapSector::current();
-            auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
-
-            tux.toggle_ghost_mode();
-          }
-        }
         else if (event.key.key == SDLK_PRINTSCREEN ||
                  event.key.key == SDLK_F12)
->>>>>>> 32f558e82 (WIP: Migrating from SDL2 to SDL 3)
         {
           m_video_system.do_take_screenshot();
         }
