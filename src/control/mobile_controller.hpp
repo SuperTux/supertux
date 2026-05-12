@@ -68,7 +68,8 @@ private:
 
   // We need the timer to be away from the game loop to stop vibration
   SDL_TimerID m_haptic_timer;
-  std::unique_ptr<SDL_Haptic, decltype(&SDL_HapticClose)> m_haptic;
+  //std::unique_ptr<SDL_Haptic, decltype(&SDL_HapticClose)> m_haptic;
+  void* m_haptic;
 
 private:
   MobileController(const MobileController&) = delete;
