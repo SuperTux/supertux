@@ -65,10 +65,12 @@ MobileController::MobileController() :
   m_screen_width(),
   m_screen_height(),
   m_mobile_controls_scale(),
-  m_haptic(nullptr, SDL_HapticClose),
+  m_haptic(nullptr),//, SDL_HapticClose),
   m_haptic_timer(0)
 {
-#ifdef __ANDROID__
+// FIXME: SDL3
+#if 0
+//#ifdef __ANDROID__
   SDL_InitSubSystem(SDL_INIT_HAPTIC | SDL_INIT_TIMER);
   // ifdef'd just to be safe
   m_haptic.reset(SDL_HapticOpen(0));
@@ -89,6 +91,7 @@ MobileController::MobileController() :
 void
 MobileController::buzz()
 {
+#if 0 // FIXME: SDL3
   if (!m_haptic || !g_config->touch_haptic_feedback)
     return;
 
@@ -101,6 +104,7 @@ MobileController::buzz()
     data->m_haptic_timer = 0;
     return 0;
   }, this);
+#endif
 }
 
 void
