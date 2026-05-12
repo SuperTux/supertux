@@ -240,7 +240,7 @@ SDLPainter::draw_texture(const DrawingRequest& draw_req)
     SDL_SetTextureBlendMode(texture.get_texture(), blend2sdl(draw_req.blend));
 
     SDL_FlipMode flip = SDL_FLIP_NONE;
-    if ((request.flip & HORIZONTAL_FLIP) != 0)
+    if ((draw_req.flip & HORIZONTAL_FLIP) != 0)
     {
       flip = static_cast<SDL_FlipMode>(flip | SDL_FLIP_HORIZONTAL);
     }
