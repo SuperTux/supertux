@@ -444,13 +444,13 @@ PhysfsSubsystem::setup_android_datadir() const
 
   if (newdata) {
     // Copy
-    SDL_RWops* zipcp = SDL_RWFromFile(newzip.c_str(), "w");
+    SDL_IOStream* zipcp = SDL_IOFromFile(newzip.c_str(), "w");
     if (!zipcp) {
       SDL_free(zipdata);
       return false;
     }
-    SDL_RWwrite(zipcp, zipdata, sizeof(char), zipsz);
-    SDL_RWclose(zipcp);
+    SDL_WriteIO(zipcp, zipdata, zipsz);
+    SDL_CloseIO(zipcp);
   }
 
   SDL_free(zipdata);
