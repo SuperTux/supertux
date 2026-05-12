@@ -420,12 +420,12 @@ ScreenManager::process_events()
     // programmers would be proud!
     // TODO: Dragging-like logic is a little funky, but it's not a big deal
     if (Console::current()->hasFocus() &&
-        ((event.type == SDL_MOUSEWHEEL && LOGMOUSEY(event.wheel.mouseY) < Console::HEIGHT) ||
-         ((event.type == SDL_MOUSEBUTTONDOWN ||
-           event.type == SDL_MOUSEBUTTONUP) && LOGMOUSEY(event.button.y) < Console::HEIGHT) ||
-         (event.type == SDL_MOUSEMOTION && LOGMOUSEY(event.motion.y) < Console::HEIGHT)))
+        ((event.type == SDL_EVENT_MOUSE_WHEEL && LOGMOUSEY(event.wheel.mouse_y) < Console::HEIGHT) ||
+         ((event.type == SDL_EVENT_MOUSE_BUTTON_DOWN ||
+           event.type == SDL_EVENT_MOUSE_BUTTON_UP) && LOGMOUSEY(event.button.y) < Console::HEIGHT) ||
+         (event.type == SDL_EVENT_MOUSE_MOTION && LOGMOUSEY(event.motion.y) < Console::HEIGHT)))
     {
-      if (event.type == SDL_MOUSEWHEEL)
+      if (event.type == SDL_EVENT_MOUSE_WHEEL)
         Console::current()->scroll(-event.wheel.y * 2);
     }
     else
