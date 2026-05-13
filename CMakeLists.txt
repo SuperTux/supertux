@@ -229,9 +229,10 @@ endif()
 # endif()
 
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
-if(NOT USE_SYSTEM_SDL2_TTF)
-  add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
-endif()
+# TODO: SDL3
+# if(NOT USE_SYSTEM_SDL2_TTF)
+#   add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
+# endif()
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
 add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)
