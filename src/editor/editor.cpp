@@ -1267,7 +1267,7 @@ Editor::event(const SDL_Event& ev)
         }
         else if (m_ctrl_pressed)
         {
-          switch (ev.key.scancode)
+          switch (ev.key.key)
           {
             case SDLK_T:
               if (m_shift_pressed && m_alt_pressed)
