@@ -19,7 +19,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include <SDL_image.h>
+#include <SDL3_image/SDL_image.h>
 #include <savepng.h>
 
 #include "physfs/physfs_sdl.hpp"
@@ -39,7 +39,8 @@ SDLSurface::create_rgba(int width, int height)
   Uint32 bmask = 0x00ff0000;
   Uint32 amask = 0xff000000;
 #endif
-  SDLSurfacePtr surface(SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask));
+  SDLSurfacePtr surface(SDL_CreateSurface(width, height,
+                        SDL_GetPixelFormatForMasks(32, rmask, gmask, bmask, amask)));
   if (!surface) {
     std::ostringstream out;
     out << "failed to create SDL_Surface: " << SDL_GetError();
@@ -63,7 +64,8 @@ SDLSurface::create_rgb(int width, int height)
   Uint32 bmask = 0x00ff0000;
   Uint32 amask = 0x00000000;
 #endif
-  SDLSurfacePtr surface(SDL_CreateRGBSurface(0, width, height, 24, rmask, gmask, bmask, amask));
+  SDLSurfacePtr surface(SDL_CreateSurface(width, height,
+            SDL_GetPixelFormatForMasks(24, rmask, gmask, bmask, amask)));
   if (!surface) {
    std::ostringstream out;
     out << "failed to create SDL_Surface: " << SDL_GetError();
@@ -77,7 +79,14 @@ SDLSurfacePtr
 SDLSurface::from_file(const std::string& filename)
 {
   log_debug << "loading image: " << filename << std::endl;
-  SDLSurfacePtr surface(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
+  auto stream = get_physfs_SDLRWops(filename);
+  if (!stream)
+  {
+    std::ostringstream msg;
+    msg << "Couldn't open file: " << filename;
+    throw std::runtime_error(msg.str());
+  }
+  SDLSurfacePtr surface(IMG_Load_IO(stream, true));
   if (!surface)
   {
     std::ostringstream msg;
@@ -96,7 +105,7 @@ SDLSurface::save_png(const SDL_Surface& surface, const std::string& filename)
   // This does not lead to a double free when 'tmp == screen', as
   // SDL_PNGFormatAlpha() will increase the refcount of surface.
   SDLSurfacePtr tmp(SDL_PNGFormatAlpha(const_cast<SDL_Surface*>(&surface)));
-  SDL_RWops* ops;
+  SDL_IOStream* ops;
   try {
     ops = get_writable_physfs_SDLRWops(filename);
   } catch (std::exception& e) {
