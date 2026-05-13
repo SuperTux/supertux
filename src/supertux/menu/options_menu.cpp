@@ -426,7 +426,8 @@ OptionsMenu::add_resolutions()
     log_warning << "Couldn't get primary display: " << SDL_GetError() << std::endl;
     return; // at this point, we just give up.
   }
-  auto display_modes = SDL_GetFullscreenDisplayModes(prim_display, &display_mode_count);
+  std::unique_ptr<SDL_DisplayMode*, decltype(&SDL_free)> display_modes(
+    SDL_GetFullscreenDisplayModes(prim_display, &display_mode_count), &SDL_free);
 
   if (display_modes == nullptr)
   {
@@ -437,7 +438,7 @@ OptionsMenu::add_resolutions()
   std::string last_display_mode;
   for (int i = 0; i < display_mode_count; ++i)
   {
-    SDL_DisplayMode mode = *(display_modes[i]);
+    SDL_DisplayMode mode = *(display_modes.get()[i]);
     std::ostringstream out;
     out << mode.w << "x" << mode.h;
     if (mode.refresh_rate)
