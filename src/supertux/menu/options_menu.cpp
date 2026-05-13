@@ -447,8 +447,12 @@ OptionsMenu::add_resolutions()
       continue;
     last_display_mode = out.str();
     m_resolutions.list.insert(m_resolutions.list.begin(), out.str());
+
+    mode.internal = nullptr; // brevity
+    m_resolutions.data.insert(m_resolutions.data.begin(), {mode});
   }
   m_resolutions.list.push_back("Desktop");
+  m_resolutions.data.push_back({std::nullopt});
 
   std::string fullscreen_size_str = _("Desktop");
   std::ostringstream out;
@@ -475,6 +479,8 @@ OptionsMenu::add_resolutions()
   {
     m_resolutions.next = static_cast<int>(m_resolutions.list.size());
     m_resolutions.list.push_back(fullscreen_size_str);
+    // XXX: fill this in
+    m_resolutions.data.push_back({std::nullopt});
   }
 
   add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Fullscreen Resolution"), &m_resolutions.next, m_resolutions.list)
@@ -728,20 +734,25 @@ OptionsMenu::menu_action(MenuItem& item)
       {
         int width;
         int height;
-        int refresh_rate;
+        float refresh_rate;
+        auto& mode = m_resolutions.data[m_resolutions.next].mode;
         if (m_resolutions.list[m_resolutions.next] == "Desktop")
         {
           g_config->fullscreen_size.width = 0;
           g_config->fullscreen_size.height = 0;
           g_config->fullscreen_refresh_rate = 0;
+          g_config->fullscreen_pixel_density = 0;
         }
-        else if (sscanf(m_resolutions.list[m_resolutions.next].c_str(), "%dx%d@%d",
+        else if (sscanf(m_resolutions.list[m_resolutions.next].c_str(), "%dx%d@%f",
                   &width, &height, &refresh_rate) == 3)
         {
           // do nothing, changes are only applied when toggling fullscreen mode
           g_config->fullscreen_size.width = width;
           g_config->fullscreen_size.height = height;
-          g_config->fullscreen_refresh_rate = refresh_rate;
+          g_config->fullscreen_refresh_rate = mode->refresh_rate;
+          g_config->fullscreen_refresh_rate_numerator = mode->refresh_rate_numerator;
+          g_config->fullscreen_refresh_rate_denominator = mode->refresh_rate_denominator;
+          g_config->fullscreen_pixel_density = mode->pixel_density;
         }
         else if (sscanf(m_resolutions.list[m_resolutions.next].c_str(), "%dx%d",
                        &width, &height) == 2)
@@ -749,6 +760,9 @@ OptionsMenu::menu_action(MenuItem& item)
             g_config->fullscreen_size.width = width;
             g_config->fullscreen_size.height = height;
             g_config->fullscreen_refresh_rate = 0;
+            g_config->fullscreen_refresh_rate_numerator = 0;
+            g_config->fullscreen_refresh_rate_numerator = 0;
+            g_config->fullscreen_pixel_density = 0;
         }
       }
       break;
