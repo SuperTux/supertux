@@ -420,7 +420,13 @@ void
 OptionsMenu::add_resolutions()
 {
   int display_mode_count;
-  auto display_modes = SDL_GetFullscreenDisplayModes(0, &display_mode_count);
+  SDL_DisplayID prim_display = SDL_GetPrimaryDisplay();
+  if (prim_display == 0)
+  {
+    log_warning << "Couldn't get primary display: " << SDL_GetError() << std::endl;
+    return; // at this point, we just give up.
+  }
+  auto display_modes = SDL_GetFullscreenDisplayModes(prim_display, &display_mode_count);
 
   if (display_modes == nullptr)
   {
