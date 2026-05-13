@@ -213,9 +213,12 @@ SDLBaseVideoSystem::apply_video_mode()
       mode.format = SDL_PIXELFORMAT_XRGB8888;
       mode.w = g_config->fullscreen_size.width;
       mode.h = g_config->fullscreen_size.height;
+      mode.refresh_rate_numerator = g_config->fullscreen_refresh_rate_numerator;
+      mode.refresh_rate_denominator = g_config->fullscreen_refresh_rate_denominator;
       mode.refresh_rate = g_config->fullscreen_refresh_rate;
+      mode.pixel_density = g_config->fullscreen_pixel_density;
 
-      if (SDL_SetWindowFullscreenMode(m_sdl_window.get(), &mode) != 0)
+      if (SDL_SetWindowFullscreenMode(m_sdl_window.get(), &mode) == false)
       {
         log_warning << "failed to set fullscreen mode: "
                     << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
@@ -223,7 +226,7 @@ SDLBaseVideoSystem::apply_video_mode()
       }
       else
       {
-        if (SDL_SetWindowFullscreen(m_sdl_window.get(), SDL_WINDOW_FULLSCREEN) != 0)
+        if (SDL_SetWindowFullscreen(m_sdl_window.get(), true) == false)
         {
           log_warning << "failed to switch to fullscreen mode: "
                       << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "

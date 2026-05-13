@@ -41,6 +41,9 @@ Config::Config() :
   profile(1),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
+  fullscreen_refresh_rate_numerator(0),
+  fullscreen_refresh_rate_denominator(0),
+  fullscreen_pixel_density(0),
   window_size(1280, 800),
   window_resizable(true),
   aspect_size(0, 0), // Auto detect.
@@ -324,6 +327,9 @@ Config::load()
       fullscreen_size = Size(0, 0);
     }
     config_video_mapping->get("fullscreen_refresh_rate", fullscreen_refresh_rate);
+    config_video_mapping->get("fullscreen_refresh_rate_numerator", fullscreen_refresh_rate_numerator);
+    config_video_mapping->get("fullscreen_refresh_rate_denominator", fullscreen_refresh_rate_denominator);
+    config_video_mapping->get("fullscreen_pixel_density", fullscreen_pixel_density);
 
     config_video_mapping->get("window_width",  window_size.width);
     config_video_mapping->get("window_height", window_size.height);
@@ -512,6 +518,9 @@ Config::save()
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);
   writer.write("fullscreen_refresh_rate", fullscreen_refresh_rate);
+  writer.write("fullscreen_refresh_rate_numerator", fullscreen_refresh_rate_numerator);
+  writer.write("fullscreen_refresh_rate_denominator", fullscreen_refresh_rate_denominator);
+  writer.write("fullscreen_pixel_density", fullscreen_pixel_density);
 
   writer.write("window_width",  window_size.width);
   writer.write("window_height", window_size.height);

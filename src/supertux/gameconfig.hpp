@@ -52,7 +52,15 @@ public:
   Size fullscreen_size;
 
   /** refresh rate for use in fullscreen, 0 for auto */
-  int fullscreen_refresh_rate;
+  float fullscreen_refresh_rate;
+
+  /** refresh rate numerator, because as of SDL3, it wants it like this. */
+  int fullscreen_refresh_rate_numerator;
+
+  /** refresh rate denominator, because as of SDL3, it wants it like this. */
+  int fullscreen_refresh_rate_denominator;
+
+  float fullscreen_pixel_density;
 
   /** the width/height of the window managers window */
   Size window_size;
