@@ -244,13 +244,6 @@ OptionsMenu::refresh()
       add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
         .set_help(_("Automatically pause the game when the window loses focus"));
 
-      // Note: there were complaints about Wayldn for steam (i think from the devs?), so it's off for now.
-#if (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-     defined(__OPENBSD) || defined(__NetBSD)) && !(defined(STEAM_BUILD) || defined(__ANDROID__) || defined(FLATPAK))
-      add_toggle(MNID_PREFER_WAYLAND, _("Prefer Wayland"), &g_config->prefer_wayland)
-        .set_help(_("If you experience any issues with Nvidia cards, your window border, or anything you believe is due to Wayland, disable this. (Requires restart)"));
-#endif
-
 #ifndef HIDE_NONMOBILE_OPTIONS
       add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
 

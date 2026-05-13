@@ -98,9 +98,6 @@ public:
   bool invert_wheel_y;
   bool max_viewport;
 
-  /** Prefer the wayland session. Depending on the platform, this may not be used. */
-  bool prefer_wayland;
-
   /** Toggles fancy graphical effects like displacement or blur (primarily for the GL backend) */
   bool fancy_gfx;
 
