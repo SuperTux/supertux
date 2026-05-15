@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include "audio/openal_sound_source.hpp"
 
 class SoundFile;
@@ -37,6 +39,8 @@ public:
   virtual void resume() override;
   virtual void update() override;
   virtual void set_looping(bool looping_) override { m_looping = looping_; }
+  virtual void set_gain(float gain) override;
+  virtual void set_volume(float gain) override;
 
   void set_sound_file(std::unique_ptr<SoundFile> newfile);
 
