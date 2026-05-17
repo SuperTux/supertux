@@ -78,12 +78,12 @@ jobs:
             mkdir out
             make install DESTDIR="./out" VERBOSE=1
             cd out/usr
-            echo -e '#!/bin/sh   \
-            export DIRNAME="$(dirname "$(readlink -f "$0")")"   \
-            export SYSTEM_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"   \
-            cd "$DIRNAME"   \
-            export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIRNAME/lib/"   \
-            "$DIRNAME/bin/supertux2"   \
+            echo -e '#!/bin/sh
+            export DIRNAME="$(dirname "$(readlink -f "$0")")"
+            export SYSTEM_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
+            cd "$DIRNAME"
+            export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIRNAME/lib/"
+            "$DIRNAME/bin/supertux2"
             "$@"' > run.sh
             chmod +x run.sh
             echo '$ cat ./run.sh'
