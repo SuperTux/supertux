@@ -36,8 +36,13 @@ class GameManager final : public Currenton<GameManager>
 {
 public:
   GameManager();
-  
+
   void save();
+
+  void ensure_savegame_for_profile();
+  void ensure_title_screen_savegame();
+
+  static Savegame* get_active_savegame();
 
   worldmap::WorldMap* create_worldmap_instance(const World& world, const std::string& worldmap_filename = "",
                                                const std::string& sector = "", const std::string& spawnpoint = "");
@@ -53,10 +58,10 @@ public:
 
 public:
   std::unique_ptr<Savegame> m_savegame;
-  
+
 private:
   std::unique_ptr<Level>    m_current_level;
-  
+
   // Must keep stringstream in memory or else GameSession can't restart.
   std::stringstream m_levelstream;
 
