@@ -18,13 +18,14 @@
 #pragma once
 
 #include <SDL.h>
-#include <vector>
+#include <map>
+#include <optional>
 #include <unordered_map>
 
 #include "control/controller.hpp"
+#include "control/joystick_config.hpp"
 
 class InputManager;
-class JoystickConfig;
 
 
 /**
@@ -37,14 +38,22 @@ class JoystickManager final
   friend class KeyboardManager;
 
 public:
-  JoystickManager(InputManager* parent, JoystickConfig& joystick_config);
+  struct PlayerControl
+  {
+    int player_id;
+    Control control;
+  };
+
+public:
+  JoystickManager(InputManager* parent,
+                  std::map<int, JoystickConfig>& joystick_configs);
   ~JoystickManager();
 
   void process_hat_event(const SDL_JoyHatEvent& jhat);
   void process_axis_event(const SDL_JoyAxisEvent& jaxis);
   void process_button_event(const SDL_JoyButtonEvent& jbutton);
 
-  void bind_next_event_to(Control id);
+  void bind_next_event_to(int player_id, Control id);
 
   void set_joy_controls(SDL_JoystickID joystick, Control id, bool value);
 
@@ -65,8 +74,11 @@ public:
   inline std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
 
 private:
+  JoystickConfig& get_config_for_joystick(SDL_JoystickID instance_id);
+
   InputManager* parent;
-  JoystickConfig& m_joystick_config;
+
+  std::map<int, JoystickConfig>& m_joystick_configs;
 
   /// the number of buttons all joysticks have
   int min_joybuttons;
@@ -79,7 +91,7 @@ private:
 
   Uint8 hat_state;
 
-  int wait_for_joystick;
+  std::optional<PlayerControl> wait_for_joystick;
 
   std::unordered_map<SDL_Joystick*, int> joysticks;
 

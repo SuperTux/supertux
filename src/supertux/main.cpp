@@ -586,8 +586,7 @@ Main::launch_game(const CommandLineArguments& args)
 #endif
 
   s_timelog.log("controller");
-  m_input_manager.reset(new InputManager(g_config->keyboard_config, g_config->joystick_config));
-
+  m_input_manager.reset(new InputManager(g_config->keyboard_config, g_config->use_game_controller, g_config->joystick_configs));
   s_timelog.log("commandline");
 
 #ifndef __EMSCRIPTEN__

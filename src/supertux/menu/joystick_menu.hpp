@@ -23,21 +23,26 @@
 class JoystickMenu final : public Menu
 {
 public:
-  JoystickMenu(InputManager& input_manager);
+  JoystickMenu(InputManager& input_manager, int player_id = 0);
   ~JoystickMenu() override;
 
   void refresh() override;
-  void refresh_menu_item(Control id);
-
-  std::string get_button_name(int button) const;
   void menu_action(MenuItem& item) override;
 
 private:
-  void recreate_menu();
+  void refresh_control(const Control& control);
+  std::string get_button_name(int button) const;
+
+private:
+  enum MenuIDs {
+    MNID_JUMP_WITH_UP = static_cast<int>(Control::CONTROLCOUNT),
+    MNID_SCAN_JOYSTICKS,
+    MNID_AUTO_JOYSTICK_CFG
+  };
 
 private:
   InputManager& m_input_manager;
-  bool m_joysticks_available;
+  int m_player_id;
   bool m_auto_joystick_cfg;
 
 private:

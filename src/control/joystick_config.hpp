@@ -31,9 +31,6 @@ class JoystickConfig final
   friend class JoystickMenu;
 
 public:
-  using JoystickID = SDL_JoystickID;
-
-public:
   JoystickConfig();
 
   void print_joystick_mappings() const;
@@ -44,9 +41,9 @@ public:
 
   void unbind_joystick_control(Control c);
 
-  void bind_joybutton(JoystickID joy_id, int button, Control c);
-  void bind_joyaxis(JoystickID joy_id, int axis, Control c);
-  void bind_joyhat(JoystickID joy_id, int dir, Control c);
+  void bind_joybutton(int button, Control c);
+  void bind_joyaxis(int axis, Control c);
+  void bind_joyhat(int dir, Control c);
 
   void read(const ReaderMapping& joystick_mapping);
   void write(Writer& writer);
@@ -54,13 +51,8 @@ public:
 private:
   int m_dead_zone;
   bool m_jump_with_up_joy;
-  bool m_use_game_controller;
 
-  std::map<std::pair<JoystickID, int>, Control> m_joy_button_map;
-  std::map<std::pair<JoystickID, int>, Control> m_joy_axis_map;
-  std::map<std::pair<JoystickID, int>, Control> m_joy_hat_map;
-
-private:
-  JoystickConfig(const JoystickConfig&) = delete;
-  JoystickConfig& operator=(const JoystickConfig&) = delete;
+  std::map<int, Control> m_joy_button_map;
+  std::map<int, Control> m_joy_axis_map;
+  std::map<int, Control> m_joy_hat_map;
 };

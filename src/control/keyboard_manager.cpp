@@ -174,13 +174,13 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     return;
   }
 
-  if (m_parent->joystick_manager->wait_for_joystick >= 0)
+  if (m_parent->joystick_manager->wait_for_joystick.has_value())
   {
     if (event.keysym.sym == SDLK_ESCAPE)
     {
       m_parent->reset();
       MenuManager::instance().refresh();
-      m_parent->joystick_manager->wait_for_joystick = -1;
+      m_parent->joystick_manager->wait_for_joystick = std::nullopt;
     }
     return;
   }
