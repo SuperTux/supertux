@@ -38,6 +38,7 @@
 #include "supertux/timer.hpp"
 #include "supertux/level.hpp"
 #include "video/surface_ptr.hpp"
+#include "worldmap/level_tile.hpp"
 
 class CodeController;
 class DrawingContext;
@@ -79,10 +80,22 @@ private:
   };
 
 public:
-  GameSession(Savegame* savegame = nullptr, Statistics* statistics = nullptr);
-  GameSession(Level* level, Savegame* savegame = nullptr, Statistics* statistics = nullptr);
-  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
-  GameSession(std::istream& istream, Savegame* savegame = nullptr, Statistics* statistics = nullptr);
+  GameSession(Savegame* savegame = nullptr, 
+              Statistics* statistics = nullptr, 
+              std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run = {}
+            );
+  GameSession(Level* level, Savegame* savegame = nullptr, 
+              Statistics* statistics = nullptr, 
+              std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run = {} 
+            );
+  GameSession(const std::string& levelfile, Savegame& savegame, 
+              Statistics* statistics = nullptr, 
+              std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run = {} 
+            );
+  GameSession(std::istream& istream, Savegame* savegame = nullptr, 
+              Statistics* statistics = nullptr, 
+              std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run = {} 
+            );
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -206,6 +219,7 @@ private:
   float m_play_time; /**< total time in seconds that this session ran interactively */
 
   bool m_levelintro_shown; /**< true if the LevelIntro screen was already shown */
+  std::vector<worldmap::LevelTile::GhostRunPoint> m_best_ghost_run;
   bool m_skip_intro; /**< Manually skipped the intro from outside this class */
 
   int m_coins_at_start; /** How many coins does the player have at the start */
@@ -217,6 +231,7 @@ private:
   bool m_end_seq_started;
   bool m_pause_target_timer;
 
+  std::vector<worldmap::LevelTile::GhostRunPoint> m_current_run_path;
   std::unique_ptr<GameObject> m_current_cutscene_text;
 
   Timer m_endsequence_timer;
