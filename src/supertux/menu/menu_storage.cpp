@@ -37,6 +37,7 @@
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
+#include "supertux/menu/global_stats_menu.hpp"
 #include "supertux/menu/integrations_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
@@ -94,6 +95,9 @@ MenuStorage::create(MenuId menu_id)
 
     case PROFILE_MENU:
       return std::make_unique<ProfileMenu>();
+
+    case GLOBAL_STATS_MENU:
+      return std::make_unique<GlobalStatsMenu>();
 
     case KEYBOARD_MENU:
       return std::unique_ptr<Menu>(new KeyboardMenu(*InputManager::current()));

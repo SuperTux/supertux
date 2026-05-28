@@ -58,7 +58,8 @@ public:
   size_t solved_level_count() const;
 
   /** Load worldmap state from squirrel state table */
-  void load_state();
+  void load_state(bool create_missing = true);
+  void load_state(WorldMapSector& sector, bool create_missing = true);
 
   /** Save worldmap state to squirrel state table */
   void save_state();

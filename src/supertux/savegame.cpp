@@ -38,6 +38,40 @@
 
 namespace {
 
+void merge_level_state(LevelState& into, const LevelState& from)
+{
+  into.solved = into.solved || from.solved;
+  into.perfect = into.perfect || from.perfect;
+  into.coins = std::max(into.coins, from.coins);
+  into.tuxdolls = std::max(into.tuxdolls, from.tuxdolls);
+  into.secrets = std::max(into.secrets, from.secrets);
+  if (into.time == 0.0f)
+    into.time = from.time;
+  else if (from.time > 0.0f)
+    into.time = std::min(into.time, from.time);
+  into.has_statistics = into.has_statistics || from.has_statistics;
+}
+
+void merge_level_states(std::vector<LevelState>& into, const std::vector<LevelState>& from)
+{
+  for (const auto& in_state : from)
+  {
+    auto it = std::find_if(into.begin(), into.end(),
+                           [&in_state](const LevelState& state)
+                           {
+                             return state.filename == in_state.filename;
+                           });
+    if (it != into.end())
+    {
+      merge_level_state(*it, in_state);
+    }
+    else
+    {
+      into.push_back(in_state);
+    }
+  }
+}
+
 std::vector<LevelState> get_level_states(ssq::Table& levels)
 {
   std::vector<LevelState> results;
@@ -51,6 +85,19 @@ std::vector<LevelState> get_level_states(ssq::Table& levels)
       level_state.filename = key;
       table.get("solved", level_state.solved);
       table.get("perfect", level_state.perfect);
+
+      try
+      {
+        const ssq::Table statistics = table.findTable("statistics");
+        statistics.get("coins-collected", level_state.coins);
+        statistics.get("tuxdolls-collected", level_state.tuxdolls);
+        statistics.get("secrets-found", level_state.secrets);
+        statistics.get("time-needed", level_state.time);
+        level_state.has_statistics = true;
+      }
+      catch (const ssq::NotFoundException&)
+      {
+      }
 
       results.push_back(std::move(level_state));
     }
@@ -359,6 +406,7 @@ WorldmapState
 Savegame::get_worldmap_state(const std::string& name)
 {
   WorldmapState result;
+  const std::string canonical_name = physfsutil::realpath(name);
 
   if (Editor::current())
     log_warning << "Savegame::get_worldmap_state called while the editor is active" << std::endl;
@@ -368,15 +416,39 @@ Savegame::get_worldmap_state(const std::string& name)
     ssq::Table worlds = m_state_table.getOrCreateTable("worlds");
 
     // if a non-canonical entry is present, replace them with a canonical one
-    if (name != "/levels/world2/worldmap.stwm")
+    if (canonical_name != "/levels/world2/worldmap.stwm")
     {
-      std::string old_map_filename = name.substr(1);
+      const std::string old_map_filename = canonical_name.substr(1);
       if (worlds.hasEntry(old_map_filename.c_str()))
-        worlds.rename(old_map_filename.c_str(), name.c_str());
+        worlds.rename(old_map_filename.c_str(), canonical_name.c_str());
     }
 
-    ssq::Table levels = worlds.getOrCreateTable(name.c_str()).getOrCreateTable("levels");
-    result.level_states = get_level_states(levels);
+    ssq::Table worldmap = worlds.getOrCreateTable(canonical_name.c_str());
+
+    if (worldmap.hasEntry("levels"))
+    {
+      ssq::Table levels = worldmap.findTable("levels");
+      merge_level_states(result.level_states, get_level_states(levels));
+    }
+
+    for (const auto& [key, value] : worldmap.convertRaw())
+    {
+      if (key == "levels")
+        continue;
+
+      try
+      {
+        ssq::Table sector = value.toTable();
+        if (sector.hasEntry("levels"))
+        {
+          ssq::Table levels = sector.findTable("levels");
+          merge_level_states(result.level_states, get_level_states(levels));
+        }
+      }
+      catch (const ssq::TypeException&)
+      {
+      }
+    }
   }
   catch(const std::exception& err)
   {
@@ -430,7 +502,13 @@ Savegame::get_levelset_state(const std::string& basedir)
 void
 Savegame::set_levelset_state(const std::string& basedir,
                              const std::string& level_filename,
-                             bool solved)
+                             bool solved,
+                             bool perfect,
+                             int coins,
+                             int tuxdolls,
+                             int secrets,
+                             float time,
+                             bool has_statistics)
 {
   LevelsetState state = get_levelset_state(basedir);
 
@@ -446,6 +524,28 @@ Savegame::set_levelset_state(const std::string& basedir,
     bool old_solved = false;
     level.get("solved", old_solved);
     level.set("solved", solved || old_solved);
+
+     bool old_perfect = false;
+     level.get("perfect", old_perfect);
+     level.set("perfect", perfect || old_perfect);
+
+     if (has_statistics)
+     {
+       LevelState old_state = state.get_level_state(level_filename);
+       level.remove("statistics");
+       ssq::Table statistics = level.addTable("statistics");
+       statistics.set("coins-collected", std::max(old_state.coins, coins));
+       statistics.set("tuxdolls-collected", std::max(old_state.tuxdolls, tuxdolls));
+       statistics.set("secrets-found", std::max(old_state.secrets, secrets));
+
+       float best_time = old_state.time;
+       if (best_time == 0.0f)
+         best_time = time;
+       else if (time > 0.0f)
+         best_time = std::min(best_time, time);
+
+       statistics.set("time-needed", best_time);
+     }
   }
   catch(const std::exception& err)
   {
