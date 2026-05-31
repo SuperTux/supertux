@@ -116,8 +116,13 @@ CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const Addon
   }
 
   CheevosUnlocked& unlocked = it->second.unlocked_local;
-  CheevoUnlocked& data = unlocked.at(cheevo);
-  data.time = std::time(nullptr);
+  auto datait = unlocked.find(cheevo);
+  if (datait == unlocked.end())
+  {
+    datait = unlocked.emplace(cheevo, CheevoUnlocked{}).first;
+  }
+
+  datait->second.time = std::time(nullptr);
 
   try
   {
