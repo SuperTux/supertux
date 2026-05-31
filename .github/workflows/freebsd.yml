@@ -86,7 +86,7 @@ jobs:
             "$DIRNAME/bin/supertux2"
             "$@"' > run.sh
             chmod +x run.sh
-            echo '$ cat ./run.sh'
+            echo '# cat ./run.sh'
             cat ./run.sh
             cd lib
             cp /usr/local/lib/libopenal.so ./
