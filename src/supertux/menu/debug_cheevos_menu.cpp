@@ -32,17 +32,19 @@ DebugCheevosMenu::DebugCheevosMenu():
 
   {
     Profile& profile = ProfileManager::current()->get_current_profile();
-    std::vector<bool> const& cheevos = g_cheevos.get_unlocked(profile);
-    const std::size_t cheevocount = sizeof(g_cheevo_data) / sizeof(g_cheevo_data[0]);
+    CheevosUnlocked const& cheevos = g_cheevos.get_unlocked(profile);
 
-    for (int i = 0; i < cheevocount; ++i) {
-      const CheevoData& cheevodata = g_cheevo_data[i];
+    auto it = g_cheevo_data.begin();
+    for (int i = 0; it != g_cheevo_data.end(); it++, i++) {
+      const CheevoId& id = it->first;
+
       // TODO: handle resetting cheevo
-      add_toggle(i, cheevodata.get_name(),
-                 [i, &cheevos]() -> bool {
-                   return (cheevos.size() > i) ? cheevos[i] : false;
+      add_toggle(i, it->second.get_name(),
+                 [id, &cheevos]() -> bool {
+                   auto findit = cheevos.find(id); // twist it! squeeze it!
+                   return findit != cheevos.end() && findit->second.unlocked();
                  },
-                 [i, &profile](bool) { g_cheevos.unlock(i, profile); });
+                 [id, &profile](bool) { g_cheevos.unlock(id, profile); });
     }
   }
 

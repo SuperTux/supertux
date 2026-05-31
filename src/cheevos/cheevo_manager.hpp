@@ -35,7 +35,7 @@ public:
   void init();
   void deinit();
   void unlock(CheevoId cheevo, const Profile& profile, const Addon* addon = nullptr);
-  std::vector<bool> const& get_unlocked(const Profile& profile, const Addon* addon = nullptr);
+  CheevosUnlocked const& get_unlocked(const Profile& profile, const Addon* addon = nullptr);
 
   void reset_all_local(const Profile& profile, const Addon* addon = nullptr);
 
@@ -46,13 +46,13 @@ private:
   void init_local();
   void deinit_local();
   void unlock_local(CheevoId cheevo, const Profile& profile, const Addon* addon = nullptr);
-  std::vector<bool> const& get_unlocked_local(const Profile& profile, const Addon* addon = nullptr);
+  CheevosUnlocked const& get_unlocked_local(const Profile& profile, const Addon* addon = nullptr);
 
 private:
   struct CheevoProfileData {
     // Local cheevo provider members
     std::string filename;
-    std::vector<bool> unlocked_local;
+    CheevosUnlocked unlocked_local;
   };
 
   std::unordered_map<int, CheevoProfileData> m_profiledata;

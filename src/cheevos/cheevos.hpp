@@ -17,16 +17,20 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 #include <cinttypes>
+#include <ctime>
 
 #include "util/gettext.hpp"
 
-enum CheevoRarity : std::uint8_t {
+enum CheevoRarity : std::uint8_t
+{
   CHEEVO_RARITY_NORMAL,
   CHEEVO_RARITY_RARE
 };
 
-struct CheevoData {
+struct CheevoData
+{
   std::string name;
   std::string requirement;
   std::string image;
@@ -41,16 +45,19 @@ struct CheevoData {
   }
 };
 
-using CheevoId = unsigned;
-
-enum Cheevo : CheevoId {
-  CHEEVO_BEAT_YETI,
-  CHEEVO_BEAT_GHOSTTREE
-};
-
 // Don't expect these strings to be translated.
 // In order to get the real information, use the CheevoData::get_* methods.
-static const CheevoData g_cheevo_data[] = {
-  {_("Angry Fuzzball"),   _("Beat the Yeti"),       "images/engine/cheevos/cool.png", CHEEVO_RARITY_NORMAL},
-  {_("Nature's Vaccine"), _("Beat the Ghost Tree"), "images/engine/cheevos/cool.png", CHEEVO_RARITY_RARE  },
+static const std::unordered_map<std::string, CheevoData> g_cheevo_data = {
+  {"beat-yeti", {_("Angry Fuzzball"),   _("Beat the Yeti"),       "images/engine/cheevos/cool.png", CHEEVO_RARITY_NORMAL}},
+  {"beat-tree", {_("Nature's Vaccine"), _("Beat the Ghost Tree"), "images/engine/cheevos/cool.png", CHEEVO_RARITY_RARE  }},
 };
+
+using CheevoId = std::string;
+
+struct CheevoUnlocked {
+  std::time_t time;
+
+  inline bool unlocked() const { return time != 0; }
+};
+
+using CheevosUnlocked = std::unordered_map<CheevoId, CheevoUnlocked>;

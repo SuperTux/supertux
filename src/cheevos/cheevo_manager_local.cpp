@@ -18,36 +18,60 @@
 
 #include <cmath>
 #include <cinttypes>
-#include <sstream>
 #include <cstring>
+#include <optional>
 
+#include "util/reader_mapping.hpp"
+#include "util/reader_document.hpp"
+#include "util/writer.hpp"
 #include "util/log.hpp"
 
 static void
-read_unlocked_cheevos(std::istream& stream, std::vector<bool>& out)
+read_unlocked_cheevos(ReaderDocument& doc, CheevosUnlocked& out)
 {
-  std::size_t /*size, startpos,*/ cheevobytes_size = 0;
-  std::uint16_t cheevocount = 0;
-  char* cheevobytes = nullptr;
-
-  if (stream.eof())
-    return;
-
-  stream.read(reinterpret_cast<char*>(&cheevocount), sizeof(cheevocount));
-  cheevobytes_size = std::ceil(cheevocount / 8.f);
-
-  cheevobytes = new char[cheevobytes_size];
-  std::memset(cheevobytes, 0, cheevobytes_size);
-  // stream.seekg(startpos);
-  stream.read(cheevobytes, cheevobytes_size);
-
-  out.reserve(cheevocount * 8);
-  for (int i = 0; i < out.capacity(); ++i)
+  ReaderObject root = doc.get_root();
+  if (root.get_name() != "supertux-cheevos")
   {
-    out.push_back((cheevobytes[i / 8] & 1 << (i % 8)) != 0);
+    throw std::runtime_error("Cheevos file is not of type supertux-cheevos.");
   }
 
-  delete[] cheevobytes;
+  ReaderMapping mapping = root.get_mapping();
+  std::optional<ReaderMapping> cheevos;
+  if (!mapping.get("cheevos", cheevos))
+  {
+    throw std::runtime_error("Cheevos file does not contain cheevos list.");
+  }
+
+  auto iter = cheevos->get_iter();
+  while (iter.next()) {
+    CheevoUnlocked unlocked;
+
+    std::string timestring;
+    cheevos->get(iter.get_key().c_str(), timestring);
+
+    if constexpr (sizeof(std::time_t) == 8)
+      unlocked.time = std::stoll(timestring);
+    else
+      unlocked.time = std::stol(timestring);
+
+    out.emplace(iter.get_key(), unlocked);
+  }
+}
+
+static void
+write_unlocked_cheevos(Writer& writer, CheevosUnlocked const& in) {
+  writer.start_list("supertux-cheevos");
+  writer.start_list("cheevos");
+
+  for (auto& [id, cheevo] : in) {
+    if (!cheevo.unlocked())
+      continue;
+
+    writer.write(id, std::to_string(cheevo.time));
+  }
+
+  writer.end_list("cheevos");
+  writer.end_list("supertux-cheevos");
 }
 
 void
@@ -63,23 +87,15 @@ CheevoManager::init_local()
 
     try
     {
-      IFileStream istream(data.filename);
-      read_unlocked_cheevos(istream, data.unlocked_local);
+      auto doc = ReaderDocument::from_file(data.filename);
+      read_unlocked_cheevos(doc, data.unlocked_local);
     }
     catch (std::runtime_error&)
     {
-      // File probably does not exist. Create it now.
-      // This is here in order to prevent lag spikes.
-      PHYSFS_File* file = PHYSFS_openWrite(data.filename.c_str());
-      if (file == nullptr)
-      {
-        std::stringstream msg;
-        msg << "Couldn't open file '" << data.filename << "': "
-            << physfsutil::get_last_error();
-        throw std::runtime_error(msg.str());
-      }
+      // File probably does not exist. Create it now in order to prevent future lag spikes.
 
-      PHYSFS_close(file);
+      Writer writer(data.filename);
+      write_unlocked_cheevos(writer, data.unlocked_local);
     }
   }
 }
@@ -95,55 +111,27 @@ CheevoManager::unlock_local(CheevoId cheevo, const Profile& profile, const Addon
   auto it = m_profiledata.find(profile.get_id());
   if (it == m_profiledata.end())
   {
-    log_warning << "Unable to unlock cheevo " " in profile " << profile.get_id() << ": Local cheevo store unavailable.";
+    log_warning << "Unable to unlock cheevo " << cheevo << " in profile " << profile.get_id() << ": Local cheevo store unavailable.";
     return;
   }
 
-  std::vector<bool>& unlocked = it->second.unlocked_local;
-  if (cheevo >= unlocked.size())
-    unlocked.resize(cheevo + 1);
-  unlocked[cheevo] = true;
+  CheevosUnlocked& unlocked = it->second.unlocked_local;
+  CheevoUnlocked& data = unlocked.at(cheevo);
+  data.time = std::time(nullptr);
 
-  PHYSFS_File* file = PHYSFS_openWrite(it->second.filename.c_str());
-  if (file == nullptr)
+  try
   {
-    std::stringstream msg;
-    msg << "Couldn't open file '" << it->second.filename << "': "
-        << physfsutil::get_last_error();
-    throw std::runtime_error(msg.str());
+    Writer writer(it->second.filename);
+    write_unlocked_cheevos(writer, unlocked);
   }
-
-  PHYSFS_seek(file, 0);
-
-  const std::uint16_t cheevocount = std::min(unlocked.size(), static_cast<std::size_t>(UINT16_MAX));
-  PHYSFS_writeBytes(file, &cheevocount, sizeof(cheevocount));
-
-  char cheevobyte = 0, bit = 0;
-  for (int i = 0; i < cheevocount; ++i)
+  catch (std::runtime_error& e)
   {
-    bit = i % 8;
-    if (unlocked[i])
-      cheevobyte |= 1 << bit;
-
-    if (bit == 7)
-    {
-      // Last bit
-      PHYSFS_writeBytes(file, &cheevobyte, 1);
-      cheevobyte = 0;
-    }
+    log_warning << "Unable to unlock cheevo " << cheevo << " in profile " << profile.get_id() << ": " << e.what();
+    return;
   }
-
-  // Write leftover bits
-  if (bit != 7)
-  {
-    PHYSFS_writeBytes(file, &cheevobyte, 1);
-  }
-
-  PHYSFS_flush(file);
-  PHYSFS_close(file);
 }
 
-std::vector<bool> const&
+CheevosUnlocked const&
 CheevoManager::get_unlocked_local(const Profile& profile, const Addon* addon)
 {
   auto it = m_profiledata.find(profile.get_id());
@@ -170,17 +158,14 @@ CheevoManager::reset_all_local(const Profile& profile, const Addon* addon)
   profiledata.unlocked_local.erase(profiledata.unlocked_local.begin(),
                                    profiledata.unlocked_local.end());
 
-  PHYSFS_File* file = PHYSFS_openWrite(profiledata.filename.c_str());
-  if (file == nullptr)
+  try
   {
-    std::stringstream msg;
-    msg << "Couldn't open file '" << profiledata.filename << "': "
-        << physfsutil::get_last_error();
-    throw std::runtime_error(msg.str());
+    Writer writer(it->second.filename);
+    write_unlocked_cheevos(writer, profiledata.unlocked_local);
   }
-
-  // Write nothing
-
-  PHYSFS_flush(file);
-  PHYSFS_close(file);
+  catch (std::runtime_error& e)
+  {
+    log_warning << "Unable to reset cheevos in profile " << profile.get_id() << ": " << e.what();
+    return;
+  }
 }
