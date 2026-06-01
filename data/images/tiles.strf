@@ -21,7 +21,7 @@
 
   ;; next-id: 7949
   ;; free/skipped ids (please use before any other):
-  ;; 4642-4660, 5061-5089, 5268-5283, 5453-5522
+  ;; 4644-4660, 5062-5084, 5268-5283, 5457-5521
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
   (tilegroup
