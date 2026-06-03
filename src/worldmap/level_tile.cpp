@@ -118,9 +118,9 @@ std::vector<LevelTile::GhostRunPoint> deserialize_ghost_run(const std::string& d
 } // namespace
 
 void
-LevelTile::set_best_ghost_run(std::vector<GhostRunPoint> best_ghost_run)
+LevelTile::set_best_ghost_run(const std::vector<GhostRunPoint>& best_ghost_run)
 {
-  m_best_ghost_run = std::move(best_ghost_run);
+  m_best_ghost_run = best_ghost_run;
 }
 
 void

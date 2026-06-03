@@ -82,19 +82,19 @@ private:
 public:
   GameSession(Savegame* savegame = nullptr, 
               Statistics* statistics = nullptr, 
-              std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run = {}
+              const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run = {}
             );
   GameSession(Level* level, Savegame* savegame = nullptr, 
               Statistics* statistics = nullptr, 
-              std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run = {} 
+              const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run = {} 
             );
   GameSession(const std::string& levelfile, Savegame& savegame, 
               Statistics* statistics = nullptr, 
-              std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run = {} 
+              const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run = {} 
             );
   GameSession(std::istream& istream, Savegame* savegame = nullptr, 
               Statistics* statistics = nullptr, 
-              std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run = {} 
+              const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run = {} 
             );
 
   virtual void draw(Compositor& compositor) override;

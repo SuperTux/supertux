@@ -61,7 +61,7 @@ public:
 
   inline const std::vector<GhostRunPoint>& get_best_ghost_run() const { return m_best_ghost_run; }
   inline bool has_best_ghost_run() const { return !m_best_ghost_run.empty(); }
-  void set_best_ghost_run(std::vector<GhostRunPoint> best_ghost_run);
+  void set_best_ghost_run(const std::vector<GhostRunPoint>& best_ghost_run);
   void serialize_best_ghost_run(ssq::Table& table) const;
   void unserialize_best_ghost_run(const ssq::Table& table);
 

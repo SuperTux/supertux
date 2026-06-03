@@ -64,7 +64,7 @@ static const float TELEPORT_FADE_TIME = 1.0f;
 static const float TELEPORT_FADE_TIME_CIRCLE = 1.43f;
 static const float TELEPORT_SPEEDUP = 3.18f;
 
-GameSession::GameSession(Savegame* savegame, Statistics* statistics, std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run) :
+GameSession::GameSession(Savegame* savegame, Statistics* statistics, const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run) :
   reset_button(false),
   reset_checkpoint_button(false),
   m_prevent_death(false),
@@ -97,7 +97,7 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics, std::vector
   m_end_seq_started(false),
   m_pause_target_timer(false),
   m_current_run_path(),
-  m_best_ghost_run(std::move(best_ghost_run)),
+  m_best_ghost_run(best_ghost_run),
   m_current_cutscene_text(),
   m_endsequence_timer()
 {
@@ -110,20 +110,20 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics, std::vector
 }
 
 
-GameSession::GameSession(Level* level, Savegame* savegame, Statistics* statistics, std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run) :
-  GameSession{savegame, statistics, std::move(best_ghost_run)}
+GameSession::GameSession(Level* level, Savegame* savegame, Statistics* statistics, const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run) :
+  GameSession{savegame, statistics, best_ghost_run}
 {
   m_level = level;
 }
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics, std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run) :
-  GameSession{&savegame, statistics, std::move(best_ghost_run)}
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics, const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run) :
+  GameSession{&savegame, statistics, best_ghost_run}
 {
   m_levelfile = levelfile_;
 }
 
-GameSession::GameSession(std::istream& istream_, Savegame* savegame, Statistics* statistics, std::vector<worldmap::LevelTile::GhostRunPoint> best_ghost_run) :
-  GameSession{savegame, statistics, std::move(best_ghost_run)}
+GameSession::GameSession(std::istream& istream_, Savegame* savegame, Statistics* statistics, const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run) :
+  GameSession{savegame, statistics, best_ghost_run}
 {
   m_levelstream = &istream_;
 }

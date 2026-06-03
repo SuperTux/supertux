@@ -509,7 +509,7 @@ WorldMapSector::finished_level(Level* gamelevel, const std::vector<LevelTile::Gh
       best_ghost_run.push_back({timestamp, frame.position, frame.action});
       timestamp += sample_interval;
     }
-    level->set_best_ghost_run(std::move(best_ghost_run));
+    level->set_best_ghost_run(best_ghost_run);
   }
 
   if (level->get_statistics().completed(level->get_target_time())) {
