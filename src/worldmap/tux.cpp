@@ -308,7 +308,8 @@ Tux::try_continue_walking(float dt_sec)
         m_worldmap->set_passive_message({}, 0.0f);
       }
 
-      if (worldmap_sector->at_object<LevelTile>() != nullptr){
+      if (worldmap_sector->at_object<LevelTile>() != nullptr)
+      {
         m_last_level_tile_pos = m_tile_pos;
         m_last_level_back_direction = m_back_direction;
       }
