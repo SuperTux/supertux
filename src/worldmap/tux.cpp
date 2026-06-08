@@ -304,8 +304,9 @@ Tux::try_continue_walking(float dt_sec)
       (teleporter) ||
       m_ghost_mode)
   {
-      if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message()) {
-        m_worldmap->set_passive_message({}, 0.0f);
+      if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message())
+      {
+        m_worldmap->set_passive_message("", 0.0f);
       }
 
       if (worldmap_sector->at_object<LevelTile>() != nullptr)
