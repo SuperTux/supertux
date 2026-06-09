@@ -62,7 +62,7 @@ public:
   static std::string character_to_string(CharacterType type);
 
 private:
-  void initialize_profiles();
+  void load_profiles(const std::string& filename);
 
 private:
   std::map<std::string, CharacterProfile> m_profiles;

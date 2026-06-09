@@ -16,46 +16,57 @@
 
 #include "object/character_registry.hpp"
 #include "object/character_profile.hpp"
+#include "util/log.hpp"
+#include "util/reader_collection.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+
+#include <stdexcept>
 
 CharacterRegistry::CharacterRegistry() :
   m_default_character_id("tux")
 {
-  initialize_profiles();
+  load_profiles("characters.stlst");
 }
 
-void CharacterRegistry::initialize_profiles()
+void CharacterRegistry::load_profiles(const std::string& filename)
 {
-  const struct {
-    const char* id;
-    const char* name;
-    const char* sprite;
-    float max_speed;
-    float multiplier;
-    float accel;
-    float decel;
-    float jump;
-    float fall;
-    float width;
-    float height;
-  } characters[] = {
-    {"tux", "Tux", "tux.sprite", 230.0f, 1.0f, 200.0f, 200.0f, 8.4f, 20.0f, 31.8f, 63.8f},
-    {"penny", "Penny", "penny.sprite", 230.0f, 1.0f, 200.0f, 200.0f, 8.4f, 20.0f, 31.8f, 63.8f},
-    {"larry", "Larry", "larry.sprite", 230.0f, 1.0f, 200.0f, 200.0f, 8.4f, 20.0f, 31.8f, 63.8f}
-  };
+  auto doc = ReaderDocument::from_file(filename);
+  auto root = doc.get_root();
+  if (root.get_name() != "supertux-playerlist")
+  {
+    throw std::runtime_error("File is not a supertux-playerlist file: " + filename);
+  }
 
-  for (const auto& ch : characters) {
+  auto collection = root.get_collection();
+  for (const auto& obj : collection.get_objects())
+  {
+    if (obj.get_name() != "player")
+    {
+      log_warning << "Unknown token '" << obj.get_name() << "' in player list" << std::endl;
+      continue;
+    }
+
     CharacterProfile profile;
-    profile.id = ch.id;
-    profile.name = ch.name;
-    profile.sprite_path = ch.sprite;
-    profile.max_speed = ch.max_speed;
-    profile.max_speed_multiplier = ch.multiplier;
-    profile.acceleration = ch.accel;
-    profile.deceleration = ch.decel;
-    profile.jump_force = ch.jump;
-    profile.fall_acceleration = ch.fall;
-    profile.hitbox_width = ch.width;
-    profile.hitbox_height = ch.height;
+    auto mapping = obj.get_mapping();
+    mapping.get("id", profile.id);
+    mapping.get("name", profile.name);
+    mapping.get("sprite", profile.sprite_path);
+    mapping.get("max-speed", profile.max_speed);
+    mapping.get("max-speed-multiplier", profile.max_speed_multiplier);
+    mapping.get("acceleration", profile.acceleration);
+    mapping.get("deceleration", profile.deceleration);
+    mapping.get("jump-force", profile.jump_force);
+    mapping.get("fall-acceleration", profile.fall_acceleration);
+    mapping.get("hitbox-width", profile.hitbox_width);
+    mapping.get("hitbox-height", profile.hitbox_height);
+
+    if (profile.id.empty())
+    {
+      log_warning << "Skipping player entry with empty id in " << filename << std::endl;
+      continue;
+    }
+
     m_profiles[profile.id] = profile;
   }
 }
