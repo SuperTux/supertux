@@ -27,6 +27,7 @@
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "math/util.hpp"
+#include "object/character_registry.hpp"
 #include "math/random.hpp"
 #include "object/brick.hpp"
 #include "object/bullet.hpp"
@@ -70,19 +71,13 @@ const std::vector<std::string> IDLE_STAGES
   "idle"
 });
 
-/** acceleration in horizontal direction when walking
+/** acceleration in horizontal direction when running
  * (all accelerations are in  pixel/s^2) */
-const float WALK_ACCELERATION_X = 300;
-/** acceleration in horizontal direction when running */
 const float RUN_ACCELERATION_X = 400;
 /** acceleration when skidding */
 const float SKID_XM = 200;
 /** time of skidding in seconds */
 const float SKID_TIME = .3f;
-/** maximum walk velocity (pixel/s) */
-const float MAX_WALK_XM = 230;
-/** maximum run velocity (pixel/s) */
-const float MAX_RUN_XM = 320;
 /** bonus run velocity addition (pixel/s) */
 const float BONUS_RUN_XM = 80;
 /** maximum horizontal climb velocity */
@@ -157,8 +152,19 @@ const int MAX_ICE_BULLETS  = 2;
 
 } // namespace
 
-Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
-  MovingSprite({0, 0}, "images/creatures/tux/tux.sprite", 9001, COLGROUP_MOVING),
+std::string Player::get_sprite_path_for_character(CharacterType character_type)
+{
+  std::string character_id = CharacterRegistry::character_to_string(character_type);
+  if (auto* registry = CharacterRegistry::current()) {
+    const CharacterProfile& profile = registry->get_profile(character_id);
+    return "images/creatures/" + character_id + "/" + profile.sprite_path;
+  }
+  return "images/creatures/tux/tux.sprite";
+}
+
+Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id,
+               CharacterType character_type) :
+  MovingSprite({0, 0}, get_sprite_path_for_character(character_type), 9001, COLGROUP_MOVING),
   m_id(player_id),
   m_target(nullptr),
   m_deactivated(false),
@@ -186,6 +192,13 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_can_walljump(false),
   m_boost(0.f),
   m_speedlimit(0), //no special limit
+  m_max_walk_speed(230.0f),
+  m_max_run_speed(320.0f),
+  m_walk_acceleration(300.0f),
+  m_max_speed_multiplier(1.0f),
+  m_deceleration(200.0f),
+  m_jump_force(8.4f),
+  m_fall_acceleration(20.0f),
   m_velocity_override(),
   m_scripting_controller_old(nullptr),
   m_jump_early_apex(false),
@@ -267,6 +280,19 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
 
   m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
   m_col.set_physic_hint(m_physic);
+
+  // Load character profile and apply all physics attributes
+  std::string character_id = CharacterRegistry::character_to_string(character_type);
+  if (auto* registry = CharacterRegistry::current()) {
+    const CharacterProfile& profile = registry->get_profile(character_id);
+    m_max_walk_speed = profile.max_speed;
+    m_max_run_speed = profile.max_speed * 1.4f;
+    m_walk_acceleration = profile.acceleration;
+    m_max_speed_multiplier = profile.max_speed_multiplier;
+    m_deceleration = profile.deceleration;
+    m_jump_force = profile.jump_force;
+    m_fall_acceleration = profile.fall_acceleration;
+  }
 
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);
@@ -694,7 +720,7 @@ Player::update(float dt_sec)
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
-  if (fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) {
+  if (fabsf(m_physic.get_velocity_x()) > m_max_walk_speed) {
     m_col.set_width(RUNNING_TUX_WIDTH);
   }
   else {
@@ -1189,7 +1215,7 @@ Player::apply_friction()
     m_physic.set_acceleration_x(0);
     return;
   }
-  float friction = WALK_ACCELERATION_X;
+  float friction = m_walk_acceleration;
   if (m_on_ice && is_on_ground)
     //we need this or else sliding on ice will cause Tux to go on for a very long time
     friction *= (ICE_FRICTION_MULTIPLIER*(m_sliding ? 4.f : m_stone ? 5.f : 1.f));
@@ -1262,23 +1288,23 @@ Player::handle_horizontal_input()
 
   // do not run if we're holding something which slows us down
   if ( m_grabbed_object && m_grabbed_object->is_hampering() ) {
-    ax = dirsign * WALK_ACCELERATION_X;
+    ax = dirsign * m_walk_acceleration;
     // limit speed
-    if (vx >= MAX_WALK_XM && dirsign > 0) {
+    if (vx >= m_max_walk_speed && dirsign > 0) {
       ax = std::min(ax, -OVERSPEED_DECELERATION);
-    } else if (vx <= -MAX_WALK_XM && dirsign < 0) {
+    } else if (vx <= -m_max_walk_speed && dirsign < 0) {
       ax = std::max(ax, OVERSPEED_DECELERATION);
     }
   } else {
-    if ( vx * dirsign < MAX_WALK_XM ) {
-      ax = dirsign * WALK_ACCELERATION_X;
+    if ( vx * dirsign < m_max_walk_speed ) {
+      ax = dirsign * m_walk_acceleration;
     } else {
       ax = dirsign * RUN_ACCELERATION_X;
     }
     // limit speed
-    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((get_bonus() == BONUS_AIR) ? 1 : 0)) {
+    if (vx >= m_max_run_speed + BONUS_RUN_XM *((get_bonus() == BONUS_AIR) ? 1 : 0)) {
       ax = std::min(ax, -OVERSPEED_DECELERATION);
-    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM * ((get_bonus() == BONUS_AIR) ? 1 : 0)) {
+    } else if (vx <= -m_max_run_speed - BONUS_RUN_XM * ((get_bonus() == BONUS_AIR) ? 1 : 0)) {
       ax = std::max(ax, OVERSPEED_DECELERATION);
     }
   }
@@ -1503,9 +1529,9 @@ Player::handle_vertical_input()
       // jump a bit higher if we are running; else do a normal jump
       if (!m_can_walljump) {
         if (get_bonus() == BONUS_AIR)
-          do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
+          do_jump((fabsf(m_physic.get_velocity_x()) > m_max_walk_speed) ? -620.0f : -580.0f);
         else
-          do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
+          do_jump((fabsf(m_physic.get_velocity_x()) > m_max_walk_speed) ? -580.0f : -520.0f);
       }
     }
     //Stop the coyote timer only after calling do_jump, because do_jump also checks for the timer
@@ -1888,17 +1914,17 @@ Player::handle_input_ghost()
   float vy = 0;
   if (m_controller->hold(Control::LEFT)) {
     m_dir = Direction::LEFT;
-    vx -= MAX_RUN_XM * 2;
+    vx -= m_max_run_speed * 2;
   }
   if (m_controller->hold(Control::RIGHT)) {
     m_dir = Direction::RIGHT;
-    vx += MAX_RUN_XM * 2;
+    vx += m_max_run_speed * 2;
   }
   if (m_controller->hold(Control::UP)) {
-    vy -= MAX_RUN_XM * 2;
+    vy -= m_max_run_speed * 2;
   }
   if (m_controller->hold(Control::DOWN)) {
-    vy += MAX_RUN_XM * 2;
+    vy += m_max_run_speed * 2;
   }
   if (m_controller->hold(Control::ACTION)) {
     set_ghost_mode(false);
@@ -2284,7 +2310,7 @@ Player::draw(DrawingContext& context)
     }
     else
     {
-      if (std::abs(m_physic.get_velocity_x()) >= MAX_RUN_XM - 3)
+      if (std::abs(m_physic.get_velocity_x()) >= m_max_run_speed - 3)
         set_action(sa_prefix + "-run" + sa_postfix);
       else
         set_action(sa_prefix + "-walk" + sa_postfix);
@@ -2425,8 +2451,8 @@ Player::handle_collision_logic(const CollisionHit& hit)
       m_physic.set_velocity_y(.2f);
   }
 
-  if (m_stone && m_floor_normal.y == 0 && (((m_physic.get_velocity_x() < -MAX_RUN_XM) && hit.left) ||
-    ((m_physic.get_velocity_x() > MAX_RUN_XM) && hit.right)))
+  if (m_stone && m_floor_normal.y == 0 && (((m_physic.get_velocity_x() < -m_max_run_speed) && hit.left) ||
+    ((m_physic.get_velocity_x() > m_max_run_speed) && hit.right)))
   {
     m_physic.set_acceleration_x(0);
     m_physic.set_velocity_x(0);
