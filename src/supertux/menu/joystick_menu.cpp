@@ -17,57 +17,42 @@
 
 #include "supertux/menu/joystick_menu.hpp"
 
+#include <fmt/format.h>
 #include <sstream>
 
+#include "control/input_manager.hpp"
 #include "control/joystick_manager.hpp"
 #include "gui/item_controlfield.hpp"
 #include "gui/item_toggle.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
 
-namespace {
-
-enum {
-  MNID_JUMP_WITH_UP = static_cast<int>(Control::CONTROLCOUNT),
-  MNID_SCAN_JOYSTICKS,
-  MNID_AUTO_JOYSTICK_CFG
-};
-
-} // namespace
-
-JoystickMenu::JoystickMenu(InputManager& input_manager) :
+JoystickMenu::JoystickMenu(InputManager& input_manager, int player_id) :
   m_input_manager(input_manager),
-  m_joysticks_available(false),
+  m_player_id(player_id),
   m_auto_joystick_cfg(!m_input_manager.use_game_controller())
 {
-  recreate_menu();
-}
-
-JoystickMenu::~JoystickMenu()
-{}
-
-void
-JoystickMenu::recreate_menu()
-{
-  clear();
   add_label(_("Setup Joystick"));
   add_hl();
 
-  add_toggle(MNID_AUTO_JOYSTICK_CFG, _("Manual Configuration"),
+  if (m_player_id == 0)
+  {
+    add_toggle(MNID_AUTO_JOYSTICK_CFG, _("Manual Configuration"),
              &m_auto_joystick_cfg)
-    .set_help(_("Use manual configuration instead of SDL2's automatic GameController support"));
+      .set_help(_("Use manual configuration instead of SDL2's automatic GameController support"));
+      add_hl();
+  }
 
   if (m_input_manager.use_game_controller())
   {
-    m_joysticks_available = false;
+    add_inactive(_("Enable Manual Configuration to setup joysticks"));
   }
   else
   {
     if (m_input_manager.joystick_manager->get_num_joysticks() > 0)
     {
-      m_joysticks_available = true;
-
       add_controlfield(static_cast<int>(Control::UP),          _("Up"));
       add_controlfield(static_cast<int>(Control::DOWN),        _("Down"));
       add_controlfield(static_cast<int>(Control::LEFT),        _("Left"));
@@ -80,28 +65,51 @@ JoystickMenu::recreate_menu()
       add_controlfield(static_cast<int>(Control::PEEK_RIGHT),  _("Peek Right"));
       add_controlfield(static_cast<int>(Control::PEEK_UP),     _("Peek Up"));
       add_controlfield(static_cast<int>(Control::PEEK_DOWN),   _("Peek Down"));
-      if (g_config->developer_mode) {
-        add_controlfield(static_cast<int>(Control::CONSOLE), _("Console"));
+
+      if (m_player_id == 0 && g_config->developer_mode) {
+        add_controlfield(static_cast<int>(Control::CONSOLE),    _("Console"));
         add_controlfield(static_cast<int>(Control::CHEAT_MENU), _("Cheat Menu"));
         add_controlfield(static_cast<int>(Control::DEBUG_MENU), _("Debug Menu"));
       }
-      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), &g_config->joystick_config.m_jump_with_up_joy);
+
+      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), &g_config->joystick_configs[m_player_id].m_jump_with_up_joy);
     }
     else
     {
-      m_joysticks_available = false;
-
       add_inactive(_("No Joysticks found"));
-      add_entry(MNID_SCAN_JOYSTICKS, _("Scan for Joysticks"));
     }
   }
 
-  add_toggle(-1, _("Globally Ignore Joystick Axis"), &g_config->ignore_joystick_axis);
+  if (m_player_id == 0)
+  {
+    if (m_input_manager.get_num_users() > 1)
+    {
+     add_hl();
+    }
 
+    for (int id = 1; id < m_input_manager.get_num_users(); id++)
+    {
+      add_entry(fmt::format(fmt::runtime(_("Player {}")), std::to_string(id + 1)),
+      [&input_manager, id] {
+        MenuManager::instance().push_menu(
+          std::make_unique<JoystickMenu>(input_manager, id));
+      });
+    }
+
+    add_hl();
+    add_toggle(-1, _("Globally Ignore Joystick Axis"), &g_config->ignore_joystick_axis);
+    add_hl();
+
+    add_entry(MNID_SCAN_JOYSTICKS, _("Scan for Joysticks"));
+  }
+  
   add_hl();
   add_back(_("Back"));
   refresh();
 }
+
+JoystickMenu::~JoystickMenu()
+{}
 
 std::string
 JoystickMenu::get_button_name(int button) const
@@ -125,33 +133,32 @@ JoystickMenu::menu_action(MenuItem& item)
   {
     ItemControlField& field = static_cast<ItemControlField&>(item);
     field.change_input(_("Press Button"));
-    m_input_manager.joystick_manager->bind_next_event_to(static_cast<Control>(item.get_id()));
+    m_input_manager.joystick_manager->bind_next_event_to(m_player_id, static_cast<Control>(item.get_id()));
   }
   else if (item.get_id() == MNID_AUTO_JOYSTICK_CFG)
   {
-    //m_input_manager.use_game_controller(!item.toggled);
     m_input_manager.use_game_controller(!m_auto_joystick_cfg);
     m_input_manager.reset();
-    recreate_menu();
+    MenuManager::instance().set_menu(std::make_unique<JoystickMenu>(m_input_manager, m_player_id));
   }
   else if (item.get_id() == MNID_SCAN_JOYSTICKS)
   {
     m_input_manager.reset();
-    recreate_menu();
+    MenuManager::instance().set_menu(std::make_unique<JoystickMenu>(m_input_manager, m_player_id));
   }
 }
 
 void
-JoystickMenu::refresh_menu_item(Control id)
+JoystickMenu::refresh_control(const Control& control)
 {
-  ItemControlField* itemcf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(id)));
+  ItemControlField* itemcf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(control)));
   if (!itemcf) {
     return;
   }
 
-  int button  = g_config->joystick_config.reversemap_joybutton(id);
-  int axis    = g_config->joystick_config.reversemap_joyaxis(id);
-  int hat_dir = g_config->joystick_config.reversemap_joyhat(id);
+  int button  = g_config->joystick_configs[m_player_id].reversemap_joybutton(control);
+  int axis    = g_config->joystick_configs[m_player_id].reversemap_joyaxis(control);
+  int hat_dir = g_config->joystick_configs[m_player_id].reversemap_joyhat(control);
 
   if (button != -1)
   {
@@ -219,26 +226,29 @@ JoystickMenu::refresh_menu_item(Control id)
 void
 JoystickMenu::refresh()
 {
-  if (m_joysticks_available)
+  if (m_input_manager.use_game_controller() ||
+      m_input_manager.joystick_manager->get_num_joysticks() == 0)
   {
-    refresh_menu_item(Control::UP);
-    refresh_menu_item(Control::DOWN);
-    refresh_menu_item(Control::LEFT);
-    refresh_menu_item(Control::RIGHT);
+    return;
+  }
 
-    refresh_menu_item(Control::JUMP);
-    refresh_menu_item(Control::ACTION);
-    refresh_menu_item(Control::ITEM);
-    refresh_menu_item(Control::START);
-    refresh_menu_item(Control::PEEK_LEFT);
-    refresh_menu_item(Control::PEEK_RIGHT);
-    refresh_menu_item(Control::PEEK_UP);
-    refresh_menu_item(Control::PEEK_DOWN);
+  const auto& controls = { Control::UP, Control::DOWN, Control::LEFT, Control::RIGHT,
+                           Control::JUMP, Control::ACTION, Control::ITEM,
+                           Control::START, Control::PEEK_LEFT, Control::PEEK_RIGHT,
+                           Control::PEEK_UP, Control::PEEK_DOWN };
 
-    if (g_config->developer_mode) {
-      refresh_menu_item(Control::CONSOLE);
-      refresh_menu_item(Control::CHEAT_MENU);
-      refresh_menu_item(Control::DEBUG_MENU);
+  const auto& developer_controls = { Control::CHEAT_MENU, Control::DEBUG_MENU, Control::CONSOLE };
+
+  for (const auto& control : controls)
+  {
+    refresh_control(control);
+  }
+
+  if (g_config->developer_mode && m_player_id == 0)
+  {
+    for (const auto& control : developer_controls)
+    {
+      refresh_control(control);
     }
   }
 }

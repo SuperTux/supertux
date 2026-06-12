@@ -16,7 +16,9 @@
 
 #pragma once
 
+#include <map>
 #include <optional>
+#include <string>
 
 #include "control/joystick_config.hpp"
 #include "control/keyboard_config.hpp"
@@ -110,7 +112,10 @@ public:
   std::string locale;
 
   KeyboardConfig keyboard_config;
-  JoystickConfig joystick_config;
+  std::map<int, JoystickConfig> joystick_configs;
+
+  bool use_game_controller;
+
   bool ignore_joystick_axis;
   bool touch_haptic_feedback;
   bool touch_just_directional;

@@ -29,15 +29,15 @@
 #include "util/log.hpp"
 
 JoystickManager::JoystickManager(InputManager* parent_,
-                                 JoystickConfig& joystick_config) :
+                                 std::map<int, JoystickConfig>& joystick_configs) :
   parent(parent_),
-  m_joystick_config(joystick_config),
+  m_joystick_configs(joystick_configs),
   min_joybuttons(),
   max_joybuttons(),
   max_joyaxis(),
   max_joyhats(),
   hat_state(0),
-  wait_for_joystick(-1),
+  wait_for_joystick(std::nullopt),
   joysticks()
 {
 }
@@ -142,50 +142,54 @@ JoystickManager::process_hat_event(const SDL_JoyHatEvent& jhat)
 {
   Uint8 changed = hat_state ^ jhat.value;
 
-  if (wait_for_joystick >= 0)
+  if (wait_for_joystick.has_value())
   {
+    auto& cfg = m_joystick_configs[wait_for_joystick->player_id];
+
     if (changed & SDL_HAT_UP && jhat.value & SDL_HAT_UP)
-      m_joystick_config.bind_joyhat(jhat.which, SDL_HAT_UP, Control(wait_for_joystick));
+      cfg.bind_joyhat(SDL_HAT_UP, wait_for_joystick->control);
 
     if (changed & SDL_HAT_DOWN && jhat.value & SDL_HAT_DOWN)
-      m_joystick_config.bind_joyhat(jhat.which, SDL_HAT_DOWN, Control(wait_for_joystick));
+      cfg.bind_joyhat(SDL_HAT_DOWN, wait_for_joystick->control);
 
     if (changed & SDL_HAT_LEFT && jhat.value & SDL_HAT_LEFT)
-      m_joystick_config.bind_joyhat(jhat.which, SDL_HAT_LEFT, Control(wait_for_joystick));
+      cfg.bind_joyhat(SDL_HAT_LEFT, wait_for_joystick->control);
 
     if (changed & SDL_HAT_RIGHT && jhat.value & SDL_HAT_RIGHT)
-      m_joystick_config.bind_joyhat(jhat.which, SDL_HAT_RIGHT, Control(wait_for_joystick));
+      cfg.bind_joyhat(SDL_HAT_RIGHT, wait_for_joystick->control);
 
     MenuManager::instance().refresh();
-    wait_for_joystick = -1;
+    wait_for_joystick = std::nullopt;
   }
   else
   {
+    auto& cfg = get_config_for_joystick(jhat.which);
+
     if (changed & SDL_HAT_UP)
     {
-      auto it = m_joystick_config.m_joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_UP));
-      if (it != m_joystick_config.m_joy_hat_map.end())
+      auto it = cfg.m_joy_hat_map.find(SDL_HAT_UP);
+      if (it != cfg.m_joy_hat_map.end())
         set_joy_controls(jhat.which, it->second, (jhat.value & SDL_HAT_UP) != 0);
     }
 
     if (changed & SDL_HAT_DOWN)
     {
-      auto it = m_joystick_config.m_joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_DOWN));
-      if (it != m_joystick_config.m_joy_hat_map.end())
+      auto it = cfg.m_joy_hat_map.find(SDL_HAT_DOWN);
+      if (it != cfg.m_joy_hat_map.end())
         set_joy_controls(jhat.which, it->second, (jhat.value & SDL_HAT_DOWN) != 0);
     }
 
     if (changed & SDL_HAT_LEFT)
     {
-      auto it = m_joystick_config.m_joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_LEFT));
-      if (it != m_joystick_config.m_joy_hat_map.end())
+      auto it = cfg.m_joy_hat_map.find(SDL_HAT_LEFT);
+      if (it != cfg.m_joy_hat_map.end())
         set_joy_controls(jhat.which, it->second, (jhat.value & SDL_HAT_LEFT) != 0);
     }
 
     if (changed & SDL_HAT_RIGHT)
     {
-      auto it = m_joystick_config.m_joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_RIGHT));
-      if (it != m_joystick_config.m_joy_hat_map.end())
+      auto it = cfg.m_joy_hat_map.find(SDL_HAT_RIGHT);
+      if (it != cfg.m_joy_hat_map.end())
         set_joy_controls(jhat.which, it->second, (jhat.value & SDL_HAT_RIGHT) != 0);
     }
   }
@@ -199,40 +203,43 @@ JoystickManager::process_axis_event(const SDL_JoyAxisEvent& jaxis)
   if (g_config->ignore_joystick_axis)
     return;
 
-  if (wait_for_joystick >= 0)
+  if (wait_for_joystick.has_value())
   {
-    if (abs(jaxis.value) > m_joystick_config.m_dead_zone) {
+    auto& cfg = m_joystick_configs[wait_for_joystick->player_id];
+    if (abs(jaxis.value) > cfg.m_dead_zone) {
       if (jaxis.value < 0)
-        m_joystick_config.bind_joyaxis(jaxis.which, -(jaxis.axis + 1), Control(wait_for_joystick));
+        cfg.bind_joyaxis(-(jaxis.axis + 1), wait_for_joystick->control);
       else
-        m_joystick_config.bind_joyaxis(jaxis.which, jaxis.axis + 1, Control(wait_for_joystick));
+        cfg.bind_joyaxis(jaxis.axis + 1, wait_for_joystick->control);
 
       MenuManager::instance().refresh();
-      wait_for_joystick = -1;
+      wait_for_joystick = std::nullopt;
     }
   }
   else
   {
+    auto& cfg = get_config_for_joystick(jaxis.which);
+
     // Split the axis into left and right, so that both can be
     // mapped separately (needed for jump/down vs up/down)
     int axis = jaxis.axis + 1;
 
-    auto left = m_joystick_config.m_joy_axis_map.find(std::make_pair(jaxis.which, -axis));
-    auto right = m_joystick_config.m_joy_axis_map.find(std::make_pair(jaxis.which, axis));
+    auto left = cfg.m_joy_axis_map.find(-axis);
+    auto right = cfg.m_joy_axis_map.find(axis);
 
-    if (left == m_joystick_config.m_joy_axis_map.end()) {
+    if (left == cfg.m_joy_axis_map.end()) {
       // std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
     } else {
-      if (jaxis.value < -m_joystick_config.m_dead_zone)
+      if (jaxis.value < -cfg.m_dead_zone)
         set_joy_controls(jaxis.which, left->second,  true);
       else
         set_joy_controls(jaxis.which, left->second, false);
     }
 
-    if (right == m_joystick_config.m_joy_axis_map.end()) {
+    if (right == cfg.m_joy_axis_map.end()) {
       // std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
     } else {
-      if (jaxis.value > m_joystick_config.m_dead_zone)
+      if (jaxis.value > cfg.m_dead_zone)
         set_joy_controls(jaxis.which, right->second, true);
       else
         set_joy_controls(jaxis.which, right->second, false);
@@ -243,20 +250,21 @@ JoystickManager::process_axis_event(const SDL_JoyAxisEvent& jaxis)
 void
 JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
 {
-  if (wait_for_joystick >= 0)
+  if (wait_for_joystick.has_value())
   {
     if (jbutton.state == SDL_PRESSED)
     {
-      m_joystick_config.bind_joybutton(jbutton.which, jbutton.button, static_cast<Control>(wait_for_joystick));
+      m_joystick_configs[wait_for_joystick->player_id].bind_joybutton(jbutton.button, wait_for_joystick->control);
       MenuManager::instance().refresh();
       parent->reset();
-      wait_for_joystick = -1;
+      wait_for_joystick = std::nullopt;
     }
   }
   else
   {
-    auto i = m_joystick_config.m_joy_button_map.find(std::make_pair(jbutton.which, jbutton.button));
-    if (i == m_joystick_config.m_joy_button_map.end()) {
+    auto& cfg = get_config_for_joystick(jbutton.which);
+    auto i = cfg.m_joy_button_map.find(jbutton.button);
+    if (i == cfg.m_joy_button_map.end()) {
       log_debug << "Unmapped joybutton " << static_cast<int>(jbutton.button) << " pressed" << std::endl;
     } else {
       set_joy_controls(jbutton.which, i->second, (jbutton.state == SDL_PRESSED));
@@ -265,9 +273,22 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
 }
 
 void
-JoystickManager::bind_next_event_to(Control id)
+JoystickManager::bind_next_event_to(int player_id, Control id)
 {
-  wait_for_joystick = static_cast<int>(id);
+  wait_for_joystick = PlayerControl{player_id, id};
+}
+
+JoystickConfig&
+JoystickManager::get_config_for_joystick(SDL_JoystickID instance_id)
+{
+  SDL_Joystick* joystick = SDL_JoystickFromInstanceID(instance_id);
+  auto it = joysticks.find(joystick);
+  int player_id = (it != joysticks.end() && it->second >= 0) ? it->second : 0;
+
+  if (m_joystick_configs.find(player_id) == m_joystick_configs.end())
+    m_joystick_configs[player_id] = JoystickConfig();
+
+  return m_joystick_configs[player_id];
 }
 
 void
@@ -277,7 +298,7 @@ JoystickManager::set_joy_controls(SDL_JoystickID joystick, Control id, bool valu
   if (it == joysticks.end() || it->second < 0)
     return;
 
-  if (m_joystick_config.m_jump_with_up_joy &&
+  if (get_config_for_joystick(joystick).m_jump_with_up_joy &&
       id == Control::UP)
   {
     parent->get_controller(it->second).set_control(Control::JUMP, value);
