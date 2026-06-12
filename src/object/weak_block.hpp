@@ -46,6 +46,9 @@ public:
   virtual void on_flip(float height) override;
 
   void startBurning();
+  
+  /** Check if this block is still solid (not destroyed) and blocking objects */
+  inline bool is_solid_block() const { return state != STATE_DISINTEGRATING; }
 
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
