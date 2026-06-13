@@ -24,6 +24,7 @@
 #include "util/currenton.hpp"
 
 class Savegame;
+class Statistics;
 
 class LevelsetScreen final : public Screen,
                              public Currenton<LevelsetScreen>
@@ -34,6 +35,12 @@ private:
   Savegame& m_savegame;
   bool m_level_started;
   bool m_solved;
+  bool m_perfect;
+  int m_best_coins;
+  int m_best_tuxdolls;
+  int m_best_secrets;
+  float m_best_time;
+  bool m_has_statistics;
 
 public:
   LevelsetScreen(const std::string& basedir, const std::string& level_filename, Savegame& savegame,
@@ -47,7 +54,7 @@ public:
 
   virtual IntegrationStatus get_status() const override;
 
-  void finished_level(bool win);
+  void finished_level(bool win, const Statistics& statistics, float target_time);
 
 private:
   std::optional<std::pair<std::string, Vector>> m_start_pos;

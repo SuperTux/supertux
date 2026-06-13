@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2026 SuperTux Team
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,30 +18,20 @@
 
 #include "gui/menu.hpp"
 
-class MainMenu final : public Menu
+class GlobalStatsMenu final : public Menu
 {
-private:
-  static bool s_shown_initial_dialogs;
-
 public:
-  MainMenu();
+  GlobalStatsMenu();
 
-  void on_window_resize() override;
   void menu_action(MenuItem& item) override;
-  bool on_back_action() override { return false; }
+  void on_window_resize() override;
 
 private:
-  enum MainMenuIDs {
-    MNID_WORLDSET_STORY,
-    MNID_WORLDSET_CONTRIB,
-    MNID_GLOBAL_STATS,
-    MNID_LEVELEDITOR,
-    MNID_CREDITS,
-    MNID_DONATE,
-    MNID_QUITMAINMENU
+  enum GlobalStatsMenuIDs {
+    MNID_VIEW_GLOBAL_STATS
   };
 
 private:
-  MainMenu(const MainMenu&) = delete;
-  MainMenu& operator=(const MainMenu&) = delete;
+  GlobalStatsMenu(const GlobalStatsMenu&) = delete;
+  GlobalStatsMenu& operator=(const GlobalStatsMenu&) = delete;
 };

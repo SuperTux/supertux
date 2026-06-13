@@ -22,6 +22,7 @@
 #include "supertux/level.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/savegame.hpp"
+#include "supertux/statistics.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "util/file_system.hpp"
@@ -36,6 +37,12 @@ LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& le
   m_savegame(savegame),
   m_level_started(false),
   m_solved(false),
+  m_perfect(false),
+  m_best_coins(0),
+  m_best_tuxdolls(0),
+  m_best_secrets(0),
+  m_best_time(0.0f),
+  m_has_statistics(false),
   m_start_pos(start_pos),
   m_skip_intro(skip_intro)
 {
@@ -52,6 +59,12 @@ LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& le
     LevelsetState state = m_savegame.get_levelset_state(basedir);
     LevelState level_state = state.get_level_state(level_filename);
     m_solved = level_state.solved;
+      m_perfect = level_state.perfect;
+      m_best_coins = level_state.coins;
+      m_best_tuxdolls = level_state.tuxdolls;
+      m_best_secrets = level_state.secrets;
+      m_best_time = level_state.time;
+      m_has_statistics = level_state.has_statistics;
   }
 
 }
@@ -67,9 +80,18 @@ LevelsetScreen::update(float dt_sec, const Controller& controller)
 }
 
 void
-LevelsetScreen::finished_level(bool win)
+LevelsetScreen::finished_level(bool win, const Statistics& statistics, float target_time)
 {
   m_solved = m_solved || win;
+  m_perfect = m_perfect || statistics.completed(target_time);
+  m_best_coins = std::max(m_best_coins, statistics.get_coins());
+  m_best_tuxdolls = std::max(m_best_tuxdolls, statistics.get_tuxdolls());
+  m_best_secrets = std::max(m_best_secrets, statistics.get_secrets());
+  if (m_best_time == 0.0f)
+    m_best_time = statistics.get_time();
+  else if (statistics.get_time() > 0.0f)
+    m_best_time = std::min(m_best_time, statistics.get_time());
+  m_has_statistics = m_has_statistics || statistics.get_status() == Statistics::FINAL;
 }
 
 void
@@ -81,7 +103,9 @@ LevelsetScreen::setup()
     {
       log_info << "Saving Levelset state" << std::endl;
       // this gets called when the GameSession is done and we return back to the
-      m_savegame.set_levelset_state(m_basedir, m_level_filename, m_solved);
+      m_savegame.set_levelset_state(m_basedir, m_level_filename, m_solved,
+                                    m_perfect, m_best_coins, m_best_tuxdolls,
+                                    m_best_secrets, m_best_time, m_has_statistics);
       m_savegame.save();
     }
     ScreenManager::current()->pop_screen();

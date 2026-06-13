@@ -819,7 +819,7 @@ GameSession::finish(bool win)
 
     if (LevelsetScreen::current())
     {
-      LevelsetScreen::current()->finished_level(win);
+      LevelsetScreen::current()->finished_level(win, m_level->m_stats, m_level->m_target_time);
     }
   }
 

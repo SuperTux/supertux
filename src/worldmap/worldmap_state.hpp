@@ -31,7 +31,7 @@ class WorldMapState final
 public:
   WorldMapState(WorldMap& worldmap);
 
-  void load_state();
+  void load_state(bool create_missing = true);
   /// @param initial If this is an initial save.
   void save_state(bool initial = false) const;
 

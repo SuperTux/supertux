@@ -53,6 +53,7 @@ MainMenu::MainMenu()
 {
   add_entry(MNID_WORLDSET_STORY, _("Start Game"));
   add_entry(MNID_WORLDSET_CONTRIB, _("Contrib Levels"));
+  add_submenu(_("Statistics"), MenuStorage::GLOBAL_STATS_MENU, MNID_GLOBAL_STATS);
   // TODO: Manage to build OpenSSL for Emscripten so we can build CURL so we can
   //       build the add-ons so we can re-enable them.
   //       Also see src/addon/downloader.*pp
