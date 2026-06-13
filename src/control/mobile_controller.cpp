@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #include "gui/menu_manager.hpp"
 #include "util/log.hpp"
@@ -65,10 +65,12 @@ MobileController::MobileController() :
   m_screen_width(),
   m_screen_height(),
   m_mobile_controls_scale(),
-  m_haptic(nullptr, SDL_HapticClose),
+  m_haptic(nullptr),//, SDL_HapticClose),
   m_haptic_timer(0)
 {
-#ifdef __ANDROID__
+// FIXME: SDL3
+#if 0
+//#ifdef __ANDROID__
   SDL_InitSubSystem(SDL_INIT_HAPTIC | SDL_INIT_TIMER);
   // ifdef'd just to be safe
   m_haptic.reset(SDL_HapticOpen(0));
@@ -89,6 +91,7 @@ MobileController::MobileController() :
 void
 MobileController::buzz()
 {
+#if 0 // FIXME: SDL3
   if (!m_haptic || !g_config->touch_haptic_feedback)
     return;
 
@@ -101,6 +104,7 @@ MobileController::buzz()
     data->m_haptic_timer = 0;
     return 0;
   }, this);
+#endif
 }
 
 void
@@ -194,11 +198,11 @@ MobileController::update()
   m_input.reset();
 
   // Allow using on-screen controls with the mouse
-  int x, y;
+  float x, y;
   auto buttons = SDL_GetMouseState(&x, &y);
   if ((buttons & SDL_BUTTON_LMASK) != 0)
   {
-    activate_widget_at_pos(static_cast<float>(x), static_cast<float>(y));
+    activate_widget_at_pos(x, y);
   }
 
   for (auto& i : m_fingers)
@@ -242,7 +246,7 @@ bool
 MobileController::process_finger_down_event(const SDL_TouchFingerEvent& event)
 {
   Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
-  m_fingers[event.fingerId] = pos;
+  m_fingers[event.fingerID] = pos;
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||
@@ -256,7 +260,7 @@ bool
 MobileController::process_finger_up_event(const SDL_TouchFingerEvent& event)
 {
   Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
-  m_fingers.erase(event.fingerId);
+  m_fingers.erase(event.fingerID);
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||
@@ -270,7 +274,7 @@ bool
 MobileController::process_finger_motion_event(const SDL_TouchFingerEvent& event)
 {
   Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
-  m_fingers[event.fingerId] = pos;
+  m_fingers[event.fingerID] = pos;
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||

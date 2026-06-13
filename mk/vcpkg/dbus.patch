@@ -1,0 +1,12 @@
+diff --git a/ports/dbus/portfile.cmake b/ports/dbus/portfile.cmake
+index 3ddd2e455a..a985556391 100644
+--- a/ports/dbus/portfile.cmake
++++ b/ports/dbus/portfile.cmake
+@@ -33,6 +33,7 @@ vcpkg_cmake_configure(
+         -DDBUS_ENABLE_XML_DOCS=OFF
+         -DDBUS_INSTALL_SYSTEM_LIBS=OFF
+         #-DDBUS_SERVICE=ON
++        -DDBUS_SESSION_SOCKET_DIR=/tmp
+         -DDBUS_WITH_GLIB=OFF
+         -DTHREADS_PREFER_PTHREAD_FLAG=ON
+         -DXSLTPROC_EXECUTABLE=FALSE

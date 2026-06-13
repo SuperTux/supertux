@@ -88,7 +88,7 @@ ControlButton::on_key_up(const SDL_KeyboardEvent& key)
   if (!m_has_focus)
     return false;
 
-  if (key.keysym.sym == SDLK_SPACE) {
+  if (key.key == SDLK_SPACE) {
     call_on_activate_callbacks();
     m_mouse_down = false;
     return true;
@@ -103,7 +103,7 @@ ControlButton::on_key_down(const SDL_KeyboardEvent& key)
   if (!m_has_focus)
     return false;
 
-  if (key.keysym.sym == SDLK_SPACE) {
+  if (key.key == SDLK_SPACE) {
     m_mouse_down = true;
     return true;
   }

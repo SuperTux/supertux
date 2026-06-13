@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "math/vector.hpp"
 #include "video/gl/gl_renderer.hpp"
