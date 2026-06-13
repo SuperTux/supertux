@@ -48,6 +48,10 @@ Tux::Tux(WorldMap* worldmap) :
   m_direction(Direction::NONE),
   m_initial_tile_pos(),
   m_tile_pos(),
+  m_last_stable_tile_pos(),
+  m_last_level_tile_pos(),
+  m_last_stable_back_direction(Direction::NONE),
+  m_last_level_back_direction(Direction::NONE),
   m_offset(0),
   m_moving(false),
   m_ghost_mode(false)
@@ -300,9 +304,20 @@ Tux::try_continue_walking(float dt_sec)
       (teleporter) ||
       m_ghost_mode)
   {
-    if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message()) {
-      m_worldmap->set_passive_message({}, 0.0f);
-    }
+      if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message())
+      {
+        m_worldmap->set_passive_message("", 0.0f);
+      }
+
+      if (worldmap_sector->at_object<LevelTile>() != nullptr)
+      {
+        m_last_level_tile_pos = m_tile_pos;
+        m_last_level_back_direction = m_back_direction;
+      }
+
+      m_last_stable_tile_pos = m_ghost_mode ? m_last_level_tile_pos : m_tile_pos;
+      m_last_stable_back_direction = m_ghost_mode ? m_last_level_back_direction : m_back_direction;
+  }
 
     stop();
     return;
@@ -391,6 +406,20 @@ Tux::setup()
   // Set initial tile position, if provided
   if (m_initial_tile_pos != Vector())
     m_tile_pos = m_initial_tile_pos;
+
+  m_last_stable_tile_pos = m_tile_pos;
+  m_last_stable_back_direction = m_back_direction;
+
+  if (m_worldmap->get_sector().at_object<LevelTile>(m_tile_pos))
+  {
+    m_last_level_tile_pos = m_tile_pos;
+    m_last_level_back_direction = m_back_direction;
+  }
+  else
+  {
+    m_last_level_tile_pos = m_last_stable_tile_pos;
+    m_last_level_back_direction = m_last_stable_back_direction;
+  }
 
   // check if we already touch a SpriteChange object
   auto sprite_change = m_worldmap->get_sector().at_object<SpriteChange>(m_tile_pos);
