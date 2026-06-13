@@ -25,6 +25,9 @@ class ReaderMapping;
 class Profile final
 {
 public:
+  static std::string get_basedir(int id);
+
+public:
   Profile(int id);
 
 public:
