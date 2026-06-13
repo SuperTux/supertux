@@ -87,13 +87,20 @@ SDLVideoSystem::apply_config()
 
   { // apply_viewport
 #ifndef __ANDROID__
-    Size target_size = (g_config->use_fullscreen && g_config->fullscreen_size != Size(0, 0)) ?
-      g_config->fullscreen_size :
-      g_config->window_size;
+    // Use renderer output size (in pixels) for HiDPI support instead of window size (in points)
+    int output_w, output_h;
+    SDL_GetRendererOutputSize(m_sdl_renderer.get(), &output_w, &output_h);
+    Size target_size(output_w, output_h);
+
+    // Compute HiDPI scale factor for coordinate conversion
+    Size window_size = get_window_size();
+    float pixel_scale = (window_size.width > 0) ?
+      static_cast<float>(output_w) / static_cast<float>(window_size.width) : 1.0f;
 #else
     Size target_size = m_desktop_size;
+    float pixel_scale = 1.0f;
 #endif
-    m_viewport = Viewport::from_size(target_size, m_desktop_size);
+    m_viewport = Viewport::from_size(target_size, m_desktop_size, pixel_scale);
   }
 
   m_lightmap.reset(new SDLTextureRenderer(*this, m_sdl_renderer.get(), m_viewport.get_screen_size(), 5));
