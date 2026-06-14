@@ -49,6 +49,7 @@
 #include "trigger/climbable.hpp"
 #include "trigger/trigger_base.hpp"
 #include "video/surface.hpp"
+#include "supertux/counter.hpp"
 
 #define SWIMMING
 
@@ -248,7 +249,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_target_sliding_angle(0.0f),
   m_sliding_rotation_timer(),
   m_is_slidejump_falling(false),
-  m_was_crawling_before_slide(false)
+  m_was_crawling_before_slide(false),
+  m_counters()
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
@@ -293,6 +295,7 @@ Player::set_winning()
   if (!is_winning()) {
     m_winning = true;
     m_invincible_timer.start(10000.0f);
+    set_invincible(false, COUNTER_STAR);
   }
 }
 
@@ -378,6 +381,29 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
   stop_backflipping();
 
   GameSession::current()->start_sequence(this, seq, data);
+}
+
+void
+Player::set_invincible(bool invincible, CounterType type, float time_left)
+{
+  for (int i = 0; i < m_counters.size(); i++)
+  {
+    if (m_counters[i].get_type() == type)
+    {
+      if (!invincible)
+      {
+        std::swap(m_counters[i], m_counters.back());
+        m_counters.pop_back();
+      }
+      else
+        m_counters[i].update_counter(invincible, time_left);
+      
+      return;
+    }
+  }
+
+  if (invincible)
+    m_counters.push_back(Counter(type));
 }
 
 void
@@ -782,6 +808,11 @@ Player::update(float dt_sec)
   // when invincible, spawn particles
   if (m_invincible_timer.started())
   {
+    if (m_invincible_timer.get_timeleft() <= TUX_INVINCIBLE_TIME)
+    {
+      set_invincible(true, COUNTER_STAR, m_invincible_timer.get_timeleft());
+    }
+
     if (graphicsRandom.rand(0, 2) == 0)
     {
       float px = graphicsRandom.randf(m_col.m_bbox.get_left() + 0, m_col.m_bbox.get_right() - 0);
@@ -799,6 +830,10 @@ Player::update(float dt_sec)
         :
         "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS + 1 + 5);
     }
+  }
+  else
+  {
+    set_invincible(false, COUNTER_STAR);
   }
 
   if (m_growing) {
@@ -2576,6 +2611,7 @@ Player::kill(bool completely)
     m_post_damage_safety_timer.stop();
     m_temp_safety_timer.stop();
     m_invincible_timer.stop();
+    set_invincible(false, COUNTER_STAR);
     m_physic.set_acceleration(0, 0);
     m_physic.set_velocity(0, -700);
     set_bonus(BONUS_NONE, true);
@@ -3084,6 +3120,7 @@ Player::multiplayer_prepare_spawn()
   m_post_damage_safety_timer.stop();
   m_temp_safety_timer.stop();
   m_invincible_timer.stop();
+  set_invincible(false, COUNTER_STAR);
   m_physic.set_acceleration(0, -9999);
   m_physic.set_velocity(0, -9999);
   m_dying = true;
