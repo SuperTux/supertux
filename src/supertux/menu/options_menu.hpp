@@ -83,7 +83,6 @@ private:
     MNID_CUSTOM_TITLE_LEVELS,
     MNID_CONFIRMATION_DIALOG,
     MNID_PAUSE_ON_FOCUSLOSS,
-    MNID_PREFER_WAYLAND,
     MNID_CUSTOM_CURSOR,
     MNID_MAX_VIEWPORT,
     MNID_RELEASE_CHECK,
@@ -97,7 +96,13 @@ private:
 
 private:
   struct StringOption {
+    // Lousy hack: my excuse is that this code is terrible anyway
+    struct StringOptionData {
+      std::optional<SDL_DisplayMode> mode;
+    };
     std::vector<std::string> list = {};
+    // ughs
+    std::vector<StringOptionData> data = {};
     int next = 0;
   };
 

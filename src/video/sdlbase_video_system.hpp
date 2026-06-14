@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "video/video_system.hpp"
 
