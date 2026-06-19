@@ -247,15 +247,11 @@ Coin::collision(MovingObject& other, const CollisionHit& )
   // Check if this coin is trapped inside an active WeakBlock
   Vector coin_center = m_col.m_bbox.get_middle();
   for (auto& weak_block : Sector::get().get_objects_by_type<WeakBlock>()) {
-    if (weak_block.is_solid_block()) {
-      const Rectf& block_bbox = weak_block.get_bbox();
-      if (coin_center.x >= block_bbox.get_left() && 
-          coin_center.x <= block_bbox.get_right() &&
-          coin_center.y >= block_bbox.get_top() && 
-          coin_center.y <= block_bbox.get_bottom()) {
-        return ABORT_MOVE;
-      }
-    }
+    if (weak_block.get_group() == COLGROUP_DISABLED)
+      continue;
+      
+    if (weak_block.get_bbox().contains(coin_center)) 
+      return ABORT_MOVE;
   }
   
   if (m_col.get_bbox().overlaps(player->get_bbox().grown(-0.1f)))
