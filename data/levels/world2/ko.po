@@ -4,17 +4,19 @@
 # 
 # Translators:
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
+# 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # Junghee Lee <daemul72@gmail.com>, 2022
 # Junghee Lee <daemul72@gmail.com>, 2022
-# 이명진 <aranet100@gmail.com>, 2016-2017,2019,2021
+# Myeongjin <aranet100@gmail.com>, 2016-2017,2019,2021
+# Youngjun, Choi, 2022
 # Youngjun, Choi, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
+"Last-Translator: Youngjun, Choi, 2022\n"
 "Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,198 +24,473 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/levels/world2/ancient_ruins.stl:3
-msgid "Ancient Ruins"
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
 msgstr "고대 유적"
-
-#: data/levels/world2/ancient_ruins.stl:1463
-#: data/levels/world2/ancient_ruins.stl:1471
-#: data/levels/world2/bouncy_coils.stl:380
-#: data/levels/world2/bouncy_coils.stl:388
-#: data/levels/world2/bye_bye_forest.stl:1607
-#: data/levels/world2/crumbling_path.stl:278
-#: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:246
-#: data/levels/world2/going_underground.stl:1249
-#: data/levels/world2/mouldy_grotto.stl:559
-#: data/levels/world2/penguin_grow_trees.stl:459
-#: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:361
-#: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:223
-msgid "You found a secret area!"
-msgstr "비밀공간 구역을 찾았어요!"
-
-#: data/levels/world2/beside_bushes.stl:3
-msgid "Beside the Bushes"
-msgstr "덤불 옆에"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "튀는 코일"
 
-#: data/levels/world2/bye_bye_forest.stl:3
-msgid "Bye Bye Forest"
-msgstr "잘 가 숲"
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "동굴 순찰"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "-아이스 로제트\n!images/powerups/iceflower/ice_flower-0.png\n#아이스 로제트는 턱스에게 대부분의 생물을 얼릴 수 있는 얼음 공을 쏘는 능력을 줍니다.\n#얼어붙은 생물은 집어 들고, 옮기고, 던질 수 있습니다!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "붕괴 임박"
+
+#: data/levels/world2/corrupted_cutscene.stl:3
+msgid "From Afar It Spreads"
+msgstr "멀리서 퍼져 오다"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "무너지는 길"
 
-#: data/levels/world2/darkness_awaits.stl:3
-msgid "Darkness Awaits"
-msgstr "어둠이 기다린다"
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "공 떨어뜨리기"
 
-#: data/levels/world2/find_big_fish.stl:3
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "뿌리에 얽히다"
+
+#: data/levels/world2/find_bigger_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "더 큰 물고기를 찾아라!"
 
-#: data/levels/world2/find_big_fish.stl:1058
-msgid "-A big fish... for you."
-msgstr "-너를 위해... 큰 물고기."
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "물에 잠긴 방"
+
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "꽃 피는 숲"
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
 msgstr "새로운 위치"
 
-#: data/levels/world2/ghost_cutscene.stl:3
-msgid "What is Happening?"
-msgstr "무슨 일이 일어나고 있죠?"
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "모든 악의 뿌리"
 
-#: data/levels/world2/ghostly_misery.stl:3
-msgid "Ghostly Misery"
-msgstr "유령의 불행"
+#: data/levels/world2/ghosttree_cutscene.stl:3
+msgid "The Root Of The Problem"
+msgstr "문제의 근원"
 
-#: data/levels/world2/ghosttrees_challenges.stl:3
-msgid "Ghosttree's Challenges"
-msgstr "유령나무의 도전"
-
-#: data/levels/world2/ghouls_lair.stl:3
-msgid "Ghouls' Lair"
-msgstr "구울의 은신처"
-
-#: data/levels/world2/ghouls_lair.stl:859
-msgid ""
-"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
-"of them."
-msgstr "#랜턴은 마법 블록을 단단하게 만드는 데 사용되므로 그 위를 걸을 수 있습니다."
+#: data/levels/world2/ghosttreewin_cutscene.stl:3
+msgid "Nature Is Healing"
+msgstr "자연이 치유되다"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "지하로 가는 중"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:3
-msgid "I Spy With My Little Eye"
-msgstr "나는 작은 눈으로 감시해요"
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "그라니토 마을"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:218
-msgid ""
-"-Ispy\n"
-"#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-이스파이\n#이스파이 는 Tux가 시야에 들어올 때마다 플랫폼과 같은 것을 활성화합니다."
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "빈 대지"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:674
-msgid "Hint: Use snails to break blocks!"
-msgstr "힌트: 블록을 깨려면 달팽이를 사용하세요!"
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "집이었던 집"
 
-#: data/levels/world2/leaf_wind.stl:3
-msgid "Like a leaf in the Wind"
-msgstr "바람 속의 나뭇잎처럼"
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:4
+msgid "Rooted Forest"
+msgstr "뿌리깊은 숲"
 
-#: data/levels/world2/lost_village.stl:3
-msgid "Lost Village"
-msgstr "잃어버린 마을"
+#: data/levels/world2/info:3
+msgid "Tux explores a new land, but a curse impedes his journey."
+msgstr "턱스는 새로운 땅을 탐험하지만, 저주가 그의 여정을 방해합니다."
 
-#: data/levels/world2/lost_village.stl:185
-msgid "#Don't forget to hit the switch!"
-msgstr "#스위치를 치는 걸 잊지 마세요!"
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "잃어버린 성소"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
-msgstr "지겨운 저장고"
+msgstr "곰팡이 동굴"
 
-#: data/levels/world2/owls_again.stl:3
-msgid "The Owls again..."
-msgstr "올빼미는 다시..."
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "크러쉬모어 산"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
 msgstr "올빼미의 스카이다이빙 특공대"
 
-#: data/levels/world2/penguin_grow_trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr "펭귄은 나무를 자라게 하지 않아"
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
+msgstr "펭귄은 나무에서 자라지 않아"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "롹큰롤"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "-록 슈룸\n!images/powerups/earthflower/earth_flower-0.png\n#달리는 중에 아래쪽 키를 누르고 있으면, 록 슈룸이 턱스에게 바위 방패를 부여합니다.\n#바위 상태에서 턱스는 대부분의 피해에 면역이 됩니다. 그러나 단단한 벽에 부딪히면 방어가 풀려 다시 취약해집니다. "
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "널 응원해"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "뿌리의 탑"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:2
+msgid "Never had Tux been missing sunlight more than ever before."
+msgstr "턱스는 이토록 햇빛을 그리워한 적이 없었다."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:3
+msgid ""
+"Since the rain had stopped and the sky was clear, Tux hoped to have found a "
+"nice, safe place to take a short break."
+msgstr "비가 그치고 하늘이 개자, 턱스는 잠시 쉴 만한 좋은 안전한 곳을 찾기를 바랐다."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:4
+msgid ""
+"Just as he was about to rest, the sudden sound of rustling leaves from a "
+"bush nearby startled Tux."
+msgstr "막 쉬려는 찰나, 근처 덤불에서 들려온 바스락거리는 소리가 턱스를 놀라게 했다."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:5
+msgid ""
+"He went to investigate and got startled by a Vicious Ivy, tumbling out of "
+"the bushes!"
+msgstr "확인하러 다가갔다가 덤불에서 튀어나온 사나운 아이비에 기겁했다!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:6
+msgid ""
+"However, this one looked different. Its usual bright green leaves seemed to "
+"have turned an ailing purple."
+msgstr "그런데 이 아이비는 달라 보였다. 평소 밝은 초록색 잎이 병든 보라색으로 변해 있었다."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:7
+msgid ""
+"Before Tux even had the chance to think about what had happened to the poor "
+"thing, the ground began to shake violently..."
+msgstr "불쌍한 녀석에게 무슨 일이 있었는지 생각할 틈도 없이, 땅이 격렬하게 흔들리기 시작했다..."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:8
+msgid ""
+"Massive purple roots burst through the ground, followed by an onslaught of "
+"many more coming closer and closer!"
+msgstr "거대한 보라색 뿌리가 땅을 뚫고 솟아났고, 그 뒤로 더 많은 뿌리가 점점 가까이 다가왔다!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:9
+msgid ""
+"Tux panicked! Whatever these roots were, they were covering everything. "
+"Where could he go?"
+msgstr "턱스는 패닉에 빠졌다! 이 뿌리가 무엇이든 간에 모든 것을 뒤덮고 있었다. 어디로 가야 할까?"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:10
+msgid ""
+"But he cannot give up now! Tux could not leave her behind. Not in a place "
+"being overrun by these violent roots."
+msgstr "하지만 지금 포기할 수는 없다! 턱스는 그녀를 뒤에 둘 수 없었다. 이 사나운 뿌리에 점령당한 이곳에 두고 갈 수는 없다."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:11
+msgid "He must rescue Penny! He must get to that tower!"
+msgstr "페니를 구해야 한다! 저 탑에 도달해야 한다!"
+
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---여기에 컷신을 넣으세요---"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "유령 나무가 물러갔고 한때 무성했던 숲에 생명이 조금씩 돌아오고 있었지만, 땅은 여전히 폐허였다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "땅은 균열과 틈새로 가득했다. 그리고 이제 그중 하나가 턱스의 길을 막고 있었다..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "다행히도, 건강한 그라니토 한 명이 틈새 건너편에서 턱스를 보고 반갑게 나타났다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
+msgstr "그라니토는 뿌리를 피해 동쪽 해안으로 탈출하려다 길을 잃은 동료 그라니토 3무리에 대해 이야기했다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "그들은 땅이 무너지면서 대지 속으로 삼켜졌다. 턱스가 그들을 찾아준다면, 그들이 건너편으로 가는 데 도움을 줄 수 있을 것이다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "턱스는 돕기로 했다! 곧 죽어가는 뿌리 아래로 길이 드러나자, 잃어버린 그라니토를 찾기 시작했다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "구해진 그라니토의 도움으로, 턱스는 건너편에 도달할 수 있었다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survived the Ghost Tree's "
+"overgrowth."
+msgstr "유령 나무의 폭주에서 살아남은 그라니토가 더 있다는 사실에 기뻤다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
+msgstr "그라니토 중 하나가 남극에서 이렇게 먼 곳에 펭귄이 뭘 하고 있냐고 물었다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replied that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly..."
+msgstr "턱스는 친구 페니를 찾고 있으며, \"놀록\"이라는 사악한 존재에게 잡혀갔다고 대답했다. 그라니토도 불쾌하게 기억하는 이름이었다..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "그라니토는 놀록의 고향을 알고 있다고 했다. 하지만 그가 아직 그곳을 자신의 집이라고 부르는지, 페니를 그곳에 가뒀는지는 확실하지 않다고 했다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute."
+msgstr "그들은 턱스에게 길을 안내하겠다고 제안했다. 감사를 표하기 위해 할 수 있는 최소한의 일이었다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "턱스는 기꺼이 수락했고, 몇몇 그라니토와 함께 곧 북동쪽 열대 지방으로 향했다."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "남은 그라니토들은 뒤에 머물며, 오염이 마침내 물러갔으니 천천히 고향을 재건할 것이다..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "그라니토 해방!"
+
+#: data/levels/world2/scripts_forest_intro.txt:2
+msgid "After quite the long trip, Tux arrived at the new biome."
+msgstr "꽤 긴 여행 끝에, 턱스는 새로운 생태계에 도착했다."
+
+#: data/levels/world2/scripts_forest_intro.txt:3
+msgid ""
+"Tux was astonished by the scale of this colorful land which was quite "
+"different from his home."
+msgstr "턱스는 고향과는 사뭇 다른 이 다채로운 땅의 규모에 놀랐다."
+
+#: data/levels/world2/scripts_forest_intro.txt:4
+msgid "But how was he ever going to find Nolok in this vast forest?"
+msgstr "하지만 이 광활한 숲에서 어떻게 놀록을 찾을 수 있을까?"
+
+#: data/levels/world2/scripts_forest_intro.txt:5
+msgid ""
+"Tux thought for a moment and decided to find a place high up to get a better"
+" view."
+msgstr "턱스는 잠시 생각한 뒤, 더 나은 전망을 위해 높은 곳을 찾기로 했다."
+
+#: data/levels/world2/scripts_forest_intro.txt:6
+msgid ""
+"Maybe he could find some kind of landmark to help him locate Nolok, wherever"
+" he may be."
+msgstr "어쩌면 놀록이 어디에 있든 그를 찾는 데 도움이 될 만한 이정표를 발견할 수 있을지도 모른다."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:2
+msgid ""
+"High on the very top of the dilapidated tower, once again Tux found... "
+"nothing."
+msgstr "낡은 탑의 꼭대기에서, 턱스는 다시 한번 아무것도 찾지 못했다..."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:3
+msgid ""
+"He could not believe it. He was shocked. Confused. Was this not where he "
+"needed to go?"
+msgstr "믿을 수 없었다. 충격이었다. 혼란스러웠다. 여기가 꼭 와야 할 곳이 아니었던가?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:4
+msgid "Did Nolok's hints trick him afterall? Did he walk into a trap?"
+msgstr "놀록의 힌트가 결국 그를 속인 것인가? 함정에 빠진 것인가?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:5
+msgid ""
+"Tux had not long to think about all this, the tower began shaking violetly. "
+"His assumption prove correct instantly."
+msgstr "이 모든 것을 생각할 시간도 없이, 탑이 격렬하게 흔들리기 시작했다. 그의 예감은 즉시 들어맞았다."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:6
+msgid ""
+"He made it! He escaped the collapsing tower just in time as the structure "
+"now fully gave in. But the roots were not done yet!"
+msgstr "해냈다! 구조물이 완전히 무너지기 직전에 간신히 탈출했다. 하지만 뿌리는 아직 끝나지 않았다!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:7
+msgid ""
+"This was only the beginning, as he had found the root of the problem... "
+"towering over the small penguin."
+msgstr "이것은 시작에 불과했다, 문제의 뿌리를 발견했으니... 작은 펭귄 위로 우뚝 솟아 있었다."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:8
+msgid ""
+"Tux watched in shock as the roots dug through the tower's walls, faster and "
+"faster. He had to get out of there, fast!"
+msgstr "뿌리가 탑의 벽을 점점 빠르게 파고드는 모습을 턱스는 충격 속에 바라보았다. 빨리 이곳을 벗어나야 했다!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:9
+msgid ""
+"The roots were now everywhere. The tower become more unstable by the second."
+" Slowly, it collapsed in on itself."
+msgstr "뿌리는 이제 사방에 깔려 있었다. 탑은 초 단위로 불안정해졌다. 천천히, 스스로 무너져 내렸다."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:10
+msgid ""
+"Tux ran as fast as he could, but the roots would not let him leave as they "
+"blocked off the only path to the main entrance."
+msgstr "턱스는 최대한 빨리 달렸지만, 뿌리가 정문으로 향하는 유일한 길을 막아 놓아주지 않았다."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:11
+msgid ""
+"Across the hallway, on the other side, there was a huge crack in the wall. "
+"Tux saw himself forced to take the leap of faith, if he wished to not be "
+"crushed."
+msgstr "복도 건너편 벽에 거대한 균열이 있었다. 깔리고 싶지 않다면 도약할 수밖에 없었다."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
+msgid "Was it over? Was the nightmare finally over?"
+msgstr "끝난 것일까? 악몽이 마침내 끝난 것일까?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:3
+msgid ""
+"Tux could not believe his eyes, but it seemed so! The roots began "
+"retreating. The ground looked more vital again."
+msgstr "턱스는 눈을 믿을 수 없었지만, 그런 것 같았다! 뿌리가 물러가기 시작했다. 땅이 다시 생기를 되찾아 보였다."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
+msgid ""
+"Though as much as he was ecstatic about seeing the land restored and "
+"beginning to heal... where to now?"
+msgstr "땅이 회복되고 치유되기 시작하는 모습에 기뻐했지만... 이제 어디로 가지?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:5
+msgid ""
+"The forest, the tower... those were the only leads Tux had. He had no clue "
+"where Nolok could be hiding, if he even was here to begin with. Or rather "
+"anymore."
+msgstr "숲, 탑... 그것이 턱스가 가진 유일한 단서였다. 놀록이 어디에 숨어 있는지, 처음부터 여기에 있었는지조차 알 수 없었다. 아니, 더 이상 없을지도 모른다."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
+msgid ""
+"There was no one around Tux could ask for help. All but the remains of "
+"corrupted husks littered the ground as he moved along in thought. No living "
+"creature in sight."
+msgstr "턱스에게 도움을 요청할 사람은 아무도 없었다. 생각에 잠겨 걸으며 오염된 껍데기의 잔해만이 땅에 널려 있었다. 살아 있는 생물은 보이지 않았다."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
+msgid ""
+"Hoping to discover some kind of clue - anything! - Tux's best bet was to "
+"continue exploring this side of the forest, as destroyed as it may be."
+msgstr "무슨 단서라도 - 뭐든! - 발견하기를 바라며, 턱스는 아무리 파괴되었더라도 이쪽 숲을 계속 탐색하는 것이 최선이었다."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:8
+msgid ""
+"There must be something, somewhere, able to help him to find Nolok! "
+"Right...?"
+msgstr "어딘가에 놀록을 찾는 데 도움이 될 무언가가 반드시 있을 것이다! 그렇지...?"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr "얕은 초록"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "충격"
 
-#: data/levels/world2/the_forest_is_rotting.stl:3
-msgid "The Forest Is Rotting"
-msgstr "숲이 썩어가고 있어요"
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr "고통의 제곱근"
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "막대기와 돌멩이"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr "인상적인 나무"
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr "세 장의 돛이 바람에"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
 msgstr "어둠을 뚫고"
 
-#: data/levels/world2/through_dark.stl:96
-msgid ""
-"-Earth Flower\n"
-"!images/powerups/earthflower/earth_flower-1.png\n"
-"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
-"#This does not work while jumping or falling!"
-msgstr "-흙 꽃\n!images/powerups/earthflower/earth_flower-1.png\n#흙 꽃은 턱스에게 액션 키와 아래 방향키를 동시에 누르면 돌로 변하는 능력을 줍니다.\n#점프나 낙하 중에는 작동하지 않습니다!"
-
-#: data/levels/world2/tower_of_ghosts.stl:3
-msgid "Tower Of Ghosts"
-msgstr "유령의 탑"
-
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
 msgstr "턱스 건축가"
-
-#: data/levels/world2/tux_builder.stl:77
-msgid ""
-"-Portable Objects:\n"
-"!images/objects/rock/rock.png\n"
-"#Tux can pick up certain objects and carry them around.\n"
-"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-휴대용 물건:\n!images/objects/rock/rock.png\n#턱스는 특정 물건을 집어 들고 다닐 수 있습니다.\n#액션 키를 눌러 물건을 잡고 물건을 옮기고 싶은 만큼 길게 누릅니다. 물건을 떨어뜨리려면 액션 키를 놓습니다."
-
-#: data/levels/world2/tux_own_horror_show.stl:3
-msgid "Tux' Own Horror Show"
-msgstr "턱스 자신만의 호러 쇼"
-
-#: data/levels/world2/tux_own_horror_show.stl:947
-msgid ""
-"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
-" often dangerous places."
-msgstr "#위습는 작고 성가신 유령으로, 종종 위험한 곳으로 이동합니다."
-
-#: data/levels/world2/walking_leaves.stl:3
-msgid "Walking Leaves"
-msgstr "걸어다니는 잎"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
 msgstr "숲에 오신 것을 환영합니다"
 
-#: data/levels/world2/welcome_forest.stl:50
+#: data/levels/world2/welcome_forest.stl:135
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
-"#Tux can go through a door by pressing the UP key."
-msgstr "-문\n!images/objects/door/door-0.png\n#턱스는 위쪽 방향키를 눌러 문을 통과할 수 있습니다."
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-문\n!images/objects/door/door-0.png\n#턱스는 위쪽 키를 눌러 문을 통과할 수 있습니다.\n#\n#일부 문은 열쇠가 있어야 들어갈 수 있습니다!"
+
+#: data/levels/world2/welcome_forest.stl:194
+#: data/levels/world2/worldmap.stwm:364 data/levels/world2/worldmap.stwm:374
+msgid "You found a secret area!"
+msgstr "비밀 구역을 찾았습니다!"
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "나무 뿌리"
 
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "뿌리깊은 숲"
-
-#: data/levels/world2/worldmap.stwm:239
+#: data/levels/world2/worldmap.stwm:356
 msgid "To be continued..."
 msgstr "다음에 계속..."
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "살모넬라보다 더한"

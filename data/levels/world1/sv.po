@@ -6,6 +6,7 @@
 # Anders Jonsson <transifex@norsjovallen.se>, 2018
 # Arvid Norlander <anmaster@berlios.de>, 2006-2008,2010
 # Daniel Nylander <po@danielnylander.se>, 2025-2026
+# Karl Jonatan Nyberg, 2026
 # Kristoffer Grundström <lovaren@gmail.com>, 2016
 # Kristoffer Grundström <lovaren@gmail.com>, 2016
 # Sebastian Rasmussen <sebras@gmail.com>, 2019-2020
@@ -16,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Daniel Nylander <po@danielnylander.se>, 2025-2026\n"
+"Last-Translator: Karl Jonatan Nyberg, 2026\n"
 "Language-Team: Swedish (http://app.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +31,7 @@ msgstr "23:e luftburna"
 
 #: data/levels/world1/above_arctic_skies.stl:3
 msgid "Above the Antarctic Skies"
-msgstr "Ovanför Antarktis himmel"
+msgstr "Ovanför den antarktiska himlen"
 
 #: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
@@ -138,7 +139,7 @@ msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
 "#When running, Tux throws the object in an arch!"
-msgstr "-Uppkastning\n#Tux kan kasta de flesta föremål uppåt genom att hålla ned UPP-tangenten samtidigt som ÅTGÄRDS-tangenten släpps.\n#När Tux springer kastar han föremålet i en båge!"
+msgstr "-Kasta uppåt\n#Tux kan kasta de flesta föremål uppåt genom att hålla ned UPP-tangenten samtidigt som ÅTGÄRDS-tangenten släpps.\n#När Tux springer kastar han föremålet i en båge!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -199,7 +200,7 @@ msgstr "Men innan Tux ens hann förstå vad som hände, fylldes rummet av ett kr
 msgid ""
 "The mighty Yeti had made his appearence, busting his chest in an "
 "intimidating fashion!"
-msgstr "Den mäktiga Yeti hade gjort sin entré och bröstade sig på ett hotfullt sätt!"
+msgstr "Den mäktiga yetin hade gjort sin entré och bröstade sig på ett hotfullt sätt!"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:11
 msgid ""
@@ -227,7 +228,7 @@ msgstr "Ett massivt schakt låg framför honom och ledde ner till den tidigare n
 msgid ""
 "Still carrying a spark of doubt that this was not a trap, Tux slowly "
 "descended into the depths once more..."
-msgstr "Fortfarande med en gnutta tvivel om att detta inte var en fälla, gick Tux långsamt ner i djupet igen..."
+msgstr "Fortfarande med en gnutta av tvivel om att detta inte var en fälla, sjönk Tux långsamt ner i djupet igen..."
 
 #: data/levels/world1/scripts_crystal_mine.txt:5
 msgid ""
@@ -305,7 +306,7 @@ msgstr "Tux såg sedan Noloks slott på avstånd och sprang iväg för att rädd
 msgid ""
 "After an entire day of navigating Icy Island, Tux had now almost reached the"
 " supposed castle of Nolok."
-msgstr "Efter en hel dag med att navigera på Isön hade Tux nu nästan nått det förmodade slottet Nolok."
+msgstr "Efter en hel dag med att navigera på Isön hade Tux nu nästan nått Noloks förmodade slott."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid ""
@@ -429,7 +430,7 @@ msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Eldblomma\n!images/powerups/fireflower/fire_flower-0.png\n#Eldblomman ger Tux egenskapen att kunna skjuta eldbollar."
+msgstr "-Eldblomma\n!images/powerups/fireflower/fire_flower-0.png\n#Eldblomman ger Tux förmågan att skjuta eldbollar."
 
 #: data/levels/world1/welcome_antarctica.stl:135
 msgid ""

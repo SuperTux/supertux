@@ -7,6 +7,7 @@
 # Arvid Norlander <anmaster@berlios.de>, 2006-2010
 # Karl Jonatan Nyberg, 2026
 # Daniel Nylander <po@danielnylander.se>, 2025-2026
+# Karl Jonatan Nyberg, 2026
 # Kristoffer Grundström <lovaren@gmail.com>, 2014
 # Kristoffer Grundström <lovaren@gmail.com>, 2014
 # Sebastian Rasmussen <sebras@gmail.com>, 2019-2021
@@ -147,7 +148,7 @@ msgid ""
 "!images/powerups/earthflower/earth_flower-0.png\n"
 "#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
 "#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
-msgstr "-Rock Shroom\n!images/powerups/earthflower/earth_flower-0.png\n#När du håller ned nedåtknappen medan du springer ger Rock Shroom Tux ett stenskydd.\n#I sin stenform är Tux immun mot de flesta typer av skador. Om Tux dock slår i en solid vägg upphör hans försvar och han blir sårbar igen. "
+msgstr "-Rock Shroom\n!images/powerups/earthflower/earth_flower-0.png\n#När du håller ned nedåtknappen medan du springer ger Rock Shroom Tux ett stenskydd.\n#I sin stenform är Tux immun mot de flesta typer av skador. Om Tux dock slår i en fast vägg upphör hans försvar och han blir sårbar igen. "
 
 #: data/levels/world2/root_for_you.stl:3
 msgid "Rooting For You"
@@ -420,7 +421,7 @@ msgid ""
 "There was no one around Tux could ask for help. All but the remains of "
 "corrupted husks littered the ground as he moved along in thought. No living "
 "creature in sight."
-msgstr "Det fanns ingen i närheten som Tux kunde be om hjälp. Allt utom resterna av förruttnade skal låg utspridda på marken medan han gick framåt i tankarna. Inga levande varelser syntes till."
+msgstr "Det fanns ingen i närheten som Tux kunde be om hjälp. Allt utom resterna av förruttnade skal låg utspridda på marken medan han gick vidare, försjunken i tankar. Inga levande varelser syntes till."
 
 #: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
 msgid ""
