@@ -166,7 +166,7 @@
     (icon "images/creatures/yeti/hudlife.png"))
   (object
     (class "ghosttree")
-    (icon "images/creatures/ghosttree/idle-0.png"))
+    (icon "images/creatures/ghosttree/hudlife.png"))
  )
 
  (objectgroup
@@ -230,7 +230,7 @@
     (icon "images/creatures/dispenser/dropper.png"))
   (object
     (class "ispy")
-    (icon "images/objects/ispy/i-idle.png"))
+    (icon "images/objects/ispy/i-idle0.png"))
 ;;(object
 ;;  (class "path")
 ;;  (icon "images/engine/editor/path.png"))
