@@ -23,6 +23,7 @@
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
+#include "object/sticky_object.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
@@ -33,7 +34,7 @@ static const float THROW_INTERVAL = 1;   /**< Time between two thrown rocks. */
 static const float THROW_VELOCITY = 400; /**< Initial velocity of thrown rocks. */
 
 Mole::Mole(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1),
+  StickyBadguy(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1),
   state(PRE_THROWING),
   timer(),
   throw_timer(),
@@ -96,7 +97,8 @@ Mole::throw_rock()
 void
 Mole::active_update(float dt_sec)
 {
-  BadGuy::active_update(dt_sec);
+  if (m_sticky) sticky_update(dt_sec);
+  StickyBadguy::active_update(dt_sec);
 
   switch (state) {
     case PRE_THROWING:
