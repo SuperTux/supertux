@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Leo-Martin Pala, 2026
 # Urmas Kvell, 2020,2022
 # Urmas Kvell, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-08-25 10:47+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Urmas Kvell, 2020,2022\n"
+"Last-Translator: Leo-Martin Pala, 2026\n"
 "Language-Team: Estonian (http://app.transifex.com/arctic-games/supertux/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,43 +22,34 @@ msgstr ""
 
 #: data/levels/world1/23rd_airborne.stl:3
 msgid "23rd Airborne"
-msgstr "Lumise tipuga kihv"
-
-#: data/levels/world1/23rd_airborne.stl:598
-#: data/levels/world1/between_glaciers.stl:855
-#: data/levels/world1/between_glaciers.stl:863
-#: data/levels/world1/crystal_mine.stl:1535
-#: data/levels/world1/crystal_mine.stl:1543
-#: data/levels/world1/frosted_fields.stl:188
-#: data/levels/world1/path_in_the_clouds.stl:348
-#: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
-msgid "You found a secret area!"
-msgstr "Sa leidsid salakambri!"
+msgstr "23. õhudessant"
 
 #: data/levels/world1/above_arctic_skies.stl:3
-msgid "Above the Arctic Skies"
-msgstr "Tuule mäng mägiraja teraval harjal"
+msgid "Above the Antarctic Skies"
+msgstr "Antarktika taeva kohal"
 
-#: data/levels/world1/above_arctic_skies.stl:162
+#: data/levels/world1/above_arctic_skies.stl:339
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
-"#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-Tuulelill\n!images/powerups/airflower/air_flower-0.png\n#Tuulelill annab Tux'ile oskuse lühikeseks ajaks lennata. Selleks kasuta hüppamise nuppu."
+"#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
+msgstr "-Tuulelill\n!images/powerups/airflower/air_flower-0.png\n#Tuulelill laseb Tuxil liikuda palju kiiremini ja hüpata kõrgemale. Kui pärast hüpet hüppeklahvi all hoida, saab Tux mõne sekundi õhus liuelda."
+
+#: data/levels/world1/antarctic_outpost.stl:3
+msgid "Antarctic Outpost"
+msgstr "Antarktika eelpost"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
-msgstr "Liustiku sügavad jää-ääred"
+msgstr "Kahe liustiku vahel"
 
-#: data/levels/world1/between_glaciers.stl:108
-msgid ""
-"-Crystals\n"
-"#This level contains four coloured crystals. Can you find them?\n"
-"#\n"
-"#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-Kristallid\n#Sellel tasandil on neli värvilist kristalli. Kas sa leiad kõik neli?\n#\n#PS: Mängu läbimiseks ei ole kristalle vaja."
+#: data/levels/world1/bouncy_mountainside.stl:3
+msgid "Bouncy, Bouncy Mountainside"
+msgstr "Põrkav, põrkav mäenõlv"
+
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr "Kedagi pole kodus"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -67,9 +59,9 @@ msgstr "Noloki talveloss"
 msgid "The Crystal Mine"
 msgstr "Kristallikaevandus"
 
-#: data/levels/world1/crystal_mine.stl:686
-msgid "#You have to activate two switches to open this door."
-msgstr "#Sa pead vajutama kahte lülitit, et seda ust avada."
+#: data/levels/world1/deep_dive_chill.stl:3
+msgid "Deep Dive 'n' Chill"
+msgstr "Sukeldu & lõõgastu"
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
@@ -80,53 +72,30 @@ msgid "Entrance to the Cave"
 msgstr "Koopasuu pimeduse lahte"
 
 #: data/levels/world1/fork_in_the_road.stl:3
-msgid "A Fork in the Road"
-msgstr "Kinnituisanud teelahe"
+msgid "A Fork in the Road?"
+msgstr "Teelahkmel?"
 
-#: data/levels/world1/fork_in_the_road.stl:84
+#: data/levels/world1/fork_in_the_road.stl:776
 msgid ""
-"-Switches\n"
-"!images/objects/switch/switch-0.png\n"
-"!images/objects/pushbutton/pushbutton-0.png\n"
-"#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
-"#There are also buttons that you can press by jumping on them."
-msgstr "-Lüliti\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Lüliteid saab kasutada erinevateks tegevusteks. Lüliti kasutamiseks vajuta ÜLES nuppu.\n#Mängus on ka nupud, mille vajutamiseks tuleb neile peale hüpata.."
-
-#: data/levels/world1/fork_in_the_road.stl:93
-msgid ""
-"-Trampolines\n"
-"!images/objects/trampoline/trampoline2-0.png\n"
-"#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "-Hüppelaud\n!images/objects/trampoline/trampoline2-0.png\n#Hüppelauad aitavad Tux'il hüpata. Kõrgemale lendamiseks hoia hüppelaual põrgates all hüppamise nuppu."
-
-#: data/levels/world1/fork_in_the_road.stl:100
-msgid ""
-"-Climbing\n"
-"#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "-Tux oskab ronida!\n# Vajuta ÜLES nuppu, et alustada ronimist. Lahti laskmiseks vajuta tegevuse nuppu või hüppa."
-
-#: data/levels/world1/fork_in_the_road.stl:106
-msgid ""
-"-Secret Exits\n"
-"#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
-"#Maybe they lead you to something special."
-msgstr "-Salajane väljapääs\n#Mõnel tasandil on ka salajane väljapääs. Hoia silmad lahti ja sa võid ühe üles leida.\n#Võib-olla nad viivad su erilisse kohta."
+"-Secret Exit\n"
+"#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
+msgstr "-Salaväljapääs\n#Tasemetes võib mõnikord peituda salajane väljapääs, mis paljastab varjatud kõrvaltee! Seega hoia maailmakaardil kahtlastel kohtadel silma peal."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
 msgstr "Jäätunud tuisuvaalad"
 
-#: data/levels/world1/frozen_bridge.stl:3
-msgid "Over the Frozen Bridge"
-msgstr "Väänlev kitsas jääsild"
-
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "Reetlik jääauk"
 
-#: data/levels/world1/icy_valley.stl:3
-msgid "Icy Valley"
-msgstr "Sügav varjuline org"
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
+msgid "Icy Island"
+msgstr "Suur ja paljas põhjapoolne saar"
+
+#: data/levels/world1/info:3
+msgid "Where your adventure begins."
+msgstr "Siit algab su seiklus."
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -140,17 +109,32 @@ msgstr "Kena talvehommik Penniga"
 msgid "The Journey Begins"
 msgstr "Krudisev lumekoorik"
 
-#: data/levels/world1/living_inside_fridge.stl:3
-msgid "Living in a Fridge"
-msgstr "Lõikamine läbi hange"
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
+msgstr "Sa leidsid salakambri!"
 
-#: data/levels/world1/miyamoto_monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Jääskulptuur Miyamoto'le"
+#: data/levels/world1/living_inside_fridge.stl:3
+msgid "Living In A Fridge"
+msgstr "Elu külmkapis"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
-msgstr "Paks kohev lumevaip"
+msgstr "Oo ei! Veel lumepalle!"
+
+#: data/levels/world1/more_snowballs.stl:319
+msgid ""
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Esemete kandmine\n#Tux saab esemeid üles korjata, hoides all TEGEVUSE klahvi. Eseme mahapanekuks vabasta paigal seistes TEGEVUSE klahv.\n#Kui lased TEGEVUSE klahvi Tuxi liikumise ajal lahti, viskab ta selle!"
+
+#: data/levels/world1/more_snowballs.stl:328
+msgid ""
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-Üles viskamine\n#Tux saab enamikku esemeid üles visata, hoides TEGEVUS-klahvi vabastamise ajal all ÜLES-klahvi.\n#Kui Tux jookseb, viskab ta eseme kaarega!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -160,32 +144,118 @@ msgstr "Mägede tuhmid piirjooned"
 msgid "...Or Is It Just Me?"
 msgstr "Lumehelbe saladuslik puudutus"
 
-#: data/levels/world1/path_in_the_clouds.stl:3
+#: data/levels/world1/path_in_clouds.stl:3
 msgid "A Path in the Clouds"
 msgstr "Mägede ja taeva piiril"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux kiirustas treppidest üles lossi kõrgeimasse vangitorni,"
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
+msgstr "Lõpuks õnnestus Tuxil jõuda jäise lossi viimasesse ruumi."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "kuid teda ootas ees vaid üks kortsutatud kiri torni aknalaual."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
+msgstr "Tema üllatuseks polnud siin kedagi. Ei Pennyt ega seda... veidrat Noloki tüüpi."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "\"Mu armas Tux, ma kuulsin pealt Noloki kurja plaani...\""
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
+msgstr "Kindlasti pidid nad kuskil siin olema, eks? Võib-olla mõnes peidetud ruumis?"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "\"Ta viib mu siit ära kaugele metsamaale oma suvelossi. Päästa mind! Sinu Penny\""
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
+msgstr "Pärast veidi edasi-tagasi arutamist iseendaga märkas Tux väikest sedelit, mis oli kinnitatud ühe samba külge."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Ent äkitselt..."
+msgid "It was yet another note, by that Nolok."
+msgstr "See oli järjekordne sedel, tollelt Nolokilt."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr "Sellel oli kirjas, et ta oli juba Jäiselt saarelt kaugele põhja poole lahkunud. Kui Tux sooviks talle järgneda ja oma armastatud sõbranna päästa, peaks ta tulema Kristallikaevandusse."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr "Allpool oli joonistatud Liustikusaare visandlik kaart, mis kujutas paati ja teises otsas mingisugust väikest kaid."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr "Ent enne, kui Tux jõudis sellest kõigest arugi saada, täitis ruumi vali möire!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr "Vägev jeti oli end nähtavale toonud, ähvardavalt vastu rinda tagudes!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr "Tux suundus ruumi teises otsas asuva rõdu poole. Kuna muud võimalust polnud, hüppas ta alla!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
+msgstr "Kahjuks ei kavatsenud Jeti teda nii kergesti minema lasta..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:2
+msgid ""
+"After a long swim across the antarctic waters, Tux arrived at the Glacier "
+"Isle mentioned in Nolok's note."
+msgstr "Pärast pikka ujumist läbi Antarktika vete jõudis Tux Liustikusaarele, mida Noloki sedelis mainiti."
+
+#: data/levels/world1/scripts_crystal_mine.txt:3
+msgid ""
+"A massive shaft lay before him, leading down into the aforementioned Crystal"
+" Mine."
+msgstr "Tema ees haigutas hiiglaslik šaht, mis viis alla eelmainitud Kristallikaevandusse."
+
+#: data/levels/world1/scripts_crystal_mine.txt:4
+msgid ""
+"Still carrying a spark of doubt that this was not a trap, Tux slowly "
+"descended into the depths once more..."
+msgstr "Kandes südames endiselt kahtlusekübet, et see võib olla lõks, laskus Tux taas aegamisi sügavustesse..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:5
+msgid ""
+"At last, Tux made it through the crystal mine and found himself on the "
+"opposite end of the Glacier Isle."
+msgstr "Lõpuks pääses Tux kristallikaevandusest läbi ja leidis end Liustikusaare vastasotsas."
+
+#: data/levels/world1/scripts_crystal_mine.txt:6
+msgid ""
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
+msgstr "Kaevandusest väljuma hakates lootis Tux sisimas, et kõik, mida Nolok sedelisse kirjutas, oli tõsi."
+
+#: data/levels/world1/scripts_crystal_mine.txt:7
+msgid ""
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
+msgstr "Tema kergenduseks leidiski ta ühe paadi, mis oli ikka veel sildunud. Sellega sai ta põhja poole purjetada, et leida Nolok ja päästa Penny."
+
+#: data/levels/world1/scripts_crystal_mine.txt:8
+msgid "It seemed the map in the note wasn't a trap after all."
+msgstr "Paistis, et sedelis olnud kaart polnudki lõks."
+
+#: data/levels/world1/scripts_crystal_mine.txt:9
+msgid ""
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
+msgstr "Mida enam ta selle üle mõtiskles, seda vähem kindel oli ta Noloki motiivides. Miks peaks too endast vihjeid maha jätma?"
+
+#: data/levels/world1/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Lisa siia vaheklipp---"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -228,109 +298,152 @@ msgid ""
 msgstr "kuid teekond sinna oli täis jäiseid ohti ja Noloki kurje käsilasi."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Noloki talveloss kindlalt silme ees otsustas Tux hinge puhata ja ennast kosutada."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the"
+" supposed castle of Nolok."
+msgstr "Pärast terve päeva kestnud rännakut mööda Jääsaart oli Tux nüüd peaaegu jõudnud Noloki väidetava lossini."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Kuid ühtäkki kostus kaugusest vali möire!"
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
+msgstr "Öine unepuudus polnud ehk just ideaalne, kuid ta oli kindlalt otsustanud edasi minna!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
-msgstr "See ei olnud jääkaru või morsk, vaid eemalt jälitas teda üksik jeti."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
+msgstr "Soovimata rohkem aega raisata, liikus Tux edasi ja libises künkalt, millel ta seisis, alla ees laiuvasse jäisesse orgu."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
-" ..."
-msgstr "Tundes muret Jeti ootamatu lahkumise pärast, otsustas Tux oma rännakut jätkata, ..."
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
+msgstr "Tuxile teadmata tundis üks jeti tema vastu suurt huvi ning jälgis teda tähelepanelikult, kui ta oma teekonda jätkas."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "...sisimas lootes jetiga enam mitte kohtuda. Ükskõik mis ka teekond ei tooks."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr "Jeti lasi kuuldavale valju möirge ja asus väikest pingviini jälitama."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr "Ta sai hakkama! Ta tõesti sai hakkama! Tux oli võimsa jeti alistanud!"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he"
+" did not throw hands again."
+msgstr "Kuigi jetil ei kulunud taas jalule saamiseks kaua aega, ei hakanud ta Tuxi kergenduseks enam rusikatega vehkima."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr "Jeti oli aga raevus! Ta ei suutnud mõista, kuidas Tuxi-sugune pisike pingviin võis teda võitluses võita."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr "Justkui oleks ta Tuxi kohalolu sootuks unustanud, tormas jeti omaette porisedes minema."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr "Teadmata, mida sellest arvata, otsustas Tux edasi liikuda."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr "Kaldale jõudes nägi Tux juba silmapiiril Liustikusaart."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr "Kui ta oleks varem teadnud, et Nolok sinna läks, oleks ta palju kiiremini kohale jõudnud."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
+msgstr "Ehk oligi see Noloki plaan, kui ta tolle sedeli maha jättis..."
 
 #: data/levels/world1/shattered_bridge.stl:3
-msgid "The Shattered Bridge"
-msgstr "Habras jäätunud sild"
+msgid "Shattered Bridge"
+msgstr "Purunenud sild"
+
+#: data/levels/world1/slippery_slide.stl:3
+msgid "Slippery Slide"
+msgstr "Libeliug"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "Üüratu igilumi"
+msgstr "Mõnevõrra väiksem vann"
+
+#: data/levels/world1/somewhat_smaller_bath.stl:422
+msgid ""
+"-Swimming\n"
+"!images/creatures/tux/big/swim-1.png\n"
+"#When submerged in water, use the DIRECTIONAL keys to swim around freely. Hold the JUMP key to swim even faster."
+msgstr "-Ujumine\n!images/creatures/tux/big/swim-1.png\n#Vee all olles kasuta vabalt ringi ujumiseks SUUNA-klahve. Hoia HÜPPE-klahvi all, et veel kiiremini ujuda."
 
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
-msgstr "Mägede jäine hingus"
+msgstr "Jääkülm"
+
+#: data/levels/world1/stone_cold.stl:200
+msgid ""
+"-Carrying Objects\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Esemete kandmine\n#Tux saab esemeid üles korjata, hoides all TEGEVUSE klahvi. Eseme mahapanekuks vabasta TEGEVUSE klahv.\n#Kui lased TEGEVUSE klahvi Tuxi liikumise ajal lahti, viskab ta selle!"
+
+#: data/levels/world1/stone_cold.stl:209
+msgid ""
+"-Up-Throwing\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-Üles viskamine \n#Tux saab enamikku esemeid üles visata, hoides TEGEVUS-klahvi vabastamise ajal all ÜLES-klahvi. \n#Kui Tux jookseb, viskab ta eseme kaarega!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
 msgstr "Allpool jääkoorikut"
 
-#: data/levels/world1/via_nostalgica.stl:3
-msgid "Via Nostalgica"
-msgstr "Petlikult tuttav teerada"
-
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "Ettevalmistused rännaku ohtudeks"
+msgstr "Teretulemast Antarktikasse"
 
-#: data/levels/world1/welcome_antarctica.stl:74
-msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
-"#\n"
-"#Hit them from below to get at their contents."
-msgstr "-Boonusplokid\n!images/objects/bonus_block/full-0.png\n#Boonusplokid võivad sisaldada kuldmünte, power-up'e või eriesemeid, mis sind aitavad.\n#\n#Müksa neid alt poolt, et saada nende sisu."
-
-#: data/levels/world1/welcome_antarctica.stl:83
+#: data/levels/world1/welcome_antarctica.stl:117
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Muna\n!images/powerups/egg/egg-shade.png\n#Muna paneb Tux'i kasvama, siis saab Tux peaga lõhkuda puidust kaste."
 
-#: data/levels/world1/welcome_antarctica.stl:90
-msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Kelluke\n!images/objects/resetpoints/bell-m.png\n#Tilista kellukest, et hiljem hätta jäädes mängu siit jätkata. Kuid siit uuesti alustades kaotad sa osa oma kuldmüntidest."
-
-#: data/levels/world1/welcome_antarctica.stl:97
-msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Võta hoogu!\n!images/tiles/signs/run.png\n#Eespool on kõrge tõke. Proovi jooksu pealt hüpates sellest üle saada."
-
-#: data/levels/world1/welcome_antarctica.stl:104
+#: data/levels/world1/welcome_antarctica.stl:126
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Tulilill\n!images/powerups/fireflower/fire_flower-0.png\n#Tulilill annab Tux'ile oskuse tulistada välja tulepalle."
 
-#: data/levels/world1/welcome_antarctica.stl:111
+#: data/levels/world1/welcome_antarctica.stl:135
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux doll gives Tux 100 coins."
-msgstr "-Nuku-Tux\n!images/powerups/1up/1up.png\n#Püüa nukk kinni, et saada 100 kuldmünti."
-
-#: data/levels/world1/welcome_antarctica.stl:118
-msgid ""
-"-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Salakambrid\n#Mõnes kohas on jäiste seinte sees peidus salakamber, kust võib leida varandust."
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icy Island"
-msgstr "Suur ja paljas põhjapoolne saar"
+"#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!\n"
+"\n"
+"#Collect all of them to unlock fun, additional levels!"
+msgstr "-Nuku-Tux\n!images/powerups/1up/1up.png\n#Nuku-Tuxid on haruldased kogutavad esemed, mida on vaja Boonussaarte avamiseks!\n\n#Kogu nad kõik kokku, et avada vahvaid lisatasemed!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
 msgstr "Lumes ennast leidnud"
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
-msgstr "Jeti penikoorma kauguses"
+msgid "An Unsuspected Follower"
+msgstr "Ootamatu jälitaja"
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
+msgstr "Teel Liustikusaartele"
