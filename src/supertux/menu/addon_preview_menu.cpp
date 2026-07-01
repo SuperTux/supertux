@@ -313,9 +313,9 @@ AddonPreviewMenu::install_addon()
   auto dialog_title = fmt::format(fmt::runtime(m_update ? _("Updating {}") : _("Downloading {}")), menu_item_text);
 
   dialog->set_title(dialog_title);
-  status->then([this, addon_id](bool success)
+  status->then([this, auto_install = m_auto_install, update = m_update, addon_id](bool success)
   {
-    if (m_auto_install)
+    if (auto_install)
     {
       MenuManager::instance().set_dialog({});
       MenuManager::instance().clear_menu_stack();
