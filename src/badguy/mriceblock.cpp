@@ -78,6 +78,18 @@ MrIceBlock::get_default_sprite_name() const
 }
 
 bool
+MrIceBlock::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name == "images/creatures/laptop/laptop.sprite")
+  {
+    type = "laptop";
+    return true;
+  }
+
+  return false;
+}
+
+bool
 MrIceBlock::is_freezable() const
 {
   return m_type == LAPTOP;
