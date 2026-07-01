@@ -324,7 +324,7 @@ AddonPreviewMenu::install_addon()
     if (success)
     {
       MenuManager::instance().pop_menu(true);
-      if (!m_update) MenuManager::instance().pop_menu(true);
+      if (!update) MenuManager::instance().pop_menu(true);
       MenuManager::instance().current_menu()->refresh();
     }
   });
