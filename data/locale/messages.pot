@@ -5577,6 +5577,55 @@ msgstr ""
 msgid "Best"
 msgstr ""
 
+#: src/supertux/menu/main_menu.cpp:56
+msgid "Statistics"
+msgstr ""
+
+#: src/supertux/menu/global_stats_menu.cpp:33
+#: src/supertux/screen/global_stats_screen.cpp:129
+msgid "Global Statistics"
+msgstr ""
+
+#: src/supertux/menu/global_stats_menu.cpp:35
+msgid "View Statistics"
+msgstr ""
+
+#: src/supertux/screen/global_stats_screen.cpp:140
+msgid "Loading statistics..."
+msgstr ""
+
+#: src/supertux/screen/global_stats_screen.cpp:146
+msgid "Please wait a moment"
+msgstr ""
+
+#: src/supertux/screen/global_stats_screen.cpp:152
+msgid "Coins collected"
+msgstr ""
+
+#: src/supertux/screen/global_stats_screen.cpp:153
+msgid "Secrets found"
+msgstr ""
+
+#: src/supertux/screen/global_stats_screen.cpp:154
+msgid "Tux Dolls collected"
+msgstr ""
+
+#: src/supertux/screen/global_stats_screen.cpp:155
+msgid "Levels completed"
+msgstr ""
+
+#: src/supertux/screen/global_stats_screen.cpp:156
+msgid "Perfect levels"
+msgstr ""
+
+#: src/supertux/screen/global_stats_screen.cpp:157
+msgid "Total play time"
+msgstr ""
+
+#: src/supertux/screen/global_stats_screen.cpp:162
+msgid "Press jump, action, start or escape to return"
+msgstr ""
+
 #: src/supertux/tile_set.cpp:139
 msgid "Others"
 msgstr ""

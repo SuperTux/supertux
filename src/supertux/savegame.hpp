@@ -32,12 +32,22 @@ public:
   LevelState() :
     filename(),
     solved(false),
-    perfect(false)
+    perfect(false),
+    coins(0),
+    tuxdolls(0),
+    secrets(0),
+    time(0.0f),
+    has_statistics(false)
   {}
 
   std::string filename;
   bool solved;
   bool perfect;
+  int coins;
+  int tuxdolls;
+  int secrets;
+  float time;
+  bool has_statistics;
 };
 
 struct LevelsetState
@@ -86,7 +96,13 @@ public:
   LevelsetState get_levelset_state(const std::string& name);
   void set_levelset_state(const std::string& basedir,
                           const std::string& level_filename,
-                          bool solved);
+                          bool solved,
+                          bool perfect = false,
+                          int coins = 0,
+                          int tuxdolls = 0,
+                          int secrets = 0,
+                          float time = 0.0f,
+                          bool has_statistics = false);
 
   std::vector<std::string> get_worldmaps();
   WorldmapState get_worldmap_state(const std::string& name);

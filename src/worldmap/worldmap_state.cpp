@@ -59,7 +59,7 @@ WorldMapState::new_save(bool initial)
 }
 
 void
-WorldMapState::load_state()
+WorldMapState::load_state(bool create_missing)
 {
   log_debug << "loading worldmap state" << std::endl;
 
@@ -125,17 +125,34 @@ WorldMapState::load_state()
     }
     catch (const std::exception& err)
     {
-      log_warning << "Not loading worldmap state: " << err.what() << std::endl;
-      new_save(true);
+      if (create_missing)
+      {
+        log_warning << "Not loading worldmap state: " << err.what() << std::endl;
+        new_save(true);
+      }
+      else
+      {
+        log_debug << "Not loading worldmap state: " << err.what() << std::endl;
+      }
     }
   }
   else
   {
-    log_warning <<
-      fmt::format("Save version doesn't match (got {}), worldmap expects {}. "
-                  "Creating a new save.",
-                  savegame.get_save_version(), m_worldmap.get_save_version());
-    new_save(false);
+    if (create_missing)
+    {
+      log_warning <<
+        fmt::format("Save version doesn't match (got {}), worldmap expects {}. "
+                    "Creating a new save.",
+                    savegame.get_save_version(), m_worldmap.get_save_version());
+      new_save(false);
+    }
+    else
+    {
+      log_debug <<
+        fmt::format("Save version doesn't match (got {}), worldmap expects {}. "
+                    "Not loading worldmap state.",
+                    savegame.get_save_version(), m_worldmap.get_save_version());
+    }
   }
 
   m_worldmap.m_in_level = false;

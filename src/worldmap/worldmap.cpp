@@ -284,10 +284,17 @@ WorldMap::solved_level_count() const
 
 
 void
-WorldMap::load_state()
+WorldMap::load_state(bool create_missing)
 {
   WorldMapState state(*this);
-  state.load_state();
+  state.load_state(create_missing);
+}
+
+void
+WorldMap::load_state(WorldMapSector& sector, bool create_missing)
+{
+  m_sector = &sector;
+  load_state(create_missing);
 }
 
 void
