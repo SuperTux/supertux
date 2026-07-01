@@ -18,6 +18,7 @@
 
 #include "moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
+#include "object/character_profile.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/object_remove_listener.hpp"
@@ -78,8 +79,11 @@ public:
   static Color get_player_color(int id);
 
 public:
-  Player(PlayerStatus& player_status, const std::string& name, int player_id);
+  Player(PlayerStatus& player_status, const std::string& name, int player_id,
+         CharacterType character_type = CharacterType::TUX);
   ~Player() override;
+
+  static std::string get_sprite_path_for_character(CharacterType character_type);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -546,6 +550,15 @@ private:
   bool m_can_walljump;
   float m_boost;
   float m_speedlimit;
+
+  float m_max_walk_speed;   
+  float m_max_run_speed;     
+  float m_walk_acceleration;   
+  float m_max_speed_multiplier;
+  float m_deceleration;
+  float m_jump_force;
+  float m_fall_acceleration;
+  
   bool m_velocity_override;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
