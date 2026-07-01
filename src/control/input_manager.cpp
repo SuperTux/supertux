@@ -28,11 +28,12 @@
 static constexpr int MAX_PLAYERS = 4;
 
 InputManager::InputManager(KeyboardConfig& keyboard_config,
-                           JoystickConfig& joystick_config) :
+                           bool& use_game_controller,
+                           std::map<int, JoystickConfig>& joystick_configs) :
   m_controllers(),
-  m_use_game_controller(joystick_config.m_use_game_controller),
+  m_use_game_controller(use_game_controller),
   keyboard_manager(new KeyboardManager(this, keyboard_config)),
-  joystick_manager(new JoystickManager(this, joystick_config)),
+  joystick_manager(new JoystickManager(this, joystick_configs)),
   game_controller_manager(new GameControllerManager(this)),
   m_uses_keyboard()
 {
@@ -66,8 +67,6 @@ InputManager::use_game_controller(bool v)
 {
   m_use_game_controller = v;
 
-  // The 'rebinding' here is kind of a hack imo, but this is better than this
-  // option just not working at all...
   if (m_use_game_controller)
     game_controller_manager->rebind_controllers();
   else

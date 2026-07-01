@@ -77,7 +77,8 @@ Config::Config() :
   tux_spawn_pos(),
   locale(),
   keyboard_config(),
-  joystick_config(),
+  joystick_configs(),
+  use_game_controller(true),
   ignore_joystick_axis(false),
   mobile_controls(false),
   m_mobile_controls_scale(1.3f),
@@ -151,6 +152,7 @@ Config::Config() :
   touch_just_directional(true),
   repository_url()
 {
+  joystick_configs[0] = JoystickConfig();
 }
 
 void
@@ -381,9 +383,31 @@ Config::load()
     std::optional<ReaderMapping> joystick_mapping;
     if (config_control_mapping->get("joystick", joystick_mapping))
     {
-      joystick_config.read(*joystick_mapping);
+      joystick_configs[0].read(*joystick_mapping);
     }
 
+    std::optional<ReaderCollection> joystick_configs_collection;
+    if (config_control_mapping->get("joystick-configs", joystick_configs_collection))
+    {
+      for (auto const& node : joystick_configs_collection->get_objects())
+      {
+        if (node.get_name() == "joystick-config")
+        {
+          auto mapping = node.get_mapping();
+          int player_id = 0;
+          if (mapping.get("player", player_id))
+          {
+            joystick_configs[player_id].read(mapping);
+          }
+        }
+        else
+        {
+          log_warning << "Unknown token in config file: " << node.get_name() << std::endl;
+        }
+      }
+    }
+
+    config_control_mapping->get("use_game_controller", use_game_controller);
     config_control_mapping->get("ignore_joystick_axis", ignore_joystick_axis);
 
     config_control_mapping->get("touch_haptic_feedback", touch_haptic_feedback);
@@ -561,9 +585,17 @@ Config::save()
     keyboard_config.write(writer);
     writer.end_list("keymap");
 
-    writer.start_list("joystick");
-    joystick_config.write(writer);
-    writer.end_list("joystick");
+    writer.start_list("joystick-configs");
+    for (auto& [player_id, cfg] : joystick_configs)
+    {
+      writer.start_list("joystick-config");
+      writer.write("player", player_id);
+      cfg.write(writer);
+      writer.end_list("joystick-config");
+    }
+    writer.end_list("joystick-configs");
+
+    writer.write("use_game_controller", use_game_controller);
 
     writer.write("ignore_joystick_axis", ignore_joystick_axis);
     writer.write("touch_haptic_feedback", touch_haptic_feedback);

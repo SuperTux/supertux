@@ -26,6 +26,7 @@
 #include <unordered_map>
 
 #include "util/currenton.hpp"
+#include "control/joystick_config.hpp"
 
 class GameControllerManager;
 class JoystickManager;
@@ -43,7 +44,8 @@ private:
 
 public:
   InputManager(KeyboardConfig& keyboard_config,
-               JoystickConfig& joystick_config);
+               bool& use_game_controller,
+               std::map<int, JoystickConfig>& joystick_configs);
   ~InputManager() override;
 
   void process_event(const SDL_Event& event);
