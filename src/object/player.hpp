@@ -27,6 +27,7 @@
 #include "supertux/timer.hpp"
 #include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
+#include "supertux/counter.hpp"
 
 #include <array>
 #include <list>
@@ -517,6 +518,8 @@ private:
 
   void stop_rolling(bool violent = true);
 
+  void set_invincible(bool invincible, CounterType type, float time_left = 0.f);
+
 private:
   int m_id;
   std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
@@ -582,6 +585,7 @@ private:
 public:
   bool m_does_buttjump;
   Timer m_invincible_timer;
+  std::vector<Counter> m_counters;
 
 private:
   Timer m_skidding_timer;
