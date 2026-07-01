@@ -20,6 +20,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "physfs/util.hpp"
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -55,11 +56,17 @@ ParticleEditorOpen::~ParticleEditorOpen()
 void
 ParticleEditorOpen::menu_action(MenuItem& item)
 {
+  std::string path;
+
   switch (item.get_id())
   {
     case MNID_OPEN:
       std::replace(m_filename.begin(), m_filename.end(), '\\', '/');
-      ParticleEditor::current()->open("/particles/" + m_filename);
+
+      // realpath() is necessary for particle files outside the particles/ folder
+      path = physfsutil::realpath("/particles/" + m_filename);
+
+      ParticleEditor::current()->open(path);
       MenuManager::instance().clear_menu_stack();
       break;
 
