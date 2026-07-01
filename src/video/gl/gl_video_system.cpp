@@ -305,11 +305,17 @@ GLVideoSystem::apply_config()
 {
   apply_video_mode();
 
-  Size target_size = g_config->use_fullscreen ?
-    ((g_config->fullscreen_size == Size(0, 0)) ? m_desktop_size : g_config->fullscreen_size) :
-    g_config->window_size;
+  // Use drawable size (in pixels) for HiDPI support instead of window size (in points)
+  int drawable_w, drawable_h;
+  SDL_GL_GetDrawableSize(m_sdl_window.get(), &drawable_w, &drawable_h);
+  Size target_size(drawable_w, drawable_h);
 
-  m_viewport = Viewport::from_size(target_size, m_desktop_size);
+  // Compute HiDPI scale factor for coordinate conversion
+  Size window_size = get_window_size();
+  float pixel_scale = (window_size.width > 0) ?
+    static_cast<float>(drawable_w) / static_cast<float>(window_size.width) : 1.0f;
+
+  m_viewport = Viewport::from_size(target_size, m_desktop_size, pixel_scale);
 
 #ifdef __ANDROID__
   // SDL2 on Android reports display resolution size including the camera cutout,
