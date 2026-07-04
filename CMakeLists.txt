@@ -124,7 +124,7 @@ else()
 endif()
 
 ## Determine whether static linking for SimpleSquirrel should be defaulted to
-if(MSVC OR ANDROID)
+if(MSVC OR ANDROID OR EMSCRIPTEN)
   option(USE_STATIC_SIMPLESQUIRREL "Statically link the SimpleSquirrel library" ON)
 else()
   option(USE_STATIC_SIMPLESQUIRREL "Statically link the SimpleSquirrel library" OFF)

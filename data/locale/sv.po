@@ -4042,11 +4042,11 @@ msgstr "Dela denna bana under licensen CC-BY-SA 4.0 Internationell (rekommendera
 msgid ""
 "An auto-save recovery file was found. Would you like to restore the recovery\n"
 "file and resume where you were before the editor crashed?"
-msgstr "En autosparad återställningsfil hittades. Vill du återställa från\nåterställningfilen och fortsätta där du var innan redigeraren kraschade?"
+msgstr "En autosparad återställningsfil hittades. Vill du återställa från\nåterställningsfilen och fortsätta där du var innan redigeraren kraschade?"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:179
 msgid "This will delete the auto-save file. Are you sure?"
-msgstr "Detta kommer att ta bort de auto-sparade filerna.  Är du säker?"
+msgstr "Detta kommer att ta bort den autosparade filen. Är du säker?"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:54
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35

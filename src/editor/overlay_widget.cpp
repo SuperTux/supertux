@@ -505,6 +505,8 @@ EditorOverlayWidget::replace()
 
   uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
+  if (tiles_width == 0 || tiles_height == 0) return;
+
   // Don't do anything if the old and new tiles are the same tile.
   if (tiles_width == 1 && tiles_height == 1 && replace_tile == tiles->pos(0, 0)) return;
 
