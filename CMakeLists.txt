@@ -197,11 +197,6 @@ if(NOT EMSCRIPTEN)
     PKG SDL3_ttf PKG_USE SDL3_ttf::SDL3_ttf CONFIG REQUIRED PKG_CONFIG SDL3_ttf sdl3_ttf)
   add_package(TARGET libcurl
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
-  # SDL3 TODO
-  #if (USE_SYSTEM_SDL2_TTF)
-    add_package(TARGET SDL2_ttf
-      PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
-  #endif()
   if(ENABLE_NETWORKING)
     add_package(TARGET libcurl
       PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
