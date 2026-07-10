@@ -78,6 +78,7 @@ jobs:
             libopenal-dev \
             libsdl3-dev \
             libsdl3-image-dev \
+            libsdl3-ttf-dev \
             libglib2.0-dev \
             libfreetype6-dev \
             libraqm-dev \
