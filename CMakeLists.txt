@@ -111,7 +111,7 @@ else()
 endif()
 
 if(IS_SUPERTUX_RELEASE)
-  option(STEAM_BUILD "Prepare build for Steam" OFF)
+  option(STEAM_BUILD "Prepare build for Steam" ON)
 endif()
 
 option(SUPERTUX_LTO "Use link-time optimizations (Takes more RAM at compilation, gives smaller and faster executables)" OFF)
