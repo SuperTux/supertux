@@ -67,6 +67,10 @@ jobs:
             '@rpath/libjxl_cms.0.11.dylib' \
             /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
             /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
+          install_name_tool -change \
+            '@rpath/libjxl_cms.0.12.dylib' \
+            /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.12.dylib \
+            /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework                           \
@@ -90,6 +94,10 @@ jobs:
           install_name_tool -change \
             '@rpath/libjxl_cms.0.11.dylib' \
             /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
+            /usr/local/opt/jpeg-xl/lib/libjxl.dylib
+          install_name_tool -change \
+            '@rpath/libjxl_cms.0.12.dylib' \
+            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.12.dylib \
             /usr/local/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left
