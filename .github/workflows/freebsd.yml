@@ -34,13 +34,13 @@ jobs:
       matrix:
         vm_os: [freebsd]
         build_type: [Debug, Release]
-        freebsd_release: ["15.0", "14.3"]
+        freebsd_release: ["15.0", "14.3", "14.4"]
         include:
           - release: ON
 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.2
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
@@ -48,7 +48,7 @@ jobs:
 
       - name: Start VM
         id: vm
-        uses: vmactions/freebsd-vm@v1.3.6
+        uses: vmactions/freebsd-vm@v1.4.5
         with:
           sync: nfs
           release: "${{ matrix.freebsd_release }}"
@@ -59,7 +59,8 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
         shell: freebsd {0}
         run: |
-            pkg install -y pkgconf git cmake googletest sdl2 sdl2_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm
+            pkg update -f
+            pkg install -y pkgconf git cmake googletest sdl2 sdl2_image sdl3 sdl3_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm pcre2
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
@@ -71,13 +72,31 @@ jobs:
             git config --global --add safe.directory /home/runner/work/supertux/supertux
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DWARNINGS=ON -DWERROR=OFF -DINSTALL_SUBDIR_SHARE=share/supertux2 -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DENABLE_DISCORD=ON
+            echo '$ ls'
             ls
             make -j4 VERBOSE=1
             mkdir out
             make install DESTDIR="./out" VERBOSE=1
             cd out/usr
-            echo -e '#!/bin/sh\n' './bin/supertux2' >> run.sh
+            echo -e '#!/bin/sh
+            export DIRNAME="$(dirname "$(readlink -f "$0")")"
+            export SYSTEM_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
+            cd "$DIRNAME"
+            export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIRNAME/lib/"
+            "$DIRNAME/bin/supertux2"
+            "$@"' > run.sh
             chmod +x run.sh
+            echo '# cat ./run.sh'
+            cat ./run.sh
+            cd lib
+            cp /usr/local/lib/libopenal.so ./
+            cp /usr/local/lib/libSDL2_image-2.0.so ./
+            cp /usr/local/lib/libphysfs.so ./
+            cp /usr/local/lib/libGLEW.so ./
+            ln libopenal.so libopenal.so.1
+            ln libGLEW.so libGLEW.so.2
+            ln libphysfs.so libphysfs.so.1
+            ln libSDL2_image-2.0.so libSDL2_image-2.0.so.0
 #Compiling with the -DWERROR=ON option on FreeBSD will cause the compilation to fail, so it is disabled
 
       - name: Package
@@ -85,13 +104,15 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
           freebsd_release: ${{ matrix.freebsd_release }}
         run: |
-            cd $GITHUB_WORKSPACE
-            cd build
+            export GIT_TAG=$(git describe --tags --abbrev=0)
+            cd $GITHUB_WORKSPACE/build
             mkdir upload
-            tar -czvf upload/SuperTux-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz out/usr
+            cd out
+            mv usr supertux
+            tar -czvf $GITHUB_WORKSPACE/build/upload/SuperTux-$GIT_TAG-FreeBSD-${{ matrix.freebsd_release }}-${{ matrix.build_type }}.tar.gz ./
 
       - name: Upload tar archives
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: "SuperTux-${{ matrix.vm_os }}-amd64-${{ matrix.freebsd_release }}-${{ matrix.build_type }}-tgz"
           path: build/upload/*.tar.gz
@@ -99,7 +120,7 @@ jobs:
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2.6.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
