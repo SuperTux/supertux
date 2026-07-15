@@ -43,9 +43,7 @@
 #endif
 
 #include <SDL3/SDL_version.h>
-#if SDL_VERSION_ATLEAST(2,0,14)
 #include <SDL3/SDL_misc.h>
-#endif
 
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
@@ -347,12 +345,12 @@ std::string escape_url(const std::string& url)
 
 void open_url(const std::string& url)
 {
-#if SDL_VERSION_ATLEAST(2,0,14)
-  SDL_OpenURL(url.c_str());
-#elif defined(__EMSCRIPTEN__)
+#ifdef __EMSCRIPTEN__ // TODO: is this still needed?
   emscripten_run_script(("window.open('" + url + "');").c_str());
 #else
-  open_path(url);
+  SDL_OpenURL(url.c_str());
+//#else
+//  open_path(url);
 #endif
 }
 

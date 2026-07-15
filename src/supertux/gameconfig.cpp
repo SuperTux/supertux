@@ -140,14 +140,7 @@ Config::Config() :
   editor_last_edited_level(),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
-#if SDL_VERSION_ATLEAST(2, 0, 9)
   multiplayer_buzz_controllers(true),
-#else
-  // Will be loaded and saved anyways, to retain the setting. This is helpful
-  // for users who frequently switch between versions compiled with a newer SDL
-  // and those with an older SDL; they won't have to check the setting each time.
-  multiplayer_buzz_controllers(false),
-#endif
   multiplayer_no_limit(false),
   touch_haptic_feedback(true),
   touch_just_directional(true),

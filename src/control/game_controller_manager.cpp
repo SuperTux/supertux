@@ -309,29 +309,21 @@ GameControllerManager::has_corresponding_game_controller(int player_id) const
 int
 GameControllerManager::rumble(SDL_Gamepad* controller) const
 {
-#if SDL_VERSION_ATLEAST(2, 0, 9)
   if (g_config->multiplayer_buzz_controllers)
   {
-#if SDL_VERSION_ATLEAST(2, 0, 18)
     auto controller_properties = SDL_GetGamepadProperties(controller);
     if (controller_properties && SDL_GetBooleanProperty(controller_properties, SDL_PROP_GAMEPAD_CAP_RUMBLE_BOOLEAN, false))
     {
-#endif
       // TODO: Rumble intensity setting (like volume).
       SDL_RumbleGamepad(controller, 0xFFFF, 0xFFFF, 300);
-#if SDL_VERSION_ATLEAST(2, 0, 18)
     }
     else
     {
       return 1;
     }
-#endif
   }
 
   return 0;
-#else
-  return 2;
-#endif
 }
 
 void
