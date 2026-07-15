@@ -233,6 +233,7 @@ add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
 add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)
 add_subdirectory(external/findlocale EXCLUDE_FROM_ALL)
 add_subdirectory(external/obstack EXCLUDE_FROM_ALL)
+set(TINYGETTEXT_SDL_VERSION "3")
 add_subdirectory(external/tinygettext EXCLUDE_FROM_ALL)
 
 if(ENABLE_DISCORD)
