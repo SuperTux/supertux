@@ -18,6 +18,7 @@
 #include <array>
 #include <fstream>
 #include <iostream>
+#include <gtest/gtest.h>
 
 #include <physfs.h>
 
