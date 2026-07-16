@@ -37,7 +37,11 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
   auto key_mapping = m_keyboard_config.m_keymap.find(event.keysym.scancode);
 
   // if console key was pressed: toggle console
-  if (key_mapping != m_keyboard_config.m_keymap.end() &&
+  // Skip this while waiting for a key binding, otherwise a key that is still
+  // mapped to CONSOLE (e.g. the backtick key by default) can never be rebound
+  // because it gets intercepted here before reaching process_menu_key_event.
+  if (!m_wait_for_key &&
+      key_mapping != m_keyboard_config.m_keymap.end() &&
       key_mapping->second.control == Control::CONSOLE)
   {
     if (event.type == SDL_KEYDOWN)
