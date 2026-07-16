@@ -39,7 +39,6 @@ jobs:
         include:
           - os: ubuntu-26.04
             build_type: Release
-            compiler: gcc
             arch: 64
             release: ON
             source: ON
