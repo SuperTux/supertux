@@ -32,7 +32,6 @@ private:
   };
 
 private:
-  AddonManager& m_addon_manager;
   std::vector<std::string> m_repository_addons;
   const bool m_langpacks_only;
   const bool m_auto_install_langpack;
