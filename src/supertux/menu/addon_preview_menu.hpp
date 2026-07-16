@@ -36,7 +36,6 @@ class AddonPreviewMenu final : public Menu
   };
 
 private:
-  AddonManager& m_addon_manager;
   const Addon& m_addon;
   const bool m_auto_install;
   const bool m_update;
