@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "editor/overlay_widget.hpp"
+#include "editor/tile_replacement.hpp"
 
 #include <fmt/format.h>
 
@@ -505,10 +506,12 @@ EditorOverlayWidget::replace()
 
   uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
-  if (tiles_width == 0 || tiles_height == 0) return;
-
-  // Don't do anything if the old and new tiles are the same tile.
-  if (tiles_width == 1 && tiles_height == 1 && replace_tile == tiles->pos(0, 0)) return;
+  // Skip degenerate/redundant replacements. Extracted into a pure, testable
+  // helper (editor::should_skip_tile_replacement) so the regression logic is
+  // covered by unit tests without requiring the editor/SDL to be spun up.
+  // Fixes the division-by-zero crash with a zero-sized selection (issue #3810).
+  if (should_skip_tile_replacement(tiles_width, tiles_height, replace_tile, tiles->pos(0, 0)))
+    return;
 
   tilemap->save_state();
   for (int x = 0; x < tilemap->get_width(); ++x)
@@ -1069,7 +1072,13 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
         m_rectangle_preview->m_tiles.clear();
       }
 
-      m_editor.get_selected_tilemap()->check_state();
+      // The selected tilemap may be null for a short window between the
+      // widget's creation and the first update() (which calls
+      // refresh_layers()). Guard against a null dereference here, otherwise
+      // releasing the mouse button quickly (before the editor finished
+      // loading) crashes. See issue #3809.
+      if (auto* tilemap = m_editor.get_selected_tilemap())
+        tilemap->check_state();
     }
     else
     {
@@ -1593,8 +1602,10 @@ EditorOverlayWidget::draw(DrawingContext& context)
       !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
   {
     // Deprecated tiles in active tilemaps should have indication, when hovered
+    // The selected tilemap may be null briefly during editor load (issue #3809).
     auto sel_tilemap = m_editor.get_selected_tilemap();
-    if (m_editor.get_tileset()->get(sel_tilemap->get_tile_id(m_hovered_tile)).is_deprecated())
+    if (sel_tilemap &&
+        m_editor.get_tileset()->get(sel_tilemap->get_tile_id(m_hovered_tile)).is_deprecated())
       context.color().draw_text(Resources::normal_font, "!",
                                 tp_to_sp(Vector(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))) + Vector(16, 8),
                                 ALIGN_CENTER, LAYER_GUI - 10, Color::RED);

@@ -635,6 +635,20 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
     return;
   }
 
+  // A level needs a playable sector to be tested. GameSession resolves the
+  // spawn sector from the level's spawnpoints and expects a "main" sector to
+  // exist; testing a level whose only sector was renamed (e.g. to anything but
+  // "main") used to throw an uncaught exception and crash the editor.
+  // See issue #3807.
+  if (m_level->get_sector_count() == 0 || !m_level->get_sector("main"))
+  {
+    Dialog::show_message(_("This level has no \"main\" sector and cannot be tested.\n\n"
+                           "Rename one of the sectors to \"main\" in the Sector menu, "
+                           "then try again."));
+    m_leveltested = false;
+    return;
+  }
+
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);
   std::string directory = get_level_directory();
 

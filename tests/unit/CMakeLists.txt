@@ -37,3 +37,6 @@ message("ALL TESTS: ${all_test_targets}")
 
 add_custom_target(tests DEPENDS ${all_test_targets})
 add_custom_command(TARGET tests POST_BUILD COMMAND ctest -C $<CONFIGURATION> --output-on-failure)
+
+make_unit_test(TileReplacementTest SOURCE tile_replacement_test.cpp
+  EXTERNAL editor/tile_replacement.hpp)
