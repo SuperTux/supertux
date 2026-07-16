@@ -43,12 +43,8 @@ make_unit_test(CollisionTest SOURCE collision_test.cpp
   EXTERNAL math/rectf.cpp
   SDL2 DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 
-# DynamicScopedTest is left unregistered on purpose: the test uses ST_ASSERT(),
-# which expects an implicit bool conversion, but DynamicScopedRef only provides an
-# explicit operator bool(). The original author marked it "TEST DISABLED". It is
-# kept in the tree for reference but not wired into CTest until fixed.
-# make_unit_test(DynamicScopedTest SOURCE dynamic_scoped_test.cpp
-#   GTEST)
+make_unit_test(DynamicScopedTest SOURCE dynamic_scoped_test.cpp
+  GTEST)
 
 # The following tests pull in large engine subsystems (tinygettext/gettext/SDL GUI
 # via util/file_system.cpp and editor/object_option.cpp). They are kept in the tree

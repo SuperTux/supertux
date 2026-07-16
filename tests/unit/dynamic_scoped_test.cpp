@@ -33,13 +33,13 @@ int main(void)
   {
     auto guard1 = d_value.bind(v1);
 
-    ST_ASSERT("guard1 is bound test", d_value);
+    ST_ASSERT("guard1 is bound test", static_cast<bool>(d_value));
     ST_ASSERT("v1 access check", *d_value == 1);
     ST_ASSERT("check function for v1", *d_value.get() == 1);
     {
       auto guard2 = d_value.bind(v2);
 
-      ST_ASSERT("guard2 is bound test", d_value);
+      ST_ASSERT("guard2 is bound test", static_cast<bool>(d_value));
       ST_ASSERT("v2 access check", *d_value == 2);
       ST_ASSERT("check function for v2", *d_value.get() == 2);
       {
@@ -47,11 +47,11 @@ int main(void)
         ST_ASSERT("v3 access check", *d_value == 3);
         ST_ASSERT("check function for v3", *d_value.get() == 3);
       }
-      ST_ASSERT("guard3 scope check", d_value);
+      ST_ASSERT("guard3 scope check", static_cast<bool>(d_value));
       ST_ASSERT("v2 access check again", *d_value == 2);
       ST_ASSERT("check function for v2 again", *d_value.get() == 2);
     }
-    ST_ASSERT("guard2 scope check", d_value);
+    ST_ASSERT("guard2 scope check", static_cast<bool>(d_value));
     ST_ASSERT("v1 access check again", *d_value == 1);
     ST_ASSERT("check function for v1 again", *d_value.get() == 1);
   }
