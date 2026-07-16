@@ -40,3 +40,6 @@ add_custom_command(TARGET tests POST_BUILD COMMAND ctest -C $<CONFIGURATION> --o
 
 make_unit_test(TileReplacementTest SOURCE tile_replacement_test.cpp
   EXTERNAL editor/tile_replacement.hpp)
+
+make_unit_test(StringUtilTest SOURCE string_util_st_test.cpp
+  EXTERNAL util/string_util.cpp)

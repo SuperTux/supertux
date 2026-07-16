@@ -104,6 +104,12 @@ std::string
 StringUtil::replace_all(const std::string& haystack, const std::string& needle,
                         const std::string& replacement)
 {
+  // An empty needle would make ret.find(needle, ...) return the current
+  // position on every iteration, causing an infinite loop. Treat it as a
+  // no-op, which is the only sensible semantics for "replace nothing".
+  if (needle.empty())
+    return haystack;
+
   std::string ret = haystack;
   size_t start_pos = 0;
   while((start_pos = ret.find(needle, start_pos)) != std::string::npos) {
