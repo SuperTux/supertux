@@ -117,6 +117,7 @@ jobs:
             libopenal-dev:i386 \
             libsdl3-dev:i386 \
             libsdl3-image-dev:i386 \
+            libsdl3-ttf-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
             zlib1g-dev:i386 \
