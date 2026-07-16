@@ -59,7 +59,7 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
         shell: freebsd {0}
         run: |
-            pkg install -y pkgconf git cmake googletest sdl2 sdl2_image openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm
+            pkg install -y pkgconf git cmake googletest sdl3 sdl3_image sdl3_ttf openal-soft glew curl libogg libvorbis freetype2 libraqm glm physfs libfmt fribidi harfbuzz libraqm
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
