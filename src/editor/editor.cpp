@@ -619,6 +619,14 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
     return;
   }
 
+  if (!m_level->get_sector("main"))
+  {
+    Dialog::show_message(_("This level has no \"main\" sector and cannot be tested.\n\n"
+                           "Rename one of the sectors to \"main\" in the Sector menu, then try again."));
+    m_leveltested = false;
+    return;
+  }
+
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
 
