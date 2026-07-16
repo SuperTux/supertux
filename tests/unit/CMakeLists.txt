@@ -54,7 +54,10 @@ make_unit_test(DynamicScopedTest SOURCE dynamic_scoped_test.cpp
 #   GTEST LIBRARIES SDL2 EXTERNAL util/file_system.cpp)
 #
 # make_unit_test(IFileStreamTest SOURCE ifile_stream_test.cpp
-#   GTEST EXTERNAL physfs/ifile_stream.cpp)
+#   GTEST SDL2 LIBRARIES physfs EXTERNAL physfs/ifile_stream.cpp physfs/ifile_streambuf.cpp physfs/util.cpp)
+# NOTE: physfs/util.cpp pulls in physfs/physfs_file_system.hpp which requires
+# tinygettext; enabling this test needs tinygettext (and the rest of the engine
+# libraries) linked first. Left disabled until the engine is available to tests.
 #
 # make_unit_test(ObjectOptionTest SOURCE object_option_test.cpp
 #   GTEST EXTERNAL editor/object_option.cpp supertux/game_object.cpp video/color.cpp)
