@@ -861,7 +861,8 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_CUSTOM_TITLE_LEVELS:
-      TitleScreen::current()->refresh_level();
+      if (TitleScreen::current())
+        TitleScreen::current()->refresh_level();
       break;
 
     case MNID_FANCY_GFX:
