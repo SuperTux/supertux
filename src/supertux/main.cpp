@@ -183,7 +183,18 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
   m_datadir(),
   m_userdir()
 {
-  if (!PHYSFS_init(argv0))
+int physfs_init_success = 0;
+
+#ifdef __ANDROID__
+  PHYSFS_AndroidInit androidInit;
+  androidInit.jnienv = SDL_AndroidGetJNIEnv();
+  androidInit.context = SDL_AndroidGetActivity();
+  physfs_init_success = PHYSFS_init(static_cast<char*>(&androidInit));
+#else
+  physfs_init_success = PHYSFS_init(argv0); 
+#endif
+
+  if (!physfs_init_success)
   {
     std::stringstream msg;
     msg << "Couldn't initialize physfs: " << physfsutil::get_last_error();
