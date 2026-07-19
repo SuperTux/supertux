@@ -481,9 +481,13 @@ SDLSubsystem::SDLSubsystem()
   }
 
 #ifdef __ANDROID__
-  int touch_device_count = 0;
-  SDL_GetTouchDevices(&touch_device_count);
-  g_config->mobile_controls = touch_device_count > 0;
+  int* touch_device_count = nullptr;
+  SDL_GetTouchDevices(touch_device_count);
+
+  if (touch_device_count != nullptr)
+  {
+    g_config->mobile_controls = *touch_device_count > 0;
+  }
 #endif
 
   if (!TTF_Init())
