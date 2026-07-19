@@ -477,11 +477,12 @@ PhysfsSubsystem::setup_android_datadir() const
 
   log_warning << "Mounting!... "  << std::endl;
 
-  if(PHYSFS_mount(newzip.c_str(), nullptr, 1) == 0)
+  if(!PHYSFS_mount(newzip.c_str(), nullptr, 1))
   {
-    log_warning << "PHYSFS_mount failed (errcode): " << PHYSFS_getLastErrorCode() << std::endl;
-    log_warning << "PHYSFS_mount failed (error): " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add Android data zip '" << zippath.c_str() << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
+
+  print_search_path();
 
   return true;
 }
