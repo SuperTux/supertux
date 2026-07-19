@@ -127,7 +127,7 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
     create_worldmap_instance(world, worldmap_filename, sector, spawnpoint));
   if (!worldmap)
     return false;
-  
+
   if (!Editor::current())
     m_savegame->get_profile().set_last_world(world.get_basename());
 

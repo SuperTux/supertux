@@ -160,7 +160,8 @@ option(ENABLE_OPENGL "Enable OpenGL support" ON)
 option(ENABLE_NETWORKING "Turns on networking features, thus requiring libcurl" ON)
 
 # CI builds should never rely on this, as system SDL2_TTF has no RAQM support, causing Arabic to not be rendered properly.
-option(USE_SYSTEM_SDL2_TTF "Build SuperTux with system SDL2_TTF" OFF)
+# TODO: SDL3
+#option(USE_SYSTEM_SDL2_TTF "Build SuperTux with system SDL2_TTF" OFF)
 
 # Find dependencies
 include(SuperTux/AddPackage)
@@ -178,23 +179,24 @@ add_package(TARGET glm
   PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
 add_package(TARGET Freetype
   PKG Freetype PKG_USE Freetype::Freetype CONFIG REQUIRED PKG_CONFIG freetype2)
-if(NOT USE_SYSTEM_SDL2_TTF)
-  # System-installed SDL2_TTF will not have RAQM support, so no need to look for that.
-  add_package(TARGET RAQM
-    PKG RAQM PKG_USE RAQM CONFIG PKG_CONFIG libraqm raqm)
-endif()
+# TODO: SDL3
+# if(NOT USE_SYSTEM_SDL2_TTF)
+#   # System-installed SDL2_TTF will not have RAQM support, so no need to look for that.
+#   add_package(TARGET RAQM
+#     PKG RAQM PKG_USE RAQM CONFIG PKG_CONFIG libraqm raqm)
+# endif()
 
 if(NOT EMSCRIPTEN)
-  add_package(TARGET SDL2
-    PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2
+  add_package(TARGET SDL3
+    PKG SDL3 PKG_USE SDL3::SDL3 CONFIG REQUIRED PKG_CONFIG sdl3 SDL3
     ${SUPERTUX_ANDROID_PREFER_PKGCONF})
-  add_package(TARGET SDL2_image
-    PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image
+  add_package(TARGET SDL3_image
+    PKG SDL3_image PKG_USE SDL3_image::SDL3_image CONFIG REQUIRED PKG_CONFIG SDL3_image sdl3_image
     ${SUPERTUX_ANDROID_PREFER_PKGCONF})
-  if (USE_SYSTEM_SDL2_TTF)
-    add_package(TARGET SDL2_ttf
-      PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
-  endif()
+  add_package(TARGET SDL3_ttf
+    PKG SDL3_ttf PKG_USE SDL3_ttf::SDL3_ttf CONFIG REQUIRED PKG_CONFIG SDL3_ttf sdl3_ttf)
+  add_package(TARGET libcurl
+    PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   if(ENABLE_NETWORKING)
     add_package(TARGET libcurl
       PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
@@ -211,24 +213,27 @@ else()
   include(SuperTux/Emscripten)
 endif()
 
-if(TARGET RAQM AND NOT USE_SYSTEM_SDL2_TTF)
-  message(STATUS "Compiling SDL_ttf with RAQM")
-  set(SDL2TTF_RAQM ON)
-endif()
+# TODO: SDL3
+# if(TARGET RAQM AND NOT USE_SYSTEM_SDL2_TTF)
+#   message(STATUS "Compiling SDL_ttf with RAQM")
+#   set(SDL3TTF_RAQM ON)
+# endif()
 
-if(USE_SYSTEM_SDL2_TTF)
-  message(WARNING "Building with system-wide SDL_TTF will cause bi-directional (e.g. Arabic) scriptures to not be displayed properly.")
-endif()
+# if(USE_SYSTEM_SDL2_TTF)
+#   message(WARNING "Building with system-wide SDL_TTF will cause bi-directional (e.g. Arabic) scriptures to not be displayed properly.")
+# endif()
 
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
-if(NOT USE_SYSTEM_SDL2_TTF)
-  add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
-endif()
+# TODO: SDL3
+# if(NOT USE_SYSTEM_SDL2_TTF)
+#   add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
+# endif()
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
 add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)
 add_subdirectory(external/findlocale EXCLUDE_FROM_ALL)
 add_subdirectory(external/obstack EXCLUDE_FROM_ALL)
+set(TINYGETTEXT_SDL_VERSION "3")
 add_subdirectory(external/tinygettext EXCLUDE_FROM_ALL)
 
 if(ENABLE_DISCORD)
@@ -437,17 +442,17 @@ else()
 endif()
 
 target_link_libraries(supertux2 PUBLIC
-  tinygettext sexp SDL_SavePNG SDL2_ttf
+  tinygettext sexp SDL_SavePNG SDL3_ttf
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
-    # SDL2_image
-    SDL2_image
-    # SDL2 main (windows?)
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    # SDL2
-    SDL2
+    # SDL3_image
+    SDL3_image
+    # SDL3 main (windows?)
+    $<TARGET_NAME_IF_EXISTS:SDL3::SDL3main>
+    # SDL3
+    SDL3
   )
   target_link_libraries(supertux2 PUBLIC
     Ogg

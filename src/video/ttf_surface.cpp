@@ -16,7 +16,7 @@
 
 #include "video/ttf_surface.hpp"
 
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include <sstream>
 
@@ -30,8 +30,8 @@
 TTFSurfacePtr
 TTFSurface::create(const TTFFont& font, const std::string& text)
 {
-  SDLSurfacePtr text_surface(TTF_RenderUTF8_Blended(font.get_ttf_font(),
-                                                    text.c_str(),
+  SDLSurfacePtr text_surface(TTF_RenderText_Blended(font.get_ttf_font(),
+                                                    text.c_str(), text.length(),
                                                     SDL_Color{255, 255, 255, 255}));
   if (!text_surface)
   {
@@ -43,12 +43,6 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
   int grow = std::max(font.get_border() * 2, font.get_shadow_size() * 2);
 
   SDLSurfacePtr target = SDLSurface::create_rgba(text_surface->w + grow, text_surface->h + grow);
-
-#if !SDL_VERSION_ATLEAST(2,0,5)
-  // Perform blitting in ARGB8888, instead of RGBA8888, to avoid bug in older SDL2.
-  // https://bugzilla.libsdl.org/show_bug.cgi?id=3159
-  target.reset(SDL_ConvertSurfaceFormat(target.get(), SDL_PIXELFORMAT_ARGB8888, 0));
-#endif
 
   { // shadow
     SDL_SetSurfaceAlphaMod(text_surface.get(), 192);
@@ -104,10 +98,6 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
 
     SDL_BlitSurface(text_surface.get(), nullptr, target.get(), &dstrect);
   }
-
-#if !SDL_VERSION_ATLEAST(2,0,5)
-  target.reset(SDL_ConvertSurfaceFormat(target.get(), SDL_PIXELFORMAT_RGBA8888, 0));
-#endif
 
   SurfacePtr result = Surface::from_texture(VideoSystem::current()->new_texture(*target));
   return std::make_shared<TTFSurface>(result, Vector(0, 0));

@@ -41,6 +41,9 @@ Config::Config() :
   profile(1),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
+  fullscreen_refresh_rate_numerator(0),
+  fullscreen_refresh_rate_denominator(0),
+  fullscreen_pixel_density(0),
   window_size(1280, 800),
   window_resizable(true),
   aspect_size(0, 0), // Auto detect.
@@ -97,7 +100,6 @@ Config::Config() :
   do_release_check(false),
   disable_network(true),
   custom_title_levels(true),
-  prefer_wayland(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -138,19 +140,15 @@ Config::Config() :
   editor_last_edited_level(),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
-#if SDL_VERSION_ATLEAST(2, 0, 9)
   multiplayer_buzz_controllers(true),
-#else
-  // Will be loaded and saved anyways, to retain the setting. This is helpful
-  // for users who frequently switch between versions compiled with a newer SDL
-  // and those with an older SDL; they won't have to check the setting each time.
-  multiplayer_buzz_controllers(false),
-#endif
   multiplayer_no_limit(false),
   touch_haptic_feedback(true),
   touch_just_directional(true),
   repository_url()
 {
+  int num_touch_devices;
+  SDL_GetTouchDevices(&num_touch_devices);
+  mobile_controls = (num_touch_devices > 0);
 }
 
 void
@@ -321,6 +319,9 @@ Config::load()
       fullscreen_size = Size(0, 0);
     }
     config_video_mapping->get("fullscreen_refresh_rate", fullscreen_refresh_rate);
+    config_video_mapping->get("fullscreen_refresh_rate_numerator", fullscreen_refresh_rate_numerator);
+    config_video_mapping->get("fullscreen_refresh_rate_denominator", fullscreen_refresh_rate_denominator);
+    config_video_mapping->get("fullscreen_pixel_density", fullscreen_pixel_density);
 
     config_video_mapping->get("window_width",  window_size.width);
     config_video_mapping->get("window_height", window_size.height);
@@ -346,7 +347,6 @@ Config::load()
 
     config_video_mapping->get("magnification", magnification);
     config_video_mapping->get("fancy_gfx", fancy_gfx);
-    config_video_mapping->get("prefer_wayland", prefer_wayland);
     config_video_mapping->get("max_viewport", max_viewport);
 
     Viewport::force_full_viewport(max_viewport, true);
@@ -509,6 +509,9 @@ Config::save()
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);
   writer.write("fullscreen_refresh_rate", fullscreen_refresh_rate);
+  writer.write("fullscreen_refresh_rate_numerator", fullscreen_refresh_rate_numerator);
+  writer.write("fullscreen_refresh_rate_denominator", fullscreen_refresh_rate_denominator);
+  writer.write("fullscreen_pixel_density", fullscreen_pixel_density);
 
   writer.write("window_width",  window_size.width);
   writer.write("window_height", window_size.height);
@@ -543,7 +546,6 @@ Config::save()
 
   writer.write("magnification", magnification);
   writer.write("fancy_gfx", fancy_gfx);
-  writer.write("prefer_wayland", prefer_wayland);
   writer.write("max_viewport", max_viewport);
 
   writer.end_list("video");
