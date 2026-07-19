@@ -1336,8 +1336,13 @@ Editor::event(const SDL_Event& ev)
       }
       else if (ev.type == SDL_EVENT_MOUSE_WHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
       {
+#if SDL_VERSION_ATLEAST(3, 2, 12)
         float wheel_x = g_config->precise_scrolling ? ev.wheel.x : ev.wheel.integer_x;
         float wheel_y = g_config->precise_scrolling ? ev.wheel.y : ev.wheel.integer_y;
+#else
+        float wheel_x = ev.wheel.x;
+        float wheel_y = ev.wheel.y;
+#endif
         if (g_config->invert_wheel_x) wheel_x *= -1.f;
         if (g_config->invert_wheel_y) wheel_y *= -1.f;
         // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
