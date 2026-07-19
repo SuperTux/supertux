@@ -160,8 +160,8 @@ SDLBaseVideoSystem::apply_video_mode()
     return;
   }
 
-  m_desktop_size.width = display->w;
-  m_desktop_size.height = display->h;
+  // m_desktop_size.width = display->w;
+  // m_desktop_size.height = display->h;
 
   if (!g_config->use_fullscreen)
   {
@@ -202,7 +202,7 @@ SDLBaseVideoSystem::apply_video_mode()
     }
     else
     {
-      SDL_DisplayMode mode;
+      SDL_DisplayMode mode{};
       mode.format = SDL_PIXELFORMAT_XRGB8888;
       mode.w = g_config->fullscreen_size.width;
       mode.h = g_config->fullscreen_size.height;
