@@ -419,7 +419,7 @@ void PhysfsSubsystem::print_search_path()
   char** searchpath = PHYSFS_getSearchPath();
   for (char** i = searchpath; *i != nullptr; ++i)
   {
-    log_info << "  " << *i << std::endl;
+    log_warning << "  " << *i << std::endl;
   }
   PHYSFS_freeList(searchpath);
 }
