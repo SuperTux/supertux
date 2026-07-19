@@ -486,7 +486,7 @@ SDLSubsystem::SDLSubsystem()
   g_config->mobile_controls = touch_device_count > 0;
 #endif
 
-  if (TTF_Init() < 0)
+  if (!TTF_Init())
   {
     std::stringstream msg;
     msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
@@ -781,7 +781,7 @@ Main::run(int argc, char** argv)
     }
 
 #ifdef __ANDROID__
-    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, SDL_AndroidGetExternalStoragePath()));
+    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, SDL_GetAndroidExternalStoragePath()));
 #else
     m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, args.userdir));
 #endif
