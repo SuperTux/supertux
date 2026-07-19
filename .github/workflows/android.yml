@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # SUPERTUX_VERSION is set later using git describe.
-      SDL_TAG: 2.32.10
+      SDL_TAG: 3.4.12
       B_T_VERSION: 35.0.0
       NDK_VERSION: 29.0.14206865
       SDK_VERSION: 35
@@ -89,9 +89,9 @@ jobs:
             glm         \
             libpng      \
             zlib        \
-            sdl2        \
-            sdl2-image  \
-            sdl2-ttf    \
+            sdl3        \
+            sdl3-image  \
+            sdl3-ttf    \
             curl        \
             openal-soft \
             libogg      \
@@ -113,7 +113,7 @@ jobs:
           java-version: 21
           cache: 'gradle'
 
-      - name: Setup Android enviroment
+      - name: Setup Android environment
         uses: android-actions/setup-android@v2
         with:
           packages: |
