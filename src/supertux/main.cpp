@@ -189,7 +189,7 @@ int physfs_init_success = 0;
   PHYSFS_AndroidInit androidInit;
   androidInit.jnienv = SDL_GetAndroidJNIEnv();
   androidInit.context = SDL_GetAndroidActivity();
-  physfs_init_success = PHYSFS_init(static_cast<char*>(&androidInit));
+  physfs_init_success = PHYSFS_init((const char*)(&androidInit));
 #else
   physfs_init_success = PHYSFS_init(argv0); 
 #endif
