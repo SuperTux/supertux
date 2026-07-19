@@ -23,6 +23,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_init.h>
+#include <SDL3/SDL_touch.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <physfs.h>
@@ -480,7 +481,9 @@ SDLSubsystem::SDLSubsystem()
   }
 
 #ifdef __ANDROID__
-  g_config->mobile_controls = SDL_GetNumTouchDevices() > 0;
+  int touch_device_count = 0;
+  SDL_GetTouchDevices(&touch_device_count);
+  g_config->mobile_controls = touch_device_count > 0;
 #endif
 
   if (TTF_Init() < 0)
