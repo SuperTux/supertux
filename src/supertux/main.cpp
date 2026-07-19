@@ -476,7 +476,12 @@ PhysfsSubsystem::setup_android_datadir() const
   SDL_free(zipdata);
 
   log_warning << "Mounting!... "  << std::endl;
-  PHYSFS_mount(newzip.c_str(), nullptr, 1);
+
+  if(PHYSFS_mount(newzip.c_str(), nullptr, 1) == 0)
+  {
+    log_warning << "PHYSFS_mount failed (errcode): " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "PHYSFS_mount failed (error): " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+  }
 
   return true;
 }
