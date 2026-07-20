@@ -70,9 +70,17 @@ Sint64 funcSeek(void *userdata, Sint64 offset, SDL_IOWhence whence)
 size_t funcRead(void *userdata, void *ptr, size_t size, SDL_IOStatus *status)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
-  log_warning << "file = " << file << ", ptr = " << ptr << ", size = " << size << std::endl;
   PHYSFS_sint64 res = PHYSFS_readBytes(file, ptr, (PHYSFS_uint64)size);
-  log_warning << "funcRead ERROR: " << physfsutil::get_last_error() << std::endl;
+
+  if (PHYSFS_getLastErrorCode() == PHYSFS_ERR_OK)
+  {
+    *status = SDL_IO_STATUS_READY;
+  }
+  else
+  {
+    *status = SDL_IO_STATUS_ERROR;
+  }
+
   if (res < 0)
   {
     return 0;
@@ -88,6 +96,16 @@ size_t funcWrite(void *userdata, const void *ptr, size_t size, SDL_IOStatus *sta
   PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
 
   PHYSFS_sint64 res = PHYSFS_writeBytes(file, ptr, size);
+
+  if (PHYSFS_getLastErrorCode() == PHYSFS_ERR_OK)
+  {
+    *status = SDL_IO_STATUS_READY;
+  }
+  else
+  {
+    *status = SDL_IO_STATUS_ERROR;
+  }
+
   if (res < 0)
   {
     return 0;
@@ -102,12 +120,11 @@ bool funcFlush(void *userdata, SDL_IOStatus *status) {
     PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
 
     if (PHYSFS_flush(file) != 0) {
+        *status = SDL_IO_STATUS_READY;
         return true;
     }
 
-    if (status != NULL) {
-        return true;
-    }
+    *status = SDL_IO_STATUS_ERROR;
 
     return false;
 }
