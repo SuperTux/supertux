@@ -97,6 +97,20 @@ size_t funcWrite(void *userdata, const void *ptr, size_t size, SDL_IOStatus *sta
   }
 }
 
+bool funcFlush(void *userdata, SDL_IOStatus *status) {
+    PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
+
+    if (PHYSFS_flush(file) != 0) {
+        return true;
+    }
+
+    if (status != NULL) {
+        return true;
+    }
+
+    return false;
+}
+
 bool funcClose(void *userdata)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
@@ -130,6 +144,7 @@ SDL_IOStream* get_physfs_SDLRWops(const std::string& filename)
   iface.seek = funcSeek;
   iface.read = funcRead;
   iface.write = funcWrite;
+  iface.flush = funcFlush;
   iface.close = funcClose;
   return SDL_OpenIO(&iface, (void*)file);
 }
@@ -156,6 +171,7 @@ SDL_IOStream* get_writable_physfs_SDLRWops(const std::string& filename)
   iface.seek = funcSeek;
   iface.read = funcRead;
   iface.write = funcWrite;
+  iface.flush = funcFlush;
   iface.close = funcClose;
   return SDL_OpenIO(&iface, (void*)file);
 }
