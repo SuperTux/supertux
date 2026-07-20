@@ -30,6 +30,84 @@
 #include <assert.h>
 #include <stdio.h>
 
+namespace {
+
+Sint64 funcSize(void* userdata)
+{
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
+  return (Sint64)PHYSFS_fileLength(file);
+}
+
+Sint64 funcSeek(void *userdata, Sint64 offset, SDL_IOWhence whence)
+{
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
+  int res;
+  switch (whence) {
+    case SEEK_SET:
+      res = PHYSFS_seek(file, offset);
+      break;
+    case SEEK_CUR:
+      res = PHYSFS_seek(file, PHYSFS_tell(file) + offset);
+      break;
+    case SEEK_END:
+      res = PHYSFS_seek(file, PHYSFS_fileLength(file) + offset);
+      break;
+    default:
+      res = 0; // NOLINT
+      assert(false);
+      break;
+  }
+  if (res == 0) {
+    log_warning << "Error seeking in file: " << physfsutil::get_last_error() << std::endl;
+    return -1;
+  }
+  int i = static_cast<int>(PHYSFS_tell(file));
+
+
+  return i;
+}
+
+size_t funcRead(void *userdata, void *ptr, size_t size, SDL_IOStatus *status)
+{
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
+
+  PHYSFS_sint64 res = PHYSFS_readBytes(file, ptr, (PHYSFS_uint64)size);
+  if (res < 0)
+  {
+    return 0;
+  }
+  else
+  {
+    return static_cast<size_t>(res);
+  }
+}
+
+size_t funcWrite(void *userdata, const void *ptr, size_t size, SDL_IOStatus *status)
+{
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
+
+  PHYSFS_sint64 res = PHYSFS_writeBytes(file, ptr, size);
+  if (res < 0)
+  {
+    return 0;
+  }
+  else
+  {
+    return static_cast<size_t>(res);
+  }
+}
+
+bool funcClose(void *userdata)
+{
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
+
+  PHYSFS_close(file);
+
+  return false;
+}
+
+} // namespace
+
 SDL_IOStream* get_physfs_SDLRWops(const std::string& filename)
 {
   // check this as PHYSFS seems to be buggy and still returns a
@@ -38,15 +116,22 @@ SDL_IOStream* get_physfs_SDLRWops(const std::string& filename)
     throw std::runtime_error("Couldn't open file: empty filename");
   }
 
-  auto path = PHYSFS_getRealDir(filename.c_str());
-  if (!path) {
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(PHYSFS_openRead(filename.c_str()));
+  if (!file) {
     std::stringstream msg;
-    msg << "File '" << filename << "' doesn't exist in any search path";
+    msg << "Couldn't open '" << filename << "': "
+        << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
 
-  auto full_path = FileSystem::join(path, filename);
-  return SDL_IOFromFile(full_path.c_str(), "rb");
+  SDL_IOStreamInterface iface;
+  SDL_INIT_INTERFACE(&iface);
+  iface.size = funcSize;
+  iface.seek = funcSeek;
+  iface.read = funcRead;
+  iface.write = funcWrite;
+  iface.close = funcClose;
+  return SDL_OpenIO(&iface, (void*)file);
 }
 
 SDL_IOStream* get_writable_physfs_SDLRWops(const std::string& filename)
@@ -57,13 +142,20 @@ SDL_IOStream* get_writable_physfs_SDLRWops(const std::string& filename)
     throw std::runtime_error("Couldn't open file: empty filename");
   }
 
-  auto path = PHYSFS_getRealDir(filename.c_str());
-  if (!path) {
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(PHYSFS_openWrite(filename.c_str()));
+  if (!file) {
     std::stringstream msg;
-    msg << "File '" << filename << "' doesn't exist in any search path";
+    msg << "Couldn't open '" << filename << "' for writing: "
+        << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
 
-  auto full_path = FileSystem::join(path, filename);
-  return SDL_IOFromFile(full_path.c_str(), "wb");
+  SDL_IOStreamInterface iface;
+  SDL_INIT_INTERFACE(&iface);
+  iface.size = funcSize;
+  iface.seek = funcSeek;
+  iface.read = funcRead;
+  iface.write = funcWrite;
+  iface.close = funcClose;
+  return SDL_OpenIO(&iface, (void*)file);
 }
