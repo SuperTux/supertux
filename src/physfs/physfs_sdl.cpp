@@ -72,7 +72,7 @@ size_t funcRead(void *userdata, void *ptr, size_t size, SDL_IOStatus *status)
   PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
 
   PHYSFS_sint64 res = PHYSFS_readBytes(file, ptr, (PHYSFS_uint64)size);
-  log_warning << "funcRead WARNING:" << physfsutil::get_last_error() << std::endl;
+  log_warning << "funcRead ERROR: " << physfsutil::get_last_error() << std::endl;
   if (res < 0)
   {
     return 0;
