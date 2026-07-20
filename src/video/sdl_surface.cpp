@@ -83,7 +83,7 @@ SDLSurface::from_file(const std::string& filename)
   if (!stream)
   {
     std::ostringstream msg;
-    msg << "Couldn't open file: " << filename;
+    msg << "Couldn't open file: " << filename << ": " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
   SDLSurfacePtr surface(IMG_Load_IO(stream, true));
