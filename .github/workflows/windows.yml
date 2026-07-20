@@ -64,20 +64,20 @@ jobs:
         run: |
           cd C:/
           vcpkg integrate install
-          vcpkg install curl:$Env:ARCH-windows
-          vcpkg install glew:$Env:ARCH-windows
-          vcpkg install libogg:$Env:ARCH-windows
-          vcpkg install libvorbis:$Env:ARCH-windows
-          vcpkg install openal-soft:$Env:ARCH-windows
-          vcpkg install sdl3:$Env:ARCH-windows
-          vcpkg install sdl3-image[jpeg,png]:$Env:ARCH-windows
-          vcpkg install sdl3-ttf[harfbuzz]:$Env:ARCH-windows
-          vcpkg install glm:$Env:ARCH-windows
-          vcpkg install zlib:$Env:ARCH-windows
-          vcpkg install fmt:$Env:ARCH-windows
-          vcpkg install physfs:$Env:ARCH-windows
-          vcpkg install libraqm:$Env:ARCH-windows
-          vcpkg install --recurse freetype:$Env:ARCH-windows
+          vcpkg install curl:${{ matrix.arch }}-windows
+          vcpkg install glew:${{ matrix.arch }}-windows
+          vcpkg install libogg:${{ matrix.arch }}-windows
+          vcpkg install libvorbis:${{ matrix.arch }}-windows
+          vcpkg install openal-soft:${{ matrix.arch }}-windows
+          vcpkg install sdl3:${{ matrix.arch }}-windows
+          vcpkg install "sdl3-image[jpeg,png]:${{ matrix.arch }}-windows"
+          vcpkg install sdl3-ttf[harfbuzz]:${{ matrix.arch }}-windows
+          vcpkg install glm:${{ matrix.arch }}-windows
+          vcpkg install zlib:${{ matrix.arch }}-windows
+          vcpkg install fmt:${{ matrix.arch }}-windows
+          vcpkg install physfs:${{ matrix.arch }}-windows
+          vcpkg install libraqm:${{ matrix.arch }}-windows
+          vcpkg install --recurse freetype:${{ matrix.arch }}-windows
 
       - name: Run slugify
         id: slugify
