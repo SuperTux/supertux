@@ -99,7 +99,7 @@ SDLSurface::from_file(const std::string& filename)
     }
     else
     {
-      log_warning << "SDL_ReadIO returned an error." << std::endl;
+      log_warning << "SDL_ReadIO returned an error:" << SDL_GetError() << std::endl;
     }
 
     std::ostringstream msg;
