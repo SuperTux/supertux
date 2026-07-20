@@ -319,8 +319,7 @@ TextureManager::create_image_surface_raw(const std::string& filename, const Rect
                 << surface.w << "x" << surface.h << ", rect=" << rect << std::endl;
 
     subimage = SDLSurfacePtr(
-      SDL_CreateSurface(rect.get_width(), rect.get_height(),
-        SDL_GetPixelFormatForMasks(format->bits_per_pixel, format->Rmask, format->Gmask, format->Bmask, format->Amask))
+      SDL_CreateSurface(rect.get_width(), rect.get_height(), src_surface.format)
     );
 
     Rect clipped_rect(std::max(0, rect.left),
@@ -335,12 +334,7 @@ TextureManager::create_image_surface_raw(const std::string& filename, const Rect
   {
     subimage = SDLSurfacePtr(SDL_CreateSurfaceFrom(
                               rect.get_width(), rect.get_height(),
-                                SDL_GetPixelFormatForMasks(
-                                  format->bits_per_pixel,
-                                  format->Rmask,
-                                  format->Gmask,
-                                  format->Bmask,
-                                  format->Amask),
+                                src_surface.format,
                                 static_cast<uint8_t*>(surface.pixels) +
                                   rect.top * surface.pitch +
                                   rect.left * format->bytes_per_pixel, surface.pitch));
