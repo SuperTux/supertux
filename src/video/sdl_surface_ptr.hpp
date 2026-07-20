@@ -88,6 +88,13 @@ public:
     other.m_surface = nullptr;
   }
 
+  SDL_Surface* release()
+  {
+    SDL_Surface* surface = m_surface;
+    m_surface = nullptr;
+    return surface;
+  }
+
   SDL_Surface* get() const
   {
     return m_surface;
