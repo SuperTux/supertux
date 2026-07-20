@@ -89,6 +89,19 @@ SDLSurface::from_file(const std::string& filename)
   SDLSurfacePtr surface(IMG_Load_IO(stream, true));
   if (!surface)
   {
+    Uint8 magic[4];
+    if (SDL_ReadIO(stream, magic, sizeof(magic)) == sizeof(magic))
+    {
+      log_warning << magic[0] << std::endl;
+      log_warning << magic[1] << std::endl;
+      log_warning << magic[2] << std::endl;
+      log_warning << magic[3] << std::endl;
+    }
+    else
+    {
+      log_warning << "SDL_ReadIO returned an error." << std::endl;
+    }
+
     std::ostringstream msg;
     msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
     throw std::runtime_error(msg.str());
