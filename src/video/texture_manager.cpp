@@ -289,6 +289,17 @@ TextureManager::get_surface(const std::string& filename)
   }
 
   SDLSurfacePtr surface = create_image_surface(filename);
+  const SDL_PixelFormatDetails* format = SDL_GetPixelFormatDetails(surface.get()->format);
+  if (format->Rmask == 0 &&
+      format->Gmask == 0 &&
+      format->Bmask == 0 &&
+      format->Amask == 0)
+  {
+    SDL_Surface* surf;
+    log_debug << "Wrong surface format for image " << filename << ". Compensating." << std::endl;
+    surf = SDL_ConvertSurface(const_cast<SDL_Surface*>(surface.get()), SDL_PIXELFORMAT_RGBA8888);
+    surface.reset(surf);
+  }
   return *(m_surfaces[filename] = std::move(surface));
 }
 
@@ -300,17 +311,7 @@ TextureManager::create_image_surface_raw(const std::string& filename, const Rect
   const SDL_Surface& src_surface = get_surface(filename);
   const SDL_PixelFormatDetails* format = SDL_GetPixelFormatDetails(src_surface.format);
 
-  SDLSurfacePtr convert;
-  if (format->Rmask == 0 &&
-      format->Gmask == 0 &&
-      format->Bmask == 0 &&
-      format->Amask == 0)
-  {
-    log_debug << "Wrong surface format for image " << filename << ". Compensating." << std::endl;
-    convert.reset(SDL_ConvertSurface(const_cast<SDL_Surface*>(&src_surface), SDL_PIXELFORMAT_RGBA8888));
-  }
-
-  const SDL_Surface& surface = convert ? *convert : src_surface;
+  const SDL_Surface& surface = src_surface;
 
   SDLSurfacePtr subimage;
   if (!Rect(0, 0, surface.w, surface.h).contains(rect))
