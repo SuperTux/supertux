@@ -71,6 +71,7 @@ size_t funcRead(void *userdata, void *ptr, size_t size, SDL_IOStatus *status)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
   PHYSFS_sint64 res = PHYSFS_readBytes(file, ptr, (PHYSFS_uint64)size);
+  log_warning << "funcRead ERROR: " << physfsutil::get_last_error() << std::endl;
 
   if (PHYSFS_getLastErrorCode() == PHYSFS_ERR_OK)
   {
@@ -96,6 +97,7 @@ size_t funcWrite(void *userdata, const void *ptr, size_t size, SDL_IOStatus *sta
   PHYSFS_file* file = static_cast<PHYSFS_file*>(userdata);
 
   PHYSFS_sint64 res = PHYSFS_writeBytes(file, ptr, size);
+  log_warning << "funcRead ERROR: " << physfsutil::get_last_error() << std::endl;
 
   if (PHYSFS_getLastErrorCode() == PHYSFS_ERR_OK)
   {
