@@ -140,6 +140,7 @@ Editor::Editor() :
   m_shift_pressed(false),
   m_alt_pressed(false),
   m_key_zoomed(false),
+  m_pen_down(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
