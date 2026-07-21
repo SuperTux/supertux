@@ -237,7 +237,7 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
         auto autotileset = get_current_autotileset();
         if (autotileset)
         {
-          if (tile == 0)
+          if (tile == 0 || m_editor.m_pen_down)
             input_autotile_erase(target_tile + add_tile);
           else
             input_autotile(target_tile + add_tile, tile);
