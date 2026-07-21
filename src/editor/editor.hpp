@@ -248,6 +248,7 @@ public:
   bool m_shift_pressed;
   bool m_alt_pressed;
   bool m_key_zoomed;
+  bool m_pen_down;
 
   ScriptManager m_script_manager;
 

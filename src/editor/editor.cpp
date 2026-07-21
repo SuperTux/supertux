@@ -1334,6 +1334,14 @@ Editor::event(const SDL_Event& ev)
         if (!m_ctrl_pressed && !(ev.key.mod & SDL_KMOD_RSHIFT))
           m_scroll_speed = 32.0f;
       }
+      else if (ev.type == SDL_EVENT_PEN_BUTTON_DOWN)
+      {
+        m_pen_down = true;
+      }
+      else if (ev.type == SDL_EVENT_PEN_BUTTON_UP)
+      {
+        m_pen_down = false;
+      }
       else if (ev.type == SDL_EVENT_MOUSE_WHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
       {
 #if SDL_VERSION_ATLEAST(3, 2, 12)
