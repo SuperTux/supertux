@@ -78,7 +78,7 @@ SDLSurface::create_rgb(int width, int height)
 SDLSurfacePtr
 SDLSurface::from_file(const std::string& filename)
 {
-  log_warning << "loading image: " << filename << std::endl;
+  log_debug << "loading image: " << filename << std::endl;
   auto stream = get_physfs_SDLRWops(filename);
   if (!stream)
   {
@@ -89,19 +89,6 @@ SDLSurface::from_file(const std::string& filename)
   SDLSurfacePtr surface(IMG_Load_IO(stream, true));
   if (!surface)
   {
-    Uint8 magic[4];
-    if (SDL_ReadIO(stream, magic, sizeof(magic)) == sizeof(magic))
-    {
-      log_warning << magic[0] << std::endl;
-      log_warning << magic[1] << std::endl;
-      log_warning << magic[2] << std::endl;
-      log_warning << magic[3] << std::endl;
-    }
-    else
-    {
-      log_warning << "SDL_ReadIO returned an error:" << SDL_GetError() << std::endl;
-    }
-
     std::ostringstream msg;
     msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
     throw std::runtime_error(msg.str());
