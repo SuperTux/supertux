@@ -1165,9 +1165,12 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     }
     return true;
   }
-  else if (m_scrolling)
+  else if (m_scrolling && (!m_editor.m_pen_down || (m_editor.m_pen_down && m_editor.m_ctrl_pressed)))
   {
-    m_editor.scroll(m_previous_mouse_pos - m_mouse_pos);
+    // TODO: would be nice if this was configurable
+    // for convenience, since drawing tablets tend to be rather large, we scale larger.
+    float scale = m_editor.m_pen_down ? 2.5f : 1.0f;
+    m_editor.scroll((m_previous_mouse_pos - m_mouse_pos) * scale);
     m_previous_mouse_pos = m_mouse_pos;
     return true;
   }
