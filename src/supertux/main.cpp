@@ -492,8 +492,9 @@ SDLSubsystem::SDLSubsystem()
   }
 
 #ifdef __ANDROID__
-  g_config->mobile_controls = SDL_GetNumTouchDevices() > 0;
-  log_warning << "Error getting touch devices: " << SDL_GetError() << std::endl;
+  int num_touch_devices;
+  SDL_GetTouchDevices(&num_touch_devices);
+  g_config->mobile_controls = (num_touch_devices > 0);
 #endif
 
   if (!TTF_Init())
