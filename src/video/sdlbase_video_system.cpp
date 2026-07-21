@@ -113,8 +113,8 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
 
   SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight LandscapeLeft");
   // For android
-  SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "1");
-  SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "1");
+  SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+  SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
 
   m_sdl_window.reset(SDL_CreateWindow("SuperTux", size.width, size.height, flags));
   if (!m_sdl_window)

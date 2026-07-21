@@ -148,7 +148,6 @@ Config::Config() :
 {
   int num_touch_devices;
   SDL_GetTouchDevices(&num_touch_devices);
-  log_warning << "Error getting touch devices: " << SDL_GetError() << std::endl;
   mobile_controls = (num_touch_devices > 0);
 }
 
