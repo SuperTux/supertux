@@ -491,16 +491,6 @@ SDLSubsystem::SDLSubsystem()
     throw std::runtime_error(msg.str());
   }
 
-#ifdef __ANDROID__
-  int* touch_device_count = nullptr;
-  SDL_GetTouchDevices(touch_device_count);
-
-  if (touch_device_count != nullptr)
-  {
-    g_config->mobile_controls = *touch_device_count > 0;
-  }
-#endif
-
   if (!TTF_Init())
   {
     std::stringstream msg;
