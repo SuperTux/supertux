@@ -183,7 +183,7 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
   m_datadir(),
   m_userdir()
 {
-int physfs_init_success = 0;
+  int physfs_init_success = 0;
 
 #ifdef __ANDROID__
   PHYSFS_AndroidInit androidInit;
