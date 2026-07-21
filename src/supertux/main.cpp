@@ -419,7 +419,7 @@ void PhysfsSubsystem::print_search_path()
   char** searchpath = PHYSFS_getSearchPath();
   for (char** i = searchpath; *i != nullptr; ++i)
   {
-    log_warning << "  " << *i << std::endl;
+    log_info << "  " << *i << std::endl;
   }
   PHYSFS_freeList(searchpath);
 }
@@ -441,30 +441,23 @@ PhysfsSubsystem::setup_android_datadir() const
 
   size_t zipsz;
   void* zipdata = SDL_LoadFile(zippath.c_str(), &zipsz);
-  log_warning << "Android ZIP filesize: " << zipsz << std::endl;
 
   bool newdata = true;
   if (FileSystem::exists(newzip)) {
     // Oh wait, the zip already exists?
     // Well, is it different?
-
-
     size_t currzipsz;
     void* currzip = SDL_LoadFile(newzip.c_str(), &currzipsz);
 
     newdata = (zipsz != currzipsz);
 
-    log_warning << "Android newzip exists. filesize: " << currzipsz  << std::endl;
-
     SDL_free(currzip);
   }
 
   if (newdata) {
-    log_warning << "Android newzip copying thingy... "  << std::endl;
     // Copy
     SDL_IOStream* zipcp = SDL_IOFromFile(newzip.c_str(), "w");
     if (!zipcp) {
-      log_warning << "zipcp is NULL... "  << std::endl;
       SDL_free(zipdata);
       return false;
     }
@@ -472,17 +465,9 @@ PhysfsSubsystem::setup_android_datadir() const
     SDL_CloseIO(zipcp);
   }
 
-  log_warning << "Freeing!... "  << std::endl;
   SDL_free(zipdata);
 
-  log_warning << "Mounting!... "  << std::endl;
-
-  if(!PHYSFS_mount(newzip.c_str(), nullptr, 1))
-  {
-    log_warning << "Couldn't add Android data zip '" << zippath.c_str() << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
-  }
-
-  print_search_path();
+  PHYSFS_mount(newzip.c_str(), nullptr, 1);
 
   return true;
 }
