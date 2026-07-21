@@ -53,6 +53,9 @@ const int snap_grid_sizes[4] = {4, 8, 16, 32};
 
 const int MAX_FILL_STACK_SIZE = 1000000;
 
+// TODO: This should be configurable
+constexpr float PAN_SCROLLING_SCALE = 2.5f;
+
 bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos)
 {
   return pos.x >= 0 && pos.y >= 0 &&
@@ -80,6 +83,7 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_dragging(false),
   m_dragging_right(false),
   m_scrolling(false),
+  m_scrolling_scale(1.0f),
   m_drag_start(0, 0),
   m_dragged_object(nullptr),
   m_hovered_object(nullptr),
@@ -987,8 +991,13 @@ EditorOverlayWidget::process_right_click()
 void
 EditorOverlayWidget::process_middle_click()
 {
-  m_previous_mouse_pos = m_mouse_pos;
-  m_scrolling = true;
+  // some window managers may try to send a middle click alongside a pen down
+  // event, which we want to avoid. It makes erasing finnicky.
+  if (!m_editor.m_pen_down)
+  {
+    m_previous_mouse_pos = m_mouse_pos;
+    m_scrolling = true;
+  }
 }
 
 Rectf
@@ -1167,12 +1176,11 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     }
     return true;
   }
-  else if (m_scrolling && (!m_editor.m_pen_down || (m_editor.m_pen_down && m_editor.m_ctrl_pressed)))
+  else if (m_scrolling)
   {
     // TODO: would be nice if this was configurable
     // for convenience, since drawing tablets tend to be rather large, we scale larger.
-    float scale = m_editor.m_pen_down ? 2.5f : 1.0f;
-    m_editor.scroll((m_previous_mouse_pos - m_mouse_pos) * scale);
+    m_editor.scroll((m_previous_mouse_pos - m_mouse_pos) * m_scrolling_scale);
     m_previous_mouse_pos = m_mouse_pos;
     return true;
   }
@@ -1198,6 +1206,13 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
   {
     alt_pressed = false;
   }
+
+  if (key.key == SDLK_SPACE)
+  {
+    m_scrolling = false;
+    m_scrolling_scale = 1.0f;
+  }
+
   return true;
 }
 
@@ -1210,6 +1225,12 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   if (sym == SDLK_F8)
   {
     g_config->editor_render_grid = !g_config->editor_render_grid;
+  }
+  else if (sym == SDLK_SPACE)
+  {
+    m_scrolling = true;
+    m_previous_mouse_pos = m_mouse_pos;
+    m_scrolling_scale = PAN_SCROLLING_SCALE;
   }
   else if (sym == SDLK_F7)
   {

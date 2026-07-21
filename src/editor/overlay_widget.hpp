@@ -150,6 +150,7 @@ private:
   bool m_dragging;
   bool m_dragging_right;
   bool m_scrolling;
+  float m_scrolling_scale;
   Vector m_drag_start;
   TypedUID<MovingObject> m_dragged_object;
 
