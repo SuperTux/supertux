@@ -927,6 +927,12 @@ EditorOverlayWidget::process_left_click()
 
     case InputType::NONE:
     case InputType::OBJECT:
+      if (m_editor.m_pen_down)
+      {
+        grab_object();
+        rubber_object();
+      }
+
       if (m_hovered_object)
         m_editor.select_object(m_hovered_object.get());
 
