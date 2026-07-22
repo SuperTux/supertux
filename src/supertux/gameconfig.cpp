@@ -63,6 +63,7 @@ Config::Config() :
   show_player_pos(false),
   show_controller(false),
   show_game_timer(false),
+  show_speedrun_ghost_mode(false),
   camera_peek_multiplier(0.03f),
   sound_enabled(true),
   music_enabled(true),
@@ -175,6 +176,7 @@ Config::load()
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
   config_mapping.get("show_game_timer", show_game_timer);
+  config_mapping.get("show_speedrun_ghost_mode", show_speedrun_ghost_mode);
   config_mapping.get("camera_peek_multiplier", camera_peek_multiplier);
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
@@ -439,6 +441,7 @@ Config::save()
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
   writer.write("show_game_timer", show_game_timer);
+  writer.write("show_speedrun_ghost_mode", show_speedrun_ghost_mode);
   writer.write("camera_peek_multiplier", camera_peek_multiplier);
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);

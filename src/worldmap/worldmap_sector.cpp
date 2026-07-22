@@ -356,7 +356,7 @@ WorldMapSector::update(float dt_sec)
                                     level_->get_pos().y +  8 - m_camera->get_offset().y);
           std::string levelfile = m_parent.m_levels_path + level_->get_level_filename();
 
-          auto game_session = std::make_unique<GameSession>(levelfile, m_parent.get_savegame(), &level_->get_statistics());
+          auto game_session = std::make_unique<GameSession>(levelfile, m_parent.get_savegame(), &level_->get_statistics(), level_->get_best_ghost_run());
           if (m_parent.m_really_enter_level)
           {
             game_session->skip_intro();
@@ -477,7 +477,7 @@ WorldMapSector::solved_level_count() const
 
 
 void
-WorldMapSector::finished_level(Level* gamelevel)
+WorldMapSector::finished_level(Level* gamelevel, const std::vector<LevelTile::GhostRunPoint>& level_path)
 {
   // TODO use Level* parameter here?
   auto level = at_object<LevelTile>();
@@ -493,7 +493,24 @@ WorldMapSector::finished_level(Level* gamelevel)
   m_parent.get_savegame().get_player_status().add_tuxdolls(
     std::max(0, gamelevel->m_stats.get_tuxdolls() - level->get_statistics().get_tuxdolls()));
 
+  const float previous_best_time = level->get_statistics().get_time();
   level->get_statistics().update(gamelevel->m_stats);
+
+  // Store the new run as the ghost on first completion or new personal best
+  if (previous_best_time == 0.0f ||
+      (gamelevel->m_stats.get_time() > 0.0f && gamelevel->m_stats.get_time() < previous_best_time))
+  {
+    std::vector<LevelTile::GhostRunPoint> best_ghost_run;
+    best_ghost_run.reserve(level_path.size());
+    float timestamp = 0.0f;
+    const float sample_interval = (level_path.size() > 1) ? (gamelevel->m_stats.get_time() / static_cast<float>(level_path.size() - 1)) : 0.0f;
+    for (const auto& frame : level_path) 
+    {
+      best_ghost_run.push_back({timestamp, frame.position, frame.action});
+      timestamp += sample_interval;
+    }
+    level->set_best_ghost_run(best_ghost_run);
+  }
 
   if (level->get_statistics().completed(level->get_target_time())) {
     level->set_perfect(true);
