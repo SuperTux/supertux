@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
+//  Copyright (C) 2024
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,28 @@
 #pragma once
 
 #include "gui/menu.hpp"
+#include <functional>
 
-class MultiplayerPlayersMenu final : public Menu
+class CharacterSelectorMenu final : public Menu
 {
 public:
-  MultiplayerPlayersMenu();
+  /**
+   * @param on_select Callback called with character ID (0=Tux, 1=Penny, 2=Larry)
+   * @param on_cancel Callback called if user presses BACK or cancels
+   */
+  CharacterSelectorMenu(
+    const std::function<void(int)>& on_select,
+    const std::function<void()>& on_cancel);
 
   void menu_action(MenuItem& item) override {}
-  void refresh() override;
+  bool on_back_action() override;
+
+private:
+  std::function<void(int)> m_on_select;
+  std::function<void()> m_on_cancel;
+
+  // Character IDs
+  static constexpr int CHARACTER_TUX = 0;
+  static constexpr int CHARACTER_PENNY = 1;
+  static constexpr int CHARACTER_LARRY = 2;
 };
