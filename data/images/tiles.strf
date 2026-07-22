@@ -9263,6 +9263,39 @@
   )
 )
 
+(tiles
+  (width 3)(height 2)
+  (images "tiles/forest/slime.png")
+  (ids
+    7949 7950 7951
+    7952 7953 7954
+  )
+  (attributes
+    0   0   0   0
+    259 259 259 259
+  )
+  (datas
+    0 0 0 0
+    0 0 0 0
+  )
+)
+
+(tiles
+  (width 3)(height 2)
+  (images "tiles/ghostwood/ghost_slime.png")
+  (ids
+    7955 7956 7957
+    7958 7959 7960
+  )
+  (attributes
+    0   0   0   0
+    259 259 259 259
+  )
+  (datas
+    0 0 0 0
+    0 0 0 0
+  )
+)
 
 
   
