@@ -91,6 +91,7 @@ void
 SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
 {
   flags |= SDL_WINDOW_RESIZABLE;
+  flags |= SDL_WINDOW_ALLOW_HIGHDPI;
 
   Size size;
   if (g_config->use_fullscreen)
