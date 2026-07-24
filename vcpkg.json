@@ -7,7 +7,14 @@
     "freetype",
     "physfs",
     "sdl3",
-    "sdl3-image",
+    {
+      "name": "sdl3-image",
+      "features": ["jpeg", "png"]
+    },
+    {
+      "name": "sdl3-ttf",
+      "features": ["harfbuzz"]
+    },
     "glm",
     "libpng",
     "zlib"
