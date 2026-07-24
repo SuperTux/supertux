@@ -19,7 +19,7 @@
 #include <simplesquirrel/array.hpp>
 #include <simplesquirrel/table.hpp>
 
-std::string squirrel_to_string(const ssq::Object& object)
+std::string squirrel_to_string(const ssq::Object& object, bool lisp_syntax)
 {
   std::ostringstream os;
   switch (object.getType())
@@ -28,7 +28,13 @@ std::string squirrel_to_string(const ssq::Object& object)
       os << "<null>";
       break;
     case ssq::Type::BOOL:
-      os << object.toBool();
+    {
+      auto bool_value = object.toBool();
+      if (lisp_syntax)
+        os << (bool_value ? "#t" : "#f");
+      else
+        os << bool_value;
+    }
       break;
     case ssq::Type::INTEGER:
       os << object.to<int>();
@@ -37,23 +43,53 @@ std::string squirrel_to_string(const ssq::Object& object)
       os << object.toFloat();
       break;
     case ssq::Type::STRING:
-      os << "\"" << object.toString() << "\"";
+    {
+      auto string_value = object.toString();
+      if (lisp_syntax)
+      {
+        os << string_value;
+      }
+      else
+      {
+        os << "\"" << string_value << "\"";
+      }
+    }
       break;
     case ssq::Type::TABLE:
     {
       const std::map<std::string, ssq::Object> table = object.toTable().convertRaw();
 
       bool first = true;
-      os << "{";
+      if (!lisp_syntax)
+        os << "{";
+
       for (const auto& [key, value] : table)
       {
         if (!first)
-          os << ", ";
+        {
+          if (lisp_syntax)
+          {
+            os << " ";
+          }
+          else
+          {
+            os << ", ";
+          }
+        }
         first = false;
 
-        os << key << " => " << squirrel_to_string(value);
+        if (lisp_syntax)
+        {
+          os << "(" << key << " " << squirrel_to_string(value, lisp_syntax) << ")";
+        }
+        else
+        {
+          os << key << " => " << squirrel_to_string(value);
+        }
       }
-      os << "}";
+
+      if (!lisp_syntax)
+        os << "}";
       break;
     }
     case ssq::Type::ARRAY:
@@ -61,16 +97,28 @@ std::string squirrel_to_string(const ssq::Object& object)
       const std::vector<ssq::Object> array = object.toArray().convertRaw();
 
       bool first = true;
-      os << "[";
+      if (!lisp_syntax)
+        os << "[";
+      
       for (const ssq::Object& value : array)
       {
         if (!first)
-          os << ", ";
+        {
+          if (lisp_syntax)
+          {
+            os << " ";
+          }
+          else
+          {
+            os << ", ";
+          }
+        }
         first = false;
 
-        os << squirrel_to_string(value);
+        os << squirrel_to_string(value, lisp_syntax);
       }
-      os << "]";
+      if (!lisp_syntax)
+        os << "]";
       break;
     }
     case ssq::Type::USERDATA:
