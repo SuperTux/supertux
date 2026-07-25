@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018-2023,2026\n"
+"Last-Translator: Jaakko Muilu, 2025-2026\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -180,7 +180,7 @@ msgstr "Hän meni tutkimaan, ja hänet säikäytti Ilkeä Muratti, joka kupsahti
 msgid ""
 "However, this one looked different. Its usual bright green leaves seemed to "
 "have turned an ailing purple."
-msgstr "Tämä kuitenkin näytti erilaiselta. Sen epätavalliset kirkkaat lehdet ovat näköjään muuttuneet sairaan vihreiksi."
+msgstr "Tämä kuitenkin näytti erilaiselta. Sen tavalliset kirkkaat lehdet ovat näköjään muuttuneet sairaan vihreiksi."
 
 #: data/levels/world2/scripts_corrupted_cutscene.txt:7
 msgid ""
@@ -198,13 +198,13 @@ msgstr "Massiiviset purppurajuuret tulivat maasta, minkä perässä vyöryi yhä
 msgid ""
 "Tux panicked! Whatever these roots were, they were covering everything. "
 "Where could he go?"
-msgstr "Tux panikoi! Mitä nämä juuret olivat, ne peittivät kaiken. Minne häne voisi mennä?"
+msgstr "Tux panikoi! Mitä nämä juuret olivatkaan, ne peittivät kaiken. Minne häne voisi mennä?"
 
 #: data/levels/world2/scripts_corrupted_cutscene.txt:10
 msgid ""
 "But he cannot give up now! Tux could not leave her behind. Not in a place "
 "being overrun by these violent roots."
-msgstr "Mutta hän ei nyt luovuta! Tux ei voinut jättää häntä jälkeen. Ei siihen paikkaan, jota nuo rajut juuret jyräävät."
+msgstr "Mutta hän ei nyt luovuta! Tux ei voinut jättää häntä jälkeen. Ei noiden rajujen juurien jyräämään paikkaan."
 
 #: data/levels/world2/scripts_corrupted_cutscene.txt:11
 msgid "He must rescue Penny! He must get to that tower!"
@@ -248,12 +248,12 @@ msgstr "Maa nielaisi heidät maaperän romahtaessa. Jos Tux auttaisi löytämä�
 msgid ""
 "Tux agreed to help! Soon after he noticed a dying roots revealing a path "
 "underneath, he began his search for the lost Granito."
-msgstr "Tux suostui auttamaan! Heti kun hän huomasi kuolevat juuret, jotka paljastivat alla olevan polun, hän alkoi etsiä kadonnutta Graniitti."
+msgstr "Tux suostui auttamaan! Heti kun hän huomasi kuolevat juuret, jotka paljastivat alla olevan polun, hän alkoi etsiä kadonnutta Graniittia."
 
 #: data/levels/world2/scripts_floral_blossom.txt:8
 msgid ""
 "With the help of the saved Granito, Tux managed to reach the other side."
-msgstr "Pelastamansa Graniitti avulla Tuxin onnistui päästä toiselle puolelle."
+msgstr "Pelastamansa Graniitin avulla Tuxin onnistui päästä toiselle puolelle."
 
 #: data/levels/world2/scripts_floral_blossom.txt:9
 msgid ""
@@ -272,25 +272,25 @@ msgid ""
 "Tux replied that he was looking for his friend Penny and that she was "
 "captured by an evil creature named \"Nolok\". A name the Granito remembered "
 "unpleasantly..."
-msgstr "Tux vastasi, että hän oli etsimässä ystäväänsä Pennyä ja että paha otus nimeltä \"Nolok\" oli vanginnut hänet. Sen nimen Graniitti muisti ikävästi."
+msgstr "Tux vastasi, että hän oli etsimässä ystäväänsä Pennyä ja että paha otus nimeltä \"Nolok\" oli vanginnut hänet. Sen nimen Graniitti muisti ikävästi..."
 
 #: data/levels/world2/scripts_floral_blossom.txt:12
 msgid ""
 "The Granito mentioned they knew his homeland. But whether he still called it"
 " his home nor if he held Penny there, they do not know for certain."
-msgstr "Graniitti mainitsi, että he tunsivat hänen kotimaansa, mutta he eivät tienneet varmuudella, kutsuiko Nolok sitä yhä kodikseen tai pitikö hän Pennyä siellä."
+msgstr "Graniitti mainitsi, että he tunsivat hänen kotimaansa, mutta he eivät tienneet varmuudella, pitikö Nolok sitä yhä kotinaan tai pitikö hän Pennyä siellä."
 
 #: data/levels/world2/scripts_floral_blossom.txt:13
 msgid ""
 "They offered to show Tux the way. It was the least they could do to show "
 "their gratitute."
-msgstr "He tarjoutuivat opastamaan Tuxia. Vähintäänkin sitä he voivat tehdä kiitollisuuden osoituksena."
+msgstr "He tarjoutuivat opastamaan Tuxia. Vähintäänkin sitä he voisivat tehdä kiitollisuuden osoituksena."
 
 #: data/levels/world2/scripts_floral_blossom.txt:14
 msgid ""
 "Tux gladly accepted and together with a handful of Granito they soon made "
 "their way to the tropics, in the north-east."
-msgstr "Tux suostui ilomielin, ja yhdessä kourallisen Graniitteja kanssa he lähtivät pian koilliseen kohti tropiikkia."
+msgstr "Tux suostui ilomielin, ja yhdessä muutaman Graniitin kanssa he lähtivät pian koilliseen kohti tropiikkia."
 
 #: data/levels/world2/scripts_floral_blossom.txt:15
 msgid ""
@@ -328,7 +328,7 @@ msgstr "Tux mietti hetken ja päätti etsiä korkean paikan nähdäkseen paremmi
 msgid ""
 "Maybe he could find some kind of landmark to help him locate Nolok, wherever"
 " he may be."
-msgstr "Ehkäpä hän löytäisi jonkinlaisen maamerkin Nolokin paikallistamiseksi, olipa hän sitten missä hyvänsä."
+msgstr "Ehkäpä hän löytäisi jonkin maamerkin Nolokin paikallistamiseksi, missä hän sitten olikaan."
 
 #: data/levels/world2/scripts_ghosttree_cutscene.txt:2
 msgid ""
@@ -356,7 +356,7 @@ msgstr "Tux ei ehtinyt miettiä sitä, sillä torni alkoi täristä voimakkaasti
 msgid ""
 "He made it! He escaped the collapsing tower just in time as the structure "
 "now fully gave in. But the roots were not done yet!"
-msgstr "Hän selvisi! Hän pakeni sortuvasta tornista juuri ajoissa, kun rakennelma petti nyt tykkänään. Mutta juuret olivat vielä kesken!"
+msgstr "Hän selvisi! Hän pakeni sortuvasta tornista viime tipassa, kun rakennelma petti nyt tykkänään. Mutta juuret olivat vielä kesken!"
 
 #: data/levels/world2/scripts_ghosttree_cutscene.txt:7
 msgid ""
@@ -387,7 +387,7 @@ msgid ""
 "Across the hallway, on the other side, there was a huge crack in the wall. "
 "Tux saw himself forced to take the leap of faith, if he wished to not be "
 "crushed."
-msgstr "Vastapäisessä seinässä oli valtava halkeama käytävän toisella puolella. Tux joutui tekemään uskonloikan, jos hän ei halunnut murskaantua."
+msgstr "Vastakkaisessa seinässä oli valtava halkeama käytävän toisella puolella. Tux joutui tekemään uskonloikan, jollei hän halunnut murskaantua."
 
 #: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
 msgid "Was it over? Was the nightmare finally over?"
@@ -410,7 +410,7 @@ msgid ""
 "The forest, the tower... those were the only leads Tux had. He had no clue "
 "where Nolok could be hiding, if he even was here to begin with. Or rather "
 "anymore."
-msgstr "Metsä, torni... ne olivat Tuxin ainoat johtolangat. Hänellä ei ollut hajuakaan, missä Nolok voisi piilotella, jos hän edes oli ollut täällä alkujaan, tai pikemminkin enää."
+msgstr "Metsä, torni... ne olivat Tuxin ainoat johtolangat. Hänellä ei ollut hajuakaan Nolokin piilopaikasta, jos hän edes oli täällä alun perin, tai pikemminkin enää."
 
 #: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
 msgid ""

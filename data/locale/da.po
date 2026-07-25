@@ -127,7 +127,7 @@ msgstr "SDL, OpenAL og OpenGL"
 
 #: data/credits.stxt:1458
 msgid "For making such a great gaming experience possible on Linux"
-msgstr ""
+msgstr "For at muliggøre en så fantastisk spilleoplevelse i Linux"
 
 #: data/credits.stxt:1464
 msgid "and you, the player"
@@ -147,23 +147,23 @@ msgstr "Besøg vores hjemmeside på"
 
 #: data/credits.stxt:1490
 msgid "For comments, ideas and suggestions,"
-msgstr ""
+msgstr "Til kommentarer, idéer og forslag,"
 
 #: data/credits.stxt:1494
 msgid "talk to us on Discord or IRC"
-msgstr ""
+msgstr "tal med os på Discord eller IRC"
 
 #: data/credits.stxt:1498
 msgid "or share them on the forum"
-msgstr ""
+msgstr "eller del dem på forummet"
 
 #: data/credits.stxt:1505
 msgid "Want to contribute to the game?"
-msgstr ""
+msgstr "Vil du bidrage til spillet?"
 
 #: data/credits.stxt:1519
 msgid "Want to help with localization?"
-msgstr ""
+msgstr "Vil du hjælpe med lokalisering?"
 
 #: data/credits.stxt:1533
 msgid "Thank you for"
@@ -175,7 +175,7 @@ msgstr "spillede"
 
 #: data/credits.stxt:1548
 msgid "Penny awaits you in a tropical paradise..."
-msgstr ""
+msgstr "Penny venter på dig i et tropeparadis..."
 
 #: data/images/converters/data.stcd:3
 msgid "Pre-0.6.3 Crystal Tiles"
@@ -405,7 +405,7 @@ msgstr "Retning"
 msgid ""
 "The direction the badguy is facing at the start of the level. AUTO makes the"
 " badguy face towards the player when activated."
-msgstr ""
+msgstr "Retningen, som bjørnebanditten vender ved opstart af banen. AUTO får bjørnebanditten til at vende ansigtet mod spilleren ved aktivering."
 
 #: src/badguy/badguy.cpp:1381
 msgid "Death script"
@@ -413,11 +413,11 @@ msgstr "Dødt skript"
 
 #: src/badguy/badguy.cpp:1382
 msgid "Script that is executed when the badguy dies."
-msgstr ""
+msgstr "Script, der udføres, når bjørnebanditten dør."
 
 #: src/badguy/badguy.cpp:1385
 msgid "Glinting"
-msgstr ""
+msgstr "Glitrende"
 
 #: src/badguy/badguy.hpp:79
 msgid "Badguy"
@@ -427,7 +427,7 @@ msgstr "Slem fyr"
 msgid ""
 "The icon that is displayed at the top indicating how many lives this boss "
 "has left"
-msgstr ""
+msgstr "Ikonet vist øverst, der indikerer antal liv, bossen har tilbage"
 
 #: src/badguy/boss.cpp:97
 msgid "Lives"
@@ -435,7 +435,7 @@ msgstr "Liv"
 
 #: src/badguy/boss.cpp:98
 msgid "The maximum number of lives this boss has"
-msgstr ""
+msgstr "Højeste antal liv denne boss har"
 
 #. l10n: Pinch Mode refers to a particular boss mode that gets
 #. activated once the boss has lost the specified amounts of lives.

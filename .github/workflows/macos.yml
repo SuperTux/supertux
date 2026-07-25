@@ -56,8 +56,10 @@ jobs:
         if: ${{ matrix.os == 'macos-14' && matrix.arch == 'arm64' }}
         run: |
           brew install cmake bash rename libogg libvorbis glew glm \
-                       openal-soft sdl2 sdl2_image libraqm freetype libpng \
+                       openal-soft sdl3 sdl3_image libraqm freetype libpng \
                        glib gtk-doc zlib physfs fmt
+          # can be removed when bidirectional text gets fixed
+          brew install sdl3_ttf
 
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
@@ -66,6 +68,10 @@ jobs:
           install_name_tool -change \
             '@rpath/libjxl_cms.0.11.dylib' \
             /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
+            /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
+          install_name_tool -change \
+            '@rpath/libjxl_cms.0.12.dylib' \
+            /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.12.dylib \
             /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left
@@ -80,8 +86,7 @@ jobs:
           # Remove pre-installed Python symlinks that conflict with Homebrew Python
           sudo rm -f /usr/local/bin/idle3* /usr/local/bin/pip3* /usr/local/bin/pydoc3* /usr/local/bin/python3* || true
           arch -x86_64 /usr/local/bin/brew install cmake bash rename libogg libvorbis glew glm \
-                       openal-soft sdl2 sdl2_image libraqm freetype libpng \
-                       glib gtk-doc zlib physfs fmt
+                       openal-soft sdl3 sdl3_image sdl3_ttf physfs libraqm freetype libpng fmt \
 
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
@@ -90,6 +95,10 @@ jobs:
           install_name_tool -change \
             '@rpath/libjxl_cms.0.11.dylib' \
             /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
+            /usr/local/opt/jpeg-xl/lib/libjxl.dylib
+          install_name_tool -change \
+            '@rpath/libjxl_cms.0.12.dylib' \
+            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.12.dylib \
             /usr/local/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left

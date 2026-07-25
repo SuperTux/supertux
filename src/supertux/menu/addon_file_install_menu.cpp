@@ -39,11 +39,11 @@ AddonFileInstallMenu::refresh()
 void
 AddonFileInstallMenu::event(const SDL_Event& event)
 {
-  if (event.type == SDL_DROPFILE)
+  if (event.type == SDL_EVENT_DROP_FILE)
   {
-    char* filename = event.drop.file;
+    const char* filename = event.drop.data;
     AddonManager::current()->install_addon_from_local_file(std::string(filename));
-    SDL_free(filename);
+
     m_addon_menu->refresh();
   }
   Menu::event(event);

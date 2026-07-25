@@ -80,7 +80,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "Onnittelut!\n\n#Olet läpäissyt\n#ensimmäisen Lisäsaaren\n\n\tKentät tekivät\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Jos et vielä läpäissyt kaikkia kenttiä,\n#palaa kotiin ja ota toinen polku.\n#Sinulla on edessäsi vielä\n#paljon haasteita!\n\n#Ja täällä on myös salainen\n#kenttä löydettäväksi...\n\n#Iso kiitos jokaiselle, joka\n#osallistui tämän julkaisun\n#tekoon. Toivottavasti pidit siitä!"
+msgstr "Onnittelut!\n\n#Olet läpäissyt\n#ensimmäisen Lisäsaaren\n\n\tKentät tekivät\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Jos et vielä läpäissyt kaikkia kenttiä,\n#palaa kotiin ja ota toinen polku.\n#Sinulla on edessäsi vielä\n#paljon haasteita!\n\n#Ja täällä on myös salainen\n#kenttä löydettäväksi...\n\n#Iso kiitos kaikille\n#tämän julkaisun tekoon\n#osallistuneelle. Toivottavasti pidit siitä!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"

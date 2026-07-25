@@ -42,7 +42,6 @@
 #define UNPACK_INSTALLED_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 1) / 2)
 
 AddonMenu::AddonMenu(bool language_packs_only) :
-  m_addon_manager(*AddonManager::current()),
   m_installed_addons(),
   m_addons_enabled(),
   m_langpacks_only(language_packs_only)
@@ -57,7 +56,7 @@ AddonMenu::~AddonMenu()
 void
 AddonMenu::refresh()
 {
-  m_installed_addons = m_addon_manager.get_installed_addons();
+  m_installed_addons = AddonManager::current()->get_installed_addons();
 
   m_addons_enabled.reset(new bool[m_installed_addons.size()]);
 
@@ -83,7 +82,7 @@ AddonMenu::rebuild_menu()
     int idx = 0;
     for (const auto& addon_id : m_installed_addons)
     {
-      const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
+      const Addon& addon = AddonManager::current()->get_installed_addon(addon_id);
       m_addons_enabled[idx] = addon.is_enabled();
       if (addon.is_visible() && ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only))
       {
@@ -91,7 +90,7 @@ AddonMenu::rebuild_menu()
         try
         {
           // Detect if the add-on has an update.
-          const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
+          const Addon& repository_addon = AddonManager::current()->get_repository_addon(addon_id);
           if (addon.get_md5() != repository_addon.get_md5() &&
             addon.get_version() < repository_addon.get_version())
           {
@@ -122,7 +121,7 @@ AddonMenu::rebuild_menu()
 
   for (const auto& index : addon_updates_to_list)
   {
-    const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[index]);
+    const Addon& addon = AddonManager::current()->get_installed_addon(m_installed_addons[index]);
     const std::string text = addon_string_util::generate_menu_item_text(addon);
     if(addon.is_enabled())
       add_entry(MAKE_UPDATE_MENU_ID(index), fmt::format(_("{} *UPDATE*"), text));
@@ -131,7 +130,7 @@ AddonMenu::rebuild_menu()
   }
   for (const auto& index : addons_to_list)
   {
-    const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[index]);
+    const Addon& addon = AddonManager::current()->get_installed_addon(m_installed_addons[index]);
     const std::string text = addon_string_util::generate_menu_item_text(addon);
     if(addon.is_enabled())
       add_entry(MAKE_INSTALLED_MENU_ID(index), fmt::format("{}", text));
@@ -192,7 +191,7 @@ AddonMenu::menu_action(MenuItem& item)
     int idx = UNPACK_UPDATE_MENU_ID(index);
     if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
     {
-      const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
+      const Addon& addon = AddonManager::current()->get_installed_addon(m_installed_addons[idx]);
       MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon, false, true));
     }
   }
@@ -201,7 +200,7 @@ AddonMenu::menu_action(MenuItem& item)
     int idx = UNPACK_INSTALLED_MENU_ID(index);
     if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
     {
-      const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
+      const Addon& addon = AddonManager::current()->get_installed_addon(m_installed_addons[idx]);
       MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon));
     }
   }
@@ -222,7 +221,7 @@ AddonMenu::check_for_updates()
 
   try
   {
-    TransferStatusPtr status = m_addon_manager.request_check_online();
+    TransferStatusPtr status = AddonManager::current()->request_check_online();
     auto dialog = std::make_unique<DownloadDialog>(status, false);
     dialog->set_title(_("Checking for updates..."));
     MenuManager::instance().set_dialog(std::move(dialog));

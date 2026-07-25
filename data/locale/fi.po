@@ -209,7 +209,7 @@ msgstr "Rosoiset kiviruudut lisäosasta"
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr ""
+msgstr "Muuntaa kiviruudut-lisäosan avulla luotujen kenttien tunnisteet peruskiviruutujen tunnisteiksi"
 
 #: data/images/engine/editor/objects.stoi:4
 msgid "Enemies"
@@ -1501,7 +1501,7 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr ""
+msgstr "Tämä päivittää objektin uusimpaan versioon.\nKatso lisätietoja kohdasta ”Päivitystiedot”.\n\nMuista, että tämä todennäköisesti häiritsee objektin normaalia toimintaa.\nTarkista uudelleen kaikki kyseiseen objektiin liittyvät toiminnot."
 
 #: src/editor/object_menu.cpp:98
 msgid "Patch notes for v{}:"
@@ -4163,7 +4163,7 @@ msgstr "Näytä vanhentuneet tiilet"
 msgid ""
 "Indicate all deprecated tiles on the active tilemap, without the need of "
 "hovering over."
-msgstr ""
+msgstr "äytä kaikki vanhentuneet ruudut aktiivisessa ruudukossa ilman, että hiiren osoitinta tarvitsee viedä päälle."
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Editor settings"
@@ -4449,7 +4449,7 @@ msgstr "Ensisijainen tekstimuokkain"
 
 #: src/supertux/menu/editor_settings.cpp:63
 msgid "Undo Stack Size"
-msgstr ""
+msgstr "Kumoa pinon koko"
 
 #: src/supertux/menu/editor_settings.cpp:65
 msgid "Autosave Frequency"
@@ -4951,7 +4951,7 @@ msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "Kunkin kehyksen siirtämiseen tarvittava osittainen etäisyys kameran katselukohdasta.\n\n0 = Ei esikatselua, 1 = Välitön esikatselu"
 
 #: src/supertux/menu/options_menu.cpp:143
 msgid "Change Video System"
@@ -5156,7 +5156,7 @@ msgstr "Tarkka vieritys"
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
-msgstr ""
+msgstr "Useimmat nykyaikaiset kosketuslevyt ilmoittavat vieritystapahtumat tarkasti.\nPoista tämä asetus käytöstä, jos vieritys tavallisella hiirellä tuntuu epätavalliselta, tai et vain pidä siitä"
 
 #: src/supertux/menu/options_menu.cpp:262
 msgid "Invert horizontal scrolling"
@@ -5178,7 +5178,7 @@ msgstr "Kääntää vierityksen Y-akselilla"
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
-msgstr ""
+msgstr "Älä yritä skaalata kuvaa tai soveltaa kuvasuhdetta. Jotkin videoasetukset ohitetaan. Kätevä kolikkopeleille tai epätavallisille näytöille."
 
 #: src/supertux/menu/options_menu.cpp:272
 msgid "Force full viewport"
@@ -5696,7 +5696,7 @@ msgstr "Antaa lisäominaisuuksia, kuten heijastuksia ja varjostimia\nSaattaa oll
 
 #: src/video/video_system.cpp:158
 msgid "Falls back to SDL."
-msgstr ""
+msgstr "Palaa SDL:ään."
 
 #: src/video/video_system.cpp:158
 msgid "OpenGL (AUTO)"
@@ -5738,14 +5738,14 @@ msgstr "Estävä reitti"
 msgid ""
 "If true, the direction blocks the path. Useful for a \"fork in the road\" "
 "scenario."
-msgstr ""
+msgstr "Jos arvo on tosi, suunta estää reitin. Hyödyllinen ”haarautumistilanteessa\"."
 
 #: src/worldmap/special_tile.cpp:86
 msgid ""
 "One or more of \"north\", \"south\", \"east\", or \"west\". For example\n"
 "a value of \"north south east\" will set each respective direction for this\n"
 "special tile."
-msgstr ""
+msgstr "Yksi tai useampi ”north”, ”south”, ‘east’ tai ”west”. Esimerkiksi arvo ”north south east” määrittää kunkin suunnan tälle\nerikoisruudulle."
 
 #: src/worldmap/special_tile.hpp:47
 msgid "Special Tile"

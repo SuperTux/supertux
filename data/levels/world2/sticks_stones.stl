@@ -15,6 +15,8 @@
     (name "main")
     (init-script "Camera.set_scale(1.2);
 
+state.ambush2 <- false;
+
 if(! (\"chase\" in state)){
   state.chase <- false;
   print(\"[DEBUG] Root chase has been initiated\\n\");
@@ -512,9 +514,12 @@ start_chase(false);")
       (x 8128)
       (y 1248)
       (on-grab-script "root_ambush2.start_moving();
-Camera.start_earthquake(5, 0.05);
-wait(4);
-Camera.stop_earthquake();")
+if (!state.ambush2){
+  state.ambush2 = true;
+  Camera.start_earthquake(5, 0.05);
+  wait(4);
+  Camera.stop_earthquake();
+}")
     )
     (rock
       (type "large")

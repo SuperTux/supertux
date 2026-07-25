@@ -32,7 +32,6 @@ private:
   };
 
 private:
-  AddonManager& m_addon_manager;
   std::vector<std::string> m_installed_addons;
   std::unique_ptr<bool[]> m_addons_enabled;
   const bool m_langpacks_only;

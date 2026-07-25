@@ -261,6 +261,8 @@ public:
    */
   void do_jump(float yspeed);
 
+  void clear_jump_state_for_bounce();
+
   /** Adds velocity to the player (be careful when using this) */
   void add_velocity(const Vector& velocity);
 

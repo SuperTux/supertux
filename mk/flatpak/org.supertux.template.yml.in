@@ -15,7 +15,6 @@ finish-args:
   - --share=network
   - --device=all
 modules:
-  - external/shared-modules/SDL2/SDL2_image.json
   - external/shared-modules/physfs/physfs.json
   - name: glm
     buildsystem: cmake

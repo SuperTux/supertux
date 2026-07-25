@@ -29,7 +29,6 @@
 #include "util/log.hpp"
 
 AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, bool auto_install, bool update) :
-  m_addon_manager(*AddonManager::current()),
   m_addon(addon),
   m_auto_install(auto_install),
   m_update(update),
@@ -63,7 +62,7 @@ AddonPreviewMenu::rebuild_menu()
   bool info_unavailable = false;
   try
   {
-    const Addon& repository_addon = m_addon_manager.get_repository_addon(m_addon.get_id());
+    const Addon& repository_addon = AddonManager::current()->get_repository_addon(m_addon.get_id());
     author = repository_addon.get_author();
     type = addon_string_util::addon_type_to_translated_string(repository_addon.get_type());
     desc = repository_addon.get_description();
@@ -107,10 +106,10 @@ AddonPreviewMenu::rebuild_menu()
       std::string text;
       try
       {
-        const Addon& dependency = m_addon_manager.get_repository_addon(id);
+        const Addon& dependency = AddonManager::current()->get_repository_addon(id);
         text = fmt::format(fmt::runtime("\"{}\" ({}): {}"), dependency.get_title(),
                             addon_string_util::addon_type_to_translated_string(dependency.get_type()),
-                            m_addon_manager.is_addon_installed(id) ? _("Installed") : _("Not installed"));
+                            AddonManager::current()->is_addon_installed(id) ? _("Installed") : _("Not installed"));
       }
       catch (std::exception& err)
       {
@@ -147,7 +146,7 @@ AddonPreviewMenu::rebuild_menu()
     {
       if (m_screenshot_download_success)
       {
-        add_images(m_addon_manager.get_local_addon_screenshots(m_addon.get_id()),
+        add_images(AddonManager::current()->get_local_addon_screenshots(m_addon.get_id()),
                    426, 240, MNID_SCREENSHOTS);
       }
       else
@@ -228,7 +227,7 @@ AddonPreviewMenu::menu_action(MenuItem& item)
 
       Dialog::show_confirmation(confirmation_message, [this]()
       {
-        const std::vector<std::string> depending_addons = m_addon_manager.get_depending_addons(m_addon.get_id());
+        const std::vector<std::string> depending_addons = AddonManager::current()->get_depending_addons(m_addon.get_id());
         if (depending_addons.empty())
         {
           uninstall_addon();
@@ -276,7 +275,7 @@ AddonPreviewMenu::show_screenshots()
     return;
   }
 
-  m_screenshot_download_status = m_addon_manager.request_download_addon_screenshots(m_addon.get_id());
+  m_screenshot_download_status = AddonManager::current()->request_download_addon_screenshots(m_addon.get_id());
 
   if (!m_screenshot_download_status->is_active()) // If no screenshots have been scheduled for download (all are downloaded).
   {
@@ -307,16 +306,16 @@ void
 AddonPreviewMenu::install_addon()
 {
   auto addon_id = m_addon.get_id();
-  TransferStatusListPtr status = m_addon_manager.request_install_addon(addon_id);
+  TransferStatusListPtr status = AddonManager::current()->request_install_addon(addon_id);
   auto dialog = std::make_unique<DownloadDialog>(status, false);
-  const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
+  const Addon& repository_addon = AddonManager::current()->get_repository_addon(addon_id);
   auto menu_item_text = addon_string_util::generate_menu_item_text(repository_addon);
   auto dialog_title = fmt::format(fmt::runtime(m_update ? _("Updating {}") : _("Downloading {}")), menu_item_text);
 
   dialog->set_title(dialog_title);
-  status->then([this, addon_id](bool success)
+  status->then([this, auto_install = m_auto_install, update = m_update, addon_id](bool success)
   {
-    if (m_auto_install)
+    if (auto_install)
     {
       MenuManager::instance().set_dialog({});
       MenuManager::instance().clear_menu_stack();
@@ -325,7 +324,7 @@ AddonPreviewMenu::install_addon()
     if (success)
     {
       MenuManager::instance().pop_menu(true);
-      if (!m_update) MenuManager::instance().pop_menu(true);
+      if (!update) MenuManager::instance().pop_menu(true);
       MenuManager::instance().current_menu()->refresh();
     }
   });
@@ -338,7 +337,7 @@ AddonPreviewMenu::uninstall_addon()
   const AddonId& addon_id = m_addon.get_id();
   try
   {
-    m_addon_manager.uninstall_addon(addon_id);
+    AddonManager::current()->uninstall_addon(addon_id);
     Dialog::show_message(_("Add-on uninstalled successfully."));
   }
   catch (std::exception& err)
@@ -358,11 +357,11 @@ AddonPreviewMenu::toggle_addon()
   {
     if (m_addon.is_enabled())
     {
-      m_addon_manager.disable_addon(addon_id);
+      AddonManager::current()->disable_addon(addon_id);
     }
     else
     {
-      m_addon_manager.enable_addon(addon_id);
+      AddonManager::current()->enable_addon(addon_id);
     }
   }
   catch (std::exception& err)

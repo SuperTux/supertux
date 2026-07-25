@@ -18,7 +18,7 @@
 
 #include "video/texture.hpp"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "video/sampler.hpp"
 

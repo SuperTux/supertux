@@ -34,7 +34,6 @@
 #define UNPACK_REPOSITORY_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 0) / 2)
 
 AddonBrowseMenu::AddonBrowseMenu(bool langpacks_only, bool auto_install_langpack) :
-  m_addon_manager(*AddonManager::current()),
   m_repository_addons(),
   m_langpacks_only(langpacks_only),
   m_auto_install_langpack(auto_install_langpack),
@@ -58,7 +57,7 @@ AddonBrowseMenu::~AddonBrowseMenu()
 void
 AddonBrowseMenu::refresh()
 {
-  m_repository_addons = m_addon_manager.get_repository_addons();
+  m_repository_addons = AddonManager::current()->get_repository_addons();
 
   rebuild_menu();
 }
@@ -75,11 +74,11 @@ AddonBrowseMenu::rebuild_menu()
   std::vector<int> addons_to_list;
   for (const auto& addon_id : m_repository_addons)
   {
-    const Addon& addon = m_addon_manager.get_repository_addon(addon_id);
+    const Addon& addon = AddonManager::current()->get_repository_addon(addon_id);
     try
     {
       // Add-on is already installed, so check if they are the same.
-      Addon& installed_addon = m_addon_manager.get_installed_addon(addon_id);
+      Addon& installed_addon = AddonManager::current()->get_installed_addon(addon_id);
       if (installed_addon.get_md5() == addon.get_md5() ||
           installed_addon.get_version() > addon.get_version())
       {
@@ -115,11 +114,11 @@ AddonBrowseMenu::rebuild_menu()
 
   for (const auto& index : addons_to_list)
   {
-    const std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_repository_addon(m_repository_addons[index]));
+    const std::string text = addon_string_util::generate_menu_item_text(AddonManager::current()->get_repository_addon(m_repository_addons[index]));
     add_entry(MAKE_REPOSITORY_MENU_ID(index), text);
   }
 
-  if (addons_count <= 0 && m_addon_manager.has_been_updated())
+  if (addons_count <= 0 && AddonManager::current()->has_been_updated())
   {
     add_inactive(m_langpacks_only ? _("No new language packs available") : _("No new Add-ons available"));
   }
@@ -149,7 +148,7 @@ AddonBrowseMenu::rebuild_menu()
     add_hl();
   }
 
-  if (!m_addon_manager.has_online_support())
+  if (!AddonManager::current()->has_online_support())
   {
     add_inactive(_("Check Online (disabled)"));
   }
@@ -167,7 +166,7 @@ AddonBrowseMenu::check_online()
 {
   try
   {
-    TransferStatusPtr status = m_addon_manager.request_check_online();
+    TransferStatusPtr status = AddonManager::current()->request_check_online();
     status->then([this](bool success)
     {
       if (success)
@@ -175,7 +174,7 @@ AddonBrowseMenu::check_online()
         if (m_auto_install_langpack)
         {
           const std::string& langpack_id = "language-pack";
-          MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(m_addon_manager.get_repository_addon(langpack_id), true), true);
+          MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(AddonManager::current()->get_repository_addon(langpack_id), true), true);
         }
         else
         {
@@ -223,7 +222,7 @@ AddonBrowseMenu::menu_action(MenuItem& item)
     int idx = UNPACK_REPOSITORY_MENU_ID(index);
     if (0 <= idx && idx < static_cast<int>(m_repository_addons.size()))
     {
-      const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
+      const Addon& addon = AddonManager::current()->get_repository_addon(m_repository_addons[idx]);
       MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon));
     }
   }

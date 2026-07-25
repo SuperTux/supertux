@@ -27,7 +27,7 @@
 #include <string>
 #include <cstring>
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include <version.h>
 

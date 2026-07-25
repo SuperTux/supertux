@@ -21,8 +21,10 @@
 #include <filesystem>
 #include <fstream>
 
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_init.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <physfs.h>
 #include <tinygettext/log.hpp>
 #include <fmt/format.h>
@@ -223,9 +225,8 @@ void PhysfsSubsystem::find_mount_datadir()
   else
   {
     // check if we run from source dir
-    char* basepath_c = SDL_GetBasePath();
+    const char* basepath_c = SDL_GetBasePath();
     std::string basepath = basepath_c ? basepath_c : "./";
-    SDL_free(basepath_c);
 
     if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
     {
@@ -443,13 +444,13 @@ PhysfsSubsystem::setup_android_datadir() const
 
   if (newdata) {
     // Copy
-    SDL_RWops* zipcp = SDL_RWFromFile(newzip.c_str(), "w");
+    SDL_IOStream* zipcp = SDL_IOFromFile(newzip.c_str(), "w");
     if (!zipcp) {
       SDL_free(zipdata);
       return false;
     }
-    SDL_RWwrite(zipcp, zipdata, sizeof(char), zipsz);
-    SDL_RWclose(zipcp);
+    SDL_WriteIO(zipcp, zipdata, zipsz);
+    SDL_CloseIO(zipcp);
   }
 
   SDL_free(zipdata);
@@ -466,32 +467,12 @@ PhysfsSubsystem::~PhysfsSubsystem()
 
 SDLSubsystem::SDLSubsystem()
 {
-  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+  Uint32 flags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMEPAD;
 
-#if SDL_VERSION_ATLEAST(2,0,22) && (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD)) && !defined(STEAM_BUILD) && !defined(ANDROID)
-  /* See commit 254fcc9 for SDL. Most of the Nvidia problems are knocked out (i
-   * think) for now thanks to nvidia's open drivers. Wayland is needed for
-   * precision scrolling to work (which is used for the editor) and most distros
-   * are shipping wayland out of the box, so let's prefer it.
-   *
-   * When we migrate to SDL3, we can remove this snippet as they've now
-   * defaulted to preferring Wayland (if i recall) -- Swagtoy
-   */
-# ifdef FLATPAK
-  // We want to prefer wayland for flatpak regardless. I ran into issues with
-  // x11 being the default. Let's just force it for now.
-  SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
-# else
-  if (g_config->prefer_wayland)
-    SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
-# endif
-
-# ifdef HAVE_EPOXY
-  SDL_SetHint(SDL_HINT_VIDEO_X11_FORCE_EGL, "1");
-# endif
+#ifdef HAVE_EPOXY
+  SDL_SetHint(SDL_HINT_VIDEO_FORCE_EGL, "1");
 #endif
-  if (SDL_Init(flags) < 0)
+  if (SDL_Init(flags) == false)
   {
     std::stringstream msg;
     msg << "Couldn't initialize SDL: " << SDL_GetError();
@@ -535,8 +516,14 @@ Main::init_video()
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(
-    (g_config->custom_mouse_cursor && !g_config->custom_system_cursor) ? SDL_DISABLE : SDL_ENABLE);
+  if (g_config->custom_mouse_cursor && !g_config->custom_system_cursor)
+  {
+    SDL_HideCursor();
+  }
+  else
+  {
+    SDL_ShowCursor();
+  }
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -843,7 +830,7 @@ Main::run(int argc, char** argv)
   g_dictionary_manager.reset();
 
 #ifdef __ANDROID__
-  // SDL2 keeps shared libraries loaded after the app is closed,
+  // SDL3 keeps shared libraries loaded after the app is closed,
   // when we launch the app again the static initializers will run twice and crash the app.
   // So we just need to terminate the app process 'gracefully', without running destructors or atexit() functions.
   _Exit(result);
