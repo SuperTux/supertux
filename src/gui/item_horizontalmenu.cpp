@@ -214,7 +214,7 @@ ItemHorizontalMenu::event(const SDL_Event& ev)
 {
   switch (ev.type)
   {
-    case SDL_MOUSEMOTION:
+    case SDL_EVENT_MOUSE_MOTION:
     {
       const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
 

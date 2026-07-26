@@ -16,7 +16,7 @@
 
 #include "video/sdl/sdl_texture.hpp"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <sstream>
 
 #include "video/sdl/sdl_screen_renderer.hpp"

@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "editor/widget.hpp"
 #include "video/drawing_context.hpp"

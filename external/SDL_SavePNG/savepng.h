@@ -6,7 +6,7 @@
  * This code is free software, available under zlib/libpng license.
  * http://www.libpng.org/pub/png/src/libpng-LICENSE.txt
  */
-#include <SDL_video.h>
+#include <SDL3/SDL_video.h>
 
 #ifdef __cplusplus
 extern "C" { /* This helps CPP projects that include this header */
@@ -31,7 +31,7 @@ extern "C" { /* This helps CPP projects that include this header */
  * Returns 0 success or -1 on failure, the error message is then retrievable
  * via SDL_GetError().
  */
-extern int SDL_SavePNG_RW(SDL_Surface *surface, SDL_RWops *rw, int freedst);
+extern int SDL_SavePNG_RW(SDL_Surface *surface, SDL_IOStream *rw, int freedst);
 
 /*
  * Return new SDL_Surface with a format suitable for PNG output.
