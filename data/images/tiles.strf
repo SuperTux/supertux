@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7949
+  ;; next-id: 8027
   ;; free/skipped ids (please use before any other):
   ;; 4642-4660, 5061-5089, 5268-5283, 5453-5522
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
@@ -9265,36 +9265,36 @@
 
 (tiles
   (width 3)(height 2)
-  (images "tiles/forest/slime.png")
   (ids
-    7949 7950 7951
-    7952 7953 7954
+    8015 8016 8017
+    8018 8019 8020
   )
   (attributes
-    0   0   0   0
-    259 259 259 259
+    0   0   0
+    259 259 259
   )
   (datas
-    0 0 0 0
-    0 0 0 0
+    0 0 0
+    0 0 0
   )
+  (images "tiles/forest/slime.png")
 )
 
 (tiles
   (width 3)(height 2)
-  (images "tiles/ghostwood/ghost_slime.png")
   (ids
-    7955 7956 7957
-    7958 7959 7960
+    8021 8022 8023
+    8024 8025 8026
   )
   (attributes
-    0   0   0   0
-    259 259 259 259
+    0   0   0
+    259 259 259
   )
   (datas
-    0 0 0 0
-    0 0 0 0
+    0 0 0
+    0 0 0
   )
+  (images "tiles/ghostwood/ghost_slime.png")
 )
 
 
