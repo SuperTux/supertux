@@ -52,7 +52,15 @@ public:
   Size fullscreen_size;
 
   /** refresh rate for use in fullscreen, 0 for auto */
-  int fullscreen_refresh_rate;
+  float fullscreen_refresh_rate;
+
+  /** refresh rate numerator, because as of SDL3, it wants it like this. */
+  int fullscreen_refresh_rate_numerator;
+
+  /** refresh rate denominator, because as of SDL3, it wants it like this. */
+  int fullscreen_refresh_rate_denominator;
+
+  float fullscreen_pixel_density;
 
   /** the width/height of the window managers window */
   Size window_size;
@@ -89,9 +97,6 @@ public:
   bool invert_wheel_x;
   bool invert_wheel_y;
   bool max_viewport;
-
-  /** Prefer the wayland session. Depending on the platform, this may not be used. */
-  bool prefer_wayland;
 
   /** Toggles fancy graphical effects like displacement or blur (primarily for the GL backend) */
   bool fancy_gfx;

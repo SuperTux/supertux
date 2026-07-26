@@ -27,14 +27,14 @@
 
 # Usage:
 #
-#   add_package(TARGET SDL2       <-- The output target, a "target alias" (sometimes).
-#      PKG SDL2                   <-- The find_package package, in this case it gets SDL2
+#   add_package(TARGET SDL3       <-- The output target, a "target alias" (sometimes).
+#      PKG SDL3                   <-- The find_package package, in this case it gets SDL3
 #                                     (might look similar to the output target).
-#      PKG_USE SDL2::SDL2         <-- Specific target from the package we want to alias.
+#      PKG_USE SDL3::SDL3         <-- Specific target from the package we want to alias.
 #      CONFIG                     <-- (optional) Passed to find_package if its a CONFIG.
 #      REQUIRED                   <-- (optional) NOT passed to find_package, just a check to
 #                                     throw an error if we've exhausted all options.
-#      PKG_CONFIG sdl2 sdl2_ttf   <-- (optional, recommended) List of packages for pkg-config.
+#      PKG_CONFIG sdl3 sdl3_ttf   <-- (optional, recommended) List of packages for pkg-config.
 #      PREFER_PKGCONFIG           <-- (optional) If the host machine is running a unix-like,
 #   )                                 skip the find_package call and use pkg-config.
 

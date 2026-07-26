@@ -74,13 +74,13 @@ ItemTextField::get_width() const
 void
 ItemTextField::event(const SDL_Event& ev)
 {
-  if (ev.type == SDL_TEXTINPUT) // Text input
+  if (ev.type == SDL_EVENT_TEXT_INPUT) // Text input
   {
     insert_text(ev.text.text, m_cursor_left_offset);
   }
-  else if (ev.type == SDL_KEYDOWN)
+  else if (ev.type == SDL_EVENT_KEY_DOWN)
   {
-    switch (ev.key.keysym.sym)
+    switch (ev.key.key)
     {
 #ifdef ANDROID
       case SDLK_BACKSPACE: // Possible temp fix for deleting in android
@@ -107,27 +107,27 @@ ItemTextField::event(const SDL_Event& ev)
       default:
         break;
     }
-    if (SDL_GetModState() & KMOD_CTRL) //Commands which require CTRL
+    if (SDL_GetModState() & SDL_KMOD_CTRL) //Commands which require CTRL
     {
-      switch (ev.key.keysym.sym)
+      switch (ev.key.key)
       {
-        case SDLK_x: // Cut (whole line)
+        case SDLK_X: // Cut (whole line)
           cut();
           break;
 
-        case SDLK_c: // Copy (whole line)
+        case SDLK_C: // Copy (whole line)
           copy();
           break;
 
-        case SDLK_v: // Paste
+        case SDLK_V: // Paste
           paste();
           break;
 
-        case SDLK_z: // Undo
+        case SDLK_Z: // Undo
           undo();
           break;
 
-        case SDLK_y: // Redo
+        case SDLK_Y: // Redo
           redo();
           break;
 
@@ -324,13 +324,15 @@ ItemTextField::redo()
 void
 ItemTextField::activate()
 {
+  // SDL3 TODO
   if (SDL_HasScreenKeyboardSupport())
-    SDL_StartTextInput();
+    SDL_StartTextInput(NULL);
 }
 
 void
 ItemTextField::deactivate()
 {
+  // SDL3 TODO
   if (SDL_HasScreenKeyboardSupport())
-    SDL_StopTextInput();
+    SDL_StopTextInput(NULL);
 }

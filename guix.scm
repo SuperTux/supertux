@@ -68,8 +68,8 @@
       ("python" ,python)
       ("gcc-10" ,gcc-10)))
    (inputs
-    `(("sdl2" ,sdl2)
-      ("sdl2-image" ,sdl2-image)
+    `(("sdl3" ,sdl3)
+      ("sdl3-image" ,sdl3-image)
       ("openal" ,openal)
       ("mesa" ,mesa)
       ("glew" ,glew)

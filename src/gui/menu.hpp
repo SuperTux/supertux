@@ -18,7 +18,7 @@
 
 #include <functional>
 #include <memory>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "gui/menu_action.hpp"
 #include "math/vector.hpp"
