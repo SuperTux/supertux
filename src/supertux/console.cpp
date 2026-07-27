@@ -450,6 +450,7 @@ Console::show()
   if (!g_config->developer_mode)
     return;
 
+  SDL_StartTextInput(VideoSystem::current()->get_window());
   m_last_cursor_vis = MouseCursor::current()->get_visible();
   m_focused = true;
   m_height = Console::HEIGHT;
@@ -466,6 +467,7 @@ Console::open()
 void
 Console::hide()
 {
+  SDL_StopTextInput(VideoSystem::current()->get_window());
   m_focused = false;
   m_height = 0;
   m_stayOpen = 0;

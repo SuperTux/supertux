@@ -21,6 +21,7 @@
 #include "control/input_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/console.hpp"
+#include "util/log.hpp"
 
 KeyboardManager::KeyboardManager(InputManager* parent,
                                  KeyboardConfig& keyboard_config) :
