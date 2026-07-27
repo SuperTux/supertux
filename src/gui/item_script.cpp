@@ -30,6 +30,8 @@ ItemScript::ItemScript(UID uid, const std::string& key, const std::string& text,
 
 void
 ItemScript::process_action(const MenuAction& action) {
+  MenuItem::process_action(action);
+
   if (action == MenuAction::HIT) {
     MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(m_uid, m_key, script));
   }

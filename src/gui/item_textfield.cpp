@@ -141,6 +141,8 @@ ItemTextField::event(const SDL_Event& ev)
 void
 ItemTextField::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+
   if (action == MenuAction::REMOVE) // Delete front (backspace)
   {
     delete_front();

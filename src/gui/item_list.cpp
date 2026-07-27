@@ -28,6 +28,8 @@ ItemList::ItemList(const std::string& text, const std::vector<std::string>& item
 void
 ItemList::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+  
   if (action == MenuAction::HIT)
     MenuManager::instance().push_menu(std::make_unique<ListMenu>(m_items, m_value_ptr, nullptr));
 }

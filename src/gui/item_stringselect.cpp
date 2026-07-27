@@ -85,6 +85,8 @@ ItemStringSelect::get_width() const
 void
 ItemStringSelect::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+
   switch (action) {
     case MenuAction::LEFT:
       if ( (*m_selected) > 0) {

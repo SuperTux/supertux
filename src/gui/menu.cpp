@@ -392,25 +392,17 @@ Menu::process_action(const MenuAction& action)
 
   switch (action) {
     case MenuAction::UP:
-      m_items[m_active_item]->deactivate();
-
       do {
         previous_item();
       } while (m_items[m_active_item]->skippable()
                && (m_active_item != last_active_item));
-
-      m_items[m_active_item]->activate();
       break;
 
     case MenuAction::DOWN:
-      m_items[m_active_item]->deactivate();
-
       do {
         next_item();
       } while (m_items[m_active_item]->skippable()
                && (m_active_item != last_active_item));
-
-      m_items[m_active_item]->activate();
       break;
 
     case MenuAction::BACK:
@@ -687,9 +679,10 @@ Menu::event(const SDL_Event& ev)
 	  	m_mouse_deadzone -= abs(ev.motion.xrel);
 	  	m_mouse_deadzone -= abs(ev.motion.yrel);
 
-        if (m_mouse_deadzone < 0)
-          m_mouse_deadzone = 0;
-		return;
+      if (m_mouse_deadzone < 0)
+        m_mouse_deadzone = 0;
+
+		  return;
 	  }
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       float x = mouse_pos.x;
