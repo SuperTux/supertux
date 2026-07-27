@@ -324,15 +324,11 @@ ItemTextField::redo()
 void
 ItemTextField::activate()
 {
-  // SDL3 TODO
-  if (SDL_HasScreenKeyboardSupport())
-    SDL_StartTextInput(NULL);
+  SDL_StartTextInput(VideoSystem::current()->get_window());
 }
 
 void
 ItemTextField::deactivate()
 {
-  // SDL3 TODO
-  if (SDL_HasScreenKeyboardSupport())
-    SDL_StopTextInput(NULL);
+  SDL_StopTextInput(VideoSystem::current()->get_window());
 }
