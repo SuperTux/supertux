@@ -60,6 +60,8 @@ static const float HELP_MARGIN_Y = 16.f;
 // The amount in pixels the mouse has to wiggle after scrolling before it can hover over things again.
 constexpr int MOUSE_DEADZONE_AMOUNT = 70;
 
+constexpr int ACTIVE_ITEM_NONE = -1;
+
 Menu::Menu() :
   m_pos(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f,
                static_cast<float>(SCREEN_HEIGHT) / 2.0f)),
@@ -70,7 +72,7 @@ Menu::Menu() :
   m_menu_help_height(0.0f),
   m_items(),
   m_arrange_left(0),
-  m_active_item(-1),
+  m_active_item(ACTIVE_ITEM_NONE),
   m_mouse_deadzone(0),
   m_can_click_when_unfocused(false)
 {
@@ -92,10 +94,9 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
    * selectable item added.
    */
 
-  if (m_active_item == -1 && !item.skippable())
+  if (get_active_item() == -1 && !item.skippable())
   {
-    m_active_item = static_cast<int>(m_items.size()) - 1;
-    process_action(MenuAction::SELECT);
+    set_active_item(static_cast<int>(m_items.size()) - 1);
   }
 
   recalculate_position_and_size();
@@ -138,7 +139,7 @@ Menu::delete_item(int pos_)
       if (m_active_item > 0)
         --m_active_item;
       else
-        m_active_item = int(m_items.size())-1;
+        m_active_item = int(m_items.size()) - 1;
     } while (m_items[m_active_item]->skippable());
     process_action(MenuAction::SELECT);
   }
@@ -332,27 +333,27 @@ void
 Menu::clear()
 {
   m_items.clear();
-  m_active_item = -1;
+  m_active_item = ACTIVE_ITEM_NONE;
 }
 
 void
 Menu::previous_item()
 {
+  auto active_item = get_active_item();
   if (m_active_item > 0)
-    --m_active_item;
+    set_active_item(active_item - 1);
   else
-    m_active_item = m_items.size() - 1;
-  process_action(MenuAction::SELECT);
+    set_active_item(m_items.size() - 1);
 }
 
 void
 Menu::next_item()
 {
+  auto active_item = get_active_item();
   if (m_active_item < m_items.size() - 1)
-    ++m_active_item;
+    set_active_item(active_item + 1);
   else
-    m_active_item = 0;
-  process_action(MenuAction::SELECT);
+    set_active_item(0);
 }
 
 void
@@ -451,9 +452,9 @@ Menu::draw_item(DrawingContext& context, int index, float y_pos)
 
   const float x_pos = m_pos.x - menu_width / 2.0f;
 
-  pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width), m_active_item == index);
+  pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width), get_active_item() == index);
 
-  if (m_active_item == index && pitem->select_blink())
+  if (get_active_item() == index && pitem->select_blink())
   {
     float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
     context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - static_cast<float>(pitem->get_height())/2 - 2),
@@ -585,15 +586,15 @@ Menu::set_item(int index)
 	  break;
 
     if (m_items[m_active_item]->skippable())
-	{
-	  ++m_active_item;
-	  continue;
-	}
+    {
+      ++m_active_item;
+      continue;
+    }
 
-	if (index > 0)
-	  ++m_active_item;
+    if (index > 0)
+      ++m_active_item;
 
-	--index;
+    --index;
   }
   while (index >= 0);
   process_action(MenuAction::SELECT);
@@ -716,11 +717,8 @@ Menu::event(const SDL_Event& ev)
         /* only change the mouse focus to a selectable item */
         if (!m_items[new_active_item]->skippable() &&
             new_active_item != m_active_item) {
-          // Selection caused by mouse movement
-          if (m_active_item != -1)
-            process_action(MenuAction::UNSELECT);
-          m_active_item = new_active_item;
-          process_action(MenuAction::SELECT);
+
+          set_active_item(new_active_item);
         }
 
         if (MouseCursor::current())
@@ -740,11 +738,11 @@ Menu::event(const SDL_Event& ev)
 }
 
 void
-Menu::set_active_item(int id)
+Menu::set_active_item_id(int id)
 {
   for (size_t i = 0; i < m_items.size(); ++i) {
     if (m_items[i]->get_id() == id) {
-      m_active_item = static_cast<int>(i);
+      set_active_item(static_cast<int>(i));
       break;
     }
   }

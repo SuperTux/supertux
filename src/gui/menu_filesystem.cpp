@@ -122,8 +122,7 @@ FileSystemMenu::refresh_items()
   add_hl();
   add_back(_("Cancel"));
 
-  m_active_item = 2;
-  process_action(MenuAction::SELECT);
+  set_active_item(2);
 
   // Re-center menu
   on_window_resize();

@@ -211,10 +211,10 @@ AddonBrowseMenu::menu_action(MenuItem& item)
   else if (index == MNID_PREV_PAGE || index == MNID_NEXT_PAGE) {
     index == MNID_PREV_PAGE ? m_browse_page-- : m_browse_page++;
     rebuild_menu();
-    set_active_item(index);
+    set_active_item_id(index);
     if (get_active_item_id() != index) // Check if the item wasn't set as active, because it's disabled.
     {
-      set_active_item(index == MNID_PREV_PAGE ? MNID_NEXT_PAGE : MNID_PREV_PAGE);
+      set_active_item_id(index == MNID_PREV_PAGE ? MNID_NEXT_PAGE : MNID_PREV_PAGE);
     }
   }
   else if (IS_REPOSITORY_MENU_ID(index))
