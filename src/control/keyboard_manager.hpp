@@ -22,6 +22,8 @@
 #include "control/controller.hpp"
 #include "control/keyboard_config.hpp"
 
+#include <simplesquirrel/vm.hpp>
+
 class InputManager;
 struct SDL_KeyboardEvent;
 struct SDL_TextInputEvent;
@@ -37,6 +39,8 @@ public:
   void process_menu_key_event(const SDL_KeyboardEvent& event);
 
   void bind_next_event_to(int player_id, Control id);
+
+  static void register_class(ssq::VM& vm);
 
 private:
   InputManager* m_parent;
