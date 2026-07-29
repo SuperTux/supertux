@@ -20,7 +20,12 @@
 #include "control/joystick_manager.hpp"
 #include "control/input_manager.hpp"
 #include "gui/menu_manager.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/console.hpp"
+#include "util/log.hpp"
+
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
 
 KeyboardManager::KeyboardManager(InputManager* parent,
                                  KeyboardConfig& keyboard_config) :
@@ -64,24 +69,51 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     // if menu mode: send key there
     process_menu_key_event(event);
   }
-  else if (key_mapping == m_keyboard_config.m_keymap.end())
-  {
-    // default action: update controls
-    //log_debug << "Key " << event.key.SDL_Keycode.sym << " is unbound" << std::endl;
-  }
   else
   {
-    auto control = key_mapping->second;
-    bool value = (event.type == SDL_EVENT_KEY_DOWN);
-
-    if (control.player >= m_parent->get_num_users())
-      return;
-
-    m_parent->get_controller(control.player).set_control(control.control, value);
-
-    if (m_keyboard_config.m_jump_with_up_kbd && control.control == Control::UP) {
-      m_parent->get_controller(control.player).set_jump_key_with_up(value);
+    if (key_mapping == m_keyboard_config.m_keymap.end())
+    {
+      // default action: update controls
+      //log_debug << "Key " << event.key.SDL_Keycode.sym << " is unbound" << std::endl;
     }
+    else
+    {
+      auto control = key_mapping->second;
+      bool value = (event.type == SDL_EVENT_KEY_DOWN);
+
+      if (control.player >= m_parent->get_num_users())
+        return;
+
+      m_parent->get_controller(control.player).set_control(control.control, value);
+
+      if (m_keyboard_config.m_jump_with_up_kbd && control.control == Control::UP) {
+        m_parent->get_controller(control.player).set_jump_key_with_up(value);
+      }
+    }
+
+    ssq::VM& ssq_vm = SquirrelVirtualMachine::current()->get_vm();
+    try
+    {
+      if (ssq_vm.hasEntry("sector"))
+      {
+        const auto& sector_table = ssq_vm.findTable("sector");
+        if (event.down && !event.repeat && sector_table.hasEntry("on_key_down"))
+        {
+          const auto& on_keydown_func = sector_table.findFunc("on_key_down");
+          ssq_vm.callFunc(on_keydown_func, ssq_vm, event.key);
+        }
+        else if(!event.down && !event.repeat && sector_table.hasEntry("on_key_up"))
+        {
+          const auto& on_keyup_func = sector_table.findFunc("on_key_up");
+          ssq_vm.callFunc(on_keyup_func, ssq_vm, event.key);
+        }
+      }
+    }
+    catch(std::exception& ex)
+    {
+      log_warning << ex.what() << std::endl;
+    }
+
   }
 }
 
