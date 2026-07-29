@@ -111,7 +111,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 
         if (function)
         {
-          param_count = function->getNumOfParams().first;
+          param_count = function->getNumOfParams().second;
           if (param_count == 1)
           {
             ssq_vm.callFunc(*function, ssq_vm, event.key);
@@ -135,7 +135,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 
           if (function)
           {
-            param_count = function->getNumOfParams().first;
+            param_count = function->getNumOfParams().second;
 
             if (param_count == 2)
             {
@@ -310,262 +310,266 @@ KeyboardManager::register_class(ssq::VM& vm)
   if(!vm.hasEntry("Keys"))
   {
     auto keys_enum = vm.addEnum("Keys");
-    keys_enum.addSlot("SDLK_UNKNOWN", SDLK_UNKNOWN); /**< 0 */
-    keys_enum.addSlot("SDLK_RETURN", SDLK_RETURN); /**< '\r' */
-    keys_enum.addSlot("SDLK_ESCAPE", SDLK_ESCAPE); /**< '\x1B' */
-    keys_enum.addSlot("SDLK_BACKSPACE", SDLK_BACKSPACE); /**< '\b' */
-    keys_enum.addSlot("SDLK_TAB", SDLK_TAB); /**< '\t' */
-    keys_enum.addSlot("SDLK_SPACE", SDLK_SPACE); /**< ' ' */
-    keys_enum.addSlot("SDLK_EXCLAIM", SDLK_EXCLAIM); /**< '!' */
-    keys_enum.addSlot("SDLK_DBLAPOSTROPHE", SDLK_DBLAPOSTROPHE); /**< '"' */
-    keys_enum.addSlot("SDLK_HASH", SDLK_HASH); /**< '#' */
-    keys_enum.addSlot("SDLK_DOLLAR", SDLK_DOLLAR); /**< '$' */
-    keys_enum.addSlot("SDLK_PERCENT", SDLK_PERCENT); /**< '%' */
-    keys_enum.addSlot("SDLK_AMPERSAND", SDLK_AMPERSAND); /**< '&' */
-    keys_enum.addSlot("SDLK_APOSTROPHE", SDLK_APOSTROPHE); /**< '\'' */
-    keys_enum.addSlot("SDLK_LEFTPAREN", SDLK_LEFTPAREN); /**< '(' */
-    keys_enum.addSlot("SDLK_RIGHTPAREN", SDLK_RIGHTPAREN); /**< ')' */
-    keys_enum.addSlot("SDLK_ASTERISK", SDLK_ASTERISK); /**< '*' */
-    keys_enum.addSlot("SDLK_PLUS", SDLK_PLUS); /**< '+' */
-    keys_enum.addSlot("SDLK_COMMA", SDLK_COMMA); /**< ',' */
-    keys_enum.addSlot("SDLK_MINUS", SDLK_MINUS); /**< '-' */
-    keys_enum.addSlot("SDLK_PERIOD", SDLK_PERIOD); /**< '.' */
-    keys_enum.addSlot("SDLK_SLASH", SDLK_SLASH); /**< '/' */
-    keys_enum.addSlot("SDLK_0", SDLK_0); /**< '0' */
-    keys_enum.addSlot("SDLK_1", SDLK_1); /**< '1' */
-    keys_enum.addSlot("SDLK_2", SDLK_2); /**< '2' */
-    keys_enum.addSlot("SDLK_3", SDLK_3); /**< '3' */
-    keys_enum.addSlot("SDLK_4", SDLK_4); /**< '4' */
-    keys_enum.addSlot("SDLK_5", SDLK_5); /**< '5' */
-    keys_enum.addSlot("SDLK_6", SDLK_6); /**< '6' */
-    keys_enum.addSlot("SDLK_7", SDLK_7); /**< '7' */
-    keys_enum.addSlot("SDLK_8", SDLK_8); /**< '8' */
-    keys_enum.addSlot("SDLK_9", SDLK_9); /**< '9' */
-    keys_enum.addSlot("SDLK_COLON", SDLK_COLON); /**< ':' */
-    keys_enum.addSlot("SDLK_SEMICOLON", SDLK_SEMICOLON); /**< ';' */
-    keys_enum.addSlot("SDLK_LESS", SDLK_LESS); /**< '<' */
-    keys_enum.addSlot("SDLK_EQUALS", SDLK_EQUALS); /**< '=' */
-    keys_enum.addSlot("SDLK_GREATER", SDLK_GREATER); /**< '>' */
-    keys_enum.addSlot("SDLK_QUESTION", SDLK_QUESTION); /**< '?' */
-    keys_enum.addSlot("SDLK_AT", SDLK_AT); /**< '@' */
-    keys_enum.addSlot("SDLK_LEFTBRACKET", SDLK_LEFTBRACKET); /**< '[' */
-    keys_enum.addSlot("SDLK_BACKSLASH", SDLK_BACKSLASH); /**< '\\' */
-    keys_enum.addSlot("SDLK_RIGHTBRACKET", SDLK_RIGHTBRACKET); /**< ']' */
-    keys_enum.addSlot("SDLK_CARET", SDLK_CARET); /**< '^' */
-    keys_enum.addSlot("SDLK_UNDERSCORE", SDLK_UNDERSCORE); /**< '_' */
-    keys_enum.addSlot("SDLK_GRAVE", SDLK_GRAVE); /**< '`' */
-    keys_enum.addSlot("SDLK_A", SDLK_A); /**< 'a' */
-    keys_enum.addSlot("SDLK_B", SDLK_B); /**< 'b' */
-    keys_enum.addSlot("SDLK_C", SDLK_C); /**< 'c' */
-    keys_enum.addSlot("SDLK_D", SDLK_D); /**< 'd' */
-    keys_enum.addSlot("SDLK_E", SDLK_E); /**< 'e' */
-    keys_enum.addSlot("SDLK_F", SDLK_F); /**< 'f' */
-    keys_enum.addSlot("SDLK_G", SDLK_G); /**< 'g' */
-    keys_enum.addSlot("SDLK_H", SDLK_H); /**< 'h' */
-    keys_enum.addSlot("SDLK_I", SDLK_I); /**< 'i' */
-    keys_enum.addSlot("SDLK_J", SDLK_J); /**< 'j' */
-    keys_enum.addSlot("SDLK_K", SDLK_K); /**< 'k' */
-    keys_enum.addSlot("SDLK_L", SDLK_L); /**< 'l' */
-    keys_enum.addSlot("SDLK_M", SDLK_M); /**< 'm' */
-    keys_enum.addSlot("SDLK_N", SDLK_N); /**< 'n' */
-    keys_enum.addSlot("SDLK_O", SDLK_O); /**< 'o' */
-    keys_enum.addSlot("SDLK_P", SDLK_P); /**< 'p' */
-    keys_enum.addSlot("SDLK_Q", SDLK_Q); /**< 'q' */
-    keys_enum.addSlot("SDLK_R", SDLK_R); /**< 'r' */
-    keys_enum.addSlot("SDLK_S", SDLK_S); /**< 's' */
-    keys_enum.addSlot("SDLK_T", SDLK_T); /**< 't' */
-    keys_enum.addSlot("SDLK_U", SDLK_U); /**< 'u' */
-    keys_enum.addSlot("SDLK_V", SDLK_V); /**< 'v' */
-    keys_enum.addSlot("SDLK_W", SDLK_W); /**< 'w' */
-    keys_enum.addSlot("SDLK_X", SDLK_X); /**< 'x' */
-    keys_enum.addSlot("SDLK_Y", SDLK_Y); /**< 'y' */
-    keys_enum.addSlot("SDLK_Z", SDLK_Z); /**< 'z' */
-    keys_enum.addSlot("SDLK_LEFTBRACE", SDLK_LEFTBRACE); /**< '{' */
-    keys_enum.addSlot("SDLK_PIPE", SDLK_PIPE); /**< '|' */
-    keys_enum.addSlot("SDLK_RIGHTBRACE", SDLK_RIGHTBRACE); /**< '}' */
-    keys_enum.addSlot("SDLK_TILDE", SDLK_TILDE); /**< '~' */
-    keys_enum.addSlot("SDLK_DELETE", SDLK_DELETE); /**< '\x7F' */
-    keys_enum.addSlot("SDLK_PLUSMINUS", SDLK_PLUSMINUS); /**< '\xB1' */
-    keys_enum.addSlot("SDLK_CAPSLOCK", SDLK_CAPSLOCK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CAPSLOCK) */
-    keys_enum.addSlot("SDLK_F1", SDLK_F1); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F1) */
-    keys_enum.addSlot("SDLK_F2", SDLK_F2); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F2) */
-    keys_enum.addSlot("SDLK_F3", SDLK_F3); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F3) */
-    keys_enum.addSlot("SDLK_F4", SDLK_F4); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F4) */
-    keys_enum.addSlot("SDLK_F5", SDLK_F5); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F5) */
-    keys_enum.addSlot("SDLK_F6", SDLK_F6); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F6) */
-    keys_enum.addSlot("SDLK_F7", SDLK_F7); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F7) */
-    keys_enum.addSlot("SDLK_F8", SDLK_F8); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F8) */
-    keys_enum.addSlot("SDLK_F9", SDLK_F9); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F9) */
-    keys_enum.addSlot("SDLK_F10", SDLK_F10); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F10) */
-    keys_enum.addSlot("SDLK_F11", SDLK_F11); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F11) */
-    keys_enum.addSlot("SDLK_F12", SDLK_F12); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F12) */
-    keys_enum.addSlot("SDLK_PRINTSCREEN", SDLK_PRINTSCREEN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PRINTSCREEN) */
-    keys_enum.addSlot("SDLK_SCROLLLOCK", SDLK_SCROLLLOCK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SCROLLLOCK) */
-    keys_enum.addSlot("SDLK_PAUSE", SDLK_PAUSE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PAUSE) */
-    keys_enum.addSlot("SDLK_INSERT", SDLK_INSERT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_INSERT) */
-    keys_enum.addSlot("SDLK_HOME", SDLK_HOME); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_HOME) */
-    keys_enum.addSlot("SDLK_PAGEUP", SDLK_PAGEUP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PAGEUP) */
-    keys_enum.addSlot("SDLK_END", SDLK_END); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_END) */
-    keys_enum.addSlot("SDLK_PAGEDOWN", SDLK_PAGEDOWN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PAGEDOWN) */
-    keys_enum.addSlot("SDLK_RIGHT", SDLK_RIGHT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RIGHT) */
-    keys_enum.addSlot("SDLK_LEFT", SDLK_LEFT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LEFT) */
-    keys_enum.addSlot("SDLK_DOWN", SDLK_DOWN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_DOWN) */
-    keys_enum.addSlot("SDLK_UP", SDLK_UP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_UP) */
-    keys_enum.addSlot("SDLK_NUMLOCKCLEAR", SDLK_NUMLOCKCLEAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_NUMLOCKCLEAR) */
-    keys_enum.addSlot("SDLK_KP_DIVIDE", SDLK_KP_DIVIDE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_DIVIDE) */
-    keys_enum.addSlot("SDLK_KP_MULTIPLY", SDLK_KP_MULTIPLY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MULTIPLY) */
-    keys_enum.addSlot("SDLK_KP_MINUS", SDLK_KP_MINUS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MINUS) */
-    keys_enum.addSlot("SDLK_KP_PLUS", SDLK_KP_PLUS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_PLUS) */
-    keys_enum.addSlot("SDLK_KP_ENTER", SDLK_KP_ENTER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_ENTER) */
-    keys_enum.addSlot("SDLK_KP_1", SDLK_KP_1); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_1) */
-    keys_enum.addSlot("SDLK_KP_2", SDLK_KP_2); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_2) */
-    keys_enum.addSlot("SDLK_KP_3", SDLK_KP_3); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_3) */
-    keys_enum.addSlot("SDLK_KP_4", SDLK_KP_4); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_4) */
-    keys_enum.addSlot("SDLK_KP_5", SDLK_KP_5); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_5) */
-    keys_enum.addSlot("SDLK_KP_6", SDLK_KP_6); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_6) */
-    keys_enum.addSlot("SDLK_KP_7", SDLK_KP_7); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_7) */
-    keys_enum.addSlot("SDLK_KP_8", SDLK_KP_8); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_8) */
-    keys_enum.addSlot("SDLK_KP_9", SDLK_KP_9); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_9) */
-    keys_enum.addSlot("SDLK_KP_0", SDLK_KP_0); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_0) */
-    keys_enum.addSlot("SDLK_KP_PERIOD", SDLK_KP_PERIOD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_PERIOD) */
-    keys_enum.addSlot("SDLK_APPLICATION", SDLK_APPLICATION); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_APPLICATION) */
-    keys_enum.addSlot("SDLK_POWER", SDLK_POWER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_POWER) */
-    keys_enum.addSlot("SDLK_KP_EQUALS", SDLK_KP_EQUALS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_EQUALS) */
-    keys_enum.addSlot("SDLK_F13", SDLK_F13); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F13) */
-    keys_enum.addSlot("SDLK_F14", SDLK_F14); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F14) */
-    keys_enum.addSlot("SDLK_F15", SDLK_F15); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F15) */
-    keys_enum.addSlot("SDLK_F16", SDLK_F16); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F16) */
-    keys_enum.addSlot("SDLK_F17", SDLK_F17); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F17) */
-    keys_enum.addSlot("SDLK_F18", SDLK_F18); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F18) */
-    keys_enum.addSlot("SDLK_F19", SDLK_F19); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F19) */
-    keys_enum.addSlot("SDLK_F20", SDLK_F20); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F20) */
-    keys_enum.addSlot("SDLK_F21", SDLK_F21); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F21) */
-    keys_enum.addSlot("SDLK_F22", SDLK_F22); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F22) */
-    keys_enum.addSlot("SDLK_F23", SDLK_F23); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F23) */
-    keys_enum.addSlot("SDLK_F24", SDLK_F24); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F24) */
-    keys_enum.addSlot("SDLK_EXECUTE", SDLK_EXECUTE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_EXECUTE) */
-    keys_enum.addSlot("SDLK_HELP", SDLK_HELP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_HELP) */
-    keys_enum.addSlot("SDLK_MENU", SDLK_MENU); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MENU) */
-    keys_enum.addSlot("SDLK_SELECT", SDLK_SELECT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SELECT) */
-    keys_enum.addSlot("SDLK_STOP", SDLK_STOP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_STOP) */
-    keys_enum.addSlot("SDLK_AGAIN", SDLK_AGAIN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AGAIN) */
-    keys_enum.addSlot("SDLK_UNDO", SDLK_UNDO); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_UNDO) */
-    keys_enum.addSlot("SDLK_CUT", SDLK_CUT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CUT) */
-    keys_enum.addSlot("SDLK_COPY", SDLK_COPY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_COPY) */
-    keys_enum.addSlot("SDLK_PASTE", SDLK_PASTE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PASTE) */
-    keys_enum.addSlot("SDLK_FIND", SDLK_FIND); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_FIND) */
-    keys_enum.addSlot("SDLK_MUTE", SDLK_MUTE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MUTE) */
-    keys_enum.addSlot("SDLK_VOLUMEUP", SDLK_VOLUMEUP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_VOLUMEUP) */
-    keys_enum.addSlot("SDLK_VOLUMEDOWN", SDLK_VOLUMEDOWN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_VOLUMEDOWN) */
-    keys_enum.addSlot("SDLK_KP_COMMA", SDLK_KP_COMMA); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_COMMA) */
-    keys_enum.addSlot("SDLK_KP_EQUALSAS400", SDLK_KP_EQUALSAS400); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_EQUALSAS400) */
-    keys_enum.addSlot("SDLK_ALTERASE", SDLK_ALTERASE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_ALTERASE) */
-    keys_enum.addSlot("SDLK_SYSREQ", SDLK_SYSREQ); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SYSREQ) */
-    keys_enum.addSlot("SDLK_CANCEL", SDLK_CANCEL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CANCEL) */
-    keys_enum.addSlot("SDLK_CLEAR", SDLK_CLEAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CLEAR) */
-    keys_enum.addSlot("SDLK_PRIOR", SDLK_PRIOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PRIOR) */
-    keys_enum.addSlot("SDLK_RETURN2", SDLK_RETURN2); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RETURN2) */
-    keys_enum.addSlot("SDLK_SEPARATOR", SDLK_SEPARATOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SEPARATOR) */
-    keys_enum.addSlot("SDLK_OUT", SDLK_OUT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_OUT) */
-    keys_enum.addSlot("SDLK_OPER", SDLK_OPER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_OPER) */
-    keys_enum.addSlot("SDLK_CLEARAGAIN", SDLK_CLEARAGAIN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CLEARAGAIN) */
-    keys_enum.addSlot("SDLK_CRSEL", SDLK_CRSEL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CRSEL) */
-    keys_enum.addSlot("SDLK_EXSEL", SDLK_EXSEL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_EXSEL) */
-    keys_enum.addSlot("SDLK_KP_00", SDLK_KP_00); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_00) */
-    keys_enum.addSlot("SDLK_KP_000", SDLK_KP_000); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_000) */
-    keys_enum.addSlot("SDLK_THOUSANDSSEPARATOR", SDLK_THOUSANDSSEPARATOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_THOUSANDSSEPARATOR) */
-    keys_enum.addSlot("SDLK_DECIMALSEPARATOR", SDLK_DECIMALSEPARATOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_DECIMALSEPARATOR) */
-    keys_enum.addSlot("SDLK_CURRENCYUNIT", SDLK_CURRENCYUNIT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CURRENCYUNIT) */
-    keys_enum.addSlot("SDLK_CURRENCYSUBUNIT", SDLK_CURRENCYSUBUNIT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CURRENCYSUBUNIT) */
-    keys_enum.addSlot("SDLK_KP_LEFTPAREN", SDLK_KP_LEFTPAREN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_LEFTPAREN) */
-    keys_enum.addSlot("SDLK_KP_RIGHTPAREN", SDLK_KP_RIGHTPAREN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_RIGHTPAREN) */
-    keys_enum.addSlot("SDLK_KP_LEFTBRACE", SDLK_KP_LEFTBRACE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_LEFTBRACE) */
-    keys_enum.addSlot("SDLK_KP_RIGHTBRACE", SDLK_KP_RIGHTBRACE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_RIGHTBRACE) */
-    keys_enum.addSlot("SDLK_KP_TAB", SDLK_KP_TAB); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_TAB) */
-    keys_enum.addSlot("SDLK_KP_BACKSPACE", SDLK_KP_BACKSPACE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_BACKSPACE) */
-    keys_enum.addSlot("SDLK_KP_A", SDLK_KP_A); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_A) */
-    keys_enum.addSlot("SDLK_KP_B", SDLK_KP_B); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_B) */
-    keys_enum.addSlot("SDLK_KP_C", SDLK_KP_C); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_C) */
-    keys_enum.addSlot("SDLK_KP_D", SDLK_KP_D); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_D) */
-    keys_enum.addSlot("SDLK_KP_E", SDLK_KP_E); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_E) */
-    keys_enum.addSlot("SDLK_KP_F", SDLK_KP_F); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_F) */
-    keys_enum.addSlot("SDLK_KP_XOR", SDLK_KP_XOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_XOR) */
-    keys_enum.addSlot("SDLK_KP_POWER", SDLK_KP_POWER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_POWER) */
-    keys_enum.addSlot("SDLK_KP_PERCENT", SDLK_KP_PERCENT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_PERCENT) */
-    keys_enum.addSlot("SDLK_KP_LESS", SDLK_KP_LESS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_LESS) */
-    keys_enum.addSlot("SDLK_KP_GREATER", SDLK_KP_GREATER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_GREATER) */
-    keys_enum.addSlot("SDLK_KP_AMPERSAND", SDLK_KP_AMPERSAND); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_AMPERSAND) */
-    keys_enum.addSlot("SDLK_KP_DBLAMPERSAND", SDLK_KP_DBLAMPERSAND); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_DBLAMPERSAND) */
-    keys_enum.addSlot("SDLK_KP_VERTICALBAR", SDLK_KP_VERTICALBAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_VERTICALBAR) */
-    keys_enum.addSlot("SDLK_KP_DBLVERTICALBAR", SDLK_KP_DBLVERTICALBAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_DBLVERTICALBAR) */
-    keys_enum.addSlot("SDLK_KP_COLON", SDLK_KP_COLON); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_COLON) */
-    keys_enum.addSlot("SDLK_KP_HASH", SDLK_KP_HASH); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_HASH) */
-    keys_enum.addSlot("SDLK_KP_SPACE", SDLK_KP_SPACE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_SPACE) */
-    keys_enum.addSlot("SDLK_KP_AT", SDLK_KP_AT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_AT) */
-    keys_enum.addSlot("SDLK_KP_EXCLAM", SDLK_KP_EXCLAM); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_EXCLAM) */
-    keys_enum.addSlot("SDLK_KP_MEMSTORE", SDLK_KP_MEMSTORE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMSTORE) */
-    keys_enum.addSlot("SDLK_KP_MEMRECALL", SDLK_KP_MEMRECALL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMRECALL) */
-    keys_enum.addSlot("SDLK_KP_MEMCLEAR", SDLK_KP_MEMCLEAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMCLEAR) */
-    keys_enum.addSlot("SDLK_KP_MEMADD", SDLK_KP_MEMADD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMADD) */
-    keys_enum.addSlot("SDLK_KP_MEMSUBTRACT", SDLK_KP_MEMSUBTRACT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMSUBTRACT) */
-    keys_enum.addSlot("SDLK_KP_MEMMULTIPLY", SDLK_KP_MEMMULTIPLY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMMULTIPLY) */
-    keys_enum.addSlot("SDLK_KP_MEMDIVIDE", SDLK_KP_MEMDIVIDE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMDIVIDE) */
-    keys_enum.addSlot("SDLK_KP_PLUSMINUS", SDLK_KP_PLUSMINUS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_PLUSMINUS) */
-    keys_enum.addSlot("SDLK_KP_CLEAR", SDLK_KP_CLEAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_CLEAR) */
-    keys_enum.addSlot("SDLK_KP_CLEARENTRY", SDLK_KP_CLEARENTRY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_CLEARENTRY) */
-    keys_enum.addSlot("SDLK_KP_BINARY", SDLK_KP_BINARY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_BINARY) */
-    keys_enum.addSlot("SDLK_KP_OCTAL", SDLK_KP_OCTAL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_OCTAL) */
-    keys_enum.addSlot("SDLK_KP_DECIMAL", SDLK_KP_DECIMAL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_DECIMAL) */
-    keys_enum.addSlot("SDLK_KP_HEXADECIMAL", SDLK_KP_HEXADECIMAL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_HEXADECIMAL) */
-    keys_enum.addSlot("SDLK_LCTRL", SDLK_LCTRL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LCTRL) */
-    keys_enum.addSlot("SDLK_LSHIFT", SDLK_LSHIFT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LSHIFT) */
-    keys_enum.addSlot("SDLK_LALT", SDLK_LALT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LALT) */
-    keys_enum.addSlot("SDLK_LGUI", SDLK_LGUI); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LGUI) */
-    keys_enum.addSlot("SDLK_RCTRL", SDLK_RCTRL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RCTRL) */
-    keys_enum.addSlot("SDLK_RSHIFT", SDLK_RSHIFT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RSHIFT) */
-    keys_enum.addSlot("SDLK_RALT", SDLK_RALT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RALT) */
-    keys_enum.addSlot("SDLK_RGUI", SDLK_RGUI); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RGUI) */
-    keys_enum.addSlot("SDLK_MODE", SDLK_MODE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MODE) */
-    keys_enum.addSlot("SDLK_SLEEP", SDLK_SLEEP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SLEEP) */
-    keys_enum.addSlot("SDLK_WAKE", SDLK_WAKE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_WAKE) */
-    keys_enum.addSlot("SDLK_CHANNEL_INCREMENT", SDLK_CHANNEL_INCREMENT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CHANNEL_INCREMENT) */
-    keys_enum.addSlot("SDLK_CHANNEL_DECREMENT", SDLK_CHANNEL_DECREMENT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CHANNEL_DECREMENT) */
-    keys_enum.addSlot("SDLK_MEDIA_PLAY", SDLK_MEDIA_PLAY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_PLAY) */
-    keys_enum.addSlot("SDLK_MEDIA_PAUSE", SDLK_MEDIA_PAUSE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_PAUSE) */
-    keys_enum.addSlot("SDLK_MEDIA_RECORD", SDLK_MEDIA_RECORD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_RECORD) */
-    keys_enum.addSlot("SDLK_MEDIA_FAST_FORWARD", SDLK_MEDIA_FAST_FORWARD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_FAST_FORWARD) */
-    keys_enum.addSlot("SDLK_MEDIA_REWIND", SDLK_MEDIA_REWIND); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_REWIND) */
-    keys_enum.addSlot("SDLK_MEDIA_NEXT_TRACK", SDLK_MEDIA_NEXT_TRACK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_NEXT_TRACK) */
-    keys_enum.addSlot("SDLK_MEDIA_PREVIOUS_TRACK", SDLK_MEDIA_PREVIOUS_TRACK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_PREVIOUS_TRACK) */
-    keys_enum.addSlot("SDLK_MEDIA_STOP", SDLK_MEDIA_STOP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_STOP) */
-    keys_enum.addSlot("SDLK_MEDIA_EJECT", SDLK_MEDIA_EJECT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_EJECT) */
-    keys_enum.addSlot("SDLK_MEDIA_PLAY_PAUSE", SDLK_MEDIA_PLAY_PAUSE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_PLAY_PAUSE) */
-    keys_enum.addSlot("SDLK_MEDIA_SELECT", SDLK_MEDIA_SELECT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_SELECT) */
-    keys_enum.addSlot("SDLK_AC_NEW", SDLK_AC_NEW); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_NEW) */
-    keys_enum.addSlot("SDLK_AC_OPEN", SDLK_AC_OPEN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_OPEN) */
-    keys_enum.addSlot("SDLK_AC_CLOSE", SDLK_AC_CLOSE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_CLOSE) */
-    keys_enum.addSlot("SDLK_AC_EXIT", SDLK_AC_EXIT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_EXIT) */
-    keys_enum.addSlot("SDLK_AC_SAVE", SDLK_AC_SAVE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_SAVE) */
-    keys_enum.addSlot("SDLK_AC_PRINT", SDLK_AC_PRINT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_PRINT) */
-    keys_enum.addSlot("SDLK_AC_PROPERTIES", SDLK_AC_PROPERTIES); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_PROPERTIES) */
-    keys_enum.addSlot("SDLK_AC_SEARCH", SDLK_AC_SEARCH); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_SEARCH) */
-    keys_enum.addSlot("SDLK_AC_HOME", SDLK_AC_HOME); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_HOME) */
-    keys_enum.addSlot("SDLK_AC_BACK", SDLK_AC_BACK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_BACK) */
-    keys_enum.addSlot("SDLK_AC_FORWARD", SDLK_AC_FORWARD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_FORWARD) */
-    keys_enum.addSlot("SDLK_AC_STOP", SDLK_AC_STOP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_STOP) */
-    keys_enum.addSlot("SDLK_AC_REFRESH", SDLK_AC_REFRESH); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_REFRESH) */
-    keys_enum.addSlot("SDLK_AC_BOOKMARKS", SDLK_AC_BOOKMARKS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_BOOKMARKS) */
-    keys_enum.addSlot("SDLK_SOFTLEFT", SDLK_SOFTLEFT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SOFTLEFT) */
-    keys_enum.addSlot("SDLK_SOFTRIGHT", SDLK_SOFTRIGHT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SOFTRIGHT) */
-    keys_enum.addSlot("SDLK_CALL", SDLK_CALL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CALL) */
-    keys_enum.addSlot("SDLK_ENDCALL", SDLK_ENDCALL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_ENDCALL) */
-    keys_enum.addSlot("SDLK_LEFT_TAB", SDLK_LEFT_TAB); /**< Extended key Left Tab */
-    keys_enum.addSlot("SDLK_LEVEL5_SHIFT", SDLK_LEVEL5_SHIFT); /**< Extended key Level 5 Shift */
-    keys_enum.addSlot("SDLK_MULTI_KEY_COMPOSE", SDLK_MULTI_KEY_COMPOSE); /**< Extended key Multi-key Compose */
-    keys_enum.addSlot("SDLK_LMETA", SDLK_LMETA); /**< Extended key Left Meta */
-    keys_enum.addSlot("SDLK_RMETA", SDLK_RMETA); /**< Extended key Right Meta */
-    keys_enum.addSlot("SDLK_LHYPER", SDLK_LHYPER); /**< Extended key Left Hyper */
-    keys_enum.addSlot("SDLK_RHYPER", SDLK_RHYPER); /**< Extended key Right Hyper */
+
+    #define register_key(key) \
+      keys_enum.addSlot(#key, key);
+
+    register_key(SDLK_UNKNOWN); /**< 0 */
+    register_key(SDLK_RETURN); /**< '\r' */
+    register_key(SDLK_ESCAPE); /**< '\x1B' */
+    register_key(SDLK_BACKSPACE); /**< '\b' */
+    register_key(SDLK_TAB); /**< '\t' */
+    register_key(SDLK_SPACE); /**< ' ' */
+    register_key(SDLK_EXCLAIM); /**< '!' */
+    register_key(SDLK_DBLAPOSTROPHE); /**< '"' */
+    register_key(SDLK_HASH); /**< '#' */
+    register_key(SDLK_DOLLAR); /**< '$' */
+    register_key(SDLK_PERCENT); /**< '%' */
+    register_key(SDLK_AMPERSAND); /**< '&' */
+    register_key(SDLK_APOSTROPHE); /**< '\'' */
+    register_key(SDLK_LEFTPAREN); /**< '(' */
+    register_key(SDLK_RIGHTPAREN); /**< ')' */
+    register_key(SDLK_ASTERISK); /**< '*' */
+    register_key(SDLK_PLUS); /**< '+' */
+    register_key(SDLK_COMMA); /**< ',' */
+    register_key(SDLK_MINUS); /**< '-' */
+    register_key(SDLK_PERIOD); /**< '.' */
+    register_key(SDLK_SLASH); /**< '/' */
+    register_key(SDLK_0); /**< '0' */
+    register_key(SDLK_1); /**< '1' */
+    register_key(SDLK_2); /**< '2' */
+    register_key(SDLK_3); /**< '3' */
+    register_key(SDLK_4); /**< '4' */
+    register_key(SDLK_5); /**< '5' */
+    register_key(SDLK_6); /**< '6' */
+    register_key(SDLK_7); /**< '7' */
+    register_key(SDLK_8); /**< '8' */
+    register_key(SDLK_9); /**< '9' */
+    register_key(SDLK_COLON); /**< ':' */
+    register_key(SDLK_SEMICOLON); /**< ';' */
+    register_key(SDLK_LESS); /**< '<' */
+    register_key(SDLK_EQUALS); /**< '=' */
+    register_key(SDLK_GREATER); /**< '>' */
+    register_key(SDLK_QUESTION); /**< '?' */
+    register_key(SDLK_AT); /**< '@' */
+    register_key(SDLK_LEFTBRACKET); /**< '[' */
+    register_key(SDLK_BACKSLASH); /**< '\\' */
+    register_key(SDLK_RIGHTBRACKET); /**< ']' */
+    register_key(SDLK_CARET); /**< '^' */
+    register_key(SDLK_UNDERSCORE); /**< '_' */
+    register_key(SDLK_GRAVE); /**< '`' */
+    register_key(SDLK_A); /**< 'a' */
+    register_key(SDLK_B); /**< 'b' */
+    register_key(SDLK_C); /**< 'c' */
+    register_key(SDLK_D); /**< 'd' */
+    register_key(SDLK_E); /**< 'e' */
+    register_key(SDLK_F); /**< 'f' */
+    register_key(SDLK_G); /**< 'g' */
+    register_key(SDLK_H); /**< 'h' */
+    register_key(SDLK_I); /**< 'i' */
+    register_key(SDLK_J); /**< 'j' */
+    register_key(SDLK_K); /**< 'k' */
+    register_key(SDLK_L); /**< 'l' */
+    register_key(SDLK_M); /**< 'm' */
+    register_key(SDLK_N); /**< 'n' */
+    register_key(SDLK_O); /**< 'o' */
+    register_key(SDLK_P); /**< 'p' */
+    register_key(SDLK_Q); /**< 'q' */
+    register_key(SDLK_R); /**< 'r' */
+    register_key(SDLK_S); /**< 's' */
+    register_key(SDLK_T); /**< 't' */
+    register_key(SDLK_U); /**< 'u' */
+    register_key(SDLK_V); /**< 'v' */
+    register_key(SDLK_W); /**< 'w' */
+    register_key(SDLK_X); /**< 'x' */
+    register_key(SDLK_Y); /**< 'y' */
+    register_key(SDLK_Z); /**< 'z' */
+    register_key(SDLK_LEFTBRACE); /**< '{' */
+    register_key(SDLK_PIPE); /**< '|' */
+    register_key(SDLK_RIGHTBRACE); /**< '}' */
+    register_key(SDLK_TILDE); /**< '~' */
+    register_key(SDLK_DELETE); /**< '\x7F' */
+    register_key(SDLK_PLUSMINUS); /**< '\xB1' */
+    register_key(SDLK_CAPSLOCK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CAPSLOCK) */
+    register_key(SDLK_F1); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F1) */
+    register_key(SDLK_F2); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F2) */
+    register_key(SDLK_F3); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F3) */
+    register_key(SDLK_F4); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F4) */
+    register_key(SDLK_F5); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F5) */
+    register_key(SDLK_F6); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F6) */
+    register_key(SDLK_F7); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F7) */
+    register_key(SDLK_F8); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F8) */
+    register_key(SDLK_F9); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F9) */
+    register_key(SDLK_F10); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F10) */
+    register_key(SDLK_F11); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F11) */
+    register_key(SDLK_F12); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F12) */
+    register_key(SDLK_PRINTSCREEN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PRINTSCREEN) */
+    register_key(SDLK_SCROLLLOCK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SCROLLLOCK) */
+    register_key(SDLK_PAUSE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PAUSE) */
+    register_key(SDLK_INSERT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_INSERT) */
+    register_key(SDLK_HOME); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_HOME) */
+    register_key(SDLK_PAGEUP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PAGEUP) */
+    register_key(SDLK_END); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_END) */
+    register_key(SDLK_PAGEDOWN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PAGEDOWN) */
+    register_key(SDLK_RIGHT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RIGHT) */
+    register_key(SDLK_LEFT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LEFT) */
+    register_key(SDLK_DOWN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_DOWN) */
+    register_key(SDLK_UP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_UP) */
+    register_key(SDLK_NUMLOCKCLEAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_NUMLOCKCLEAR) */
+    register_key(SDLK_KP_DIVIDE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_DIVIDE) */
+    register_key(SDLK_KP_MULTIPLY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MULTIPLY) */
+    register_key(SDLK_KP_MINUS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MINUS) */
+    register_key(SDLK_KP_PLUS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_PLUS) */
+    register_key(SDLK_KP_ENTER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_ENTER) */
+    register_key(SDLK_KP_1); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_1) */
+    register_key(SDLK_KP_2); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_2) */
+    register_key(SDLK_KP_3); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_3) */
+    register_key(SDLK_KP_4); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_4) */
+    register_key(SDLK_KP_5); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_5) */
+    register_key(SDLK_KP_6); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_6) */
+    register_key(SDLK_KP_7); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_7) */
+    register_key(SDLK_KP_8); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_8) */
+    register_key(SDLK_KP_9); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_9) */
+    register_key(SDLK_KP_0); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_0) */
+    register_key(SDLK_KP_PERIOD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_PERIOD) */
+    register_key(SDLK_APPLICATION); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_APPLICATION) */
+    register_key(SDLK_POWER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_POWER) */
+    register_key(SDLK_KP_EQUALS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_EQUALS) */
+    register_key(SDLK_F13); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F13) */
+    register_key(SDLK_F14); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F14) */
+    register_key(SDLK_F15); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F15) */
+    register_key(SDLK_F16); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F16) */
+    register_key(SDLK_F17); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F17) */
+    register_key(SDLK_F18); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F18) */
+    register_key(SDLK_F19); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F19) */
+    register_key(SDLK_F20); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F20) */
+    register_key(SDLK_F21); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F21) */
+    register_key(SDLK_F22); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F22) */
+    register_key(SDLK_F23); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F23) */
+    register_key(SDLK_F24); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_F24) */
+    register_key(SDLK_EXECUTE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_EXECUTE) */
+    register_key(SDLK_HELP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_HELP) */
+    register_key(SDLK_MENU); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MENU) */
+    register_key(SDLK_SELECT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SELECT) */
+    register_key(SDLK_STOP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_STOP) */
+    register_key(SDLK_AGAIN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AGAIN) */
+    register_key(SDLK_UNDO); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_UNDO) */
+    register_key(SDLK_CUT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CUT) */
+    register_key(SDLK_COPY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_COPY) */
+    register_key(SDLK_PASTE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PASTE) */
+    register_key(SDLK_FIND); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_FIND) */
+    register_key(SDLK_MUTE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MUTE) */
+    register_key(SDLK_VOLUMEUP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_VOLUMEUP) */
+    register_key(SDLK_VOLUMEDOWN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_VOLUMEDOWN) */
+    register_key(SDLK_KP_COMMA); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_COMMA) */
+    register_key(SDLK_KP_EQUALSAS400); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_EQUALSAS400) */
+    register_key(SDLK_ALTERASE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_ALTERASE) */
+    register_key(SDLK_SYSREQ); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SYSREQ) */
+    register_key(SDLK_CANCEL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CANCEL) */
+    register_key(SDLK_CLEAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CLEAR) */
+    register_key(SDLK_PRIOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_PRIOR) */
+    register_key(SDLK_RETURN2); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RETURN2) */
+    register_key(SDLK_SEPARATOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SEPARATOR) */
+    register_key(SDLK_OUT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_OUT) */
+    register_key(SDLK_OPER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_OPER) */
+    register_key(SDLK_CLEARAGAIN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CLEARAGAIN) */
+    register_key(SDLK_CRSEL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CRSEL) */
+    register_key(SDLK_EXSEL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_EXSEL) */
+    register_key(SDLK_KP_00); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_00) */
+    register_key(SDLK_KP_000); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_000) */
+    register_key(SDLK_THOUSANDSSEPARATOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_THOUSANDSSEPARATOR) */
+    register_key(SDLK_DECIMALSEPARATOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_DECIMALSEPARATOR) */
+    register_key(SDLK_CURRENCYUNIT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CURRENCYUNIT) */
+    register_key(SDLK_CURRENCYSUBUNIT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CURRENCYSUBUNIT) */
+    register_key(SDLK_KP_LEFTPAREN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_LEFTPAREN) */
+    register_key(SDLK_KP_RIGHTPAREN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_RIGHTPAREN) */
+    register_key(SDLK_KP_LEFTBRACE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_LEFTBRACE) */
+    register_key(SDLK_KP_RIGHTBRACE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_RIGHTBRACE) */
+    register_key(SDLK_KP_TAB); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_TAB) */
+    register_key(SDLK_KP_BACKSPACE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_BACKSPACE) */
+    register_key(SDLK_KP_A); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_A) */
+    register_key(SDLK_KP_B); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_B) */
+    register_key(SDLK_KP_C); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_C) */
+    register_key(SDLK_KP_D); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_D) */
+    register_key(SDLK_KP_E); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_E) */
+    register_key(SDLK_KP_F); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_F) */
+    register_key(SDLK_KP_XOR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_XOR) */
+    register_key(SDLK_KP_POWER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_POWER) */
+    register_key(SDLK_KP_PERCENT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_PERCENT) */
+    register_key(SDLK_KP_LESS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_LESS) */
+    register_key(SDLK_KP_GREATER); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_GREATER) */
+    register_key(SDLK_KP_AMPERSAND); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_AMPERSAND) */
+    register_key(SDLK_KP_DBLAMPERSAND); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_DBLAMPERSAND) */
+    register_key(SDLK_KP_VERTICALBAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_VERTICALBAR) */
+    register_key(SDLK_KP_DBLVERTICALBAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_DBLVERTICALBAR) */
+    register_key(SDLK_KP_COLON); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_COLON) */
+    register_key(SDLK_KP_HASH); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_HASH) */
+    register_key(SDLK_KP_SPACE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_SPACE) */
+    register_key(SDLK_KP_AT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_AT) */
+    register_key(SDLK_KP_EXCLAM); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_EXCLAM) */
+    register_key(SDLK_KP_MEMSTORE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMSTORE) */
+    register_key(SDLK_KP_MEMRECALL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMRECALL) */
+    register_key(SDLK_KP_MEMCLEAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMCLEAR) */
+    register_key(SDLK_KP_MEMADD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMADD) */
+    register_key(SDLK_KP_MEMSUBTRACT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMSUBTRACT) */
+    register_key(SDLK_KP_MEMMULTIPLY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMMULTIPLY) */
+    register_key(SDLK_KP_MEMDIVIDE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_MEMDIVIDE) */
+    register_key(SDLK_KP_PLUSMINUS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_PLUSMINUS) */
+    register_key(SDLK_KP_CLEAR); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_CLEAR) */
+    register_key(SDLK_KP_CLEARENTRY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_CLEARENTRY) */
+    register_key(SDLK_KP_BINARY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_BINARY) */
+    register_key(SDLK_KP_OCTAL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_OCTAL) */
+    register_key(SDLK_KP_DECIMAL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_DECIMAL) */
+    register_key(SDLK_KP_HEXADECIMAL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_HEXADECIMAL) */
+    register_key(SDLK_LCTRL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LCTRL) */
+    register_key(SDLK_LSHIFT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LSHIFT) */
+    register_key(SDLK_LALT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LALT) */
+    register_key(SDLK_LGUI); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_LGUI) */
+    register_key(SDLK_RCTRL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RCTRL) */
+    register_key(SDLK_RSHIFT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RSHIFT) */
+    register_key(SDLK_RALT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RALT) */
+    register_key(SDLK_RGUI); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_RGUI) */
+    register_key(SDLK_MODE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MODE) */
+    register_key(SDLK_SLEEP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SLEEP) */
+    register_key(SDLK_WAKE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_WAKE) */
+    register_key(SDLK_CHANNEL_INCREMENT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CHANNEL_INCREMENT) */
+    register_key(SDLK_CHANNEL_DECREMENT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CHANNEL_DECREMENT) */
+    register_key(SDLK_MEDIA_PLAY); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_PLAY) */
+    register_key(SDLK_MEDIA_PAUSE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_PAUSE) */
+    register_key(SDLK_MEDIA_RECORD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_RECORD) */
+    register_key(SDLK_MEDIA_FAST_FORWARD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_FAST_FORWARD) */
+    register_key(SDLK_MEDIA_REWIND); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_REWIND) */
+    register_key(SDLK_MEDIA_NEXT_TRACK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_NEXT_TRACK) */
+    register_key(SDLK_MEDIA_PREVIOUS_TRACK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_PREVIOUS_TRACK) */
+    register_key(SDLK_MEDIA_STOP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_STOP) */
+    register_key(SDLK_MEDIA_EJECT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_EJECT) */
+    register_key(SDLK_MEDIA_PLAY_PAUSE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_PLAY_PAUSE) */
+    register_key(SDLK_MEDIA_SELECT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_MEDIA_SELECT) */
+    register_key(SDLK_AC_NEW); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_NEW) */
+    register_key(SDLK_AC_OPEN); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_OPEN) */
+    register_key(SDLK_AC_CLOSE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_CLOSE) */
+    register_key(SDLK_AC_EXIT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_EXIT) */
+    register_key(SDLK_AC_SAVE); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_SAVE) */
+    register_key(SDLK_AC_PRINT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_PRINT) */
+    register_key(SDLK_AC_PROPERTIES); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_PROPERTIES) */
+    register_key(SDLK_AC_SEARCH); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_SEARCH) */
+    register_key(SDLK_AC_HOME); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_HOME) */
+    register_key(SDLK_AC_BACK); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_BACK) */
+    register_key(SDLK_AC_FORWARD); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_FORWARD) */
+    register_key(SDLK_AC_STOP); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_STOP) */
+    register_key(SDLK_AC_REFRESH); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_REFRESH) */
+    register_key(SDLK_AC_BOOKMARKS); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_AC_BOOKMARKS) */
+    register_key(SDLK_SOFTLEFT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SOFTLEFT) */
+    register_key(SDLK_SOFTRIGHT); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_SOFTRIGHT) */
+    register_key(SDLK_CALL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_CALL) */
+    register_key(SDLK_ENDCALL); /**< SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_ENDCALL) */
+    register_key(SDLK_LEFT_TAB); /**< Extended key Left Tab */
+    register_key(SDLK_LEVEL5_SHIFT); /**< Extended key Level 5 Shift */
+    register_key(SDLK_MULTI_KEY_COMPOSE); /**< Extended key Multi-key Compose */
+    register_key(SDLK_LMETA); /**< Extended key Left Meta */
+    register_key(SDLK_RMETA); /**< Extended key Right Meta */
+    register_key(SDLK_LHYPER); /**< Extended key Left Hyper */
+    register_key(SDLK_RHYPER); /**< Extended key Right Hyper */
   }
 
   if (!vm.hasEntry("Controls"))
