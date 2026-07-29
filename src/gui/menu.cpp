@@ -95,6 +95,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
   if (m_active_item == -1 && !item.skippable())
   {
     m_active_item = static_cast<int>(m_items.size()) - 1;
+    process_action(MenuAction::SELECT);
   }
 
   recalculate_position_and_size();
@@ -115,6 +116,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
   {
     m_active_item++;
   }
+  process_action(MenuAction::SELECT);
 
   recalculate_position_and_size();
 
@@ -138,6 +140,7 @@ Menu::delete_item(int pos_)
       else
         m_active_item = int(m_items.size())-1;
     } while (m_items[m_active_item]->skippable());
+    process_action(MenuAction::SELECT);
   }
 }
 
@@ -339,6 +342,7 @@ Menu::previous_item()
     --m_active_item;
   else
     m_active_item = m_items.size() - 1;
+  process_action(MenuAction::SELECT);
 }
 
 void
@@ -348,6 +352,7 @@ Menu::next_item()
     ++m_active_item;
   else
     m_active_item = 0;
+  process_action(MenuAction::SELECT);
 }
 
 void
@@ -591,6 +596,7 @@ Menu::set_item(int index)
 	--index;
   }
   while (index >= 0);
+  process_action(MenuAction::SELECT);
 }
 
 MenuItem&
