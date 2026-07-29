@@ -31,25 +31,29 @@
 Brick::Brick(const Vector& pos, int data, const std::string& sprite_name) :
   Block(pos, sprite_name),
   m_breakable(false),
-  m_coin_counter(0)
+  m_coin_counter(0),
+  m_coins_worth()
 {
   if (data == 1) {
     m_coin_counter = 5;
   } else {
     m_breakable = true;
   }
+  m_coins_worth = m_coin_counter;
 }
 
 Brick::Brick(const ReaderMapping& mapping, const std::string& sprite_name) :
   Block(mapping, sprite_name),
   m_breakable(),
-  m_coin_counter(0)
+  m_coin_counter(0),
+  m_coins_worth()
 {
   parse_type(mapping);
   mapping.get("breakable", m_breakable, true);
   if (!m_breakable) {
     m_coin_counter = 5;
   }
+  m_coins_worth = m_coin_counter;
 }
 
 GameObjectTypes
@@ -118,6 +122,12 @@ Brick::collision(MovingObject& other, const CollisionHit& hit)
   return Block::collision(other, hit);
 }
 
+int
+Brick::get_coins_worth() const
+{
+  return m_coins_worth;
+}
+
 void
 Brick::try_break(Player* player, bool slider)
 {
@@ -134,6 +144,8 @@ Brick::try_break(Player* player, bool slider)
     m_coin_counter--;
     Player& player_one = *Sector::get().get_players()[0];
     player_one.get_status().add_coins(1);
+    Sector::get().get_level().m_stats.increment_coins();
+
     if (m_coin_counter == 0)
       set_action("empty");
     start_bounce(player);
