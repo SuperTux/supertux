@@ -43,6 +43,9 @@ public:
   static void register_class(ssq::VM& vm);
 
 private:
+  void handle_squirrel_callback(const SDL_KeyboardEvent& event, std::optional<KeyboardConfig::PlayerControl> control);
+
+private:
   InputManager* m_parent;
   KeyboardConfig& m_keyboard_config;
   std::optional<KeyboardConfig::PlayerControl> m_wait_for_key;

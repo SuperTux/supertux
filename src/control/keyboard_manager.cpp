@@ -71,6 +71,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
   }
   else
   {
+    std::optional<KeyboardConfig::PlayerControl> control;
     if (key_mapping == m_keyboard_config.m_keymap.end())
     {
       // default action: update controls
@@ -78,82 +79,20 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     }
     else
     {
-      auto control = key_mapping->second;
+      control = key_mapping->second;
       bool value = (event.type == SDL_EVENT_KEY_DOWN);
 
-      if (control.player >= m_parent->get_num_users())
+      if (control->player >= m_parent->get_num_users())
         return;
 
-      m_parent->get_controller(control.player).set_control(control.control, value);
+      m_parent->get_controller(control->player).set_control(control->control, value);
 
-      if (m_keyboard_config.m_jump_with_up_kbd && control.control == Control::UP) {
-        m_parent->get_controller(control.player).set_jump_key_with_up(value);
+      if (m_keyboard_config.m_jump_with_up_kbd && control->control == Control::UP) {
+        m_parent->get_controller(control->player).set_jump_key_with_up(value);
       }
     }
 
-    ssq::VM& ssq_vm = SquirrelVirtualMachine::current()->get_vm();
-    try
-    {
-      if (ssq_vm.hasEntry("sector"))
-      {
-        std::optional<ssq::Function> function = {};
-        unsigned int param_count = 0;
-        
-        const auto& sector_table = ssq_vm.findTable("sector");
-        if (event.down && !event.repeat && sector_table.hasEntry("on_key_down"))
-        {
-          function = sector_table.findFunc("on_key_down");
-        }
-        else if(!event.down && !event.repeat && sector_table.hasEntry("on_key_up"))
-        {
-          function = sector_table.findFunc("on_key_up");
-        }
-
-        if (function)
-        {
-          param_count = function->getNumOfParams().second;
-          if (param_count == 1)
-          {
-            ssq_vm.callFunc(*function, ssq_vm, event.key);
-          }
-        }
-
-        if (key_mapping != m_keyboard_config.m_keymap.end())
-        {
-          auto control = key_mapping->second;
-          bool control_down = (event.type == SDL_EVENT_KEY_DOWN);
-
-          if (control_down && sector_table.hasEntry("on_control_down"))
-          {
-            function = sector_table.findFunc("on_control_down");
-          }
-
-          if (!control_down && sector_table.hasEntry("on_control_up"))
-          {
-            function = sector_table.findFunc("on_control_up");
-          }
-
-          if (function)
-          {
-            param_count = function->getNumOfParams().second;
-
-            if (param_count == 2)
-            {
-              ssq_vm.callFunc(*function, ssq_vm, (int)control.control, (int)control.player);
-            }
-            else
-            {
-              ssq_vm.callFunc(*function, ssq_vm, (int)control.control);
-            }
-          }
-        }
-      }
-    }
-    catch(std::exception& ex)
-    {
-      log_warning << ex.what() << std::endl;
-    }
-
+    handle_squirrel_callback(event, control);
   }
 }
 
@@ -603,5 +542,71 @@ KeyboardManager::register_class(ssq::VM& vm)
     register_control(PEEK_RIGHT);
     register_control(PEEK_UP);
     register_control(PEEK_DOWN);
+  }
+}
+
+void
+KeyboardManager::handle_squirrel_callback(const SDL_KeyboardEvent& event, std::optional<KeyboardConfig::PlayerControl> control)
+{
+  ssq::VM& ssq_vm = SquirrelVirtualMachine::current()->get_vm();
+  try
+  {
+    if (ssq_vm.hasEntry("sector"))
+    {
+      std::optional<ssq::Function> function = {};
+      unsigned int param_count = 0;
+      
+      const auto& sector_table = ssq_vm.findTable("sector");
+      if (event.down && !event.repeat && sector_table.hasEntry("on_key_down"))
+      {
+        function = sector_table.findFunc("on_key_down");
+      }
+      else if(!event.down && !event.repeat && sector_table.hasEntry("on_key_up"))
+      {
+        function = sector_table.findFunc("on_key_up");
+      }
+
+      if (function)
+      {
+        param_count = function->getNumOfParams().second;
+        if (param_count == 1)
+        {
+          ssq_vm.callFunc(*function, ssq_vm, event.key);
+        }
+      }
+
+      if (control)
+      {
+        bool control_down = (event.type == SDL_EVENT_KEY_DOWN);
+
+        if (control_down && sector_table.hasEntry("on_control_down"))
+        {
+          function = sector_table.findFunc("on_control_down");
+        }
+
+        if (!control_down && sector_table.hasEntry("on_control_up"))
+        {
+          function = sector_table.findFunc("on_control_up");
+        }
+
+        if (function)
+        {
+          param_count = function->getNumOfParams().second;
+
+          if (param_count == 2)
+          {
+            ssq_vm.callFunc(*function, ssq_vm, (int)control->control, (int)control->player);
+          }
+          else
+          {
+            ssq_vm.callFunc(*function, ssq_vm, (int)control->control);
+          }
+        }
+      }
+    }
+  }
+  catch(std::exception& ex)
+  {
+    log_warning << ex.what() << std::endl;
   }
 }
