@@ -96,33 +96,55 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     {
       if (ssq_vm.hasEntry("sector"))
       {
-        // TODO: Pass players!!!
+        std::optional<ssq::Function> function = {};
+        unsigned int param_count = 0;
+        
         const auto& sector_table = ssq_vm.findTable("sector");
         if (event.down && !event.repeat && sector_table.hasEntry("on_key_down"))
         {
-          const auto& on_keydown_func = sector_table.findFunc("on_key_down");
-          ssq_vm.callFunc(on_keydown_func, ssq_vm, event.key);
+          function = sector_table.findFunc("on_key_down");
         }
         else if(!event.down && !event.repeat && sector_table.hasEntry("on_key_up"))
         {
-          const auto& on_keyup_func = sector_table.findFunc("on_key_up");
-          ssq_vm.callFunc(on_keyup_func, ssq_vm, event.key);
+          function = sector_table.findFunc("on_key_up");
+        }
+
+        if (function)
+        {
+          param_count = function->getNumOfParams().first;
+          if (param_count == 1)
+          {
+            ssq_vm.callFunc(*function, ssq_vm, event.key);
+          }
         }
 
         if (key_mapping != m_keyboard_config.m_keymap.end())
         {
           auto control = key_mapping->second;
           bool control_down = (event.type == SDL_EVENT_KEY_DOWN);
+
           if (control_down && sector_table.hasEntry("on_control_down"))
           {
-            const auto& on_control_down_func = sector_table.findFunc("on_control_down");
-            ssq_vm.callFunc(on_control_down_func, ssq_vm, (int)control.control);
+            function = sector_table.findFunc("on_control_down");
           }
 
           if (!control_down && sector_table.hasEntry("on_control_up"))
           {
-            const auto& on_control_up_func = sector_table.findFunc("on_control_up");
-            ssq_vm.callFunc(on_control_up_func, ssq_vm, (int)control.control);
+            function = sector_table.findFunc("on_control_up");
+          }
+
+          if (function)
+          {
+            param_count = function->getNumOfParams().first;
+
+            if (param_count == 2)
+            {
+              ssq_vm.callFunc(*function, ssq_vm, (int)control.control, (int)control.player);
+            }
+            else
+            {
+              ssq_vm.callFunc(*function, ssq_vm, (int)control.control);
+            }
           }
         }
       }
