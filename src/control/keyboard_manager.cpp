@@ -575,29 +575,33 @@ KeyboardManager::register_class(ssq::VM& vm)
   if (!vm.hasEntry("Controls"))
   {
     auto controls_enum = vm.addEnum("Controls");
-    controls_enum.addSlot("LEFT", (int)Control::LEFT);
-    controls_enum.addSlot("RIGHT", (int)Control::RIGHT);
-    controls_enum.addSlot("UP", (int)Control::UP);
-    controls_enum.addSlot("DOWN", (int)Control::DOWN);
+    
+    #define register_control(control_key) \
+      controls_enum.addSlot(#control_key, (int)Control::control_key);
 
-    controls_enum.addSlot("JUMP", (int)Control::JUMP);
-    controls_enum.addSlot("ACTION", (int)Control::ACTION);
-    controls_enum.addSlot("ITEM", (int)Control::ITEM);
+    register_control(LEFT);
+    register_control(RIGHT);
+    register_control(UP);
+    register_control(DOWN);
 
-    controls_enum.addSlot("START", (int)Control::START);
-    controls_enum.addSlot("ESCAPE", (int)Control::ESCAPE);
-    controls_enum.addSlot("MENU_SELECT", (int)Control::MENU_SELECT);
-    controls_enum.addSlot("MENU_SELECT_SPACE", (int)Control::MENU_SELECT_SPACE);
-    controls_enum.addSlot("MENU_BACK", (int)Control::MENU_BACK);
-    controls_enum.addSlot("REMOVE", (int)Control::REMOVE);
+    register_control(JUMP);
+    register_control(ACTION);
+    register_control(ITEM);
 
-    controls_enum.addSlot("CHEAT_MENU", (int)Control::CHEAT_MENU);
-    controls_enum.addSlot("DEBUG_MENU", (int)Control::DEBUG_MENU);
-    controls_enum.addSlot("CONSOLE", (int)Control::CONSOLE);
+    register_control(START);
+    register_control(ESCAPE);
+    register_control(MENU_SELECT);
+    register_control(MENU_SELECT_SPACE);
+    register_control(MENU_BACK);
+    register_control(REMOVE);
 
-    controls_enum.addSlot("PEEK_LEFT", (int)Control::PEEK_LEFT);
-    controls_enum.addSlot("PEEK_RIGHT", (int)Control::PEEK_RIGHT);
-    controls_enum.addSlot("PEEK_UP", (int)Control::PEEK_UP);
-    controls_enum.addSlot("PEEK_DOWN", (int)Control::PEEK_DOWN);
+    register_control(CHEAT_MENU);
+    register_control(DEBUG_MENU);
+    register_control(CONSOLE);
+
+    register_control(PEEK_LEFT);
+    register_control(PEEK_RIGHT);
+    register_control(PEEK_UP);
+    register_control(PEEK_DOWN);
   }
 }
