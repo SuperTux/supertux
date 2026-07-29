@@ -92,7 +92,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
       }
     }
 
-    handle_squirrel_callback(event, control);
+    handle_squirrel_keyboard_callback(event, control);
   }
 }
 
@@ -104,6 +104,10 @@ KeyboardManager::process_text_input_event(const SDL_TextInputEvent& event)
     {
       Console::current()->input(event.text[i]);
     }
+  }
+  else if (!MenuManager::instance().is_active())
+  {
+    handle_squirrel_text_input_callback(event);
   }
 }
 
@@ -546,7 +550,7 @@ KeyboardManager::register_class(ssq::VM& vm)
 }
 
 void
-KeyboardManager::handle_squirrel_callback(const SDL_KeyboardEvent& event, std::optional<KeyboardConfig::PlayerControl> control)
+KeyboardManager::handle_squirrel_keyboard_callback(const SDL_KeyboardEvent& event, std::optional<KeyboardConfig::PlayerControl> control)
 {
   ssq::VM& ssq_vm = SquirrelVirtualMachine::current()->get_vm();
   try
@@ -601,6 +605,33 @@ KeyboardManager::handle_squirrel_callback(const SDL_KeyboardEvent& event, std::o
           {
             ssq_vm.callFunc(*function, ssq_vm, (int)control->control);
           }
+        }
+      }
+    }
+  }
+  catch(std::exception& ex)
+  {
+    log_warning << ex.what() << std::endl;
+  }
+}
+
+void
+KeyboardManager::handle_squirrel_text_input_callback(const SDL_TextInputEvent& event)
+{
+  ssq::VM& ssq_vm = SquirrelVirtualMachine::current()->get_vm();
+  try
+  {
+    if (ssq_vm.hasEntry("sector"))
+    { 
+      const auto& sector_table = ssq_vm.findTable("sector");
+
+      if (event.type == SDL_EVENT_TEXT_INPUT && sector_table.hasEntry("on_text_input"))
+      {
+        ssq::Function function = sector_table.findFunc("on_text_input");
+        int param_count = function.getNumOfParams().second;
+        if (param_count == 1)
+        {
+          ssq_vm.callFunc(function, ssq_vm, std::string(event.text));
         }
       }
     }

@@ -43,7 +43,8 @@ public:
   static void register_class(ssq::VM& vm);
 
 private:
-  void handle_squirrel_callback(const SDL_KeyboardEvent& event, std::optional<KeyboardConfig::PlayerControl> control);
+  void handle_squirrel_keyboard_callback(const SDL_KeyboardEvent& event, std::optional<KeyboardConfig::PlayerControl> control);
+  void handle_squirrel_text_input_callback(const SDL_TextInputEvent& event);
 
 private:
   InputManager* m_parent;
