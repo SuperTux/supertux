@@ -625,7 +625,7 @@ KeyboardManager::handle_squirrel_text_input_callback(const SDL_TextInputEvent& e
     { 
       const auto& sector_table = ssq_vm.findTable("sector");
 
-      if (event.type == SDL_EVENT_TEXT_INPUT && sector_table.hasEntry("on_text_input"))
+      if (sector_table.hasEntry("on_text_input"))
       {
         ssq::Function function = sector_table.findFunc("on_text_input");
         int param_count = function.getNumOfParams().second;
