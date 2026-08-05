@@ -689,7 +689,7 @@ Menu::event(const SDL_Event& ev)
       if (m_mouse_deadzone < 0)
         m_mouse_deadzone = 0;
 
-		  return;
+      return;
 	  }
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       float x = mouse_pos.x;
