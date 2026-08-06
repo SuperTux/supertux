@@ -94,7 +94,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
    * selectable item added.
    */
 
-  if (get_active_item() == -1 && !item.skippable())
+  if (get_active_item() == ACTIVE_ITEM_NONE && !item.skippable())
   {
     set_active_item(static_cast<int>(m_items.size()) - 1);
   }
@@ -423,7 +423,7 @@ Menu::process_action(const MenuAction& action)
 
   if (last_active_item != m_active_item) {
     // Selection caused by Up or Down keyboard action
-    if (last_active_item != -1)
+    if (last_active_item != ACTIVE_ITEM_NONE)
       m_items[last_active_item]->process_action(MenuAction::UNSELECT);
     m_items[m_active_item]->process_action(MenuAction::SELECT);
   }
