@@ -78,6 +78,8 @@ WorldMapSector::WorldMapSector(WorldMap& parent) :
 
 WorldMapSector::~WorldMapSector()
 {
+  m_destruction_imminent = true;
+
   m_spawnpoints.clear();
 
   clear_objects();

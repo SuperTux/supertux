@@ -81,6 +81,8 @@ Sector::Sector(Level& parent) :
 
 Sector::~Sector()
 {
+  m_destruction_imminent = true;
+
   try
   {
     deactivate();
