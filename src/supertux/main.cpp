@@ -886,7 +886,7 @@ Main::release_check()
     if (mapping.get("latest", latest_ver) && latest_ver != PACKAGE_VERSION_TAG)
     {
       const std::string version_tag = std::string(PACKAGE_VERSION_TAG);
-      const std::string version = version_tag.substr(version_tag.find("v") + 1, version_tag.find("-") - 1);
+      const std::string version = version_tag.substr(version_tag.find("v"), version_tag.find("-"));
       if (version != latest_ver)
       {
         auto notif = std::make_unique<Notification>("new_release_" + latest_ver, 20.f, false, true);
