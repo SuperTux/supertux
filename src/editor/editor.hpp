@@ -85,6 +85,7 @@ public:
 
   virtual IntegrationStatus get_status() const override;
 
+  bool has_focus() const;
   void event(const SDL_Event& ev) override;
   void on_window_resize() override;
 

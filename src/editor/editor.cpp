@@ -57,6 +57,7 @@
 #include "sdk/integration.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/console.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -713,10 +714,7 @@ Editor::esc_press()
 void
 Editor::update_keyboard(const Controller& controller)
 {
-  if (!m_enabled)
-    return;
-
-  if (MenuManager::instance().is_active() || MenuManager::instance().has_dialog())
+  if(!has_focus())
     return;
 
   const bool* keys = nullptr;
@@ -1206,11 +1204,28 @@ Editor::on_window_resize()
   }
 }
 
+bool
+Editor::has_focus() const
+{
+  if (!m_enabled || !m_levelloaded)
+    return false;
+
+  auto& menu_manager = MenuManager::instance();
+  if (menu_manager.is_active() || menu_manager.has_dialog())
+    return false;
+
+  auto console = Console::current();
+  if (console && console->hasFocus())
+    return false;
+
+  return true;
+}
+
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (!m_enabled || !m_levelloaded ||
-      MenuManager::current()->is_active() || MenuManager::current()->has_dialog()) return;
+  if (!has_focus())
+    return;
 
   for(const auto& control : m_controls)
     if (control->event(ev))
