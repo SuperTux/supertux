@@ -83,6 +83,8 @@ ItemImages::draw(DrawingContext& drawing_context, const Vector& pos, int menu_wi
 void
 ItemImages::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+
   if (!m_gallery_mode)
     return;
   switch (action)

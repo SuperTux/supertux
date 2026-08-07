@@ -73,7 +73,7 @@ ProfileMenu::rebuild_menu()
     add_entry(id, text);
     if (current)
     {
-      set_active_item(id);
+      set_active_item_id(id);
       m_current_profile = profile;
     }
   }
