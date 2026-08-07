@@ -29,6 +29,9 @@ ColorMenu::ColorMenu(Color* color) :
   add_label(_("Mix the colour"));
   add_hl();
 
+  add_color_channel_oklab(m_color, 1);
+  add_color_channel_oklab(m_color, 2);
+  add_color_channel_oklab(m_color, 3);
   add_color_picker_2d(*m_color);
   add_color_channel_rgba(&(m_color->red), Color::RED);
   add_color_channel_rgba(&(m_color->green), Color::GREEN);
