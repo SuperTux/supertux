@@ -18,6 +18,7 @@
 #include "supertux/resources.hpp"
 
 #include "gui/mousecursor.hpp"
+#include "object/character_registry.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
@@ -69,6 +70,13 @@ Resources::load(bool reload)
     // Load the mouse-cursor
     mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
     MouseCursor::set_current(mouse_cursor.get());
+
+    // Initialize character registry
+    static std::unique_ptr<CharacterRegistry> character_registry;
+    if (!character_registry)
+    {
+      character_registry.reset(new CharacterRegistry());
+    }
   }
 
   default_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));

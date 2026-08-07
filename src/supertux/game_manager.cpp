@@ -21,6 +21,7 @@
 #include "supertux/levelset_screen.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/profile.hpp"
+#include "supertux/profile_manager.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
@@ -50,11 +51,70 @@ GameManager::save()
 }
 
 void
+GameManager::ensure_savegame_for_profile()
+{
+  if (!m_savegame)
+  {
+    auto savegame = std::make_unique<Savegame>(ProfileManager::current()->get_current_profile(), "");
+    m_savegame = std::move(savegame);
+  }
+}
+
+void
+GameManager::ensure_title_screen_savegame()
+{
+  if (!m_savegame || !m_savegame->is_title_screen())
+  {
+    auto savegame = std::make_unique<Savegame>(ProfileManager::current()->get_current_profile(), "");
+    m_savegame = std::move(savegame);
+  }
+}
+
+Savegame*
+GameManager::get_active_savegame()
+{
+  if (worldmap::WorldMap::current())
+    return &worldmap::WorldMap::current()->get_savegame();
+
+  if (GameSession::current())
+    return &GameSession::current()->get_savegame();
+
+  if (GameManager::current() && GameManager::current()->m_savegame)
+    return GameManager::current()->m_savegame.get();
+
+  return nullptr;
+}
+
+void
 GameManager::start_level(const World& world, const std::string& level_filename,
                          const std::optional<std::pair<std::string, Vector>>& start_pos,
                          bool skip_intro)
 {
+  std::vector<CharacterType> gameplay_character_ids;
+
+  Savegame* current_savegame = get_active_savegame();
+  if (current_savegame)
+  {
+    PlayerStatus& old_status = current_savegame->get_player_status();
+    int num_players_to_preserve = InputManager::current()->get_num_users();
+    for (int i = 0; i < num_players_to_preserve; ++i)
+    {
+      CharacterType char_id = old_status.get_character_id(i);
+      gameplay_character_ids.push_back(char_id);
+    }
+  }
+
   m_savegame = Savegame::from_current_profile(world.get_basename());
+
+  if (!gameplay_character_ids.empty())
+  {
+    PlayerStatus& new_status = m_savegame->get_player_status();
+    while (new_status.m_num_players < static_cast<int>(gameplay_character_ids.size()))
+      new_status.add_player();
+
+    for (size_t i = 0; i < gameplay_character_ids.size(); ++i)
+      new_status.set_character_id(i, gameplay_character_ids[i]);
+  }
 
   auto screen = std::make_unique<LevelsetScreen>(world.get_basedir(),
                                                  level_filename,
@@ -92,7 +152,30 @@ GameManager::create_worldmap_instance(const World& world, const std::string& wor
                                       const std::string& sector, const std::string& spawnpoint)
 try
 {
+  std::vector<CharacterType> menu_character_ids;
+  if (m_savegame && m_savegame->is_title_screen())
+  {
+    PlayerStatus& old_status = m_savegame->get_player_status();
+    int num_players_to_preserve = InputManager::current()->get_num_users();
+
+    for (int i = 0; i < num_players_to_preserve; ++i)
+    {
+      CharacterType char_id = old_status.get_character_id(i);
+      menu_character_ids.push_back(char_id);
+    }
+  }
+
   m_savegame = Savegame::from_current_profile(world.get_basename());
+
+  if (!menu_character_ids.empty())
+  {
+    PlayerStatus& new_status = m_savegame->get_player_status();
+    while (new_status.m_num_players < static_cast<int>(menu_character_ids.size()))
+      new_status.add_player();
+
+    for (size_t i = 0; i < menu_character_ids.size(); ++i)
+      new_status.set_character_id(i, menu_character_ids[i]);
+  }
 
   auto filename = m_savegame->get_player_status().last_worldmap;
   // If we specified a worldmap filename manually,
