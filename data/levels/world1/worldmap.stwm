@@ -201,7 +201,7 @@
       (level "castle_cutscene.stl")
       (auto-play #t)
       (color 0.6 0.8 1)
-      (name "NOTE: put this in the castle level")
+      (sprite "/images/worldmap/common/invisible.png")
       (x 47)
       (y 92)
     )
