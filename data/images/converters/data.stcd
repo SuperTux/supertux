@@ -12,7 +12,12 @@
   (rock_tiles_addon_to_vanilla.sttc
     (title (_ "Jagged Rock Tiles from Addon"))
     (author "Eauix")
-    (description (_ "For levels, created with the rock tiles addon, converts their IDs to vanilla rock tile IDs"))
+    (description (_ "For levels, created with the rock tiles addon, converts their IDs to vanilla rock tile IDs."))
+  )
+  (worldmap_version_tiles.sttc
+    (title (_ "Old Worldmap Tiles"))
+    (author "NamelessPenguin101")
+    (description (_ "For worldmaps, which use the old worldmap tile file."))
   )
 )
 
