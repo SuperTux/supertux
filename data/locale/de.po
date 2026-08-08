@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-03-21 04:25+0000\n"
+"POT-Creation-Date: 2026-08-07 18:52+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2021,2024-2026\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
@@ -204,19 +204,21 @@ msgstr "Vor-0.6.3 Kristallkacheln"
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
 msgstr "Für Levels, die in Versionen vor pre-0.6.3 erstellt wurden, die Kristallkacheln verwenden."
 
-#: data/images/converters/data.stcd:8
+#. l10n: The word "Nightly" refers to an early development version of
+#. SuperTux, don't translate the word literally.
+#: data/images/converters/data.stcd:9
 msgid "Nightly Tiles"
-msgstr "Nächtliche Kacheln"
+msgstr "Nightly-Kacheln"
 
-#: data/images/converters/data.stcd:10
+#: data/images/converters/data.stcd:11
 msgid "For levels, created in previous Nightly builds."
 msgstr "Für Level, die in früheren Nightly-Builds erstellt wurden."
 
-#: data/images/converters/data.stcd:13
+#: data/images/converters/data.stcd:14
 msgid "Jagged Rock Tiles from Addon"
 msgstr "Scharfkantige Felsenkacheln aus einem Add-on"
 
-#: data/images/converters/data.stcd:15
+#: data/images/converters/data.stcd:16
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
@@ -301,7 +303,7 @@ msgstr "Kristall"
 
 #: data/images/tiles.strf:816
 msgid "Forest Background"
-msgstr "Wald (Hintergrund)"
+msgstr "Wald-Hintergrund"
 
 #: data/images/tiles.strf:994
 msgid "Corrupted Forest"
@@ -397,7 +399,7 @@ msgstr "Add-ons"
 
 #: src/addon/addon_manager.cpp:557
 msgid "Only one resource pack is allowed to be enabled at a time."
-msgstr "Es darf nur ein Ressourcenpack zur Zeit aktiviert sein."
+msgstr "Es darf nur ein Ressourcenpaket zur Zeit aktiviert sein."
 
 #: src/addon/addon_manager.cpp:814
 msgid "Add-on {} by {} is already installed."
@@ -487,8 +489,8 @@ msgstr "Das Skript, das ausgeführt wird, wenn Pinch-Mode aktiviert ist."
 #: src/badguy/mriceblock.cpp:63 src/badguy/mrtree.cpp:50
 #: src/badguy/smartball.cpp:34 src/badguy/snail.cpp:70
 #: src/badguy/snowball.cpp:40 src/badguy/viciousivy.cpp:46
-#: src/object/background.cpp:302 src/object/brick.cpp:59
-#: src/object/coin.cpp:69 src/object/gradient.cpp:107
+#: src/object/background.cpp:302 src/object/brick.cpp:63
+#: src/object/coin.cpp:70 src/object/gradient.cpp:107
 #: src/object/invisible_block.cpp:37 src/object/tilemap.cpp:352
 msgid "Normal"
 msgstr "Normal"
@@ -612,7 +614,7 @@ msgstr "Zeit, bis der erste Dartpfeil abgefeuert wird, nachdem die Dartfalle akt
 
 #: src/badguy/darttrap.cpp:156 src/object/particle_zone.cpp:50
 #: src/object/particlesystem.cpp:64 src/object/spotlight.cpp:104
-#: src/supertux/menu/addon_preview_menu.cpp:201
+#: src/supertux/menu/addon_preview_menu.cpp:200
 msgid "Enabled"
 msgstr "Aktiviert"
 
@@ -1093,32 +1095,32 @@ msgstr "Verschwinde-Entfernung"
 msgid "Fly speed"
 msgstr "Fluggeschwindigkeit"
 
-#: src/badguy/willowisp.cpp:405 src/object/camera.cpp:170
-#: src/object/coin.cpp:327 src/object/path_gameobject.cpp:175
+#: src/badguy/willowisp.cpp:405 src/object/camera.cpp:175
+#: src/object/coin.cpp:338 src/object/path_gameobject.cpp:175
 #: src/object/path_gameobject.hpp:44 src/object/platform.cpp:78
 #: src/object/tilemap.cpp:357
 msgid "Path"
 msgstr "Pfad"
 
-#: src/badguy/willowisp.cpp:406 src/object/coin.cpp:334
+#: src/badguy/willowisp.cpp:406 src/object/coin.cpp:345
 #: src/object/platform.cpp:83 src/object/tilemap.cpp:358
 msgid "Starting Node"
 msgstr "Start-Node"
 
-#: src/badguy/willowisp.cpp:411 src/object/camera.cpp:173
-#: src/object/coin.cpp:332 src/object/platform.cpp:79
+#: src/badguy/willowisp.cpp:411 src/object/camera.cpp:178
+#: src/object/coin.cpp:343 src/object/platform.cpp:79
 #: src/object/tilemap.cpp:364
 msgid "Path Mode"
 msgstr "Pfadmodus"
 
-#: src/badguy/willowisp.cpp:412 src/object/camera.cpp:174
-#: src/object/coin.cpp:333 src/object/platform.cpp:80
+#: src/badguy/willowisp.cpp:412 src/object/camera.cpp:179
+#: src/object/coin.cpp:344 src/object/platform.cpp:80
 #: src/object/tilemap.cpp:365
 msgid "Adapt Speed"
 msgstr "Geschwindigkeit: anpassen"
 
-#: src/badguy/willowisp.cpp:413 src/object/camera.cpp:175
-#: src/object/coin.cpp:335 src/object/platform.cpp:84
+#: src/badguy/willowisp.cpp:413 src/object/camera.cpp:180
+#: src/object/coin.cpp:346 src/object/platform.cpp:84
 #: src/object/tilemap.cpp:367
 msgid "Handle"
 msgstr "Anfasser"
@@ -1149,33 +1151,33 @@ msgstr "Zeekling"
 msgid "Joystick Mappings"
 msgstr "Joystickkonfiguration"
 
-#: src/editor/editor.cpp:353
+#: src/editor/editor.cpp:354
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
 msgstr "Hinweis: Ziehbare Elemente sind jetzt versteckt. Drücke Strg+H, um sie wieder anzuzeigen."
 
-#: src/editor/editor.cpp:589
+#: src/editor/editor.cpp:588
 msgid "Level saved!"
 msgstr "Level gespeichert!"
 
-#: src/editor/editor.cpp:619
+#: src/editor/editor.cpp:618
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
 msgstr "Du kannst ein Level nicht testen, während du es auf der Weltkarte spielst\n\nBeende stattdessen den Leveleditor."
 
-#: src/editor/editor.cpp:870
+#: src/editor/editor.cpp:869
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Dieses Level enthält veraltete Kacheln.\nEs wird dringend empfohlen, alle veralteten Kacheln zu ersetzen, um Kompatibilitätsverluste in zukünftigen Versionen zu vermeiden."
 
-#: src/editor/editor.cpp:872
+#: src/editor/editor.cpp:871
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Tipp: Aktiviere die Option \"Veraltete Kacheln anzeigen\" im Menü des Leveleditors."
 
-#: src/editor/editor.cpp:962
+#: src/editor/editor.cpp:961
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1183,33 +1185,33 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Vergiss nicht, dass deine Levels und Spieldaten\nnicht zwischen den Sitzungen gespeichert werden!\nWenn du deine Levels behalten möchtest,\nlade sich aus dem \"Spieldaten verwalten\"-Menü\nherunter."
 
-#: src/editor/editor.cpp:1003
+#: src/editor/editor.cpp:1002
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr "Dieses Level wurde noch nicht gespeichert. Möchtest du es stattdessen speichern?"
 
-#: src/editor/editor.cpp:1005
+#: src/editor/editor.cpp:1004
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Dieses Level enthält nicht gespeicherte Änderungen, möchtest du speichern?"
 
-#: src/editor/editor.cpp:1006
+#: src/editor/editor.cpp:1005
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Dieses Level enthält möglicherweise ungespeicherte Änderungen. Möchtest du das Level speichern?"
 
-#: src/editor/editor.cpp:1007 src/gui/dialog.hpp:95
-#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/editor/editor.cpp:1006 src/gui/dialog.hpp:95
+#: src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "Ja"
 
-#: src/editor/editor.cpp:1013 src/editor/particle_editor.cpp:779
-#: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:141
+#: src/editor/editor.cpp:1012 src/editor/particle_editor.cpp:779
+#: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 msgid "No"
 msgstr "Nein"
 
-#: src/editor/editor.cpp:1017 src/editor/particle_editor.cpp:783
+#: src/editor/editor.cpp:1016 src/editor/particle_editor.cpp:783
 #: src/gui/menu_filesystem.cpp:123 src/gui/menu_list.cpp:38
 #: src/gui/menu_paths.cpp:48
 #: src/supertux/menu/editor_level_select_menu.cpp:183
@@ -1225,7 +1227,7 @@ msgstr "Nein"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/editor/editor.cpp:1136
+#: src/editor/editor.cpp:1135
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1233,21 +1235,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Einige veraltete Add-ons sind noch aktiv\nund könnten Kollisionen mit der Standardstruktur von SuperTux verursachen.\nDiese Add-ons können weiterhin im Menü aktiviert werden.\nDie Deaktivierung dieser Add-ons wird den Spielfortschritt nicht löschen."
 
-#: src/editor/editor.cpp:1139
+#: src/editor/editor.cpp:1138
 msgid "Disable add-ons"
 msgstr "Add-ons deaktivieren"
 
-#: src/editor/editor.cpp:1144
+#: src/editor/editor.cpp:1143
 msgid "Ignore (not advised)"
 msgstr "Ignorieren (nicht empfohlen)"
 
-#: src/editor/editor.cpp:1148
+#: src/editor/editor.cpp:1147
 msgid "Leave editor"
 msgstr "Editor verlassen"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1479
+#: src/editor/editor.cpp:1493
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1256,7 +1258,7 @@ msgstr "Es konnte kein Sektor mit dem Namen \"main\" gefunden werden.\nBitte än
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1486
+#: src/editor/editor.cpp:1500
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1487,7 +1489,7 @@ msgid "Patch Notes"
 msgstr "Änderungsnotizen"
 
 #: src/editor/object_menu.cpp:61 src/gui/menu_string_array.cpp:81
-#: src/supertux/menu/addon_preview_menu.cpp:189
+#: src/supertux/menu/addon_preview_menu.cpp:188
 msgid "Update"
 msgstr "Aktualisieren"
 
@@ -1512,7 +1514,7 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr "Dadurch wird das Objekt auf die neuesten Funktionen aktualisiert.\nIn den Änderungsnotizen finden Sie weitere Informationen.\n\nDenke daran, dass dies sehr wahrscheinlich das korrekte Verhalten des Objekts beeinträchtigt.\nStelle sicher, dass Sie das Verhalten des Objekts erneut überprüfen."
+msgstr "Dadurch wird das Objekt auf die neuesten Funktionen aktualisiert.\nIn den Änderungsnotizen finden Sie weitere Informationen.\n\nDenke daran, dass dies sehr wahrscheinlich das korrekte Verhalten des Objekts beeinträchtigt.\nStelle sicher, das Verhalten des Objekts erneut zu überprüfen."
 
 #: src/editor/object_menu.cpp:98
 msgid "Patch notes for v{}:"
@@ -1634,39 +1636,39 @@ msgstr "Autor"
 msgid "License"
 msgstr "Lizenz"
 
-#: src/editor/overlay_widget.cpp:1042
+#: src/editor/overlay_widget.cpp:1061
 msgid "Cannot select deprecated tiles"
 msgstr "Veraltete Kacheln können nicht ausgewählt werden"
 
-#: src/editor/overlay_widget.cpp:1666
+#: src/editor/overlay_widget.cpp:1700
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr "Autokachel-Radiermodus ist an (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1670
+#: src/editor/overlay_widget.cpp:1704
 msgid "Autotile erasing cannot be performed here"
 msgstr "Autokachel-Radieren kann hier nicht durchgeführt werden"
 
-#: src/editor/overlay_widget.cpp:1675
+#: src/editor/overlay_widget.cpp:1709
 msgid "Autotile mode is on (\"{}\")"
 msgstr "Autokachel-Modus ist an (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1679
+#: src/editor/overlay_widget.cpp:1713
 msgid "Selected tile isn't autotileable"
 msgstr "Ausgewählte Kachel ist nicht automatisch kachelbar"
 
-#: src/editor/overlay_widget.cpp:1685
+#: src/editor/overlay_widget.cpp:1719
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Strg drücken, um Kachel-Hilfsmodus-Radierer zu aktivieren"
 
-#: src/editor/overlay_widget.cpp:1687
+#: src/editor/overlay_widget.cpp:1721
 msgid "Release Ctrl to use autotile erasing"
 msgstr "Lasse die Strg-Taste los, um Autokachel-Löschen zu verwenden"
 
-#: src/editor/overlay_widget.cpp:1692
+#: src/editor/overlay_widget.cpp:1726
 msgid "Hold Ctrl to enable autotile"
 msgstr "Strg drücken, um Kachel-Hilfsmodus zu aktivieren"
 
-#: src/editor/overlay_widget.cpp:1694
+#: src/editor/overlay_widget.cpp:1728
 msgid "Release Ctrl to autotile"
 msgstr "Strg loslassen für Autokacheln"
 
@@ -1843,7 +1845,7 @@ msgstr "Immer zerstören"
 #: src/editor/particle_editor.cpp:223
 #: src/object/custom_particle_system.cpp:523
 msgid "Only on exit"
-msgstr "Nur bei Beendigung"
+msgstr "Nur beim Beenden"
 
 #: src/editor/particle_editor.cpp:224
 #: src/object/custom_particle_system.cpp:523
@@ -1963,7 +1965,7 @@ msgstr "Ersetzungsmodus"
 msgid ""
 "Path edit mode (Clicking adds path nodes to the selected object if it "
 "supports them)"
-msgstr "Pfad-Bearbeitungsmodus (Beim Klicken werden Pfadknoten zum aktuellen Objekt hinzugefügt, sofern dies es unterstützt)"
+msgstr "Pfad-Bearbeitungsmodus (Beim Klicken werden Pfadknoten zum aktuellen Objekt hinzugefügt, sofern es dies unterstützt)"
 
 #: src/editor/toolbar_widget.cpp:155
 msgid "Select mode (Clicking selects the object under the mouse)"
@@ -2041,10 +2043,10 @@ msgstr "Möchtest du den Pfad klonen, um ihn separat zu bearbeiten,\noder möcht
 msgid "Path {}"
 msgstr "Pfad {}"
 
-#: src/gui/menu_paths.cpp:67 src/supertux/menu/addon_browse_menu.cpp:162
+#: src/gui/menu_paths.cpp:67 src/supertux/menu/addon_browse_menu.cpp:161
 #: src/supertux/menu/addon_file_install_menu.cpp:36
-#: src/supertux/menu/addon_menu.cpp:168
-#: src/supertux/menu/addon_preview_menu.cpp:205
+#: src/supertux/menu/addon_menu.cpp:167
+#: src/supertux/menu/addon_preview_menu.cpp:204
 #: src/supertux/menu/cheat_apply_menu.cpp:40
 #: src/supertux/menu/cheat_menu.cpp:57
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
@@ -2065,7 +2067,7 @@ msgstr "Pfad {}"
 #: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/multiplayer_players_menu.cpp:106
-#: src/supertux/menu/options_menu.cpp:291
+#: src/supertux/menu/options_menu.cpp:284
 #: src/supertux/menu/options_select_menu.cpp:44
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/profile_name_menu.cpp:45
@@ -2301,8 +2303,8 @@ msgstr "Orange"
 msgid "Purple"
 msgstr "Lila"
 
-#: src/object/bonus_block.cpp:175 src/object/brick.cpp:60
-#: src/object/coin.cpp:70 src/object/invisible_block.cpp:38
+#: src/object/bonus_block.cpp:175 src/object/brick.cpp:64
+#: src/object/coin.cpp:71 src/object/invisible_block.cpp:38
 msgid "Retro"
 msgstr "Retro"
 
@@ -2406,7 +2408,7 @@ msgstr "Münz-Sprite"
 msgid "Bonus Block"
 msgstr "Bonusblock"
 
-#: src/object/brick.cpp:168
+#: src/object/brick.cpp:180
 msgid "Breakable"
 msgstr "Zerbrechlich"
 
@@ -2414,7 +2416,7 @@ msgstr "Zerbrechlich"
 msgid "Brick"
 msgstr "Ziegel"
 
-#: src/object/brick.hpp:70
+#: src/object/brick.hpp:73
 msgid "Heavy Brick"
 msgstr "Schwerer Stein"
 
@@ -2422,27 +2424,27 @@ msgstr "Schwerer Stein"
 msgid "Bumper"
 msgstr "Bumper"
 
-#: src/object/camera.cpp:165
+#: src/object/camera.cpp:170
 msgid "Mode"
 msgstr "Modus"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "autoscroll"
 msgstr "Autoscrollen"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "free"
 msgstr "Frei"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "manual"
 msgstr "manuell"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "normal"
 msgstr "normal"
 
-#: src/object/camera.hpp:68
+#: src/object/camera.hpp:69
 msgid "Camera"
 msgstr "Kamera"
 
@@ -2483,11 +2485,11 @@ msgstr "Y-Geschwindigkeit"
 msgid "Cloud Particles"
 msgstr "Wolkenpartikel"
 
-#: src/object/coin.cpp:329 src/object/tilemap.cpp:360
+#: src/object/coin.cpp:340 src/object/tilemap.cpp:360
 msgid "Following path"
 msgstr "Folgt Pfad"
 
-#: src/object/coin.cpp:338 src/object/coin.cpp:374
+#: src/object/coin.cpp:349 src/object/coin.cpp:385
 msgid "Collect script"
 msgstr "Sammel-Skript"
 
@@ -3167,26 +3169,26 @@ msgstr "-v, --version SuperTux-Version anzeigen und beenden"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --verbose                    Print verbose messages"
-msgstr "  --verbose                    Mehr Informationen ausgeben"
+msgstr "--verbose                    Mehr Informationen ausgeben"
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "  --debug                      Print extra verbose messages"
-msgstr "  --debug                      Noch mehr Informationen ausgeben"
+msgstr "--debug                      Noch mehr Informationen ausgeben"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --log-tinygettext            Show tinygettext logs"
-msgstr "  --log-tinygettext            Tinygettext-Logs anzeigen"
+msgstr "--log-tinygettext            Tinygettext-Logs anzeigen"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
-msgstr "  --print-datadir              SuperTux' primäres Datenverzeichnis ausgeben."
+msgstr "--print-datadir              SuperTux' primäres Datenverzeichnis ausgeben."
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid ""
 "  --acknowledgements           Print the licenses of libraries used by "
 "SuperTux."
-msgstr "  --acknowledgements           Die Lizenzen der Proprammierbibliotheken, die von SuperTux benutzt werden, ausgeben."
+msgstr "--acknowledgements           Die Lizenzen der Programmbibliotheken, die von SuperTux benutzt werden, ausgeben."
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "Video Options:"
@@ -3324,8 +3326,8 @@ msgstr "oben"
 msgid "down"
 msgstr "unten"
 
-#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:314
-#: src/supertux/menu/options_menu.cpp:357
+#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:307
+#: src/supertux/menu/options_menu.cpp:350
 msgid "auto"
 msgstr "auto"
 
@@ -3357,7 +3359,7 @@ msgstr "Art"
 msgid ""
 "The type of an object defines its theme and behaviour. This is mostly used "
 "to distinguish between forest and ice world types of this object"
-msgstr "Der Typ eines Objekts definiert seine visuelle Erscheinung und sein Verhalten. Diese Einstellungen wird in erster Linie dazu verwendet, zwischen Wald- und Eiswelt-Typen eines Objektes zu unterscheiden."
+msgstr "Der Typ eines Objekts definiert seine visuelle Erscheinung und sein Verhalten. Diese Einstellung wird in erster Linie dazu verwendet, zwischen Wald- und Eiswelt-Typen eines Objektes zu unterscheiden."
 
 #: src/supertux/game_object.hpp:122
 msgid "Unknown object"
@@ -3387,15 +3389,15 @@ msgstr "Bestzeit"
 msgid "Level target time"
 msgstr "Levelzielzeit"
 
-#: src/supertux/main.cpp:892
+#: src/supertux/main.cpp:893
 msgid "New release: SuperTux {}!"
 msgstr "Neue Version: SuperTux {}!"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:894
 msgid "Click for more details."
 msgstr "Für weitere Details klicken."
 
-#: src/supertux/main.cpp:896
+#: src/supertux/main.cpp:897
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -3403,58 +3405,58 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "Eine neue Version von SuperTux ({}) ist verfügbar!\nWeitere Informationen befinden sich auf der SuperTux-Webseite.\n\nMöchtest du die Webseite nun besuchen?"
 
-#: src/supertux/main.cpp:907
+#: src/supertux/main.cpp:908
 msgid "Checking for new releases..."
 msgstr "Auf neue Versionen überprüfen..."
 
-#: src/supertux/menu/addon_browse_menu.cpp:70
-#: src/supertux/menu/addon_menu.cpp:162
+#: src/supertux/menu/addon_browse_menu.cpp:69
+#: src/supertux/menu/addon_menu.cpp:161
 msgid "Browse Add-ons"
 msgstr "Add-ons durchsuchen"
 
-#: src/supertux/menu/addon_browse_menu.cpp:70
+#: src/supertux/menu/addon_browse_menu.cpp:69
 msgid "Browse Language Packs"
 msgstr "Sprachpakete durchsuchen"
 
-#: src/supertux/menu/addon_browse_menu.cpp:112
+#: src/supertux/menu/addon_browse_menu.cpp:111
 msgid "Page {}/{}"
 msgstr "Seite {}/{}"
 
-#: src/supertux/menu/addon_browse_menu.cpp:124
+#: src/supertux/menu/addon_browse_menu.cpp:123
 msgid "No new Add-ons available"
 msgstr "Keine neuen Add-ons verfügbar"
 
-#: src/supertux/menu/addon_browse_menu.cpp:124
+#: src/supertux/menu/addon_browse_menu.cpp:123
 msgid "No new language packs available"
 msgstr "Keine neuen Sprachpakete verfügbar"
 
-#: src/supertux/menu/addon_browse_menu.cpp:127
+#: src/supertux/menu/addon_browse_menu.cpp:126
 msgid "No Add-ons available"
 msgstr "Keine Add-ons verfügbar"
 
-#: src/supertux/menu/addon_browse_menu.cpp:127
+#: src/supertux/menu/addon_browse_menu.cpp:126
 msgid "No language packs available"
 msgstr "Keine Sprachpakete verfügbar"
 
-#: src/supertux/menu/addon_browse_menu.cpp:135
-#: src/supertux/menu/addon_browse_menu.cpp:139
+#: src/supertux/menu/addon_browse_menu.cpp:134
+#: src/supertux/menu/addon_browse_menu.cpp:138
 msgid "Previous page"
 msgstr "Vorherige Seite"
 
-#: src/supertux/menu/addon_browse_menu.cpp:143
-#: src/supertux/menu/addon_browse_menu.cpp:147
+#: src/supertux/menu/addon_browse_menu.cpp:142
+#: src/supertux/menu/addon_browse_menu.cpp:146
 msgid "Next page"
 msgstr "Nächste Seite"
 
-#: src/supertux/menu/addon_browse_menu.cpp:154
+#: src/supertux/menu/addon_browse_menu.cpp:153
 msgid "Check Online (disabled)"
 msgstr "Online prüfen (deaktiviert)"
 
-#: src/supertux/menu/addon_browse_menu.cpp:158
+#: src/supertux/menu/addon_browse_menu.cpp:157
 msgid "Check Online"
 msgstr "Online prüfen"
 
-#: src/supertux/menu/addon_browse_menu.cpp:195
+#: src/supertux/menu/addon_browse_menu.cpp:194
 msgid "Downloading Add-On Repository Index"
 msgstr "Erweiterungs-Repositoriumsindex wird heruntergeladen"
 
@@ -3466,207 +3468,207 @@ msgstr "Add-on aus Datei installieren"
 msgid "Drag and drop add-on ZIP archive"
 msgstr "Add-on-ZIP-Archiv hier hinziehen und ablegen"
 
-#: src/supertux/menu/addon_menu.cpp:71
+#: src/supertux/menu/addon_menu.cpp:70
 msgid "Installed Add-ons"
 msgstr "Installierte Add-ons"
 
-#: src/supertux/menu/addon_menu.cpp:71
+#: src/supertux/menu/addon_menu.cpp:70
 msgid "Installed Language Packs"
 msgstr "Installierte Sprachpakete"
 
-#: src/supertux/menu/addon_menu.cpp:79
+#: src/supertux/menu/addon_menu.cpp:78
 msgid "No Add-ons installed"
 msgstr "Keine Add-ons installiert"
 
-#: src/supertux/menu/addon_menu.cpp:79 src/supertux/menu/addon_menu.cpp:120
+#: src/supertux/menu/addon_menu.cpp:78 src/supertux/menu/addon_menu.cpp:119
 msgid "No language packs installed"
 msgstr "Keine Sprachpakete installiert"
 
-#: src/supertux/menu/addon_menu.cpp:128
+#: src/supertux/menu/addon_menu.cpp:127
 msgid "{} *UPDATE*"
 msgstr "{} *UPDATE*"
 
-#: src/supertux/menu/addon_menu.cpp:130
+#: src/supertux/menu/addon_menu.cpp:129
 msgid "{} [DISABLED] *UPDATE*"
 msgstr "{} [DEAKTIVIERT] *UPDATE*"
 
-#: src/supertux/menu/addon_menu.cpp:139
+#: src/supertux/menu/addon_menu.cpp:138
 msgid "{} [DISABLED]"
 msgstr "{} [DEAKTIVIERT]"
 
-#: src/supertux/menu/addon_menu.cpp:149
+#: src/supertux/menu/addon_menu.cpp:148
 msgid "No updates available."
 msgstr "Keine Updates verfügbar."
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "update"
 msgstr "Aktualisierung"
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "updates"
 msgstr "Aktualisierungen"
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "{} {} available"
 msgstr "{} {}  verfügbar"
 
-#: src/supertux/menu/addon_menu.cpp:156
+#: src/supertux/menu/addon_menu.cpp:155
 msgid "Check for updates"
 msgstr "Auf Updates überprüfen"
 
-#: src/supertux/menu/addon_menu.cpp:162
+#: src/supertux/menu/addon_menu.cpp:161
 msgid "Browse language packs"
 msgstr "Sprachpakete durchsuchen"
 
-#: src/supertux/menu/addon_menu.cpp:165
+#: src/supertux/menu/addon_menu.cpp:164
 msgid "Install from file"
 msgstr "Aus Datei installieren"
 
-#: src/supertux/menu/addon_menu.cpp:182
+#: src/supertux/menu/addon_menu.cpp:181
 msgid "To browse through the add-on catalog, you must enable networking."
 msgstr "Um den Add-on-Katalog zu durchsuchen, muss der Netzwerkzugriff aktiviert sein."
 
-#: src/supertux/menu/addon_menu.cpp:219
+#: src/supertux/menu/addon_menu.cpp:218
 msgid "To check for add-on updates, you must enable networking."
 msgstr "Zur Überprüfung auf Updates muss der Netzwerkzugriff aktiviert sein."
 
-#: src/supertux/menu/addon_menu.cpp:227
+#: src/supertux/menu/addon_menu.cpp:226
 msgid "Checking for updates..."
 msgstr "Auf Updates überprüfen..."
 
-#: src/supertux/menu/addon_preview_menu.cpp:87
+#: src/supertux/menu/addon_preview_menu.cpp:86
 msgid "{} \"{}\""
 msgstr "{} \"{}\""
 
-#: src/supertux/menu/addon_preview_menu.cpp:92
+#: src/supertux/menu/addon_preview_menu.cpp:91
 msgid "Some information about this add-on is not available."
 msgstr "Einige Informationen über dieses Add-on sind nicht verfügbar."
 
-#: src/supertux/menu/addon_preview_menu.cpp:93
+#: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "Perform a \"Check Online\" to try retrieving it."
 msgstr "Führe eine \"Online-Prüfung\" durch, um zu versuchen, sie abzurufen."
 
-#: src/supertux/menu/addon_preview_menu.cpp:97
+#: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "Author: {}"
 msgstr "Autor: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:97
+#: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "No author specified."
 msgstr "Kein Autor angegeben."
 
-#: src/supertux/menu/addon_preview_menu.cpp:98
+#: src/supertux/menu/addon_preview_menu.cpp:97
 msgid "Type: {}"
 msgstr "Typ: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:99
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "License: {}"
 msgstr "Lizenz: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:99
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "No license specified."
 msgstr "Keine Lizenz angegeben."
 
-#: src/supertux/menu/addon_preview_menu.cpp:104
+#: src/supertux/menu/addon_preview_menu.cpp:103
 msgid "Dependencies:"
 msgstr "Abhängigkeiten:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:113
+#: src/supertux/menu/addon_preview_menu.cpp:112
 msgid "Installed"
 msgstr "Installiert"
 
-#: src/supertux/menu/addon_preview_menu.cpp:113
+#: src/supertux/menu/addon_preview_menu.cpp:112
 msgid "Not installed"
 msgstr "Nicht installiert"
 
-#: src/supertux/menu/addon_preview_menu.cpp:118
+#: src/supertux/menu/addon_preview_menu.cpp:117
 msgid "Not available!"
 msgstr "Nicht verfügbar!"
 
-#: src/supertux/menu/addon_preview_menu.cpp:125
+#: src/supertux/menu/addon_preview_menu.cpp:124
 msgid "Description:"
 msgstr "Beschreibung:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:128
+#: src/supertux/menu/addon_preview_menu.cpp:127
 msgid "No description available."
 msgstr "Keine Beschreibung verfügbar."
 
-#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/supertux/menu/addon_preview_menu.cpp:140
 msgid "Overrides Data: {}"
 msgstr "Überschreibt Daten: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:155
+#: src/supertux/menu/addon_preview_menu.cpp:154
 msgid "Failed to load all available screenshot previews."
 msgstr "Es konnten nicht alle verfügbaren Screenshots für die Vorschau geladen werden."
 
-#: src/supertux/menu/addon_preview_menu.cpp:160
+#: src/supertux/menu/addon_preview_menu.cpp:159
 msgid "To fetch add-on screenshots, you must enable networking."
 msgstr "Um Add-on-Screenshots anzeigen zu können, muss der Netzwerkzugriff aktiviert sein"
 
-#: src/supertux/menu/addon_preview_menu.cpp:164
+#: src/supertux/menu/addon_preview_menu.cpp:163
 msgid "Show screenshots"
 msgstr "Screenshots anzeigen"
 
-#: src/supertux/menu/addon_preview_menu.cpp:177
+#: src/supertux/menu/addon_preview_menu.cpp:176
 msgid "Screenshot previews are disabled for automatic installs."
 msgstr "Screenshot-Vorschau ist für automatische Installationen deaktiviert."
 
-#: src/supertux/menu/addon_preview_menu.cpp:181
+#: src/supertux/menu/addon_preview_menu.cpp:180
 msgid "No screenshot previews available."
 msgstr "Es ist keine Screenshot-Vorschau verfügbar."
 
-#: src/supertux/menu/addon_preview_menu.cpp:189
+#: src/supertux/menu/addon_preview_menu.cpp:188
 msgid "Install"
 msgstr "Installieren"
 
-#: src/supertux/menu/addon_preview_menu.cpp:202
+#: src/supertux/menu/addon_preview_menu.cpp:201
 msgid "Uninstall"
 msgstr "Deinstallieren"
 
-#: src/supertux/menu/addon_preview_menu.cpp:226
+#: src/supertux/menu/addon_preview_menu.cpp:225
 msgid "Are you sure you want to uninstall \"{}\"?"
 msgstr "Bist du sicher, dass du \"{}\" deinstallieren möchtest?"
 
-#: src/supertux/menu/addon_preview_menu.cpp:227
+#: src/supertux/menu/addon_preview_menu.cpp:226
 msgid ""
 "\n"
 "Your progress won't be lost."
 msgstr "\nDein Fortschritt wird nicht gelöscht."
 
-#: src/supertux/menu/addon_preview_menu.cpp:239
+#: src/supertux/menu/addon_preview_menu.cpp:238
 msgid ""
 "NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\n"
 "Are you sure you wish to uninstall?"
 msgstr "HINWEIS: Das Add-on \"{}\" ist eine Abhängigkeit von {} anderen installierten {}.\nBist du sicher, dass du deinstallieren möchtest?"
 
-#: src/supertux/menu/addon_preview_menu.cpp:258
+#: src/supertux/menu/addon_preview_menu.cpp:257
 msgid ""
 "Cannot toggle add-on \"{}\":\n"
 "{}"
 msgstr "Add-on \"{}\" konnte nicht aktiviert/deaktiviert werden:\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:291
+#: src/supertux/menu/addon_preview_menu.cpp:290
 msgid "Fetching screenshot previews..."
 msgstr "Screenshot-Vorschau wird abgerufen..."
 
-#: src/supertux/menu/addon_preview_menu.cpp:314
+#: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Downloading {}"
 msgstr "{} herunterladen"
 
-#: src/supertux/menu/addon_preview_menu.cpp:314
+#: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Updating {}"
 msgstr "{} aktualisieren"
 
-#: src/supertux/menu/addon_preview_menu.cpp:342
+#: src/supertux/menu/addon_preview_menu.cpp:341
 msgid "Add-on uninstalled successfully."
 msgstr "Add-on wurde erfolgreich deinstalliert."
 
-#: src/supertux/menu/addon_preview_menu.cpp:347
+#: src/supertux/menu/addon_preview_menu.cpp:346
 msgid ""
 "Error uninstalling add-on:\n"
 "{}"
 msgstr "Fehler beim Deinstallieren des Add-ons:\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:375
+#: src/supertux/menu/addon_preview_menu.cpp:374
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
@@ -3757,7 +3759,7 @@ msgstr "Zusatzlevel"
 #: src/supertux/menu/contrib_menu.cpp:101
 #: src/supertux/menu/contrib_menu.cpp:115
 msgid "Official Contrib Levels"
-msgstr "Offiziell beigesteuerte Levels"
+msgstr "Offizielle Level"
 
 #: src/supertux/menu/contrib_menu.cpp:102
 #: src/supertux/menu/contrib_menu.cpp:121
@@ -4051,7 +4053,7 @@ msgstr "Dieser Level wird unter der Lizenz CC-BY-SA 4.0 International (vorgeschl
 msgid ""
 "An auto-save recovery file was found. Would you like to restore the recovery\n"
 "file and resume where you were before the editor crashed?"
-msgstr "Eine Autosicherungsdatei wurde gefunden. Möchtest du die Widerherstellungsdatei\nwiederherstellen und da fortfahren, wo du warst, bevor der Editor abgestürzt ist?"
+msgstr "Eine Autosicherungsdatei wurde gefunden. Möchtest du die Datei\nwiederherstellen und da fortfahren, wo du warst, bevor der Editor abgestürzt ist?"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:179
 msgid "This will delete the auto-save file. Are you sure?"
@@ -4131,7 +4133,7 @@ msgstr "Level testen"
 msgid "Test Worldmap"
 msgstr "Weltkarte testen"
 
-#: src/supertux/menu/editor_menu.cpp:67 src/supertux/menu/game_menu.cpp:80
+#: src/supertux/menu/editor_menu.cpp:67 src/supertux/menu/game_menu.cpp:79
 #: src/supertux/menu/main_menu.cpp:63
 #: src/supertux/menu/options_select_menu.cpp:29
 #: src/supertux/menu/worldmap_menu.cpp:31
@@ -4230,7 +4232,7 @@ msgstr "Ins Gitter schnappen"
 #: src/supertux/menu/editor_menu.cpp:193
 #: src/supertux/menu/editor_settings.cpp:43
 msgid "Show Grid"
-msgstr "Gitter anzeigen (F8)"
+msgstr "Gitter anzeigen"
 
 #: src/supertux/menu/editor_menu.cpp:194
 msgid "Hide Triggers"
@@ -4332,7 +4334,7 @@ msgstr "Sektor {}"
 
 #: src/supertux/menu/editor_sector_menu.cpp:37
 msgid "Initialization script"
-msgstr "Initialisierungsscript"
+msgstr "Initialisierungsskript"
 
 #: src/supertux/menu/editor_sector_menu.cpp:38
 msgid "Run initialization script only once"
@@ -4478,36 +4480,36 @@ msgstr "Level erstellt!"
 msgid "Continue"
 msgstr "Fortsetzen"
 
-#: src/supertux/menu/game_menu.cpp:65
-msgid "Restart from Checkpoint"
-msgstr "Von Checkpunkt neu starten"
-
-#: src/supertux/menu/game_menu.cpp:68
+#: src/supertux/menu/game_menu.cpp:63
 msgid "Restart Level"
 msgstr "Level neu starten"
 
-#: src/supertux/menu/game_menu.cpp:76
+#: src/supertux/menu/game_menu.cpp:66
+msgid "Restart from Checkpoint"
+msgstr "Von Checkpunkt neu starten"
+
+#: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
 msgstr "Level bearbeiten"
 
-#: src/supertux/menu/game_menu.cpp:82
+#: src/supertux/menu/game_menu.cpp:81
 msgid "Abort Level"
 msgstr "Level abbrechen"
 
-#: src/supertux/menu/game_menu.cpp:98 src/supertux/menu/game_menu.cpp:109
-#: src/supertux/menu/game_menu.cpp:174
+#: src/supertux/menu/game_menu.cpp:97 src/supertux/menu/game_menu.cpp:108
+#: src/supertux/menu/game_menu.cpp:173
 msgid "Are you sure?"
 msgstr "Bist du sicher?"
 
-#: src/supertux/menu/game_menu.cpp:125
+#: src/supertux/menu/game_menu.cpp:124
 msgid "Couldn't open editor for this level. No worldmap!"
 msgstr "Der Editor konnte für dieses Level nicht gestartet werden. Keine Weltkarte!"
 
-#: src/supertux/menu/game_menu.cpp:152
+#: src/supertux/menu/game_menu.cpp:151
 msgid "Couldn't open editor for this level."
 msgstr "Der Editor konnte für dieses Level nicht gestartet werden."
 
-#: src/supertux/menu/game_menu.cpp:158
+#: src/supertux/menu/game_menu.cpp:157
 msgid "Couldn't open worldmap for this level."
 msgstr "Die Weltkarte für dieses Level konnte nicht geöffnet werden."
 
@@ -4550,8 +4552,8 @@ msgstr "Manuelle Konfiguration"
 
 #: src/supertux/menu/joystick_menu.cpp:59
 msgid ""
-"Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Controller manuell konfigurieren anstatt die automatische Konfiguration von SDL2 zu verwenden"
+"Use manual configuration instead of SDL3's automatic GameController support"
+msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:75
 #: src/supertux/menu/keyboard_menu.cpp:79
@@ -4768,7 +4770,7 @@ msgid ""
 "Would you allow SuperTux to check for new releases on startup?\n"
 "\n"
 "You will be notified if any are found."
-msgstr "Möchtest du SuperTux erlauben beim Start zu prüfen, ob eine neue Version vorliegt?\n\nFalls eine neue vorliegt, wirst du benachrichtigt."
+msgstr "Möchtest du SuperTux erlauben, beim Start zu prüfen, ob eine neue Version vorliegt?\n\nFalls eine neue vorliegt, wirst du benachrichtigt."
 
 #: src/supertux/menu/main_menu.cpp:146
 msgid ""
@@ -5133,194 +5135,184 @@ msgstr "Bei Verlust des Fokus pausieren"
 msgid "Automatically pause the game when the window loses focus"
 msgstr "Das Spiel automatisch pausieren, wenn das Fenster den Fokus verliert."
 
-#: src/supertux/menu/options_menu.cpp:250
-msgid "Prefer Wayland"
-msgstr "Wayland bevorzugen"
-
-#: src/supertux/menu/options_menu.cpp:251
-msgid ""
-"If you experience any issues with Nvidia cards, your window border, or "
-"anything you believe is due to Wayland, disable this. (Requires restart)"
-msgstr "Solltest du Probleme mit Nvidia-Grafikkarten, Fensterrahmen oder ähnlichem feststellen, von denen du vermutest, dass sie mit Wayland zusammenhängen, kann diese Einstellung deaktiviert werden. (Neustart erforderlich)"
-
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Use custom mouse cursor"
 msgstr "Benutzerdefinierten Mauszeiger verwenden"
 
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Whether the game renders its own cursor or uses the system's cursor"
 msgstr "Gibt an, ob der Cursor des Spiels oder des Systems verwendet wird"
 
-#: src/supertux/menu/options_menu.cpp:257
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Use native custom cursor"
 msgstr "Nativen benutzerdefinierten Mauszeiger verwenden"
 
-#: src/supertux/menu/options_menu.cpp:257
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Whether the game uses a native custom cursor or renders it in the game"
 msgstr "Gibt an, ob das Spiel den nativen Mauszeiger verwendet, oder diesen im Spiel zeichnet"
 
-#: src/supertux/menu/options_menu.cpp:259
+#: src/supertux/menu/options_menu.cpp:252
 msgid "Precise scrolling"
 msgstr "Präzises Scrollen"
 
-#: src/supertux/menu/options_menu.cpp:260
+#: src/supertux/menu/options_menu.cpp:253
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
 msgstr "Die meisten modernen Touchpads übermitteln präzise Scrolldaten.\nDeaktivere diese Einstellung, wenn das Scrollen mit einer typischen Maus ungewohnt erscheint oder du es einfach nicht magst."
 
-#: src/supertux/menu/options_menu.cpp:262
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Invert horizontal scrolling"
 msgstr "Horizontales Scrollen invertieren"
 
-#: src/supertux/menu/options_menu.cpp:263
+#: src/supertux/menu/options_menu.cpp:256
 msgid "Inverts scrolling in the X-axis"
 msgstr "Invertiert das Scrollen auf der X-Achse."
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:258
 msgid "Invert vertical scrolling"
 msgstr "Verikales Scrollen invertieren"
 
-#: src/supertux/menu/options_menu.cpp:266
+#: src/supertux/menu/options_menu.cpp:259
 msgid "Inverts scrolling in the Y-axis"
 msgstr "Invertiert das Scrollen auf der Y-Achse"
 
-#: src/supertux/menu/options_menu.cpp:272
+#: src/supertux/menu/options_menu.cpp:265
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
 msgstr "Keinen Versuch unternehmen, die Anzeige zu skalieren oder ein Seitenverhältnis anzuwenden. Ignoriert einige Videoeinstellungen. Sinnvoll für Arcade-Maschinen oder nicht übliche Arten von Bildschirmen"
 
-#: src/supertux/menu/options_menu.cpp:272
+#: src/supertux/menu/options_menu.cpp:265
 msgid "Force full viewport"
 msgstr "Gesamte Ansicht erzwingen"
 
-#: src/supertux/menu/options_menu.cpp:276
+#: src/supertux/menu/options_menu.cpp:269
 msgid "Check for new releases"
 msgstr "Auf neue Version überprüfen"
 
-#: src/supertux/menu/options_menu.cpp:277
+#: src/supertux/menu/options_menu.cpp:270
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr "Erlaubt es dem Spiel, beim Start eine Überprüfung auf neue Versionen durchzuführen und zu benachrichtigen, wenn neue gefunden wurden."
 
-#: src/supertux/menu/options_menu.cpp:281
+#: src/supertux/menu/options_menu.cpp:274
 msgid "Disable network"
 msgstr "Netzwerk deaktivieren"
 
-#: src/supertux/menu/options_menu.cpp:282
+#: src/supertux/menu/options_menu.cpp:275
 msgid "Prevents the game from connecting online"
 msgstr "Verhindert, dass das Spiel eine Onlineverbindung herstellt."
 
-#: src/supertux/menu/options_menu.cpp:284
+#: src/supertux/menu/options_menu.cpp:277
 msgid "Network support is disabled."
 msgstr "Netzwerkunterstützung ist deaktiviert."
 
-#: src/supertux/menu/options_menu.cpp:350
+#: src/supertux/menu/options_menu.cpp:343
 msgid "Magnification"
 msgstr "Skalierung"
 
-#: src/supertux/menu/options_menu.cpp:351
+#: src/supertux/menu/options_menu.cpp:344
 msgid "Change the magnification of the game area"
 msgstr "Skalierung des Spielbereichs ändern"
 
-#: src/supertux/menu/options_menu.cpp:387
+#: src/supertux/menu/options_menu.cpp:380
 msgid "Aspect Ratio"
 msgstr "Seitenverhältnis"
 
-#: src/supertux/menu/options_menu.cpp:388
+#: src/supertux/menu/options_menu.cpp:381
 msgid "Adjust the aspect ratio"
 msgstr "Seitenverhältnis anpassen"
 
-#: src/supertux/menu/options_menu.cpp:415
+#: src/supertux/menu/options_menu.cpp:408
 msgid "Window Resolution"
 msgstr "Fensterauflösung"
 
-#: src/supertux/menu/options_menu.cpp:416
+#: src/supertux/menu/options_menu.cpp:409
 msgid "Resize the window to the given size"
 msgstr "Die Größe des Fensters auf die angegebene Größe ändern"
 
-#: src/supertux/menu/options_menu.cpp:446
+#: src/supertux/menu/options_menu.cpp:450
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/supertux/menu/options_menu.cpp:473
+#: src/supertux/menu/options_menu.cpp:479
 msgid "Fullscreen Resolution"
 msgstr "Vollbildauflösung"
 
-#: src/supertux/menu/options_menu.cpp:474
+#: src/supertux/menu/options_menu.cpp:480
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Auflösung, die im Vollbildmodus verwendet wird. Änderung wird beim Wechsel in den Vollbildmodus wirksam"
 
-#: src/supertux/menu/options_menu.cpp:480
+#: src/supertux/menu/options_menu.cpp:486
 msgid "on"
 msgstr "an"
 
-#: src/supertux/menu/options_menu.cpp:481
-#: src/supertux/menu/options_menu.cpp:506
+#: src/supertux/menu/options_menu.cpp:487
+#: src/supertux/menu/options_menu.cpp:512
 msgid "off"
 msgstr "aus"
 
-#: src/supertux/menu/options_menu.cpp:482
+#: src/supertux/menu/options_menu.cpp:488
 msgid "adaptive"
 msgstr "adaptiv"
 
-#: src/supertux/menu/options_menu.cpp:500
+#: src/supertux/menu/options_menu.cpp:506
 msgid "VSync"
 msgstr "VSync"
 
-#: src/supertux/menu/options_menu.cpp:501
+#: src/supertux/menu/options_menu.cpp:507
 msgid "Set the VSync mode"
 msgstr "VSync-Modus einstellen"
 
-#: src/supertux/menu/options_menu.cpp:507
+#: src/supertux/menu/options_menu.cpp:513
 msgid "reduced"
 msgstr "Reduziert"
 
-#: src/supertux/menu/options_menu.cpp:508
+#: src/supertux/menu/options_menu.cpp:514
 msgid "full"
 msgstr "Voll"
 
-#: src/supertux/menu/options_menu.cpp:522
+#: src/supertux/menu/options_menu.cpp:528
 msgid "Screen shake"
 msgstr "Bildschirm-Beben"
 
-#: src/supertux/menu/options_menu.cpp:523
+#: src/supertux/menu/options_menu.cpp:529
 msgid "Adjust amount of screen shake effects"
 msgstr "Die Menge an Bildschirm-Beben-Effekten anpassen"
 
-#: src/supertux/menu/options_menu.cpp:558
+#: src/supertux/menu/options_menu.cpp:564
 msgid "Sound Volume"
 msgstr "Soundlautstärke"
 
-#: src/supertux/menu/options_menu.cpp:559
+#: src/supertux/menu/options_menu.cpp:565
 msgid "Adjust sound volume"
 msgstr "Soundlautstärke anpassen"
 
-#: src/supertux/menu/options_menu.cpp:594
+#: src/supertux/menu/options_menu.cpp:600
 msgid "Music Volume"
 msgstr "Musiklautstärke"
 
-#: src/supertux/menu/options_menu.cpp:595
+#: src/supertux/menu/options_menu.cpp:601
 msgid "Adjust music volume"
 msgstr "Musiklautstärke anpassen"
 
-#: src/supertux/menu/options_menu.cpp:630
+#: src/supertux/menu/options_menu.cpp:636
 msgid "Flash Intensity"
 msgstr "Blitz-Intensität"
 
-#: src/supertux/menu/options_menu.cpp:631
+#: src/supertux/menu/options_menu.cpp:637
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr "Die Intensität des vom Gewitter erzeugten Blitzes anpassen"
 
-#: src/supertux/menu/options_menu.cpp:644
+#: src/supertux/menu/options_menu.cpp:650
 msgid "On-screen controls scale"
 msgstr "Skalierung der On-Screen-Bedienelemente"
 
-#: src/supertux/menu/options_menu.cpp:767
+#: src/supertux/menu/options_menu.cpp:781
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -5429,7 +5421,7 @@ msgid ""
 "including all game progress on it. Are you sure?"
 msgstr "Das Profil \"{}\" inklusive dem gesamten\ndort enthaltenen Spielfortschritt wird gelöscht. Bist du sicher?"
 
-#: src/supertux/menu/profile_menu.cpp:178
+#: src/supertux/menu/profile_menu.cpp:179
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"
@@ -5529,7 +5521,7 @@ msgstr "Die horizontale Position des Objektes in Pixeln vom linken Rand gesehen"
 msgid "The vertical location of the object in pixels from the top."
 msgstr "Die vertikale Position des Objektes in Pixeln vom oberen Rand gesehen"
 
-#: src/supertux/sector.cpp:519
+#: src/supertux/sector.cpp:500
 msgid "Press escape to skip"
 msgstr "Escape drücken zum Überspringen"
 
@@ -5577,11 +5569,11 @@ msgstr "Rekord"
 msgid "Others"
 msgstr "Anderes"
 
-#: src/supertux/title_screen.cpp:300
+#: src/supertux/title_screen.cpp:302
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:301
+#: src/supertux/title_screen.cpp:303
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"

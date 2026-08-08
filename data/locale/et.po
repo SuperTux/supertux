@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-03-21 04:25+0000\n"
+"POT-Creation-Date: 2026-08-07 18:52+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Leo-Martin Pala, 2026\n"
 "Language-Team: Estonian (http://app.transifex.com/arctic-games/supertux/language/et/)\n"
@@ -189,19 +189,21 @@ msgstr "0.6.3-eelsed kristallplaadid"
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
 msgstr "Tasemete jaoks, mis on loodud enne versiooni 0.6.3 ja kasutavad kristallplaate."
 
-#: data/images/converters/data.stcd:8
+#. l10n: The word "Nightly" refers to an early development version of
+#. SuperTux, don't translate the word literally.
+#: data/images/converters/data.stcd:9
 msgid "Nightly Tiles"
 msgstr "Öised plaadid"
 
-#: data/images/converters/data.stcd:10
+#: data/images/converters/data.stcd:11
 msgid "For levels, created in previous Nightly builds."
 msgstr "Tasemetele, mis on loodud varasemates Nightly versioonides."
 
-#: data/images/converters/data.stcd:13
+#: data/images/converters/data.stcd:14
 msgid "Jagged Rock Tiles from Addon"
 msgstr "Sakilised kiviplaadid lisapaketist"
 
-#: data/images/converters/data.stcd:15
+#: data/images/converters/data.stcd:16
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
@@ -290,11 +292,11 @@ msgstr "Metsa taust"
 
 #: data/images/tiles.strf:994
 msgid "Corrupted Forest"
-msgstr "Rikutud mets"
+msgstr "Rüvetatud mets"
 
 #: data/images/tiles.strf:1238
 msgid "Corrupted Background"
-msgstr "Rikutud taust"
+msgstr "Rüvetatud taust"
 
 #: data/images/tiles.strf:1390
 msgid "Jagged Rocks"
@@ -390,7 +392,7 @@ msgstr "Laiendus {} autorilt {} on juba paigaldatud."
 
 #: src/addon/addon_manager.cpp:834
 msgid "Add-on {} by {} successfully installed."
-msgstr "Lisand {} autorilt {} edukalt paigaldatud."
+msgstr "Laiendus {} autorilt {} edukalt paigaldatud."
 
 #: src/badguy/angrystone.hpp:38
 msgid "Angry Stone"
@@ -472,8 +474,8 @@ msgstr "Skript, mis käivitatakse raevufaasi aktiveerimisel"
 #: src/badguy/mriceblock.cpp:63 src/badguy/mrtree.cpp:50
 #: src/badguy/smartball.cpp:34 src/badguy/snail.cpp:70
 #: src/badguy/snowball.cpp:40 src/badguy/viciousivy.cpp:46
-#: src/object/background.cpp:302 src/object/brick.cpp:59
-#: src/object/coin.cpp:69 src/object/gradient.cpp:107
+#: src/object/background.cpp:302 src/object/brick.cpp:63
+#: src/object/coin.cpp:70 src/object/gradient.cpp:107
 #: src/object/invisible_block.cpp:37 src/object/tilemap.cpp:352
 msgid "Normal"
 msgstr "Tavaline"
@@ -501,11 +503,11 @@ msgstr "Skalihop"
 
 #: src/badguy/corrupted_granito.hpp:43
 msgid "Corrupted Granito"
-msgstr "Rikutud Graniidik"
+msgstr "Rüvetatud Graniidik"
 
 #: src/badguy/corrupted_granito_big.hpp:34
 msgid "Corrupted Big Granito"
-msgstr "Rikutud suur Graniidik"
+msgstr "Rüvetatud suur Graniidik"
 
 #: src/badguy/crusher.cpp:127
 msgid "Ice (normal)"
@@ -597,7 +599,7 @@ msgstr "Aeg esimese noole laskmiseni pärast lõksu aktiveerimist."
 
 #: src/badguy/darttrap.cpp:156 src/object/particle_zone.cpp:50
 #: src/object/particlesystem.cpp:64 src/object/spotlight.cpp:104
-#: src/supertux/menu/addon_preview_menu.cpp:201
+#: src/supertux/menu/addon_preview_menu.cpp:200
 msgid "Enabled"
 msgstr "Lubatud"
 
@@ -754,7 +756,7 @@ msgstr "Lendav lumepall"
 
 #: src/badguy/ghosttree.hpp:40
 msgid "Ghost Tree"
-msgstr "Kummitav puu"
+msgstr "Tontpuu"
 
 #: src/badguy/ghoul.cpp:381
 msgid "Track Range"
@@ -1078,32 +1080,32 @@ msgstr "Vanish vahemik"
 msgid "Fly speed"
 msgstr "Lendamise kiirus"
 
-#: src/badguy/willowisp.cpp:405 src/object/camera.cpp:170
-#: src/object/coin.cpp:327 src/object/path_gameobject.cpp:175
+#: src/badguy/willowisp.cpp:405 src/object/camera.cpp:175
+#: src/object/coin.cpp:338 src/object/path_gameobject.cpp:175
 #: src/object/path_gameobject.hpp:44 src/object/platform.cpp:78
 #: src/object/tilemap.cpp:357
 msgid "Path"
 msgstr "Tee"
 
-#: src/badguy/willowisp.cpp:406 src/object/coin.cpp:334
+#: src/badguy/willowisp.cpp:406 src/object/coin.cpp:345
 #: src/object/platform.cpp:83 src/object/tilemap.cpp:358
 msgid "Starting Node"
 msgstr "Algusõlm"
 
-#: src/badguy/willowisp.cpp:411 src/object/camera.cpp:173
-#: src/object/coin.cpp:332 src/object/platform.cpp:79
+#: src/badguy/willowisp.cpp:411 src/object/camera.cpp:178
+#: src/object/coin.cpp:343 src/object/platform.cpp:79
 #: src/object/tilemap.cpp:364
 msgid "Path Mode"
 msgstr "Tee režiim"
 
-#: src/badguy/willowisp.cpp:412 src/object/camera.cpp:174
-#: src/object/coin.cpp:333 src/object/platform.cpp:80
+#: src/badguy/willowisp.cpp:412 src/object/camera.cpp:179
+#: src/object/coin.cpp:344 src/object/platform.cpp:80
 #: src/object/tilemap.cpp:365
 msgid "Adapt Speed"
 msgstr "Kohandage kiirust"
 
-#: src/badguy/willowisp.cpp:413 src/object/camera.cpp:175
-#: src/object/coin.cpp:335 src/object/platform.cpp:84
+#: src/badguy/willowisp.cpp:413 src/object/camera.cpp:180
+#: src/object/coin.cpp:346 src/object/platform.cpp:84
 #: src/object/tilemap.cpp:367
 msgid "Handle"
 msgstr "Käepide"
@@ -1134,33 +1136,33 @@ msgstr "Zeekling"
 msgid "Joystick Mappings"
 msgstr "Juhtkangi määrangud"
 
-#: src/editor/editor.cpp:353
+#: src/editor/editor.cpp:354
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
 msgstr "Märkus: lohistatavad objektid on nüüd peidetud. Uuesti kuvamiseks vajuta Ctrl+H."
 
-#: src/editor/editor.cpp:589
+#: src/editor/editor.cpp:588
 msgid "Level saved!"
 msgstr "Tase salvestatud!"
 
-#: src/editor/editor.cpp:619
+#: src/editor/editor.cpp:618
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
 msgstr "Maailmakaardilt mängides ei saa taset testida.\n\nVälju selle asemel tasemeredaktorist."
 
-#: src/editor/editor.cpp:870
+#: src/editor/editor.cpp:869
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
-msgstr "See tase sisaldab aegunud ruute.\nTungivalt soovitatav on asendada kõik aegunud ruudud,\net vältida ühilduvuse kadu tulevastes versioonides."
+msgstr "See tase sisaldab aegunud plaate.\nTungivalt soovitatav on asendada kõik aegunud plaadid,\net vältida ühilduvuse kadu tulevastes versioonides."
 
-#: src/editor/editor.cpp:872
+#: src/editor/editor.cpp:871
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
-msgstr "Nõuanne: lülita tasemeredaktori menüüst sisse „Kuva aegunud ruudud“."
+msgstr "Nõuanne: lülita tasemeredaktori menüüst sisse „Kuva aegunud plaadid“."
 
-#: src/editor/editor.cpp:962
+#: src/editor/editor.cpp:961
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1168,33 +1170,33 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Ärge unustage, et teie tase ja vara\nei salvestata seansside vahel!\nKui soovite oma tasemeid säilitada, laadige need alla\nmenüüst \"Halda varasid\"."
 
-#: src/editor/editor.cpp:1003
+#: src/editor/editor.cpp:1002
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr "Seda taset pole veel salvestatud. Kas soovid selle nüüd salvestada?"
 
-#: src/editor/editor.cpp:1005
+#: src/editor/editor.cpp:1004
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "See tase sisaldab salvestamata muudatusi. Kas soovite salvestada?"
 
-#: src/editor/editor.cpp:1006
+#: src/editor/editor.cpp:1005
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "See tase võib sisaldada salvestamata muudatusi. Kas soovid salvestada?"
 
-#: src/editor/editor.cpp:1007 src/gui/dialog.hpp:95
-#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/editor/editor.cpp:1006 src/gui/dialog.hpp:95
+#: src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "Jah"
 
-#: src/editor/editor.cpp:1013 src/editor/particle_editor.cpp:779
-#: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:141
+#: src/editor/editor.cpp:1012 src/editor/particle_editor.cpp:779
+#: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 msgid "No"
 msgstr "Ei"
 
-#: src/editor/editor.cpp:1017 src/editor/particle_editor.cpp:783
+#: src/editor/editor.cpp:1016 src/editor/particle_editor.cpp:783
 #: src/gui/menu_filesystem.cpp:123 src/gui/menu_list.cpp:38
 #: src/gui/menu_paths.cpp:48
 #: src/supertux/menu/editor_level_select_menu.cpp:183
@@ -1210,7 +1212,7 @@ msgstr "Ei"
 msgid "Cancel"
 msgstr "Tagasi"
 
-#: src/editor/editor.cpp:1136
+#: src/editor/editor.cpp:1135
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1218,21 +1220,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Mõned aegunud laiendused on endiselt aktiivsed\nja võivad SuperTuxi vaikestruktuuriga konflikte tekitada.\nSa saad neid laiendusi menüüs siiski lubada.\nNende laienduste keelamine ei kustuta sinu mängu edenemist."
 
-#: src/editor/editor.cpp:1139
+#: src/editor/editor.cpp:1138
 msgid "Disable add-ons"
-msgstr "Keela lisandmoodulid"
+msgstr "Keela laiendused"
 
-#: src/editor/editor.cpp:1144
+#: src/editor/editor.cpp:1143
 msgid "Ignore (not advised)"
 msgstr "Ignoreeri (pole soovitatav)"
 
-#: src/editor/editor.cpp:1148
+#: src/editor/editor.cpp:1147
 msgid "Leave editor"
 msgstr "Lahku redaktorist"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1479
+#: src/editor/editor.cpp:1493
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1241,7 +1243,7 @@ msgstr "Sektorit nimega „main\" ei leitud.\nPalun pane sektorile, kus soovid, 
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1486
+#: src/editor/editor.cpp:1500
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1472,7 +1474,7 @@ msgid "Patch Notes"
 msgstr "Uuenduse märkmed"
 
 #: src/editor/object_menu.cpp:61 src/gui/menu_string_array.cpp:81
-#: src/supertux/menu/addon_preview_menu.cpp:189
+#: src/supertux/menu/addon_preview_menu.cpp:188
 msgid "Update"
 msgstr "Uuenda"
 
@@ -1619,41 +1621,41 @@ msgstr "Autor"
 msgid "License"
 msgstr "Litsents"
 
-#: src/editor/overlay_widget.cpp:1042
+#: src/editor/overlay_widget.cpp:1061
 msgid "Cannot select deprecated tiles"
-msgstr "Aegunud ruute ei saa valida"
+msgstr "Aegunud plaate ei saa valida"
 
-#: src/editor/overlay_widget.cpp:1666
+#: src/editor/overlay_widget.cpp:1700
 msgid "Autotile erasing mode is on (\"{}\")"
-msgstr "Autoruudustuse kustutusrežiim on sees („{}“) "
+msgstr "Automaatplaadistuse kustutusrežiim on sees („{}“) "
 
-#: src/editor/overlay_widget.cpp:1670
+#: src/editor/overlay_widget.cpp:1704
 msgid "Autotile erasing cannot be performed here"
-msgstr "Autoruudustuse kustutamist ei saa siin kasutada"
+msgstr "Automaatplaadistuse kustutamine pole siin võimalik"
 
-#: src/editor/overlay_widget.cpp:1675
+#: src/editor/overlay_widget.cpp:1709
 msgid "Autotile mode is on (\"{}\")"
-msgstr "Autoruudustuse režiim on sees („{}“)"
+msgstr "Automaatplaadistuse režiim on sees („{}“)"
 
-#: src/editor/overlay_widget.cpp:1679
+#: src/editor/overlay_widget.cpp:1713
 msgid "Selected tile isn't autotileable"
-msgstr "Valitud paani ei saa automaatselt kuvada"
+msgstr "Valitud plaat ei toeta automaatplaadistust"
 
-#: src/editor/overlay_widget.cpp:1685
+#: src/editor/overlay_widget.cpp:1719
 msgid "Hold Ctrl to enable autotile erasing"
-msgstr "Automaatse kustutamise lubamiseks hoidke all klahvi Ctrl"
+msgstr "Automaatplaadistuse kustutamise lubamiseks hoia all klahvi Ctrl"
 
-#: src/editor/overlay_widget.cpp:1687
+#: src/editor/overlay_widget.cpp:1721
 msgid "Release Ctrl to use autotile erasing"
-msgstr "Autoruudustuse kustutamiseks vabasta Ctrl"
+msgstr "Vabasta Ctrl, et kasutada automaatplaadistuse kustutamist"
 
-#: src/editor/overlay_widget.cpp:1692
+#: src/editor/overlay_widget.cpp:1726
 msgid "Hold Ctrl to enable autotile"
-msgstr "Automaatrežiimi lubamiseks hoidke all klahvi Ctrl"
+msgstr "Automaatplaadistuse lubamiseks hoia all klahvi Ctrl"
 
-#: src/editor/overlay_widget.cpp:1694
+#: src/editor/overlay_widget.cpp:1728
 msgid "Release Ctrl to autotile"
-msgstr "Autoruudustuse jaoks vabasta Ctrl"
+msgstr "Automaatplaadistuse jaoks vabasta Ctrl"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -1918,7 +1920,7 @@ msgstr "Salvesta tase"
 
 #: src/editor/toolbar_widget.cpp:95
 msgid "Toggle between object and tile mode"
-msgstr "Lülitu objekti- ja ruudurežiimi vahel"
+msgstr "Lülitu objekti- ja plaadirežiimi vahel"
 
 #: src/editor/toolbar_widget.cpp:102
 msgid "Select or move the object under the mouse"
@@ -1926,7 +1928,7 @@ msgstr "Vali või liiguta hiire all olevat objekti"
 
 #: src/editor/toolbar_widget.cpp:109
 msgid "Delete the tile or object under the mouse"
-msgstr "Kustuta hiire all olev ruut või objekt"
+msgstr "Kustuta hiire all olev plaat või objekt"
 
 #: src/editor/toolbar_widget.cpp:118
 msgid "Draw mode"
@@ -2026,10 +2028,10 @@ msgstr "Kas soovid rada kloonida, et seda eraldi muuta,\nvõi soovid mõlemat ra
 msgid "Path {}"
 msgstr "Tee {}"
 
-#: src/gui/menu_paths.cpp:67 src/supertux/menu/addon_browse_menu.cpp:162
+#: src/gui/menu_paths.cpp:67 src/supertux/menu/addon_browse_menu.cpp:161
 #: src/supertux/menu/addon_file_install_menu.cpp:36
-#: src/supertux/menu/addon_menu.cpp:168
-#: src/supertux/menu/addon_preview_menu.cpp:205
+#: src/supertux/menu/addon_menu.cpp:167
+#: src/supertux/menu/addon_preview_menu.cpp:204
 #: src/supertux/menu/cheat_apply_menu.cpp:40
 #: src/supertux/menu/cheat_menu.cpp:57
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
@@ -2050,7 +2052,7 @@ msgstr "Tee {}"
 #: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/multiplayer_players_menu.cpp:106
-#: src/supertux/menu/options_menu.cpp:291
+#: src/supertux/menu/options_menu.cpp:284
 #: src/supertux/menu/options_select_menu.cpp:44
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/profile_name_menu.cpp:45
@@ -2138,7 +2140,7 @@ msgstr "Ümbritsev valgus"
 
 #: src/object/ambient_sound.cpp:88
 msgid "Radius (in tiles)"
-msgstr "Raadius (ruutudes)"
+msgstr "Raadius (plaatides)"
 
 #: src/object/ambient_sound.cpp:89 src/object/sound_object.cpp:71
 msgid "Volume"
@@ -2286,8 +2288,8 @@ msgstr "Oranž"
 msgid "Purple"
 msgstr "Lilla"
 
-#: src/object/bonus_block.cpp:175 src/object/brick.cpp:60
-#: src/object/coin.cpp:70 src/object/invisible_block.cpp:38
+#: src/object/bonus_block.cpp:175 src/object/brick.cpp:64
+#: src/object/coin.cpp:71 src/object/invisible_block.cpp:38
 msgid "Retro"
 msgstr "Retro"
 
@@ -2391,7 +2393,7 @@ msgstr "Mündi sprait"
 msgid "Bonus Block"
 msgstr "Mündikast"
 
-#: src/object/brick.cpp:168
+#: src/object/brick.cpp:180
 msgid "Breakable"
 msgstr "Purunev"
 
@@ -2399,7 +2401,7 @@ msgstr "Purunev"
 msgid "Brick"
 msgstr "Puukast"
 
-#: src/object/brick.hpp:70
+#: src/object/brick.hpp:73
 msgid "Heavy Brick"
 msgstr "Raske tellis"
 
@@ -2407,27 +2409,27 @@ msgstr "Raske tellis"
 msgid "Bumper"
 msgstr "Kaitseraud"
 
-#: src/object/camera.cpp:165
+#: src/object/camera.cpp:170
 msgid "Mode"
 msgstr "Režiim"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "autoscroll"
 msgstr "automaatne kerimine"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "free"
 msgstr "vaba"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "manual"
 msgstr "manuaal"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "normal"
 msgstr "normaalne"
 
-#: src/object/camera.hpp:68
+#: src/object/camera.hpp:69
 msgid "Camera"
 msgstr "Kaamera"
 
@@ -2468,11 +2470,11 @@ msgstr "Y-kiirus"
 msgid "Cloud Particles"
 msgstr "Pilved"
 
-#: src/object/coin.cpp:329 src/object/tilemap.cpp:360
+#: src/object/coin.cpp:340 src/object/tilemap.cpp:360
 msgid "Following path"
 msgstr "Jälgides teed"
 
-#: src/object/coin.cpp:338 src/object/coin.cpp:374
+#: src/object/coin.cpp:349 src/object/coin.cpp:385
 msgid "Collect script"
 msgstr "Koguge skript"
 
@@ -3070,7 +3072,7 @@ msgstr "Toon"
 
 #: src/object/tilemap.hpp:67
 msgid "Tilemap"
-msgstr "Plaatide kaart"
+msgstr "Plaadikaart"
 
 #: src/object/torch.hpp:46
 msgid "Torch"
@@ -3280,11 +3282,11 @@ msgstr "--userdir DIR Määrab kasutajaandmete kataloogi (salvestatud mängud jn
 
 #: src/supertux/command_line_arguments.cpp:132
 msgid "Add-On Options:"
-msgstr "Lisavõimalused:"
+msgstr "Laienduse sätted:"
 
 #: src/supertux/command_line_arguments.cpp:133
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
-msgstr "--repository-url URL Määrab URL-iks lisandmooduli hoidla"
+msgstr "--repository-url URL Määrab URL-iks laienduste hoidla"
 
 #: src/supertux/command_line_arguments.cpp:135
 msgid "Environment variables:"
@@ -3309,8 +3311,8 @@ msgstr "üles"
 msgid "down"
 msgstr "alla"
 
-#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:314
-#: src/supertux/menu/options_menu.cpp:357
+#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:307
+#: src/supertux/menu/options_menu.cpp:350
 msgid "auto"
 msgstr "automaatne"
 
@@ -3372,15 +3374,15 @@ msgstr "Kiireim aeg"
 msgid "Level target time"
 msgstr "Arvestatava aja limiit"
 
-#: src/supertux/main.cpp:892
+#: src/supertux/main.cpp:893
 msgid "New release: SuperTux {}!"
 msgstr "Uus SuperTuxi väljalase: {}!"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:894
 msgid "Click for more details."
 msgstr "Klõpsa lisateabe jaoks."
 
-#: src/supertux/main.cpp:896
+#: src/supertux/main.cpp:897
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -3388,60 +3390,60 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "Saadaval on SuperTuxi uus versioon ({})!\nLisateabe saamiseks võid külastada SuperTuxi veebisaiti.\nKas soovid veebisaiti nüüd külastada? "
 
-#: src/supertux/main.cpp:907
+#: src/supertux/main.cpp:908
 msgid "Checking for new releases..."
 msgstr "Uusi väljalaskeid kontrollitakse..."
 
-#: src/supertux/menu/addon_browse_menu.cpp:70
-#: src/supertux/menu/addon_menu.cpp:162
+#: src/supertux/menu/addon_browse_menu.cpp:69
+#: src/supertux/menu/addon_menu.cpp:161
 msgid "Browse Add-ons"
 msgstr "Sirvi laiendusi"
 
-#: src/supertux/menu/addon_browse_menu.cpp:70
+#: src/supertux/menu/addon_browse_menu.cpp:69
 msgid "Browse Language Packs"
 msgstr "Sirvi keelepakke"
 
-#: src/supertux/menu/addon_browse_menu.cpp:112
+#: src/supertux/menu/addon_browse_menu.cpp:111
 msgid "Page {}/{}"
 msgstr "Leht {}/{}"
 
-#: src/supertux/menu/addon_browse_menu.cpp:124
+#: src/supertux/menu/addon_browse_menu.cpp:123
 msgid "No new Add-ons available"
 msgstr "Uusi laiendusi pole saadaval"
 
-#: src/supertux/menu/addon_browse_menu.cpp:124
+#: src/supertux/menu/addon_browse_menu.cpp:123
 msgid "No new language packs available"
 msgstr "Uusi keelepakke pole saadaval"
 
-#: src/supertux/menu/addon_browse_menu.cpp:127
+#: src/supertux/menu/addon_browse_menu.cpp:126
 msgid "No Add-ons available"
 msgstr "Laiendusi pole saadaval"
 
-#: src/supertux/menu/addon_browse_menu.cpp:127
+#: src/supertux/menu/addon_browse_menu.cpp:126
 msgid "No language packs available"
 msgstr "Keelepakke pole saadaval"
 
-#: src/supertux/menu/addon_browse_menu.cpp:135
-#: src/supertux/menu/addon_browse_menu.cpp:139
+#: src/supertux/menu/addon_browse_menu.cpp:134
+#: src/supertux/menu/addon_browse_menu.cpp:138
 msgid "Previous page"
 msgstr "Eelmine leht"
 
-#: src/supertux/menu/addon_browse_menu.cpp:143
-#: src/supertux/menu/addon_browse_menu.cpp:147
+#: src/supertux/menu/addon_browse_menu.cpp:142
+#: src/supertux/menu/addon_browse_menu.cpp:146
 msgid "Next page"
 msgstr "Järgmine leht"
 
-#: src/supertux/menu/addon_browse_menu.cpp:154
+#: src/supertux/menu/addon_browse_menu.cpp:153
 msgid "Check Online (disabled)"
 msgstr "Lae Internetist (mitteaktiivne)"
 
-#: src/supertux/menu/addon_browse_menu.cpp:158
+#: src/supertux/menu/addon_browse_menu.cpp:157
 msgid "Check Online"
 msgstr "Lae Internetist"
 
-#: src/supertux/menu/addon_browse_menu.cpp:195
+#: src/supertux/menu/addon_browse_menu.cpp:194
 msgid "Downloading Add-On Repository Index"
-msgstr "Lisandmooduli hoidla indeksi allalaadimine"
+msgstr "Laienduste hoidla indeksi allalaadimine"
 
 #: src/supertux/menu/addon_file_install_menu.cpp:32
 msgid "Install Add-on from file"
@@ -3451,207 +3453,207 @@ msgstr "Paigalda laiendus failist"
 msgid "Drag and drop add-on ZIP archive"
 msgstr "Lohista laienduse ZIP-arhiiv siia"
 
-#: src/supertux/menu/addon_menu.cpp:71
+#: src/supertux/menu/addon_menu.cpp:70
 msgid "Installed Add-ons"
 msgstr "Paigaldatud laiendused"
 
-#: src/supertux/menu/addon_menu.cpp:71
+#: src/supertux/menu/addon_menu.cpp:70
 msgid "Installed Language Packs"
 msgstr "Paigaldatud keelepakid"
 
-#: src/supertux/menu/addon_menu.cpp:79
+#: src/supertux/menu/addon_menu.cpp:78
 msgid "No Add-ons installed"
-msgstr "Lisandmooduleid pole installitud"
+msgstr "Laiendusi pole installitud"
 
-#: src/supertux/menu/addon_menu.cpp:79 src/supertux/menu/addon_menu.cpp:120
+#: src/supertux/menu/addon_menu.cpp:78 src/supertux/menu/addon_menu.cpp:119
 msgid "No language packs installed"
 msgstr "Keelepakke pole paigaldatud"
 
-#: src/supertux/menu/addon_menu.cpp:128
+#: src/supertux/menu/addon_menu.cpp:127
 msgid "{} *UPDATE*"
 msgstr "{} *UUENDUS*"
 
-#: src/supertux/menu/addon_menu.cpp:130
+#: src/supertux/menu/addon_menu.cpp:129
 msgid "{} [DISABLED] *UPDATE*"
 msgstr "{} [KEELATUD] *UUENDUS*"
 
-#: src/supertux/menu/addon_menu.cpp:139
+#: src/supertux/menu/addon_menu.cpp:138
 msgid "{} [DISABLED]"
 msgstr "{} [KEELATUD]"
 
-#: src/supertux/menu/addon_menu.cpp:149
+#: src/supertux/menu/addon_menu.cpp:148
 msgid "No updates available."
 msgstr "Uuendusi pole saadaval."
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "update"
 msgstr "uuendus"
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "updates"
 msgstr "uuendused"
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "{} {} available"
 msgstr "{} {} saadaval"
 
-#: src/supertux/menu/addon_menu.cpp:156
+#: src/supertux/menu/addon_menu.cpp:155
 msgid "Check for updates"
 msgstr "Kontrolli uuendusi"
 
-#: src/supertux/menu/addon_menu.cpp:162
+#: src/supertux/menu/addon_menu.cpp:161
 msgid "Browse language packs"
 msgstr "Sirvi keelepakke"
 
-#: src/supertux/menu/addon_menu.cpp:165
+#: src/supertux/menu/addon_menu.cpp:164
 msgid "Install from file"
 msgstr "Paigalda failist"
 
-#: src/supertux/menu/addon_menu.cpp:182
+#: src/supertux/menu/addon_menu.cpp:181
 msgid "To browse through the add-on catalog, you must enable networking."
 msgstr "Laienduste kataloogi sirvimiseks tuleb võrgutugi lubada."
 
-#: src/supertux/menu/addon_menu.cpp:219
+#: src/supertux/menu/addon_menu.cpp:218
 msgid "To check for add-on updates, you must enable networking."
 msgstr "Laienduste uuenduste kontrollimiseks tuleb võrgutugi lubada."
 
-#: src/supertux/menu/addon_menu.cpp:227
+#: src/supertux/menu/addon_menu.cpp:226
 msgid "Checking for updates..."
 msgstr "Uuendusi kontrollitakse..."
 
-#: src/supertux/menu/addon_preview_menu.cpp:87
+#: src/supertux/menu/addon_preview_menu.cpp:86
 msgid "{} \"{}\""
 msgstr "{} „{}“"
 
-#: src/supertux/menu/addon_preview_menu.cpp:92
+#: src/supertux/menu/addon_preview_menu.cpp:91
 msgid "Some information about this add-on is not available."
 msgstr "Osa selle laienduse teabest pole saadaval."
 
-#: src/supertux/menu/addon_preview_menu.cpp:93
+#: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "Perform a \"Check Online\" to try retrieving it."
 msgstr "Tee „Kontrolli internetis\", et proovida seda hankida."
 
-#: src/supertux/menu/addon_preview_menu.cpp:97
+#: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "Author: {}"
 msgstr "Autor: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:97
+#: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "No author specified."
 msgstr "Autorit pole määratud."
 
-#: src/supertux/menu/addon_preview_menu.cpp:98
+#: src/supertux/menu/addon_preview_menu.cpp:97
 msgid "Type: {}"
 msgstr "Tüüp: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:99
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "License: {}"
 msgstr "Litsents: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:99
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "No license specified."
 msgstr "Litsentsi pole määratud."
 
-#: src/supertux/menu/addon_preview_menu.cpp:104
+#: src/supertux/menu/addon_preview_menu.cpp:103
 msgid "Dependencies:"
 msgstr "Sõltuvused:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:113
+#: src/supertux/menu/addon_preview_menu.cpp:112
 msgid "Installed"
 msgstr "Paigaldatud"
 
-#: src/supertux/menu/addon_preview_menu.cpp:113
+#: src/supertux/menu/addon_preview_menu.cpp:112
 msgid "Not installed"
 msgstr "Paigaldamata"
 
-#: src/supertux/menu/addon_preview_menu.cpp:118
+#: src/supertux/menu/addon_preview_menu.cpp:117
 msgid "Not available!"
 msgstr "Pole saadaval!"
 
-#: src/supertux/menu/addon_preview_menu.cpp:125
+#: src/supertux/menu/addon_preview_menu.cpp:124
 msgid "Description:"
 msgstr "Kirjeldus:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:128
+#: src/supertux/menu/addon_preview_menu.cpp:127
 msgid "No description available."
 msgstr "Kirjeldus puudub."
 
-#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/supertux/menu/addon_preview_menu.cpp:140
 msgid "Overrides Data: {}"
 msgstr "Ülekirjutavad andmed: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:155
+#: src/supertux/menu/addon_preview_menu.cpp:154
 msgid "Failed to load all available screenshot previews."
 msgstr "Kõiki saadaolevaid kuvatõmmiste eelvaateid ei õnnestunud laadida."
 
-#: src/supertux/menu/addon_preview_menu.cpp:160
+#: src/supertux/menu/addon_preview_menu.cpp:159
 msgid "To fetch add-on screenshots, you must enable networking."
 msgstr "Laienduse kuvatõmmiste hankimiseks tuleb võrgutugi lubada."
 
-#: src/supertux/menu/addon_preview_menu.cpp:164
+#: src/supertux/menu/addon_preview_menu.cpp:163
 msgid "Show screenshots"
 msgstr "Näita kuvatõmmiseid"
 
-#: src/supertux/menu/addon_preview_menu.cpp:177
+#: src/supertux/menu/addon_preview_menu.cpp:176
 msgid "Screenshot previews are disabled for automatic installs."
 msgstr "Automaatsete paigalduste puhul on kuvatõmmiste eelvaated keelatud."
 
-#: src/supertux/menu/addon_preview_menu.cpp:181
+#: src/supertux/menu/addon_preview_menu.cpp:180
 msgid "No screenshot previews available."
 msgstr "Kuvatõmmiste eelvaated pole saadaval."
 
-#: src/supertux/menu/addon_preview_menu.cpp:189
+#: src/supertux/menu/addon_preview_menu.cpp:188
 msgid "Install"
 msgstr "Paigalda"
 
-#: src/supertux/menu/addon_preview_menu.cpp:202
+#: src/supertux/menu/addon_preview_menu.cpp:201
 msgid "Uninstall"
 msgstr "Eemalda"
 
-#: src/supertux/menu/addon_preview_menu.cpp:226
+#: src/supertux/menu/addon_preview_menu.cpp:225
 msgid "Are you sure you want to uninstall \"{}\"?"
 msgstr "Kas oled kindel, et soovid „{}“ eemaldada?"
 
-#: src/supertux/menu/addon_preview_menu.cpp:227
+#: src/supertux/menu/addon_preview_menu.cpp:226
 msgid ""
 "\n"
 "Your progress won't be lost."
 msgstr "\nSinu edenemine ei lähe kaotsi."
 
-#: src/supertux/menu/addon_preview_menu.cpp:239
+#: src/supertux/menu/addon_preview_menu.cpp:238
 msgid ""
 "NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\n"
 "Are you sure you wish to uninstall?"
 msgstr "MÄRKUS: Laiendus „{}\" on sõltuvus veel {} installitud {} jaoks.\nKas oled kindel, et soovid selle eemaldada?"
 
-#: src/supertux/menu/addon_preview_menu.cpp:258
+#: src/supertux/menu/addon_preview_menu.cpp:257
 msgid ""
 "Cannot toggle add-on \"{}\":\n"
 "{}"
 msgstr "Laienduse „{}“ sisse-/väljalülitamine ebaõnnestus:\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:291
+#: src/supertux/menu/addon_preview_menu.cpp:290
 msgid "Fetching screenshot previews..."
 msgstr "Kuvatõmmiste eelvaateid hangitakse..."
 
-#: src/supertux/menu/addon_preview_menu.cpp:314
+#: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Downloading {}"
 msgstr "Laaditakse alla {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:314
+#: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Updating {}"
 msgstr "Uuendatakse {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:342
+#: src/supertux/menu/addon_preview_menu.cpp:341
 msgid "Add-on uninstalled successfully."
 msgstr "Laiendus eemaldati edukalt."
 
-#: src/supertux/menu/addon_preview_menu.cpp:347
+#: src/supertux/menu/addon_preview_menu.cpp:346
 msgid ""
 "Error uninstalling add-on:\n"
 "{}"
 msgstr "Viga laienduse eemaldamisel:\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:375
+#: src/supertux/menu/addon_preview_menu.cpp:374
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
@@ -3760,7 +3762,7 @@ msgstr "Kuidas see võimalik on? Ametlikke kaastöö tasemeid pole!"
 
 #: src/supertux/menu/contrib_menu.cpp:122
 msgid "No Community Contrib Levels yet. Download them from the Add-ons Menu."
-msgstr "Kogukonna kaastöö tasemeid veel pole. Laadi need alla lisade menüüst."
+msgstr "Kogukonna kaastöö tasemeid veel pole. Laadi need alla laienduste menüüst."
 
 #: src/supertux/menu/contrib_menu.cpp:128
 msgid "No User Contrib Levels yet. Create some with the Level Editor."
@@ -3861,7 +3863,7 @@ msgstr "Kasutage bitmap fonte"
 
 #: src/supertux/menu/debug_menu.cpp:76
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr "Kuva ruutude ID-d redaktori tööriistakastis"
+msgstr "Kuva plaatide ID-d redaktori tööriistakastis"
 
 #: src/supertux/menu/debug_menu.cpp:77
 msgid "Hide Player HUD"
@@ -3873,7 +3875,7 @@ msgstr "Laadi ressursid uuesti"
 
 #: src/supertux/menu/debug_menu.cpp:80
 msgid "Reloads all fonts, textures, sprites and tilesets."
-msgstr "Laadib kõik fondid, tekstuurid, spraidid ja ruudustikud uuesti."
+msgstr "Laadib kõik fondid, tekstuurid, spraidid ja plaadistikud uuesti."
 
 #: src/supertux/menu/debug_menu.cpp:82
 msgid "Dump Texture Cache"
@@ -3896,7 +3898,7 @@ msgstr "Teisenda plaadid"
 
 #: src/supertux/menu/editor_converters_menu.cpp:64
 msgid "Select Tile Conversion File"
-msgstr "Vali ruutude teisendusfail"
+msgstr "Vali plaatide teisendusfail"
 
 #: src/supertux/menu/editor_converters_menu.cpp:74
 msgid "By: {}"
@@ -3904,15 +3906,15 @@ msgstr "Autor: {}"
 
 #: src/supertux/menu/editor_converters_menu.cpp:77
 msgid "Convert Tiles By File"
-msgstr "Teisenda ruute faili abil"
+msgstr "Teisenda plaate faili abil"
 
 #: src/supertux/menu/editor_converters_menu.cpp:78
 msgid "Convert all tiles in the current level by a file, specified above."
-msgstr "Teisenda kõik praeguse taseme ruudud ülal määratud faili abil."
+msgstr "Teisenda kõik praeguse taseme plaadid ülal määratud faili abil."
 
 #: src/supertux/menu/editor_converters_menu.cpp:91
 msgid "No tile conversion file selected."
-msgstr "Ruutude teisendusfaili pole valitud."
+msgstr "Plaatide teisendusfaili pole valitud."
 
 #: src/supertux/menu/editor_converters_menu.cpp:95
 msgid ""
@@ -3920,7 +3922,7 @@ msgid ""
 "\n"
 "Note: This should not be ran more than once on a level.\n"
 "Creating a separate copy of the level is highly recommended."
-msgstr "See teisendab kõik taseme ruute. Kas jätkata?\n\nMärkus: Seda ei tohiks ühel tasemel rohkem kui korra käivitada.\nTungivalt soovitatav on luua tasemest eraldi koopia."
+msgstr "See teisendab kõik taseme plaadid. Kas jätkata?\n\nMärkus: Seda ei tohiks ühel tasemel rohkem kui korra käivitada.\nTungivalt soovitatav on luua tasemest eraldi koopia."
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:55
 #: src/supertux/menu/editor_level_select_menu.cpp:93
@@ -3968,7 +3970,7 @@ msgstr "Tasemärkus"
 
 #: src/supertux/menu/editor_level_menu.cpp:38
 msgid "Tileset"
-msgstr "Plaatide komplekt"
+msgstr "Plaadistik"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Inherit"
@@ -4116,7 +4118,7 @@ msgstr "Proovi mängida"
 msgid "Test Worldmap"
 msgstr "Proovi mängida"
 
-#: src/supertux/menu/editor_menu.cpp:67 src/supertux/menu/game_menu.cpp:80
+#: src/supertux/menu/editor_menu.cpp:67 src/supertux/menu/game_menu.cpp:79
 #: src/supertux/menu/main_menu.cpp:63
 #: src/supertux/menu/options_select_menu.cpp:29
 #: src/supertux/menu/worldmap_menu.cpp:31
@@ -4125,7 +4127,7 @@ msgstr "Sätted"
 
 #: src/supertux/menu/editor_menu.cpp:71
 msgid "Package Add-On"
-msgstr "Paketi lisandmoodul"
+msgstr "Paketi laiendus"
 
 #: src/supertux/menu/editor_menu.cpp:72
 msgid "Open Level Directory"
@@ -4141,25 +4143,25 @@ msgstr "Muuda teist maailma"
 
 #: src/supertux/menu/editor_menu.cpp:85
 msgid "Convert all tiles in the level using converters."
-msgstr "Teisenda kõik taseme ruudud teisendajate abil."
+msgstr "Teisenda kõik taseme plaadid teisendajate abil."
 
 #: src/supertux/menu/editor_menu.cpp:92
 msgid "Check for Deprecated Tiles"
-msgstr "Kontrolli aegunud ruute"
+msgstr "Kontrolli aegunud plaate"
 
 #: src/supertux/menu/editor_menu.cpp:93
 msgid "Check if any deprecated tiles are currently present in the level."
-msgstr "Kontrolli, kas tasemes leidub aegunud ruute."
+msgstr "Kontrolli, kas tasemes leidub aegunud plaate."
 
 #: src/supertux/menu/editor_menu.cpp:94
 msgid "Show Deprecated Tiles"
-msgstr "Kuva aegunud ruute"
+msgstr "Kuva aegunud plaadid"
 
 #: src/supertux/menu/editor_menu.cpp:95
 msgid ""
 "Indicate all deprecated tiles on the active tilemap, without the need of "
 "hovering over."
-msgstr "Tähista aktiivsel ruudukaardil kõik aegunud ruudud ilma nende kohale liikumata."
+msgstr "Tähista aktiivsel plaadikaardil kõik aegunud plaadid ilma nende kohale liikumata."
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Editor settings"
@@ -4184,7 +4186,7 @@ msgstr "Lõpeta"
 
 #: src/supertux/menu/editor_menu.cpp:154
 msgid "Do you want to package this world as an add-on?"
-msgstr "Kas soovite selle maailma pakkida lisandmoodulina?"
+msgstr "Kas soovite selle maailma pakkida laiendusena?"
 
 #: src/supertux/menu/editor_menu.cpp:183
 msgid "Open Menu"
@@ -4223,7 +4225,7 @@ msgstr "Peida päästikud"
 
 #: src/supertux/menu/editor_menu.cpp:195
 msgid "Toggle Between Tileset/Objects Tool"
-msgstr "Lülitu ruudustiku ja objektitööriista vahel"
+msgstr "Lülitu plaadistiku ja objektitööriista vahel"
 
 #: src/supertux/menu/editor_menu.cpp:196
 msgid "Ctrl+PLUS or Ctrl+Scroll Up = Zoom In"
@@ -4288,15 +4290,15 @@ msgstr "Sain aru!"
 
 #: src/supertux/menu/editor_menu.cpp:247
 msgid "Deprecated tiles are still present in the level."
-msgstr "Tasemes on endiselt aegunud ruute."
+msgstr "Tasemes on endiselt aegunud plaate."
 
 #: src/supertux/menu/editor_menu.cpp:254
 msgid "Do you want to show all deprecated tiles on active tilemaps?"
-msgstr "Kas soovid kuvada aktiivsetel ruudukaartidel kõik aegunud ruudud?"
+msgstr "Kas soovid kuvada aktiivsetel plaadikaartidel kõik aegunud plaadid?"
 
 #: src/supertux/menu/editor_menu.cpp:261
 msgid "There are no more deprecated tiles in the level!"
-msgstr "Tasemes pole enam aegunud ruute!"
+msgstr "Tasemes pole enam aegunud plaate!"
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New World"
@@ -4373,7 +4375,7 @@ msgstr "Redaktori sätted"
 
 #: src/supertux/menu/editor_settings.cpp:37
 msgid "tiny tile (4px)"
-msgstr "väike plaat (4 pikslit)"
+msgstr "tilluke plaat (4 pikslit)"
 
 #: src/supertux/menu/editor_settings.cpp:38
 msgid "small tile (8px)"
@@ -4381,7 +4383,7 @@ msgstr "väike plaat (8 pikslit)"
 
 #: src/supertux/menu/editor_settings.cpp:39
 msgid "medium tile (16px)"
-msgstr "keskmine paan (16 pikslit)"
+msgstr "keskmine plaat (16 pikslit)"
 
 #: src/supertux/menu/editor_settings.cpp:40
 msgid "big tile (32px)"
@@ -4409,11 +4411,11 @@ msgstr "Keskjoondatud suum"
 
 #: src/supertux/menu/editor_settings.cpp:50
 msgid "Autotile Mode"
-msgstr "Automaatne režiim"
+msgstr "Automaatplaadistuse režiim"
 
 #: src/supertux/menu/editor_settings.cpp:51
 msgid "Enable Autotile Help"
-msgstr "Luba automaatse tiili spikker"
+msgstr "Luba automaatplaadistuse spikker"
 
 #: src/supertux/menu/editor_settings.cpp:52
 msgid "Enable Object Undo Tracking"
@@ -4463,36 +4465,36 @@ msgstr "Tase loodud!"
 msgid "Continue"
 msgstr "Jätka mängu"
 
-#: src/supertux/menu/game_menu.cpp:65
-msgid "Restart from Checkpoint"
-msgstr "Alusta kellukese juurest"
-
-#: src/supertux/menu/game_menu.cpp:68
+#: src/supertux/menu/game_menu.cpp:63
 msgid "Restart Level"
 msgstr "Alusta tasandi algusest"
 
-#: src/supertux/menu/game_menu.cpp:76
+#: src/supertux/menu/game_menu.cpp:66
+msgid "Restart from Checkpoint"
+msgstr "Alusta kellukese juurest"
+
+#: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
 msgstr "Muuda taset"
 
-#: src/supertux/menu/game_menu.cpp:82
+#: src/supertux/menu/game_menu.cpp:81
 msgid "Abort Level"
 msgstr "Lõpeta"
 
-#: src/supertux/menu/game_menu.cpp:98 src/supertux/menu/game_menu.cpp:109
-#: src/supertux/menu/game_menu.cpp:174
+#: src/supertux/menu/game_menu.cpp:97 src/supertux/menu/game_menu.cpp:108
+#: src/supertux/menu/game_menu.cpp:173
 msgid "Are you sure?"
 msgstr "Oled sa kindel?"
 
-#: src/supertux/menu/game_menu.cpp:125
+#: src/supertux/menu/game_menu.cpp:124
 msgid "Couldn't open editor for this level. No worldmap!"
 msgstr "Selle taseme redaktorit ei saanud avada. Maailmakaart puudub!"
 
-#: src/supertux/menu/game_menu.cpp:152
+#: src/supertux/menu/game_menu.cpp:151
 msgid "Couldn't open editor for this level."
 msgstr "Selle taseme redaktorit ei saanud avada."
 
-#: src/supertux/menu/game_menu.cpp:158
+#: src/supertux/menu/game_menu.cpp:157
 msgid "Couldn't open worldmap for this level."
 msgstr "Selle taseme maailmakaarti ei saanud avada."
 
@@ -4535,8 +4537,8 @@ msgstr "Käsitsi seadistamine"
 
 #: src/supertux/menu/joystick_menu.cpp:59
 msgid ""
-"Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Kasutage SDL2 automaatse GameControlleri toe asemel käsitsi seadistamist"
+"Use manual configuration instead of SDL3's automatic GameController support"
+msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:75
 #: src/supertux/menu/keyboard_menu.cpp:79
@@ -4936,7 +4938,7 @@ msgstr "Uhked efektid"
 msgid ""
 "Applies fancy effects such as blur, clear tile refraction, and various other"
 " effects deemed \"fancy\". May significantly degrade performance."
-msgstr "Rakendab uhkeid efekte, nagu hägu, läbipaistvate ruutude murdumisefekt ja mitmesuguseid muid „uhkeks\" peetavaid efekte. Võib jõudlust märgatavalt halvendada."
+msgstr "Rakendab uhkeid efekte, nagu hägu, läbipaistvate plaatide murdumisefekt ja mitmesuguseid muid „uhkeks\" peetavaid efekte. Võib jõudlust märgatavalt halvendada."
 
 #: src/supertux/menu/options_menu.cpp:140
 msgid "Camera Peek Multiplier"
@@ -5118,194 +5120,184 @@ msgstr "Paus fookuse kadumise korral"
 msgid "Automatically pause the game when the window loses focus"
 msgstr "Peatage mäng automaatselt, kui aken kaotab fookuse"
 
-#: src/supertux/menu/options_menu.cpp:250
-msgid "Prefer Wayland"
-msgstr "Eelista Waylandi"
-
-#: src/supertux/menu/options_menu.cpp:251
-msgid ""
-"If you experience any issues with Nvidia cards, your window border, or "
-"anything you believe is due to Wayland, disable this. (Requires restart)"
-msgstr "Kui sul esineb probleeme Nvidia kaartide, akna äärise või millegagi, mille põhjuseks pead Waylandi, keela see. (Nõuab taaskäivitust)"
-
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Use custom mouse cursor"
 msgstr "Kasutage kohandatud hiirekursorit"
 
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Whether the game renders its own cursor or uses the system's cursor"
 msgstr "Kas mäng renderdab oma kursori või kasutab süsteemi kursorit"
 
-#: src/supertux/menu/options_menu.cpp:257
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Use native custom cursor"
 msgstr "Kasuta süsteemi kohandatud kursorit"
 
-#: src/supertux/menu/options_menu.cpp:257
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Whether the game uses a native custom cursor or renders it in the game"
 msgstr "Kas mäng kasutab süsteemi kohandatud kursorit või renderdab selle mängusiseselt"
 
-#: src/supertux/menu/options_menu.cpp:259
+#: src/supertux/menu/options_menu.cpp:252
 msgid "Precise scrolling"
 msgstr "Täpne kerimine"
 
-#: src/supertux/menu/options_menu.cpp:260
+#: src/supertux/menu/options_menu.cpp:253
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
 msgstr "Enamik kaasaegseid puuteplaate edastab täpseid kerimissündmusi.\nKeela see, kui tavalise hiirega kerimine tundub ebatavaline või kui see lihtsalt ei meeldi sulle."
 
-#: src/supertux/menu/options_menu.cpp:262
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Invert horizontal scrolling"
 msgstr "Pööra horisontaalne kerimine ümber"
 
-#: src/supertux/menu/options_menu.cpp:263
+#: src/supertux/menu/options_menu.cpp:256
 msgid "Inverts scrolling in the X-axis"
 msgstr "Pöörab X-telje kerimise ümber"
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:258
 msgid "Invert vertical scrolling"
 msgstr "Pööra vertikaalne kerimine ümber"
 
-#: src/supertux/menu/options_menu.cpp:266
+#: src/supertux/menu/options_menu.cpp:259
 msgid "Inverts scrolling in the Y-axis"
 msgstr "Pöörab Y-telje kerimise ümber"
 
-#: src/supertux/menu/options_menu.cpp:272
+#: src/supertux/menu/options_menu.cpp:265
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
 msgstr "Ei püüa skaleerida ega rakendada ühtegi kuvasuhet. Eirab mõnda videoseadet. Kasulik mänguautomaatide või ebatavaliste ekraanide puhul."
 
-#: src/supertux/menu/options_menu.cpp:272
+#: src/supertux/menu/options_menu.cpp:265
 msgid "Force full viewport"
 msgstr "Sunni täisvaade"
 
-#: src/supertux/menu/options_menu.cpp:276
+#: src/supertux/menu/options_menu.cpp:269
 msgid "Check for new releases"
 msgstr "Kontrolli uusi väljalaskeid"
 
-#: src/supertux/menu/options_menu.cpp:277
+#: src/supertux/menu/options_menu.cpp:270
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr "Lubab mängul käivitamisel kontrollida, kas on saadaval uusi SuperTuxi versioone, ja teavitada nende leidmisel."
 
-#: src/supertux/menu/options_menu.cpp:281
+#: src/supertux/menu/options_menu.cpp:274
 msgid "Disable network"
 msgstr "Keela võrk"
 
-#: src/supertux/menu/options_menu.cpp:282
+#: src/supertux/menu/options_menu.cpp:275
 msgid "Prevents the game from connecting online"
 msgstr "Takistab mängul võrku ühenduda"
 
-#: src/supertux/menu/options_menu.cpp:284
+#: src/supertux/menu/options_menu.cpp:277
 msgid "Network support is disabled."
 msgstr "Võrgutugi on keelatud."
 
-#: src/supertux/menu/options_menu.cpp:350
+#: src/supertux/menu/options_menu.cpp:343
 msgid "Magnification"
 msgstr "Suurendus"
 
-#: src/supertux/menu/options_menu.cpp:351
+#: src/supertux/menu/options_menu.cpp:344
 msgid "Change the magnification of the game area"
 msgstr "Muuda mänguala suurendust"
 
-#: src/supertux/menu/options_menu.cpp:387
+#: src/supertux/menu/options_menu.cpp:380
 msgid "Aspect Ratio"
 msgstr "Kuvasuhe"
 
-#: src/supertux/menu/options_menu.cpp:388
+#: src/supertux/menu/options_menu.cpp:381
 msgid "Adjust the aspect ratio"
 msgstr "Kohanda kuvasuhet"
 
-#: src/supertux/menu/options_menu.cpp:415
+#: src/supertux/menu/options_menu.cpp:408
 msgid "Window Resolution"
 msgstr "Akna eraldusvõime"
 
-#: src/supertux/menu/options_menu.cpp:416
+#: src/supertux/menu/options_menu.cpp:409
 msgid "Resize the window to the given size"
 msgstr "Muutke akna suurust etteantud suurusele"
 
-#: src/supertux/menu/options_menu.cpp:446
+#: src/supertux/menu/options_menu.cpp:450
 msgid "Desktop"
 msgstr "Töölaud"
 
-#: src/supertux/menu/options_menu.cpp:473
+#: src/supertux/menu/options_menu.cpp:479
 msgid "Fullscreen Resolution"
 msgstr "Täisekraani eraldusvõime"
 
-#: src/supertux/menu/options_menu.cpp:474
+#: src/supertux/menu/options_menu.cpp:480
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Määra täisekraani eraldusvõime (salvestamiseks on vajalik täisekraani valiku välja ja sisse lülitamine)"
 
-#: src/supertux/menu/options_menu.cpp:480
+#: src/supertux/menu/options_menu.cpp:486
 msgid "on"
 msgstr "peal"
 
-#: src/supertux/menu/options_menu.cpp:481
-#: src/supertux/menu/options_menu.cpp:506
+#: src/supertux/menu/options_menu.cpp:487
+#: src/supertux/menu/options_menu.cpp:512
 msgid "off"
 msgstr "väljas"
 
-#: src/supertux/menu/options_menu.cpp:482
+#: src/supertux/menu/options_menu.cpp:488
 msgid "adaptive"
 msgstr "kohanemisvõimeline"
 
-#: src/supertux/menu/options_menu.cpp:500
+#: src/supertux/menu/options_menu.cpp:506
 msgid "VSync"
 msgstr "VSync"
 
-#: src/supertux/menu/options_menu.cpp:501
+#: src/supertux/menu/options_menu.cpp:507
 msgid "Set the VSync mode"
 msgstr "VSync režiim"
 
-#: src/supertux/menu/options_menu.cpp:507
+#: src/supertux/menu/options_menu.cpp:513
 msgid "reduced"
 msgstr "vähendatud"
 
-#: src/supertux/menu/options_menu.cpp:508
+#: src/supertux/menu/options_menu.cpp:514
 msgid "full"
 msgstr "täis"
 
-#: src/supertux/menu/options_menu.cpp:522
+#: src/supertux/menu/options_menu.cpp:528
 msgid "Screen shake"
 msgstr "Ekraani värin"
 
-#: src/supertux/menu/options_menu.cpp:523
+#: src/supertux/menu/options_menu.cpp:529
 msgid "Adjust amount of screen shake effects"
 msgstr "Kohanda ekraani värina tugevust"
 
-#: src/supertux/menu/options_menu.cpp:558
+#: src/supertux/menu/options_menu.cpp:564
 msgid "Sound Volume"
 msgstr "Helitugevus"
 
-#: src/supertux/menu/options_menu.cpp:559
+#: src/supertux/menu/options_menu.cpp:565
 msgid "Adjust sound volume"
 msgstr "Muuda helitugevust"
 
-#: src/supertux/menu/options_menu.cpp:594
+#: src/supertux/menu/options_menu.cpp:600
 msgid "Music Volume"
 msgstr "Muusika helitugevus"
 
-#: src/supertux/menu/options_menu.cpp:595
+#: src/supertux/menu/options_menu.cpp:601
 msgid "Adjust music volume"
 msgstr "Muuda muusika helitugevust"
 
-#: src/supertux/menu/options_menu.cpp:630
+#: src/supertux/menu/options_menu.cpp:636
 msgid "Flash Intensity"
 msgstr "Välgu tugevus"
 
-#: src/supertux/menu/options_menu.cpp:631
+#: src/supertux/menu/options_menu.cpp:637
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr "Kohanda äikesetormi välgu tugevust"
 
-#: src/supertux/menu/options_menu.cpp:644
+#: src/supertux/menu/options_menu.cpp:650
 msgid "On-screen controls scale"
 msgstr "Ekraanil kuvatavate juhtnuppude suurus"
 
-#: src/supertux/menu/options_menu.cpp:767
+#: src/supertux/menu/options_menu.cpp:781
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -5414,7 +5406,7 @@ msgid ""
 "including all game progress on it. Are you sure?"
 msgstr "See kustutab profiili „{}“\nkoos kogu selle mängueduga. Kas oled kindel?"
 
-#: src/supertux/menu/profile_menu.cpp:178
+#: src/supertux/menu/profile_menu.cpp:179
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"
@@ -5514,7 +5506,7 @@ msgstr "Objekti horisontaalne asukoht pikslites vasakust servast."
 msgid "The vertical location of the object in pixels from the top."
 msgstr "Objekti vertikaalne asukoht pikslites ülaservast."
 
-#: src/supertux/sector.cpp:519
+#: src/supertux/sector.cpp:500
 msgid "Press escape to skip"
 msgstr "Mine edasi klahviga \"Escape\""
 
@@ -5562,11 +5554,11 @@ msgstr "Parim tulemus"
 msgid "Others"
 msgstr "teised"
 
-#: src/supertux/title_screen.cpp:300
+#: src/supertux/title_screen.cpp:302
 msgid "Copyright"
 msgstr "Autoriõigused kaitstud"
 
-#: src/supertux/title_screen.cpp:301
+#: src/supertux/title_screen.cpp:303
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
@@ -5606,7 +5598,7 @@ msgstr "Sa leidsid salakambri!"
 
 #: src/trigger/secretarea_trigger.cpp:56
 msgid "Fade tilemap"
-msgstr "Paanide kaardi tuhmumine"
+msgstr "Plaadikaardi tuhmumine"
 
 #: src/trigger/secretarea_trigger.hpp:35
 msgid "Secret Area"
@@ -5634,7 +5626,7 @@ msgstr "Uus maailmakaardi kudemispunkt"
 
 #: src/trigger/sequence_trigger.cpp:54
 msgid "Worldmap fade tilemap"
-msgstr "Maailmakaardi tuhmumisplaatide kaart"
+msgstr "Maailmakaardi plaadikaardi tuhmumine"
 
 #: src/trigger/sequence_trigger.hpp:30
 msgid "Sequence Trigger"
@@ -5745,7 +5737,7 @@ msgstr "Üks või mitu järgmistest: „north\", „south\", „east\" või „w
 
 #: src/worldmap/special_tile.hpp:47
 msgid "Special Tile"
-msgstr "Eriruut"
+msgstr "Eriplaat"
 
 #: src/worldmap/sprite_change.cpp:92
 msgid "Stay action"

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-03-21 04:25+0000\n"
+"POT-Creation-Date: 2026-08-07 18:52+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Wenbin Lv <wenbin816@gmail.com>, 2024,2026\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
@@ -192,19 +192,21 @@ msgstr "0.6.3 之前的水晶图块"
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
 msgstr "用于在 0.6.3 之前的版本创建的关卡，这些关卡使用水晶图块。"
 
-#: data/images/converters/data.stcd:8
+#. l10n: The word "Nightly" refers to an early development version of
+#. SuperTux, don't translate the word literally.
+#: data/images/converters/data.stcd:9
 msgid "Nightly Tiles"
 msgstr "每夜图块"
 
-#: data/images/converters/data.stcd:10
+#: data/images/converters/data.stcd:11
 msgid "For levels, created in previous Nightly builds."
 msgstr "用于在以前的每夜版本创建的关卡。"
 
-#: data/images/converters/data.stcd:13
+#: data/images/converters/data.stcd:14
 msgid "Jagged Rock Tiles from Addon"
 msgstr "来自扩展的锯齿状岩石图块"
 
-#: data/images/converters/data.stcd:15
+#: data/images/converters/data.stcd:16
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
@@ -475,8 +477,8 @@ msgstr "激活危机模式时执行的脚本"
 #: src/badguy/mriceblock.cpp:63 src/badguy/mrtree.cpp:50
 #: src/badguy/smartball.cpp:34 src/badguy/snail.cpp:70
 #: src/badguy/snowball.cpp:40 src/badguy/viciousivy.cpp:46
-#: src/object/background.cpp:302 src/object/brick.cpp:59
-#: src/object/coin.cpp:69 src/object/gradient.cpp:107
+#: src/object/background.cpp:302 src/object/brick.cpp:63
+#: src/object/coin.cpp:70 src/object/gradient.cpp:107
 #: src/object/invisible_block.cpp:37 src/object/tilemap.cpp:352
 msgid "Normal"
 msgstr "一般"
@@ -600,7 +602,7 @@ msgstr "陷阱激活后至第一支飞镖发射经过的时间。"
 
 #: src/badguy/darttrap.cpp:156 src/object/particle_zone.cpp:50
 #: src/object/particlesystem.cpp:64 src/object/spotlight.cpp:104
-#: src/supertux/menu/addon_preview_menu.cpp:201
+#: src/supertux/menu/addon_preview_menu.cpp:200
 msgid "Enabled"
 msgstr "已启用"
 
@@ -1081,32 +1083,32 @@ msgstr "消失范围"
 msgid "Fly speed"
 msgstr "飞行速度"
 
-#: src/badguy/willowisp.cpp:405 src/object/camera.cpp:170
-#: src/object/coin.cpp:327 src/object/path_gameobject.cpp:175
+#: src/badguy/willowisp.cpp:405 src/object/camera.cpp:175
+#: src/object/coin.cpp:338 src/object/path_gameobject.cpp:175
 #: src/object/path_gameobject.hpp:44 src/object/platform.cpp:78
 #: src/object/tilemap.cpp:357
 msgid "Path"
 msgstr "路径"
 
-#: src/badguy/willowisp.cpp:406 src/object/coin.cpp:334
+#: src/badguy/willowisp.cpp:406 src/object/coin.cpp:345
 #: src/object/platform.cpp:83 src/object/tilemap.cpp:358
 msgid "Starting Node"
 msgstr "起始节点"
 
-#: src/badguy/willowisp.cpp:411 src/object/camera.cpp:173
-#: src/object/coin.cpp:332 src/object/platform.cpp:79
+#: src/badguy/willowisp.cpp:411 src/object/camera.cpp:178
+#: src/object/coin.cpp:343 src/object/platform.cpp:79
 #: src/object/tilemap.cpp:364
 msgid "Path Mode"
 msgstr "路径模式"
 
-#: src/badguy/willowisp.cpp:412 src/object/camera.cpp:174
-#: src/object/coin.cpp:333 src/object/platform.cpp:80
+#: src/badguy/willowisp.cpp:412 src/object/camera.cpp:179
+#: src/object/coin.cpp:344 src/object/platform.cpp:80
 #: src/object/tilemap.cpp:365
 msgid "Adapt Speed"
 msgstr "适应速度"
 
-#: src/badguy/willowisp.cpp:413 src/object/camera.cpp:175
-#: src/object/coin.cpp:335 src/object/platform.cpp:84
+#: src/badguy/willowisp.cpp:413 src/object/camera.cpp:180
+#: src/object/coin.cpp:346 src/object/platform.cpp:84
 #: src/object/tilemap.cpp:367
 msgid "Handle"
 msgstr "把手"
@@ -1137,33 +1139,33 @@ msgstr "恶龙"
 msgid "Joystick Mappings"
 msgstr "游戏杆映射"
 
-#: src/editor/editor.cpp:353
+#: src/editor/editor.cpp:354
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
 msgstr "注意：可拖动元素现已隐藏。按 Ctrl+H 重新显示。"
 
-#: src/editor/editor.cpp:589
+#: src/editor/editor.cpp:588
 msgid "Level saved!"
 msgstr "关卡已保存！"
 
-#: src/editor/editor.cpp:619
+#: src/editor/editor.cpp:618
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
 msgstr "从世界地图进入游戏时，无法测试关卡。\n\n请退出关卡编辑器。"
 
-#: src/editor/editor.cpp:870
+#: src/editor/editor.cpp:869
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "该关卡包含已废弃的图片。\n强烈建议替换掉所有已废弃的图块，以避免在未来版本中失去兼容性。"
 
-#: src/editor/editor.cpp:872
+#: src/editor/editor.cpp:871
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "提示：从关卡编辑菜单中打开“显示已废弃的图块”。"
 
-#: src/editor/editor.cpp:962
+#: src/editor/editor.cpp:961
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1171,33 +1173,33 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "不要忘了，您的关卡和资产\n在会话关闭后不会保存！\n如果您想保留您的关卡，\n请从“管理资产”菜单下载它们。"
 
-#: src/editor/editor.cpp:1003
+#: src/editor/editor.cpp:1002
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr "此关卡尚未保存。您要保存吗？"
 
-#: src/editor/editor.cpp:1005
+#: src/editor/editor.cpp:1004
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "此关卡包含未保存的更改，您要保存吗？"
 
-#: src/editor/editor.cpp:1006
+#: src/editor/editor.cpp:1005
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "该关卡可能包含未保存的改动，您想保存吗？"
 
-#: src/editor/editor.cpp:1007 src/gui/dialog.hpp:95
-#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/editor/editor.cpp:1006 src/gui/dialog.hpp:95
+#: src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "是"
 
-#: src/editor/editor.cpp:1013 src/editor/particle_editor.cpp:779
-#: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:141
+#: src/editor/editor.cpp:1012 src/editor/particle_editor.cpp:779
+#: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 msgid "No"
 msgstr "否"
 
-#: src/editor/editor.cpp:1017 src/editor/particle_editor.cpp:783
+#: src/editor/editor.cpp:1016 src/editor/particle_editor.cpp:783
 #: src/gui/menu_filesystem.cpp:123 src/gui/menu_list.cpp:38
 #: src/gui/menu_paths.cpp:48
 #: src/supertux/menu/editor_level_select_menu.cpp:183
@@ -1213,7 +1215,7 @@ msgstr "否"
 msgid "Cancel"
 msgstr "取消"
 
-#: src/editor/editor.cpp:1136
+#: src/editor/editor.cpp:1135
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1221,21 +1223,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "部分已过时的插件仍然处于激活状态，\n并且可能会与 SuperTux 的默认结构发生冲突。\n您仍然可以在菜单中启用这些插件。\n禁用这些插件不会删除您的游戏进度。"
 
-#: src/editor/editor.cpp:1139
+#: src/editor/editor.cpp:1138
 msgid "Disable add-ons"
 msgstr "禁用扩展"
 
-#: src/editor/editor.cpp:1144
+#: src/editor/editor.cpp:1143
 msgid "Ignore (not advised)"
 msgstr "忽略（不推荐）"
 
-#: src/editor/editor.cpp:1148
+#: src/editor/editor.cpp:1147
 msgid "Leave editor"
 msgstr "离开编辑器"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1479
+#: src/editor/editor.cpp:1493
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1244,7 +1246,7 @@ msgstr "找不到名为“main”的区块。\n请将您希望玩家从此处开
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1486
+#: src/editor/editor.cpp:1500
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1475,7 +1477,7 @@ msgid "Patch Notes"
 msgstr "补丁说明"
 
 #: src/editor/object_menu.cpp:61 src/gui/menu_string_array.cpp:81
-#: src/supertux/menu/addon_preview_menu.cpp:189
+#: src/supertux/menu/addon_preview_menu.cpp:188
 msgid "Update"
 msgstr "更新"
 
@@ -1622,39 +1624,39 @@ msgstr "作者"
 msgid "License"
 msgstr "许可证"
 
-#: src/editor/overlay_widget.cpp:1042
+#: src/editor/overlay_widget.cpp:1061
 msgid "Cannot select deprecated tiles"
 msgstr "无法选择已废弃的图块"
 
-#: src/editor/overlay_widget.cpp:1666
+#: src/editor/overlay_widget.cpp:1700
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr "自动擦除模式已启用 (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1670
+#: src/editor/overlay_widget.cpp:1704
 msgid "Autotile erasing cannot be performed here"
 msgstr "无法在此执行自动擦除"
 
-#: src/editor/overlay_widget.cpp:1675
+#: src/editor/overlay_widget.cpp:1709
 msgid "Autotile mode is on (\"{}\")"
 msgstr "自动放置模式已启用 (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1679
+#: src/editor/overlay_widget.cpp:1713
 msgid "Selected tile isn't autotileable"
 msgstr "选择的图块无法被自动放置"
 
-#: src/editor/overlay_widget.cpp:1685
+#: src/editor/overlay_widget.cpp:1719
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "按住 Ctrl 来启用自动擦除图块"
 
-#: src/editor/overlay_widget.cpp:1687
+#: src/editor/overlay_widget.cpp:1721
 msgid "Release Ctrl to use autotile erasing"
 msgstr "释放 Ctrl 以自动擦除图块"
 
-#: src/editor/overlay_widget.cpp:1692
+#: src/editor/overlay_widget.cpp:1726
 msgid "Hold Ctrl to enable autotile"
 msgstr "按住 Ctrl 来启用自动放置图块"
 
-#: src/editor/overlay_widget.cpp:1694
+#: src/editor/overlay_widget.cpp:1728
 msgid "Release Ctrl to autotile"
 msgstr "释放 Ctrl 以自动放置图块"
 
@@ -2029,10 +2031,10 @@ msgstr "您是想要克隆路径以分别编辑它们，\n还是想要将两个�
 msgid "Path {}"
 msgstr "路径 {}"
 
-#: src/gui/menu_paths.cpp:67 src/supertux/menu/addon_browse_menu.cpp:162
+#: src/gui/menu_paths.cpp:67 src/supertux/menu/addon_browse_menu.cpp:161
 #: src/supertux/menu/addon_file_install_menu.cpp:36
-#: src/supertux/menu/addon_menu.cpp:168
-#: src/supertux/menu/addon_preview_menu.cpp:205
+#: src/supertux/menu/addon_menu.cpp:167
+#: src/supertux/menu/addon_preview_menu.cpp:204
 #: src/supertux/menu/cheat_apply_menu.cpp:40
 #: src/supertux/menu/cheat_menu.cpp:57
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
@@ -2053,7 +2055,7 @@ msgstr "路径 {}"
 #: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/multiplayer_players_menu.cpp:106
-#: src/supertux/menu/options_menu.cpp:291
+#: src/supertux/menu/options_menu.cpp:284
 #: src/supertux/menu/options_select_menu.cpp:44
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/profile_name_menu.cpp:45
@@ -2289,8 +2291,8 @@ msgstr "橙色"
 msgid "Purple"
 msgstr "紫色"
 
-#: src/object/bonus_block.cpp:175 src/object/brick.cpp:60
-#: src/object/coin.cpp:70 src/object/invisible_block.cpp:38
+#: src/object/bonus_block.cpp:175 src/object/brick.cpp:64
+#: src/object/coin.cpp:71 src/object/invisible_block.cpp:38
 msgid "Retro"
 msgstr "复古"
 
@@ -2394,7 +2396,7 @@ msgstr "硬币贴图"
 msgid "Bonus Block"
 msgstr "奖励方块"
 
-#: src/object/brick.cpp:168
+#: src/object/brick.cpp:180
 msgid "Breakable"
 msgstr "可破坏"
 
@@ -2402,7 +2404,7 @@ msgstr "可破坏"
 msgid "Brick"
 msgstr "砖"
 
-#: src/object/brick.hpp:70
+#: src/object/brick.hpp:73
 msgid "Heavy Brick"
 msgstr "重砖块"
 
@@ -2410,27 +2412,27 @@ msgstr "重砖块"
 msgid "Bumper"
 msgstr "碰撞器"
 
-#: src/object/camera.cpp:165
+#: src/object/camera.cpp:170
 msgid "Mode"
 msgstr "模式"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "autoscroll"
 msgstr "自动滚屏"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "free"
 msgstr "自由"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "manual"
 msgstr "手动"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "normal"
 msgstr "普通"
 
-#: src/object/camera.hpp:68
+#: src/object/camera.hpp:69
 msgid "Camera"
 msgstr "相机"
 
@@ -2471,11 +2473,11 @@ msgstr "Y 速度"
 msgid "Cloud Particles"
 msgstr "云粒子"
 
-#: src/object/coin.cpp:329 src/object/tilemap.cpp:360
+#: src/object/coin.cpp:340 src/object/tilemap.cpp:360
 msgid "Following path"
 msgstr "跟随路径"
 
-#: src/object/coin.cpp:338 src/object/coin.cpp:374
+#: src/object/coin.cpp:349 src/object/coin.cpp:385
 msgid "Collect script"
 msgstr "收集脚本"
 
@@ -3312,8 +3314,8 @@ msgstr "上"
 msgid "down"
 msgstr "下"
 
-#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:314
-#: src/supertux/menu/options_menu.cpp:357
+#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:307
+#: src/supertux/menu/options_menu.cpp:350
 msgid "auto"
 msgstr "自动"
 
@@ -3375,15 +3377,15 @@ msgstr "最佳时间"
 msgid "Level target time"
 msgstr "关卡目标时间"
 
-#: src/supertux/main.cpp:892
+#: src/supertux/main.cpp:893
 msgid "New release: SuperTux {}!"
 msgstr "新版本：SuperTux {}！"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:894
 msgid "Click for more details."
 msgstr "点击查看更多内容。"
 
-#: src/supertux/main.cpp:896
+#: src/supertux/main.cpp:897
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -3391,58 +3393,58 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "SuperTux 新版本 ({}) 已发布！\n欲了解更多信息，请访问 SuperTux 网站。\n\n您想现在访问网站吗？"
 
-#: src/supertux/main.cpp:907
+#: src/supertux/main.cpp:908
 msgid "Checking for new releases..."
 msgstr "正在检查新版本……"
 
-#: src/supertux/menu/addon_browse_menu.cpp:70
-#: src/supertux/menu/addon_menu.cpp:162
+#: src/supertux/menu/addon_browse_menu.cpp:69
+#: src/supertux/menu/addon_menu.cpp:161
 msgid "Browse Add-ons"
 msgstr "浏览扩展"
 
-#: src/supertux/menu/addon_browse_menu.cpp:70
+#: src/supertux/menu/addon_browse_menu.cpp:69
 msgid "Browse Language Packs"
 msgstr "浏览语言包"
 
-#: src/supertux/menu/addon_browse_menu.cpp:112
+#: src/supertux/menu/addon_browse_menu.cpp:111
 msgid "Page {}/{}"
 msgstr "{}/{} 页"
 
-#: src/supertux/menu/addon_browse_menu.cpp:124
+#: src/supertux/menu/addon_browse_menu.cpp:123
 msgid "No new Add-ons available"
 msgstr "没有新的扩展"
 
-#: src/supertux/menu/addon_browse_menu.cpp:124
+#: src/supertux/menu/addon_browse_menu.cpp:123
 msgid "No new language packs available"
 msgstr "没有新的语言包"
 
-#: src/supertux/menu/addon_browse_menu.cpp:127
+#: src/supertux/menu/addon_browse_menu.cpp:126
 msgid "No Add-ons available"
 msgstr "没有可用的扩展"
 
-#: src/supertux/menu/addon_browse_menu.cpp:127
+#: src/supertux/menu/addon_browse_menu.cpp:126
 msgid "No language packs available"
 msgstr "没有可用的语言包"
 
-#: src/supertux/menu/addon_browse_menu.cpp:135
-#: src/supertux/menu/addon_browse_menu.cpp:139
+#: src/supertux/menu/addon_browse_menu.cpp:134
+#: src/supertux/menu/addon_browse_menu.cpp:138
 msgid "Previous page"
 msgstr "上一页"
 
-#: src/supertux/menu/addon_browse_menu.cpp:143
-#: src/supertux/menu/addon_browse_menu.cpp:147
+#: src/supertux/menu/addon_browse_menu.cpp:142
+#: src/supertux/menu/addon_browse_menu.cpp:146
 msgid "Next page"
 msgstr "下一页"
 
-#: src/supertux/menu/addon_browse_menu.cpp:154
+#: src/supertux/menu/addon_browse_menu.cpp:153
 msgid "Check Online (disabled)"
 msgstr "在线检查（已禁用）"
 
-#: src/supertux/menu/addon_browse_menu.cpp:158
+#: src/supertux/menu/addon_browse_menu.cpp:157
 msgid "Check Online"
 msgstr "在线检查"
 
-#: src/supertux/menu/addon_browse_menu.cpp:195
+#: src/supertux/menu/addon_browse_menu.cpp:194
 msgid "Downloading Add-On Repository Index"
 msgstr "正在下载扩展仓库索引"
 
@@ -3454,207 +3456,207 @@ msgstr "从文件安装扩展"
 msgid "Drag and drop add-on ZIP archive"
 msgstr "拖放扩展 ZIP 压缩包"
 
-#: src/supertux/menu/addon_menu.cpp:71
+#: src/supertux/menu/addon_menu.cpp:70
 msgid "Installed Add-ons"
 msgstr "已安装的扩展"
 
-#: src/supertux/menu/addon_menu.cpp:71
+#: src/supertux/menu/addon_menu.cpp:70
 msgid "Installed Language Packs"
 msgstr "已安装的语言包"
 
-#: src/supertux/menu/addon_menu.cpp:79
+#: src/supertux/menu/addon_menu.cpp:78
 msgid "No Add-ons installed"
 msgstr "没有已安装的扩展"
 
-#: src/supertux/menu/addon_menu.cpp:79 src/supertux/menu/addon_menu.cpp:120
+#: src/supertux/menu/addon_menu.cpp:78 src/supertux/menu/addon_menu.cpp:119
 msgid "No language packs installed"
 msgstr "没有安装任何语言包"
 
-#: src/supertux/menu/addon_menu.cpp:128
+#: src/supertux/menu/addon_menu.cpp:127
 msgid "{} *UPDATE*"
 msgstr "{} *更新*"
 
-#: src/supertux/menu/addon_menu.cpp:130
+#: src/supertux/menu/addon_menu.cpp:129
 msgid "{} [DISABLED] *UPDATE*"
 msgstr "{} [已禁用] *更新*"
 
-#: src/supertux/menu/addon_menu.cpp:139
+#: src/supertux/menu/addon_menu.cpp:138
 msgid "{} [DISABLED]"
 msgstr "{} [已禁用]"
 
-#: src/supertux/menu/addon_menu.cpp:149
+#: src/supertux/menu/addon_menu.cpp:148
 msgid "No updates available."
 msgstr "没有可用的更新。"
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "update"
 msgstr "更新"
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "updates"
 msgstr "更新"
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "{} {} available"
 msgstr "{} {} 可用"
 
-#: src/supertux/menu/addon_menu.cpp:156
+#: src/supertux/menu/addon_menu.cpp:155
 msgid "Check for updates"
 msgstr "检查更新"
 
-#: src/supertux/menu/addon_menu.cpp:162
+#: src/supertux/menu/addon_menu.cpp:161
 msgid "Browse language packs"
 msgstr "浏览语言包"
 
-#: src/supertux/menu/addon_menu.cpp:165
+#: src/supertux/menu/addon_menu.cpp:164
 msgid "Install from file"
 msgstr "从文件安装"
 
-#: src/supertux/menu/addon_menu.cpp:182
+#: src/supertux/menu/addon_menu.cpp:181
 msgid "To browse through the add-on catalog, you must enable networking."
 msgstr "要浏览扩展目录，您必须启用网络。"
 
-#: src/supertux/menu/addon_menu.cpp:219
+#: src/supertux/menu/addon_menu.cpp:218
 msgid "To check for add-on updates, you must enable networking."
 msgstr "要检查扩展更新，您必须启用网络。"
 
-#: src/supertux/menu/addon_menu.cpp:227
+#: src/supertux/menu/addon_menu.cpp:226
 msgid "Checking for updates..."
 msgstr "正在检查更新..."
 
-#: src/supertux/menu/addon_preview_menu.cpp:87
+#: src/supertux/menu/addon_preview_menu.cpp:86
 msgid "{} \"{}\""
 msgstr "{} \"{}\""
 
-#: src/supertux/menu/addon_preview_menu.cpp:92
+#: src/supertux/menu/addon_preview_menu.cpp:91
 msgid "Some information about this add-on is not available."
 msgstr "此插件的某些信息不可用。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:93
+#: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "Perform a \"Check Online\" to try retrieving it."
 msgstr "执行“在线检查”来尝试获取它。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:97
+#: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "Author: {}"
 msgstr "作者：{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:97
+#: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "No author specified."
 msgstr "没有指定作者。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:98
+#: src/supertux/menu/addon_preview_menu.cpp:97
 msgid "Type: {}"
 msgstr "类型：{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:99
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "License: {}"
 msgstr "许可证：{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:99
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "No license specified."
 msgstr "没有指定许可证。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:104
+#: src/supertux/menu/addon_preview_menu.cpp:103
 msgid "Dependencies:"
 msgstr "依赖关系："
 
-#: src/supertux/menu/addon_preview_menu.cpp:113
+#: src/supertux/menu/addon_preview_menu.cpp:112
 msgid "Installed"
 msgstr "已安装"
 
-#: src/supertux/menu/addon_preview_menu.cpp:113
+#: src/supertux/menu/addon_preview_menu.cpp:112
 msgid "Not installed"
 msgstr "未安装"
 
-#: src/supertux/menu/addon_preview_menu.cpp:118
+#: src/supertux/menu/addon_preview_menu.cpp:117
 msgid "Not available!"
 msgstr "不可用！"
 
-#: src/supertux/menu/addon_preview_menu.cpp:125
+#: src/supertux/menu/addon_preview_menu.cpp:124
 msgid "Description:"
 msgstr "描述："
 
-#: src/supertux/menu/addon_preview_menu.cpp:128
+#: src/supertux/menu/addon_preview_menu.cpp:127
 msgid "No description available."
 msgstr "没有可用的描述。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/supertux/menu/addon_preview_menu.cpp:140
 msgid "Overrides Data: {}"
 msgstr "覆盖数据：{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:155
+#: src/supertux/menu/addon_preview_menu.cpp:154
 msgid "Failed to load all available screenshot previews."
 msgstr "无法加载所有可用的屏幕截图预览。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:160
+#: src/supertux/menu/addon_preview_menu.cpp:159
 msgid "To fetch add-on screenshots, you must enable networking."
 msgstr "要加载扩展截图，您必须启用网络。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:164
+#: src/supertux/menu/addon_preview_menu.cpp:163
 msgid "Show screenshots"
 msgstr "显示屏幕截图"
 
-#: src/supertux/menu/addon_preview_menu.cpp:177
+#: src/supertux/menu/addon_preview_menu.cpp:176
 msgid "Screenshot previews are disabled for automatic installs."
 msgstr "对于自动安装，屏幕截图已被禁用。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:181
+#: src/supertux/menu/addon_preview_menu.cpp:180
 msgid "No screenshot previews available."
 msgstr "没有可用的屏幕截图。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:189
+#: src/supertux/menu/addon_preview_menu.cpp:188
 msgid "Install"
 msgstr "安装"
 
-#: src/supertux/menu/addon_preview_menu.cpp:202
+#: src/supertux/menu/addon_preview_menu.cpp:201
 msgid "Uninstall"
 msgstr "卸载"
 
-#: src/supertux/menu/addon_preview_menu.cpp:226
+#: src/supertux/menu/addon_preview_menu.cpp:225
 msgid "Are you sure you want to uninstall \"{}\"?"
 msgstr "您确定卸载 \"{}\" 吗？"
 
-#: src/supertux/menu/addon_preview_menu.cpp:227
+#: src/supertux/menu/addon_preview_menu.cpp:226
 msgid ""
 "\n"
 "Your progress won't be lost."
 msgstr "\n您的进度不会丢失。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:239
+#: src/supertux/menu/addon_preview_menu.cpp:238
 msgid ""
 "NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\n"
 "Are you sure you wish to uninstall?"
 msgstr "注意：插件 \"{}\" 是 {} 个已安装的 {} 的依赖。\n您确定要卸载吗？"
 
-#: src/supertux/menu/addon_preview_menu.cpp:258
+#: src/supertux/menu/addon_preview_menu.cpp:257
 msgid ""
 "Cannot toggle add-on \"{}\":\n"
 "{}"
 msgstr "无法开关插件 \"{}\"：\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:291
+#: src/supertux/menu/addon_preview_menu.cpp:290
 msgid "Fetching screenshot previews..."
 msgstr "正在获取截图预览..."
 
-#: src/supertux/menu/addon_preview_menu.cpp:314
+#: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Downloading {}"
 msgstr "正在下载 {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:314
+#: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Updating {}"
 msgstr "正在更新 {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:342
+#: src/supertux/menu/addon_preview_menu.cpp:341
 msgid "Add-on uninstalled successfully."
 msgstr "扩展已成功卸载。"
 
-#: src/supertux/menu/addon_preview_menu.cpp:347
+#: src/supertux/menu/addon_preview_menu.cpp:346
 msgid ""
 "Error uninstalling add-on:\n"
 "{}"
 msgstr "卸载扩展失败：\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:375
+#: src/supertux/menu/addon_preview_menu.cpp:374
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
@@ -4118,7 +4120,7 @@ msgstr "测试关卡"
 msgid "Test Worldmap"
 msgstr "测试世界地图"
 
-#: src/supertux/menu/editor_menu.cpp:67 src/supertux/menu/game_menu.cpp:80
+#: src/supertux/menu/editor_menu.cpp:67 src/supertux/menu/game_menu.cpp:79
 #: src/supertux/menu/main_menu.cpp:63
 #: src/supertux/menu/options_select_menu.cpp:29
 #: src/supertux/menu/worldmap_menu.cpp:31
@@ -4465,36 +4467,36 @@ msgstr "已创建关卡！"
 msgid "Continue"
 msgstr "继续"
 
-#: src/supertux/menu/game_menu.cpp:65
-msgid "Restart from Checkpoint"
-msgstr "从检查点重新开始"
-
-#: src/supertux/menu/game_menu.cpp:68
+#: src/supertux/menu/game_menu.cpp:63
 msgid "Restart Level"
 msgstr "重新开始关卡"
 
-#: src/supertux/menu/game_menu.cpp:76
+#: src/supertux/menu/game_menu.cpp:66
+msgid "Restart from Checkpoint"
+msgstr "从检查点重新开始"
+
+#: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
 msgstr "编辑关卡"
 
-#: src/supertux/menu/game_menu.cpp:82
+#: src/supertux/menu/game_menu.cpp:81
 msgid "Abort Level"
 msgstr "中止关卡"
 
-#: src/supertux/menu/game_menu.cpp:98 src/supertux/menu/game_menu.cpp:109
-#: src/supertux/menu/game_menu.cpp:174
+#: src/supertux/menu/game_menu.cpp:97 src/supertux/menu/game_menu.cpp:108
+#: src/supertux/menu/game_menu.cpp:173
 msgid "Are you sure?"
 msgstr "您确定吗？"
 
-#: src/supertux/menu/game_menu.cpp:125
+#: src/supertux/menu/game_menu.cpp:124
 msgid "Couldn't open editor for this level. No worldmap!"
 msgstr "无法为此关卡打开编辑器。没有世界地图！"
 
-#: src/supertux/menu/game_menu.cpp:152
+#: src/supertux/menu/game_menu.cpp:151
 msgid "Couldn't open editor for this level."
 msgstr "无法为此关卡打开编辑器。"
 
-#: src/supertux/menu/game_menu.cpp:158
+#: src/supertux/menu/game_menu.cpp:157
 msgid "Couldn't open worldmap for this level."
 msgstr "无法为此关卡打开世界地图。"
 
@@ -4537,8 +4539,8 @@ msgstr "手动配置"
 
 #: src/supertux/menu/joystick_menu.cpp:59
 msgid ""
-"Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "使用手动配置来替换 SDL2 的自动游戏控制器支持"
+"Use manual configuration instead of SDL3's automatic GameController support"
+msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:75
 #: src/supertux/menu/keyboard_menu.cpp:79
@@ -5120,194 +5122,184 @@ msgstr "失去焦点时暂停"
 msgid "Automatically pause the game when the window loses focus"
 msgstr "当窗口失去焦点时自动暂停游戏"
 
-#: src/supertux/menu/options_menu.cpp:250
-msgid "Prefer Wayland"
-msgstr "优先使用 Wayland"
-
-#: src/supertux/menu/options_menu.cpp:251
-msgid ""
-"If you experience any issues with Nvidia cards, your window border, or "
-"anything you believe is due to Wayland, disable this. (Requires restart)"
-msgstr "如果您遇到任何 Nvidia 显卡、窗口边框的问题，或者任何您认为与 Wayland 有关的问题时，请禁用此选项。（需要重启）"
-
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Use custom mouse cursor"
 msgstr "使用自定义鼠标光标"
 
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Whether the game renders its own cursor or uses the system's cursor"
 msgstr "游戏要渲染自己的光标还是使用系统光标"
 
-#: src/supertux/menu/options_menu.cpp:257
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Use native custom cursor"
 msgstr "使用原生自定义光标"
 
-#: src/supertux/menu/options_menu.cpp:257
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Whether the game uses a native custom cursor or renders it in the game"
 msgstr "游戏是使用原生自定义光标还是在游戏中渲染光标"
 
-#: src/supertux/menu/options_menu.cpp:259
+#: src/supertux/menu/options_menu.cpp:252
 msgid "Precise scrolling"
 msgstr "精确滚动"
 
-#: src/supertux/menu/options_menu.cpp:260
+#: src/supertux/menu/options_menu.cpp:253
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
 msgstr "大多数现代触控板都支持产生精确滚动事件。\n如果在启用后使用普通鼠标滚动时感觉异常，或者您不喜欢这种滚动方式，请禁用此选项"
 
-#: src/supertux/menu/options_menu.cpp:262
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Invert horizontal scrolling"
 msgstr "反转水平滚动"
 
-#: src/supertux/menu/options_menu.cpp:263
+#: src/supertux/menu/options_menu.cpp:256
 msgid "Inverts scrolling in the X-axis"
 msgstr "反转 X 轴上的滚动"
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:258
 msgid "Invert vertical scrolling"
 msgstr "反转垂直滚动"
 
-#: src/supertux/menu/options_menu.cpp:266
+#: src/supertux/menu/options_menu.cpp:259
 msgid "Inverts scrolling in the Y-axis"
 msgstr "反转 Y 轴上的滚动"
 
-#: src/supertux/menu/options_menu.cpp:272
+#: src/supertux/menu/options_menu.cpp:265
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
 msgstr "不要尝试缩放或应用任何宽高比。忽略部分视频设置。适用于街机或特殊屏幕。"
 
-#: src/supertux/menu/options_menu.cpp:272
+#: src/supertux/menu/options_menu.cpp:265
 msgid "Force full viewport"
 msgstr "强制使用完整视口"
 
-#: src/supertux/menu/options_menu.cpp:276
+#: src/supertux/menu/options_menu.cpp:269
 msgid "Check for new releases"
 msgstr "检查新版本"
 
-#: src/supertux/menu/options_menu.cpp:277
+#: src/supertux/menu/options_menu.cpp:270
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr "允许游戏在启动时检查 SuperTux 的新版本，并在找到时通知您。"
 
-#: src/supertux/menu/options_menu.cpp:281
+#: src/supertux/menu/options_menu.cpp:274
 msgid "Disable network"
 msgstr "禁用网络"
 
-#: src/supertux/menu/options_menu.cpp:282
+#: src/supertux/menu/options_menu.cpp:275
 msgid "Prevents the game from connecting online"
 msgstr "阻止游戏联网"
 
-#: src/supertux/menu/options_menu.cpp:284
+#: src/supertux/menu/options_menu.cpp:277
 msgid "Network support is disabled."
 msgstr "网络支持已禁用。"
 
-#: src/supertux/menu/options_menu.cpp:350
+#: src/supertux/menu/options_menu.cpp:343
 msgid "Magnification"
 msgstr "放大倍率"
 
-#: src/supertux/menu/options_menu.cpp:351
+#: src/supertux/menu/options_menu.cpp:344
 msgid "Change the magnification of the game area"
 msgstr "改变游戏区域的放大倍率"
 
-#: src/supertux/menu/options_menu.cpp:387
+#: src/supertux/menu/options_menu.cpp:380
 msgid "Aspect Ratio"
 msgstr "纵横比"
 
-#: src/supertux/menu/options_menu.cpp:388
+#: src/supertux/menu/options_menu.cpp:381
 msgid "Adjust the aspect ratio"
 msgstr "调整纵横比"
 
-#: src/supertux/menu/options_menu.cpp:415
+#: src/supertux/menu/options_menu.cpp:408
 msgid "Window Resolution"
 msgstr "窗口分辨率"
 
-#: src/supertux/menu/options_menu.cpp:416
+#: src/supertux/menu/options_menu.cpp:409
 msgid "Resize the window to the given size"
 msgstr "将窗口调整至给定的大小"
 
-#: src/supertux/menu/options_menu.cpp:446
+#: src/supertux/menu/options_menu.cpp:450
 msgid "Desktop"
 msgstr "桌面"
 
-#: src/supertux/menu/options_menu.cpp:473
+#: src/supertux/menu/options_menu.cpp:479
 msgid "Fullscreen Resolution"
 msgstr "全屏分辨率"
 
-#: src/supertux/menu/options_menu.cpp:474
+#: src/supertux/menu/options_menu.cpp:480
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "选择全屏模式下的分辨率（您必须开关全屏来应用更改）"
 
-#: src/supertux/menu/options_menu.cpp:480
+#: src/supertux/menu/options_menu.cpp:486
 msgid "on"
 msgstr "开启"
 
-#: src/supertux/menu/options_menu.cpp:481
-#: src/supertux/menu/options_menu.cpp:506
+#: src/supertux/menu/options_menu.cpp:487
+#: src/supertux/menu/options_menu.cpp:512
 msgid "off"
 msgstr "关闭"
 
-#: src/supertux/menu/options_menu.cpp:482
+#: src/supertux/menu/options_menu.cpp:488
 msgid "adaptive"
 msgstr "自适应"
 
-#: src/supertux/menu/options_menu.cpp:500
+#: src/supertux/menu/options_menu.cpp:506
 msgid "VSync"
 msgstr "垂直同步"
 
-#: src/supertux/menu/options_menu.cpp:501
+#: src/supertux/menu/options_menu.cpp:507
 msgid "Set the VSync mode"
 msgstr "设置垂直同步模式"
 
-#: src/supertux/menu/options_menu.cpp:507
+#: src/supertux/menu/options_menu.cpp:513
 msgid "reduced"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:508
+#: src/supertux/menu/options_menu.cpp:514
 msgid "full"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:522
+#: src/supertux/menu/options_menu.cpp:528
 msgid "Screen shake"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:523
+#: src/supertux/menu/options_menu.cpp:529
 msgid "Adjust amount of screen shake effects"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:558
+#: src/supertux/menu/options_menu.cpp:564
 msgid "Sound Volume"
 msgstr "音效音量"
 
-#: src/supertux/menu/options_menu.cpp:559
+#: src/supertux/menu/options_menu.cpp:565
 msgid "Adjust sound volume"
 msgstr "调整音效音量"
 
-#: src/supertux/menu/options_menu.cpp:594
+#: src/supertux/menu/options_menu.cpp:600
 msgid "Music Volume"
 msgstr "音乐音量"
 
-#: src/supertux/menu/options_menu.cpp:595
+#: src/supertux/menu/options_menu.cpp:601
 msgid "Adjust music volume"
 msgstr "调整音乐音量"
 
-#: src/supertux/menu/options_menu.cpp:630
+#: src/supertux/menu/options_menu.cpp:636
 msgid "Flash Intensity"
 msgstr "闪光强度"
 
-#: src/supertux/menu/options_menu.cpp:631
+#: src/supertux/menu/options_menu.cpp:637
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr "调整雷雨产生的闪光的强度"
 
-#: src/supertux/menu/options_menu.cpp:644
+#: src/supertux/menu/options_menu.cpp:650
 msgid "On-screen controls scale"
 msgstr "屏上控制按钮缩放"
 
-#: src/supertux/menu/options_menu.cpp:767
+#: src/supertux/menu/options_menu.cpp:781
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -5416,7 +5408,7 @@ msgid ""
 "including all game progress on it. Are you sure?"
 msgstr "这将删除配置 \"{}\" 并包括它的游戏进度。您确定吗？"
 
-#: src/supertux/menu/profile_menu.cpp:178
+#: src/supertux/menu/profile_menu.cpp:179
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"
@@ -5516,7 +5508,7 @@ msgstr "物体从左侧算起的水平位置（以像素为单位）。"
 msgid "The vertical location of the object in pixels from the top."
 msgstr "物体从顶部算起的垂直位置（以像素为单位）。"
 
-#: src/supertux/sector.cpp:519
+#: src/supertux/sector.cpp:500
 msgid "Press escape to skip"
 msgstr "按 Esc 跳过"
 
@@ -5564,11 +5556,11 @@ msgstr "最佳成绩"
 msgid "Others"
 msgstr "其他"
 
-#: src/supertux/title_screen.cpp:300
+#: src/supertux/title_screen.cpp:302
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:301
+#: src/supertux/title_screen.cpp:303
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"

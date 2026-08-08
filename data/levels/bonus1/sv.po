@@ -5,6 +5,7 @@
 # Translators:
 # Arvid Norlander <anmaster@berlios.de>, 2006-2008,2010
 # Kristoffer Grundström <lovaren@gmail.com>, 2014
+# Kristoffer Grundström <lovaren@gmail.com>, 2014
 # Sebastian Rasmussen <sebras@gmail.com>, 2020-2021
 # Sebastian Rasmussen <sebras@gmail.com>, 2015-2016
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 23:04+0000\n"
-"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>, 2020-2021\n"
+"Last-Translator: Kristoffer Grundström <lovaren@gmail.com>, 2014\n"
 "Language-Team: Swedish (http://app.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +36,7 @@ msgstr "Lögner!"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
-msgstr "Tåget lämnar om en minut"
+msgstr "Tåget avgår om en minut"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
@@ -82,19 +83,19 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Gratulerar!\n\n#Du har slutfört\n#Bonusö I\n\n\tmed nivåer bidragna av\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Om du inte slutfört alla banor än\n#leta dig tillbaka hem och följ en\n#annan väg. Det finns fortfarande\n#fler utmaningar som väntar dig!\n\n#Och det finns en hemlig bana att\n#hitta dessutom…\n\n#Ett stort tack till alla som har bidragit\n#till denna version. Vi hoppas att\n#du uppskattade den!"
+msgstr "-Gratulerar!\n\n#Du har slutfört\n#Bonusö I\n\n\tmed banor skapade av\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Om du inte har klarat alla banor än,\n#leta dig hem igen och välj\n#en annan väg. Fler utmaningar\n#väntar fortfarande på dig!\n\n#Det finns också en hemlig bana\n#att hitta…\n\n#Ett stort tack till\n#alla som bidrog till den här\n#versionen. Vi hoppas att du tyckte om den!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr "Rörsystem"
+msgstr "Håll tyst där borta"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr "Något fiskaktigt"
+msgstr "Något skumt"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
-msgstr "Eld på himmeln"
+msgstr "Eld på himlen"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
@@ -102,7 +103,7 @@ msgstr "Har jag varit här förut?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr "Dåliga killar stinker!"
+msgstr "Skurkar stinker!"
 
 #: data/levels/bonus1/thompson-level2.stl:96
 msgid ""
@@ -140,15 +141,15 @@ msgstr "En labyrint i höjden"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr "Kollaps nära förestående!"
+msgstr "Rasrisk!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr "Toppen på isberget"
+msgstr "Toppen av isberget"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
-msgstr "Bonus-ö I"
+msgstr "Bonusö I"
 
 #: data/levels/bonus1/worldmap.stwm:127
 msgid "You found a secret place!"
@@ -200,7 +201,7 @@ msgstr "Teleportera till SuperTux-teamets ö"
 
 #: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
-msgstr "Lämna Matr1x' sektor"
+msgstr "Lämna Matr1xs sektor"
 
 #: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
