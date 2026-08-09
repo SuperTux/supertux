@@ -28,6 +28,8 @@ ItemStringArray::ItemStringArray(const std::string& text, std::vector<std::strin
 void
 ItemStringArray::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+
   if (action == MenuAction::HIT)
   {
     MenuManager::instance().push_menu(std::make_unique<StringArrayMenu>(m_items));

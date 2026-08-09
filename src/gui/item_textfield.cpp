@@ -141,6 +141,8 @@ ItemTextField::event(const SDL_Event& ev)
 void
 ItemTextField::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+
   if (action == MenuAction::REMOVE) // Delete front (backspace)
   {
     delete_front();
@@ -324,15 +326,11 @@ ItemTextField::redo()
 void
 ItemTextField::activate()
 {
-  // SDL3 TODO
-  if (SDL_HasScreenKeyboardSupport())
-    SDL_StartTextInput(NULL);
+  SDL_StartTextInput(VideoSystem::current()->get_window());
 }
 
 void
 ItemTextField::deactivate()
 {
-  // SDL3 TODO
-  if (SDL_HasScreenKeyboardSupport())
-    SDL_StopTextInput(NULL);
+  SDL_StopTextInput(VideoSystem::current()->get_window());
 }

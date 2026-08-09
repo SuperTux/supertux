@@ -29,6 +29,8 @@ ItemColor::ItemColor(const std::string& text, Color* color_, int id) :
 
 void
 ItemColor::process_action(const MenuAction& action) {
+  MenuItem::process_action(action);
+
   if (action == MenuAction::HIT) {
     MenuManager::instance().push_menu(std::make_unique<ColorMenu>(color));
   }

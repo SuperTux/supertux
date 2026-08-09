@@ -122,7 +122,9 @@ public:
   const MenuItem& get_item_by_id(int id) const;
 
   int get_active_item_id() const;
-  void set_active_item(int id);
+  int get_active_item() const { return m_active_item; }
+  void set_active_item_id(int id);
+  void set_active_item(int item_idx);
 
   inline Vector get_center_pos() const { return m_pos; }
   inline void set_center_pos(float x, float y) { m_pos.x = x; m_pos.y = y; }
