@@ -204,14 +204,9 @@ void
 DartTrap::on_flip(float height)
 {
   BadGuy::on_flip(height);
-  if (m_dir == Direction::UP)
+  if (m_dir == Direction::DOWN || m_dir == Direction::UP)
   {
-    m_dir = Direction::DOWN;
-    set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
-  }
-  else if (m_dir == Direction::DOWN)
-  {
-    m_dir = Direction::UP;
+    m_dir = invert_dir(m_dir);
     set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
   }
   else
