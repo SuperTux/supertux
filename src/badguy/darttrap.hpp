@@ -18,9 +18,20 @@
 
 #include "object/sticky_object.hpp"
 
-/** Badguy "DartTrap" - Shoots a Dart at regular intervals */
+/** Shoots darts at regular intervals
+ *
+ * @scripting
+ * @summary A ""DartTrap"" that was given a name can be controlled by scripts.
+            It shoots darts at regular intervals.
+ * @instances A ""DartTrap"" is instantiated by placing a definition inside a
+ level. It can then be accessed by its name from a script or via ""sector.name""
+ from the console.
+*/
 class DartTrap final : public StickyBadguy
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   DartTrap(const ReaderMapping& reader);
 
@@ -31,6 +42,7 @@ public:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   static std::string class_name() { return "darttrap"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "DartTrap"; }
   static std::string display_name() { return _("Dart Trap"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return StickyBadguy::get_class_types().add(typeid(DartTrap)); }
@@ -42,6 +54,18 @@ public:
 
   virtual void on_flip(float height) override;
   virtual void on_type_change(int old_type) override;
+
+  /**
+   * @scripting
+   * @description Enables the DartTrap.
+   */
+  void enable();
+
+  /**
+   * @scripting
+   * @description Disables the DartTrap.
+   */
+  void disable();
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;

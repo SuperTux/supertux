@@ -232,3 +232,25 @@ DartTrap::on_type_change(int old_type)
       break;
   }
 }
+
+void
+DartTrap::enable()
+{
+  m_enabled = true;
+}
+
+void
+DartTrap::disable()
+{
+  m_enabled = false;
+}
+
+
+void
+DartTrap::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<DartTrap>("DartTrap", vm.findClass("BadGuy"));
+
+  cls.addFunc("enable", &DartTrap::enable);
+  cls.addFunc("disable", &DartTrap::disable);
+}

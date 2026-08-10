@@ -377,6 +377,7 @@ GameObjectFactory::register_objects(ssq::VM& vm)
   Wind::register_class(vm);
   Granito::register_class(vm);
   GranitoBig::register_class(vm);
+  DartTrap::register_class(vm);
 }
 
 std::unique_ptr<GameObject>
