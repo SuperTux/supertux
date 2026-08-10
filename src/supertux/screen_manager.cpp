@@ -454,6 +454,22 @@ ScreenManager::process_events()
           }
         }
         break;
+      case SDL_EVENT_WINDOW_ENTER_FULLSCREEN:
+        if (!g_config->use_fullscreen)
+        {
+          g_config->use_fullscreen = true;
+          m_video_system.apply_config();
+          m_menu_manager->on_window_resize();
+        }
+        break;
+      
+      case SDL_EVENT_WINDOW_LEAVE_FULLSCREEN:
+        if (g_config->use_fullscreen)
+        {
+          g_config->use_fullscreen = false;
+          m_video_system.apply_config();
+          m_menu_manager->on_window_resize();
+        }
 
       case SDL_EVENT_KEY_DOWN:
         if (event.key.key == SDLK_F10)
