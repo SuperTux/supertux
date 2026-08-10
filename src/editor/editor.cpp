@@ -1210,7 +1210,7 @@ Editor::has_focus() const
   if (!m_enabled || !m_levelloaded)
     return false;
 
-  auto& menu_manager = MenuManager::instance();
+  const auto& menu_manager = MenuManager::instance();
   if (menu_manager.is_active() || menu_manager.has_dialog())
     return false;
 
