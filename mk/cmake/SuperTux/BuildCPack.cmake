@@ -5,26 +5,27 @@ set(DIRS ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext ${CMAKE_CURRENT_BINARY
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
-
-  find_package(PNG)
-  foreach(_file ${PNG_LIBRARIES})
-    get_filename_component(_resolvedFile "${_file}" REALPATH)
-    get_filename_component(_name "${_file}" NAME)
-    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  endforeach()
-  find_package(JPEG)
-  foreach(_file ${JPEG_LIBRARIES})
-    get_filename_component(_resolvedFile "${_file}" REALPATH)
-    get_filename_component(_name "${_file}" NAME)
-    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  endforeach()
+  # Packages that have a shell script as their primary executable are treated as x86-64 by default for compatibility reasons.  Adding LSArchitecturePriority to Info.plist should make the app's detected architecture be correct, see https://apple.stackexchange.com/a/474471/167476
+  set(INFOPLIST_LSARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
 
   install(CODE "
-       if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
-       include(BundleUtilities)
-       fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
-       endif()
-       ")
+    if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
+      include(BundleUtilities)
+
+      # Override the default embedded path to put libraries in Contents/Frameworks
+      # instead of Contents/Resources/Frameworks
+      # The executable is at Contents/Resources/bin/supertux2, so we need ../../Frameworks
+      function(gp_item_default_embedded_path_override item default_embedded_path_var)
+        set(path \"@executable_path/../../Frameworks\")
+        set(\${default_embedded_path_var} \"\${path}\" PARENT_SCOPE)
+      endfunction()
+
+      fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
+
+      # Clean up redundant library directory - fixup_bundle already copied them to Frameworks
+      file(REMOVE_RECURSE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/lib\")
+    endif()
+  ")
 
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
 
@@ -35,19 +36,26 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(CPACK_DMG_VOLUME_NAME "SuperTux ${SUPERTUX_VERSION_STRING}")
   set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/dsstore_setup.scpt")
   set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/background.png")
+
+  # Code signing is required for Apple Silicon, otherwise the app will crash due to invalid signatures of the various libraries
+  # Using "-" as the certificate name performs ad-hoc signing
+  set(CPACK_BUNDLE_APPLE_CERT_APP "-")
+
+  # Use a wrapper script that adds -scrub to hdiutil to remove .fseventsd, .Trashes, etc. from the DMG
+  set(CPACK_COMMAND_HDIUTIL "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/hdiutil_wrapper.sh")
 endif()
 
 set(CPACK_PACKAGE_NAME "SuperTux")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Jump'n'Run Game featuring Tux")
 set(CPACK_PACKAGE_VENDOR "SuperTux Devel Team")
-set(CPACK_PACKAGE_CONTACT "SuperTux Devel Team <supertux-devel@lists.lethargik.org>")
+set(CPACK_PACKAGE_CONTACT "SuperTux Devel Team <team@supertux.org>")
 set(CPACK_SOURCE_IGNORE_FILES "/\\\\.git/;${CMAKE_BINARY_DIR};/\\\\..*")
 set(CPACK_DEBIAN_PACKAGE_NAME "supertux2")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.5), libgcc1 (>= 1:4.1), libgl1-mesa-glx | libgl1, libogg0 (>= 1.1.3), libopenal0a, libphysfs-1.0-0, libsdl-image1.2 (>= 1.2.5), libsdl1.2debian (>= 1.2.10-1), libstdc++6 (>= 4.1.2), libvorbis0a (>= 1.1.2), libvorbisfile3 (>= 1.1.2), libcurl3 (>= 7.16)")
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a classic 2D jump 'n run sidescroller game in a similar\n style like the original SuperMario games. This release of SuperTux\n features 9 enemies, 26 playable levels, software and OpenGL rendering\n modes, configurable joystick and keyboard input, new music and\n completely redone graphics.\n .\n This is a development snapshot of SuperTux. It may suffer from\n critical bugs and has not been fully tested. \n .\n Homepage: http://supertux.lethargik.org/")
+set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a jump'n'run game with strong inspiration from the Super Mario Bros. games for the various Nintendo platforms.\n \n Run and jump through multiple worlds, fighting off enemies by jumping on them, bumping them from below or tossing objects at them, grabbing power-ups and other stuff on the way.\n .\n This is a development snapshot of SuperTux. It may suffer from critical bugs and has not been fully tested. \n .\n Homepage: https://supertux.org/")
 set(CPACK_DEBIAN_PACKAGE_SECTION "games")
 set(CPACK_RPM_PACKAGE_NAME "supertux2")
-set(CPACK_RPM_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a classic 2D jump 'n run sidescroller game in a similar\n style like the original SuperMario games. This release of SuperTux\n features 9 enemies, 26 playable levels, software and OpenGL rendering\n modes, configurable joystick and keyboard input, new music and\n completely redone graphics.\n .\n This is a development snapshot of SuperTux. It may suffer from\n critical bugs and has not been fully tested. \n .\n Homepage: http://supertux.lethargik.org/")
+set(CPACK_RPM_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a jump'n'run game with strong inspiration from the Super Mario Bros. games for the various Nintendo platforms.\n \n Run and jump through multiple worlds, fighting off enemies by jumping on them, bumping them from below or tossing objects at them, grabbing power-ups and other stuff on the way.\n .\n This is a development snapshot of SuperTux. It may suffer from critical bugs and has not been fully tested. \n .\n Homepage: https://supertux.org/")
 set(CPACK_RPM_PACKAGE_LICENSE "GNU General Public License (GPL)")
 set(CPACK_RPM_PACKAGE_GROUP "Amusements/Games/Action/Arcade")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
