@@ -470,6 +470,7 @@ ScreenManager::process_events()
           m_video_system.apply_config();
           m_menu_manager->on_window_resize();
         }
+        break;
 
       case SDL_EVENT_KEY_DOWN:
         if (event.key.key == SDLK_F10)
