@@ -253,4 +253,8 @@ DartTrap::register_class(ssq::VM& vm)
 
   cls.addFunc("enable", &DartTrap::enable);
   cls.addFunc("disable", &DartTrap::disable);
+  cls.addFunc("set_fire_delay", &DartTrap::set_fire_delay);
+  cls.addFunc("get_fire_delay", &DartTrap::get_fire_delay);
+  cls.addFunc("set_ammo", &DartTrap::set_ammo);
+  cls.addFunc("get_ammo", &DartTrap::get_ammo);
 }

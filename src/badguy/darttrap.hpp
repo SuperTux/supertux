@@ -39,6 +39,12 @@ public:
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
 
+  float get_fire_delay() const { return m_fire_delay; };
+  void set_fire_delay(float fire_delay) { m_fire_delay = fire_delay; };
+
+  int get_ammo() const { return m_ammo; };
+  void set_ammo(int ammo) { m_ammo = ammo; }
+
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   static std::string class_name() { return "darttrap"; }
   virtual std::string get_class_name() const override { return class_name(); }
