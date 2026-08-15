@@ -29,6 +29,7 @@
 #include <simplesquirrel/table.hpp>
 
 #include "math/vector.hpp"
+#include "object/character_profile.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
@@ -211,6 +212,7 @@ private:
   int m_coins_at_start; /** How many coins does the player have at the start */
   std::vector<BonusType> m_boni_at_start; /** What boni does the player have at the start */
   std::vector<BonusType> m_pockets_at_start; /** What is in the pockets of the players */
+  std::vector<CharacterType> m_character_ids_at_start; /** What character each player has at the start */
 
   bool m_active; /** Game active? **/
 
