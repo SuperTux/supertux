@@ -32,10 +32,10 @@
 
 namespace {
 
-std::string::size_type house_word_length(const std::string& text, std::string::size_type pos)
+size_t house_word_length(const std::string& text, size_t pos)
 {
   static const char* const words[] = { "maison", "hause", "house", "haus" };
-  static const std::string::size_type lengths[] = { 6, 5, 5, 4 };
+  static const size_t lengths[] = { 6, 5, 5, 4 };
 
   for (int w = 0; w < 4; ++w)
   {
@@ -45,7 +45,7 @@ std::string::size_type house_word_length(const std::string& text, std::string::s
     }
 
     bool match = true;
-    for (std::string::size_type k = 0; k < lengths[w]; ++k)
+    for (size_t k = 0; k < lengths[w]; ++k)
     {
       char c = text[pos + k];
       if (c >= 'A' && c <= 'Z')
@@ -68,7 +68,7 @@ std::string::size_type house_word_length(const std::string& text, std::string::s
 
 bool contains_house_word(const std::string& text)
 {
-  for (std::string::size_type i = 0; i < text.size(); ++i)
+  for (size_t i = 0; i < text.size(); ++i)
   {
     if (house_word_length(text, i) != 0)
     {
@@ -300,11 +300,11 @@ Canvas::draw_text(const FontPtr& font, const std::string& text,
   }
   const float left = x;
 
-  std::string::size_type start = 0;
-  std::string::size_type i = 0;
+  size_t start = 0;
+  size_t i = 0;
   while (i < text.size())
   {
-    const std::string::size_type len = house_word_length(text, i);
+    const size_t len = house_word_length(text, i);
     if (len == 0)
     {
       ++i;
