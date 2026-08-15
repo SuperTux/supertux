@@ -30,6 +30,56 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
+namespace {
+
+std::string::size_type house_word_length(const std::string& text, std::string::size_type pos)
+{
+  static const char* const words[] = { "maison", "hause", "house", "haus" };
+  static const std::string::size_type lengths[] = { 6, 5, 5, 4 };
+
+  for (int w = 0; w < 4; ++w)
+  {
+    if (pos + lengths[w] > text.size())
+    {
+      continue;
+    }
+
+    bool match = true;
+    for (std::string::size_type k = 0; k < lengths[w]; ++k)
+    {
+      char c = text[pos + k];
+      if (c >= 'A' && c <= 'Z')
+      {
+        c = static_cast<char>(c + ('a' - 'A'));
+      }
+      if (c != words[w][k])
+      {
+        match = false;
+        break;
+      }
+    }
+    if (match)
+    {
+      return lengths[w];
+    }
+  }
+  return 0;
+}
+
+bool contains_house_word(const std::string& text)
+{
+  for (std::string::size_type i = 0; i < text.size(); ++i)
+  {
+    if (house_word_length(text, i) != 0)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+} // namespace
+
 Canvas::Canvas(DrawingContext& context, obstack& obst) :
   m_context(context),
   m_obst(obst),
@@ -230,7 +280,54 @@ Canvas::draw_text(const FontPtr& font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
   // FIXME: Font viewport.
-  return font->draw_text(*this, text, pos, alignment, layer, color);
+  if (!contains_house_word(text))
+  {
+    return font->draw_text(*this, text, pos, alignment, layer, color);
+  }
+
+  Color house_color = Color::BLUE;
+  house_color.alpha = color.alpha;
+
+  const float width = font->get_text_width(text);
+  float x = pos.x;
+  if (alignment == ALIGN_CENTER)
+  {
+    x -= width / 2.0f;
+  }
+  else if (alignment == ALIGN_RIGHT)
+  {
+    x -= width;
+  }
+  const float left = x;
+
+  std::string::size_type start = 0;
+  std::string::size_type i = 0;
+  while (i < text.size())
+  {
+    const std::string::size_type len = house_word_length(text, i);
+    if (len == 0)
+    {
+      ++i;
+      continue;
+    }
+    if (i > start)
+    {
+      const std::string part = text.substr(start, i - start);
+      font->draw_text(*this, part, Vector(x, pos.y), ALIGN_LEFT, layer, color);
+      x += font->get_text_width(part);
+    }
+    const std::string word = text.substr(i, len);
+    font->draw_text(*this, word, Vector(x, pos.y), ALIGN_LEFT, layer, house_color);
+    x += font->get_text_width(word);
+    i += len;
+    start = i;
+  }
+  if (start < text.size())
+  {
+    font->draw_text(*this, text.substr(start), Vector(x, pos.y), ALIGN_LEFT, layer, color);
+  }
+
+  return Rectf(left, pos.y, left + width, pos.y + font->get_text_height(text));
 }
 
 Rectf
