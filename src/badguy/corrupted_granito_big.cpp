@@ -31,7 +31,7 @@ static const float CRACK_TIME = 1.f; // seconds
 static const float SHAKE_TIME = 0.1f; // seconds
 
 CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/granito/corrupted/big/rock_mine.sprite", LAYER_OBJECTS-3),
+  StickyBadguy(reader, "images/creatures/granito/corrupted/big/rock_mine.sprite", LAYER_OBJECTS-3),
   m_state(STATE_READY),
   m_crack_timer(),
   m_shake_timer(),
@@ -49,7 +49,7 @@ CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader) :
 void
 CorruptedGranitoBig::initialize()
 {
-  BadGuy::initialize();
+  StickyBadguy::initialize();
 
   m_state = STATE_READY;
   set_action("idle", m_dir);
@@ -59,7 +59,8 @@ CorruptedGranitoBig::initialize()
 void
 CorruptedGranitoBig::active_update(float dt_sec)
 {
-  BadGuy::active_update(dt_sec);
+  if (m_sticky) sticky_update(dt_sec);
+  StickyBadguy::active_update(dt_sec);
 
   if (m_state == STATE_BROKEN) return;
 
