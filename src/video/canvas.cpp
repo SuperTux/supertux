@@ -23,6 +23,7 @@
 #include "supertux/gameconfig.hpp"
 #include "util/log.hpp"
 #include "util/obstackpp.hpp"
+#include "util/string_util.hpp"
 #include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
 #include "video/painter.hpp"
@@ -32,45 +33,26 @@
 
 namespace {
 
-size_t house_word_length(const std::string& text, size_t pos)
+const char* const HOUSE_WORDS[] = { "maison", "hause", "house", "haus" };
+
+size_t house_word_length(const std::string& lower, size_t pos)
 {
-  static const char* const words[] = { "maison", "hause", "house", "haus" };
-  static const size_t lengths[] = { 6, 5, 5, 4 };
-
-  for (int w = 0; w < 4; ++w)
+  for (const char* word : HOUSE_WORDS)
   {
-    if (pos + lengths[w] > text.size())
+    const size_t n = std::char_traits<char>::length(word);
+    if (lower.compare(pos, n, word) == 0)
     {
-      continue;
-    }
-
-    bool match = true;
-    for (size_t k = 0; k < lengths[w]; ++k)
-    {
-      char c = text[pos + k];
-      if (c >= 'A' && c <= 'Z')
-      {
-        c = static_cast<char>(c + ('a' - 'A'));
-      }
-      if (c != words[w][k])
-      {
-        match = false;
-        break;
-      }
-    }
-    if (match)
-    {
-      return lengths[w];
+      return n;
     }
   }
   return 0;
 }
 
-bool contains_house_word(const std::string& text)
+bool contains_house_word(const std::string& lower)
 {
-  for (size_t i = 0; i < text.size(); ++i)
+  for (const char* word : HOUSE_WORDS)
   {
-    if (house_word_length(text, i) != 0)
+    if (lower.find(word) != std::string::npos)
     {
       return true;
     }
@@ -280,7 +262,8 @@ Canvas::draw_text(const FontPtr& font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
   // FIXME: Font viewport.
-  if (!contains_house_word(text))
+  const std::string lower = StringUtil::tolower(text);
+  if (!contains_house_word(lower))
   {
     return font->draw_text(*this, text, pos, alignment, layer, color);
   }
@@ -304,7 +287,7 @@ Canvas::draw_text(const FontPtr& font, const std::string& text,
   size_t i = 0;
   while (i < text.size())
   {
-    const size_t len = house_word_length(text, i);
+    const size_t len = house_word_length(lower, i);
     if (len == 0)
     {
       ++i;
