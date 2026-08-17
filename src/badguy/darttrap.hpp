@@ -39,10 +39,32 @@ public:
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
 
+  /**
+   * @scripting
+   * @description Gets the delay between consecutive dart firings
+   * @return Delay in seconds
+   */
   float get_fire_delay() const { return m_fire_delay; };
+
+  /**
+   * @scripting
+   * @description Sets the delay between consecutive dart firings
+   * @param fire_delay Delay in seconds
+   */
   void set_fire_delay(float fire_delay) { m_fire_delay = fire_delay; };
 
+  /**
+   * @scripting
+   * @description Gets the amount of ammunition the darttrap has. 
+   * @return Ammunition of the darttrap, -1 for infinite ammunition.
+   */
   int get_ammo() const { return m_ammo; };
+
+  /**
+   * @scripting
+   * @description Sets the amount of ammunition the darttrap has. 
+   * @param ammo Ammunition the darttrap is supposed to have, -1 for infinite ammunition.
+   */
   void set_ammo(int ammo) { m_ammo = ammo; }
 
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
