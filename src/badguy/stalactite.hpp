@@ -42,6 +42,7 @@ public:
   static std::string display_name() { return _("Stalactite"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return StickyBadguy::get_class_types().add(typeid(Stalactite)); }
+  virtual bool get_type_from_sprite(const std::string& sprite_name, std::string& type) const override;
 
   virtual ObjectSettings get_settings() override;
 

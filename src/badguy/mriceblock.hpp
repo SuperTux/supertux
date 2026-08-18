@@ -55,6 +55,7 @@ public:
 
   virtual GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
+  bool get_type_from_sprite(const std::string& sprite_name, std::string& type) const override;
 
   bool can_break();
 
