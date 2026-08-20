@@ -1533,10 +1533,10 @@ EditorOverlayWidget::draw_tilemap_outer_shading(DrawingContext& context)
 void
 EditorOverlayWidget::draw_path(DrawingContext& context)
 {
-  if (!m_edited_path) return;
-  if (!m_selected_object) return;
-  if (!m_selected_object->is_valid()) return;
-  if (!m_edited_path->is_valid()) return;
+  if (!m_edited_path || !m_edited_path->is_valid())
+    return;
+  if (!m_selected_object || !m_selected_object->is_valid())
+    return;
 
   auto path_nodes = m_edited_path->get_path().m_nodes;
 
