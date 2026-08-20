@@ -619,46 +619,49 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
     return;
   }
 
-  Tile::draw_editor_images = false;
-  Compositor::s_render_lighting = true;
-
-  std::unique_ptr<World> owned_world;
-  World* current_world = m_world.get();
-
-  if (!g_config->max_viewport && g_config->editor_max_viewport)
-    VideoSystem::current()->get_viewport().force_full_viewport(false);
-
-  m_leveltested = true;
-  if ((m_level && !current_world) || m_levelfile == "")
+  check_save_prerequisites([this, test_pos]()
   {
-    GameManager::current()->start_level(m_level.get(), test_pos, true);
-    return;
-  }
+    Tile::draw_editor_images = false;
+    Compositor::s_render_lighting = true;
 
-  std::string backup_filename = get_autosave_from_levelname(m_levelfile);
-  std::string directory = get_level_directory();
+    std::unique_ptr<World> owned_world;
+    World* current_world = m_world.get();
 
-  // This is jank to get an owned World pointer, GameManager/World
-  // could probably need a refactor to handle this better.
-  if (!current_world) {
-    owned_world = World::from_directory(directory);
-    current_world = owned_world.get();
-  }
+    if (!g_config->max_viewport && g_config->editor_max_viewport)
+      VideoSystem::current()->get_viewport().force_full_viewport(false);
 
-  m_autosave_levelfile = FileSystem::join(directory, backup_filename);
-  m_level->save(m_autosave_levelfile);
-  m_time_since_last_save = 0.f;
+    m_leveltested = true;
+    if ((m_level && !current_world) || m_levelfile == "")
+    {
+      GameManager::current()->start_level(m_level.get(), test_pos, true);
+      return;
+    }
 
-  if (!m_level->is_worldmap())
-  {
-    // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
-    //       If not, call reactivate().
-    GameManager::current()->start_level(*current_world, backup_filename, test_pos, true);
-  }
-  else if (!GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos))
-  {
-    reactivate();
-  }
+    std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+    std::string directory = get_level_directory();
+
+    // This is jank to get an owned World pointer, GameManager/World
+    // could probably need a refactor to handle this better.
+    if (!current_world) {
+      owned_world = World::from_directory(directory);
+      current_world = owned_world.get();
+    }
+
+    m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+    m_level->save(m_autosave_levelfile);
+    m_time_since_last_save = 0.f;
+
+    if (!m_level->is_worldmap())
+    {
+      // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
+      //       If not, call reactivate().
+      GameManager::current()->start_level(*current_world, backup_filename, test_pos, true);
+    }
+    else if (!GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos))
+    {
+      reactivate();
+    }
+  });
 }
 
 void
