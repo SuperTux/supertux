@@ -1449,6 +1449,7 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size, bool
   {
     context.color().draw_line(from, to, col, current_tm->get_layer());
   };
+
   if (draw_shadow)
   {
     Vector viewport_scale = VideoSystem::current()->get_viewport().get_scale();
@@ -1499,10 +1500,8 @@ EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
   Vector start = tile_screen_pos( Vector(0, 0) );
   Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
                                        static_cast<float>(current_tm->get_height())) );
-  context.color().draw_line(start, Vector(start.x, end.y), Color(1, 0, 1), current_tm->get_layer());
-  context.color().draw_line(start, Vector(end.x, start.y), Color(1, 0, 1), current_tm->get_layer());
-  context.color().draw_line(Vector(start.x, end.y), end, Color(1, 0, 1), current_tm->get_layer());
-  context.color().draw_line(Vector(end.x, start.y), end, Color(1, 0, 1), current_tm->get_layer());
+  Rectf rect = Rectf(start, end);
+  context.color().draw_rect(rect, Color(1, 0, 1), current_tm->get_layer());
 }
 
 void

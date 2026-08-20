@@ -274,10 +274,8 @@ Editor::draw(Compositor& compositor)
           context.scale(camera.get_current_scale());
 
           const Rectf& bbox = moving_selected_obj->get_bbox();
-          context.color().draw_line(bbox.p1() - Vector(10.f, 10.f), bbox.p1() - Vector(0.f, 10.f), Color::WHITE, LAYER_GUI + 1);
-          context.color().draw_line(bbox.p1() - Vector(10.f, 10.f), bbox.p1() - Vector(10.f, 0.f), Color::WHITE, LAYER_GUI + 1);
-          context.color().draw_line(bbox.p2() + Vector(10.f, 10.f), bbox.p2() + Vector(0.f, 10.f), Color::WHITE, LAYER_GUI + 1);
-          context.color().draw_line(bbox.p2() + Vector(10.f, 10.f), bbox.p2() + Vector(10.f, 0.f), Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_rect(bbox.grown(10.f), Color::WHITE, LAYER_GUI + 1);
+          
           context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
                                     Vector(bbox.get_right() + 10.f, bbox.get_top()),
                                     Color::WHITE, LAYER_GUI + 1);
