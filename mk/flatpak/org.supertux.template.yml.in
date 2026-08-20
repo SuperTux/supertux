@@ -28,7 +28,7 @@ modules:
     config-opts:
       - -DINSTALL_SUBDIR_SHARE=share/supertux2
       - -DINSTALL_SUBDIR_BIN=bin
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_BUILD_TYPE=Debug
       - -DFLATPAK=On
       - -DUSE_GL_LIBRARY=libepoxy
       - -DIS_SUPERTUX_RELEASE=%s
