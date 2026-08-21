@@ -2,6 +2,7 @@
   (file "forest-cave.ogg")
   (authors "Jason Lavallée")
   (license "CC-BY-SA / GPL 2+")
+  (volume 0.4)
   (loop-begin 0)
   (loop-at    149)
 )
