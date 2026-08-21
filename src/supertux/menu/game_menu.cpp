@@ -66,15 +66,18 @@ GameMenu::GameMenu() :
     add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
   }
 
-#ifndef HIDE_NONMOBILE_OPTIONS
-  if (g_config->developer_mode && !Editor::current() &&
+bool enable_level_editor = true;
+#ifdef HIDE_NONMOBILE_OPTIONS
+  enable_level_editor = SDL_IsTablet();
+#endif
+
+  if (enable_level_editor && g_config->developer_mode && !Editor::current() &&
       // TODO: Allow to edit the level from a file; this is broken, so we don't
       //   show this button if there is no worldmap
       worldmap::WorldMap::current())
   {
     add_entry(MNID_EDITLEVEL, _("Edit Level"));
   }
-#endif
 
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
