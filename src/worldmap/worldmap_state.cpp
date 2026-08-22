@@ -208,6 +208,7 @@ WorldMapState::load_levels(const ssq::Table& table)
 
         level_tile.update_sprite_action();
         level_tile.get_statistics().unserialize_from_squirrel(level);
+        level_tile.unserialize_best_ghost_run(level);
       }
       catch (const ssq::NotFoundException&)
       {
@@ -325,6 +326,7 @@ WorldMapState::save_state(bool initial) const
       level.set("solved", level_tile.is_solved());
       level.set("perfect", level_tile.is_perfect());
       level_tile.get_statistics().serialize_to_squirrel(level);
+      level_tile.serialize_best_ghost_run(level);
     }
 
     /** Save tilemap visibility **/
