@@ -94,7 +94,7 @@ EditorConvertersMenu::menu_action(MenuItem& item)
 
   Dialog::show_confirmation(_("This will convert all tiles in the level. Proceed?\n\nNote: This should not be ran more than once on a level.\nCreating a separate copy of the level is highly recommended."),
     [this]() {
-      Editor::current()->convert_tiles_by_file(m_tile_conversion_file);
+      Editor::current()->get_tile_converter()->convert_tiles_by_file(m_tile_conversion_file);
       MenuManager::instance().clear_menu_stack();
     });
 }
