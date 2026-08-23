@@ -26,53 +26,28 @@
 #include "util/reader_mapping.hpp"
 
 EditorConvertersMenu::EditorConvertersMenu() :
-  m_converters(),
   m_tile_conversion_file()
 {
-  try
-  {
-    auto doc = ReaderDocument::from_file("images/converters/data.stcd");
-    auto root = doc.get_root();
-    if (root.get_name() != "supertux-converter-data")
-      throw std::runtime_error("File is not a 'supertux-converters-data' file.");
-
-    auto iter = root.get_mapping().get_iter();
-    while (iter.next())
-    {
-      if (iter.get_key().empty())
-        continue;
-
-      EditorConvertersMenu::Converter converter;
-
-      auto mapping = iter.as_mapping();
-      mapping.get("title", converter.title);
-      mapping.get("author", converter.author);
-      mapping.get("description", converter.description);
-
-      m_converters.insert({ iter.get_key(), std::move(converter) });
-    }
-  }
-  catch (std::exception& err)
-  {
-    log_warning << "Cannot read converter data from 'images/converters/data.stcd': " << err.what() << std::endl;
-  }
+  auto tile_converter = Editor::current()->get_tile_converter();
+  tile_converter->load_definitions();
 
   /** Load menu */
   add_label(_("Convert Tiles"));
   add_hl();
 
   add_file(_("Select Tile Conversion File"), &m_tile_conversion_file, { "sttc" }, "images/converters", false,
-           [this](MenuItem& item, const std::string& file_path, bool in_basedir) {
-             if (in_basedir) {
-               std::string basename = FileSystem::basename(file_path);
-               auto it = m_converters.find(basename);
-               if (it == m_converters.end())
-                 return;
+           [this, tile_converter](MenuItem& item, const std::string& file_path, bool in_basedir) {
+              if (!in_basedir)
+               return;
 
-               item.set_text("\"" + it->second.title + "\"");
-               item.set_help(it->second.description + (it->second.author.empty() ? "" :
-                            "\n\n" + fmt::format(fmt::runtime(_("By: {}")), it->second.author)));
-             }});
+              auto converter_info = tile_converter->get_tile_converter_info_for_file(file_path);
+              if (converter_info == nullptr)
+                return;
+
+              item.set_text("\"" + converter_info->title + "\"");
+              item.set_help(converter_info->description + (converter_info->author.empty() ? "" :
+                          "\n\n" + fmt::format(fmt::runtime(_("By: {}")), converter_info->author)));
+             });
 
   add_entry(MNID_CONVERT_TILES, _("Convert Tiles By File"))
     .set_help(_("Convert all tiles in the current level by a file, specified above."));
@@ -85,6 +60,7 @@ void
 EditorConvertersMenu::menu_action(MenuItem& item)
 {
   assert(item.get_id() == MNID_CONVERT_TILES);
+  auto tile_converter = Editor::current()->get_tile_converter();
 
   if (m_tile_conversion_file.empty())
   {
@@ -93,8 +69,8 @@ EditorConvertersMenu::menu_action(MenuItem& item)
   }
 
   Dialog::show_confirmation(_("This will convert all tiles in the level. Proceed?\n\nNote: This should not be ran more than once on a level.\nCreating a separate copy of the level is highly recommended."),
-    [this]() {
-      Editor::current()->get_tile_converter()->convert_tiles_by_file(m_tile_conversion_file);
+    [this, tile_converter]() {
+      tile_converter->convert_tiles_by_file(m_tile_conversion_file);
       MenuManager::instance().clear_menu_stack();
     });
 }
