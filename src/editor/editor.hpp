@@ -183,7 +183,7 @@ public:
 
   inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
 
-  EditorTileConverter* get_tile_converter() const { return m_tile_converter; }
+  EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
 
   void queue_layers_refresh();
 
@@ -275,7 +275,7 @@ private:
   EditorLayersWidget* m_layers_widget;
   EditorToolbarWidget* m_toolbar_widget;
 
-  EditorTileConverter* m_tile_converter;
+  std::unique_ptr<EditorTileConverter> m_tile_converter;
 
   TypedUID<GameObject> m_selected_object;
 
