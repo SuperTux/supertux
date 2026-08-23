@@ -154,7 +154,7 @@ Editor::Editor() :
   m_toolbox_widget(),
   m_layers_widget(),
   m_toolbar_widget(),
-  m_tile_converter(),
+  m_tile_converter(new EditorTileConverter),
   m_selected_object(),
   m_testing_disabled(false),
   m_enabled(false),
@@ -177,14 +177,10 @@ Editor::Editor() :
   auto overlay_widget = std::make_unique<EditorOverlayWidget>(*this);
   auto toolbar_widget = std::make_unique<EditorToolbarWidget>(*this);
 
-  auto tile_converter = std::make_unique<EditorTileConverter>();
-
   m_toolbox_widget = toolbox_widget.get();
   m_layers_widget = layers_widget.get();
   m_overlay_widget = overlay_widget.get();
   m_toolbar_widget = toolbar_widget.get();
-
-  m_tile_converter = tile_converter.get();
 
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));

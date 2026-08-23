@@ -18,21 +18,61 @@
 
 #include <string>
 
+namespace {
+  const std::string& DEFAULT_CONVERTERS_PATH = "images/converters/data.stcd";
+}
+
 class EditorTileConverter
 {
 public:
-  EditorTileConverter() :
-    m_has_deprecated_tiles(false)
+  struct ConverterInfo
   {
-  }
+    ConverterInfo() :
+      title(), author(), description()
+    {}
 
-  /** Convert tiles on every tilemap in the level, according to a tile conversion file. */
+    std::string title;
+    std::string author;
+    std::string description;
+  };
+
+public:
+  /**
+   * Constructor
+   */
+  EditorTileConverter();
+
+  /**
+   * Loads available tile conversion definitions from the specific file path
+   * @param filepath The path to load available converters from
+   */
+  void load_definitions(const std::string& filepath = DEFAULT_CONVERTERS_PATH);
+
+  /**
+   * Returns information about the specified tile converter
+   * @param file_path Path to tile conversion file (with extension *.sttc)
+   * @return `ConverterInfo` instance containing information about the tile converter
+   */
+  const ConverterInfo* get_tile_converter_info_for_file(const std::string& file_path) const;
+
+  /**
+   * Convert tiles on every tilemap in the level, according to a tile conversion file.
+   * @param file The file to use for the basis of the conversion 
+   */
   void convert_tiles_by_file(const std::string& file);
 
+  /**
+   * Check for any deprecated tiles, used throughout the entire level
+   * @param focus If `true`, the first deprecated tile is focused in the level editor
+   */
   void check_deprecated_tiles(bool focus = false);
 
+  /**
+   * Returns `true` if there are deprecated tiles present in the level, otherwise false
+   */
   inline bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
 
 private:
-    bool m_has_deprecated_tiles;
+  std::map<std::string, ConverterInfo> m_converters;
+  bool m_has_deprecated_tiles;
 };
