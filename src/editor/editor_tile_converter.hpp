@@ -73,6 +73,9 @@ public:
   inline bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
 
 private:
+  void focus_on_tile(Sector* sector, TileMap* tilemap, int pos);
+
+private:
   std::map<std::string, ConverterInfo> m_converters;
   bool m_has_deprecated_tiles;
 };
