@@ -82,7 +82,6 @@ EditorTileConverter::check_deprecated_tiles(bool focus)
 {
   auto editor = Editor::current();
   auto level = editor->get_level();
-  auto layers_widget = editor->get_layers_widget();
 
   m_has_deprecated_tiles = false;
   for (const auto& sector : level->get_sectors())
@@ -98,12 +97,7 @@ EditorTileConverter::check_deprecated_tiles(bool focus)
           // Focus on deprecated tile
           if (focus)
           {
-            editor->set_sector(sector.get());
-            layers_widget->set_selected_tilemap(&tilemap);
-
-            const int width = tilemap.get_width();
-            sector->get_camera().set_translation_centered(Vector(pos % width, pos / width) * 32.f);
-            editor->keep_camera_in_bounds();
+            focus_on_tile(sector.get(), &tilemap, pos);
           }
 
           m_has_deprecated_tiles = true;
@@ -112,6 +106,23 @@ EditorTileConverter::check_deprecated_tiles(bool focus)
       }
     }
   }
+}
+
+void
+EditorTileConverter::focus_on_tile(Sector* sector, TileMap* tilemap, int pos)
+{
+  if (sector == nullptr || tilemap == nullptr)
+    return;
+
+  auto editor = Editor::current();
+  auto layers_widget = editor->get_layers_widget();
+
+  editor->set_sector(sector);
+  layers_widget->set_selected_tilemap(tilemap);
+
+  const int width = tilemap->get_width();
+  sector->get_camera().set_translation_centered(Vector(pos % width, pos / width) * 32.f);
+  editor->keep_camera_in_bounds();
 }
 
 void
