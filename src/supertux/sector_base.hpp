@@ -58,6 +58,8 @@ protected:
 
   std::shared_ptr<SquirrelEnvironment> m_squirrel_environment;
 
+  bool m_destruction_imminent;
+
 private:
   Sector(const Sector&) = delete;
   Sector& operator=(const Sector&) = delete;

@@ -5,6 +5,7 @@
     (description (_ "For levels, created in pre-0.6.3 versions, which use crystal tiles."))
   )
   (nightly_all_tiles.sttc
+    ; l10n: The word "Nightly" refers to an early development version of SuperTux, don't translate the word literally.
     (title (_ "Nightly Tiles"))
     (author "SuperTux Team")
     (description (_ "For levels, created in previous Nightly builds."))
@@ -15,4 +16,3 @@
     (description (_ "For levels, created with the rock tiles addon, converts their IDs to vanilla rock tile IDs"))
   )
 )
-

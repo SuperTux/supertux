@@ -3,6 +3,8 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
+# 9d4282795e87ad099e39d98812f1a822_ade2f01 <c3fa67bcf1b8b90bf10d2d5dae1637ab_127851>, 2013
 # Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # mahmut özcan <mahmutozcan@protonmail.com>, 2020
@@ -12,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"POT-Creation-Date: 2026-08-07 18:53+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
+"Last-Translator: Yusuf Özsoy <yusufozsoy96@gmail.com>, 2013\n"
 "Language-Team: Turkish (http://app.transifex.com/arctic-games/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,198 +24,473 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: data/levels/world2/ancient_ruins.stl:3
-msgid "Ancient Ruins"
-msgstr "Antik Kalıntılar"
-
-#: data/levels/world2/ancient_ruins.stl:1463
-#: data/levels/world2/ancient_ruins.stl:1471
-#: data/levels/world2/bouncy_coils.stl:380
-#: data/levels/world2/bouncy_coils.stl:388
-#: data/levels/world2/bye_bye_forest.stl:1607
-#: data/levels/world2/crumbling_path.stl:278
-#: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:246
-#: data/levels/world2/going_underground.stl:1249
-#: data/levels/world2/mouldy_grotto.stl:559
-#: data/levels/world2/penguin_grow_trees.stl:459
-#: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:361
-#: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:223
-msgid "You found a secret area!"
-msgstr "Sen gizli bir bölge buldun!"
-
-#: data/levels/world2/beside_bushes.stl:3
-msgid "Beside the Bushes"
-msgstr "Çalıların Yanında"
+#: data/levels/world2/ancient_ruin.stl:3
+msgid "Ancient Ruin"
+msgstr "Kadim Harabe"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Sıçrama Bobinleri"
 
-#: data/levels/world2/bye_bye_forest.stl:3
-msgid "Bye Bye Forest"
-msgstr "Hoşçakal Orman"
+#: data/levels/world2/cave_patrol.stl:3
+msgid "Cave Patrol"
+msgstr "Mağara Devriyesi"
+
+#: data/levels/world2/cave_patrol.stl:147
+msgid ""
+"-Ice Rosette\n"
+"!images/powerups/iceflower/ice_flower-0.png\n"
+"#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.\n"
+"#Frozen creatures can be picked up, carried and thrown!"
+msgstr "-Buz Rozeti\nSimages/powerups/iceflower/ice_flower-0.png\n#Buz Rozeti, Tux’a çoğu yaratığı dondurabilen buz topları fırlatma yeteneği kazandırır.\n#Donmuş yaratıklar yerden alınabilir, taşınabilir ve fırlatılabilir!"
+
+#: data/levels/world2/collapse_imminent.stl:3
+msgid "Collapse Imminent"
+msgstr "Çöküş An Meselesi"
+
+#: data/levels/world2/corrupted_cutscene.stl:3
+msgid "From Afar It Spreads"
+msgstr "Uzaklardan Yayılıyor"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Ufalanan Yol"
 
-#: data/levels/world2/darkness_awaits.stl:3
-msgid "Darkness Awaits"
-msgstr "Karanlık Bekliyor"
+#: data/levels/world2/drop_ball.stl:3
+msgid "Drop The Ball"
+msgstr "Topu Düşür"
 
-#: data/levels/world2/find_big_fish.stl:3
+#: data/levels/world2/entangled_roots.stl:3
+msgid "Entangled in Roots"
+msgstr "Köklere Dolanmış"
+
+#: data/levels/world2/find_bigger_fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Büyük Balığı Bul!"
+msgstr "Daha Büyük Balığı Bul!"
 
-#: data/levels/world2/find_big_fish.stl:1058
-msgid "-A big fish... for you."
-msgstr "-Büyük bir balık... sizin için."
+#: data/levels/world2/flooded_chambers.stl:3
+msgid "Flooded Chambers"
+msgstr "Sular Altındaki Odalar"
+
+#: data/levels/world2/floral_blossom.stl:3
+msgid "Floral Blossom"
+msgstr "Çiçeklenme"
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
-msgstr "Yeni Bir Konum"
+msgstr "Yeni Bir Yer"
 
-#: data/levels/world2/ghost_cutscene.stl:3
-msgid "What is Happening?"
-msgstr "Ne Oluyor?"
+#: data/levels/world2/ghosttree_boss.stl:3
+msgid "Roots of All Evil"
+msgstr "Tüm Kötülüklerin Kaynağı"
 
-#: data/levels/world2/ghostly_misery.stl:3
-msgid "Ghostly Misery"
-msgstr "Ruhsal Mutsuzluk"
+#: data/levels/world2/ghosttree_cutscene.stl:3
+msgid "The Root Of The Problem"
+msgstr "Sorunun kaynağı"
 
-#: data/levels/world2/ghosttrees_challenges.stl:3
-msgid "Ghosttree's Challenges"
-msgstr "Ghosttree'nin Zorlukları"
-
-#: data/levels/world2/ghouls_lair.stl:3
-msgid "Ghouls' Lair"
-msgstr "Hortlakların İni"
-
-#: data/levels/world2/ghouls_lair.stl:859
-msgid ""
-"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
-"of them."
-msgstr "#Fenerler, sihirli blokları sağlam yapmak için kullanılır, böylece onların üzerinde yürüyebilirsin."
+#: data/levels/world2/ghosttreewin_cutscene.stl:3
+msgid "Nature Is Healing"
+msgstr "Doğa İyileşiyor"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Yeraltına Gidiş"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:3
-msgid "I Spy With My Little Eye"
-msgstr "Kısık Gözlerimle Gözetliyorum"
+#: data/levels/world2/granito_village.stl:3
+msgid "Granito Village"
+msgstr "Granito Köyü"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:218
-msgid ""
-"-Ispy\n"
-"#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Ben casusluk\n#Casusluk, Tux görüş açılarına geldiğinde platformlar gibi şeyleri etkinleştirir."
+#: data/levels/world2/hollow_earth.stl:3
+msgid "Hollowed Earth"
+msgstr "İçi Oyulmuş Toprak"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:674
-msgid "Hint: Use snails to break blocks!"
-msgstr "İpucu: Blokları kırmak için salyangoz kullanın!"
+#: data/levels/world2/home_dead_home.stl:3
+msgid "Home Dead Home"
+msgstr "Evim evim, Ölü Evim"
 
-#: data/levels/world2/leaf_wind.stl:3
-msgid "Like a leaf in the Wind"
-msgstr "Rüzgardaki bir yaprak gibi"
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:4
+msgid "Rooted Forest"
+msgstr "Köklü Orman"
 
-#: data/levels/world2/lost_village.stl:3
-msgid "Lost Village"
-msgstr "Kayıp Köy"
+#: data/levels/world2/info:3
+msgid "Tux explores a new land, but a curse impedes his journey."
+msgstr "Tux yeni bir diyarı keşfe çıkıyor, ancak bir lanet yolculuğunu engelliyor."
 
-#: data/levels/world2/lost_village.stl:185
-msgid "#Don't forget to hit the switch!"
-msgstr "#Anahtara basmayı unutmayın!"
+#: data/levels/world2/lost_sanctuary.stl:3
+msgid "Lost Sanctuary"
+msgstr "Kayıp Mabet"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Küflü Bir Mağara"
 
-#: data/levels/world2/owls_again.stl:3
-msgid "The Owls again..."
-msgstr "Yine baykuşlar..."
+#: data/levels/world2/mount_crushmore.stl:3
+msgid "Mount Crushmore"
+msgstr "Ezgeç Dağı"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
-msgstr "Baykuşların Skydive Komando"
+msgstr "Baykuşların Hava İndirme Timi"
 
-#: data/levels/world2/penguin_grow_trees.stl:3
-msgid "Penguins don't grow on Trees"
+#: data/levels/world2/penguin_on_tree.stl:3
+msgid "Penguins Don't Grow On Trees"
 msgstr "Penguenler Ağaçta Yetişmez"
+
+#: data/levels/world2/rock_roll.stl:3
+msgid "Rock 'n' Roll"
+msgstr "Rock’n Roll"
+
+#: data/levels/world2/rock_roll.stl:117
+msgid ""
+"-Rock Shroom\n"
+"!images/powerups/earthflower/earth_flower-0.png\n"
+"#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.\n"
+"#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "
+msgstr "-Kaya Mantarı\n!images/powerups/earthflower/earth_flower-0.png\n#Tux koşarken AŞAĞI tuşunu basılı tuttuğunda Kaya Mantarı ona kayadan bir kalkan kazandırır.\n#Tux kaya biçimindeyken çoğu hasar türüne karşı bağışıklıdır. Ancak sert bir duvara çarparsa savunması sona erer ve yeniden savunmasız hâle gelir. "
+
+#: data/levels/world2/root_for_you.stl:3
+msgid "Rooting For You"
+msgstr "Köküne Kadar Yanındayım"
+
+#: data/levels/world2/rooted_tower.stl:3
+msgid "The Rooted Tower"
+msgstr "Kök Salmış Kule"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:2
+msgid "Never had Tux been missing sunlight more than ever before."
+msgstr "Tux, güneş ışığını daha önce hiç bu kadar özlememişti."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:3
+msgid ""
+"Since the rain had stopped and the sky was clear, Tux hoped to have found a "
+"nice, safe place to take a short break."
+msgstr "Yağmur dinmiş, gökyüzü açılmıştı. Tux kısa bir mola verebileceği güzel ve güvenli bir yer bulduğunu düşünüyordu."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:4
+msgid ""
+"Just as he was about to rest, the sudden sound of rustling leaves from a "
+"bush nearby startled Tux."
+msgstr "Tam dinlenmeye hazırlanırken yakındaki bir çalıdan gelen ani yaprak hışırtısı Tux’ı yerinden sıçrattı."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:5
+msgid ""
+"He went to investigate and got startled by a Vicious Ivy, tumbling out of "
+"the bushes!"
+msgstr "Neler olduğuna bakmaya gittiğinde çalıların arasından yuvarlanarak çıkan bir Vahşi Sarmaşık onu bir kez daha ürküttü!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:6
+msgid ""
+"However, this one looked different. Its usual bright green leaves seemed to "
+"have turned an ailing purple."
+msgstr "Ancak bunda bir tuhaflık vardı. Normalde parlak yeşil olan yaprakları, hastalıklı bir mor renge bürünmüş gibiydi."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:7
+msgid ""
+"Before Tux even had the chance to think about what had happened to the poor "
+"thing, the ground began to shake violently..."
+msgstr "Tux, zavallı yaratığa ne olduğunu düşünecek fırsat bile bulamadan yer şiddetle sarsılmaya başladı..."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:8
+msgid ""
+"Massive purple roots burst through the ground, followed by an onslaught of "
+"many more coming closer and closer!"
+msgstr "Devasa mor kökler toprağı yararak yüzeye çıktı. Ardından sayısız kök, Tux’a doğru ilerlemeye başladı!"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:9
+msgid ""
+"Tux panicked! Whatever these roots were, they were covering everything. "
+"Where could he go?"
+msgstr "Tux paniğe kapıldı! Bu kökler her neydiyse her yeri ele geçiriyordu. Nereye kaçabilirdi?"
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:10
+msgid ""
+"But he cannot give up now! Tux could not leave her behind. Not in a place "
+"being overrun by these violent roots."
+msgstr "Ama şimdi pes edemezdi! Penny’yi geride bırakamazdı. Hele bu uğursuz köklerin istila ettiği bir yerde asla."
+
+#: data/levels/world2/scripts_corrupted_cutscene.txt:11
+msgid "He must rescue Penny! He must get to that tower!"
+msgstr "Penny’yi kurtarmalıydı! O kuleye ulaşmalıydı!"
+
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Ara Sahneyi Buraya Ekle---"
+
+#: data/levels/world2/scripts_floral_blossom.txt:2
+msgid ""
+"Despite the Ghost Tree's defeat and a sliver of life returning to the once "
+"lush forest, the land was still in shambles."
+msgstr "Hayalet Ağaç yenilmiş ve bir zamanların yemyeşil ormanında yaşam yeniden filizlenmeye başlamış olsa da diyar hâlâ harabeydi."
+
+#: data/levels/world2/scripts_floral_blossom.txt:3
+msgid ""
+"The ground was riddled with cracks and crevices. And now one of them was "
+"blocking Tux's path..."
+msgstr "Zemin çatlak ve yarıklarla doluydu. Şimdi bunlardan biri Tux’ın yolunu kesiyordu..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:4
+msgid ""
+"Fortunately for him, a Granito, alive and well, revealed themself, excited "
+"to see him on the other side of the crevice."
+msgstr "Neyse ki sağ salim bir Granito ortaya çıktı. Yarığın öteki tarafında Tux’ı görünce büyük bir sevince kapılmıştı."
+
+#: data/levels/world2/scripts_floral_blossom.txt:5
+msgid ""
+"The Granito spoke of 3 groups of his fellow Granito who had gotten lost when"
+" trying to escape the roots to the east coast."
+msgstr "Granito, köklerden kaçıp doğu kıyısına ulaşmaya çalışırken kaybolan soydaşlarından oluşan üç gruptan bahsetti."
+
+#: data/levels/world2/scripts_floral_blossom.txt:6
+msgid ""
+"They were swallowed by the earth as the ground collapsed in on itself. If "
+"Tux could help find them they could help him reach the other side."
+msgstr "Zemin içe doğru çöktüğünde toprak onları yutmuştu. Tux kayıp Granitoları bulabilirse onlar da karşı tarafa geçmesine yardım edebilirdi."
+
+#: data/levels/world2/scripts_floral_blossom.txt:7
+msgid ""
+"Tux agreed to help! Soon after he noticed a dying roots revealing a path "
+"underneath, he began his search for the lost Granito."
+msgstr "Tux yardım etmeyi kabul etti! Çok geçmeden, kurumakta olan köklerin altında gizli bir yolun açığa çıktığını fark etti ve kayıp Granitoları aramaya başladı."
+
+#: data/levels/world2/scripts_floral_blossom.txt:8
+msgid ""
+"With the help of the saved Granito, Tux managed to reach the other side."
+msgstr "Tux, kurtardığı Granitoların yardımıyla karşı tarafa ulaşmayı başardı."
+
+#: data/levels/world2/scripts_floral_blossom.txt:9
+msgid ""
+"He was glad there were more Granito that had survived the Ghost Tree's "
+"overgrowth."
+msgstr "Tux, kurtardığı Granitoların yardımıyla karşı tarafa ulaşmayı başardı."
+
+#: data/levels/world2/scripts_floral_blossom.txt:10
+msgid ""
+"One of the Granito asked him what a penguin like him was doing so far from "
+"the Antarctic."
+msgstr "Granitolardan biri, Tux gibi bir penguenin Antarktika’dan bu kadar uzakta ne yaptığını sordu."
+
+#: data/levels/world2/scripts_floral_blossom.txt:11
+msgid ""
+"Tux replied that he was looking for his friend Penny and that she was "
+"captured by an evil creature named \"Nolok\". A name the Granito remembered "
+"unpleasantly..."
+msgstr "Tux, arkadaşı Penny’yi aradığını ve onun “Nolok” adlı kötü bir yaratık tarafından kaçırıldığını söyledi. Bu isim, Granitoların zihninde hiç de hoş olmayan anılar uyandırmıştı..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:12
+msgid ""
+"The Granito mentioned they knew his homeland. But whether he still called it"
+" his home nor if he held Penny there, they do not know for certain."
+msgstr "Granitolar, Nolok’un memleketinin nerede olduğunu biliyorlardı. Ancak orayı hâlâ evi olarak görüp görmediğinden ve Penny’yi orada tutup tutmadığından emin değillerdi."
+
+#: data/levels/world2/scripts_floral_blossom.txt:13
+msgid ""
+"They offered to show Tux the way. It was the least they could do to show "
+"their gratitute."
+msgstr "Bunca yardımından sonra, hiç değilse Tux’a yol göstermeyi teklif ettiler."
+
+#: data/levels/world2/scripts_floral_blossom.txt:14
+msgid ""
+"Tux gladly accepted and together with a handful of Granito they soon made "
+"their way to the tropics, in the north-east."
+msgstr "Tux bu teklifi sevinçle kabul etti. Birkaç Granito ile birlikte kısa süre içinde kuzeydoğudaki tropik bölgelere doğru yola çıktılar."
+
+#: data/levels/world2/scripts_floral_blossom.txt:15
+msgid ""
+"The remaining Granito would stay behind, slowly rebuilding their home, now "
+"that the corruption was finally vanquished..."
+msgstr "Geride kalan Granitolar ise uğursuzluk nihayet ortadan kalktığı için yurtlarını yavaş yavaş yeniden inşa edeceklerdi..."
+
+#: data/levels/world2/scripts_floral_blossom.txt:16
+#: data/levels/world2/scripts_floral_blossom.txt:17
+#: data/levels/world2/scripts_floral_blossom.txt:18
+msgid "Granito freed!"
+msgstr "Granito kurtarıldı!"
+
+#: data/levels/world2/scripts_forest_intro.txt:2
+msgid "After quite the long trip, Tux arrived at the new biome."
+msgstr "Oldukça uzun bir yolculuğun ardından Tux yeni bölgeye ulaştı."
+
+#: data/levels/world2/scripts_forest_intro.txt:3
+msgid ""
+"Tux was astonished by the scale of this colorful land which was quite "
+"different from his home."
+msgstr "Tux, memleketinden oldukça farklı olan bu rengârenk diyarın uçsuz bucaksızlığı karşısında hayrete düştü."
+
+#: data/levels/world2/scripts_forest_intro.txt:4
+msgid "But how was he ever going to find Nolok in this vast forest?"
+msgstr "Fakat Nolok’u bu uçsuz bucaksız ormanda nasıl bulacaktı?"
+
+#: data/levels/world2/scripts_forest_intro.txt:5
+msgid ""
+"Tux thought for a moment and decided to find a place high up to get a better"
+" view."
+msgstr "Tux bir süre düşündükten sonra çevreyi daha iyi görebilmek için yüksek bir yere çıkmaya karar verdi."
+
+#: data/levels/world2/scripts_forest_intro.txt:6
+msgid ""
+"Maybe he could find some kind of landmark to help him locate Nolok, wherever"
+" he may be."
+msgstr "Belki Nolok her neredeyse onu bulmasına yardım edecek belirgin bir işaret görebilirdi."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:2
+msgid ""
+"High on the very top of the dilapidated tower, once again Tux found... "
+"nothing."
+msgstr "Tux, harap kulenin en tepesine çıktığında bir kez daha... hiçbir şey bulamadı."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:3
+msgid ""
+"He could not believe it. He was shocked. Confused. Was this not where he "
+"needed to go?"
+msgstr "Buna inanamıyordu. Şaşkına dönmüş, kafası karışmıştı. Gitmesi gereken yer burası değil miydi?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:4
+msgid "Did Nolok's hints trick him afterall? Did he walk into a trap?"
+msgstr "Yoksa Nolok’un bıraktığı ipuçları onu kandırmış mıydı? Bir tuzağa mı düşmüştü?"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:5
+msgid ""
+"Tux had not long to think about all this, the tower began shaking violetly. "
+"His assumption prove correct instantly."
+msgstr "Tux bunları düşünecek fırsat bulamadan kule şiddetle sarsılmaya başladı. Şüphesi anında doğrulanmıştı."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:6
+msgid ""
+"He made it! He escaped the collapsing tower just in time as the structure "
+"now fully gave in. But the roots were not done yet!"
+msgstr "Başarmıştı! Yapı tamamen çökerken kuleden tam zamanında kaçmıştı. Ancak köklerin saldırısı henüz sona ermemişti!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:7
+msgid ""
+"This was only the beginning, as he had found the root of the problem... "
+"towering over the small penguin."
+msgstr "Bu daha başlangıçtı. Tux sorunun asıl kaynağını bulmuştu... Üstelik bu kaynak, küçük penguenin üzerinde heybetle yükseliyordu."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:8
+msgid ""
+"Tux watched in shock as the roots dug through the tower's walls, faster and "
+"faster. He had to get out of there, fast!"
+msgstr "Köklerin kulenin duvarlarını giderek daha hızlı delip geçtiğini gören Tux dehşete kapıldı. Buradan hemen kaçmalıydı!"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:9
+msgid ""
+"The roots were now everywhere. The tower become more unstable by the second."
+" Slowly, it collapsed in on itself."
+msgstr "Kökler artık her yerdeydi. Kule her geçen saniye daha da dengesizleşiyor, yavaş yavaş kendi içine çöküyordu"
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:10
+msgid ""
+"Tux ran as fast as he could, but the roots would not let him leave as they "
+"blocked off the only path to the main entrance."
+msgstr "Tux var gücüyle koştu fakat kökler ana girişe giden tek yolu kapatarak kaçmasına engel oldu."
+
+#: data/levels/world2/scripts_ghosttree_cutscene.txt:11
+msgid ""
+"Across the hallway, on the other side, there was a huge crack in the wall. "
+"Tux saw himself forced to take the leap of faith, if he wished to not be "
+"crushed."
+msgstr "Koridorun karşı tarafındaki duvarda devasa bir yarık vardı. Ezilmek istemiyorsa sonunun nereye çıkacağını bilmeden o yarığa atlamaktan başka çaresi yoktu."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:2
+msgid "Was it over? Was the nightmare finally over?"
+msgstr "Bitmiş miydi? Bu kâbus nihayet sona mı ermişti?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:3
+msgid ""
+"Tux could not believe his eyes, but it seemed so! The roots began "
+"retreating. The ground looked more vital again."
+msgstr "Tux gözlerine inanamıyordu ama öyle görünüyordu! Kökler geri çekilmeye, toprak ise yeniden canlanmaya başlamıştı."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
+msgid ""
+"Though as much as he was ecstatic about seeing the land restored and "
+"beginning to heal... where to now?"
+msgstr "Diyarın eski hâline dönüp iyileşmeye başladığını görmek Tux’ı çok sevindirmişti ama... şimdi nereye gidecekti?"
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:5
+msgid ""
+"The forest, the tower... those were the only leads Tux had. He had no clue "
+"where Nolok could be hiding, if he even was here to begin with. Or rather "
+"anymore."
+msgstr "Orman, kule... Tux’ın elinde bunlardan başka ipucu yoktu. Nolok’un nerede saklandığını bilmiyor, hatta hâlâ buralarda olduğundan bile emin olamıyordu."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:6
+msgid ""
+"There was no one around Tux could ask for help. All but the remains of "
+"corrupted husks littered the ground as he moved along in thought. No living "
+"creature in sight."
+msgstr "Etrafta Tux’ın yardım isteyebileceği kimse yoktu. Düşüncelere dalmış hâlde ilerlerken yerde lanetin çürüttüğü kalıntılardan başka bir şey görmüyordu. Ortalıkta tek bir canlı bile yoktu."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:7
+msgid ""
+"Hoping to discover some kind of clue - anything! - Tux's best bet was to "
+"continue exploring this side of the forest, as destroyed as it may be."
+msgstr "Herhangi bir ipucu, ufacık da olsa bir işaret bulma umuduyla, harabeye dönmüş olsa bile ormanın bu tarafını keşfetmeye devam etmekten başka seçeneği yoktu."
+
+#: data/levels/world2/scripts_ghosttreewin_cutscene.txt:8
+msgid ""
+"There must be something, somewhere, able to help him to find Nolok! "
+"Right...?"
+msgstr "Bir yerlerde Nolok’u bulmasına yardım edecek bir şey olmalıydı. Öyle değil mi...?"
+
+#: data/levels/world2/shallow_green.stl:3
+msgid "Shallow Green"
+msgstr "Sığ Yeşillikler"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Şok edici"
+msgstr "Çarpıcı"
 
-#: data/levels/world2/the_forest_is_rotting.stl:3
-msgid "The Forest Is Rotting"
-msgstr "Orman Bozuluyor"
+#: data/levels/world2/square_root_agony.stl:3
+msgid "Square Root of Agony"
+msgstr "Istırabın Karekökü"
+
+#: data/levels/world2/sticks_stones.stl:3
+msgid "Stick And Stones"
+msgstr "Taşlar ve Sopalar"
+
+#: data/levels/world2/striking_wood.stl:3
+msgid "Striking Wood"
+msgstr "Odun Darbesi"
+
+#: data/levels/world2/three_sheets_wind.stl:3
+msgid "Three Sheets to the Wind"
+msgstr "Rüzgârda Savrulan Üç Çarşaf  “Three sheets to the wind” İngilizcede “zilzurna sa"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
 msgstr "Karanlığa doğru"
 
-#: data/levels/world2/through_dark.stl:96
-msgid ""
-"-Earth Flower\n"
-"!images/powerups/earthflower/earth_flower-1.png\n"
-"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
-"#This does not work while jumping or falling!"
-msgstr "-Toprak Çiçeği\n!images/powerups/earthflower/earth_flower-1.png\n#Toprak çiçeği, Tux'a EYLEM Tuşu ile AŞAĞI Tuşuna aynı anda basarak taşa dönüşme yeteneği verir.\n#Bu, zıplarken veya düşerken çalışmaz!"
-
-#: data/levels/world2/tower_of_ghosts.stl:3
-msgid "Tower Of Ghosts"
-msgstr "Hayaletler Kulesi"
-
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
 msgstr "Tux Usta"
 
-#: data/levels/world2/tux_builder.stl:77
-msgid ""
-"-Portable Objects:\n"
-"!images/objects/rock/rock.png\n"
-"#Tux can pick up certain objects and carry them around.\n"
-"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Taşınabilir Nesneler:\n!images/objects/rock/rock.png\n#Tux belirli nesneleri alıp etrafta taşıyabilir.\n#Bir nesneyi almak için EYLEM tuşuna bas ve nesneyi taşımak istediğin sürece basılı tut. Nesneyi bırakmak için ACTION tuşunu bırakın."
-
-#: data/levels/world2/tux_own_horror_show.stl:3
-msgid "Tux' Own Horror Show"
-msgstr "Tux'un Kendi Korku Şovu"
-
-#: data/levels/world2/tux_own_horror_show.stl:947
-msgid ""
-"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
-" often dangerous places."
-msgstr "#Yeşillik tutamlar, sizi farklı, genellikle tehlikeli yerlere götüren küçük, sinir bozucu hayaletlerdir."
-
-#: data/levels/world2/walking_leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Yürüyen Yapraklar"
-
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
-msgstr "Ormana Hoş geldin"
+msgstr "Ormana hoş geldin"
 
-#: data/levels/world2/welcome_forest.stl:50
+#: data/levels/world2/welcome_forest.stl:135
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
-"#Tux can go through a door by pressing the UP key."
-msgstr "-Kapılar\n!images/nesneler/kapı/kapı-0.png\n#Tux, YUKARI tuşuna basarak bir kapıdan geçebilir."
+"#Tux can go through a door by pressing the UP key.\n"
+"#\n"
+"#Some doors may require a key to enter!"
+msgstr "-Kapılar\n!images/objects/door/door-0.png\n#Tux, YUKARI tuşuna basarak bir kapıdan geçebilir.\n#\n#Bazı kapılardan geçmek için anahtar gerekebilir!"
+
+#: data/levels/world2/welcome_forest.stl:194
+#: data/levels/world2/worldmap.stwm:364 data/levels/world2/worldmap.stwm:374
+msgid "You found a secret area!"
+msgstr "Gizli bir bölge buldun!"
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
 msgstr "Odunsu Kökler"
 
-#: data/levels/world2/worldmap.stwm:3
-msgid "Rooted Forest"
-msgstr "Köklü Orman"
-
-#: data/levels/world2/worldmap.stwm:239
+#: data/levels/world2/worldmap.stwm:356
 msgid "To be continued..."
 msgstr "Devam edecek..."
+
+#: data/levels/world2/worse_salmonella.stl:3
+msgid "Worse Than Salmonella"
+msgstr "Salmonelladan daha kötü"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-03-21 04:25+0000\n"
+"POT-Creation-Date: 2026-08-07 18:52+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2020,2022,2024-2026\n"
 "Language-Team: Slovenian (http://app.transifex.com/arctic-games/supertux/language/sl/)\n"
@@ -186,19 +186,21 @@ msgstr "Kristalne podlage pred 0.6.3"
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
 msgstr "Za stopnje, ustvarjene pred različico 0.6.3, ki uporabljajo kristalne podlage"
 
-#: data/images/converters/data.stcd:8
+#. l10n: The word "Nightly" refers to an early development version of
+#. SuperTux, don't translate the word literally.
+#: data/images/converters/data.stcd:9
 msgid "Nightly Tiles"
 msgstr "Nočne podlage"
 
-#: data/images/converters/data.stcd:10
+#: data/images/converters/data.stcd:11
 msgid "For levels, created in previous Nightly builds."
 msgstr "Za stopnje, ki so bile ustvarjene v prejšnjih nočnih različicah"
 
-#: data/images/converters/data.stcd:13
+#: data/images/converters/data.stcd:14
 msgid "Jagged Rock Tiles from Addon"
 msgstr "Podlage nazobčanih skal iz dodatkov"
 
-#: data/images/converters/data.stcd:15
+#: data/images/converters/data.stcd:16
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
@@ -469,8 +471,8 @@ msgstr "Skripta, ki se izvede, ko se sproži višja prestava"
 #: src/badguy/mriceblock.cpp:63 src/badguy/mrtree.cpp:50
 #: src/badguy/smartball.cpp:34 src/badguy/snail.cpp:70
 #: src/badguy/snowball.cpp:40 src/badguy/viciousivy.cpp:46
-#: src/object/background.cpp:302 src/object/brick.cpp:59
-#: src/object/coin.cpp:69 src/object/gradient.cpp:107
+#: src/object/background.cpp:302 src/object/brick.cpp:63
+#: src/object/coin.cpp:70 src/object/gradient.cpp:107
 #: src/object/invisible_block.cpp:37 src/object/tilemap.cpp:352
 msgid "Normal"
 msgstr "Običajno"
@@ -594,7 +596,7 @@ msgstr "Čas med sprožitvijo pasti in izstrelitvijo prve puščice."
 
 #: src/badguy/darttrap.cpp:156 src/object/particle_zone.cpp:50
 #: src/object/particlesystem.cpp:64 src/object/spotlight.cpp:104
-#: src/supertux/menu/addon_preview_menu.cpp:201
+#: src/supertux/menu/addon_preview_menu.cpp:200
 msgid "Enabled"
 msgstr "Omogočeno"
 
@@ -1075,32 +1077,32 @@ msgstr "Oddaljenost za izginjanje"
 msgid "Fly speed"
 msgstr "Hitrost letenja"
 
-#: src/badguy/willowisp.cpp:405 src/object/camera.cpp:170
-#: src/object/coin.cpp:327 src/object/path_gameobject.cpp:175
+#: src/badguy/willowisp.cpp:405 src/object/camera.cpp:175
+#: src/object/coin.cpp:338 src/object/path_gameobject.cpp:175
 #: src/object/path_gameobject.hpp:44 src/object/platform.cpp:78
 #: src/object/tilemap.cpp:357
 msgid "Path"
 msgstr "Pot"
 
-#: src/badguy/willowisp.cpp:406 src/object/coin.cpp:334
+#: src/badguy/willowisp.cpp:406 src/object/coin.cpp:345
 #: src/object/platform.cpp:83 src/object/tilemap.cpp:358
 msgid "Starting Node"
 msgstr "Začetno vozlišče"
 
-#: src/badguy/willowisp.cpp:411 src/object/camera.cpp:173
-#: src/object/coin.cpp:332 src/object/platform.cpp:79
+#: src/badguy/willowisp.cpp:411 src/object/camera.cpp:178
+#: src/object/coin.cpp:343 src/object/platform.cpp:79
 #: src/object/tilemap.cpp:364
 msgid "Path Mode"
 msgstr "Način poti"
 
-#: src/badguy/willowisp.cpp:412 src/object/camera.cpp:174
-#: src/object/coin.cpp:333 src/object/platform.cpp:80
+#: src/badguy/willowisp.cpp:412 src/object/camera.cpp:179
+#: src/object/coin.cpp:344 src/object/platform.cpp:80
 #: src/object/tilemap.cpp:365
 msgid "Adapt Speed"
 msgstr "Prilagodi hitrost"
 
-#: src/badguy/willowisp.cpp:413 src/object/camera.cpp:175
-#: src/object/coin.cpp:335 src/object/platform.cpp:84
+#: src/badguy/willowisp.cpp:413 src/object/camera.cpp:180
+#: src/object/coin.cpp:346 src/object/platform.cpp:84
 #: src/object/tilemap.cpp:367
 msgid "Handle"
 msgstr "Ročica"
@@ -1131,33 +1133,33 @@ msgstr "Zverinica"
 msgid "Joystick Mappings"
 msgstr "Prilagoditev igralne palice"
 
-#: src/editor/editor.cpp:353
+#: src/editor/editor.cpp:354
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
 msgstr "Pripis: Vlečljivi predmeti so zdaj skriti. Zopet jih lahko pokažeš s krmilko+H."
 
-#: src/editor/editor.cpp:589
+#: src/editor/editor.cpp:588
 msgid "Level saved!"
 msgstr "Stopnja shranjena!"
 
-#: src/editor/editor.cpp:619
+#: src/editor/editor.cpp:618
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
 msgstr "Ne moreš preizkusiti stopnje, kadar igraš z zarisa sveta.Namesto tega zapusti urejevalnik stopenj."
 
-#: src/editor/editor.cpp:870
+#: src/editor/editor.cpp:869
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Ta stopnja vsebuje zastarele podlage.\nPriporočam, da zamenjaš vse zastarele podlage in se tako\nizogneš nezdružljivosti z bodočimi različicami igre."
 
-#: src/editor/editor.cpp:872
+#: src/editor/editor.cpp:871
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Namig: V meniju urejevalnika vklopi možnost \"Prikaži zastarele podlage\""
 
-#: src/editor/editor.cpp:962
+#: src/editor/editor.cpp:961
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1165,33 +1167,33 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Ne pozabi, da se tvoje stopnje in sredstva\nne shranijo med sejami!\nČe želiš obdržati svoje stopnje, jih prenesi\niz menija za upravljanje sredstev."
 
-#: src/editor/editor.cpp:1003
+#: src/editor/editor.cpp:1002
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr "Ta stopnja še ni shranjena. Ali jo želiš raje shraniti?"
 
-#: src/editor/editor.cpp:1005
+#: src/editor/editor.cpp:1004
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Ta stopnja vsebuje nekaj neshranjenih sprememb. Jih shranim?"
 
-#: src/editor/editor.cpp:1006
+#: src/editor/editor.cpp:1005
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Ta stopnja morda vsebuje neshranjene spremembe. Jih želiš shraniti?"
 
-#: src/editor/editor.cpp:1007 src/gui/dialog.hpp:95
-#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/editor/editor.cpp:1006 src/gui/dialog.hpp:95
+#: src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "Da"
 
-#: src/editor/editor.cpp:1013 src/editor/particle_editor.cpp:779
-#: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:141
+#: src/editor/editor.cpp:1012 src/editor/particle_editor.cpp:779
+#: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 msgid "No"
 msgstr "Ne"
 
-#: src/editor/editor.cpp:1017 src/editor/particle_editor.cpp:783
+#: src/editor/editor.cpp:1016 src/editor/particle_editor.cpp:783
 #: src/gui/menu_filesystem.cpp:123 src/gui/menu_list.cpp:38
 #: src/gui/menu_paths.cpp:48
 #: src/supertux/menu/editor_level_select_menu.cpp:183
@@ -1207,7 +1209,7 @@ msgstr "Ne"
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/editor/editor.cpp:1136
+#: src/editor/editor.cpp:1135
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1215,21 +1217,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Nekaj zastarelih dodatkov je še dejavnih,\nkar lahko povzroči neskladja v osnovni strukturi igre.\nČe želiš, jih lahko omogočiš v meniju.\nTudi če jih onemogočiš, se bo tvoj napredek v igri ohranil."
 
-#: src/editor/editor.cpp:1139
+#: src/editor/editor.cpp:1138
 msgid "Disable add-ons"
 msgstr "Onemogoči dodatke"
 
-#: src/editor/editor.cpp:1144
+#: src/editor/editor.cpp:1143
 msgid "Ignore (not advised)"
 msgstr "Zanemari (ni priporočljivo)"
 
-#: src/editor/editor.cpp:1148
+#: src/editor/editor.cpp:1147
 msgid "Leave editor"
 msgstr "Zapusti urejevalnik"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1479
+#: src/editor/editor.cpp:1493
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1238,7 +1240,7 @@ msgstr "Na najdem predela z imenom \"main\".\nSpremeni ime predela, na katerem n
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1486
+#: src/editor/editor.cpp:1500
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1469,7 +1471,7 @@ msgid "Patch Notes"
 msgstr "Novosti posodobitve"
 
 #: src/editor/object_menu.cpp:61 src/gui/menu_string_array.cpp:81
-#: src/supertux/menu/addon_preview_menu.cpp:189
+#: src/supertux/menu/addon_preview_menu.cpp:188
 msgid "Update"
 msgstr "Posodobi"
 
@@ -1616,39 +1618,39 @@ msgstr "Avtor"
 msgid "License"
 msgstr "Licenca"
 
-#: src/editor/overlay_widget.cpp:1042
+#: src/editor/overlay_widget.cpp:1061
 msgid "Cannot select deprecated tiles"
 msgstr "Ne morem izbrati zastarelih podlag"
 
-#: src/editor/overlay_widget.cpp:1666
+#: src/editor/overlay_widget.cpp:1700
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr "Način brisanja samo-gradnje je vključen (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1670
+#: src/editor/overlay_widget.cpp:1704
 msgid "Autotile erasing cannot be performed here"
 msgstr "Tukaj ni mogoče izvesti brisanja samo-gradnje"
 
-#: src/editor/overlay_widget.cpp:1675
+#: src/editor/overlay_widget.cpp:1709
 msgid "Autotile mode is on (\"{}\")"
 msgstr "Način samo-gradnje je vključen (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1679
+#: src/editor/overlay_widget.cpp:1713
 msgid "Selected tile isn't autotileable"
 msgstr "Izbrana podlaga ni samo-gradljiva"
 
-#: src/editor/overlay_widget.cpp:1685
+#: src/editor/overlay_widget.cpp:1719
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Omogoči brisanje samo-gradnje z držanjem krmilke"
 
-#: src/editor/overlay_widget.cpp:1687
+#: src/editor/overlay_widget.cpp:1721
 msgid "Release Ctrl to use autotile erasing"
 msgstr "Sprosti krmilko, da izvedeš brisanje samo-gradnje"
 
-#: src/editor/overlay_widget.cpp:1692
+#: src/editor/overlay_widget.cpp:1726
 msgid "Hold Ctrl to enable autotile"
 msgstr "Omogoči samo-gradnjo z držanjem krmilke"
 
-#: src/editor/overlay_widget.cpp:1694
+#: src/editor/overlay_widget.cpp:1728
 msgid "Release Ctrl to autotile"
 msgstr "Sprosti krmilko, da izvedeš samo-gradnjo"
 
@@ -2023,10 +2025,10 @@ msgstr "Bi želeli podvojiti pot in urediti dvojnika\nali bi raje povezali obe p
 msgid "Path {}"
 msgstr "Pot {}"
 
-#: src/gui/menu_paths.cpp:67 src/supertux/menu/addon_browse_menu.cpp:162
+#: src/gui/menu_paths.cpp:67 src/supertux/menu/addon_browse_menu.cpp:161
 #: src/supertux/menu/addon_file_install_menu.cpp:36
-#: src/supertux/menu/addon_menu.cpp:168
-#: src/supertux/menu/addon_preview_menu.cpp:205
+#: src/supertux/menu/addon_menu.cpp:167
+#: src/supertux/menu/addon_preview_menu.cpp:204
 #: src/supertux/menu/cheat_apply_menu.cpp:40
 #: src/supertux/menu/cheat_menu.cpp:57
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
@@ -2047,7 +2049,7 @@ msgstr "Pot {}"
 #: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/multiplayer_players_menu.cpp:106
-#: src/supertux/menu/options_menu.cpp:291
+#: src/supertux/menu/options_menu.cpp:284
 #: src/supertux/menu/options_select_menu.cpp:44
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/profile_name_menu.cpp:45
@@ -2283,8 +2285,8 @@ msgstr "Oranžna"
 msgid "Purple"
 msgstr "Vijolična"
 
-#: src/object/bonus_block.cpp:175 src/object/brick.cpp:60
-#: src/object/coin.cpp:70 src/object/invisible_block.cpp:38
+#: src/object/bonus_block.cpp:175 src/object/brick.cpp:64
+#: src/object/coin.cpp:71 src/object/invisible_block.cpp:38
 msgid "Retro"
 msgstr "Retro"
 
@@ -2388,7 +2390,7 @@ msgstr "Izrezek kovanca"
 msgid "Bonus Block"
 msgstr "Bonus kocka"
 
-#: src/object/brick.cpp:168
+#: src/object/brick.cpp:180
 msgid "Breakable"
 msgstr "Uničljiva"
 
@@ -2396,7 +2398,7 @@ msgstr "Uničljiva"
 msgid "Brick"
 msgstr "Opeka"
 
-#: src/object/brick.hpp:70
+#: src/object/brick.hpp:73
 msgid "Heavy Brick"
 msgstr "Težka opeka"
 
@@ -2404,27 +2406,27 @@ msgstr "Težka opeka"
 msgid "Bumper"
 msgstr "Odbijač"
 
-#: src/object/camera.cpp:165
+#: src/object/camera.cpp:170
 msgid "Mode"
 msgstr "Način"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "autoscroll"
 msgstr "samodejno drsenje"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "free"
 msgstr "prosto"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "manual"
 msgstr "ročno"
 
-#: src/object/camera.cpp:166
+#: src/object/camera.cpp:171
 msgid "normal"
 msgstr "običajno"
 
-#: src/object/camera.hpp:68
+#: src/object/camera.hpp:69
 msgid "Camera"
 msgstr "Kamera"
 
@@ -2465,11 +2467,11 @@ msgstr "Hitrost Y"
 msgid "Cloud Particles"
 msgstr "Oblačni delci"
 
-#: src/object/coin.cpp:329 src/object/tilemap.cpp:360
+#: src/object/coin.cpp:340 src/object/tilemap.cpp:360
 msgid "Following path"
 msgstr "Pot premika"
 
-#: src/object/coin.cpp:338 src/object/coin.cpp:374
+#: src/object/coin.cpp:349 src/object/coin.cpp:385
 msgid "Collect script"
 msgstr "Zbiralna skripta"
 
@@ -3306,8 +3308,8 @@ msgstr "gor"
 msgid "down"
 msgstr "dol"
 
-#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:314
-#: src/supertux/menu/options_menu.cpp:357
+#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:307
+#: src/supertux/menu/options_menu.cpp:350
 msgid "auto"
 msgstr "samodejno"
 
@@ -3369,15 +3371,15 @@ msgstr "Najboljši čas"
 msgid "Level target time"
 msgstr "Ciljni čas stopnje"
 
-#: src/supertux/main.cpp:892
+#: src/supertux/main.cpp:893
 msgid "New release: SuperTux {}!"
 msgstr "Nova izdaja: SuperTux {}!"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:894
 msgid "Click for more details."
 msgstr "Klikni za podrobnosti."
 
-#: src/supertux/main.cpp:896
+#: src/supertux/main.cpp:897
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -3385,58 +3387,58 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "Izšla je nova izdaja SuperTuxa (različica {})!Več o tem piše na spletnem mestu SuperTux.Ali ga želiš obiskati kar zdaj?"
 
-#: src/supertux/main.cpp:907
+#: src/supertux/main.cpp:908
 msgid "Checking for new releases..."
 msgstr "Preverjam za nove izdaje ..."
 
-#: src/supertux/menu/addon_browse_menu.cpp:70
-#: src/supertux/menu/addon_menu.cpp:162
+#: src/supertux/menu/addon_browse_menu.cpp:69
+#: src/supertux/menu/addon_menu.cpp:161
 msgid "Browse Add-ons"
 msgstr "Brskaj po dodatkih"
 
-#: src/supertux/menu/addon_browse_menu.cpp:70
+#: src/supertux/menu/addon_browse_menu.cpp:69
 msgid "Browse Language Packs"
 msgstr "Brskaj po jezikovnih paketih"
 
-#: src/supertux/menu/addon_browse_menu.cpp:112
+#: src/supertux/menu/addon_browse_menu.cpp:111
 msgid "Page {}/{}"
 msgstr "Stran {}/{}"
 
-#: src/supertux/menu/addon_browse_menu.cpp:124
+#: src/supertux/menu/addon_browse_menu.cpp:123
 msgid "No new Add-ons available"
 msgstr "Na voljo ni novih dodatkov"
 
-#: src/supertux/menu/addon_browse_menu.cpp:124
+#: src/supertux/menu/addon_browse_menu.cpp:123
 msgid "No new language packs available"
 msgstr "Na voljo ni novih jezikovnih paketov"
 
-#: src/supertux/menu/addon_browse_menu.cpp:127
+#: src/supertux/menu/addon_browse_menu.cpp:126
 msgid "No Add-ons available"
 msgstr "Na voljo ni dodatkov"
 
-#: src/supertux/menu/addon_browse_menu.cpp:127
+#: src/supertux/menu/addon_browse_menu.cpp:126
 msgid "No language packs available"
 msgstr "Na voljo ni jezikovnih paketov"
 
-#: src/supertux/menu/addon_browse_menu.cpp:135
-#: src/supertux/menu/addon_browse_menu.cpp:139
+#: src/supertux/menu/addon_browse_menu.cpp:134
+#: src/supertux/menu/addon_browse_menu.cpp:138
 msgid "Previous page"
 msgstr "Prejšnja stran"
 
-#: src/supertux/menu/addon_browse_menu.cpp:143
-#: src/supertux/menu/addon_browse_menu.cpp:147
+#: src/supertux/menu/addon_browse_menu.cpp:142
+#: src/supertux/menu/addon_browse_menu.cpp:146
 msgid "Next page"
 msgstr "Naslednja stran"
 
-#: src/supertux/menu/addon_browse_menu.cpp:154
+#: src/supertux/menu/addon_browse_menu.cpp:153
 msgid "Check Online (disabled)"
 msgstr "Preveri na spletu (onemogočeno)"
 
-#: src/supertux/menu/addon_browse_menu.cpp:158
+#: src/supertux/menu/addon_browse_menu.cpp:157
 msgid "Check Online"
 msgstr "Preveri na spletu"
 
-#: src/supertux/menu/addon_browse_menu.cpp:195
+#: src/supertux/menu/addon_browse_menu.cpp:194
 msgid "Downloading Add-On Repository Index"
 msgstr "Prenašam seznam dodatkov v zbirališču"
 
@@ -3448,207 +3450,207 @@ msgstr "Namesti dodatek iz datoteke"
 msgid "Drag and drop add-on ZIP archive"
 msgstr "Povleci in spusti dodatek v obliki arhiva ZIP"
 
-#: src/supertux/menu/addon_menu.cpp:71
+#: src/supertux/menu/addon_menu.cpp:70
 msgid "Installed Add-ons"
 msgstr "Nameščeni dodatki"
 
-#: src/supertux/menu/addon_menu.cpp:71
+#: src/supertux/menu/addon_menu.cpp:70
 msgid "Installed Language Packs"
 msgstr "Nameščeni jezikovni paketi"
 
-#: src/supertux/menu/addon_menu.cpp:79
+#: src/supertux/menu/addon_menu.cpp:78
 msgid "No Add-ons installed"
 msgstr "Ni nameščenih dodatkov"
 
-#: src/supertux/menu/addon_menu.cpp:79 src/supertux/menu/addon_menu.cpp:120
+#: src/supertux/menu/addon_menu.cpp:78 src/supertux/menu/addon_menu.cpp:119
 msgid "No language packs installed"
 msgstr "Ni nameščenih jezikovnih paketov"
 
-#: src/supertux/menu/addon_menu.cpp:128
+#: src/supertux/menu/addon_menu.cpp:127
 msgid "{} *UPDATE*"
 msgstr "{} *POSODOBITEV*"
 
-#: src/supertux/menu/addon_menu.cpp:130
+#: src/supertux/menu/addon_menu.cpp:129
 msgid "{} [DISABLED] *UPDATE*"
 msgstr "{} [ONEMOGOČENO] *POSODOBITEV*"
 
-#: src/supertux/menu/addon_menu.cpp:139
+#: src/supertux/menu/addon_menu.cpp:138
 msgid "{} [DISABLED]"
 msgstr "{} [ONEMOGOČENO]"
 
-#: src/supertux/menu/addon_menu.cpp:149
+#: src/supertux/menu/addon_menu.cpp:148
 msgid "No updates available."
 msgstr "Na voljo ni posodobitev."
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "update"
 msgstr "posodobitev"
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "updates"
 msgstr "posodobitev"
 
-#: src/supertux/menu/addon_menu.cpp:153
+#: src/supertux/menu/addon_menu.cpp:152
 msgid "{} {} available"
 msgstr "{} {} na voljo"
 
-#: src/supertux/menu/addon_menu.cpp:156
+#: src/supertux/menu/addon_menu.cpp:155
 msgid "Check for updates"
 msgstr "Preveri za posodobitve"
 
-#: src/supertux/menu/addon_menu.cpp:162
+#: src/supertux/menu/addon_menu.cpp:161
 msgid "Browse language packs"
 msgstr "Brskaj po jezikovnih paketih"
 
-#: src/supertux/menu/addon_menu.cpp:165
+#: src/supertux/menu/addon_menu.cpp:164
 msgid "Install from file"
 msgstr "Namesti iz datoteke"
 
-#: src/supertux/menu/addon_menu.cpp:182
+#: src/supertux/menu/addon_menu.cpp:181
 msgid "To browse through the add-on catalog, you must enable networking."
 msgstr "Če želiš brskati po katalogu dodatkov, omogoči povezavo z internetom."
 
-#: src/supertux/menu/addon_menu.cpp:219
+#: src/supertux/menu/addon_menu.cpp:218
 msgid "To check for add-on updates, you must enable networking."
 msgstr "Če želiš preveriti za posodobitve dodatkov, omogoči povezavo z internetom."
 
-#: src/supertux/menu/addon_menu.cpp:227
+#: src/supertux/menu/addon_menu.cpp:226
 msgid "Checking for updates..."
 msgstr "Preverjam za posodobitve ..."
 
-#: src/supertux/menu/addon_preview_menu.cpp:87
+#: src/supertux/menu/addon_preview_menu.cpp:86
 msgid "{} \"{}\""
 msgstr "{} \"{}\""
 
-#: src/supertux/menu/addon_preview_menu.cpp:92
+#: src/supertux/menu/addon_preview_menu.cpp:91
 msgid "Some information about this add-on is not available."
 msgstr "Nekaterih informacij o tem dodatku ni na voljo."
 
-#: src/supertux/menu/addon_preview_menu.cpp:93
+#: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "Perform a \"Check Online\" to try retrieving it."
 msgstr "S klikom na \"Preveri na spletu\" jih lahko poskusiš pridobiti."
 
-#: src/supertux/menu/addon_preview_menu.cpp:97
+#: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "Author: {}"
 msgstr "Avtor/ica: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:97
+#: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "No author specified."
 msgstr "Avtor ni naveden."
 
-#: src/supertux/menu/addon_preview_menu.cpp:98
+#: src/supertux/menu/addon_preview_menu.cpp:97
 msgid "Type: {}"
 msgstr "Vrsta: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:99
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "License: {}"
 msgstr "Licenca: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:99
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "No license specified."
 msgstr "Licenca ni določena."
 
-#: src/supertux/menu/addon_preview_menu.cpp:104
+#: src/supertux/menu/addon_preview_menu.cpp:103
 msgid "Dependencies:"
 msgstr "Odvisnosti:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:113
+#: src/supertux/menu/addon_preview_menu.cpp:112
 msgid "Installed"
 msgstr "Nameščen"
 
-#: src/supertux/menu/addon_preview_menu.cpp:113
+#: src/supertux/menu/addon_preview_menu.cpp:112
 msgid "Not installed"
 msgstr "Ni nameščen"
 
-#: src/supertux/menu/addon_preview_menu.cpp:118
+#: src/supertux/menu/addon_preview_menu.cpp:117
 msgid "Not available!"
 msgstr "Ni na voljo!"
 
-#: src/supertux/menu/addon_preview_menu.cpp:125
+#: src/supertux/menu/addon_preview_menu.cpp:124
 msgid "Description:"
 msgstr "Opis:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:128
+#: src/supertux/menu/addon_preview_menu.cpp:127
 msgid "No description available."
 msgstr "Opis ni na voljo."
 
-#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/supertux/menu/addon_preview_menu.cpp:140
 msgid "Overrides Data: {}"
 msgstr "Povozi podatke: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:155
+#: src/supertux/menu/addon_preview_menu.cpp:154
 msgid "Failed to load all available screenshot previews."
 msgstr "Nalaganje vseh zaslonskih predogledov ni uspelo."
 
-#: src/supertux/menu/addon_preview_menu.cpp:160
+#: src/supertux/menu/addon_preview_menu.cpp:159
 msgid "To fetch add-on screenshots, you must enable networking."
 msgstr "Če želiš pridobiti slike dodatkov, omogoči povezavo z internetom."
 
-#: src/supertux/menu/addon_preview_menu.cpp:164
+#: src/supertux/menu/addon_preview_menu.cpp:163
 msgid "Show screenshots"
 msgstr "Prikaži zaslonske predoglede"
 
-#: src/supertux/menu/addon_preview_menu.cpp:177
+#: src/supertux/menu/addon_preview_menu.cpp:176
 msgid "Screenshot previews are disabled for automatic installs."
 msgstr "Zaslonski predogledi so onemogočeni pri samodejnih namestitvah."
 
-#: src/supertux/menu/addon_preview_menu.cpp:181
+#: src/supertux/menu/addon_preview_menu.cpp:180
 msgid "No screenshot previews available."
 msgstr "Zaslonski predogledi niso na voljo."
 
-#: src/supertux/menu/addon_preview_menu.cpp:189
+#: src/supertux/menu/addon_preview_menu.cpp:188
 msgid "Install"
 msgstr "Namesti"
 
-#: src/supertux/menu/addon_preview_menu.cpp:202
+#: src/supertux/menu/addon_preview_menu.cpp:201
 msgid "Uninstall"
 msgstr "Odstrani"
 
-#: src/supertux/menu/addon_preview_menu.cpp:226
+#: src/supertux/menu/addon_preview_menu.cpp:225
 msgid "Are you sure you want to uninstall \"{}\"?"
 msgstr "Ali si prepričan/a, da želiš odstraniti \"{}\"?"
 
-#: src/supertux/menu/addon_preview_menu.cpp:227
+#: src/supertux/menu/addon_preview_menu.cpp:226
 msgid ""
 "\n"
 "Your progress won't be lost."
 msgstr "\nTvoj napredek se bo ohranil."
 
-#: src/supertux/menu/addon_preview_menu.cpp:239
+#: src/supertux/menu/addon_preview_menu.cpp:238
 msgid ""
 "NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\n"
 "Are you sure you wish to uninstall?"
 msgstr "POZOR: Dodatek \"{}\" je pomemben gradnik {} {}.\nAli ga zares želiš odstraniti?"
 
-#: src/supertux/menu/addon_preview_menu.cpp:258
+#: src/supertux/menu/addon_preview_menu.cpp:257
 msgid ""
 "Cannot toggle add-on \"{}\":\n"
 "{}"
 msgstr "Ne morem preklopiti dodatka \"{}\":\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:291
+#: src/supertux/menu/addon_preview_menu.cpp:290
 msgid "Fetching screenshot previews..."
 msgstr "Pridobivam zaslonske predoglede ..."
 
-#: src/supertux/menu/addon_preview_menu.cpp:314
+#: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Downloading {}"
 msgstr "Prenašam {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:314
+#: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Updating {}"
 msgstr "Posodabljam {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:342
+#: src/supertux/menu/addon_preview_menu.cpp:341
 msgid "Add-on uninstalled successfully."
 msgstr "Dodatek je uspešno odstranjen."
 
-#: src/supertux/menu/addon_preview_menu.cpp:347
+#: src/supertux/menu/addon_preview_menu.cpp:346
 msgid ""
 "Error uninstalling add-on:\n"
 "{}"
 msgstr "Napaka pri odstranjevanju dodatka:\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:375
+#: src/supertux/menu/addon_preview_menu.cpp:374
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
@@ -4115,7 +4117,7 @@ msgstr "Preizkusi stopnjo"
 msgid "Test Worldmap"
 msgstr "Preizkusi zaris sveta"
 
-#: src/supertux/menu/editor_menu.cpp:67 src/supertux/menu/game_menu.cpp:80
+#: src/supertux/menu/editor_menu.cpp:67 src/supertux/menu/game_menu.cpp:79
 #: src/supertux/menu/main_menu.cpp:63
 #: src/supertux/menu/options_select_menu.cpp:29
 #: src/supertux/menu/worldmap_menu.cpp:31
@@ -4462,36 +4464,36 @@ msgstr "Stopnja ustvarjena!"
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: src/supertux/menu/game_menu.cpp:65
-msgid "Restart from Checkpoint"
-msgstr "Začni ponovno na varni točki"
-
-#: src/supertux/menu/game_menu.cpp:68
+#: src/supertux/menu/game_menu.cpp:63
 msgid "Restart Level"
 msgstr "Znova zaženi stopnjo"
 
-#: src/supertux/menu/game_menu.cpp:76
+#: src/supertux/menu/game_menu.cpp:66
+msgid "Restart from Checkpoint"
+msgstr "Začni ponovno na varni točki"
+
+#: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
 msgstr "Uredi stopnjo"
 
-#: src/supertux/menu/game_menu.cpp:82
+#: src/supertux/menu/game_menu.cpp:81
 msgid "Abort Level"
 msgstr "Zapusti stopnjo"
 
-#: src/supertux/menu/game_menu.cpp:98 src/supertux/menu/game_menu.cpp:109
-#: src/supertux/menu/game_menu.cpp:174
+#: src/supertux/menu/game_menu.cpp:97 src/supertux/menu/game_menu.cpp:108
+#: src/supertux/menu/game_menu.cpp:173
 msgid "Are you sure?"
 msgstr "Si prepričan/a?"
 
-#: src/supertux/menu/game_menu.cpp:125
+#: src/supertux/menu/game_menu.cpp:124
 msgid "Couldn't open editor for this level. No worldmap!"
 msgstr "Te stopnje ni bilo mogoče odpreti v urejevalniku. Ni zarisa sveta!"
 
-#: src/supertux/menu/game_menu.cpp:152
+#: src/supertux/menu/game_menu.cpp:151
 msgid "Couldn't open editor for this level."
 msgstr "Te stopnje ni bilo mogoče odpreti v urejevalniku."
 
-#: src/supertux/menu/game_menu.cpp:158
+#: src/supertux/menu/game_menu.cpp:157
 msgid "Couldn't open worldmap for this level."
 msgstr "Za to stopnjo ni bilo mogoče odpreti zarisa sveta."
 
@@ -4534,8 +4536,8 @@ msgstr "Ročna konfiguracija"
 
 #: src/supertux/menu/joystick_menu.cpp:59
 msgid ""
-"Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Uporabi ročno konfiguracijo namesto SDL2-jeve samodejne podpore GameController"
+"Use manual configuration instead of SDL3's automatic GameController support"
+msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:75
 #: src/supertux/menu/keyboard_menu.cpp:79
@@ -5117,194 +5119,184 @@ msgstr "Premor ob izgubi fokusa"
 msgid "Automatically pause the game when the window loses focus"
 msgstr "Ko igra ni več v ospredju namizja, se samodejno sproži premor"
 
-#: src/supertux/menu/options_menu.cpp:250
-msgid "Prefer Wayland"
-msgstr "Privzemi Wayland"
-
-#: src/supertux/menu/options_menu.cpp:251
-msgid ""
-"If you experience any issues with Nvidia cards, your window border, or "
-"anything you believe is due to Wayland, disable this. (Requires restart)"
-msgstr "Če se pojavijo težave z Nvidiinimi karticami, z robovi igralnega okna ali s čimerkoli, za kar bi lahko bil kriv Wayland, onemogoči to nastavitev. (Zahteva ponovni zagon igre)"
-
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Use custom mouse cursor"
 msgstr "Uporabi miškin kazalnik po meri"
 
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:248
 msgid "Whether the game renders its own cursor or uses the system's cursor"
 msgstr "Določi, ali naj igra izriše svoj kazalnik ali uporabi uporabnikov sistemski kazalnik"
 
-#: src/supertux/menu/options_menu.cpp:257
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Use native custom cursor"
 msgstr "Uporabi namizni kazalnik"
 
-#: src/supertux/menu/options_menu.cpp:257
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Whether the game uses a native custom cursor or renders it in the game"
 msgstr "Ali naj igra uporabi namizni kazalnik po meri ali naj ga nariše sama"
 
-#: src/supertux/menu/options_menu.cpp:259
+#: src/supertux/menu/options_menu.cpp:252
 msgid "Precise scrolling"
 msgstr "Natančno pomikanje"
 
-#: src/supertux/menu/options_menu.cpp:260
+#: src/supertux/menu/options_menu.cpp:253
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
 msgstr "Večina sodobnih sledilnih ploščic javlja natančno pomikanje.Onemogoči to nastavitev, če se pomikanje koleščka na običajni miški obnaša čudno ali če ti preprosto ne ustreza"
 
-#: src/supertux/menu/options_menu.cpp:262
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Invert horizontal scrolling"
 msgstr "Obrni vodoravno pomikanje"
 
-#: src/supertux/menu/options_menu.cpp:263
+#: src/supertux/menu/options_menu.cpp:256
 msgid "Inverts scrolling in the X-axis"
 msgstr "Obrne pomikanje po osi X"
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:258
 msgid "Invert vertical scrolling"
 msgstr "Obrni navpično pomikanje"
 
-#: src/supertux/menu/options_menu.cpp:266
+#: src/supertux/menu/options_menu.cpp:259
 msgid "Inverts scrolling in the Y-axis"
 msgstr "Obrne pomikanje po osi Y"
 
-#: src/supertux/menu/options_menu.cpp:272
+#: src/supertux/menu/options_menu.cpp:265
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
 msgstr "Ne prilagaja razmerja prikaza. Zanemari nekatere slikovne nastavitve. To je primerno za igralne avtomate ali neobičajne zaslone."
 
-#: src/supertux/menu/options_menu.cpp:272
+#: src/supertux/menu/options_menu.cpp:265
 msgid "Force full viewport"
 msgstr "Vsili polni pogled"
 
-#: src/supertux/menu/options_menu.cpp:276
+#: src/supertux/menu/options_menu.cpp:269
 msgid "Check for new releases"
 msgstr "Preveri za nove izdaje"
 
-#: src/supertux/menu/options_menu.cpp:277
+#: src/supertux/menu/options_menu.cpp:270
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr "Omogoča igri, da ob zagonu preveri, ali obstaja kakšna novejša izdaja, in te obvesti."
 
-#: src/supertux/menu/options_menu.cpp:281
+#: src/supertux/menu/options_menu.cpp:274
 msgid "Disable network"
 msgstr "Onemogoči internetno povezavo"
 
-#: src/supertux/menu/options_menu.cpp:282
+#: src/supertux/menu/options_menu.cpp:275
 msgid "Prevents the game from connecting online"
 msgstr "Prepreči igri, da se poveže na internet"
 
-#: src/supertux/menu/options_menu.cpp:284
+#: src/supertux/menu/options_menu.cpp:277
 msgid "Network support is disabled."
 msgstr "Omrežna podpora je onemogočena."
 
-#: src/supertux/menu/options_menu.cpp:350
+#: src/supertux/menu/options_menu.cpp:343
 msgid "Magnification"
 msgstr "Povečava"
 
-#: src/supertux/menu/options_menu.cpp:351
+#: src/supertux/menu/options_menu.cpp:344
 msgid "Change the magnification of the game area"
 msgstr "Spremeni povečavo igralne površine"
 
-#: src/supertux/menu/options_menu.cpp:387
+#: src/supertux/menu/options_menu.cpp:380
 msgid "Aspect Ratio"
 msgstr "Razmerje"
 
-#: src/supertux/menu/options_menu.cpp:388
+#: src/supertux/menu/options_menu.cpp:381
 msgid "Adjust the aspect ratio"
 msgstr "Spremeni razmerje"
 
-#: src/supertux/menu/options_menu.cpp:415
+#: src/supertux/menu/options_menu.cpp:408
 msgid "Window Resolution"
 msgstr "Ločljivost okna"
 
-#: src/supertux/menu/options_menu.cpp:416
+#: src/supertux/menu/options_menu.cpp:409
 msgid "Resize the window to the given size"
 msgstr "Poveča/zmanjša okno na dano velikost"
 
-#: src/supertux/menu/options_menu.cpp:446
+#: src/supertux/menu/options_menu.cpp:450
 msgid "Desktop"
 msgstr "Namizje"
 
-#: src/supertux/menu/options_menu.cpp:473
+#: src/supertux/menu/options_menu.cpp:479
 msgid "Fullscreen Resolution"
 msgstr "Celozaslonska ločljivost"
 
-#: src/supertux/menu/options_menu.cpp:474
+#: src/supertux/menu/options_menu.cpp:480
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Določi ločljivost za celoten zaslon (igra mora biti čez cel zaslon, da se bo sprememba pokazala)"
 
-#: src/supertux/menu/options_menu.cpp:480
+#: src/supertux/menu/options_menu.cpp:486
 msgid "on"
 msgstr "vključena"
 
-#: src/supertux/menu/options_menu.cpp:481
-#: src/supertux/menu/options_menu.cpp:506
+#: src/supertux/menu/options_menu.cpp:487
+#: src/supertux/menu/options_menu.cpp:512
 msgid "off"
 msgstr "izključena"
 
-#: src/supertux/menu/options_menu.cpp:482
+#: src/supertux/menu/options_menu.cpp:488
 msgid "adaptive"
 msgstr "prilagodljiva"
 
-#: src/supertux/menu/options_menu.cpp:500
+#: src/supertux/menu/options_menu.cpp:506
 msgid "VSync"
 msgstr "Navpična sinhronizacija"
 
-#: src/supertux/menu/options_menu.cpp:501
+#: src/supertux/menu/options_menu.cpp:507
 msgid "Set the VSync mode"
 msgstr "Nastavi navpično sinhronizacijo"
 
-#: src/supertux/menu/options_menu.cpp:507
+#: src/supertux/menu/options_menu.cpp:513
 msgid "reduced"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:508
+#: src/supertux/menu/options_menu.cpp:514
 msgid "full"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:522
+#: src/supertux/menu/options_menu.cpp:528
 msgid "Screen shake"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:523
+#: src/supertux/menu/options_menu.cpp:529
 msgid "Adjust amount of screen shake effects"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:558
+#: src/supertux/menu/options_menu.cpp:564
 msgid "Sound Volume"
 msgstr "Glasnost zvoka"
 
-#: src/supertux/menu/options_menu.cpp:559
+#: src/supertux/menu/options_menu.cpp:565
 msgid "Adjust sound volume"
 msgstr "Nastavi glasnost zvoka"
 
-#: src/supertux/menu/options_menu.cpp:594
+#: src/supertux/menu/options_menu.cpp:600
 msgid "Music Volume"
 msgstr "Glasnost glasbe"
 
-#: src/supertux/menu/options_menu.cpp:595
+#: src/supertux/menu/options_menu.cpp:601
 msgid "Adjust music volume"
 msgstr "Nastavi glasnost glasbe"
 
-#: src/supertux/menu/options_menu.cpp:630
+#: src/supertux/menu/options_menu.cpp:636
 msgid "Flash Intensity"
 msgstr "Jakost bliska"
 
-#: src/supertux/menu/options_menu.cpp:631
+#: src/supertux/menu/options_menu.cpp:637
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr "Prilagodi jakost bliska, ki ga proizvede nevihta"
 
-#: src/supertux/menu/options_menu.cpp:644
+#: src/supertux/menu/options_menu.cpp:650
 msgid "On-screen controls scale"
 msgstr "Velikost krmilnih elementov"
 
-#: src/supertux/menu/options_menu.cpp:767
+#: src/supertux/menu/options_menu.cpp:781
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -5413,7 +5405,7 @@ msgid ""
 "including all game progress on it. Are you sure?"
 msgstr "To bo izbrisalo profil \"{}\",\nvključno z vsem igralnim napredkom. Ali si prepričan/a?"
 
-#: src/supertux/menu/profile_menu.cpp:178
+#: src/supertux/menu/profile_menu.cpp:179
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"
@@ -5513,7 +5505,7 @@ msgstr "Vodoravni položaj predmeta v pikslih od leve proti desni."
 msgid "The vertical location of the object in pixels from the top."
 msgstr "Navpični položaj predmeta v pikslih od zgoraj navzdol."
 
-#: src/supertux/sector.cpp:519
+#: src/supertux/sector.cpp:500
 msgid "Press escape to skip"
 msgstr "Preskoči s pritiskom na ubežnico (Esc)"
 
@@ -5561,11 +5553,11 @@ msgstr "Najboljši"
 msgid "Others"
 msgstr "Drugo"
 
-#: src/supertux/title_screen.cpp:300
+#: src/supertux/title_screen.cpp:302
 msgid "Copyright"
 msgstr "Avtorske pravice"
 
-#: src/supertux/title_screen.cpp:301
+#: src/supertux/title_screen.cpp:303
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"

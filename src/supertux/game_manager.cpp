@@ -72,19 +72,26 @@ GameManager::start_level(Level* level,
                          const std::optional<std::pair<std::string, Vector>>& start_pos,
                          bool skip_intro)
 {
-  m_levelstream.str("");
-  m_levelstream.clear();
-  Writer writer(m_levelstream);
-  level->save(writer);
-  auto screen = std::make_unique<GameSession>(m_levelstream);
-  if (start_pos)
+  try
   {
-    screen->set_start_pos(start_pos->first, start_pos->second);
+    m_levelstream.str("");
+    m_levelstream.clear();
+    Writer writer(m_levelstream);
+    level->save(writer);
+    auto screen = std::make_unique<GameSession>(m_levelstream);
+    if (start_pos)
+    {
+      screen->set_start_pos(start_pos->first, start_pos->second);
+    }
+    screen->restart_level();
+    if (skip_intro)
+      screen->skip_intro();
+    ScreenManager::current()->push_screen(std::move(screen));
   }
-  screen->restart_level();
-  if (skip_intro)
-    screen->skip_intro();
-  ScreenManager::current()->push_screen(std::move(screen));
+  catch(const std::exception& e)
+  {
+    log_warning << "Couldn't start level: " << e.what() << std::endl;
+  }
 }
 
 worldmap::WorldMap*

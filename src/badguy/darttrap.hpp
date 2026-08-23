@@ -18,9 +18,20 @@
 
 #include "object/sticky_object.hpp"
 
-/** Badguy "DartTrap" - Shoots a Dart at regular intervals */
+/** Shoots darts at regular intervals
+ *
+ * @scripting
+ * @summary A ""DartTrap"" that was given a name can be controlled by scripts.
+            It shoots darts at regular intervals.
+ * @instances A ""DartTrap"" is instantiated by placing a definition inside a
+ level. It can then be accessed by its name from a script or via ""sector.name""
+ from the console.
+*/
 class DartTrap final : public StickyBadguy
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   DartTrap(const ReaderMapping& reader);
 
@@ -28,9 +39,38 @@ public:
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
 
+  /**
+   * @scripting
+   * @description Gets the delay between consecutive dart firings
+   * @return Delay in seconds
+   */
+  float get_fire_delay() const { return m_fire_delay; };
+
+  /**
+   * @scripting
+   * @description Sets the delay between consecutive dart firings
+   * @param fire_delay Delay in seconds
+   */
+  void set_fire_delay(float fire_delay) { m_fire_delay = fire_delay; };
+
+  /**
+   * @scripting
+   * @description Gets the amount of ammunition the darttrap has. 
+   * @return Ammunition of the darttrap, -1 for infinite ammunition.
+   */
+  int get_ammo() const { return m_ammo; };
+
+  /**
+   * @scripting
+   * @description Sets the amount of ammunition the darttrap has. 
+   * @param ammo Ammunition the darttrap is supposed to have, -1 for infinite ammunition.
+   */
+  void set_ammo(int ammo) { m_ammo = ammo; }
+
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   static std::string class_name() { return "darttrap"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "DartTrap"; }
   static std::string display_name() { return _("Dart Trap"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return StickyBadguy::get_class_types().add(typeid(DartTrap)); }
@@ -42,6 +82,18 @@ public:
 
   virtual void on_flip(float height) override;
   virtual void on_type_change(int old_type) override;
+
+  /**
+   * @scripting
+   * @description Enables the DartTrap.
+   */
+  void enable();
+
+  /**
+   * @scripting
+   * @description Disables the DartTrap.
+   */
+  void disable();
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;

@@ -23,6 +23,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_init.h>
+#include <SDL3/SDL_touch.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <physfs.h>
@@ -182,7 +183,18 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
   m_datadir(),
   m_userdir()
 {
-  if (!PHYSFS_init(argv0))
+  int physfs_init_success = 0;
+
+#ifdef __ANDROID__
+  PHYSFS_AndroidInit androidInit;
+  androidInit.jnienv = SDL_GetAndroidJNIEnv();
+  androidInit.context = SDL_GetAndroidActivity();
+  physfs_init_success = PHYSFS_init((const char*)(&androidInit));
+#else
+  physfs_init_success = PHYSFS_init(argv0); 
+#endif
+
+  if (!physfs_init_success)
   {
     std::stringstream msg;
     msg << "Couldn't initialize physfs: " << physfsutil::get_last_error();
@@ -480,10 +492,12 @@ SDLSubsystem::SDLSubsystem()
   }
 
 #ifdef __ANDROID__
-  g_config->mobile_controls = SDL_GetNumTouchDevices() > 0;
+  int num_touch_devices;
+  SDL_GetTouchDevices(&num_touch_devices);
+  g_config->mobile_controls = (num_touch_devices > 0);
 #endif
 
-  if (TTF_Init() < 0)
+  if (!TTF_Init())
   {
     std::stringstream msg;
     msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
@@ -778,7 +792,7 @@ Main::run(int argc, char** argv)
     }
 
 #ifdef __ANDROID__
-    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, SDL_AndroidGetExternalStoragePath()));
+    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, SDL_GetAndroidExternalStoragePath()));
 #else
     m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, args.userdir));
 #endif
@@ -871,8 +885,8 @@ Main::release_check()
     std::string latest_ver;
     if (mapping.get("latest", latest_ver) && latest_ver != PACKAGE_VERSION_TAG)
     {
-      const std::string version_full = std::string(PACKAGE_VERSION);
-      const std::string version = version_full.substr(version_full.find("v") + 1, version_full.find("-") - 1);
+      const std::string version_tag = std::string(PACKAGE_VERSION_TAG);
+      const std::string version = version_tag.substr(version_tag.find("v"), version_tag.find("-"));
       if (version != latest_ver)
       {
         auto notif = std::make_unique<Notification>("new_release_" + latest_ver, 20.f, false, true);

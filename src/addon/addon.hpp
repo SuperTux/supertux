@@ -93,8 +93,19 @@ public:
   inline bool is_enabled() const { return m_enabled; }
   inline bool is_visible() const { return true; }
 
+  /**
+   * Determines if the add-on is a levelset.
+   */
   bool is_levelset() const;
+
+  /**
+   * Determines if the add-on should override game data.
+   */
   bool overrides_data() const;
+
+  /**
+   * Determines if the add-on requires a restart to function after enabled.
+   */
   bool requires_restart() const;
 
   inline void set_install_filename(const std::string& absolute_filename, const std::string& md5)

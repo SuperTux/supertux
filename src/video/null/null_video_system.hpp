@@ -42,6 +42,7 @@ public:
   virtual void apply_config() override;
   virtual void flip() override;
   virtual void on_resize(int w, int h) override;
+  virtual SDL_Window* get_window() const override;
   virtual Size get_window_size() const override;
 
   virtual void set_vsync(int mode) override;

@@ -243,10 +243,8 @@ MobileController::apply(Controller& controller) const
 }
 
 bool
-MobileController::process_finger_down_event(const SDL_TouchFingerEvent& event)
+MobileController::pos_inside_widget(const Vector& pos) const
 {
-  Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
-  m_fingers[event.fingerID] = pos;
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||
@@ -254,6 +252,14 @@ MobileController::process_finger_down_event(const SDL_TouchFingerEvent& event)
     m_rect_directions.contains(pos) ||
     (g_config->developer_mode && m_rect_cheats.contains(pos)) ||
     (g_config->developer_mode && m_rect_debug.contains(pos));
+}
+
+bool
+MobileController::process_finger_down_event(const SDL_TouchFingerEvent& event)
+{
+  Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
+  m_fingers[event.fingerID] = pos;
+  return pos_inside_widget(pos);
 }
 
 bool
@@ -261,13 +267,7 @@ MobileController::process_finger_up_event(const SDL_TouchFingerEvent& event)
 {
   Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
   m_fingers.erase(event.fingerID);
-  return m_rect_jump.contains(pos) ||
-    m_rect_action.contains(pos) ||
-    m_rect_escape.contains(pos) ||
-    m_rect_item.contains(pos) ||
-    m_rect_directions.contains(pos) ||
-    (g_config->developer_mode && m_rect_cheats.contains(pos)) ||
-    (g_config->developer_mode && m_rect_debug.contains(pos));
+  return pos_inside_widget(pos);
 }
 
 bool
@@ -275,13 +275,7 @@ MobileController::process_finger_motion_event(const SDL_TouchFingerEvent& event)
 {
   Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
   m_fingers[event.fingerID] = pos;
-  return m_rect_jump.contains(pos) ||
-    m_rect_action.contains(pos) ||
-    m_rect_escape.contains(pos) ||
-    m_rect_item.contains(pos) ||
-    m_rect_directions.contains(pos) ||
-    (g_config->developer_mode && m_rect_cheats.contains(pos)) ||
-    (g_config->developer_mode && m_rect_debug.contains(pos));
+  return pos_inside_widget(pos);
 }
 
 void

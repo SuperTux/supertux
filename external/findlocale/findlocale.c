@@ -452,7 +452,7 @@ FL_FindLocale(FL_Locale **locale) {
 
   __android_log_print(ANDROID_LOG_INFO, "findlocale", "Finding locale");
 
-  env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+  env = (JNIEnv*) SDL_GetAndroidJNIEnv();
   // TODO: Specify package name in a compiler definition
   c_main = (*env)->FindClass(env, "org/supertux/supertux2/MainActivity");
   if (c_main != NULL)

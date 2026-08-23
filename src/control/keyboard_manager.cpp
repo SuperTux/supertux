@@ -37,24 +37,11 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
   auto key_mapping = m_keyboard_config.m_keymap.find(event.scancode);
 
   // if console key was pressed: toggle console
-  if (key_mapping != m_keyboard_config.m_keymap.end() &&
-      key_mapping->second.control == Control::CONSOLE)
-  {
-    if (event.type == SDL_EVENT_KEY_DOWN)
-    {
-      // text input gets locked between the console-key being pressed
-      // and released to avoid the console-key getting interpreted as
-      // text input and echoed to the console
-      m_lock_text_input = true;
+  bool console_key_pressed =
+    key_mapping != m_keyboard_config.m_keymap.end() &&
+    key_mapping->second.control == Control::CONSOLE;
 
-      Console::current()->toggle();
-    }
-    else if (event.type == SDL_EVENT_KEY_UP)
-    {
-      m_lock_text_input = false;
-    }
-  }
-  else if (Console::current()->hasFocus())
+  if (console_key_pressed || Console::current()->hasFocus())
   {
     // if console is open: send key there
     process_console_key_event(event);
@@ -99,6 +86,28 @@ KeyboardManager::process_text_input_event(const SDL_TextInputEvent& event)
 void
 KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
 {
+  auto key_mapping = m_keyboard_config.m_keymap.find(event.scancode);
+
+  // if console key was pressed: toggle console
+  if (key_mapping != m_keyboard_config.m_keymap.end() &&
+      key_mapping->second.control == Control::CONSOLE)
+  {
+    if (event.type == SDL_EVENT_KEY_DOWN)
+    {
+      // text input gets locked between the console-key being pressed
+      // and released to avoid the console-key getting interpreted as
+      // text input and echoed to the console
+      m_lock_text_input = true;
+
+      Console::current()->toggle();
+    }
+    else if (event.type == SDL_EVENT_KEY_UP)
+    {
+      m_lock_text_input = false;
+    }
+    return;
+  }
+
   if (event.type != SDL_EVENT_KEY_DOWN) return;
   auto console = Console::current();
 

@@ -48,6 +48,7 @@ public:
   void buzz();
 
 private:
+  bool pos_inside_widget(const Vector& pos) const;
   void activate_widget_at_pos(float x, float y);
 
 private:

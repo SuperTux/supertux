@@ -48,16 +48,5 @@ DraggableRegion::draw_draggable_box(DrawingContext& context)
   if (!g_debug.show_collision_rects)
     return;
 
-  context.color().draw_line(
-        { box.get_left(), box.get_top() },
-        { box.get_right(), box.get_top() }, m_color, LAYER_OBJECTS);
-  context.color().draw_line(
-        { box.get_left(), box.get_top() },
-        { box.get_left(), box.get_bottom() }, m_color, LAYER_OBJECTS);
-  context.color().draw_line(
-        { box.get_left(), box.get_bottom() },
-        { box.get_right(), box.get_bottom() }, m_color, LAYER_OBJECTS);
-  context.color().draw_line(
-        { box.get_right(), box.get_top() },
-        { box.get_right(), box.get_bottom() }, m_color, LAYER_OBJECTS);
+  context.color().draw_rect(box, m_color, LAYER_OBJECTS);
 }

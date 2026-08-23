@@ -902,7 +902,7 @@ OptionsMenu::menu_action(MenuItem& item)
 
     case MNID_DISABLE_NETWORK:
       refresh();
-      set_active_item(MNID_DISABLE_NETWORK);
+      set_active_item_id(MNID_DISABLE_NETWORK);
       break;
 
     default:

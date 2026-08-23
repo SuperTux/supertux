@@ -204,14 +204,9 @@ void
 DartTrap::on_flip(float height)
 {
   BadGuy::on_flip(height);
-  if (m_dir == Direction::UP)
+  if (m_dir == Direction::DOWN || m_dir == Direction::UP)
   {
-    m_dir = Direction::DOWN;
-    set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
-  }
-  else if (m_dir == Direction::DOWN)
-  {
-    m_dir = Direction::UP;
+    m_dir = invert_dir(m_dir);
     set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
   }
   else
@@ -236,4 +231,30 @@ DartTrap::on_type_change(int old_type)
       m_dart_lightsprite = "images/creatures/darttrap/skull/dart_light.sprite";
       break;
   }
+}
+
+void
+DartTrap::enable()
+{
+  m_enabled = true;
+}
+
+void
+DartTrap::disable()
+{
+  m_enabled = false;
+}
+
+
+void
+DartTrap::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<DartTrap>("DartTrap", vm.findClass("BadGuy"));
+
+  cls.addFunc("enable", &DartTrap::enable);
+  cls.addFunc("disable", &DartTrap::disable);
+  cls.addFunc("set_fire_delay", &DartTrap::set_fire_delay);
+  cls.addFunc("get_fire_delay", &DartTrap::get_fire_delay);
+  cls.addFunc("set_ammo", &DartTrap::set_ammo);
+  cls.addFunc("get_ammo", &DartTrap::get_ammo);
 }

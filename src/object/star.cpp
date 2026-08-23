@@ -47,21 +47,21 @@ Star::update(float dt_sec)
   if (auto* player = Sector::get().get_nearest_player (m_col.m_bbox)) {
     float disp_x = player->get_bbox().get_left() - m_col.m_bbox.get_left();
     float disp_y = player->get_bbox().get_top() - m_col.m_bbox.get_top();
-    if (disp_x*disp_x + disp_y*disp_y <= 256*256)
+    if (disp_x * disp_x + disp_y * disp_y <= 256 * 256)
     {
       if (graphicsRandom.rand(0, 2) == 0) {
-        float px = graphicsRandom.randf(m_col.m_bbox.get_left()+0, m_col.m_bbox.get_right()-0);
-        float py = graphicsRandom.randf(m_col.m_bbox.get_top()+0, m_col.m_bbox.get_bottom()-0);
+        float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
+        float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
         Vector ppos = Vector(px, py);
         Vector pspeed = Vector(0, 0);
         Vector paccel = Vector(0, 0);
         Sector::get().add<SpriteParticle>(
           "images/particles/sparkle.sprite",
           // draw bright sparkles when very close to Tux, dark sparkles when slightly further
-          (disp_x*disp_x + disp_y*disp_y <= 128*128) ?
+          (disp_x * disp_x + disp_y * disp_y <= 128 * 128) ?
           // make every other a longer sparkle to make trail a bit fuzzy
-          (size_t(g_game_time*20)%2) ? "small" : "medium" : "dark",
-          ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5);
+          (size_t(g_game_time * 20) % 2) ? "small" : "medium" : "dark",
+          ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS + 1 + 5);
       }
     }
   }

@@ -86,6 +86,12 @@ NullVideoSystem::on_resize(int w, int h)
   m_window_size = Size(w, h);
 }
 
+SDL_Window*
+NullVideoSystem::get_window() const
+{
+  return nullptr;
+}
+
 Size
 NullVideoSystem::get_window_size() const
 {
