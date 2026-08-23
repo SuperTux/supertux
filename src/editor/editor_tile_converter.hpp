@@ -22,9 +22,16 @@ namespace {
   const std::string& DEFAULT_CONVERTERS_PATH = "images/converters/data.stcd";
 }
 
+/**
+ * This class handles converting deprecated tiles in tilemaps
+ * to updated tiles.
+ */
 class EditorTileConverter
 {
 public:
+  /**
+   * Class containing structure about a tile conversion definition
+   */
   struct ConverterInfo
   {
     ConverterInfo() :
@@ -73,6 +80,12 @@ public:
   inline bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
 
 private:
+  /**
+   * Centers the editor to a certain tile.
+   * @param sector Sector the tile is on
+   * @param tilemap Tilemap containing the tile
+   * @param pos Index of the tile on the tilemap
+   */
   void focus_on_tile(Sector* sector, TileMap* tilemap, int pos);
 
 private:
