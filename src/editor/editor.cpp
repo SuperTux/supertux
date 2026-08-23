@@ -147,14 +147,14 @@ Editor::Editor() :
   m_leveltested(false),
   m_after_setup(false),
   m_tileset(nullptr),
-  m_has_deprecated_tiles(false),
   m_widgets(),
   m_controls(),
   m_post_save(nullptr),
   m_overlay_widget(),
   m_toolbox_widget(),
-  m_toolbar_widget(),
   m_layers_widget(),
+  m_toolbar_widget(),
+  m_tile_converter(),
   m_selected_object(),
   m_testing_disabled(false),
   m_enabled(false),
@@ -177,10 +177,14 @@ Editor::Editor() :
   auto overlay_widget = std::make_unique<EditorOverlayWidget>(*this);
   auto toolbar_widget = std::make_unique<EditorToolbarWidget>(*this);
 
+  auto tile_converter = std::make_unique<EditorTileConverter>();
+
   m_toolbox_widget = toolbox_widget.get();
   m_layers_widget = layers_widget.get();
   m_overlay_widget = overlay_widget.get();
   m_toolbar_widget = toolbar_widget.get();
+
+  m_tile_converter = tile_converter.get();
 
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
@@ -854,8 +858,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   if (!reset) return;
 
   // Warn the user if any deprecated tiles are used throughout the level
-  check_deprecated_tiles();
-  if (m_has_deprecated_tiles)
+  m_tile_converter->check_deprecated_tiles();
+  if (m_tile_converter->has_deprecated_tiles())
   {
     std::string message = _("This level contains deprecated tiles.\nIt is strongly recommended to replace all deprecated tiles\nto avoid loss of compatibility in future versions.");
     if (!g_config->editor_show_deprecated_tiles)
@@ -1012,94 +1016,6 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
   else
   {
     action();
-  }
-}
-
-void
-Editor::check_deprecated_tiles(bool focus)
-{
-  // Check for any deprecated tiles, used throughout the entire level
-  m_has_deprecated_tiles = false;
-  for (const auto& sector : m_level->get_sectors())
-  {
-    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
-    {
-      int pos = -1;
-      for (const uint32_t& tile_id : tilemap.get_tiles())
-      {
-        pos++;
-        if (m_tileset->get(tile_id).is_deprecated())
-        {
-          // Focus on deprecated tile
-          if (focus)
-          {
-            set_sector(sector.get());
-            m_layers_widget->set_selected_tilemap(&tilemap);
-
-            const int width = tilemap.get_width();
-            m_sector->get_camera().set_translation_centered(Vector(pos % width, pos / width) * 32.f);
-            keep_camera_in_bounds();
-          }
-
-          m_has_deprecated_tiles = true;
-          return;
-        }
-      }
-    }
-  }
-}
-
-void
-Editor::convert_tiles_by_file(const std::string& file)
-{
-  std::unordered_map<int, int> tiles;
-
-  try
-  {
-    IFileStream in(file);
-    if (!in.good())
-      throw std::runtime_error("Error opening file stream!");
-
-    int a, b;
-    std::string delimiter;
-    while (in >> a >> delimiter >> b)
-    {
-      if (delimiter != "->")
-        throw std::runtime_error("Expected '->' delimiter!");
-
-      tiles[a] = b;
-    }
-  }
-  catch (std::exception& err)
-  {
-    log_warning << "Couldn't parse conversion file '" << file << "': " << err.what() << std::endl;
-    return;
-  }
-
-  for (const auto& sector : m_level->get_sectors())
-  {
-    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
-    {
-      tilemap.save_state();
-      // Can't use change_all(), if there's like `1 -> 2`and then
-      // `2 -> 3`, it'll do a double replacement
-      for (int x = 0; x < tilemap.get_width(); x++)
-      {
-        for (int y = 0; y < tilemap.get_height(); y++)
-        {
-          auto tile = tilemap.get_tile_id(x, y);
-          try
-          {
-            tilemap.change(x, y, tiles.at(tile));
-          }
-          catch (std::out_of_range&)
-          {
-            // Expected for tiles that don't need to be replaced
-          }
-        }
-      }
-      tilemap.check_state();
-    }
   }
 }
 
