@@ -696,11 +696,8 @@ AddonManager::is_from_old_addon(const std::string& filename) const
 bool
 AddonManager::is_addon_installed(const std::string& id) const
 {
-  const auto installed_addons = get_installed_addons();
-  return std::any_of(installed_addons.begin(), installed_addons.end(),
-    [id] (const auto& installed_addon) {
-      return installed_addon == id;
-    });
+  const auto& addons = get_installed_addons();
+  return std::find(addons.begin(), addons.end(), id) != addons.end();
 }
 
 std::vector<AddonId>
@@ -750,23 +747,25 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
 {
   std::string nfoFilename = "";
   physfsutil::enumerate_files("/", [archive_os_path, &nfoFilename](const std::string& file) {
-    if (StringUtil::has_suffix(file, ".nfo"))
+    if (!StringUtil::has_suffix(file, ".nfo"))
     {
-      std::string nfo_filename = FileSystem::join("/", file);
+      return false;
+    }
 
-      // Make sure it's in the current archive_os_path.
-      const char* realdir = PHYSFS_getRealDir(nfo_filename.c_str());
-      if (!realdir)
+    std::string nfo_filename = FileSystem::join("/", file);
+
+    // Make sure it's in the current archive_os_path.
+    const char* realdir = PHYSFS_getRealDir(nfo_filename.c_str());
+    if (!realdir)
+    {
+      log_warning << "PHYSFS_getRealDir() failed for " << nfo_filename << ": " << physfsutil::get_last_error() << std::endl;
+    }
+    else
+    {
+      if (realdir == archive_os_path)
       {
-        log_warning << "PHYSFS_getRealDir() failed for " << nfo_filename << ": " << physfsutil::get_last_error() << std::endl;
-      }
-      else
-      {
-        if (realdir == archive_os_path)
-        {
-          nfoFilename = nfo_filename;
-          return true;
-        }
+        nfoFilename = nfo_filename;
+        return true;
       }
     }
     return false;
@@ -783,74 +782,73 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
   {
     log_warning << "PHYSFS_getRealDir() failed for " << archive << ": "
                 << physfsutil::get_last_error() << std::endl;
+    return;
+  }
+
+  bool has_error = false;
+  std::string os_path = FileSystem::join(realdir, archive);
+
+  PHYSFS_mount(os_path.c_str(), nullptr, 1);
+
+  std::string nfo_filename = scan_for_info(os_path);
+
+  if (nfo_filename.empty())
+  {
+    log_warning << "Couldn't find .nfo file for " << os_path << std::endl;
+    has_error = true;
   }
   else
   {
-    bool has_error = false;
-    std::string os_path = FileSystem::join(realdir, archive);
-
-    PHYSFS_mount(os_path.c_str(), nullptr, 1);
-
-    std::string nfo_filename = scan_for_info(os_path);
-
-    if (nfo_filename.empty())
+    try
     {
-      log_warning << "Couldn't find .nfo file for " << os_path << std::endl;
-      has_error = true;
-    }
-    else
-    {
+      std::unique_ptr<Addon> addon = Addon::parse(nfo_filename);
+      addon->set_install_filename(os_path, md5);
+      const auto& addon_id = addon->get_id();
+
       try
       {
-        std::unique_ptr<Addon> addon = Addon::parse(nfo_filename);
-        addon->set_install_filename(os_path, md5);
-        const auto& addon_id = addon->get_id();
-
-        try
+        get_installed_addon(addon_id);
+        if(user_install)
         {
-          get_installed_addon(addon_id);
-          if(user_install)
-          {
-            Dialog::show_message(fmt::format(_("Add-on {} by {} is already installed."),
-                                             addon->get_title(), addon->get_author()));
-          }
-        }
-        catch(...)
-        {
-          // Save add-on title and author on stack before std::move.
-          const std::string addon_title = addon->get_title();
-          const std::string addon_author = addon->get_author();
-          m_installed_addons[addon_id] = std::move(addon);
-          if(user_install)
-          {
-            try
-            {
-              enable_addon(addon_id);
-            }
-            catch(const std::exception& err)
-            {
-              log_warning << "Failed to enable add-on archive '" << addon_id << "': " << err.what() << std::endl;
-            }
-            Dialog::show_message(fmt::format(_("Add-on {} by {} successfully installed."),
-                                             addon_title, addon_author));
-            // If currently opened menu is add-ons menu refresh it.
-            AddonMenu* addon_menu = dynamic_cast<AddonMenu*>(MenuManager::instance().current_menu());
-            if (addon_menu)
-              addon_menu->refresh();
-          }
+          Dialog::show_message(fmt::format(_("Add-on {} by {} is already installed."),
+                                            addon->get_title(), addon->get_author()));
         }
       }
-      catch (const std::runtime_error& e)
+      catch(...)
       {
-        log_warning << "Could not load add-on info for " << archive << ": " << e.what() << std::endl;
-        has_error = true;
+        // Save add-on title and author on stack before std::move.
+        const std::string addon_title = addon->get_title();
+        const std::string addon_author = addon->get_author();
+        m_installed_addons[addon_id] = std::move(addon);
+        if(user_install)
+        {
+          try
+          {
+            enable_addon(addon_id);
+          }
+          catch(const std::exception& err)
+          {
+            log_warning << "Failed to enable add-on archive '" << addon_id << "': " << err.what() << std::endl;
+          }
+          Dialog::show_message(fmt::format(_("Add-on {} by {} successfully installed."),
+                                            addon_title, addon_author));
+          // If currently opened menu is add-ons menu refresh it.
+          AddonMenu* addon_menu = dynamic_cast<AddonMenu*>(MenuManager::instance().current_menu());
+          if (addon_menu)
+            addon_menu->refresh();
+        }
       }
     }
-
-    if(!user_install || has_error)
+    catch (const std::runtime_error& e)
     {
-      PHYSFS_unmount(os_path.c_str());
+      log_warning << "Could not load add-on info for " << archive << ": " << e.what() << std::endl;
+      has_error = true;
     }
+  }
+
+  if(!user_install || has_error)
+  {
+    PHYSFS_unmount(os_path.c_str());
   }
 }
 
