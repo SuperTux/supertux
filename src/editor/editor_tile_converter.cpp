@@ -20,16 +20,72 @@
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "supertux/level.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+
+using ConverterInfo = EditorTileConverter::ConverterInfo;
+
+EditorTileConverter::EditorTileConverter() :
+  m_converters(),
+  m_has_deprecated_tiles()
+{
+  load_definitions();
+}
+
+void
+EditorTileConverter::load_definitions(const std::string& filepath)
+{
+  m_converters.clear();
+
+  try
+  {
+    auto doc = ReaderDocument::from_file(filepath);
+    auto root = doc.get_root();
+    if (root.get_name() != "supertux-converter-data")
+      throw std::runtime_error("File is not a 'supertux-converters-data' file.");
+
+    auto iter = root.get_mapping().get_iter();
+    while (iter.next())
+    {
+      if (iter.get_key().empty())
+        continue;
+
+      ConverterInfo converter;
+
+      auto mapping = iter.as_mapping();
+      mapping.get("title", converter.title);
+      mapping.get("author", converter.author);
+      mapping.get("description", converter.description);
+
+      m_converters.insert({ iter.get_key(), converter });
+    }
+  }
+  catch (std::exception& err)
+  {
+    log_warning << "Cannot read converter data from '" << filepath << "': " << err.what() << std::endl;
+  }
+}
+
+const ConverterInfo*
+EditorTileConverter::get_tile_converter_info_for_file(const std::string& file_path) const
+{
+  std::string basename = FileSystem::basename(file_path);
+  auto it = m_converters.find(basename);
+  if (it == m_converters.end())
+    return nullptr;
+
+  return &(it->second);
+}
 
 void
 EditorTileConverter::check_deprecated_tiles(bool focus)
 {
   auto editor = Editor::current();
+  auto level = editor->get_level();
   auto layers_widget = editor->get_layers_widget();
 
-  // Check for any deprecated tiles, used throughout the entire level
   m_has_deprecated_tiles = false;
-  for (const auto& sector : editor->get_level()->get_sectors())
+  for (const auto& sector : level->get_sectors())
   {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>())
     {
