@@ -84,9 +84,9 @@ private:
    * Centers the editor to a certain tile.
    * @param sector Sector the tile is on
    * @param tilemap Tilemap containing the tile
-   * @param pos Index of the tile on the tilemap
+   * @param idx Index of the tile on the tilemap
    */
-  void focus_on_tile(Sector* sector, TileMap* tilemap, int pos);
+  void focus_on_tile(Sector* sector, TileMap* tilemap, int idx);
 
 private:
   std::map<std::string, ConverterInfo> m_converters;

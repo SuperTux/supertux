@@ -88,16 +88,16 @@ EditorTileConverter::check_deprecated_tiles(bool focus)
   {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>())
     {
-      int pos = -1;
+      int idx = -1;
       for (const uint32_t& tile_id : tilemap.get_tiles())
       {
-        pos++;
+        idx++;
         if (editor->get_tileset()->get(tile_id).is_deprecated())
         {
           // Focus on deprecated tile
           if (focus)
           {
-            focus_on_tile(sector.get(), &tilemap, pos);
+            focus_on_tile(sector.get(), &tilemap, idx);
           }
 
           m_has_deprecated_tiles = true;
