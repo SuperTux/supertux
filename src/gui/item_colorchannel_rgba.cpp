@@ -163,6 +163,8 @@ ItemColorChannelRGBA::remove_char()
 void
 ItemColorChannelRGBA::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+
   switch (action)
   {
     case MenuAction::REMOVE:

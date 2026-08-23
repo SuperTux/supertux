@@ -194,6 +194,8 @@ ItemHorizontalMenu::draw_item(DrawingContext& context, const ItemHorizontalMenu:
 void
 ItemHorizontalMenu::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+
   switch (action)
   {
     case MenuAction::LEFT:

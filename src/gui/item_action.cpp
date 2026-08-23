@@ -25,6 +25,8 @@ ItemAction::ItemAction(const std::string& text, int id, std::function<void()> ca
 void
 ItemAction::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+
   if (action == MenuAction::HIT && m_callback)
   {
     m_callback();

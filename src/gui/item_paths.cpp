@@ -29,6 +29,8 @@ ItemPaths::ItemPaths(const std::string& text, PathObject& target, const std::str
 
 void
 ItemPaths::process_action(const MenuAction& action) {
+  MenuItem::process_action(action);
+
   if (action == MenuAction::HIT) {
     MenuManager::instance().push_menu(std::make_unique<PathsMenu>(m_target, m_path_ref));
   }

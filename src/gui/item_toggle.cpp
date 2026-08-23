@@ -66,6 +66,8 @@ ItemToggle::get_width() const
 void
 ItemToggle::process_action(const MenuAction& action)
 {
+  MenuItem::process_action(action);
+
   if (action == MenuAction::HIT) {
     m_set_func(!m_get_func());
   }

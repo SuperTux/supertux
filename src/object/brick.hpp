@@ -33,6 +33,8 @@ public:
   static std::string display_name() { return _("Brick"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return Block::get_class_types().add(typeid(Brick)); }
+  virtual int get_coins_worth() const override;
+
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
@@ -52,6 +54,7 @@ private:
 private:
   bool m_breakable;
   int m_coin_counter;
+  int m_coins_worth;
 
 private:
   Brick(const Brick&) = delete;
@@ -70,6 +73,7 @@ public:
   static std::string display_name() { return _("Heavy Brick"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return Brick::get_class_types().add(typeid(HeavyBrick)); }
+  virtual int get_coins_worth() const override { return 0; }
 
   GameObjectTypes get_types() const override { return {}; }
 

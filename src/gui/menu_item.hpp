@@ -59,7 +59,18 @@ public:
   virtual int get_height() const { return 24; }
 
   /** Processes the menu action. */
-  virtual void process_action(const MenuAction& action) { }
+  virtual void process_action(const MenuAction& action)
+  {
+    if (action == MenuAction::SELECT)
+    {
+      activate();
+    }
+
+    if (action == MenuAction::UNSELECT)
+    {
+      deactivate();
+    }
+  }
 
   /** Processes the given event. */
   virtual void event(const SDL_Event& ev) { }

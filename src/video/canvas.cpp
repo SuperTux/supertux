@@ -263,8 +263,16 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
 }
 
 void
-Canvas::draw_filled_rect(const Rectf& rect, const Color& color,
-                         int layer)
+Canvas::draw_rect(const Rectf& rect, const Color& color, int layer)
+{
+  draw_line(rect.p1(), Vector(rect.p2().x, rect.p1().y), color, layer);
+  draw_line(rect.p1(), Vector(rect.p1().x, rect.p2().y), color, layer);
+  draw_line(Vector(rect.p1().x, rect.p2().y), rect.p2(), color, layer);
+  draw_line(Vector(rect.p2().x, rect.p1().y), rect.p2(), color, layer);
+}
+
+void
+Canvas::draw_filled_rect(const Rectf& rect, const Color& color, int layer)
 {
   draw_filled_rect(rect, color, 0.0f, layer);
 }

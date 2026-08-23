@@ -228,7 +228,7 @@ AddonMenu::check_for_updates()
     status->then([this](bool success)
     {
       if (success) refresh();
-      set_active_item(MNID_CHECK_ONLINE);
+      set_active_item_id(MNID_CHECK_ONLINE);
     });
   }
   catch (std::exception& e)

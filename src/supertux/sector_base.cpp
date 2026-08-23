@@ -24,7 +24,8 @@ namespace Base {
 Sector::Sector(const std::string& type) :
   m_name(),
   m_init_script(),
-  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type))
+  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type)),
+  m_destruction_imminent()
 {
 }
 
@@ -32,7 +33,8 @@ Sector::Sector(Sector* sector) :
   GameObjectManager(sector),
   m_name(sector->m_name),
   m_init_script(sector->m_init_script),
-  m_squirrel_environment(sector->m_squirrel_environment)
+  m_squirrel_environment(sector->m_squirrel_environment),
+  m_destruction_imminent()
 {
 }
 
@@ -46,6 +48,13 @@ Sector::finish_construction(bool)
 void
 Sector::run_script(const std::string& script, const std::string& sourcename)
 {
+  if (m_destruction_imminent)
+  {
+    // Sector is about to be destroyed. Don't run scripts for the
+    // contained game objects, since doing so could crash the game.
+    return;
+  }
+
   m_squirrel_environment->run_script(script, sourcename);
 }
 

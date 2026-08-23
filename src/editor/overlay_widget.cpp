@@ -509,9 +509,9 @@ EditorOverlayWidget::replace()
   auto tiles_width = tiles->m_width;
   auto tiles_height = tiles->m_height;
 
-  uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
-
   if (tiles_width == 0 || tiles_height == 0) return;
+
+  uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
   // Don't do anything if the old and new tiles are the same tile.
   if (tiles_width == 1 && tiles_height == 1 && replace_tile == tiles->pos(0, 0)) return;
@@ -1449,6 +1449,7 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size, bool
   {
     context.color().draw_line(from, to, col, current_tm->get_layer());
   };
+
   if (draw_shadow)
   {
     Vector viewport_scale = VideoSystem::current()->get_viewport().get_scale();
@@ -1499,10 +1500,8 @@ EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
   Vector start = tile_screen_pos( Vector(0, 0) );
   Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
                                        static_cast<float>(current_tm->get_height())) );
-  context.color().draw_line(start, Vector(start.x, end.y), Color(1, 0, 1), current_tm->get_layer());
-  context.color().draw_line(start, Vector(end.x, start.y), Color(1, 0, 1), current_tm->get_layer());
-  context.color().draw_line(Vector(start.x, end.y), end, Color(1, 0, 1), current_tm->get_layer());
-  context.color().draw_line(Vector(end.x, start.y), end, Color(1, 0, 1), current_tm->get_layer());
+  Rectf rect = Rectf(start, end);
+  context.color().draw_rect(rect, Color(1, 0, 1), current_tm->get_layer());
 }
 
 void
@@ -1534,10 +1533,10 @@ EditorOverlayWidget::draw_tilemap_outer_shading(DrawingContext& context)
 void
 EditorOverlayWidget::draw_path(DrawingContext& context)
 {
-  if (!m_edited_path) return;
-  if (!m_selected_object) return;
-  if (!m_selected_object->is_valid()) return;
-  if (!m_edited_path->is_valid()) return;
+  if (!m_edited_path || !m_edited_path->is_valid())
+    return;
+  if (!m_selected_object || !m_selected_object->is_valid())
+    return;
 
   auto path_nodes = m_edited_path->get_path().m_nodes;
 
