@@ -122,7 +122,7 @@ EditorLayersWidget::draw(DrawingContext& context)
                                        LAYER_GUI-5);
   }
 
-  if (!m_editor.is_level_loaded()) {
+  if (!m_editor.get_project()->is_level_loaded()) {
     return;
   }
 
