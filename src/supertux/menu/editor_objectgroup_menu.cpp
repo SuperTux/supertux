@@ -25,7 +25,10 @@
 
 EditorObjectgroupMenu::EditorObjectgroupMenu()
 {
-  bool worldmap = Editor::current()->get_level()->is_worldmap();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
+  bool worldmap = level->is_worldmap();
 
   add_label(_("Objects"));
   add_hl();
