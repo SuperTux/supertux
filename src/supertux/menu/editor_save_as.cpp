@@ -27,7 +27,7 @@
 #include "video/compositor.hpp"
 
 EditorSaveAs::EditorSaveAs(bool do_switch_file) :
-  m_filename(Editor::current()->get_levelfile()),
+  m_filename(Editor::current()->get_project()->get_level_file()),
   m_do_switch_file(do_switch_file)
 {
   add_label(do_switch_file ? _("Save Level as") : _("Save Copy"));
