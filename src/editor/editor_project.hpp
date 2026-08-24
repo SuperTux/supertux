@@ -17,31 +17,60 @@
 #pragma once
 
 #include "supertux/level.hpp"
+#include "supertux/level_parser.hpp"
+#include "supertux/tile_set.hpp"
 #include "supertux/world.hpp"
+#include "util/string_util.hpp"
 
 #include <string>
 
 class EditorProject
 {
+private:
+  static bool is_autosave_file(const std::string& filename) {
+    return StringUtil::has_suffix(filename, "~");
+  }
+  static std::string get_levelname_from_autosave(const std::string& filename) {
+    return is_autosave_file(filename) ? filename.substr(0, filename.size() - 1) : filename;
+  }
+  static std::string get_autosave_from_levelname(const std::string& filename) {
+    return is_autosave_file(filename) ? filename : filename + "~";
+  }
+
 public:
-  inline void set_world(std::unique_ptr<World> w) { m_world = std::move(w); }
+  EditorProject();
   inline World* get_world() const { return m_world.get(); }
+  inline void set_world(std::unique_ptr<World> w) { m_world = std::move(w); }
 
   std::string get_level_directory() const;
   inline const std::string& get_level_file() const { return m_levelfile; }
   inline Level* get_level() const { return m_level.get(); }
   inline void set_level(const std::string& levelfile) { m_levelfile = levelfile; }
   void set_level(std::unique_ptr<Level> level, bool reset = true);
+  void reload_level();
+
+  void level_from_nothing();
 
   inline bool is_temp_level() const { return m_temp_level; }
 
   inline Sector* get_sector() { return m_sector; }
   void set_sector(Sector* sector);
+  void load_sector(const std::string& name);
 
+  inline TileSet* get_tileset() const { return m_tileset; }
+
+  void reactivate();
+  void close();
   void reset();
 
   void open_level_directory();
-  void save_level();
+  bool save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr);
+  void trigger_post_save();
+
+  void autosave(float dt_sec);
+  void remove_autosave_file();
+
+  bool test_project(const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
 
 private:
   std::unique_ptr<World> m_world;
@@ -54,4 +83,6 @@ private:
   std::string m_autosave_levelfile;
   bool m_save_temp_level;
   float m_time_since_last_save;
-}
+
+  std::function<void ()> m_post_save;
+};
