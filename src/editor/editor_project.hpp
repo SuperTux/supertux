@@ -48,6 +48,7 @@ public:
   inline void set_level(const std::string& levelfile) { m_levelfile = levelfile; }
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
+  inline bool is_level_loaded() const { return m_level_loaded; }
 
   void level_from_nothing();
 
@@ -58,6 +59,7 @@ public:
   void load_sector(const std::string& name);
 
   inline TileSet* get_tileset() const { return m_tileset; }
+  inline void set_tileset(TileSet* tileset) { m_tileset = tileset; }
 
   void reactivate();
   void close();
@@ -70,7 +72,22 @@ public:
   void autosave(float dt_sec);
   void remove_autosave_file();
 
+  void pack_addon();
+
+  /** Checks whether the level can be saved and does not contain
+      obvious issues (currently: check if main sector and a spawn point
+      named "main" is present) */
+  void check_save_prerequisites(const std::function<void ()>& callback) const;
+
+  bool has_unsaved_changes() const;
+  void check_unsaved_changes(const std::function<void ()>& action);
+
   bool test_project(const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
+
+  const std::vector<Tilegroup>& get_tilegroups() const
+  {
+    return m_tileset->get_tilegroups();
+  }
 
 private:
   std::unique_ptr<World> m_world;
@@ -81,6 +98,7 @@ private:
   bool m_temp_level;
   std::string m_levelfile;
   std::string m_autosave_levelfile;
+  bool m_level_loaded;
   bool m_save_temp_level;
   float m_time_since_last_save;
 

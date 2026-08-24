@@ -16,7 +16,11 @@
 
 #include "editor/editor_project.hpp"
 
+#include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/dialog.hpp"
+#include "gui/notification.hpp"
+#include "object/spawnpoint.hpp"
 #include "physfs/util.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_manager.hpp"
@@ -25,8 +29,12 @@
 #include "supertux/sector_parser.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
+#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
+#include "util/writer.hpp"
+
+#include "zip_manager.hpp"
 
 #include <physfs.h>
 
@@ -46,6 +54,7 @@ EditorProject::EditorProject() :
 void
 EditorProject::reactivate()
 {
+  m_level_loaded = true;
   m_level->reactivate();
   m_sector->activate(Vector(0, 0));
 }
@@ -53,6 +62,7 @@ EditorProject::reactivate()
 void
 EditorProject::reset()
 {
+  m_level_loaded = false;
   m_level.reset();
   m_world.reset();
   m_levelfile.clear();
@@ -64,9 +74,9 @@ EditorProject::close()
 {
   remove_autosave_file();
 
-  if (m_world && !get_levelfile().empty() && g_config->editor_remember_last_level)
+  if (m_world && !get_level_file().empty() && g_config->editor_remember_last_level)
   {
-    g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), get_levelfile());
+    g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), get_level_file());
   }
 
   reset();
@@ -88,6 +98,7 @@ EditorProject::level_from_nothing()
 
   m_level->initialize();
   m_levelfile = "";
+  m_level_loaded = true;
   //m_reload_request = true;
 }
 
@@ -336,4 +347,159 @@ EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>&
     {
         return GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, start_pos);
     }
+}
+
+void
+EditorProject::check_save_prerequisites(const std::function<void ()>& callback) const
+{
+  if (m_level->is_worldmap())
+  {
+    callback();
+    return;
+  }
+
+  bool sector_valid = false, spawnpoint_valid = false;
+  for (const auto& sector : m_level->m_sectors)
+  {
+    if (sector->get_name() == DEFAULT_SECTOR_NAME)
+    {
+      sector_valid = true;
+      for (const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
+      {
+        if (spawnpoint.get_name() == DEFAULT_SPAWNPOINT_NAME)
+        {
+          spawnpoint_valid = true;
+        }
+      }
+    }
+  }
+
+  if(sector_valid && spawnpoint_valid)
+  {
+    callback();
+    return;
+  }
+
+  if (!sector_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+  }
+  else if (!spawnpoint_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
+  }
+}
+
+
+bool
+EditorProject::has_unsaved_changes() const
+{
+  auto level = get_level();
+  bool has_unsaved_changes = !g_config->editor_undo_tracking;
+  if (!has_unsaved_changes)
+  {
+    for (const auto& sector : level->m_sectors)
+    {
+      if (sector->has_object_changes())
+      {
+        has_unsaved_changes = true;
+        break;
+      }
+    }
+  }
+  return has_unsaved_changes;
+}
+
+void
+EditorProject::check_unsaved_changes(const std::function<void ()>& action)
+{
+  auto editor = Editor::current();
+  if (!m_level_loaded || !has_unsaved_changes())
+  {
+    action();
+    return;
+  }
+
+  editor->set_enabled(false);
+  auto dialog = std::make_unique<Dialog>();
+  if (m_temp_level)
+    dialog->set_text(_("This level hasn't been saved yet. Do you want to save it instead?"));
+  else
+    dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
+                                                    _("This level may contain unsaved changes, do you want to save?"));
+    dialog->add_default_button(_("Yes"), [this, action, editor] {
+      check_save_prerequisites([this, action] {
+      save_level("", false, action);
+      editor->set_enabled(true);
+    });
+  });
+  dialog->add_button(_("No"), [this, action, editor] {
+    action();
+    editor->set_enabled(true);
+  });
+  dialog->add_button(_("Cancel"), [editor] {
+    editor->set_enabled(true);
+  });
+
+  MenuManager::instance().set_dialog(std::move(dialog));
+}
+
+void
+EditorProject::pack_addon()
+{
+  auto id = FileSystem::basename(get_world()->get_basedir());
+  auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
+
+  int version = 0;
+  if (PHYSFS_exists(output_file_path.c_str()))
+  {
+    try
+    {
+      Partio::ZipFileReader zipold(output_file_path);
+      auto info_file = zipold.Get_File(id + ".nfo");
+      if (info_file)
+      {
+        auto info_stream = ReaderDocument::from_stream(*info_file);
+        auto a = info_stream.get_root().get_mapping();
+        a.get("version", version);
+      }
+    }
+    catch(const std::exception& e)
+    {
+      log_warning << e.what() << std::endl;
+    }
+  }
+  version++;
+
+  Partio::ZipFileWriter zip(output_file_path);
+  physfsutil::enumerate_files_recurse(get_world()->get_basedir(),
+    [&zip](const std::string& full_path)
+    {
+      auto os = zip.Add_File(full_path);
+      *os << std::ifstream(FileSystem::join(PHYSFS_getWriteDir(), full_path)).rdbuf();
+      return false;
+    });
+
+  std::stringstream ss;
+  Writer info(ss);
+
+  info.start_list("supertux-addoninfo");
+  {
+    info.write("id", id);
+    info.write("version", version);
+    info.write("type", get_world()->get_type());
+
+    info.write("title", get_world()->get_title());
+    info.write("author", get_level()->get_author());
+    info.write("license", get_level()->get_license());
+  }
+  info.end_list("supertux-addoninfo");
+
+  *zip.Add_File(id + ".nfo") << ss.rdbuf();
 }
