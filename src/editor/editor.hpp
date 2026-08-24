@@ -28,6 +28,7 @@
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
+#include "editor/editor_project.hpp"
 #include "editor/editor_tile_converter.hpp"
 #include "interface/control.hpp"
 #include "supertux/screen.hpp"
@@ -92,13 +93,6 @@ public:
 
   void disable_keyboard() { m_enabled = false; }
 
-  inline void set_world(std::unique_ptr<World> w) { m_world = std::move(w); }
-  inline World* get_world() const { return m_world.get(); }
-
-  inline Level* get_level() const { return m_level.get(); }
-
-  void set_sector(Sector* sector);
-
   inline TileSet* get_tileset() const { return m_tileset; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
@@ -113,25 +107,20 @@ public:
   inline int get_tileselect_select_mode() const { return m_toolbox_widget->get_tileselect_select_mode(); }
   inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
 
-  inline const std::string& get_levelfile() const { return m_levelfile; }
+  // inline const std::string& get_levelfile() const { return m_levelfile; }
 
   void level_from_nothing();
 
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   inline void set_level(const std::string& levelfile)
   {
-    m_levelfile = levelfile;
+    m_project->set_level(levelfile);
     m_reload_request = true;
   }
-  bool save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr);
+  void set_sector(Sector* sector);
+  //bool save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr);
 
   void trigger_post_save();
-
-  std::string get_level_directory() const;
-
-  inline bool is_temp_level() const { return m_temp_level; }
-
-  void open_level_directory();
 
   inline bool is_testing_level() const { return m_leveltested; }
 
@@ -179,8 +168,6 @@ public:
 
   inline TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
 
-  inline Sector* get_sector() { return m_sector; }
-
   inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
 
   EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
@@ -219,12 +206,12 @@ private:
 
   void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
-protected:
-  std::shared_ptr<Level> m_level;
-  std::unique_ptr<World> m_world;
+// protected:
+//   std::shared_ptr<Level> m_level;
+//   std::unique_ptr<World> m_world;
 
-  std::string m_levelfile;
-  std::string m_autosave_levelfile;
+//   std::string m_levelfile;
+//   std::string m_autosave_levelfile;
 
 public:
   bool m_quit_request;
@@ -256,14 +243,11 @@ public:
   bool m_tilebox_something_selected;
 
 private:
-  Sector* m_sector;
+  //Sector* m_sector;
 
   bool m_levelloaded;
   bool m_leveltested;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
-
-  TileSet* m_tileset;
-  bool m_temp_level;
 
   std::optional<std::pair<std::string, Vector>> m_last_test_pos;
   std::vector<std::unique_ptr<Widget> > m_widgets;
@@ -275,14 +259,13 @@ private:
   EditorLayersWidget* m_layers_widget;
   EditorToolbarWidget* m_toolbar_widget;
 
+  std::unique_ptr<EditorProject> m_project;
   std::unique_ptr<EditorTileConverter> m_tile_converter;
 
   TypedUID<GameObject> m_selected_object;
 
   bool m_enabled;
   SurfacePtr m_bgr_surface;
-
-  float m_time_since_last_save;
 
   float m_scroll_speed;
   float m_new_scale;
