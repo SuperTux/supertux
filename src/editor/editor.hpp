@@ -76,6 +76,9 @@ public:
 
   virtual IntegrationStatus get_status() const override;
 
+  bool get_enabled() const { return m_enabled; }
+  void set_enabled(bool enabled) { m_enabled = enabled; }
+
   bool has_focus() const;
   void event(const SDL_Event& ev) override;
   void on_window_resize() override;
@@ -107,19 +110,10 @@ public:
     m_reload_request = true;
   }
   void set_sector(Sector* sector);
-  //bool save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr);
-
-  void trigger_post_save();
 
   inline bool is_testing_level() const { return m_leveltested; }
 
   inline void update_autotileset() { m_overlay_widget->update_autotileset(); }
-
-  /** Checks whether the level can be saved and does not contain
-      obvious issues (currently: check if main sector and a spawn point
-      named "main" is present) */
-  void check_save_prerequisites(const std::function<void ()>& callback) const;
-  void check_unsaved_changes(const std::function<void ()>& action);
 
   void delete_current_sector();
 
@@ -134,7 +128,6 @@ public:
 
   void select_tilegroup(int id);
   void select_last_tilegroup();
-  const std::vector<Tilegroup>& get_tilegroups() const;
   void change_tileset();
 
   void select_objectgroup(int id);
@@ -143,8 +136,6 @@ public:
 
   void scroll(const Vector& velocity);
   void keep_camera_in_bounds();
-
-  inline bool is_level_loaded() const { return m_levelloaded; }
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
@@ -172,9 +163,6 @@ public:
   void set_undo_disabled(bool state);
   void set_redo_disabled(bool state);
 
-  bool has_unsaved_changes();
-
-  void pack_addon();
   inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
 private:
@@ -232,7 +220,6 @@ public:
 private:
   //Sector* m_sector;
 
-  bool m_levelloaded;
   bool m_leveltested;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 

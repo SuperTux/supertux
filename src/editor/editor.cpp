@@ -137,7 +137,6 @@ Editor::Editor() :
   m_alt_pressed(false),
   m_key_zoomed(false),
   m_pen_down(false),
-  m_levelloaded(false),
   m_leveltested(false),
   m_after_setup(false),
   m_widgets(),
@@ -198,7 +197,7 @@ Editor::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  if (m_levelloaded)
+  if (m_project->is_level_loaded())
   {
     for(const auto& widget : m_widgets)
     {
@@ -413,7 +412,7 @@ Editor::update(float dt_sec, const Controller& controller)
 
 
   // Update other components.
-  if (m_levelloaded && !m_leveltested) {
+  if (m_project->is_level_loaded() && !m_leveltested) {
     auto sector = m_project->get_sector();
     BIND_SECTOR(*sector);
 
@@ -486,7 +485,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
     return;
   }
 
-  check_save_prerequisites([this, test_pos]()
+  m_project->check_save_prerequisites([this, test_pos]()
   {
     m_leveltested = true;
 
@@ -508,7 +507,8 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 void
 Editor::scroll(const Vector& velocity)
 {
-  if (!m_levelloaded) return;
+  if (!m_project->is_level_loaded())
+    return;
 
   auto sector = m_project->get_sector();
   auto& camera = sector->get_camera();
@@ -642,8 +642,6 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
     m_toolbox_widget->get_tilebox().set_input_type(InputType::NONE);
   }
 
-  m_levelloaded = true;
-
   if (reset) {
     m_toolbox_widget->get_tilebox().set_input_type(InputType::TILE);
     m_toolbox_widget->get_tilebox().select_tilegroup(0);
@@ -697,7 +695,6 @@ Editor::reload_level()
 void
 Editor::reset_level()
 {
-  m_levelloaded = false;
   m_project->reset();
 
   m_reload_request = false;
@@ -715,8 +712,6 @@ Editor::quit_editor()
   auto quit = [this] ()
   {
     m_project->close();
-
-    m_levelloaded = false;
     m_enabled = false;
     Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
@@ -729,67 +724,9 @@ Editor::quit_editor()
 #endif
   };
 
-  check_unsaved_changes([quit] {
+  m_project->check_unsaved_changes([quit] {
     quit();
   });
-}
-
-bool
-Editor::has_unsaved_changes()
-{
-  auto level = m_project->get_level();
-  bool has_unsaved_changes = !g_config->editor_undo_tracking;
-  if (!has_unsaved_changes)
-  {
-    for (const auto& sector : level->m_sectors)
-    {
-      if (sector->has_object_changes())
-      {
-        has_unsaved_changes = true;
-        break;
-      }
-    }
-  }
-  return has_unsaved_changes;
-}
-
-void
-Editor::check_unsaved_changes(const std::function<void ()>& action)
-{
-  if (!m_levelloaded)
-  {
-    action();
-    return;
-  }
-
-  if (has_unsaved_changes())
-  {
-    m_enabled = false;
-    auto dialog = std::make_unique<Dialog>();
-    if (m_temp_level)
-      dialog->set_text(_("This level hasn't been saved yet. Do you want to save it instead?"));
-    else
-      dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
-                                                        _("This level may contain unsaved changes, do you want to save?"));
-    dialog->add_default_button(_("Yes"), [this, action] {
-      check_save_prerequisites([this, action] {
-        save_level("", false, action);
-        m_enabled = true;
-      });
-    });
-    dialog->add_button(_("No"), [this, action] {
-      action();
-      m_enabled = true;
-    });
-    dialog->add_button(_("Cancel"), [this] {
-      m_enabled = true;
-    });
-    MenuManager::instance().set_dialog(std::move(dialog));
-  }
-  else
-  {
-    action();
-  }
 }
 
 void
@@ -806,7 +743,7 @@ Editor::setup()
   Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
   m_after_setup = true;
-  if (!m_levelloaded)
+  if (!m_project->is_level_loaded())
   {
 #if 0
     if (AddonManager::current()->is_old_addon_enabled())
@@ -887,7 +824,7 @@ Editor::on_window_resize()
 bool
 Editor::has_focus() const
 {
-  if (!m_enabled || !m_levelloaded)
+  if (!m_enabled || !m_project->is_level_loaded())
     return false;
 
   const auto& menu_manager = MenuManager::instance();
@@ -976,7 +913,7 @@ Editor::event(const SDL_Event& ev)
               }
 
               if (m_shift_pressed)
-                m_last_test_pos = std::pair<std::string, Vector>(get_sector()->get_name(), m_overlay_widget->get_sector_pos());
+                m_last_test_pos = std::pair<std::string, Vector>(sector->get_name(), m_overlay_widget->get_sector_pos());
               else
                 m_last_test_pos = std::nullopt;
 
@@ -1062,7 +999,7 @@ Editor::event(const SDL_Event& ev)
       }
     }
 
-    BIND_SECTOR(*m_sector);
+    BIND_SECTOR(*m_project->get_sector());
 
     if (m_toolbar_widget->event(ev))
       return;
@@ -1111,20 +1048,16 @@ Editor::select_last_tilegroup()
   m_toolbox_widget->select_last_tilegroup();
 }
 
-const std::vector<Tilegroup>&
-Editor::get_tilegroups() const
-{
-  return m_tileset->get_tilegroups();
-}
-
 void
 Editor::change_tileset()
 {
-  m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
+  auto level = m_project->get_level();
+  auto level_tileset = level->get_tileset();
+  m_project->set_tileset(TileManager::current()->get_tileset(level_tileset));
   m_toolbox_widget->get_tilebox().set_input_type(InputType::TILE);
-  for (const auto& sector : m_level->m_sectors) {
+  for (const auto& sector : level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
-      tilemap.set_tileset(m_tileset);
+      tilemap.set_tileset(m_project->get_tileset());
     }
   }
   m_toolbox_widget->get_tilebox().select_tilegroup(0);
@@ -1153,67 +1086,22 @@ Editor::get_objectgroups() const
 }
 
 void
-Editor::check_save_prerequisites(const std::function<void ()>& callback) const
-{
-  if (m_level->is_worldmap())
-  {
-    callback();
-    return;
-  }
-
-  bool sector_valid = false, spawnpoint_valid = false;
-  for (const auto& sector : m_level->m_sectors)
-  {
-    if (sector->get_name() == DEFAULT_SECTOR_NAME)
-    {
-      sector_valid = true;
-      for (const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
-      {
-        if (spawnpoint.get_name() == DEFAULT_SPAWNPOINT_NAME)
-        {
-          spawnpoint_valid = true;
-        }
-      }
-    }
-  }
-
-  if(sector_valid && spawnpoint_valid)
-  {
-    callback();
-    return;
-  }
-
-  if (!sector_valid)
-  {
-    /*
-    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
-    */
-    Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
-  }
-  else if (!spawnpoint_valid)
-  {
-    /*
-    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
-    */
-    Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
-  }
-}
-
-void
 Editor::retoggle_undo_tracking()
 {
+  auto level = m_project->get_level();
   m_toolbar_widget->set_undo_disabled(true);
   m_toolbar_widget->set_redo_disabled(true);
   // Toggle undo tracking for all sectors.
-  for (const auto& sector : m_level->m_sectors)
+  for (const auto& sector : level->m_sectors)
     sector->toggle_undo_tracking(g_config->editor_undo_tracking);
 }
 
 void
 Editor::undo_stack_cleanup()
 {
+  auto level = m_project->get_level();
   // Set the undo stack size and perform undo stack cleanup on all sectors.
-  for (const auto& sector : m_level->m_sectors)
+  for (const auto& sector : level->m_sectors)
   {
     sector->set_undo_stack_size(g_config->editor_undo_stack_size);
     sector->undo_stack_cleanup();
@@ -1223,86 +1111,36 @@ Editor::undo_stack_cleanup()
 void
 Editor::undo()
 {
-  BIND_SECTOR(*m_sector);
-  m_sector->undo();
+  auto sector = m_project->get_sector();
+  BIND_SECTOR(*sector);
+  sector->undo();
   m_layers_widget->update_current_tip();
 }
 
 void
 Editor::redo()
 {
-  BIND_SECTOR(*m_sector);
-  m_sector->redo();
+  auto sector = m_project->get_sector();
+  BIND_SECTOR(*sector);
+  sector->redo();
   m_layers_widget->update_current_tip();
 }
 
 IntegrationStatus
 Editor::get_status() const
 {
+  auto level = m_project->get_level();
+
   IntegrationStatus status;
   status.m_details.push_back("In Editor");
-  if (!g_config->hide_editor_levelnames && m_level)
+  if (!g_config->hide_editor_levelnames && level)
   {
-    std::string level_type = (m_level->is_worldmap() ? "worldmap" : "level");
-    std::string status_text = "Editing " + level_type + ": " + m_level->get_name();
+    std::string level_type = (level->is_worldmap() ? "worldmap" : "level");
+    std::string status_text = "Editing " + level_type + ": " + level->get_name();
 
     status.m_details.push_back(status_text);
   }
   return status;
-}
-
-void
-Editor::pack_addon()
-{
-  auto id = FileSystem::basename(get_world()->get_basedir());
-  auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
-
-  int version = 0;
-  if (PHYSFS_exists(output_file_path.c_str()))
-  {
-    try
-    {
-      Partio::ZipFileReader zipold(output_file_path);
-      auto info_file = zipold.Get_File(id + ".nfo");
-      if (info_file)
-      {
-        auto info_stream = ReaderDocument::from_stream(*info_file);
-        auto a = info_stream.get_root().get_mapping();
-        a.get("version", version);
-      }
-    }
-    catch(const std::exception& e)
-    {
-      log_warning << e.what() << std::endl;
-    }
-  }
-  version++;
-
-  Partio::ZipFileWriter zip(output_file_path);
-  physfsutil::enumerate_files_recurse(get_world()->get_basedir(),
-    [&zip](const std::string& full_path)
-    {
-      auto os = zip.Add_File(full_path);
-      *os << std::ifstream(FileSystem::join(PHYSFS_getWriteDir(), full_path)).rdbuf();
-      return false;
-    });
-
-  std::stringstream ss;
-  Writer info(ss);
-
-  info.start_list("supertux-addoninfo");
-  {
-    info.write("id", id);
-    info.write("version", version);
-    info.write("type", get_world()->get_type());
-
-    info.write("title", get_world()->get_title());
-    info.write("author", get_level()->get_author());
-    info.write("license", get_level()->get_license());
-  }
-  info.end_list("supertux-addoninfo");
-
-  *zip.Add_File(id + ".nfo") << ss.rdbuf();
 }
 
 bool
