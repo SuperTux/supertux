@@ -78,11 +78,11 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
   // Cast to avoid compilation warning
   if (id >= 0 && id < static_cast<int>(m_level_full_paths.size()))
   {
-    if (editor->is_level_loaded() && m_level_full_paths[id] == editor_project->get_level()->m_filename)
+    if (editor_project->is_level_loaded() && m_level_full_paths[id] == editor_project->get_level()->m_filename)
       Dialog::show_message(_("You cannot delete the level that you are editing!"));
     else
     {
-      Dialog::show_confirmation(fmt::format(_("You are about to delete level \"{}\". Are you sure?"), m_level_names[id]), [this, id]()
+      Dialog::show_confirmation(fmt::format(_("You are about to delete level \"{}\". Are you sure?"), m_level_names[id]), [this, id, editor_project]()
       {
         PHYSFS_delete(m_level_full_paths[id].c_str());
         delete_item(id + 2);
@@ -90,7 +90,7 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
         m_level_names[id].clear();
         refresh();
         m_level_select_menu->reload_menu();
-        if (!Editor::current()->is_level_loaded())
+        if (!editor_project->is_level_loaded())
           m_levelset_select_menu->reload_menu();
       });
     }

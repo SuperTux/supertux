@@ -50,7 +50,10 @@ EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
   if (editor == nullptr) {
     return;
   }
-  if (!editor->is_level_loaded() && !editor->m_reload_request) {
+
+  auto editor_project = editor->get_project();
+
+  if (!editor_project->is_level_loaded() && !editor->m_reload_request) {
     editor->m_quit_request = true;
   }
 }
