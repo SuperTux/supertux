@@ -434,10 +434,10 @@ EditorProject::check_unsaved_changes(const std::function<void ()>& action)
     dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
                                                     _("This level may contain unsaved changes, do you want to save?"));
     dialog->add_default_button(_("Yes"), [this, action, editor] {
-      check_save_prerequisites([this, action] {
-      save_level("", false, action);
-      editor->set_enabled(true);
-    });
+      check_save_prerequisites([this, action, editor] {
+        save_level("", false, action);
+        editor->set_enabled(true);
+      });
   });
   dialog->add_button(_("No"), [this, action, editor] {
     action();
