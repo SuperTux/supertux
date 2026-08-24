@@ -48,10 +48,12 @@ EditorMenu::refresh()
   clear();
 
   auto editor = Editor::current();
-  bool worldmap = editor->get_level()->is_worldmap();
-  bool is_world = editor->get_world() != nullptr;
-  bool is_temp_level = editor->is_temp_level();
+  auto editor_project = editor->get_project();
   auto tile_converter = editor->get_tile_converter();
+
+  bool worldmap = editor_project->get_level()->is_worldmap();
+  bool is_world = editor_project->get_world() != nullptr;
+  bool is_temp_level = editor_project->is_temp_level();
 
   add_label(_("Level Editor"));
   add_hl();
@@ -106,7 +108,7 @@ EditorMenu::refresh()
   add_entry(MNID_HELP, _("Keyboard Shortcuts"));
 
   add_hl();
-  if (!Editor::current()->is_temp_level())
+  if (!editor_project->is_temp_level())
     add_entry(MNID_CLOSELEVEL, _("Close Level"));
   else if (Editor::current()->has_unsaved_changes())
     add_entry(MNID_CLOSELEVEL, _("Reset level"));
@@ -160,7 +162,7 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_OPEN_DIR:
-      Editor::current()->open_level_directory();
+      Editor::current()->get_project()->open_level_directory();
       break;
 
     case MNID_TESTLEVEL:
