@@ -44,8 +44,10 @@ LevelTile::LevelTile(const ReaderMapping& mapping) :
   m_statistics(),
   m_title_color(WorldMap::s_level_title_color)
 {
-  if (m_basedir.empty() && Editor::current() && Editor::current()->get_world())
-    m_basedir = Editor::current()->get_world()->get_basedir();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  if (m_basedir.empty() && editor && editor_project->get_world())
+    m_basedir = editor_project->get_world()->get_basedir();
 
   if (!mapping.get("level", m_level_filename)) {
     // Hack for backward compatibility with 0.5.x level
