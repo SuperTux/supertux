@@ -125,7 +125,7 @@ EditorTilebox::draw_tilegroup(DrawingContext& context)
       continue;
 
     auto position = get_tile_coords(pos, false);
-    m_editor.get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
+    m_editor.get_project()->get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
 
     if (g_config->developer_mode && (m_active_tilegroup->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
     {
@@ -391,7 +391,7 @@ EditorTilebox::on_select(const std::function<void(EditorTilebox&)>& callback)
 void
 EditorTilebox::select_tilegroup(int id)
 {
-  m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
+  m_active_tilegroup.reset(new Tilegroup(m_editor.get_project()->get_tileset()->get_tilegroups()[id]));
   m_tilegroup_id = id;
   m_input_type = InputType::TILE;
   reset_scrollbar();
@@ -427,7 +427,7 @@ EditorTilebox::change_tilegroup(int dir)
     return;
   }
 
-  size_t tilegroups_size = m_editor.get_tileset()->get_tilegroups().size();
+  size_t tilegroups_size = m_editor.get_project()->get_tileset()->get_tilegroups().size();
   m_tilegroup_id += dir;
   if (m_tilegroup_id < 0)
     m_tilegroup_id = tilegroups_size - 1;
@@ -446,6 +446,9 @@ EditorTilebox::change_objectgroup(int dir)
     return;
   }
 
+  auto editor = Editor::current();
+  bool is_worldmap = editor->get_project()->get_level()->is_worldmap();
+
   size_t objectgroups_size = m_object_info->m_groups.size();
   // We also need to skip worldmap groups if we aren't a worldmap here
   do
@@ -457,8 +460,7 @@ EditorTilebox::change_objectgroup(int dir)
     else if (m_objectgroup_id > objectgroups_size - 1)
       m_objectgroup_id = 0;
   }
-  while (!Editor::current()->get_level()->is_worldmap() &&
-          Editor::current()->get_objectgroups().at(m_objectgroup_id).is_worldmap());
+  while (!is_worldmap && editor->get_objectgroups().at(m_objectgroup_id).is_worldmap());
 
   select_last_objectgroup();
 }
@@ -466,7 +468,8 @@ EditorTilebox::change_objectgroup(int dir)
 bool
 EditorTilebox::select_layers_objectgroup()
 {
-  ObjectGroup* layers = m_editor.get_level()->is_worldmap() ?
+  bool is_worldmap = m_editor.get_project()->get_level()->is_worldmap();
+  ObjectGroup* layers = is_worldmap ?
     m_object_info->m_worldmap_layers_group.get() :
     m_object_info->m_layers_group.get();
 

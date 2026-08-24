@@ -1146,10 +1146,12 @@ TestFromHereOption::create_interface_control() const
   button->set_rect(Rectf(0, 32, 200, 32));
   button->m_on_activate_callbacks.emplace_back([object_ptr = m_value_pointer]() {
     Editor& editor = *Editor::current();
+    auto editor_project = editor.get_project();
+    auto sector = editor_project->get_sector();
     // TODO: Pressing the return key from within a game session automatically 
     // triggers this button again if it's previously been pushed. This needs
     // to get fixed.
-    editor.m_test_pos = std::make_pair(editor.get_sector()->get_name(), object_ptr->get_pos());
+    editor.m_test_pos = std::make_pair(sector->get_name(), object_ptr->get_pos());
     editor.m_test_request = true;
   });
   return button;

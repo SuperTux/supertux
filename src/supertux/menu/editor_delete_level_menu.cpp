@@ -72,10 +72,13 @@ void
 EditorDeleteLevelMenu::menu_action(MenuItem& item)
 {
   int id = item.get_id();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+
   // Cast to avoid compilation warning
   if (id >= 0 && id < static_cast<int>(m_level_full_paths.size()))
   {
-    if (Editor::current()->is_level_loaded() && m_level_full_paths[id] == Editor::current()->get_level()->m_filename)
+    if (editor->is_level_loaded() && m_level_full_paths[id] == editor_project->get_level()->m_filename)
       Dialog::show_message(_("You cannot delete the level that you are editing!"));
     else
     {

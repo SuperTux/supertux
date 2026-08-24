@@ -103,7 +103,8 @@ EditorLevelSelectMenu::~EditorLevelSelectMenu()
 World*
 EditorLevelSelectMenu::get_world() const
 {
-  return m_world ? m_world.get() : Editor::current()->get_world();
+  auto editor = Editor::current();
+  return m_world ? m_world.get() : editor->get_project()->get_world();
 }
 
 void
@@ -149,10 +150,11 @@ void
 EditorLevelSelectMenu::open_level(const std::string& filename)
 {
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
 
   // If a world has been provided (not associated with the editor), set it as the editor world.
   if (m_world)
-    editor->set_world(std::move(m_world));
+    editor_project->set_world(std::move(m_world));
 
   editor->set_level(filename);
   MenuManager::instance().clear_menu_stack();
@@ -162,10 +164,11 @@ void
 EditorLevelSelectMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
   if (item.get_id() >= 0)
   {
     std::string file_name = m_levelset->get_level_filename(item.get_id());
-    std::string file_name_full = FileSystem::join(editor->get_level_directory(), file_name);
+    std::string file_name_full = FileSystem::join(editor_project->get_level_directory(), file_name);
 
     if (PHYSFS_exists((file_name_full + "~").c_str())) {
       auto dialog = std::make_unique<Dialog>(/* passive = */ false, /* auto_clear_dialogs = */ false);

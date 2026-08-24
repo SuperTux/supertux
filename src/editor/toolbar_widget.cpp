@@ -85,7 +85,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     // Save button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
       [this] {
-        Editor::current()->save_level();
+        Editor::current()->get_project()->save_level();
       },
       _("Save level")),
 
