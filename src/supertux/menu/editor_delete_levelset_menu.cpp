@@ -76,7 +76,11 @@ EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
   const auto& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();
   if (id >= 0)
   {
-    if (Editor::is_active() && Editor::current()->get_world() && Editor::current()->get_world()->get_basedir() == contrib_worlds[id])
+    auto editor = Editor::current();
+    auto editor_project = editor->get_project();
+    auto world = editor_project->get_world();
+
+    if (Editor::is_active() && world && world->get_basedir() == contrib_worlds[id])
       Dialog::show_message(_("You cannot delete the world that you are editing"));
     else
     {

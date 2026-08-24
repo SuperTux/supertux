@@ -28,11 +28,14 @@
 
 EditorSectorsMenu::EditorSectorsMenu()
 {
+  auto editor_project = Editor::current()->get_project();
+  auto level = editor_project->get_level();
+
   add_label(_("Choose Sector"));
   add_hl();
 
   int id = 0;
-  for (const auto& sector : Editor::current()->get_level()->m_sectors) {
+  for (const auto& sector : level->m_sectors) {
     add_entry(id, sector->get_name());
     id++;
   }
@@ -52,7 +55,9 @@ EditorSectorsMenu::~EditorSectorsMenu()
 void
 EditorSectorsMenu::create_sector()
 {
-  auto level = Editor::current()->get_level();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
 
   auto new_sector = SectorParser::from_nothing(*level);
 
@@ -71,14 +76,14 @@ EditorSectorsMenu::create_sector()
   new_sector->set_name(sector_name);
 
   level->add_sector(std::move(new_sector));
-  Editor::current()->load_sector(sector_name);
+  editor_project->load_sector(sector_name);
   MenuManager::instance().clear_menu_stack();
 }
 
 void
 EditorSectorsMenu::delete_sector()
 {
-  Level* level = Editor::current()->get_level();
+  Level* level = Editor::current()->get_project()->get_level();
   auto dialog = std::make_unique<Dialog>();
 
   // Do not delete sector when there would be no left.
@@ -104,9 +109,10 @@ EditorSectorsMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() >= 0)
   {
-    Level* level = Editor::current()->get_level();
+    auto editor_project = Editor::current()->get_project();
+    Level* level = editor_project->get_level();
     Sector* sector = level->get_sector(item.get_id());
-    Editor::current()->load_sector(sector->get_name());
+    editor_project->load_sector(sector->get_name());
     MenuManager::instance().clear_menu_stack();
   }
   else

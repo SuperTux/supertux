@@ -25,7 +25,7 @@
 #include <fmt/format.h>
 
 EditorSectorMenu::EditorSectorMenu() :
-  sector(Editor::current()->get_sector()),
+  sector(Editor::current()->get_project()->get_sector()),
   original_name(sector->get_name()),
   size(sector->get_editor_size()),
   new_size(size),
@@ -56,8 +56,9 @@ EditorSectorMenu::~EditorSectorMenu()
     return;
   }
   // Makes sure that the name of the sector isn't already used.
-  auto level = editor->get_level();
+  auto level = editor->get_project()->get_level();
   bool is_sector = false;
+
   for (auto const& sector_ : level->m_sectors) {
     if (sector_->get_name() == sector->get_name()) {
       if (is_sector) {
