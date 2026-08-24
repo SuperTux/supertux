@@ -16,18 +16,38 @@
 
 #include "editor/editor_project.hpp"
 
+#include "gui/menu_manager.hpp"
+#include "physfs/util.hpp"
+#include "supertux/constants.hpp"
+#include "supertux/game_manager.hpp"
+#include "supertux/menu/menu_storage.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/sector_parser.hpp"
+#include "supertux/tile_manager.hpp"
+#include "util/file_system.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/string_util.hpp"
+
 #include <physfs.h>
 
 EditorProject::EditorProject() :
   m_world(),
   m_level(),
   m_tileset(),
-  m_temp_level(),
+  m_temp_level(true),
   m_levelfile(),
   m_autosave_levelfile(),
   m_save_temp_level(false),
-  m_time_since_last_save()
+  m_time_since_last_save(),
+  m_post_save(nullptr)
 {
+}
+
+void
+EditorProject::reactivate()
+{
+  m_level->reactivate();
+  m_sector->activate(Vector(0, 0));
 }
 
 void
@@ -40,27 +60,39 @@ EditorProject::reset()
 }
 
 void
-EditorProject::remove_autosave_file()
+EditorProject::close()
 {
-  if (m_temp_level)
-    return;
+  remove_autosave_file();
 
-  // Clear the auto-save file.
-  if (!m_autosave_levelfile.empty())
+  if (m_world && !get_levelfile().empty() && g_config->editor_remember_last_level)
   {
-    // Try to remove the test level using the PhysFS file system
-    if (physfsutil::remove(m_autosave_levelfile) != 0)
-    {
-      // This file is not inside any PhysFS mounts,
-      // try to remove this using normal file system
-      // methods.
-      FileSystem::remove(m_autosave_levelfile);
-    }
+    g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), get_levelfile());
   }
+
+  reset();
 }
 
 void
-EditorProject::set_level(std::unique_ptr<Level> level, bool reset = true)
+EditorProject::level_from_nothing()
+{
+  m_world.reset();
+
+  m_level = std::make_unique<Level>(false);
+  m_level->m_name = "";
+  m_level->m_license = LEVEL_DEFAULT_LICENSE;
+  m_level->m_tileset = "images/tiles.strf";
+
+  auto sector = SectorParser::from_nothing(*m_level);
+  sector->set_name(DEFAULT_SECTOR_NAME);
+  m_level->add_sector(std::move(sector));
+
+  m_level->initialize();
+  m_levelfile = "";
+  //m_reload_request = true;
+}
+
+void
+EditorProject::set_level(std::unique_ptr<Level> level, bool reset)
 {
   m_temp_level = (level == nullptr);
 
@@ -109,14 +141,105 @@ EditorProject::save_level(const std::string& filename, bool switch_file, const s
   {
     sector->on_editor_save();
   }
+
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
   remove_autosave_file();
+
   auto notif = std::make_unique<Notification>("save_level_notif", 3.f);
   notif->set_text(_("Level saved!"));
   MenuManager::instance().set_notification(std::move(notif));
+
   trigger_post_save();
   return true;
+}
+
+void
+EditorProject::trigger_post_save()
+{
+  if (m_post_save)
+  {
+    m_post_save();
+    m_post_save = nullptr;
+  }
+}
+
+void
+EditorProject::reload_level()
+{
+  ReaderMapping::s_translations_enabled = false;
+  try
+  {
+    set_level(LevelParser::from_file(m_world ?
+                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
+                                     true));
+  }
+  catch (const std::exception& err)
+  {
+    // In case the error was caused by the last edited level, say, not
+    // existing/being invalid, let's clear it
+    g_config->editor_last_edited_level = "";
+    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
+    throw err;
+  }
+  ReaderMapping::s_translations_enabled = true;
+
+  // Autosave files : Once the level is loaded, make sure
+  // to use the regular file.
+  m_levelfile = get_levelname_from_autosave(m_levelfile);
+  m_autosave_levelfile = FileSystem::join(get_level_directory(),
+                                          get_autosave_from_levelname(m_levelfile));
+}
+
+void
+EditorProject::autosave(float dt_sec)
+{
+  // Auto-save (interval).
+  if (m_level && !m_temp_level) {
+    m_time_since_last_save += dt_sec;
+    if (m_time_since_last_save >= static_cast<float>(std::max(
+        g_config->editor_autosave_frequency, 1)) * 60.f) {
+      m_time_since_last_save = 0.f;
+      std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+      std::string directory = get_level_directory();
+
+      // Set the test level file even though we're not testing, so that
+      // if the user quits the editor without ever testing, it'll delete
+      // the autosave file anyways.
+      m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+      try
+      {
+        m_level->save(m_autosave_levelfile);
+      }
+      catch(const std::exception& e)
+      {
+        log_warning << "Couldn't autosave: " << e.what() << '\n';
+      }
+    }
+  } else {
+    m_time_since_last_save = 0.f;
+  }
+}
+
+void
+EditorProject::remove_autosave_file()
+{
+  if (m_temp_level)
+    return;
+
+  // Clear the auto-save file.
+  if (!m_autosave_levelfile.empty())
+  {
+    // Try to remove the test level using the PhysFS file system
+    if (physfsutil::remove(m_autosave_levelfile) != 0)
+    {
+      // This file is not inside any PhysFS mounts,
+      // try to remove this using normal file system
+      // methods.
+      FileSystem::remove(m_autosave_levelfile);
+    }
+  }
 }
 
 std::string
@@ -149,7 +272,7 @@ EditorProject::open_level_directory()
 }
 
 void
-EditorProject::set_sector()
+EditorProject::set_sector(Sector* sector)
 {
   m_sector = sector;
   m_sector->activate(DEFAULT_SPAWNPOINT_NAME);
@@ -160,4 +283,57 @@ EditorProject::set_sector()
       object->after_editor_set();
     }
   }
+}
+
+void
+EditorProject::load_sector(const std::string& name)
+{
+  Sector* sector = m_level->get_sector(name);
+  if (!sector) {
+    sector = m_level->get_sector(0);
+  }
+
+  sector->set_undo_stack_size(g_config->editor_undo_stack_size);
+  sector->toggle_undo_tracking(g_config->editor_undo_tracking);
+
+  set_sector(sector);
+}
+
+bool
+EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>& start_pos)
+{
+    std::unique_ptr<World> owned_world;
+    World* current_world = m_world.get();
+
+    if ((m_level && !current_world) || m_levelfile == "")
+    {
+        GameManager::current()->start_level(m_level.get(), start_pos, true);
+        return true;
+    }
+
+    std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+    std::string directory = get_level_directory();
+
+    // This is jank to get an owned World pointer, GameManager/World
+    // could probably need a refactor to handle this better.
+    if (!current_world) {
+        owned_world = World::from_directory(directory);
+        current_world = owned_world.get();
+    }
+
+    m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+    m_level->save(m_autosave_levelfile);
+    m_time_since_last_save = 0.f;
+
+    if (!m_level->is_worldmap())
+    {
+        // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
+        //       If not, call reactivate().
+        GameManager::current()->start_level(*current_world, backup_filename, start_pos, true);
+        return true;
+    }
+    else
+    {
+        return GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, start_pos);
+    }
 }
