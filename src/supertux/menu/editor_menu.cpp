@@ -110,7 +110,7 @@ EditorMenu::refresh()
   add_hl();
   if (!editor_project->is_temp_level())
     add_entry(MNID_CLOSELEVEL, _("Close Level"));
-  else if (Editor::current()->has_unsaved_changes())
+  else if (editor_project->has_unsaved_changes())
     add_entry(MNID_CLOSELEVEL, _("Reset level"));
   add_entry(MNID_QUITEDITOR, _("Exit Level Editor"));
 }
@@ -123,6 +123,8 @@ void
 EditorMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+
   switch (item.get_id())
   {
     case MNID_RETURNTOEDITOR:
@@ -131,7 +133,7 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVELEVEL:
     {
-      editor->check_save_prerequisites([editor]() {
+      editor_project->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
         editor->m_save_request = true;
       });
@@ -140,7 +142,7 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVEASLEVEL:
     {
-      editor->check_save_prerequisites([] {
+      editor_project->check_save_prerequisites([] {
         MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(true));
       });
     }
@@ -148,15 +150,15 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVECOPYLEVEL:
     {
-      editor->check_save_prerequisites([] {
+      editor_project->check_save_prerequisites([] {
         MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(false));
       });
     }
       break;
 
     case MNID_PACK:
-      Dialog::show_confirmation(_("Do you want to package this world as an add-on?"), [] {
-        Editor::current()->pack_addon();
+      Dialog::show_confirmation(_("Do you want to package this world as an add-on?"), [editor_project] {
+        editor_project->pack_addon();
         FileSystem::open_path(FileSystem::join(PHYSFS_getWriteDir(), "addons"));
       });
       break;
@@ -167,7 +169,7 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_TESTLEVEL:
     {
-      editor->check_save_prerequisites([editor]() {
+      editor_project->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
         editor->m_test_pos = std::nullopt;
         editor->m_test_request = true;
@@ -221,19 +223,19 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_LEVELSEL:
-      editor->check_unsaved_changes([] {
+      editor_project->check_unsaved_changes([] {
         MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
       });
       break;
 
     case MNID_LEVELSETSEL:
-      editor->check_unsaved_changes([] {
+      editor_project->check_unsaved_changes([] {
         MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
       });
       break;
 
     case MNID_CLOSELEVEL:
-      editor->check_unsaved_changes([] {
+      editor_project->check_unsaved_changes([] {
         Editor::current()->set_level(nullptr, true);
         MenuManager::instance().clear_menu_stack();
       });
