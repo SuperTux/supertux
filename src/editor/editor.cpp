@@ -120,10 +120,6 @@ Editor::may_reactivate()
 
 
 Editor::Editor() :
-  m_level(),
-  m_world(),
-  m_levelfile(),
-  m_autosave_levelfile(),
   m_quit_request(false),
   m_newlevel_request(false),
   m_reload_request(false),
@@ -135,20 +131,17 @@ Editor::Editor() :
   m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
-  m_temp_level(true),
   m_particle_editor_filename(),
   m_ctrl_pressed(false),
   m_shift_pressed(false),
   m_alt_pressed(false),
   m_key_zoomed(false),
   m_pen_down(false),
-  m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
   m_after_setup(false),
   m_widgets(),
   m_controls(),
-  m_post_save(nullptr),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
@@ -195,22 +188,6 @@ Editor::~Editor()
 }
 
 void
-Editor::level_from_nothing()
-{
-	m_level = std::make_unique<Level>(false);
-	m_level->m_name = "";
-  m_level->m_license = LEVEL_DEFAULT_LICENSE;
-	m_level->m_tileset = "images/tiles.strf";
-	auto sector = SectorParser::from_nothing(*m_level);
-	sector->set_name(DEFAULT_SECTOR_NAME);
-	m_level->add_sector(std::move(sector));
-	m_level->initialize();
-  m_levelfile = "";
-  m_world.reset();
-	//m_reload_request = true;
-}
-
-void
 Editor::queue_layers_refresh()
 {
   m_layers_widget_needs_refresh = true;
@@ -251,7 +228,7 @@ Editor::draw(Compositor& compositor)
       context.push_transform();
       context.set_max_layer(LAYER_GUI - 22); // Lowest layer used by an editor UI item is LAYER_GUI - 21
 
-      m_sector->draw(context);
+      m_project->get_sector()->draw(context);
 
       context.pop_transform();
 
@@ -263,7 +240,7 @@ Editor::draw(Compositor& compositor)
         if (moving_selected_obj)
         {
           context.push_transform();
-          const Camera& camera = m_sector->get_camera();
+          const Camera& camera = get_project()->get_sector()->get_camera();
           context.set_translation(camera.get_translation());
           context.scale(camera.get_current_scale());
 
@@ -359,31 +336,7 @@ Editor::draw(Compositor& compositor)
 void
 Editor::update(float dt_sec, const Controller& controller)
 {
-  // Auto-save (interval).
-  if (m_level && !m_temp_level) {
-    m_time_since_last_save += dt_sec;
-    if (m_time_since_last_save >= static_cast<float>(std::max(
-        g_config->editor_autosave_frequency, 1)) * 60.f) {
-      m_time_since_last_save = 0.f;
-      std::string backup_filename = get_autosave_from_levelname(m_levelfile);
-      std::string directory = get_level_directory();
-
-      // Set the test level file even though we're not testing, so that
-      // if the user quits the editor without ever testing, it'll delete
-      // the autosave file anyways.
-      m_autosave_levelfile = FileSystem::join(directory, backup_filename);
-      try
-      {
-        m_level->save(m_autosave_levelfile);
-      }
-      catch(const std::exception& e)
-      {
-        log_warning << "Couldn't autosave: " << e.what() << '\n';
-      }
-    }
-  } else {
-    m_time_since_last_save = 0.f;
-  }
+  m_project->autosave(dt_sec);
 
   m_script_manager.poll();
 
@@ -434,7 +387,7 @@ Editor::update(float dt_sec, const Controller& controller)
   }
 
   if (m_save_request) {
-    save_level(m_save_request_filename, m_save_request_switch);
+    m_project->save_level(m_save_request_filename, m_save_request_switch);
     m_enabled = true;
     m_save_request = false;
     m_save_request_filename = "";
@@ -461,9 +414,10 @@ Editor::update(float dt_sec, const Controller& controller)
 
   // Update other components.
   if (m_levelloaded && !m_leveltested) {
-    BIND_SECTOR(*m_sector);
+    auto sector = m_project->get_sector();
+    BIND_SECTOR(*sector);
 
-    for (auto& object : m_sector->get_objects()) {
+    for (auto& object : sector->get_objects()) {
       object->editor_update();
     }
 
@@ -489,13 +443,13 @@ Editor::update(float dt_sec, const Controller& controller)
 
     // Now that all widgets have been updated, which should have relinquished
     // pointers to objects marked for deletion, we can actually delete them.
-    for (auto& sector : m_level->get_sectors())
+    for (auto& sector : m_project->get_level()->get_sectors())
       sector->flush_game_objects();
 
     update_keyboard(controller);
   }
 
-  Camera& camera = m_sector->get_camera();
+  Camera& camera = m_project->get_sector()->get_camera();
   // Ensure camera is free, which is like normal but immune to the camera boundary.
   camera.set_mode(Camera::Mode::FREE);
   // If camera scale must be changed, change it here.
@@ -534,43 +488,17 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 
   check_save_prerequisites([this, test_pos]()
   {
+    m_leveltested = true;
+
     Tile::draw_editor_images = false;
     Compositor::s_render_lighting = true;
-
-    std::unique_ptr<World> owned_world;
-    World* current_world = m_world.get();
 
     if (!g_config->max_viewport && g_config->editor_max_viewport)
       VideoSystem::current()->get_viewport().force_full_viewport(false);
 
-    m_leveltested = true;
-    if ((m_level && !current_world) || m_levelfile == "")
-    {
-      GameManager::current()->start_level(m_level.get(), test_pos, true);
-      return;
-    }
-
-    std::string backup_filename = get_autosave_from_levelname(m_levelfile);
-    std::string directory = get_level_directory();
-
-    // This is jank to get an owned World pointer, GameManager/World
-    // could probably need a refactor to handle this better.
-    if (!current_world) {
-      owned_world = World::from_directory(directory);
-      current_world = owned_world.get();
-    }
-
-    m_autosave_levelfile = FileSystem::join(directory, backup_filename);
-    m_level->save(m_autosave_levelfile);
-    m_time_since_last_save = 0.f;
-
-    if (!m_level->is_worldmap())
-    {
-      // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
-      //       If not, call reactivate().
-      GameManager::current()->start_level(*current_world, backup_filename, test_pos, true);
-    }
-    else if (!GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos))
+    bool test_successful = m_project->test_project(test_pos);
+    
+    if (!test_successful)
     {
       reactivate();
     }
@@ -582,14 +510,19 @@ Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
 
-  m_sector->get_camera().move(velocity / m_sector->get_camera().get_current_scale());
+  auto sector = m_project->get_sector();
+  auto& camera = sector->get_camera();
+
+  camera.move(velocity / camera.get_current_scale());
   keep_camera_in_bounds();
 }
 
 void
 Editor::keep_camera_in_bounds()
 {
-  Camera& camera = m_sector->get_camera();
+  auto sector = m_project->get_sector();
+  auto& camera = sector->get_camera();
+
   constexpr float offset = 80.f;
 #if 0
   float controls_offset_x = m_controls.size() != 0 ? -200.f : 0.f;
@@ -601,8 +534,8 @@ Editor::keep_camera_in_bounds()
 
   camera.keep_in_bounds(Rectf(-offset,
                               -offset,
-                              std::max(0.f, m_sector->get_editor_width()) + offset + 128.f,
-                              std::max(0.f, m_sector->get_editor_height()) + offset));
+                              std::max(0.f, sector->get_editor_width()) + offset + 128.f,
+                              std::max(0.f, sector->get_editor_height()) + offset));
   m_overlay_widget->update_pos();
 }
 
@@ -656,20 +589,6 @@ Editor::update_keyboard(const Controller& controller)
 }
 
 void
-Editor::load_sector(const std::string& name)
-{
-  Sector* sector = m_level->get_sector(name);
-  if (!sector) {
-    sector = m_level->get_sector(0);
-  }
-
-  sector->set_undo_stack_size(g_config->editor_undo_stack_size);
-  sector->toggle_undo_tracking(g_config->editor_undo_tracking);
-
-  set_sector(sector);
-}
-
-void
 Editor::set_sector(Sector* sector)
 {
   if (!sector) return;
@@ -683,18 +602,21 @@ Editor::set_sector(Sector* sector)
 void
 Editor::delete_current_sector()
 {
-  if (m_level->m_sectors.size() <= 1) {
+  auto level = m_project->get_level();
+  auto& sectors = level->m_sectors;
+
+  if (sectors.size() <= 1) {
     log_fatal << "Deleting the last sector is not allowed." << std::endl;
   }
 
-  for (auto i = m_level->m_sectors.begin(); i != m_level->m_sectors.end(); ++i) {
-    if ( i->get() == get_sector() ) {
-      m_level->m_sectors.erase(i);
+  for (auto i = sectors.begin(); i != sectors.end(); ++i) {
+    if ( i->get() == m_project->get_sector() ) {
+      sectors.erase(i);
       break;
     }
   }
 
-  set_sector(m_level->m_sectors.front().get());
+  set_sector(sectors.front().get());
   m_reactivate_request = true;
 }
 
@@ -705,11 +627,12 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   Vector translation(0.0f, 0.0f);
 
   m_script_manager.clear_tmp();
-  m_project->set_level(level);
+  m_project->set_level(std::move(level));
 
-  if (!reset && m_sector) {
-    translation = m_sector->get_camera().get_translation();
-    sector_name = m_sector->get_name();
+  auto sector = m_project->get_sector();
+  if (!reset && sector) {
+    translation = sector->get_camera().get_translation();
+    sector_name = sector->get_name();
   }
 
   m_reload_request = false;
@@ -726,14 +649,14 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
     m_toolbox_widget->get_tilebox().select_tilegroup(0);
   }
 
-  load_sector(sector_name);
+  m_project->load_sector(sector_name);
 
-  if (m_sector != nullptr)
+  if (sector != nullptr)
   {
-    m_sector->get_camera().set_mode(Camera::Mode::FREE);
+    sector->get_camera().set_mode(Camera::Mode::FREE);
 
     if (!reset) {
-      m_sector->get_camera().set_translation(translation);
+      sector->get_camera().set_translation(translation);
     }
   }
 
@@ -758,33 +681,17 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 void
 Editor::reload_level()
 {
-  ReaderMapping::s_translations_enabled = false;
   try
   {
-    set_level(LevelParser::from_file(m_world ?
-                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
-                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
-                                     true));
+    m_project->reload_level();
   }
-  catch (const std::exception& err)
+  catch(const std::exception& e)
   {
-    // In case the error was caused by the last edited level, say, not
-    // existing/being invalid, let's clear it
-    g_config->editor_last_edited_level = "";
-    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
     reset_level();
-    return;
   }
-  ReaderMapping::s_translations_enabled = true;
 
   retoggle_undo_tracking();
   undo_stack_cleanup();
-
-  // Autosave files : Once the level is loaded, make sure
-  // to use the regular file.
-  m_levelfile = get_levelname_from_autosave(m_levelfile);
-  m_autosave_levelfile = FileSystem::join(get_level_directory(),
-                                          get_autosave_from_levelname(m_levelfile));
 }
 
 void
@@ -801,31 +708,13 @@ Editor::reset_level()
 }
 
 void
-Editor::trigger_post_save()
-{
-  if (m_post_save)
-  {
-    m_post_save();
-    m_post_save = nullptr;
-  }
-}
-
-void
 Editor::quit_editor()
 {
   m_quit_request = false;
 
   auto quit = [this] ()
   {
-    remove_autosave_file();
-
-    if (m_world && !get_levelfile().empty() && g_config->editor_remember_last_level)
-    {
-      g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), get_levelfile());
-    }
-
-    // Quit level editor.
-    m_project->reset();
+    m_project->close();
 
     m_levelloaded = false;
     m_enabled = false;
@@ -848,10 +737,11 @@ Editor::quit_editor()
 bool
 Editor::has_unsaved_changes()
 {
+  auto level = m_project->get_level();
   bool has_unsaved_changes = !g_config->editor_undo_tracking;
   if (!has_unsaved_changes)
   {
-    for (const auto& sector : m_level->m_sectors)
+    for (const auto& sector : level->m_sectors)
     {
       if (sector->has_object_changes())
       {
@@ -945,7 +835,7 @@ Editor::setup()
     if (g_config->editor_remember_last_level &&
         !g_config->editor_last_edited_level.empty())
     {
-      set_world(std::move(
+      m_project->set_world(std::move(
         World::from_directory(FileSystem::dirname(g_config->editor_last_edited_level))));
       set_level(FileSystem::basename(g_config->editor_last_edited_level));
     }
@@ -975,9 +865,7 @@ Editor::reactivate()
   m_leveltested = false;
   Tile::draw_editor_images = true;
 
-  m_level->reactivate();
-
-  m_sector->activate(Vector(0,0));
+  m_project->reactivate();
 
   MenuManager::instance().clear_menu_stack();
   SoundManager::current()->stop_music();
@@ -1022,6 +910,9 @@ Editor::event(const SDL_Event& ev)
   for(const auto& control : m_controls)
     if (control->event(ev))
       return;
+
+  auto sector = m_project->get_sector();
+  auto& camera = sector->get_camera();
 
   try
   {
@@ -1092,7 +983,7 @@ Editor::event(const SDL_Event& ev)
               test_level(m_last_test_pos);
               break;
             case SDLK_S:
-              save_level();
+              m_project->save_level();
               break;
             case SDLK_Z:
               undo();
@@ -1118,12 +1009,12 @@ Editor::event(const SDL_Event& ev)
             case SDLK_EQUALS:
             case SDLK_KP_PLUS:
               m_key_zoomed = true;
-              m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
+              m_new_scale = camera.get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
               break;
             case SDLK_MINUS: // Zoom out
             case SDLK_KP_MINUS:
               m_key_zoomed = true;
-              m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
+              m_new_scale = camera.get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
               break;
             case SDLK_D: // Reset zoom
               m_new_scale = 1.f;
@@ -1164,7 +1055,7 @@ Editor::event(const SDL_Event& ev)
         // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
         // The toolbox does scrolling independently from the main area.
         if (m_ctrl_pressed)
-          m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(wheel_y) * CAMERA_ZOOM_SENSITIVITY;
+          m_new_scale = camera.get_current_scale() + static_cast<float>(wheel_y) * CAMERA_ZOOM_SENSITIVITY;
         else
           scroll({ static_cast<float>((m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1 : 1) : wheel_x) * 40),
                    static_cast<float>((m_shift_pressed ? wheel_x : wheel_y) * -40) });

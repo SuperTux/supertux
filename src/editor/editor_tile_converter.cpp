@@ -81,7 +81,8 @@ void
 EditorTileConverter::check_deprecated_tiles(bool focus)
 {
   auto editor = Editor::current();
-  auto level = editor->get_level();
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
 
   m_has_deprecated_tiles = false;
   for (const auto& sector : level->get_sectors())
@@ -92,7 +93,7 @@ EditorTileConverter::check_deprecated_tiles(bool focus)
       for (const uint32_t& tile_id : tilemap.get_tiles())
       {
         idx++;
-        if (editor->get_tileset()->get(tile_id).is_deprecated())
+        if (editor_project->get_tileset()->get(tile_id).is_deprecated())
         {
           // Focus on deprecated tile
           if (focus)
@@ -131,7 +132,7 @@ void
 EditorTileConverter::convert_tiles_by_file(const std::string& file)
 {
   auto editor = Editor::current();
-  auto level = editor->get_level();
+  auto level = editor->get_project()->get_level();
 
   std::unordered_map<int, int> tiles;
 

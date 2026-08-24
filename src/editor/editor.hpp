@@ -61,17 +61,6 @@ public:
   static void may_deactivate();
   static void may_reactivate();
 
-private:
-  static bool is_autosave_file(const std::string& filename) {
-    return StringUtil::has_suffix(filename, "~");
-  }
-  static std::string get_levelname_from_autosave(const std::string& filename) {
-    return is_autosave_file(filename) ? filename.substr(0, filename.size() - 1) : filename;
-  }
-  static std::string get_autosave_from_levelname(const std::string& filename) {
-    return is_autosave_file(filename) ? filename : filename + "~";
-  }
-
 public:
   static bool s_resaving_in_progress;
 
@@ -93,7 +82,7 @@ public:
 
   void disable_keyboard() { m_enabled = false; }
 
-  inline TileSet* get_tileset() const { return m_tileset; }
+  //inline TileSet* get_tileset() const { return m_tileset; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
   inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
@@ -124,8 +113,6 @@ public:
 
   inline bool is_testing_level() const { return m_leveltested; }
 
-  void remove_autosave_file();
-
   inline void update_autotileset() { m_overlay_widget->update_autotileset(); }
 
   /** Checks whether the level can be saved and does not contain
@@ -134,7 +121,6 @@ public:
   void check_save_prerequisites(const std::function<void ()>& callback) const;
   void check_unsaved_changes(const std::function<void ()>& action);
 
-  void load_sector(const std::string& name);
   void delete_current_sector();
 
   void update_node_iterators();
@@ -171,6 +157,7 @@ public:
   inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
 
   EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
+  EditorProject* get_project() const { return m_project.get(); }
 
   void queue_layers_refresh();
 
@@ -252,7 +239,6 @@ private:
   std::optional<std::pair<std::string, Vector>> m_last_test_pos;
   std::vector<std::unique_ptr<Widget> > m_widgets;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
-  std::function<void ()> m_post_save;
 
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
