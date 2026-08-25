@@ -206,30 +206,37 @@ EditorProject::reload_level()
 void
 EditorProject::autosave(float dt_sec)
 {
-  // Auto-save (interval).
-  if (m_level && !m_temp_level) {
-    m_time_since_last_save += dt_sec;
-    if (m_time_since_last_save >= static_cast<float>(std::max(
-        g_config->editor_autosave_frequency, 1)) * 60.f) {
-      m_time_since_last_save = 0.f;
-      std::string backup_filename = get_autosave_from_levelname(m_levelfile);
-      std::string directory = get_level_directory();
-
-      // Set the test level file even though we're not testing, so that
-      // if the user quits the editor without ever testing, it'll delete
-      // the autosave file anyways.
-      m_autosave_levelfile = FileSystem::join(directory, backup_filename);
-      try
-      {
-        m_level->save(m_autosave_levelfile);
-      }
-      catch(const std::exception& e)
-      {
-        log_warning << "Couldn't autosave: " << e.what() << '\n';
-      }
-    }
-  } else {
+  if (!m_level || m_temp_level)
+  {
     m_time_since_last_save = 0.f;
+    return;
+  }
+
+  // Auto-save (interval).
+  m_time_since_last_save += dt_sec;
+
+  float autosave_frequency_sec =
+    static_cast<float>(std::max(g_config->editor_autosave_frequency, 1)) * 60.f;
+
+  if (m_time_since_last_save < autosave_frequency_sec)
+    return;
+
+  m_time_since_last_save = 0.f;
+  std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+  std::string directory = get_level_directory();
+
+  // Set the test level file even though we're not testing, so that
+  // if the user quits the editor without ever testing, it'll delete
+  // the autosave file anyways.
+  m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+
+  try
+  {
+    m_level->save(m_autosave_levelfile);
+  }
+  catch(const std::exception& e)
+  {
+    log_warning << "Couldn't autosave: " << e.what() << '\n';
   }
 }
 
