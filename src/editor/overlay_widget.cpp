@@ -1305,10 +1305,11 @@ EditorOverlayWidget::update_pos()
 {
   auto editor_project = m_editor.get_project();
   auto sector = editor_project->get_sector();
-  auto& camera = sector->get_camera();
 
   if(sector == nullptr)
     return;
+
+  auto& camera = sector->get_camera();
 
   m_sector_pos = m_mouse_pos / camera.get_current_scale() + camera.get_translation();
 
