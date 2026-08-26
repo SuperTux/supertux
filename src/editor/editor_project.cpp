@@ -42,9 +42,11 @@ EditorProject::EditorProject() :
   m_world(),
   m_level(),
   m_tileset(),
+  m_sector(),
   m_temp_level(true),
   m_levelfile(),
   m_autosave_levelfile(),
+  m_level_loaded(),
   m_save_temp_level(false),
   m_time_since_last_save(),
   m_post_save(nullptr)
@@ -107,7 +109,7 @@ EditorProject::set_level(std::unique_ptr<Level> level, bool reset)
 {
   m_temp_level = (level == nullptr);
 
-  if (!m_temp_level)
+  if (level != nullptr)
   {
     // Reload level.
     m_level = std::move(level);
@@ -122,6 +124,8 @@ EditorProject::set_level(std::unique_ptr<Level> level, bool reset)
   {
     m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
   }
+
+  m_level_loaded = true;
 }
 
 bool
