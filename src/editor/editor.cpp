@@ -410,10 +410,14 @@ Editor::update(float dt_sec, const Controller& controller)
     return;
   }
 
+  auto sector = m_project->get_sector();
+  if (sector == nullptr)
+  {
+    return;
+  }
 
   // Update other components.
   if (m_project->is_level_loaded() && !m_leveltested) {
-    auto sector = m_project->get_sector();
     BIND_SECTOR(*sector);
 
     for (auto& object : sector->get_objects()) {
@@ -448,7 +452,7 @@ Editor::update(float dt_sec, const Controller& controller)
     update_keyboard(controller);
   }
 
-  Camera& camera = m_project->get_sector()->get_camera();
+  Camera& camera = sector->get_camera();
   // Ensure camera is free, which is like normal but immune to the camera boundary.
   camera.set_mode(Camera::Mode::FREE);
   // If camera scale must be changed, change it here.
