@@ -190,7 +190,7 @@ EditorProject::save_level(const std::string& filename, bool switch_file, const s
   if (switch_file)
     m_levelfile = filename;
 
-  for (const auto& sector : m_level->m_sectors)
+  for (const auto& sector : m_level->get_sectors())
   {
     sector->on_editor_save();
   }
@@ -422,7 +422,7 @@ EditorProject::check_save_prerequisites(const std::function<void ()>& callback) 
   }
 
   bool sector_valid = false, spawnpoint_valid = false;
-  for (const auto& sector : m_level->m_sectors)
+  for (const auto& sector : m_level->get_sectors())
   {
     if (sector->get_name() == DEFAULT_SECTOR_NAME)
     {
@@ -467,7 +467,7 @@ EditorProject::has_unsaved_changes() const
   bool has_unsaved_changes = !g_config->editor_undo_tracking;
   if (!has_unsaved_changes)
   {
-    for (const auto& sector : level->m_sectors)
+    for (const auto& sector : level->get_sectors())
     {
       if (sector->has_object_changes())
       {
