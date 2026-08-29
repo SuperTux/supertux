@@ -116,7 +116,7 @@ public:
   /**
    * Sets the current project to an empty level with default values
    */
-  void level_from_nothing();
+  void create_empty_project();
 
   /**
    * Returns ""true"" when the current level is a temporary level
