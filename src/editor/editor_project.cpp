@@ -86,7 +86,7 @@ EditorProject::close()
 }
 
 void
-EditorProject::level_from_nothing()
+EditorProject::create_empty_project()
 {
   m_world.reset();
 
@@ -154,7 +154,7 @@ EditorProject::set_level(std::unique_ptr<Level> level, bool reset)
   }
   else
   {
-    level_from_nothing();
+    create_empty_project();
     g_config->editor_last_edited_level = "";
   }
 
