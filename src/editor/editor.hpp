@@ -103,7 +103,7 @@ public:
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   inline void set_level(const std::string& levelfile)
   {
-    m_project->set_level(levelfile);
+    m_project->set_level_file(levelfile);
     m_reload_request = true;
   }
   void set_sector(Sector* sector);

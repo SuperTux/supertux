@@ -340,26 +340,33 @@ EditorProject::load_sector(const std::string& name, bool reset)
     cam_position = previous_sector->get_camera().get_translation();
   }
 
+  // First pass: Load sector with specified name.
   auto sector = m_level->get_sector(sector_name);
-  if (!sector)
+
+  // Second pass: Sector with the specified name does not exist.
+  // Load first sector available
+  if (sector == nullptr)
   {
     sector = m_level->get_sector(0);
   }
 
+  // Level has no sectors whatsoever. Return early.
+  if (sector == nullptr)
+  {
+    return;
+  }
+
   sector->set_undo_stack_size(g_config->editor_undo_stack_size);
   sector->toggle_undo_tracking(g_config->editor_undo_tracking);
+  
+  sector->get_camera().set_mode(Camera::Mode::FREE);
+
+  if (!reset)
+  {
+    sector->get_camera().set_translation(cam_position);
+  }
 
   set_sector(sector);
-
-  if (sector != nullptr)
-  {
-    sector->get_camera().set_mode(Camera::Mode::FREE);
-
-    if (!reset)
-    {
-      sector->get_camera().set_translation(cam_position);
-    }
-  }
 }
 
 bool
@@ -471,13 +478,13 @@ EditorProject::has_unsaved_changes() const
 void
 EditorProject::check_unsaved_changes(const std::function<void ()>& action)
 {
-  auto editor = Editor::current();
   if (!m_level_loaded || !has_unsaved_changes())
   {
     action();
     return;
   }
 
+  auto editor = Editor::current();
   editor->set_enabled(false);
   auto dialog = std::make_unique<Dialog>();
   if (m_temp_level)
