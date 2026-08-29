@@ -180,24 +180,70 @@ public:
    * Open the level directory with the current system's file explorer
    */
   void open_level_directory();
+
+  /**
+   * Saves the level under the specified filename
+   * @param filename The filename to save the level under
+   * @param switch_file If ""true"", the current file gets switched with the specified filename
+   * @param post_save callback function that gets executed once the file was saved
+   */
   bool save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr);
+  
+  /**
+   * Triggers the `post_save` callback function after a save
+   */
   void trigger_post_save();
 
-  void autosave(float dt_sec);
+  /**
+   * Adds the current value of `dt_sec` to the elapsed time
+   * since last autosave and performs an autosave if necessary
+   * @param dt_sec elapsed time since last tick
+   */
+  void check_autosave(float dt_sec);
+
+  /**
+   * Autosaves the current state of the currently edited level
+   */
+  void autosave();
+
+  /**
+   * Removes the autosave file for the current level
+   */
   void remove_autosave_file();
 
+  /**
+   * Packages the current project into an installable SuperTux add-on ZIP file
+   */
   void pack_addon();
 
-  /** Checks whether the level can be saved and does not contain
-      obvious issues (currently: check if main sector and a spawn point
-      named "main" is present) */
+  /** 
+   * Checks whether the level can be saved and does not contain
+   * obvious issues (currently: check if main sector and a spawn point
+   * named "main" is present)
+   * @param callback Function to execute in case the check succeeds
+   */
   void check_save_prerequisites(const std::function<void ()>& callback) const;
 
+  /**
+   * Returns ""true"" when the current project contains unsaved changes
+   */
   bool has_unsaved_changes() const;
+
+  /**
+   * Checks if the project contains unsaved changes.
+   * @param action Callback function to execute once the file has been saved
+   */
   void check_unsaved_changes(const std::function<void ()>& action);
 
+  /**
+   * Starts the current project in-game.
+   * @param start_pos Tuple of sector name and spawn position to start the game at.
+   */
   bool test_project(const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
 
+  /**
+   * Gets the current tileset's tilegroups.
+   */
   const std::vector<Tilegroup>& get_tilegroups() const
   {
     return m_tileset->get_tilegroups();
