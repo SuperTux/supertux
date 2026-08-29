@@ -59,7 +59,7 @@ EditorSectorMenu::~EditorSectorMenu()
   auto level = editor->get_project()->get_level();
   bool is_sector = false;
 
-  for (auto const& sector_ : level->m_sectors) {
+  for (auto const& sector_ : level->get_sectors()) {
     if (sector_->get_name() == sector->get_name()) {
       if (is_sector) {
         // Puts the name that was there before when the name is already used.
