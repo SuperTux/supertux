@@ -176,13 +176,6 @@ private:
 
   void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
-// protected:
-//   std::shared_ptr<Level> m_level;
-//   std::unique_ptr<World> m_world;
-
-//   std::string m_levelfile;
-//   std::string m_autosave_levelfile;
-
 public:
   bool m_quit_request;
   bool m_newlevel_request;
