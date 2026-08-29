@@ -98,8 +98,6 @@ public:
   inline int get_tileselect_select_mode() const { return m_toolbox_widget->get_tileselect_select_mode(); }
   inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
 
-  void level_from_nothing();
-
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   inline void set_level(const std::string& levelfile)
   {
