@@ -44,6 +44,8 @@ public:
 
   std::string get_level_directory() const;
   inline const std::string& get_level_file() const { return m_levelfile; }
+  std::string get_level_path() const;
+
   inline Level* get_level() const { return m_level.get(); }
   std::unique_ptr<Level> get_editable_level();
   inline void set_level(const std::string& levelfile) { m_levelfile = levelfile; }
@@ -54,6 +56,7 @@ public:
   void level_from_nothing();
 
   inline bool is_temp_level() const { return m_temp_level; }
+  inline bool is_worldmap() const { return StringUtil::has_suffix(get_level_file(), ".stwm"); }
 
   inline Sector* get_sector() { return m_sector; }
   void set_sector(Sector* sector);
