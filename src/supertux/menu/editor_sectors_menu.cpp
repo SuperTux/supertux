@@ -35,7 +35,7 @@ EditorSectorsMenu::EditorSectorsMenu()
   add_hl();
 
   int id = 0;
-  for (const auto& sector : level->m_sectors) {
+  for (const auto& sector : level->get_sectors()) {
     add_entry(id, sector->get_name());
     id++;
   }
