@@ -85,7 +85,6 @@ public:
 
   void disable_keyboard() { m_enabled = false; }
 
-  //inline TileSet* get_tileset() const { return m_tileset; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
   inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
