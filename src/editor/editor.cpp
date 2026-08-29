@@ -627,17 +627,10 @@ Editor::delete_current_sector()
 void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
-  std::string sector_name = DEFAULT_SECTOR_NAME;
-  Vector translation(0.0f, 0.0f);
-
   m_script_manager.clear_tmp();
-  m_project->set_level(std::move(level));
 
-  auto sector = m_project->get_sector();
-  if (!reset && sector) {
-    translation = sector->get_camera().get_translation();
-    sector_name = sector->get_name();
-  }
+  m_project->set_level(std::move(level));
+  m_project->load_sector(DEFAULT_SECTOR_NAME, reset);
 
   m_reload_request = false;
   m_enabled = true;
@@ -649,17 +642,6 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   if (reset) {
     m_toolbox_widget->get_tilebox().set_input_type(InputType::TILE);
     m_toolbox_widget->get_tilebox().select_tilegroup(0);
-  }
-
-  m_project->load_sector(sector_name);
-
-  if (sector != nullptr)
-  {
-    sector->get_camera().set_mode(Camera::Mode::FREE);
-
-    if (!reset) {
-      sector->get_camera().set_translation(translation);
-    }
   }
 
   m_layers_widget->refresh_sector_text();
