@@ -206,8 +206,6 @@ public:
   bool m_tilebox_something_selected;
 
 private:
-  //Sector* m_sector;
-
   bool m_leveltested;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
