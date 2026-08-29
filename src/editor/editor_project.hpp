@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "supertux/constants.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/tile_set.hpp"
@@ -60,7 +61,7 @@ public:
 
   inline Sector* get_sector() { return m_sector; }
   void set_sector(Sector* sector);
-  void load_sector(const std::string& name);
+  void load_sector(const std::string& name = DEFAULT_SECTOR_NAME, bool reset = true);
 
   inline TileSet* get_tileset() const { return m_tileset; }
   inline void set_tileset(TileSet* tileset) { m_tileset = tileset; }
