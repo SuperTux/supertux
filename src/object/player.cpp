@@ -3190,6 +3190,7 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("enable_fancy_idling", &Player::enable_fancy_idling);
   cls.addFunc("disable_fancy_idling", &Player::disable_fancy_idling);
   cls.addFunc("walk", &Player::walk);
+  cls.addFunc("on_ground", &Player::on_ground);
   cls.addFunc("set_dir", &Player::set_dir);
   cls.addFunc("set_visible", &Player::set_visible);
   cls.addFunc("get_visible", &Player::get_visible);
