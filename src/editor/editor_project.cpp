@@ -20,6 +20,7 @@
 #include "gui/menu_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/notification.hpp"
+#include "object/camera.hpp"
 #include "object/spawnpoint.hpp"
 #include "physfs/util.hpp"
 #include "supertux/constants.hpp"
@@ -327,10 +328,21 @@ EditorProject::set_sector(Sector* sector)
 }
 
 void
-EditorProject::load_sector(const std::string& name)
+EditorProject::load_sector(const std::string& name, bool reset)
 {
-  Sector* sector = m_level->get_sector(name);
-  if (!sector) {
+  auto sector_name = name;
+  Vector cam_position(0.0f, 0.0f);
+
+  auto previous_sector = get_sector();
+  if (previous_sector != nullptr && !reset)
+  {
+    sector_name = previous_sector->get_name();
+    cam_position = previous_sector->get_camera().get_translation();
+  }
+
+  auto sector = m_level->get_sector(sector_name);
+  if (!sector)
+  {
     sector = m_level->get_sector(0);
   }
 
@@ -338,6 +350,16 @@ EditorProject::load_sector(const std::string& name)
   sector->toggle_undo_tracking(g_config->editor_undo_tracking);
 
   set_sector(sector);
+
+  if (sector != nullptr)
+  {
+    sector->get_camera().set_mode(Camera::Mode::FREE);
+
+    if (!reset)
+    {
+      sector->get_camera().set_translation(cam_position);
+    }
+  }
 }
 
 bool
