@@ -679,6 +679,9 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 void
 Editor::reload_level()
 {
+  auto level = m_project->get_editable_level();
+  set_level(std::move(level));
+
   try
   {
     m_project->reload_level();
@@ -743,6 +746,7 @@ Editor::setup()
   Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
   m_after_setup = true;
+
   if (!m_project->is_level_loaded())
   {
 #if 0
