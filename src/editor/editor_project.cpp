@@ -228,7 +228,7 @@ EditorProject::reload_level()
 }
 
 void
-EditorProject::autosave(float dt_sec)
+EditorProject::check_autosave(float dt_sec)
 {
   if (!m_level || m_temp_level)
   {
@@ -245,9 +245,15 @@ EditorProject::autosave(float dt_sec)
   if (m_time_since_last_save < autosave_frequency_sec)
     return;
 
+  autosave();
+}
+
+void
+EditorProject::autosave()
+{
   m_time_since_last_save = 0.f;
-  std::string backup_filename = get_autosave_from_levelname(m_levelfile);
   std::string directory = get_level_directory();
+  std::string backup_filename = get_autosave_from_levelname(m_levelfile);
 
   // Set the test level file even though we're not testing, so that
   // if the user quits the editor without ever testing, it'll delete
@@ -372,40 +378,38 @@ EditorProject::load_sector(const std::string& name, bool reset)
 bool
 EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
-    std::unique_ptr<World> owned_world;
-    World* current_world = m_world.get();
+  std::unique_ptr<World> owned_world;
+  World* current_world = m_world.get();
 
-    if ((m_level && !current_world) || m_levelfile == "")
-    {
-        GameManager::current()->start_level(m_level.get(), start_pos, true);
-        return true;
-    }
+  if ((m_level && !current_world) || m_levelfile == "")
+  {
+      GameManager::current()->start_level(m_level.get(), start_pos, true);
+      return true;
+  }
 
-    std::string backup_filename = get_autosave_from_levelname(m_levelfile);
-    std::string directory = get_level_directory();
+  std::string directory = get_level_directory();
 
-    // This is jank to get an owned World pointer, GameManager/World
-    // could probably need a refactor to handle this better.
-    if (!current_world) {
-        owned_world = World::from_directory(directory);
-        current_world = owned_world.get();
-    }
+  // This is jank to get an owned World pointer, GameManager/World
+  // could probably need a refactor to handle this better.
+  if (!current_world) {
+      owned_world = World::from_directory(directory);
+      current_world = owned_world.get();
+  }
 
-    m_autosave_levelfile = FileSystem::join(directory, backup_filename);
-    m_level->save(m_autosave_levelfile);
-    m_time_since_last_save = 0.f;
+  autosave();
 
-    if (!m_level->is_worldmap())
-    {
-        // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
-        //       If not, call reactivate().
-        GameManager::current()->start_level(*current_world, backup_filename, start_pos, true);
-        return true;
-    }
-    else
-    {
-        return GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, start_pos);
-    }
+  if (!m_level->is_worldmap())
+  {
+      // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
+      //       If not, call reactivate().
+      std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+      GameManager::current()->start_level(*current_world, backup_filename, start_pos, true);
+      return true;
+  }
+  else
+  {
+      return GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, start_pos);
+  }
 }
 
 void
