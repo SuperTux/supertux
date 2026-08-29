@@ -185,7 +185,7 @@ EditorProject::reload_level()
   ReaderMapping::s_translations_enabled = false;
   try
   {
-    set_level(LevelParser::from_file(m_world ?
+    Editor::current()->set_level(LevelParser::from_file(m_world ?
                                      FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
                                      StringUtil::has_suffix(m_levelfile, ".stwm"),
                                      true));
