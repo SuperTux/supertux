@@ -335,7 +335,7 @@ Editor::draw(Compositor& compositor)
 void
 Editor::update(float dt_sec, const Controller& controller)
 {
-  m_project->autosave(dt_sec);
+  m_project->check_autosave(dt_sec);
 
   m_script_manager.poll();
 
