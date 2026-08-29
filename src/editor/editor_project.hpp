@@ -238,6 +238,7 @@ public:
   /**
    * Starts the current project in-game.
    * @param start_pos Tuple of sector name and spawn position to start the game at.
+   * @return `true` if loading the project for test was successful, otherwise `false`.
    */
   bool test_project(const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
 
