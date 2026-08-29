@@ -45,6 +45,7 @@ public:
   std::string get_level_directory() const;
   inline const std::string& get_level_file() const { return m_levelfile; }
   inline Level* get_level() const { return m_level.get(); }
+  std::unique_ptr<Level> get_editable_level();
   inline void set_level(const std::string& levelfile) { m_levelfile = levelfile; }
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
