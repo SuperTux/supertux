@@ -104,6 +104,41 @@ EditorProject::level_from_nothing()
   //m_reload_request = true;
 }
 
+std::unique_ptr<Level>
+EditorProject::get_editable_level()
+{
+  std::unique_ptr<Level> level;
+  ReaderMapping::s_translations_enabled = false;
+  try
+  {
+    auto world = get_world();
+    auto level_file = get_level_file();
+    bool is_worldmap = StringUtil::has_suffix(level_file, ".stwm");
+    std::string full_path = "";
+
+    if (world == nullptr)
+    {
+      full_path = level_file;
+    }
+    else
+    {
+      full_path = FileSystem::join(world->get_basedir(), level_file);
+    }
+    level = LevelParser::from_file(full_path, is_worldmap, true);
+  }
+  catch (const std::exception& err)
+  {
+    // In case the error was caused by the last edited level, say, not
+    // existing/being invalid, let's clear it
+    g_config->editor_last_edited_level = "";
+    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
+    throw err;
+  }
+  ReaderMapping::s_translations_enabled = true;
+
+  return level;
+}
+
 void
 EditorProject::set_level(std::unique_ptr<Level> level, bool reset)
 {
@@ -182,24 +217,6 @@ EditorProject::trigger_post_save()
 void
 EditorProject::reload_level()
 {
-  ReaderMapping::s_translations_enabled = false;
-  try
-  {
-    Editor::current()->set_level(LevelParser::from_file(m_world ?
-                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
-                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
-                                     true));
-  }
-  catch (const std::exception& err)
-  {
-    // In case the error was caused by the last edited level, say, not
-    // existing/being invalid, let's clear it
-    g_config->editor_last_edited_level = "";
-    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
-    throw err;
-  }
-  ReaderMapping::s_translations_enabled = true;
-
   // Autosave files : Once the level is loaded, make sure
   // to use the regular file.
   m_levelfile = get_levelname_from_autosave(m_levelfile);
