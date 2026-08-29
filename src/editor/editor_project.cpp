@@ -104,6 +104,20 @@ EditorProject::level_from_nothing()
   //m_reload_request = true;
 }
 
+std::string
+EditorProject::get_level_path() const
+{
+  auto world = get_world();
+  auto level_file = get_level_file();
+
+  if (world == nullptr)
+  {
+    return level_file;
+  }
+
+  return FileSystem::join(world->get_basedir(), level_file);
+}
+
 std::unique_ptr<Level>
 EditorProject::get_editable_level()
 {
@@ -111,20 +125,8 @@ EditorProject::get_editable_level()
   ReaderMapping::s_translations_enabled = false;
   try
   {
-    auto world = get_world();
-    auto level_file = get_level_file();
-    bool is_worldmap = StringUtil::has_suffix(level_file, ".stwm");
-    std::string full_path = "";
-
-    if (world == nullptr)
-    {
-      full_path = level_file;
-    }
-    else
-    {
-      full_path = FileSystem::join(world->get_basedir(), level_file);
-    }
-    level = LevelParser::from_file(full_path, is_worldmap, true);
+    auto full_path = get_level_path();
+    level = LevelParser::from_file(full_path, is_worldmap(), true);
   }
   catch (const std::exception& err)
   {
