@@ -327,6 +327,10 @@ public:
    */
   bool get_is_intentionally_safe() const;
 
+  /**
+   * @scripting
+   * @description Returns ""true"" if Tux is on the ground
+   */
   inline bool on_ground() const { return m_on_ground_flag; }
   inline void set_on_ground(bool flag) { m_on_ground_flag = flag; }
 
