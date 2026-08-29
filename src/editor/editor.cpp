@@ -1045,7 +1045,7 @@ Editor::change_tileset()
   auto level_tileset = level->get_tileset();
   m_project->set_tileset(TileManager::current()->get_tileset(level_tileset));
   m_toolbox_widget->get_tilebox().set_input_type(InputType::TILE);
-  for (const auto& sector : level->m_sectors) {
+  for (const auto& sector : level->get_sectors()) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_project->get_tileset());
     }
@@ -1082,7 +1082,7 @@ Editor::retoggle_undo_tracking()
   m_toolbar_widget->set_undo_disabled(true);
   m_toolbar_widget->set_redo_disabled(true);
   // Toggle undo tracking for all sectors.
-  for (const auto& sector : level->m_sectors)
+  for (const auto& sector : level->get_sectors())
     sector->toggle_undo_tracking(g_config->editor_undo_tracking);
 }
 
@@ -1091,7 +1091,7 @@ Editor::undo_stack_cleanup()
 {
   auto level = m_project->get_level();
   // Set the undo stack size and perform undo stack cleanup on all sectors.
-  for (const auto& sector : level->m_sectors)
+  for (const auto& sector : level->get_sectors())
   {
     sector->set_undo_stack_size(g_config->editor_undo_stack_size);
     sector->undo_stack_cleanup();
