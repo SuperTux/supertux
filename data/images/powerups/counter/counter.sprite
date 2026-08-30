@@ -1,0 +1,20 @@
+(supertux-sprite
+       (action
+         (name "default")
+         (fps 1.14) ;; 16 frames per 14 seconds
+         (images "counter-0.png"
+                 "counter-1.png"
+                 "counter-2.png"
+                 "counter-3.png"
+                 "counter-4.png"
+                 "counter-5.png"
+                 "counter-6.png"
+                 "counter-7.png"
+                 "counter-8.png"
+                 "counter-9.png"
+                 "counter-10.png"
+                 "counter-11.png"
+                 "counter-12.png"
+                 "counter-13.png"
+                 "counter-14.png"
+                 "counter-15.png")))
