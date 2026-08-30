@@ -1,0 +1,8 @@
+(supertux-music
+  (file "root_sapling_shuffle.ogg")
+  (authors "Servalot")
+  (license "CC-BY-SA 4.0")
+  (title "Root Sapling Shuffle")
+  (loop-begin 0)
+  (loop-at    103.52)
+)
