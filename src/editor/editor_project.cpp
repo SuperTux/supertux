@@ -171,8 +171,7 @@ EditorProject::save_level(const std::string& filename, bool switch_file, const s
 {
   if (m_temp_level && !m_save_temp_level)
   {
-    if (post_save)
-      m_post_save = post_save;
+    m_post_save = post_save;
     MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
     return false;
   }
