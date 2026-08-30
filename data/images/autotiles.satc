@@ -9317,6 +9317,183 @@
     
   )
   
+
+  ;; WATERFALL
+  (autotileset
+    (name "waterfall")
+    (default 8031)
+
+    ;; TOP-LEFT
+    (autotile
+      (id 8019)
+      (alt-id (id 8017) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8027) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8025) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*0*01*1*")
+    )
+    
+    ;; TOP-CENTER
+    (autotile
+      (id 8015)
+      (alt-id (id 8016) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8023) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8024) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*0*11*1*")
+    )
+    
+    ;; TOP-RIGHT
+    (autotile
+      (id 8018)
+      (alt-id (id 8020) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8026) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8028) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*0*10*1*")
+    )
+    
+    ;; TOP-THIN
+    (autotile
+      (id 8022)
+      (alt-id (id 8021) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8030) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8029) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*0*00*1*")
+    )
+    
+    ;; MIDDLE-LEFT
+    (autotile
+      (id 8035)
+      (alt-id (id 8033) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8043) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8041) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*1*01*1*")
+    )
+    
+    ;; MIDDLE-CENTER
+    (autotile
+      (id 8031)
+      (alt-id (id 8032) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8039) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8040) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*1*11*1*")
+    )
+    
+    ;; MIDDLE-RIGHT
+    (autotile
+      (id 8034)
+      (alt-id (id 8036) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8042) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8044) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*1*10*1*")
+    )
+    
+    ;; MIDDLE-THIN
+    (autotile
+      (id 8038)
+      (alt-id (id 8037) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8046) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8045) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*1*00*1*")
+    )
+    
+    ;; BOTTOM-LEFT
+    (autotile
+      (id 8051)
+      (alt-id (id 8049) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8059) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8057) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*1101*0*")
+      (mask "01111*0*")
+    )
+    
+    ;; BOTTOM-CENTER
+    (autotile
+      (id 8047)
+      (alt-id (id 8048) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8055) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8056) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "11111*0*")
+    )
+    
+    ;; BOTTOM-RIGHT
+    (autotile
+      (id 8050)
+      (alt-id (id 8052) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8058) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8060) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "11*10*0*")
+      (mask "11011*0*")
+    )
+    
+    ;; BOTTOM-THIN
+    (autotile
+      (id 8054)
+      (alt-id (id 8053) (period-x 2 1) (period-y 2 0))
+      (alt-id (id 8062) (period-x 2 0) (period-y 2 1))
+      (alt-id (id 8061) (period-x 2 1) (period-y 2 1))
+      (solid #t)
+      (mask "*1*00*0*")
+      (mask "01011*0*")
+      (mask "*1001*0*")
+      (mask "01*10*0*")
+    )
+    
+    ;; HORIZONTAL
+    (autotile
+      (id 8069)
+      (alt-id (id 8070) (period-x 2 1))
+      (solid #t)
+      (mask "*0****0*")
+    )
+    
+    ;; DECO-LEFT
+    (autotile
+      (id 8067)
+      (solid #f)
+      (mask "00*01*00")
+    )
+    
+    ;; DECO-RIGHT
+    (autotile
+      (id 8068)
+      (solid #f)
+      (mask "*001000*")
+    )
+    
+    ;; DECO-BOTTOM-LEFT
+    (autotile
+      (id 8065)
+      (solid #f)
+      (mask "001*0***")
+    )
+    
+    ;; DECO-BOTTOM-CENTER
+    (autotile
+      (id 8063)
+      (alt-id (id 8064) (period-x 2 1))
+      (solid #f)
+      (mask "*1******")
+    )
+    
+    ;; DECO-BOTTOM-RIGHT
+    (autotile
+      (id 8066)
+      (solid #f)
+      (mask "1000****")
+    )
+    
+  )
+
   ;; SUPPORT MULTIPLE AUTOTILESETS PER TILE - START
   
   (autotileset
