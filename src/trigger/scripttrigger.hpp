@@ -34,9 +34,10 @@ public:
   virtual void event(Player& player, EventType type) override;
 
 private:
-  EventType triggerevent;
-  std::string script;
-  bool must_activate;
-  bool oneshot;
-  int runcount;
+  EventType m_triggerevent;
+  std::string m_script;
+  std::string m_leave_script;
+  bool m_must_activate;
+  bool m_oneshot;
+  int m_runcount;
 };
