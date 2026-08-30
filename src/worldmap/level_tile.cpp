@@ -18,7 +18,9 @@
 
 #include "worldmap/level_tile.hpp"
 
+#include <iomanip>
 #include <physfs.h>
+#include <sstream>
 
 #include "editor/editor.hpp"
 #include "supertux/level_parser.hpp"
@@ -77,6 +79,67 @@ LevelTile::LevelTile(const ReaderMapping& mapping) :
 
 LevelTile::~LevelTile()
 {
+}
+
+namespace {
+
+// version tag on the serialised ghost path so records without it are discarded
+const char* const GHOST_RUN_VERSION = "v2";
+
+std::string serialize_ghost_run(const std::vector<LevelTile::GhostRunPoint>& path)
+{
+  std::ostringstream out;
+  out << GHOST_RUN_VERSION;
+  out << std::fixed << std::setprecision(4);
+
+  for (const auto& point : path)
+    out << ' ' << point.time << ' ' << point.position.x << ' ' << point.position.y << ' ' << point.action;
+
+  return out.str();
+}
+
+std::vector<LevelTile::GhostRunPoint> deserialize_ghost_run(const std::string& data)
+{
+  std::vector<LevelTile::GhostRunPoint> path;
+  std::istringstream in(data);
+
+  std::string version;
+  if (!(in >> version) || version != GHOST_RUN_VERSION)
+    return path;
+
+  float time, x, y;
+  std::string action;
+  while (in >> time >> x >> y >> action)
+    path.push_back({time, Vector(x, y), action});
+
+  return path;
+}
+
+} // namespace
+
+void
+LevelTile::set_best_ghost_run(const std::vector<GhostRunPoint>& best_ghost_run)
+{
+  m_best_ghost_run = best_ghost_run;
+}
+
+void
+LevelTile::serialize_best_ghost_run(ssq::Table& table) const
+{
+  if (m_best_ghost_run.empty())
+    return;
+
+  table.set("ghost-path", serialize_ghost_run(m_best_ghost_run));
+}
+
+void
+LevelTile::unserialize_best_ghost_run(const ssq::Table& table)
+{
+  std::string path_data;
+  if (!table.get("ghost-path", path_data))
+    return;
+
+  m_best_ghost_run = deserialize_ghost_run(path_data);
 }
 
 void
