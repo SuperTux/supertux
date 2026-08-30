@@ -17,6 +17,7 @@
 #pragma once
 
 #include <optional>
+#include <map>
 
 #include "control/joystick_config.hpp"
 #include "control/keyboard_config.hpp"
@@ -130,6 +131,7 @@ public:
     bool enabled;
   };
   std::vector<Addon> addons;
+  std::map<std::string, std::string> addon_nfo_filename_hints;
 
   bool developer_mode;
   bool christmas_mode;
