@@ -230,7 +230,6 @@ Editor::draw(Compositor& compositor)
       widget->draw(context);
     }
 
-    m_toolbar_widget->draw(context);
     m_overlay_widget->draw_tilemap_outer_shading(context);
     m_overlay_widget->draw_tilemap_border(context);
 
@@ -303,11 +302,7 @@ Editor::draw(Compositor& compositor)
     constexpr float LINE_THICKNESS = 1.f;
     Rectf border_rect = Rectf{SCREEN_WIDTH - 128.f - LINE_THICKNESS, 0,
                               SCREEN_WIDTH - 128.f, static_cast<float>(SCREEN_HEIGHT - 32.f)};
-    Color line_color = g_config->editorcolor;
-    line_color.red -= 0.2;
-    line_color.green -= 0.2;
-    line_color.blue -= 0.2;
-    line_color.alpha -= 0.2;
+    Color line_color = (g_config->editorcolor - Color(0.2, 0.2, 0.2, 0.2)).validate();
     context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
 
     Rectf shadow_rect = border_rect;
