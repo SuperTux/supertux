@@ -224,10 +224,11 @@ Editor::draw(Compositor& compositor)
     // issue with the PlayerStatus.
     if (!m_leveltested)
     {
+      auto sector = m_project->get_sector();
       context.push_transform();
       context.set_max_layer(LAYER_GUI - 22); // Lowest layer used by an editor UI item is LAYER_GUI - 21
 
-      m_project->get_sector()->draw(context);
+      sector->draw(context);
 
       context.pop_transform();
 
@@ -239,25 +240,25 @@ Editor::draw(Compositor& compositor)
         if (moving_selected_obj)
         {
           context.push_transform();
-          const Camera& camera = get_project()->get_sector()->get_camera();
+          const Camera& camera = sector->get_camera();
           context.set_translation(camera.get_translation());
           context.scale(camera.get_current_scale());
 
           const Rectf& bbox = moving_selected_obj->get_bbox();
           context.color().draw_rect(bbox.grown(10.f), Color::WHITE, LAYER_GUI + 1);
           
-          context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
-                                    Vector(bbox.get_right() + 10.f, bbox.get_top()),
-                                    Color::WHITE, LAYER_GUI + 1);
-          context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
-                                    Vector(bbox.get_right(), bbox.get_top() - 10.f),
-                                    Color::WHITE, LAYER_GUI + 1);
-          context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
-                                    Vector(bbox.get_left() - 10.f, bbox.get_bottom()),
-                                    Color::WHITE, LAYER_GUI + 1);
-          context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
-                                    Vector(bbox.get_left(), bbox.get_bottom() + 10.f),
-                                    Color::WHITE, LAYER_GUI + 1);
+          // context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
+          //                           Vector(bbox.get_right() + 10.f, bbox.get_top()),
+          //                           Color::WHITE, LAYER_GUI + 1);
+          // context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
+          //                           Vector(bbox.get_right(), bbox.get_top() - 10.f),
+          //                           Color::WHITE, LAYER_GUI + 1);
+          // context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
+          //                           Vector(bbox.get_left() - 10.f, bbox.get_bottom()),
+          //                           Color::WHITE, LAYER_GUI + 1);
+          // context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
+          //                           Vector(bbox.get_left(), bbox.get_bottom() + 10.f),
+          //                           Color::WHITE, LAYER_GUI + 1);
 
           context.pop_transform();
         }
@@ -452,7 +453,12 @@ Editor::update(float dt_sec, const Controller& controller)
     update_keyboard(controller);
   }
 
-  Camera& camera = sector->get_camera();
+  update_camera(sector->get_camera(), dt_sec);
+}
+
+void
+Editor::update_camera(Camera& camera, float dt_sec)
+{
   // Ensure camera is free, which is like normal but immune to the camera boundary.
   camera.set_mode(Camera::Mode::FREE);
   // If camera scale must be changed, change it here.
