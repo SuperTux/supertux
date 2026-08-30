@@ -18,8 +18,9 @@
 #define HEADER_SUPERTUX_BADGUY_MOLE_HPP
 
 #include "badguy/badguy.hpp"
+#include "object/sticky_object.hpp"
 
-class Mole final : public BadGuy
+class Mole final : public StickyBadguy
 {
 public:
   Mole(const ReaderMapping& );
