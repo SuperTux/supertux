@@ -22,10 +22,12 @@
 #include "editor/editor.hpp"
 #include "gui/item_action.hpp"
 #include "gui/item_stringselect.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/menu/debug_cheevos_menu.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/texture_manager.hpp"
@@ -80,6 +82,10 @@ DebugMenu::DebugMenu() :
     .set_help(_("Reloads all fonts, textures, sprites and tilesets."));
 
   add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(get_logging_instance()); });
+
+  add_entry(_("Achievement Management"), []{
+    MenuManager::instance().push_menu(std::make_unique<DebugCheevosMenu>());
+  });
 
   add_hl();
   add_back(_("Back"));
