@@ -648,10 +648,9 @@ SDLPainter::get_pixel(const DrawingRequest& draw_req) const
   srcrect.h = 1;
 
   auto surface = SDL_RenderReadPixels(m_sdl_renderer, &srcrect);
-  auto error = SDL_GetError();
-  if (error != nullptr)
+  if (surface == nullptr)
   {
-    log_warning << "failed to read pixels: " << error << std::endl;
+    log_warning << "failed to read pixels: " << SDL_GetError() << std::endl;
     SDL_ClearError();
   }
 
