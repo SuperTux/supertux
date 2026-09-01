@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/dialog.hpp"
+#include "gui/item_action.hpp"
 #include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"
@@ -31,6 +32,7 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/title_screen.hpp"
+#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
@@ -39,6 +41,9 @@
 
 #include <cassert>
 #include <sstream>
+
+#include <physfs.h>
+
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
@@ -276,6 +281,10 @@ OptionsMenu::refresh()
 #else
       add_inactive(_("Network support is disabled."));
 #endif
+
+      add_entry(MNID_OPEN_USER_DIRECTORY, _("Open user directory"))
+        .set_help(_("Open the user directory containing the SuperTux configuration"));
+
       break;
     }
   }
@@ -903,6 +912,10 @@ OptionsMenu::menu_action(MenuItem& item)
     case MNID_DISABLE_NETWORK:
       refresh();
       set_active_item_id(MNID_DISABLE_NETWORK);
+      break;
+
+    case MNID_OPEN_USER_DIRECTORY:
+      FileSystem::open_path(PHYSFS_getWriteDir());
       break;
 
     default:
