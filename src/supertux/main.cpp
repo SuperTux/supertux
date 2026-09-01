@@ -488,6 +488,7 @@ SDLSubsystem::SDLSubsystem()
   {
     std::stringstream msg;
     msg << "Couldn't initialize SDL: " << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(msg.str());
   }
 
@@ -501,6 +502,7 @@ SDLSubsystem::SDLSubsystem()
   {
     std::stringstream msg;
     msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(msg.str());
   }
 

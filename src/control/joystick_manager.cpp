@@ -63,6 +63,7 @@ JoystickManager::on_joystick_added(int joystick_index)
   {
     log_warning << "failed to open joystick: " << joystick_index
                 << ": " << SDL_GetError() << std::endl;
+    SDL_ClearError();
   }
   else
   {

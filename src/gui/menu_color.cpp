@@ -67,7 +67,10 @@ void
 ColorMenu::copy_to_clipboard(const std::string& color_str)
 {
   if (SDL_SetClipboardText(color_str.c_str()) != 0)
+  {
     log_warning << "Failed to set SDL clipboard text: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
+  }
 
   MenuItem& menu_paste_item = get_item_by_id(MNID_PASTE_CLIPBOARD);
   menu_paste_item.set_text_color(*m_color);

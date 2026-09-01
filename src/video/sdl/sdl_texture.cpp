@@ -50,6 +50,7 @@ SDLTexture::reload(const SDL_Surface& image)
   {
     std::ostringstream msg;
     msg << "couldn't create texture: " << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(msg.str());
   }
 

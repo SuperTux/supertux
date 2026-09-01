@@ -75,6 +75,8 @@ MouseCursor::set_cursor_action(const std::string& action)
     else
     {
       log_warning << "Couldn't load cursor: " << SDL_GetError() << "\nRendering cursor instead.\n";
+      SDL_ClearError();
+
       g_config->custom_system_cursor = false;
     }
   }

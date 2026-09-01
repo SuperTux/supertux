@@ -41,6 +41,7 @@ TTFFont::TTFFont(const std::string& filename, int font_size, float line_spacing,
   {
     std::ostringstream msg;
     msg << "Couldn't load TTFFont: " << m_filename << ": " << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(msg.str());
   }
 }
@@ -74,6 +75,7 @@ TTFFont::get_text_width(const std::string& text) const
       int ret = TTF_GetStringSize(m_font, line.c_str(), line.length(), &w, &h);
       if (ret < 0) {
         get_logging_instance(false) << "TTFFont::get_text_width(): " << SDL_GetError() << std::endl;
+        SDL_ClearError();
       }
       int const grow = std::max(get_border() * 2, get_shadow_size() * 2);
       line_width = w + grow;

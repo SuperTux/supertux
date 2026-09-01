@@ -464,11 +464,13 @@ ControlTextbox::copy() const
   if (m_caret_pos == m_secondary_caret_pos)
     return false;
 
-  SDL_ClearError();
   int ret = SDL_SetClipboardText(get_selected_text().c_str());
 
   if (ret)
+  {
     log_warning << "Couldn't copy text to clipboard: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
+  }
 
   return ret == 0;
 }
@@ -484,7 +486,10 @@ ControlTextbox::paste()
   if (txt)
     put_text(std::string(txt));
   else
+  {
     log_warning << "Couldn't paste text from clipboard: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
+  }
 
   return txt != nullptr;
 }

@@ -82,6 +82,7 @@ MobileController::MobileController() :
     if (m_haptic && SDL_HapticRumbleInit(m_haptic.get()) != 0)
     {
       log_warning << "Haptic device at index 0 couldn't be initialized: " << SDL_GetError() << std::endl;
+      SDL_ClearError();
       m_haptic.reset();
     }
   }

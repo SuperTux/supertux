@@ -74,6 +74,7 @@ SDLVideoSystem::create_window()
   {
     std::stringstream msg;
     msg << "Couldn't create SDL_Renderer: " << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(msg.str());
   }
 }
@@ -138,9 +139,10 @@ SDLVideoSystem::make_screenshot()
 {
   int width;
   int height;
-  if (SDL_GetCurrentRenderOutputSize(m_renderer->get_sdl_renderer(), &width, &height) != 0)
+  if (!SDL_GetCurrentRenderOutputSize(m_renderer->get_sdl_renderer(), &width, &height))
   {
     log_warning << "SDL_GetRenderOutputSize failed: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
     return {};
   }
   else
@@ -150,6 +152,7 @@ SDLVideoSystem::make_screenshot()
     if (SDL_GetError() != 0)
     {
       log_warning << "SDL_RenderReadPixels failed: " << SDL_GetError() << std::endl;
+      SDL_ClearError();
       return {};
     }
     else

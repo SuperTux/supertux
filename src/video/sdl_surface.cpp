@@ -44,6 +44,7 @@ SDLSurface::create_rgba(int width, int height)
   if (!surface) {
     std::ostringstream out;
     out << "failed to create SDL_Surface: " << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(out.str());
   }
 
@@ -69,6 +70,7 @@ SDLSurface::create_rgb(int width, int height)
   if (!surface) {
    std::ostringstream out;
     out << "failed to create SDL_Surface: " << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(out.str());
   }
 
@@ -84,6 +86,7 @@ SDLSurface::from_file(const std::string& filename)
   {
     std::ostringstream msg;
     msg << "Couldn't open file \"" << filename << "\": " << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(msg.str());
   }
   SDLSurfacePtr surface(IMG_Load_IO(stream, true));
@@ -91,6 +94,7 @@ SDLSurface::from_file(const std::string& filename)
   {
     std::ostringstream msg;
     msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(msg.str());
   }
   else
@@ -117,6 +121,7 @@ SDLSurface::save_png(const SDL_Surface& surface, const std::string& filename)
   if (ret < 0)
   {
     log_warning << "Saving " << filename << " failed: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
     return false;
   }
   else

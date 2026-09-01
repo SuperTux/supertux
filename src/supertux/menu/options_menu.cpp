@@ -426,6 +426,7 @@ OptionsMenu::add_resolutions()
   if (prim_display == 0)
   {
     log_warning << "Couldn't get primary display: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
     return; // at this point, we just give up.
   }
   std::unique_ptr<SDL_DisplayMode*, decltype(&SDL_free)> display_modes(
@@ -434,6 +435,7 @@ OptionsMenu::add_resolutions()
   if (display_modes == nullptr)
   {
     log_warning << "failed to get fullscreen display modes: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
     display_mode_count = 0;
   }
 

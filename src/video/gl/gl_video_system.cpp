@@ -379,6 +379,8 @@ GLVideoSystem::set_vsync(int mode)
   if (SDL_GL_SetSwapInterval(mode) == false)
   {
     log_warning << "Setting vsync mode to " << mode << " failed: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
+
     if(mode != 1)
     {
       mode = 1;
@@ -386,6 +388,8 @@ GLVideoSystem::set_vsync(int mode)
       if (SDL_GL_SetSwapInterval(1) == false)
       {
         log_warning << "Setting vsync mode failed: " << SDL_GetError() << ". Trying to set vsync mode to 0" << std::endl;
+        SDL_ClearError();
+
         if(mode != 0)
         {
           mode = 0;

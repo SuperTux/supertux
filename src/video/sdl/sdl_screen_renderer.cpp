@@ -35,6 +35,7 @@ SDLScreenRenderer::SDLScreenRenderer(SDLVideoSystem& video_system, SDL_Renderer*
   if (renderer_name == nullptr)
   {
     log_warning << "Couldn't get RendererInfo: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
   }
   else
   {

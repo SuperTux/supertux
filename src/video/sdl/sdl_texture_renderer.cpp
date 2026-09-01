@@ -62,6 +62,7 @@ SDLTextureRenderer::start_draw()
     {
       std::stringstream msg;
       msg << "Couldn't create lightmap texture: " << SDL_GetError();
+      SDL_ClearError();
       throw std::runtime_error(msg.str());
     }
 

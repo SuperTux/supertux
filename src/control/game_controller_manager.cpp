@@ -222,6 +222,7 @@ GameControllerManager::on_controller_added(int joystick_index)
     {
       log_warning << "failed to open game_controller: " << joystick_index
                   << ": " << SDL_GetError() << std::endl;
+      SDL_ClearError();
     }
     else
     {

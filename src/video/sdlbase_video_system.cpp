@@ -40,6 +40,7 @@ SDLBaseVideoSystem::SDLBaseVideoSystem() :
   if (prim_display == 0)
   {
     log_warning << "Couldn't get primary display: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
     return; // at this point, we just give up.
   }
 
@@ -47,6 +48,7 @@ SDLBaseVideoSystem::SDLBaseVideoSystem() :
   if (mode == nullptr)
   {
     log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
+    SDL_ClearError();
     return;
   }
 
@@ -121,6 +123,7 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
   {
     std::ostringstream msg;
     msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
+    SDL_ClearError();
     throw std::runtime_error(msg.str());
   }
 
@@ -147,6 +150,7 @@ SDLBaseVideoSystem::apply_video_mode()
   {
     log_warning << "Unable to get display index of window: "
                 << SDL_GetError() << std::endl;
+    SDL_ClearError();
     return;
   }
 
@@ -156,6 +160,7 @@ SDLBaseVideoSystem::apply_video_mode()
     log_warning << "Unable to get information for display number "
                 << displayidx << ": "
                 << SDL_GetError() << std::endl;
+    SDL_ClearError();
     return;
   }
 
@@ -192,6 +197,7 @@ SDLBaseVideoSystem::apply_video_mode()
       {
         log_warning << "failed to switch to desktop fullscreen mode: "
                     << SDL_GetError() << std::endl;
+        SDL_ClearError();
       }
       else
       {
@@ -214,6 +220,7 @@ SDLBaseVideoSystem::apply_video_mode()
         log_warning << "failed to set fullscreen mode: "
                     << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
                     << SDL_GetError() << std::endl;
+        SDL_ClearError();
       }
       else
       {
@@ -222,6 +229,7 @@ SDLBaseVideoSystem::apply_video_mode()
           log_warning << "failed to switch to fullscreen mode: "
                       << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
                       << SDL_GetError() << std::endl;
+          SDL_ClearError();
         }
         else
         {
