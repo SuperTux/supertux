@@ -137,6 +137,8 @@ SDLVideoSystem::flip()
 SDLSurfacePtr
 SDLVideoSystem::make_screenshot()
 {
+  SDL_ClearError();
+
   int width;
   int height;
   if (!SDL_GetCurrentRenderOutputSize(m_renderer->get_sdl_renderer(), &width, &height))
