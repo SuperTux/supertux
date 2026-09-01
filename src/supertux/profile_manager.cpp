@@ -17,10 +17,12 @@
 #include "supertux/profile_manager.hpp"
 
 #include <algorithm>
+#include <physfs.h>
 
 #include "physfs/util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "util/file_system.hpp"
 
 ProfileManager::ProfileManager() :
   m_profiles()
@@ -48,6 +50,12 @@ ProfileManager::get_profile(int id)
   }
 }
 
+std::string
+ProfileManager::get_profile_path(int id)
+{
+  return "profile" + std::to_string(id);
+}
+
 std::vector<Profile*>
 ProfileManager::get_profiles()
 {
@@ -69,7 +77,7 @@ ProfileManager::get_profiles()
 void
 ProfileManager::reset_profile(int id)
 {
-  physfsutil::remove_content("profile" + std::to_string(id));
+  physfsutil::remove_content(get_profile_path(id));
 
   get_profile(id).reset();
 }
@@ -77,9 +85,16 @@ ProfileManager::reset_profile(int id)
 void
 ProfileManager::delete_profile(int id)
 {
-  physfsutil::remove_with_content("profile" + std::to_string(id));
+  physfsutil::remove_with_content(get_profile_path(id));
 
   auto it = m_profiles.find(id);
   if (it != m_profiles.end())
     m_profiles.erase(it);
+}
+
+void
+ProfileManager::open_profile_directory(int id)
+{
+  auto path = FileSystem::join(PHYSFS_getWriteDir(), get_profile_path(id));
+  FileSystem::open_path(path);
 }

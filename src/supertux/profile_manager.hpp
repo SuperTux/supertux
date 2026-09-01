@@ -33,8 +33,10 @@ public:
   Profile& get_profile(int id);
   std::vector<Profile*> get_profiles();
 
+  std::string get_profile_path(int id);
   void reset_profile(int id);
   void delete_profile(int id);
+  void open_profile_directory(int id);
 
 private:
   std::map<int, std::unique_ptr<Profile>> m_profiles;

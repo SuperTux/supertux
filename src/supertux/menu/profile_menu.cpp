@@ -18,6 +18,7 @@
 #include "supertux/menu/profile_menu.hpp"
 
 #include <fmt/format.h>
+#include <physfs.h>
 #include <sstream>
 
 #include "gui/dialog.hpp"
@@ -114,6 +115,8 @@ ProfileMenu::rebuild_menu()
   else
     add_inactive(_("Delete all"));
 
+  add_entry(-7, _("Open Profile Directory"));
+
   add_hl();
   add_back(_("Back"));
 }
@@ -121,12 +124,15 @@ ProfileMenu::rebuild_menu()
 void
 ProfileMenu::menu_action(MenuItem& item)
 {
+  const auto& profile_manager = ProfileManager::current();
+  auto& menu_manager = MenuManager::instance();
+
   const auto& id = item.get_id();
   if (id > 0)
   {
     if (g_config->profile == id)
     {
-      MenuManager::instance().clear_menu_stack();
+      menu_manager.clear_menu_stack();
       return;
     }
     g_config->profile = id;
@@ -135,11 +141,11 @@ ProfileMenu::menu_action(MenuItem& item)
   }
   else if (id == -1)
   {
-    MenuManager::instance().push_menu(std::make_unique<ProfileNameMenu>());
+    menu_manager.push_menu(std::make_unique<ProfileNameMenu>());
   }
   else if (id == -2)
   {
-    MenuManager::instance().push_menu(std::make_unique<ProfileNameMenu>(m_current_profile));
+    menu_manager.push_menu(std::make_unique<ProfileNameMenu>(m_current_profile));
   }
   else if (id == -3)
   {
@@ -148,16 +154,15 @@ ProfileMenu::menu_action(MenuItem& item)
       fmt::runtime(_("This will reset all game progress on the profile \"{}\".\nAre you sure?")),
       name.empty() ? fmt::format(fmt::runtime(_("Profile {}")), m_current_profile->get_id()) : name);
 
-    Dialog::show_confirmation(message, []() {
-      ProfileManager::current()->reset_profile(g_config->profile);
+    Dialog::show_confirmation(message, [profile_manager]() {
+      profile_manager->reset_profile(g_config->profile);
     });
   }
   else if (id == -4)
   {
-    Dialog::show_confirmation(_("This will reset your game progress on all profiles. Are you sure?"), [this]() {
-      auto* manager = ProfileManager::current();
+    Dialog::show_confirmation(_("This will reset your game progress on all profiles. Are you sure?"), [this, profile_manager]() {
       for (auto* profile : m_profiles)
-        manager->reset_profile(profile->get_id());
+        profile_manager->reset_profile(profile->get_id());
     });
   }
   else if (id == -5)
@@ -167,8 +172,8 @@ ProfileMenu::menu_action(MenuItem& item)
       fmt::runtime(_("This will delete the profile \"{}\",\nincluding all game progress on it. Are you sure?")),
       name.empty() ? fmt::format(fmt::runtime(_("Profile {}")), m_current_profile->get_id()) : name);
 
-    Dialog::show_confirmation(message, [this]() {
-      ProfileManager::current()->delete_profile(g_config->profile);
+    Dialog::show_confirmation(message, [this, profile_manager]() {
+      profile_manager->delete_profile(g_config->profile);
       g_config->profile = 1;
       m_current_profile = nullptr;
       refresh();
@@ -176,15 +181,18 @@ ProfileMenu::menu_action(MenuItem& item)
   }
   else if (id == -6)
   {
-    Dialog::show_confirmation(_("This will delete all profiles, including all game progress on them.\nAre you sure?"), [this]() {
-      auto* manager = ProfileManager::current();
+    Dialog::show_confirmation(_("This will delete all profiles, including all game progress on them.\nAre you sure?"), [this, profile_manager]() {
       for (auto* profile : m_profiles)
-        manager->delete_profile(profile->get_id());
+        profile_manager->delete_profile(profile->get_id());
 
       g_config->profile = 1;
       m_current_profile = nullptr;
       refresh();
     });
+  }
+  else if (id == -7)
+  {
+    profile_manager->open_profile_directory(g_config->profile);
   }
   else
   {
