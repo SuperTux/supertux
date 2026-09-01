@@ -151,7 +151,8 @@ SDLVideoSystem::make_screenshot()
   {
     auto surface = SDL_RenderReadPixels(m_renderer->get_sdl_renderer(), nullptr);
 
-    if (SDL_GetError() != 0)
+    auto error = SDL_GetError();
+    if (*error != '\0')
     {
       log_warning << "SDL_RenderReadPixels failed: " << SDL_GetError() << std::endl;
       SDL_ClearError();
