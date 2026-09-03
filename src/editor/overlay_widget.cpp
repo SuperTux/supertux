@@ -505,6 +505,10 @@ void
 EditorOverlayWidget::replace()
 {
   auto tilemap = m_editor.get_selected_tilemap();
+  
+  if (!tilemap)
+    return;
+
   auto tiles = m_editor.get_selected_tiles();
   auto tiles_width = tiles->m_width;
   auto tiles_height = tiles->m_height;
@@ -1086,7 +1090,11 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
         m_rectangle_preview->m_tiles.clear();
       }
 
-      m_editor.get_selected_tilemap()->check_state();
+      auto selected_tilemap = m_editor.get_selected_tilemap();
+      if (selected_tilemap != nullptr)
+      {
+        selected_tilemap->check_state();
+      }
     }
     else
     {
@@ -1290,12 +1298,16 @@ EditorOverlayWidget::update_pos()
 
   if (m_last_hovered_tile != m_hovered_tile)
   {
-    const uint32_t hovered_id = m_editor.get_selected_tilemap()->get_tile_id(m_hovered_tile);
-    if ((!m_dragging || hovered_id != 0) &&
-        m_editor.get_selected_tiles()->pos(0, 0) == 0 && // Erasing
-        m_editor.get_selected_tilemap()->get_tile_id(m_last_hovered_tile) != hovered_id)
+    auto selected_tilemap = m_editor.get_selected_tilemap();
+    if (selected_tilemap)
     {
-      update_autotileset();
+      const uint32_t hovered_id = selected_tilemap->get_tile_id(m_hovered_tile);
+      if ((!m_dragging || hovered_id != 0) &&
+          m_editor.get_selected_tiles()->pos(0, 0) == 0 && // Erasing
+          selected_tilemap->get_tile_id(m_last_hovered_tile) != hovered_id)
+      {
+        update_autotileset();
+      }
     }
 
     m_last_hovered_tile = m_hovered_tile;
@@ -1308,12 +1320,16 @@ EditorOverlayWidget::update_pos()
 void
 EditorOverlayWidget::update_autotileset()
 {
+  auto selected_tilemap = m_editor.get_selected_tilemap();
+  if (!selected_tilemap)
+    return;
+
   AutotileSet* old_autotileset = get_current_autotileset();
   auto selected_tiles = m_editor.get_selected_tiles();
 
   if (selected_tiles->pos(0, 0) == 0) // Erasing
   {
-    const uint32_t current_tile = m_editor.get_selected_tilemap()->get_tile_id(m_hovered_tile);
+    const uint32_t current_tile = selected_tilemap->get_tile_id(m_hovered_tile);
     m_available_autotilesets = m_editor.get_tileset()->get_autotilesets_from_tile(current_tile);
   }
   else
@@ -1625,7 +1641,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
   {
     // Deprecated tiles in active tilemaps should have indication, when hovered
     auto sel_tilemap = m_editor.get_selected_tilemap();
-    if (m_editor.get_tileset()->get(sel_tilemap->get_tile_id(m_hovered_tile)).is_deprecated())
+    if (sel_tilemap && m_editor.get_tileset()->get(sel_tilemap->get_tile_id(m_hovered_tile)).is_deprecated())
       context.color().draw_text(Resources::normal_font, "!",
                                 tp_to_sp(Vector(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))) + Vector(16, 8),
                                 ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
