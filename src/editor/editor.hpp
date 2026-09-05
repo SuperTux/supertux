@@ -214,7 +214,6 @@ private:
   void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
 public:
-  bool m_newlevel_request;
   bool m_particle_editor_request;
   bool m_testing_disabled;
   std::optional<std::pair<std::string, Vector>> m_test_pos;
