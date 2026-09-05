@@ -118,8 +118,10 @@ ObjectMenu::menu_action(MenuItem& item)
 
     case MNID_TEST_FROM_HERE: {
       const MovingObject* obj = static_cast<const MovingObject*>(m_object);
-      m_editor.m_test_pos = std::make_pair(m_editor.get_sector()->get_name(),
-                                           obj->get_pos());
+      auto editor_project = m_editor.get_project();
+      auto sector = editor_project->get_sector();
+
+      m_editor.m_test_pos = std::make_pair(sector->get_name(), obj->get_pos());
       m_editor.m_test_request = true;
       MenuManager::instance().pop_menu();
       break;
@@ -139,7 +141,7 @@ bool
 ObjectMenu::on_back_action()
 {
   // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
-  BIND_SECTOR(*m_editor.get_sector());
+  BIND_SECTOR(*m_editor.get_project()->get_sector());
 
   m_object->after_editor_set();
   m_object->check_state();
