@@ -79,7 +79,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
     // Play button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
-      [this] { Editor::current()->m_test_request = true; },
+      [this] { Editor::current()->test_level(); },
       _("Test level")),
 
     // Save button

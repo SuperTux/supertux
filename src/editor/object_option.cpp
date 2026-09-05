@@ -1151,8 +1151,8 @@ TestFromHereOption::create_interface_control() const
     // TODO: Pressing the return key from within a game session automatically 
     // triggers this button again if it's previously been pushed. This needs
     // to get fixed.
-    editor.m_test_pos = std::make_pair(sector->get_name(), object_ptr->get_pos());
-    editor.m_test_request = true;
+    auto spawnpoint = std::make_pair(sector->get_name(), object_ptr->get_pos());
+    editor.test_level(spawnpoint);
   });
   return button;
 }

@@ -121,8 +121,8 @@ ObjectMenu::menu_action(MenuItem& item)
       auto editor_project = m_editor.get_project();
       auto sector = editor_project->get_sector();
 
-      m_editor.m_test_pos = std::make_pair(sector->get_name(), obj->get_pos());
-      m_editor.m_test_request = true;
+      auto spawnpoint = std::make_pair(sector->get_name(), obj->get_pos());
+      m_editor.test_level(spawnpoint);
       MenuManager::instance().pop_menu();
       break;
     }
