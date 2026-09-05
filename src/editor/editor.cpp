@@ -102,22 +102,6 @@ Editor::is_active()
   }
 }
 
-void
-Editor::may_deactivate()
-{
-  auto* self = Editor::current();
-  if (self)
-    self->deactivate();
-}
-
-void
-Editor::may_reactivate()
-{
-  auto* self = Editor::current();
-  if (self)
-    self->reactivate_after_menu_close();
-}
-
 
 Editor::Editor() :
   m_quit_request(false),
