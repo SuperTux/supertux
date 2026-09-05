@@ -103,6 +103,18 @@ public:
   }
   void set_sector(Sector* sector);
 
+  /**
+   * Saves the level under the specified filename
+   * @param filename The filename to save the level under or empty string to save with default filename
+   * @param switch_file If ""true"", the current file gets switched with the specified filename
+   * @param post_save callback function that gets executed once the file was saved
+   */
+  void save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr, bool save_temp_level = false)
+  {
+    m_project->save_level(filename, switch_file, post_save, save_temp_level);
+    m_enabled = true;
+  }
+
   inline bool is_testing_level() const { return m_testing_level; }
 
   inline void update_autotileset() { m_overlay_widget->update_autotileset(); }
@@ -198,10 +210,6 @@ private:
 public:
   bool m_newlevel_request;
   bool m_reload_request;
-  bool m_save_request;
-  bool m_save_temp_level;
-  std::string m_save_request_filename;
-  bool m_save_request_switch;
   bool m_test_request;
   bool m_particle_editor_request;
   bool m_testing_disabled;

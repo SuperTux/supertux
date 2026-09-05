@@ -106,9 +106,6 @@ Editor::is_active()
 Editor::Editor() :
   m_newlevel_request(false),
   m_reload_request(false),
-  m_save_request(false),
-  m_save_request_filename(""),
-  m_save_request_switch(false),
   m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
@@ -334,14 +331,6 @@ Editor::update(float dt_sec, const Controller& controller)
   if (!m_enabled)
   {
     return;
-  }
-
-  if (m_save_request) {
-    m_project->save_level(m_save_request_filename, m_save_request_switch);
-    m_enabled = true;
-    m_save_request = false;
-    m_save_request_filename = "";
-    m_save_request_switch = false;
   }
 
   if (m_test_request) {
