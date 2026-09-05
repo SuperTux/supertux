@@ -201,6 +201,11 @@ public:
   void reactivate_after_menu_close();
 
   /**
+   * Opens the particle editor
+   */
+  void open_particle_editor();
+
+  /**
    * Exits the editor
    */
   void exit();
@@ -214,10 +219,7 @@ private:
   void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
 public:
-  bool m_particle_editor_request;
   bool m_testing_disabled;
-
-  std::string* m_particle_editor_filename;
 
   bool m_ctrl_pressed;
   bool m_shift_pressed;

@@ -49,7 +49,8 @@ EditorProject::EditorProject() :
   m_autosave_levelfile(),
   m_level_loaded(),
   m_time_since_last_save(),
-  m_post_save(nullptr)
+  m_post_save(nullptr),
+  m_particle_editor_filename(nullptr)
 {
 }
 
