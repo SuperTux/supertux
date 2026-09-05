@@ -115,7 +115,7 @@ Editor::may_reactivate()
 {
   auto* self = Editor::current();
   if (self)
-    self->m_reactivate_request = true;
+    self->reactivate_after_menu_close();
 }
 
 
@@ -123,7 +123,6 @@ Editor::Editor() :
   m_quit_request(false),
   m_newlevel_request(false),
   m_reload_request(false),
-  m_reactivate_request(false),
   m_save_request(false),
   m_save_request_filename(""),
   m_save_request_switch(false),
@@ -350,31 +349,6 @@ Editor::update(float dt_sec, const Controller& controller)
 
   if (m_newlevel_request) {
     // Create new level.
-  }
-
-  if (m_reactivate_request) {
-    m_reactivate_request = false;
-
-    if (!m_enabled)
-    {
-      // It's possible that the editor is being re-activated due to exiting a menu,
-      // possibly one related to an object option.
-      GameObject* selected_object = m_selected_object.get();
-      if (selected_object)
-      {
-        selected_object->after_editor_set();
-        selected_object->check_state();
-      }
-    }
-    m_enabled = true;
-
-    m_ctrl_pressed = m_alt_pressed = false;
-    // any mouse events from earlier (i.e. in menu, testing) dont pass through
-    // the editor in those states, so as a lazy hack, let's just get the mouse
-    // position.
-    float x, y;
-    SDL_GetMouseState(&x, &y);
-    m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
   }
 
   // TODO: TEMPORARY addition to reinstate the return after deactivating
@@ -624,7 +598,6 @@ Editor::delete_current_sector()
   }
 
   set_sector(sectors.front().get());
-  m_reactivate_request = true;
 }
 
 void
@@ -793,6 +766,34 @@ Editor::deactivate()
   {
     MouseCursor::current()->set_visible(true);
   }
+}
+
+void
+Editor::reactivate_after_menu_close()
+{
+  if (!m_enabled)
+  {
+    // It's possible that the editor is being re-activated due to exiting a menu,
+    // possibly one related to an object option.
+    GameObject* selected_object = m_selected_object.get();
+    if (selected_object)
+    {
+      selected_object->after_editor_set();
+      selected_object->check_state();
+    }
+  }
+  
+  m_enabled = true;
+
+  m_ctrl_pressed = m_alt_pressed = false;
+
+  // any mouse events from earlier (i.e. in menu, testing) dont pass through
+  // the editor in those states, so as a lazy hack, let's just get the mouse
+  // position.
+
+  float x, y;
+  SDL_GetMouseState(&x, &y);
+  m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
 }
 
 void

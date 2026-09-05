@@ -159,18 +159,25 @@ public:
   void set_undo_disabled(bool state);
   void set_redo_disabled(bool state);
 
-  inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
-
-private:
-  void reload_level();
-  void reset_level();
-  void deactivate();
 
   /**
    * Method that gets called after the editor was reactivated
    * after testing a level
    */
   void reactivate_after_level_test();
+  
+  /**
+   * Method that gets called after reactivating after showing
+   * the menu
+   */
+  void reactivate_after_menu_close();
+
+  inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
+
+private:
+  void reload_level();
+  void reset_level();
+  void deactivate();
   void quit_editor();
   /**
    * @param filename    If non-empty, save to this file instead.
@@ -187,7 +194,6 @@ public:
   bool m_quit_request;
   bool m_newlevel_request;
   bool m_reload_request;
-  bool m_reactivate_request;
   bool m_save_request;
   bool m_save_temp_level;
   std::string m_save_request_filename;
