@@ -104,7 +104,6 @@ Editor::is_active()
 
 
 Editor::Editor() :
-  m_quit_request(false),
   m_newlevel_request(false),
   m_reload_request(false),
   m_save_request(false),
@@ -325,10 +324,6 @@ Editor::update(float dt_sec, const Controller& controller)
   // Pass all requests.
   if (m_reload_request) {
     reload_level();
-  }
-
-  if (m_quit_request) {
-    quit_editor();
   }
 
   if (m_newlevel_request) {
@@ -653,12 +648,9 @@ Editor::reset_level()
 }
 
 void
-Editor::quit_editor()
+Editor::quit()
 {
-  m_quit_request = false;
-
-  auto quit = [this] ()
-  {
+  m_project->check_unsaved_changes([this] {
     m_project->close();
     m_enabled = false;
     Tile::draw_editor_images = false;
@@ -670,10 +662,6 @@ Editor::quit_editor()
     if (!persistent)
       Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
 #endif
-  };
-
-  m_project->check_unsaved_changes([quit] {
-    quit();
   });
 }
 
