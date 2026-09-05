@@ -24,4 +24,8 @@ public:
   MultiplayerPlayerMenu(int player_id);
 
   void menu_action(MenuItem& item) override {}
+
+private:
+  int m_player_id;
+  int m_selected_character = 0;  // 0=Tux, 1=Penny, 2=Larry
 };

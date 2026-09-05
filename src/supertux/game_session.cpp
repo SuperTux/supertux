@@ -27,6 +27,7 @@
 #include "gui/mousecursor.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
+#include "object/character_registry.hpp"
 #include "object/endsequence_fireworks.hpp"
 #include "object/endsequence_walk.hpp"
 #include "object/level_time.hpp"
@@ -91,6 +92,7 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   m_coins_at_start(),
   m_boni_at_start(),
   m_pockets_at_start(),
+  m_character_ids_at_start(),
   m_active(false),
   m_end_seq_started(false),
   m_pause_target_timer(false),
@@ -101,6 +103,7 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
 
   m_boni_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
   m_pockets_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
+  m_character_ids_at_start.resize(InputManager::current()->get_num_users(), CharacterType::TUX);
 
   m_data_table.clear();
 }
@@ -124,9 +127,11 @@ GameSession::GameSession(std::istream& istream_, Savegame* savegame, Statistics*
   m_levelstream = &istream_;
 }
 
+
 void
 GameSession::reset_level()
 {
+  log_warning << "reset_level called" << std::endl;
   for (const auto& p : m_currentsector->get_players())
   {
     try
@@ -170,11 +175,14 @@ GameSession::on_player_added(int id)
   }
 
   if (player_status->m_num_players <= id)
+  {
     player_status->add_player();
+  }
 
-
+  CharacterType character_type = player_status->get_character_id(id);
+  
   // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-  auto& player = m_currentsector->add<Player>(*player_status, "Tux" + std::to_string(id + 1), id);
+  auto& player = m_currentsector->add<Player>(*player_status, "Tux" + std::to_string(id + 1), id, character_type);
 
   player.multiplayer_prepare_spawn();
 }
@@ -206,7 +214,8 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     m_coins_at_start = currentStatus.coins;
     m_boni_at_start = currentStatus.bonus;
     m_pockets_at_start = currentStatus.m_item_pockets;
-
+    m_character_ids_at_start = currentStatus.m_character_ids;
+    
     // Needed for the title screen apparently.
     if (m_currentsector)
     {

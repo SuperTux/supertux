@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "object/powerup.hpp"
+#include "object/character_profile.hpp"
 #include "supertux/timer.hpp"
 #include "supertux/level.hpp"
 
@@ -116,10 +117,15 @@ public:
   int coins;
   int tuxdolls;
   std::vector<BonusType> bonus;
+  std::vector<CharacterType> m_character_ids;  /**< Character type for each player*/
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */
   std::string title_level; /**< level to be used for the title screen, overrides the value of the same property for the world */
+
+  CharacterType get_character_id(int player_id) const;
+  
+  void set_character_id(int player_id, CharacterType character_type);
 
 private:
   PlayerStatus(const PlayerStatus&) = delete;
