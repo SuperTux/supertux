@@ -89,6 +89,12 @@ ParticleEditor::reload()
 
 ParticleEditor::~ParticleEditor()
 {
+  auto editor = Editor::current();
+  if (editor == nullptr)
+    return;
+
+  auto project = editor->get_project();
+  project->set_particle_editor_filename(nullptr);
 }
 
 void
@@ -734,7 +740,11 @@ ParticleEditor::quit_editor()
   auto quit = [] ()
   {
     ScreenManager::current()->pop_screen();
-    Editor::may_reactivate();
+    auto editor = Editor::current();
+    if (editor)
+    {
+      editor->reactivate_after_menu_close();
+    }
   };
 
   check_unsaved_changes([quit] {

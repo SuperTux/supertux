@@ -79,13 +79,13 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
     // Play button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
-      [this] { Editor::current()->m_test_request = true; },
+      [this] { Editor::current()->test_level(); },
       _("Test level")),
 
     // Save button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
       [this] {
-        Editor::current()->save_level();
+        Editor::current()->get_project()->save_level();
       },
       _("Save level")),
 

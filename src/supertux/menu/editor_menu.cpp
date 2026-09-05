@@ -47,9 +47,13 @@ EditorMenu::refresh()
 {
   clear();
 
-  bool worldmap = Editor::current()->get_level()->is_worldmap();
-  bool is_world = Editor::current()->get_world() != nullptr;
-  bool is_temp_level = Editor::current()->is_temp_level();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  auto tile_converter = editor->get_tile_converter();
+
+  bool worldmap = editor_project->get_level()->is_worldmap();
+  bool is_world = editor_project->get_world() != nullptr;
+  bool is_temp_level = editor_project->is_temp_level();
 
   add_label(_("Level Editor"));
   add_hl();
@@ -85,7 +89,7 @@ EditorMenu::refresh()
       .set_help(_("Convert all tiles in the level using converters."));
   }
 
-  if (Editor::current()->has_deprecated_tiles())
+  if (tile_converter->has_deprecated_tiles())
   {
     add_hl();
 
@@ -104,9 +108,9 @@ EditorMenu::refresh()
   add_entry(MNID_HELP, _("Keyboard Shortcuts"));
 
   add_hl();
-  if (!Editor::current()->is_temp_level())
+  if (!editor_project->is_temp_level())
     add_entry(MNID_CLOSELEVEL, _("Close Level"));
-  else if (Editor::current()->has_unsaved_changes())
+  else if (editor_project->has_unsaved_changes())
     add_entry(MNID_CLOSELEVEL, _("Reset level"));
   add_entry(MNID_QUITEDITOR, _("Exit Level Editor"));
 }
@@ -119,6 +123,8 @@ void
 EditorMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+
   switch (item.get_id())
   {
     case MNID_RETURNTOEDITOR:
@@ -127,16 +133,16 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVELEVEL:
     {
-      editor->check_save_prerequisites([editor]() {
+      editor_project->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
-        editor->m_save_request = true;
+        editor->save_level();
       });
     }
       break;
 
     case MNID_SAVEASLEVEL:
     {
-      editor->check_save_prerequisites([] {
+      editor_project->check_save_prerequisites([] {
         MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(true));
       });
     }
@@ -144,29 +150,28 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVECOPYLEVEL:
     {
-      editor->check_save_prerequisites([] {
+      editor_project->check_save_prerequisites([] {
         MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(false));
       });
     }
       break;
 
     case MNID_PACK:
-      Dialog::show_confirmation(_("Do you want to package this world as an add-on?"), [] {
-        Editor::current()->pack_addon();
+      Dialog::show_confirmation(_("Do you want to package this world as an add-on?"), [editor_project] {
+        editor_project->pack_addon();
         FileSystem::open_path(FileSystem::join(PHYSFS_getWriteDir(), "addons"));
       });
       break;
 
     case MNID_OPEN_DIR:
-      Editor::current()->open_level_directory();
+      Editor::current()->get_project()->open_level_directory();
       break;
 
     case MNID_TESTLEVEL:
     {
-      editor->check_save_prerequisites([editor]() {
+      editor_project->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
-        editor->m_test_pos = std::nullopt;
-        editor->m_test_request = true;
+        editor->test_level();
       });
     }
       break;
@@ -217,19 +222,19 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_LEVELSEL:
-      editor->check_unsaved_changes([] {
+      editor_project->check_unsaved_changes([] {
         MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
       });
       break;
 
     case MNID_LEVELSETSEL:
-      editor->check_unsaved_changes([] {
+      editor_project->check_unsaved_changes([] {
         MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
       });
       break;
 
     case MNID_CLOSELEVEL:
-      editor->check_unsaved_changes([] {
+      editor_project->check_unsaved_changes([] {
         Editor::current()->set_level(nullptr, true);
         MenuManager::instance().clear_menu_stack();
       });
@@ -237,12 +242,14 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_QUITEDITOR:
       MenuManager::instance().clear_menu_stack();
-      Editor::current()->m_quit_request = true;
+      Editor::current()->exit();
       break;
 
     case MNID_CHECKDEPRECATEDTILES:
-      editor->check_deprecated_tiles(true);
-      if (editor->has_deprecated_tiles())
+    {
+      auto tile_converter = editor->get_tile_converter();
+      tile_converter->check_deprecated_tiles(true);
+      if (tile_converter->has_deprecated_tiles())
       {
         const std::string present_message = _("Deprecated tiles are still present in the level.");
         if (g_config->editor_show_deprecated_tiles)
@@ -261,7 +268,8 @@ EditorMenu::menu_action(MenuItem& item)
         Dialog::show_message(_("There are no more deprecated tiles in the level!"));
         refresh();
       }
-      break;
+    }
+    break;
 
     default:
       break;
