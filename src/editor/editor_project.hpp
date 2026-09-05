@@ -183,11 +183,13 @@ public:
 
   /**
    * Saves the level under the specified filename
-   * @param filename The filename to save the level under
+   * @param filename The filename to save the level under or empty string to save with default filename
    * @param switch_file If ""true"", the current file gets switched with the specified filename
    * @param post_save callback function that gets executed once the file was saved
+   * @param save_temp_level Specifies whether to save this level as a temporary level
    */
-  bool save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr);
+  bool save_level(const std::string& filename = "", bool switch_file = false,
+                  const std::function<void ()>& post_save = nullptr, bool save_temp_level = false);
   
   /**
    * Triggers the `post_save` callback function after a save
@@ -260,7 +262,6 @@ private:
   std::string m_levelfile;
   std::string m_autosave_levelfile;
   bool m_level_loaded;
-  bool m_save_temp_level;
   float m_time_since_last_save;
 
   std::function<void ()> m_post_save;

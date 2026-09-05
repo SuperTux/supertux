@@ -49,14 +49,10 @@ EditorSaveAs::~EditorSaveAs()
 void
 EditorSaveAs::menu_action(MenuItem& item)
 {
-  auto editor = Editor::current();
-
   switch (item.get_id())
   {
     case MNID_SAVE:
-      editor->m_save_request = true;
-      editor->m_save_request_filename = m_filename;
-      editor->m_save_request_switch = m_do_switch_file;
+      Editor::current()->save_level(m_filename, m_do_switch_file);
       MenuManager::instance().clear_menu_stack();
       break;
 
