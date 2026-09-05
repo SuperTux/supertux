@@ -105,7 +105,6 @@ Editor::is_active()
 
 Editor::Editor() :
   m_particle_editor_request(false),
-  m_test_pos(),
   m_particle_editor_filename(),
   m_ctrl_pressed(false),
   m_shift_pressed(false),
