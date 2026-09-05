@@ -170,9 +170,10 @@ bool
 EditorProject::save_level(const std::string& filename, bool switch_file,
                           const std::function<void ()>& post_save, bool save_temp_level)
 {
+  m_post_save = post_save;
+
   if (m_temp_level && !save_temp_level)
   {
-    m_post_save = post_save;
     MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
     return false;
   }
@@ -497,7 +498,7 @@ EditorProject::check_unsaved_changes(const std::function<void ()>& action)
                                                     _("This level may contain unsaved changes, do you want to save?"));
     dialog->add_default_button(_("Yes"), [this, action, editor] {
       check_save_prerequisites([this, action, editor] {
-        save_level("", false, action);
+        save_level("", false, action, m_temp_level);
         editor->set_enabled(true);
       });
   });
