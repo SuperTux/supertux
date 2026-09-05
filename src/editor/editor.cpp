@@ -105,7 +105,6 @@ Editor::is_active()
 
 Editor::Editor() :
   m_newlevel_request(false),
-  m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
   m_particle_editor_filename(),
@@ -327,14 +326,6 @@ Editor::update(float dt_sec, const Controller& controller)
     return;
   }
 
-  if (m_test_request) {
-    m_test_request = false;
-    MouseCursor::current()->set_icon(nullptr);
-    m_last_test_pos = m_test_pos;
-    test_level(m_test_pos);
-    return;
-  }
-
   if (m_particle_editor_request) {
     m_particle_editor_request = false;
     std::unique_ptr<Screen> screen(new ParticleEditor());
@@ -431,7 +422,9 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   m_project->check_save_prerequisites([this, test_pos]()
   {
     m_testing_level = true;
+    m_last_test_pos = test_pos;
 
+    MouseCursor::current()->set_icon(nullptr);
     Tile::draw_editor_images = false;
     Compositor::s_render_lighting = true;
 
@@ -719,7 +712,7 @@ Editor::deactivate()
 {
   m_enabled = false;
   
-  if (!m_test_request)
+  if (!m_testing_level)
   {
     MouseCursor::current()->set_visible(true);
   }
