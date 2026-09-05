@@ -216,7 +216,6 @@ private:
 public:
   bool m_particle_editor_request;
   bool m_testing_disabled;
-  std::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::string* m_particle_editor_filename;
 
