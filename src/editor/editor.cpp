@@ -339,8 +339,6 @@ Editor::update(float dt_sec, const Controller& controller)
       widget->update(dt_sec);
     }
 
-    m_toolbar_widget->update(dt_sec);
-
     for(const auto& control : m_controls)
     {
       control->update(dt_sec);
