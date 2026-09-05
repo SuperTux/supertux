@@ -89,6 +89,12 @@ ParticleEditor::reload()
 
 ParticleEditor::~ParticleEditor()
 {
+  auto editor = Editor::current();
+  if (editor == nullptr)
+    return;
+
+  auto project = editor->get_project();
+  project->set_particle_editor_filename(nullptr);
 }
 
 void
