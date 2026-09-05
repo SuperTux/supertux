@@ -61,9 +61,6 @@ public:
 
   static bool is_active();
 
-  static void may_deactivate();
-  static void may_reactivate();
-
 public:
   static bool s_resaving_in_progress;
 
@@ -162,6 +159,12 @@ public:
 
 
   /**
+   * Deactivates the editor so that it doesn't receive
+   * any keyboard or mouse events (e.g. when a menu is shown)
+   */
+  void deactivate();
+
+  /**
    * Method that gets called after the editor was reactivated
    * after testing a level
    */
@@ -179,7 +182,6 @@ private:
   void set_sector(Sector* sector);
   void reload_level();
   void reset_level();
-  void deactivate();
   void quit_editor();
   /**
    * @param filename    If non-empty, save to this file instead.
