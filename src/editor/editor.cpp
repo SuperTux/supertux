@@ -104,8 +104,6 @@ Editor::is_active()
 
 
 Editor::Editor() :
-  m_particle_editor_request(false),
-  m_particle_editor_filename(),
   m_ctrl_pressed(false),
   m_shift_pressed(false),
   m_alt_pressed(false),
@@ -317,15 +315,6 @@ Editor::update(float dt_sec, const Controller& controller)
   // TODO: TEMPORARY addition to reinstate the return after deactivating
   if (!m_enabled)
   {
-    return;
-  }
-
-  if (m_particle_editor_request) {
-    m_particle_editor_request = false;
-    std::unique_ptr<Screen> screen(new ParticleEditor());
-    if (m_particle_editor_filename)
-      static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
-    ScreenManager::current()->push_screen(std::move(screen));
     return;
   }
 
@@ -617,6 +606,20 @@ Editor::reset_level()
 
   MouseCursor::current()->set_icon(nullptr);
   set_level(nullptr, true);
+}
+
+void
+Editor::open_particle_editor()
+{
+  std::unique_ptr<Screen> screen(new ParticleEditor());
+  ScreenManager::current()->push_screen(std::move(screen));
+
+  auto particle_editor_filename = m_project->get_particle_editor_filename();
+  if (particle_editor_filename != nullptr)
+  {
+    auto particle_system_path = FileSystem::join("particles", *particle_editor_filename);
+    ParticleEditor::current()->open(particle_system_path);
+  }
 }
 
 void
