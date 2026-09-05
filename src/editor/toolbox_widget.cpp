@@ -130,7 +130,10 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     auto editor_project = m_editor.get_project();
     auto level = editor_project->get_level();
 
-    switch (m_hovered_item)
+    auto hovered_item = m_hovered_item;
+    m_hovered_item = HoveredItem::NONE;
+
+    switch (hovered_item)
     {
       case HoveredItem::TILEGROUP:
       {
@@ -149,6 +152,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         return true;
 
       case HoveredItem::OBJECTS:
+      {
         if ((level->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
             (!level->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
         {
@@ -163,6 +167,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           else
             select_objectgroup(0);
         }
+      }
         return true;
 
       case HoveredItem::TOOL:
