@@ -1179,7 +1179,7 @@ ParticleEditorOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Open"));
   button->m_on_activate_callbacks.emplace_back([]() {
-      Editor::current()->m_particle_editor_request = true;
+      Editor::current()->open_particle_editor();
     });
   button->set_rect(Rectf(0, 32, 20, 32));
   return button;
