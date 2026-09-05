@@ -83,7 +83,8 @@ EditorSectorsMenu::create_sector()
 void
 EditorSectorsMenu::delete_sector()
 {
-  Level* level = Editor::current()->get_project()->get_level();
+  auto editor = Editor::current();
+  Level* level = editor->get_project()->get_level();
   auto dialog = std::make_unique<Dialog>();
 
   // Do not delete sector when there would be no left.
@@ -96,9 +97,10 @@ EditorSectorsMenu::delete_sector()
     dialog->set_text(_("Do you really want to delete this sector?"));
     dialog->clear_buttons();
     dialog->add_cancel_button(_("Cancel"));
-    dialog->add_button(_("Delete sector"), [] {
+    dialog->add_button(_("Delete sector"), [editor] {
         MenuManager::instance().clear_menu_stack();
-        Editor::current()->delete_current_sector();
+        editor->delete_current_sector();
+        editor->reactivate_after_menu_close();
       });
   }
   MenuManager::instance().set_dialog(std::move(dialog));
