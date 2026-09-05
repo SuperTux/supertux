@@ -170,6 +170,14 @@ public:
   void set_redo_disabled(bool state);
 
   /**
+   * @param filename    If non-empty, save to this file instead.
+   * @param switch_file If true, the level editor will bind itself to the new
+   *                    filename; subsequest saves will by default save to the
+   *                    new filename.
+   */
+  void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos = std::nullopt);
+
+  /**
    * Deactivates the editor so that it doesn't receive
    * any keyboard or mouse events (e.g. when a menu is shown)
    */
@@ -201,20 +209,12 @@ public:
 
 private:
   void reset_level();
-  /**
-   * @param filename    If non-empty, save to this file instead.
-   * @param switch_file If true, the level editor will bind itself to the new
-   *                    filename; subsequest saves will by default save to the
-   *                    new filename.
-   */
-  void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
   void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
 public:
   bool m_newlevel_request;
-  bool m_test_request;
   bool m_particle_editor_request;
   bool m_testing_disabled;
   std::optional<std::pair<std::string, Vector>> m_test_pos;
