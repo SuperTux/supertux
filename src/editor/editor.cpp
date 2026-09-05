@@ -105,7 +105,6 @@ Editor::is_active()
 
 Editor::Editor() :
   m_newlevel_request(false),
-  m_reload_request(false),
   m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
@@ -317,11 +316,6 @@ Editor::update(float dt_sec, const Controller& controller)
   m_project->check_autosave(dt_sec);
 
   m_script_manager.poll();
-
-  // Pass all requests.
-  if (m_reload_request) {
-    reload_level();
-  }
 
   if (m_newlevel_request) {
     // Create new level.
@@ -576,7 +570,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_project->set_level(std::move(level));
   m_project->load_sector(DEFAULT_SECTOR_NAME, reset);
 
-  m_reload_request = false;
+  m_is_reloading = false;
   m_enabled = true;
 
   if (reset) {
@@ -609,6 +603,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 void
 Editor::reload_level()
 {
+  m_is_reloading = true;
+
   auto level = m_project->get_editable_level();
   set_level(std::move(level));
 
@@ -630,7 +626,7 @@ Editor::reset_level()
 {
   m_project->reset();
 
-  m_reload_request = false;
+  m_is_reloading = false;
 
   MouseCursor::current()->set_icon(nullptr);
   set_level(nullptr, true);
