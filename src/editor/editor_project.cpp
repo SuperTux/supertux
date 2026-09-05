@@ -48,7 +48,6 @@ EditorProject::EditorProject() :
   m_levelfile(),
   m_autosave_levelfile(),
   m_level_loaded(),
-  m_save_temp_level(false),
   m_time_since_last_save(),
   m_post_save(nullptr)
 {
@@ -167,18 +166,18 @@ EditorProject::set_level(std::unique_ptr<Level> level, bool reset)
 }
 
 bool
-EditorProject::save_level(const std::string& filename, bool switch_file, const std::function<void ()>& post_save)
+EditorProject::save_level(const std::string& filename, bool switch_file,
+                          const std::function<void ()>& post_save, bool save_temp_level)
 {
-  if (m_temp_level && !m_save_temp_level)
+  if (m_temp_level && !save_temp_level)
   {
     m_post_save = post_save;
     MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
     return false;
   }
 
-  if (m_save_temp_level)
+  if (save_temp_level)
   {
-    m_save_temp_level = false;
     m_temp_level = false;
     // Implied
     switch_file = true;
