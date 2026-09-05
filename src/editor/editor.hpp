@@ -177,7 +177,7 @@ public:
   /**
    * Exits the editor
    */
-  void quit();
+  void exit();
 
   inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
