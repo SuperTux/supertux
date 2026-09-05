@@ -106,7 +106,7 @@ public:
   }
   void set_sector(Sector* sector);
 
-  inline bool is_testing_level() const { return m_leveltested; }
+  inline bool is_testing_level() const { return m_testing_level; }
 
   inline void update_autotileset() { m_overlay_widget->update_autotileset(); }
 
@@ -165,7 +165,12 @@ private:
   void reload_level();
   void reset_level();
   void deactivate();
-  void reactivate();
+
+  /**
+   * Method that gets called after the editor was reactivated
+   * after testing a level
+   */
+  void reactivate_after_level_test();
   void quit_editor();
   /**
    * @param filename    If non-empty, save to this file instead.
@@ -207,7 +212,7 @@ public:
   bool m_tilebox_something_selected;
 
 private:
-  bool m_leveltested;
+  bool m_testing_level;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
   std::optional<std::pair<std::string, Vector>> m_last_test_pos;
