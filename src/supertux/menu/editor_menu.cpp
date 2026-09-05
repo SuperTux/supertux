@@ -135,7 +135,7 @@ EditorMenu::menu_action(MenuItem& item)
     {
       editor_project->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
-        editor->m_save_request = true;
+        editor->save_level();
       });
     }
       break;
