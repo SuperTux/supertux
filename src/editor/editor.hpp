@@ -99,7 +99,7 @@ public:
   inline void set_level(const std::string& levelfile)
   {
     m_project->set_level_file(levelfile);
-    m_reload_request = true;
+    reload_level();
   }
   void set_sector(Sector* sector);
 
@@ -115,6 +115,7 @@ public:
     m_enabled = true;
   }
 
+  inline bool is_reloading() const { return m_is_reloading; }
   inline bool is_testing_level() const { return m_testing_level; }
 
   inline void update_autotileset() { m_overlay_widget->update_autotileset(); }
@@ -175,6 +176,11 @@ public:
   void deactivate();
 
   /**
+   * Reloads the current level (e.g. after changing it)
+   */
+  void reload_level();
+
+  /**
    * Method that gets called after the editor was reactivated
    * after testing a level
    */
@@ -194,7 +200,6 @@ public:
   inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
 private:
-  void reload_level();
   void reset_level();
   /**
    * @param filename    If non-empty, save to this file instead.
@@ -209,7 +214,6 @@ private:
 
 public:
   bool m_newlevel_request;
-  bool m_reload_request;
   bool m_test_request;
   bool m_particle_editor_request;
   bool m_testing_disabled;
@@ -230,6 +234,7 @@ public:
   bool m_tilebox_something_selected;
 
 private:
+  bool m_is_reloading;
   bool m_testing_level;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
