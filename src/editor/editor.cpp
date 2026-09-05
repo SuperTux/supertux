@@ -107,7 +107,7 @@ Editor::may_deactivate()
 {
   auto* self = Editor::current();
   if (self)
-    self->m_deactivate_request = true;
+    self->deactivate();
 }
 
 void
@@ -124,7 +124,6 @@ Editor::Editor() :
   m_newlevel_request(false),
   m_reload_request(false),
   m_reactivate_request(false),
-  m_deactivate_request(false),
   m_save_request(false),
   m_save_request_filename(""),
   m_save_request_switch(false),
@@ -353,14 +352,6 @@ Editor::update(float dt_sec, const Controller& controller)
     // Create new level.
   }
 
-  if (m_deactivate_request) {
-    m_enabled = false;
-    m_deactivate_request = false;
-    if (!m_test_request)
-      MouseCursor::current()->set_visible(true);
-    return;
-  }
-
   if (m_reactivate_request) {
     m_reactivate_request = false;
 
@@ -384,6 +375,12 @@ Editor::update(float dt_sec, const Controller& controller)
     float x, y;
     SDL_GetMouseState(&x, &y);
     m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
+  }
+
+  // TODO: TEMPORARY addition to reinstate the return after deactivating
+  if (!m_enabled)
+  {
+    return;
   }
 
   if (m_save_request) {
@@ -788,6 +785,17 @@ Editor::setup()
 }
 
 void
+Editor::deactivate()
+{
+  m_enabled = false;
+  
+  if (!m_test_request)
+  {
+    MouseCursor::current()->set_visible(true);
+  }
+}
+
+void
 Editor::reactivate()
 {
   // Reactivate the editor after level test.
@@ -795,6 +803,9 @@ Editor::reactivate()
     return;
 
   m_leveltested = false;
+
+  m_enabled = true;
+
   Tile::draw_editor_images = true;
 
   m_project->reactivate();
@@ -802,8 +813,6 @@ Editor::reactivate()
   MenuManager::instance().clear_menu_stack();
   SoundManager::current()->stop_music();
 
-  m_deactivate_request = false;
-  m_enabled = true;
   m_toolbox_widget->update_mouse_icon();
 }
 

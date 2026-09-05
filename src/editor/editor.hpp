@@ -164,6 +164,7 @@ public:
 private:
   void reload_level();
   void reset_level();
+  void deactivate();
   void reactivate();
   void quit_editor();
   /**
@@ -182,7 +183,6 @@ public:
   bool m_newlevel_request;
   bool m_reload_request;
   bool m_reactivate_request;
-  bool m_deactivate_request;
   bool m_save_request;
   bool m_save_temp_level;
   std::string m_save_request_filename;
