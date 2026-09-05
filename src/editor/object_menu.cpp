@@ -128,7 +128,7 @@ ObjectMenu::menu_action(MenuItem& item)
     }
 
     case MNID_OPEN_PARTICLE_EDITOR:
-      m_editor.m_particle_editor_request = true;
+      m_editor.open_particle_editor();
       MenuManager::instance().pop_menu();
       break;
 
