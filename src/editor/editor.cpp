@@ -648,7 +648,7 @@ Editor::reset_level()
 }
 
 void
-Editor::quit()
+Editor::exit()
 {
   m_project->check_unsaved_changes([this] {
     m_project->close();
