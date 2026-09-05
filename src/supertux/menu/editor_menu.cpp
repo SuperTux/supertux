@@ -243,7 +243,7 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_QUITEDITOR:
       MenuManager::instance().clear_menu_stack();
-      Editor::current()->quit();
+      Editor::current()->exit();
       break;
 
     case MNID_CHECKDEPRECATEDTILES:
