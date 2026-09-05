@@ -101,7 +101,7 @@ EditorProject::create_empty_project()
   m_level->initialize();
   m_levelfile = "";
   m_level_loaded = true;
-  //m_reload_request = true;
+  // Editor::current()->reload_level();
 }
 
 std::string
