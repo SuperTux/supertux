@@ -104,7 +104,6 @@ Editor::is_active()
 
 
 Editor::Editor() :
-  m_newlevel_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
   m_particle_editor_filename(),
@@ -315,10 +314,6 @@ Editor::update(float dt_sec, const Controller& controller)
   m_project->check_autosave(dt_sec);
 
   m_script_manager.poll();
-
-  if (m_newlevel_request) {
-    // Create new level.
-  }
 
   // TODO: TEMPORARY addition to reinstate the return after deactivating
   if (!m_enabled)
