@@ -156,7 +156,6 @@ public:
   void set_undo_disabled(bool state);
   void set_redo_disabled(bool state);
 
-
   /**
    * Deactivates the editor so that it doesn't receive
    * any keyboard or mouse events (e.g. when a menu is shown)
@@ -175,12 +174,16 @@ public:
    */
   void reactivate_after_menu_close();
 
+  /**
+   * Exits the editor
+   */
+  void quit();
+
   inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
 private:
   void reload_level();
   void reset_level();
-  void quit_editor();
   /**
    * @param filename    If non-empty, save to this file instead.
    * @param switch_file If true, the level editor will bind itself to the new
@@ -193,7 +196,6 @@ private:
   void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
 public:
-  bool m_quit_request;
   bool m_newlevel_request;
   bool m_reload_request;
   bool m_save_request;
