@@ -98,7 +98,7 @@ Editor::is_active()
     return true;
   } else {
     auto* self = Editor::current();
-    return self && !self->m_leveltested && self->m_after_setup;
+    return self && !self->m_testing_level && self->m_after_setup;
   }
 }
 
@@ -136,7 +136,7 @@ Editor::Editor() :
   m_alt_pressed(false),
   m_key_zoomed(false),
   m_pen_down(false),
-  m_leveltested(false),
+  m_testing_level(false),
   m_after_setup(false),
   m_widgets(),
   m_controls(),
@@ -221,7 +221,7 @@ Editor::draw(Compositor& compositor)
 
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
-    if (!m_leveltested)
+    if (!m_testing_level)
     {
       auto sector = m_project->get_sector();
       context.push_transform();
@@ -415,7 +415,7 @@ Editor::update(float dt_sec, const Controller& controller)
   }
 
   // Update other components.
-  if (m_project->is_level_loaded() && !m_leveltested) {
+  if (m_project->is_level_loaded() && !m_testing_level) {
     BIND_SECTOR(*sector);
 
     for (auto& object : sector->get_objects()) {
@@ -494,7 +494,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 
   m_project->check_save_prerequisites([this, test_pos]()
   {
-    m_leveltested = true;
+    m_testing_level = true;
 
     Tile::draw_editor_images = false;
     Compositor::s_render_lighting = true;
@@ -506,7 +506,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
     
     if (!test_successful)
     {
-      reactivate();
+      reactivate_after_level_test();
     }
   });
 }
@@ -781,7 +781,7 @@ Editor::setup()
     VideoSystem::current()->get_viewport().force_full_viewport(true);
 
   // Reactivate the editor after level test.
-  reactivate();
+  reactivate_after_level_test();
 }
 
 void
@@ -796,13 +796,12 @@ Editor::deactivate()
 }
 
 void
-Editor::reactivate()
+Editor::reactivate_after_level_test()
 {
-  // Reactivate the editor after level test.
-  if (!m_leveltested)
+  if (!m_testing_level)
     return;
 
-  m_leveltested = false;
+  m_testing_level = false;
 
   m_enabled = true;
 
