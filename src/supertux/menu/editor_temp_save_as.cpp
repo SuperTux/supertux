@@ -62,7 +62,7 @@ EditorTempSaveAs::~EditorTempSaveAs()
   if (editor == nullptr) {
     return;
   }
-  editor->m_reactivate_request = true;
+  editor->reactivate_after_menu_close();
 }
 
 void
