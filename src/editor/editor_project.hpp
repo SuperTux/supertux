@@ -162,6 +162,23 @@ public:
   inline void set_tileset(TileSet* tileset) { m_tileset = tileset; }
 
   /**
+   * Sets the filename pointer of the particle system that is to be opened in the particle
+   * editor
+   */
+  void set_particle_editor_filename(std::string* particle_editor_filename) {
+    m_particle_editor_filename = particle_editor_filename;
+  }
+
+  /**
+   * Gets the filename of the particle system that is supposed to be edited with
+   * the particle editor
+   */
+   const std::string* get_particle_editor_filename() const
+   {
+     return m_particle_editor_filename;
+   }
+
+  /**
    * Reactivates the editor project after testing a level
    */
   void reactivate();
@@ -265,4 +282,6 @@ private:
   float m_time_since_last_save;
 
   std::function<void ()> m_post_save;
+
+  std::string* m_particle_editor_filename;
 };
