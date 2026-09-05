@@ -312,12 +312,6 @@ Editor::update(float dt_sec, const Controller& controller)
 
   m_script_manager.poll();
 
-  // TODO: TEMPORARY addition to reinstate the return after deactivating
-  if (!m_enabled)
-  {
-    return;
-  }
-
   auto sector = m_project->get_sector();
   if (sector == nullptr)
   {
@@ -536,6 +530,7 @@ Editor::delete_current_sector()
   }
 
   set_sector(sectors.front().get());
+
 }
 
 void
