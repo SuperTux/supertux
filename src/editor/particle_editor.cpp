@@ -734,7 +734,11 @@ ParticleEditor::quit_editor()
   auto quit = [] ()
   {
     ScreenManager::current()->pop_screen();
-    Editor::may_reactivate();
+    auto editor = Editor::current();
+    if (editor)
+    {
+      editor->reactivate_after_menu_close();
+    }
   };
 
   check_unsaved_changes([quit] {
