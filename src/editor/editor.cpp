@@ -230,9 +230,6 @@ Editor::draw(Compositor& compositor)
       widget->draw(context);
     }
 
-    m_overlay_widget->draw_tilemap_outer_shading(context);
-    m_overlay_widget->draw_tilemap_border(context);
-
     if (get_properties_panel_visible())
     {
       context.color().set_blur(g_config->editor_blur);

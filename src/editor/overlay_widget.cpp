@@ -1617,6 +1617,9 @@ EditorOverlayWidget::draw(DrawingContext& context)
     }
   }
 
+  draw_tilemap_outer_shading(context);
+  draw_tilemap_border(context);
+
   m_object_tip->draw(context, m_mouse_pos);
 
   // Draw zoom indicator.

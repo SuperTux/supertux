@@ -72,9 +72,6 @@ public:
   void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
   //void reset_action_press();
 
-  void draw_tilemap_outer_shading(DrawingContext&);
-  void draw_tilemap_border(DrawingContext&);
-
   inline Vector get_sector_pos() const { return m_sector_pos; }
 
 private:
@@ -108,6 +105,8 @@ private:
   AutotileSet* get_current_autotileset() const;
   std::string get_autotileset_key_range() const;
 
+  void draw_tilemap_outer_shading(DrawingContext&);
+  void draw_tilemap_border(DrawingContext&);
   void draw_tile_tip(DrawingContext&);
   void draw_tile_grid(DrawingContext&, int tile_size, bool draw_shadow) const;
   void draw_path(DrawingContext&);
