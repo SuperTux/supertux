@@ -681,6 +681,9 @@ Editor::reactivate_after_menu_close()
 {
   if (!m_enabled)
   {
+    auto sector = m_project->get_sector();
+    BIND_SECTOR(*sector);
+
     // It's possible that the editor is being re-activated due to exiting a menu,
     // possibly one related to an object option.
     GameObject* selected_object = m_selected_object.get();
