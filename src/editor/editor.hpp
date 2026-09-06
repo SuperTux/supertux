@@ -80,8 +80,6 @@ public:
   void event(const SDL_Event& ev) override;
   void on_window_resize() override;
 
-  void disable_keyboard() { m_enabled = false; }
-
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
   inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
