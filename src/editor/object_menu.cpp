@@ -140,16 +140,18 @@ ObjectMenu::menu_action(MenuItem& item)
 bool
 ObjectMenu::on_back_action()
 {
+  auto project = m_editor.get_project();
   // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
-  BIND_SECTOR(*m_editor.get_project()->get_sector());
+  BIND_SECTOR(*project->get_sector());
 
   m_object->after_editor_set();
   m_object->check_state();
 
   if (!MenuManager::instance().previous_menu())
   {
+    auto layers_widget = m_editor.get_layers_widget();
     if (!dynamic_cast<MovingObject*>(m_object)) {
-      m_editor.sort_layers();
+      layers_widget->sort_layers();
     }
   }
 

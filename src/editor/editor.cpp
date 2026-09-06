@@ -944,12 +944,6 @@ Editor::delete_markers()
 }
 
 void
-Editor::sort_layers()
-{
-  m_layers_widget->sort_layers();
-}
-
-void
 Editor::select_tilegroup(int id)
 {
   // dumb hack around dumb design...
