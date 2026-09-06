@@ -380,12 +380,10 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 
   m_project->check_save_prerequisites([this, test_pos]()
   {
+    deactivate();
+
     m_testing_level = true;
     m_last_test_pos = test_pos;
-
-    MouseCursor::current()->set_icon(nullptr);
-    Tile::draw_editor_images = false;
-    Compositor::s_render_lighting = true;
 
     if (!g_config->max_viewport && g_config->editor_max_viewport)
       VideoSystem::current()->get_viewport().force_full_viewport(false);
@@ -438,8 +436,6 @@ Editor::keep_camera_in_bounds()
 void
 Editor::esc_press()
 {
-  m_enabled = false;
-  m_overlay_widget->delete_markers();
   MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
 }
 
@@ -460,8 +456,6 @@ Editor::update_keyboard(const Controller& controller)
 
   if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
   {
-    m_enabled = false;
-    m_overlay_widget->delete_markers();
     MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
     return;
   }
@@ -595,9 +589,8 @@ void
 Editor::exit()
 {
   m_project->check_unsaved_changes([this] {
+    deactivate();
     m_project->close();
-    m_enabled = false;
-    Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
 #ifdef __EMSCRIPTEN__
     int persistent = EM_ASM_INT({
@@ -612,15 +605,13 @@ Editor::exit()
 void
 Editor::leave()
 {
-  MouseCursor::current()->set_icon(nullptr);
-  Compositor::s_render_lighting = true;
+  deactivate();
   m_after_setup = false;
 }
 
 void
 Editor::setup()
 {
-  Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
   m_after_setup = true;
 
@@ -677,6 +668,14 @@ void
 Editor::deactivate()
 {
   m_enabled = false;
+
+  m_overlay_widget->delete_markers();
+
+  Tile::draw_editor_images = false;
+
+  Compositor::s_render_lighting = true;
+
+  MouseCursor::current()->set_icon(nullptr);
   
   if (!m_testing_level)
   {
@@ -700,6 +699,8 @@ Editor::reactivate_after_menu_close()
   }
   
   m_enabled = true;
+
+  Tile::draw_editor_images = true;
 
   m_ctrl_pressed = m_alt_pressed = false;
 
