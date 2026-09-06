@@ -121,7 +121,6 @@ public:
   void delete_current_sector();
 
   void update_node_iterators();
-  void esc_press();
   void delete_markers();
   void sort_layers();
 
