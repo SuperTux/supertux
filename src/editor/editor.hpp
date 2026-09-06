@@ -122,7 +122,6 @@ public:
 
   void update_node_iterators();
   void delete_markers();
-  void sort_layers();
 
   inline bool get_draggables_visible() { return m_show_draggables; }
 
