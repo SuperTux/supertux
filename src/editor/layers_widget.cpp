@@ -222,7 +222,6 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     switch (hovered_item)
     {
       case HoveredItem::SECTOR:
-        m_editor.disable_keyboard();
         MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
         return true;
 

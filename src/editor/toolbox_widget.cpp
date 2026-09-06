@@ -140,7 +140,6 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         auto tileset = editor_project->get_tileset();
         if (tileset->get_tilegroups().size() > 1)
         {
-          m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
           MenuManager::instance().current_menu()->set_item(m_tilebox->get_tilegroup_id());
         }
@@ -156,7 +155,6 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         if ((level->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
             (!level->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
         {
-          m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
           MenuManager::instance().current_menu()->set_item(m_tilebox->get_objectgroup_id());
         }
