@@ -513,13 +513,12 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_is_reloading = false;
   m_enabled = true;
 
-  if (reset) {
-    m_toolbox_widget->get_tilebox().set_input_type(InputType::NONE);
-  }
+  auto& tilebox = m_toolbox_widget->get_tilebox();
 
   if (reset) {
-    m_toolbox_widget->get_tilebox().set_input_type(InputType::TILE);
-    m_toolbox_widget->get_tilebox().select_tilegroup(0);
+    tilebox.set_input_type(InputType::NONE);
+    tilebox.set_input_type(InputType::TILE);
+    tilebox.select_tilegroup(0);
   }
 
   m_layers_widget->refresh_sector_text();
