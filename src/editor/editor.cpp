@@ -432,13 +432,6 @@ Editor::keep_camera_in_bounds()
   m_overlay_widget->update_pos();
 }
 
-
-void
-Editor::esc_press()
-{
-  MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
-}
-
 void
 Editor::update_keyboard(const Controller& controller)
 {
@@ -450,7 +443,7 @@ Editor::update_keyboard(const Controller& controller)
   assert(keys != nullptr);
 
   if (controller.pressed(Control::ESCAPE)) {
-    esc_press();
+    MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
     return;
   }
 
