@@ -960,12 +960,6 @@ Editor::select_tilegroup(int id)
 }
 
 void
-Editor::select_last_tilegroup()
-{
-  m_toolbox_widget->select_last_tilegroup();
-}
-
-void
 Editor::change_tileset()
 {
   auto level = m_project->get_level();
@@ -988,12 +982,6 @@ Editor::select_objectgroup(int id)
     m_toolbar_widget->toggle_tile_object_mode();
 
   m_toolbox_widget->select_objectgroup(id);
-}
-
-void
-Editor::select_last_objectgroup()
-{
-  m_toolbox_widget->select_last_objectgroup();
 }
 
 const std::vector<ObjectGroup>&
