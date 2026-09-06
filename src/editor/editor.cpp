@@ -128,7 +128,6 @@ Editor::Editor() :
   m_show_draggables(true),
   m_show_draggables_hint(),
   m_mouse_pos(0.f, 0.f),
-  m_layers_widget_needs_refresh(false),
   m_script_manager(),
   m_on_exit_cb(nullptr),
   m_last_test_pos(std::nullopt),
@@ -156,12 +155,6 @@ Editor::~Editor()
     m_on_exit_cb();
 
   m_script_manager.clear_tmp();
-}
-
-void
-Editor::queue_layers_refresh()
-{
-  m_layers_widget_needs_refresh = true;
 }
 
 void
@@ -324,15 +317,6 @@ Editor::update(float dt_sec, const Controller& controller)
 
     for (auto& object : sector->get_objects()) {
       object->editor_update();
-    }
-
-    if (m_layers_widget_needs_refresh)
-    {
-      if (m_layers_widget)
-      {
-        m_layers_widget->refresh();
-      }
-      m_layers_widget_needs_refresh = false;
     }
 
     for (const auto& widget : m_widgets) {

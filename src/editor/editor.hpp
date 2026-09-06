@@ -156,8 +156,6 @@ public:
   EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
   EditorProject* get_project() const { return m_project.get(); }
 
-  void queue_layers_refresh();
-
   bool get_properties_panel_visible() const;
   void select_object(GameObject* object);
 
@@ -261,8 +259,6 @@ private:
   Timer m_show_draggables_hint;
 
   Vector m_mouse_pos;
-
-  bool m_layers_widget_needs_refresh;
 
   SpritePtr m_test_icon;
 
