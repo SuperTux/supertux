@@ -408,6 +408,9 @@ EditorLayersWidget::refresh()
   auto editor_project = m_editor.get_project();
   auto sector = editor_project->get_sector();
 
+  if (sector == nullptr)
+    return;
+
   m_layer_icons.clear();
   for (const auto& obj : sector->get_objects())
     add_layer(obj.get(), true);
