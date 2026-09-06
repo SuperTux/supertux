@@ -195,7 +195,7 @@ EditorProject::save_level(const std::string& filename, bool switch_file,
     sector->on_editor_save();
   }
 
-  m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
+  m_level->save(FileSystem::join(get_level_directory(), file));
   m_time_since_last_save = 0.f;
   remove_autosave_file();
 
