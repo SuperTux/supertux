@@ -28,6 +28,7 @@ class ObjectMenu final : public Menu
 public:
   enum {
     MNID_UPDATE,
+    MNID_HIDE_LAYER,
     MNID_PATCH_NOTES,
     MNID_REMOVE,
     MNID_REMOVEFUNCTION,
