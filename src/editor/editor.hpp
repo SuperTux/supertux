@@ -129,11 +129,9 @@ public:
   inline void disable_testing() { m_testing_disabled = true; }
 
   void select_tilegroup(int id);
-  void select_last_tilegroup();
   void change_tileset();
 
   void select_objectgroup(int id);
-  void select_last_objectgroup();
   const std::vector<ObjectGroup>& get_objectgroups() const;
 
   void scroll(const Vector& velocity);
