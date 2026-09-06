@@ -241,12 +241,16 @@ TileMap::~TileMap()
 void
 TileMap::on_path_resolved()
 {
-  if (Editor::is_active())
+  auto editor = Editor::current();
+  if (!Editor::is_active() || editor == nullptr)
   {
-    if (Editor* editor = Editor::current())
-    {
-      editor->queue_layers_refresh();
-    }
+    return;
+  }
+
+  auto layers_widget = editor->get_layers_widget();
+  if (layers_widget)
+  {
+    layers_widget->refresh();
   }
 }
 
