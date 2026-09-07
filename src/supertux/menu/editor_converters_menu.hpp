@@ -32,19 +32,7 @@ private:
     MNID_CONVERT_TILES
   };
 
-  struct Converter
-  {
-    Converter() :
-      title(), author(), description()
-    {}
-
-    std::string title;
-    std::string author;
-    std::string description;
-  };
-
 private:
-  std::map<std::string, Converter> m_converters;
   std::string m_tile_conversion_file;
 
 private:
