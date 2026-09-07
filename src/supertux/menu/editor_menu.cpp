@@ -245,24 +245,14 @@ EditorMenu::menu_action(MenuItem& item)
     case MNID_CHECKDEPRECATEDTILES:
     {
       auto tile_converter = editor->get_tile_converter();
-      tile_converter->check_deprecated_tiles(true);
-      if (tile_converter->has_deprecated_tiles())
+
+      tile_converter->check_deprecated_tiles(/* initial_check = */ false);
+      
+      if (!tile_converter->has_deprecated_tiles())
       {
-        const std::string present_message = _("Deprecated tiles are still present in the level.");
-        if (g_config->editor_show_deprecated_tiles)
-        {
-          Dialog::show_message(present_message);
-        }
-        else
-        {
-          Dialog::show_confirmation(present_message + "\n\n" + _("Do you want to show all deprecated tiles on active tilemaps?"), []() {
-            g_config->editor_show_deprecated_tiles = true;
-          });
-        }
-      }
-      else
-      {
-        Dialog::show_message(_("There are no more deprecated tiles in the level!"));
+        // The current level does not have deprecated tiles anymore.
+        // Refresh the menu so that the menu item can disappear.
+        // Showing a message is done through the tile_converter class
         refresh();
       }
     }

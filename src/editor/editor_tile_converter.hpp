@@ -70,9 +70,10 @@ public:
 
   /**
    * Check for any deprecated tiles, used throughout the entire level
-   * @param focus If `true`, the first deprecated tile is focused in the level editor
+   * @param initial_check If `true`, this method was executed during level load.
+   *                      This parameter influences how we inform the user.
    */
-  void check_deprecated_tiles(bool focus = false);
+  void check_deprecated_tiles(bool initial_check);
 
   /**
    * Returns `true` if there are deprecated tiles present in the level, otherwise false
@@ -80,6 +81,7 @@ public:
   inline bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
 
 private:
+
   /**
    * Centers the editor to a certain tile.
    * @param sector Sector the tile is on
@@ -87,6 +89,13 @@ private:
    * @param idx Index of the tile on the tilemap
    */
   void focus_on_tile(Sector* sector, TileMap* tilemap, int idx);
+
+  /**
+   * Shows a message informing the user of the result of the deprecation check
+   * @param initial_check If `initial_check`, indicates that the check was done during level load
+   *                       (shows no message, unless deprecated tiles were found)
+   */
+  void show_message(bool first_check);
 
 private:
   std::map<std::string, ConverterInfo> m_converters;
