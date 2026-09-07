@@ -16,6 +16,7 @@
 
 #include "editor/editor.hpp"
 #include "editor/editor_tile_converter.hpp"
+#include "gui/dialog.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
@@ -78,12 +79,13 @@ EditorTileConverter::get_tile_converter_info_for_file(const std::string& file_pa
 }
 
 void
-EditorTileConverter::check_deprecated_tiles(bool focus)
+EditorTileConverter::check_deprecated_tiles(bool initial_check)
 {
   auto editor = Editor::current();
   auto level = editor->get_level();
 
   m_has_deprecated_tiles = false;
+
   for (const auto& sector : level->get_sectors())
   {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>())
@@ -94,18 +96,21 @@ EditorTileConverter::check_deprecated_tiles(bool focus)
         idx++;
         if (editor->get_tileset()->get(tile_id).is_deprecated())
         {
+          m_has_deprecated_tiles = true;
+
           // Focus on deprecated tile
-          if (focus)
+          if (initial_check)
           {
             focus_on_tile(sector.get(), &tilemap, idx);
+            show_message(initial_check);
+            return;
           }
-
-          m_has_deprecated_tiles = true;
-          return;
         }
       }
     }
   }
+
+  show_message(initial_check);
 }
 
 void
@@ -125,6 +130,46 @@ EditorTileConverter::focus_on_tile(Sector* sector, TileMap* tilemap, int pos)
   
   sector->get_camera().set_translation_centered(screen_position);
   editor->keep_camera_in_bounds();
+}
+
+void
+EditorTileConverter::show_message(bool initial_check)
+{
+  if (initial_check)
+  {
+    // No need to inform the user if we just loaded the level and everything is fine
+    if (!has_deprecated_tiles())
+      return;
+
+    // Dialog shown when loading a level
+    std::string message = _("This level contains deprecated tiles.\nIt is strongly recommended to replace all deprecated tiles\nto avoid loss of compatibility in future versions.");
+    if (!g_config->editor_show_deprecated_tiles)
+      message += "\n\n" + _("Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu.");
+
+    Dialog::show_message(message);
+  }
+  else
+  {
+    // Dialog shown when calling this function from the menu
+    if (has_deprecated_tiles())
+    {
+      const std::string present_message = _("Deprecated tiles are still present in the level.");
+      if (g_config->editor_show_deprecated_tiles)
+      {
+        Dialog::show_message(present_message);
+      }
+      else
+      {
+        Dialog::show_confirmation(present_message + "\n\n" + _("Do you want to show all deprecated tiles on active tilemaps?"), []() {
+          g_config->editor_show_deprecated_tiles = true;
+        });
+      }
+    }
+    else
+    {
+      Dialog::show_message(_("There are no more deprecated tiles in the level!"));
+    }
+  }
 }
 
 void
