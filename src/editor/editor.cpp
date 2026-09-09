@@ -937,12 +937,6 @@ Editor::update_node_iterators()
 }
 
 void
-Editor::delete_markers()
-{
-  m_overlay_widget->delete_markers();
-}
-
-void
 Editor::select_tilegroup(int id)
 {
   // dumb hack around dumb design...
