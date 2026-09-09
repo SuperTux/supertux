@@ -80,6 +80,7 @@ public:
   void event(const SDL_Event& ev) override;
   void on_window_resize() override;
 
+  inline EditorOverlayWidget* get_overlay_widget() const { return m_overlay_widget; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
   inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
@@ -121,7 +122,6 @@ public:
   void delete_current_sector();
 
   void update_node_iterators();
-  void delete_markers();
 
   inline bool get_draggables_visible() { return m_show_draggables; }
 
