@@ -106,9 +106,12 @@ ObjectMenu::menu_action(MenuItem& item)
     }
 
     case MNID_REMOVE:
-      m_editor.delete_markers();
+    {
+      auto overlay_widget = m_editor.get_overlay_widget();
+      overlay_widget->delete_markers();
       m_object->remove_me();
       MenuManager::instance().pop_menu();
+    }
       break;
 
     case MNID_REMOVEFUNCTION:
