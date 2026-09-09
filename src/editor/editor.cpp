@@ -82,11 +82,6 @@
 #include "supertux/sector.hpp"
 #include "supertux/sector_parser.hpp"
 
-static const float CAMERA_MIN_ZOOM = 0.39f;
-static const float CAMERA_MAX_ZOOM = 3.0f;
-static const float CAMERA_ZOOM_SENSITIVITY = 0.05f;
-static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
-
 bool Editor::s_resaving_in_progress = false;
 
 using InputType = EditorTilebox::InputType;
@@ -125,7 +120,7 @@ Editor::Editor() :
   m_show_draggables_hint(),
   m_script_manager(),
   m_on_exit_cb(nullptr),
-  m_last_test_pos(std::nullopt),
+  m_test_position(std::nullopt),
   m_test_icon(SpriteManager::current()->create("images/engine/editor/spawnpoint.png"))
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
@@ -385,7 +380,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
     deactivate();
 
     m_testing_level = true;
-    m_last_test_pos = test_pos;
+    m_test_position = test_pos;
 
     if (!g_config->max_viewport && g_config->editor_max_viewport)
       VideoSystem::current()->get_viewport().force_full_viewport(false);
