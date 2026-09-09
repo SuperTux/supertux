@@ -27,19 +27,64 @@
 class EditorEventHandling
 {
 public:
+
+  /**
+   * Constructor
+   */
   EditorEventHandling();
 
+  /**
+   * Class that gets called when a raw SDL_Event occurred
+   * @param ev Event that occurred.
+   */
   void on_event(const SDL_Event& ev);
+
+  /**
+   * Resets the internal state of the input
+   * variables to default values
+   */
   void reset_state();
+
+  /**
+   * Class that gets called when a controller key press occurred
+   * @param controller Controller that was used
+   */
   void update_keyboard(const Controller& controller);
 
-  Vector get_mouse_pos() const { return m_mouse_pos; } 
+  /**
+   * Returns the current mouse position
+   */
+  Vector get_mouse_pos() const { return m_mouse_pos; }
+  
+  /**
+   * Returns `true`, when the CTRL key was pressed, otherwise false
+   */
   bool get_ctrl_pressed() const { return m_ctrl_pressed; }
+
+  /**
+   * Returns `true`, when the SHIFT key was pressed, otherwise false
+   */
   bool get_shift_pressed() const { return m_shift_pressed; }
+
+  /**
+   * Returns `true`, when the ALT key was pressed, otherwise false
+   */
   bool get_alt_pressed() const { return m_alt_pressed; }
+
+  /**
+   * Returns `true`, when the zoom key was pressed, otherwise false
+   */
   bool get_key_zoomed_pressed() const { return m_key_zoomed; }
+
+  /**
+   * Sets the key_zoomed value
+   * @param key_zoomed_pressed `True` if the zoom key was pressed, otherwise `false`.
+   */
   void set_key_zoomed_pressed(bool key_zoomed_pressed) { m_key_zoomed = key_zoomed_pressed; }
 
+  /**
+   * Returns `true`, when the pen was currently down, otherwise false
+   */
   bool get_pen_down() const { return m_pen_down; }
 
 private:
