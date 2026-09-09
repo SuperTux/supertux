@@ -1261,6 +1261,7 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 bool
 EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
+  auto events = m_editor.get_event_handling();
   SDL_Keycode sym = key.key;
   std::uint16_t mod = key.mod;
 
@@ -1283,7 +1284,7 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
     g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
     m_autotile_mode = g_config->editor_autotile_mode;
   }
-  else if (m_editor.m_ctrl_pressed)
+  else if (events->get_ctrl_pressed())
   {
     m_autotile_mode = !g_config->editor_autotile_mode;
     // Hovered objects depend on if ctrl is pressed.
@@ -1749,6 +1750,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
 
   if (m_editor.get_tilebox().get_input_type() == InputType::TILE && g_config->editor_autotile_help)
   {
+    auto events = m_editor.get_event_handling();
     auto selected_tiles = m_editor.get_selected_tiles();
     if (m_autotile_mode)
     {
@@ -1775,14 +1777,14 @@ EditorOverlayWidget::draw(DrawingContext& context)
     }
     else if (selected_tiles && selected_tiles->pos(0, 0) == 0)
     {
-      if (!m_editor.m_ctrl_pressed)
+      if (!events->get_ctrl_pressed())
         context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing") + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
       else
         context.color().draw_text(Resources::normal_font, _("Release Ctrl to use autotile erasing") + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
     }
     else
     {
-      if (!m_editor.m_ctrl_pressed)
+      if (!events->get_ctrl_pressed())
         context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile") + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
       else
         context.color().draw_text(Resources::normal_font, _("Release Ctrl to autotile") + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);

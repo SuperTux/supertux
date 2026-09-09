@@ -51,6 +51,10 @@ class Sector;
 class TileSet;
 class World;
 
+static const float CAMERA_MIN_ZOOM = 0.39f;
+static const float CAMERA_MAX_ZOOM = 3.0f;
+static const float CAMERA_ZOOM_SENSITIVITY = 0.05f;
+static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
 class Editor final : public Screen,
                      public Currenton<Editor>
 {
@@ -131,9 +135,13 @@ public:
   void select_objectgroup(int id);
   const std::vector<ObjectGroup>& get_objectgroups() const;
 
-  float get_default_scroll_speed() const { return m_scroll_speed; }
+  float get_scroll_speed() const { return m_scroll_speed; }
+  void set_scroll_speed(float scroll_speed) { m_scroll_speed = scroll_speed; }
+  
   void scroll(const Vector& velocity);
 
+  float get_camera_scale() const { return m_new_scale; }
+  void set_camera_scale(float value) { m_new_scale = value; }
   void update_camera(Camera& camera, float dt_sec);
   void keep_camera_in_bounds();
 
@@ -159,6 +167,7 @@ public:
     auto area = Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f);
     return area.contains(pos);
   }
+
   void select_object(GameObject* object);
 
   void retoggle_undo_tracking();
@@ -168,6 +177,25 @@ public:
   void redo();
   void set_undo_disabled(bool state);
   void set_redo_disabled(bool state);
+
+  void set_test_position(const std::optional<std::pair<std::string, Vector>>& test_position)
+  {
+    m_test_position = test_position;
+  }
+
+  const std::optional<std::pair<std::string, Vector>>& get_test_position() const
+  {
+    return m_test_position;
+  }
+
+  // TODO: Move elsewhere (?) EditorInputCenter perhaps?
+  bool get_show_draggables() const { return m_show_draggables; }
+  void set_show_draggables(bool show_draggables)
+  {
+    m_show_draggables = show_draggables;
+    if (!m_show_draggables)
+      m_show_draggables_hint.start(6.7f);
+  }
 
   /**
    * @param filename    If non-empty, save to this file instead.
@@ -231,7 +259,7 @@ private:
   bool m_testing_level;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
-  std::optional<std::pair<std::string, Vector>> m_last_test_pos;
+  std::optional<std::pair<std::string, Vector>> m_test_position;
   std::vector<std::unique_ptr<Widget> > m_widgets;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
 
