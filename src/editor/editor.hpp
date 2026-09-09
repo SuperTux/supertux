@@ -28,6 +28,7 @@
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
+#include "editor/editor_event_handling.hpp"
 #include "editor/editor_project.hpp"
 #include "editor/editor_tile_converter.hpp"
 #include "interface/control.hpp"
@@ -130,7 +131,9 @@ public:
   void select_objectgroup(int id);
   const std::vector<ObjectGroup>& get_objectgroups() const;
 
+  float get_default_scroll_speed() const { return m_scroll_speed; }
   void scroll(const Vector& velocity);
+
   void update_camera(Camera& camera, float dt_sec);
   void keep_camera_in_bounds();
 
@@ -140,8 +143,22 @@ public:
 
   EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
   EditorProject* get_project() const { return m_project.get(); }
+  EditorEventHandling* get_event_handling() const { return m_event_handling.get(); }
 
   bool get_properties_panel_visible() const;
+
+  /**
+   * Checks if `pos` is inside the properties panel's area
+   * (Meh, this is temporary until I move the new properties panel code elsewhere)
+   */
+  bool pos_in_properties_panel(const Vector& pos) const
+  {
+    if (m_controls.empty())
+      return false;
+    
+    auto area = Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f);
+    return area.contains(pos);
+  }
   void select_object(GameObject* object);
 
   void retoggle_undo_tracking();
@@ -197,18 +214,11 @@ public:
 
 private:
   void reset_level();
-  void update_keyboard(const Controller& controller);
 
   void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
 public:
   bool m_testing_disabled;
-
-  bool m_ctrl_pressed;
-  bool m_shift_pressed;
-  bool m_alt_pressed;
-  bool m_key_zoomed;
-  bool m_pen_down;
 
   ScriptManager m_script_manager;
 
@@ -232,6 +242,7 @@ private:
 
   std::unique_ptr<EditorProject> m_project;
   std::unique_ptr<EditorTileConverter> m_tile_converter;
+  std::unique_ptr<EditorEventHandling> m_event_handling;
 
   TypedUID<GameObject> m_selected_object;
 
@@ -242,8 +253,6 @@ private:
   float m_new_scale;
   bool m_show_draggables;
   Timer m_show_draggables_hint;
-
-  Vector m_mouse_pos;
 
   SpritePtr m_test_icon;
 
