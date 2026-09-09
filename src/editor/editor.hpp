@@ -121,8 +121,6 @@ public:
 
   void delete_current_sector();
 
-  void update_node_iterators();
-
   inline bool get_draggables_visible() { return m_show_draggables; }
 
   inline void disable_testing() { m_testing_disabled = true; }
