@@ -17,6 +17,9 @@
 #pragma once
 
 #include "control/controller.hpp"
+#include "math/vector.hpp"
+
+#include <SDL3/SDL.h>
 
 /**
  * Class responsible for editor event handling (keyboard, mouse, etc.)
