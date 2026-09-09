@@ -931,12 +931,6 @@ Editor::event(const SDL_Event& ev)
 }
 
 void
-Editor::update_node_iterators()
-{
-  m_overlay_widget->update_node_iterators();
-}
-
-void
 Editor::select_tilegroup(int id)
 {
   // dumb hack around dumb design...
