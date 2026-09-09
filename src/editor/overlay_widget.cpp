@@ -187,7 +187,9 @@ EditorOverlayWidget::drag_rect() const
 void
 EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
 {
-  if (m_editor.m_pen_down)
+  auto events = m_editor.get_event_handling();
+
+  if (events->get_pen_down())
     tile = 0;
   auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
@@ -225,7 +227,7 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
   // Don't put tile if the position (or til^e) hasn't changed
   if (floor(m_last_target_pos.x) == floor(target_tile.x) &&
       floor(m_last_target_pos.y) == floor(target_tile.y) &&
-      Editor::current()->m_tilebox_something_selected == false)
+      m_editor.m_tilebox_something_selected == false)
   {
     return;
   }
@@ -241,7 +243,9 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
         auto autotileset = get_current_autotileset();
         if (autotileset)
         {
-          if (tile == 0 || m_editor.m_pen_down)
+          auto events = m_editor.get_event_handling();
+
+          if (tile == 0 || events->get_pen_down())
             input_autotile_erase(target_tile + add_tile);
           else
             input_autotile(target_tile + add_tile, tile);
@@ -545,6 +549,7 @@ void
 EditorOverlayWidget::hover_object()
 {
   auto editor_project = m_editor.get_project();
+  auto editor_events = m_editor.get_event_handling();
   auto sector = editor_project->get_sector();
 
   m_object_tip->set_visible(false);
@@ -567,7 +572,7 @@ EditorOverlayWidget::hover_object()
         auto* bezier_marker = dynamic_cast<BezierMarker*>(&moving_object);
         if (bezier_marker)
         {
-          if (!m_editor.m_ctrl_pressed)
+          if (!editor_events->get_ctrl_pressed())
           {
             marker_hovered_without_ctrl = bezier_marker;
             continue;
@@ -915,6 +920,9 @@ void
 EditorOverlayWidget::process_left_click()
 {
   if (MenuManager::instance().has_dialog()) return;
+
+  auto editor_events = m_editor.get_event_handling();
+
   m_dragging = true;
   m_dragging_right = false;
   m_drag_start = m_sector_pos;
@@ -949,7 +957,7 @@ EditorOverlayWidget::process_left_click()
 
     case InputType::NONE:
     case InputType::OBJECT:
-      if (m_editor.m_pen_down)
+      if (editor_events->get_pen_down())
       {
         grab_object();
         rubber_object();
@@ -1019,9 +1027,10 @@ EditorOverlayWidget::process_right_click()
 void
 EditorOverlayWidget::process_middle_click()
 {
+  auto editor_events = m_editor.get_event_handling();
   // some window managers may try to send a middle click alongside a pen down
   // event, which we want to avoid. It makes erasing finnicky.
-  if (!m_editor.m_pen_down)
+  if (!editor_events->get_pen_down())
   {
     m_previous_mouse_pos = m_mouse_pos;
     m_scrolling = true;
@@ -1225,9 +1234,10 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
+  auto editor_events = m_editor.get_event_handling();
   std::uint16_t mod = key.mod;
 
-  if (!m_editor.m_ctrl_pressed)
+  if (!editor_events->get_ctrl_pressed())
   {
     m_autotile_mode = g_config->editor_autotile_mode;
 
