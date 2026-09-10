@@ -120,7 +120,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (m_tilebox->on_mouse_button_down(button))
   {
-    m_editor.update_autotileset();
+    m_editor.get_overlay_widget()->update_autotileset();
     update_mouse_icon();
     return true;
   }
@@ -222,7 +222,7 @@ EditorToolboxWidget::set_rubber_tool()
 {
   m_tilebox->set_object("");
   m_tilebox->get_tiles()->set_tile(0);
-  m_editor.update_autotileset();
+  m_editor.get_overlay_widget()->update_autotileset();
   update_mouse_icon();
 }
 
