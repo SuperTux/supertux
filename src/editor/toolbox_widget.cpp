@@ -120,19 +120,26 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (m_tilebox->on_mouse_button_down(button))
   {
-    m_editor.update_autotileset();
+    m_editor.get_overlay_widget()->update_autotileset();
     update_mouse_icon();
     return true;
   }
 
   if (button.button == SDL_BUTTON_LEFT)
   {
-    switch (m_hovered_item)
+    auto editor_project = m_editor.get_project();
+    auto level = editor_project->get_level();
+
+    auto hovered_item = m_hovered_item;
+    m_hovered_item = HoveredItem::NONE;
+
+    switch (hovered_item)
     {
       case HoveredItem::TILEGROUP:
-        if (m_editor.get_tileset()->get_tilegroups().size() > 1)
+      {
+        auto tileset = editor_project->get_tileset();
+        if (tileset->get_tilegroups().size() > 1)
         {
-          m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
           MenuManager::instance().current_menu()->set_item(m_tilebox->get_tilegroup_id());
         }
@@ -140,23 +147,25 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           select_tilegroup(0);
         }
+      }
         return true;
 
       case HoveredItem::OBJECTS:
-        if ((m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
-            (!m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
+      {
+        if ((level->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
+            (!level->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
         {
-          m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
           MenuManager::instance().current_menu()->set_item(m_tilebox->get_objectgroup_id());
         }
         else
         {
-          if (m_editor.get_level()->is_worldmap())
+          if (level->is_worldmap())
             select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
           else
             select_objectgroup(0);
         }
+      }
         return true;
 
       case HoveredItem::TOOL:
@@ -213,7 +222,7 @@ EditorToolboxWidget::set_rubber_tool()
 {
   m_tilebox->set_object("");
   m_tilebox->get_tiles()->set_tile(0);
-  m_editor.update_autotileset();
+  m_editor.get_overlay_widget()->update_autotileset();
   update_mouse_icon();
 }
 
@@ -299,10 +308,13 @@ void
 EditorToolboxWidget::switch_current_group(int dir)
 {
   update_last_active_group();
+  auto editor_project = m_editor.get_project();
+  auto level = editor_project->get_level();
+
   switch (m_last_active_group)
   {
     case HoveredItem::TILEGROUP:
-      if (m_editor.get_tileset()->get_tilegroups().size() > 1)
+      if (editor_project->get_tileset()->get_tilegroups().size() > 1)
       {
         m_tilebox->change_tilegroup(dir);
       }
@@ -313,14 +325,14 @@ EditorToolboxWidget::switch_current_group(int dir)
       break;
 
     case HoveredItem::OBJECTS:
-      if ((m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
-          (!m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
+      if ((level->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
+          (!level->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
       {
         m_tilebox->change_objectgroup(dir);
       }
       else
       {
-        if (m_editor.get_level()->is_worldmap())
+        if (level->is_worldmap())
           select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
         else
           select_objectgroup(0);

@@ -27,7 +27,7 @@
 #include "video/compositor.hpp"
 
 EditorSaveAs::EditorSaveAs(bool do_switch_file) :
-  m_filename(Editor::current()->get_levelfile()),
+  m_filename(Editor::current()->get_project()->get_level_file()),
   m_do_switch_file(do_switch_file)
 {
   add_label(do_switch_file ? _("Save Level as") : _("Save Copy"));
@@ -49,14 +49,10 @@ EditorSaveAs::~EditorSaveAs()
 void
 EditorSaveAs::menu_action(MenuItem& item)
 {
-  auto editor = Editor::current();
-
   switch (item.get_id())
   {
     case MNID_SAVE:
-      editor->m_save_request = true;
-      editor->m_save_request_filename = m_filename;
-      editor->m_save_request_switch = m_do_switch_file;
+      Editor::current()->save_level(m_filename, m_do_switch_file);
       MenuManager::instance().clear_menu_stack();
       break;
 

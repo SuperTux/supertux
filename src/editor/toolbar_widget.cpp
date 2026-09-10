@@ -79,13 +79,13 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
     // Play button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
-      [this] { Editor::current()->m_test_request = true; },
+      [this] { Editor::current()->test_level(); },
       _("Test level")),
 
     // Save button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
       [this] {
-        Editor::current()->save_level();
+        Editor::current()->get_project()->save_level();
       },
       _("Save level")),
 
@@ -216,26 +216,28 @@ void
 EditorToolbarWidget::toggle_tile_object_mode()
 {
   int i = 0;
-  auto& tilebox = Editor::current()->get_toolbox_widget()->get_tilebox();
+  auto editor = Editor::current();
+  auto toolbox_widget = editor->get_toolbox_widget();
+  auto& tilebox = toolbox_widget->get_tilebox();
   const auto& input_type = tilebox.get_input_type();
 
   if (input_type == InputType::OBJECT) // Object mode -> Tile mode
   {
-    Editor::current()->select_last_tilegroup();
+    toolbox_widget->select_last_tilegroup();
     for(const auto& toolbar_button : m_widgets)
     {
       toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
     }
-    Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(0);
+    toolbox_widget->set_tileselect_select_mode(0);
   }
   else // Tile mode -> Object mode
   {
-    Editor::current()->select_last_objectgroup();
+    toolbox_widget->select_last_objectgroup();
     for(const auto& toolbar_button : m_widgets)
     {
       toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
   	}
-    Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(0);
+    toolbox_widget->set_tileselect_move_mode(0);
   }
 
   for (const auto& toolbar_button : m_widgets)
