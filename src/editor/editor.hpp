@@ -118,8 +118,6 @@ public:
   inline bool is_reloading() const { return m_is_reloading; }
   inline bool is_testing_level() const { return m_testing_level; }
 
-  inline void update_autotileset() { m_overlay_widget->update_autotileset(); }
-
   void delete_current_sector();
 
   inline bool get_draggables_visible() { return m_show_draggables; }
