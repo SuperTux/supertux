@@ -83,6 +83,7 @@ public:
   inline EditorOverlayWidget* get_overlay_widget() const { return m_overlay_widget; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
+  inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
   inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
   inline TileSelection* get_selected_tiles() const { return get_tilebox().get_tiles(); }
   inline std::string get_selected_object_class() const { return get_tilebox().get_object(); }
@@ -138,12 +139,6 @@ public:
   void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
   }
-
-  void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
-
-  inline TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
-
-  inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
 
   EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
   EditorProject* get_project() const { return m_project.get(); }
