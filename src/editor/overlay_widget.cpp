@@ -189,7 +189,7 @@ EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
 {
   if (m_editor.m_pen_down)
     tile = 0;
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   tilemap->save_state();
@@ -199,7 +199,7 @@ EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
 void
 EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
 {
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   tilemap->save_state();
@@ -209,7 +209,7 @@ EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
 void
 EditorOverlayWidget::input_autotile_erase(const Vector& pos)
 {
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   tilemap->save_state();
@@ -219,10 +219,10 @@ EditorOverlayWidget::input_autotile_erase(const Vector& pos)
 void
 EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
 {
-  if (m_editor.get_selected_tilemap())
-    m_editor.get_selected_tilemap()->save_state();
+  if (m_editor.get_layers_widget()->get_selected_tilemap())
+    m_editor.get_layers_widget()->get_selected_tilemap()->save_state();
 
-  // Don't put tile if the position (or tile) hasn't changed
+  // Don't put tile if the position (or til^e) hasn't changed
   if (floor(m_last_target_pos.x) == floor(target_tile.x) &&
       floor(m_last_target_pos.y) == floor(target_tile.y) &&
       Editor::current()->m_tilebox_something_selected == false)
@@ -407,7 +407,7 @@ void
 EditorOverlayWidget::fill()
 {
   auto tiles = m_editor.get_selected_tiles();
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap) return;
 
   // The tile that is going to be replaced:
@@ -509,7 +509,7 @@ EditorOverlayWidget::fill()
 void
 EditorOverlayWidget::replace()
 {
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   
   if (!tilemap)
     return;
@@ -1059,7 +1059,7 @@ EditorOverlayWidget::update_tile_selection()
   Rectf select = tile_drag_rect();
   auto tiles = m_editor.get_selected_tiles();
   auto tileset = m_editor.get_project()->get_tileset();
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap) return;
 
   m_selection_warning = false;
@@ -1108,7 +1108,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
         m_rectangle_preview->m_tiles.clear();
       }
 
-      auto selected_tilemap = m_editor.get_selected_tilemap();
+      auto selected_tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
       if (selected_tilemap != nullptr)
       {
         selected_tilemap->check_state();
@@ -1321,7 +1321,7 @@ EditorOverlayWidget::update_pos()
 
   if (m_last_hovered_tile != m_hovered_tile)
   {
-    auto selected_tilemap = m_editor.get_selected_tilemap();
+    auto selected_tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
     if (selected_tilemap)
     {
       const uint32_t hovered_id = selected_tilemap->get_tile_id(m_hovered_tile);
@@ -1343,7 +1343,7 @@ EditorOverlayWidget::update_pos()
 void
 EditorOverlayWidget::update_autotileset()
 {
-  auto selected_tilemap = m_editor.get_selected_tilemap();
+  auto selected_tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!selected_tilemap)
     return;
 
@@ -1401,7 +1401,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 
   if (m_editor.get_tileselect_input_type() == InputType::TILE)
   {
-    auto tilemap = m_editor.get_selected_tilemap();
+    auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
     if (!tilemap) return;
 
     auto tiles = m_editor.get_selected_tiles();
@@ -1438,7 +1438,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 void
 EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
 {
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap) return;
 
   if (m_rectangle_preview->empty()) return;
@@ -1473,7 +1473,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
 void
 EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size, bool draw_shadow) const
 {
-  auto current_tm = m_editor.get_selected_tilemap();
+  auto current_tm = m_editor.get_layers_widget()->get_selected_tilemap();
   if (current_tm == nullptr) return;
 
   const Camera& camera = m_editor.get_project()->get_sector()->get_camera();
@@ -1538,7 +1538,7 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size, bool
 void
 EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
 {
-  auto current_tm = m_editor.get_selected_tilemap();
+  auto current_tm = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!current_tm) return;
 
   Vector start = tile_screen_pos( Vector(0, 0) );
@@ -1551,7 +1551,7 @@ EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
 void
 EditorOverlayWidget::draw_tilemap_outer_shading(DrawingContext& context)
 {
-  auto current_tm = m_editor.get_selected_tilemap();
+  auto current_tm = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!current_tm) return;
 
   Vector start = tile_screen_pos( Vector(0, 0) );
@@ -1674,7 +1674,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
       !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
   {
     // Deprecated tiles in active tilemaps should have indication, when hovered
-    auto sel_tilemap = m_editor.get_selected_tilemap();
+    auto sel_tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
     auto tileset = m_editor.get_project()->get_tileset();
     if (sel_tilemap && tileset->get(sel_tilemap->get_tile_id(m_hovered_tile)).is_deprecated())
       context.color().draw_text(Resources::normal_font, "!",
@@ -1783,7 +1783,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
 Vector
 EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size) const
 {
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap) return Vector(0, 0);
 
   Vector sp = tp * static_cast<float>(tile_size);
@@ -1793,7 +1793,7 @@ EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size) const
 Vector
 EditorOverlayWidget::sp_to_tp(const Vector& sp, int tile_size) const
 {
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap) return Vector(0, 0);
 
   Vector sp_ = sp - tilemap->get_offset();
@@ -1811,7 +1811,7 @@ EditorOverlayWidget::tile_screen_pos(const Vector& tp, int tile_size) const
 Vector
 EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
 {
-  auto tilemap = m_editor.get_selected_tilemap();
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap) return Vector(0, 0);
 
   Vector sp_ = sp + tilemap->get_offset() / static_cast<float>(tile_size);
