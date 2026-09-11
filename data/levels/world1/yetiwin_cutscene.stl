@@ -550,45 +550,7 @@ trigger_state(\"start\");")
       (sprite "/images/objects/platforms/icefloe_small.sprite")
     )
     (scripttrigger
-      (script "Tux.deactivate();
-Effect.sixteen_to_nine(0);
-Effect.fade_in(1.5);
-Tux.walk(200);
-wait(2.75);
-Tux.walk(100);
-wait(0.3);
-Tux.walk(50);
-wait(0.1);
-Tux.walk(0);
-wait(1);
-Text.set_text(_(\"Tux: The thing over there must be the\\n     crystal mine the Yeti was talking\\n     about.\"));
-Text.fade_in(1);
-wait(3);
-Text.fade_out(1);
-wait(2);
-Tux.walk(200);
-Tux.do_jump(-200);
-wait(0.68);
-Tux.walk(0);
-wait(0.3);
-Tux.walk(225);
-wait(0.3);
-Tux.do_jump(-375);
-wait(1.7);
-Tux.do_jump(-375);
-wait(1.2);
-Tux.do_jump(-375);
-wait(0.5);
-Tux.walk(250);
-Effect.fade_out(2);
-wait(0.3);
-Tux.walk(275);
-Tux.do_jump(-420);
-wait(1.5);
-Tux.walk(225);
-Tux.do_jump(-375);
-wait(1.3);
-Level.finish(true);")
+      (script "crystal_mine_outlook()")
       (button #f)
       (width 64)
       (height 160)

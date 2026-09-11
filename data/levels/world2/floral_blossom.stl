@@ -585,58 +585,7 @@ trigger_state(\"textbox_intro\");
       (y 1312)
     )
     (scripttrigger
-      (script "if(granito_freed >= 3) {
-    //You saved all Granito. Hurray!
-    Text.set_text(_(\"You saved all Granito. Hurray!\"));
-    Text.fade_in(1);
-    wait(2);
-    Text.fade_out(1);
-}
-else if(granito_freed < 0) {
-start_cutscene();
-
-Effect.sixteen_to_nine(1);
-
-Camera.ease_scale_anchor(1.2, 4, 4, \"EaseQuadInOut\");
-Tux.use_scripting_controller(true);
-Tux.do_scripting_controller(\"right\", true);
-wait(12);
-Camera.scroll_to(10250, 350, 5.5);
-wait(1.5);
-GRANITO_CLIFF.walk_for(3.5);
-wait(3.5);
-GRANITO_CLIFF.wave();
-//Granito says \"hi, path is too high up but there's friend trapped below ground. Help them and they help you up!
-//Granito mentions that since the Ghost tree is deadm, the roots slowy begin to decay
-//Tux notices just in time that one root decays right now below him giving room to progress to save Granito
-wait(8);
-Camera.scroll_to(10000, 500, 3);
-wait(2);
-
-Effect.fade_out(0.5);
-wait(1);
-//Camera.set_pos(9220, 950);
-Tux.set_pos(9696, 1280);
-Camera.set_mode(\"normal\")
-Camera.set_scale_anchor(1.5, 4);
-Effect.fade_in(0.5);
-wait(1);
-dead_root3.start_moving();
-wait(0.5);
-cave_cover.fade(0, 2);
-wait(4);
-Tux.do_scripting_controller(\"right\", true);
-wait(0.5);
-Camera.ease_scale_anchor(1.2, 3, 4, \"EaseQuadInOut\");
-wait(2);
-Tux.use_scripting_controller(false);
-Effect.four_to_three(1);
-
-Level.set_respawn_point(\"main\", \"search\");
-granito_freed = 0;
-
-end_cutscene();
-}")
+      (script "check_granito_freed()")
       (button #f)
       (width 64)
       (height 320)

@@ -1,29 +1,29 @@
 function initialize()
 {
   start_cutscene();
-  
+
   //TUX.set_action("bend-right");
   TUX.set_action("big-idle-right");
   YETI.set_action("busted-left");
-  
+
   Tux.deactivate();
   Tux.set_visible(false);
-  
+
   Camera.set_pos(110, 180);
-  
+
   Effect.sixteen_to_nine(0);
   Effect.fade_in(2);
-  
+
   Camera.scroll_to(50, Camera.get_y(), 30.2);
   Camera.set_scale_anchor(1.5, 4);
-  
+
   wait(2);
-  
+
   ///Player triggers state: "textbox"
   Tux.set_pos(320, 32);
-  
+
   wait(6);
-  
+
   TUX.set_velocity(-100, -300);
   TUX.set_action("big-fall-right");
   play_sound("sounds/jump.wav");
@@ -35,7 +35,7 @@ function initialize()
   wait(0.6);
   YETI.set_action("stand-left");
   TUX.set_velocity(0, 0);
-  TUX.set_action("big-stand-right");  
+  TUX.set_action("big-stand-right");
   wait(4);
   play_sound("sounds/yeti_gna.wav");
   wait(5);
@@ -62,18 +62,18 @@ function initialize()
   wait(1);
   Effect.fade_out(1);
   wait(1.5);
-  
+
   ///Transition to next scene.
-  
+
   Camera.set_pos(3200, 250);
-  
+
   Effect.sixteen_to_nine(0);
-  
+
   wait(0.5);
-  
+
   Camera.scroll_to(3350, 280, 9.8);
   Camera.set_scale_anchor(1.3, 4);
-  
+
   Effect.fade_in(1);
   TUX.set_pos(3520, 608);
   TUX.set_velocity(100, 0);
@@ -81,22 +81,22 @@ function initialize()
   wait(3);
   TUX.set_velocity(0, 0);
   TUX.set_action("big-idle-right");
-  
+
   wait(4.8);
-  
+
   TUX.set_velocity(320, 0);
   TUX.set_action("big-run-right");
   wait(0.5);
-  
+
   play_sound("sounds/jump.wav");
   TUX.set_action("big-jump-right");
   TUX.set_velocity(320, -500);
-  wait(0.5);  
+  wait(0.5);
   TUX.set_action("big-fall-right");
   wait(0.4);
-  
+
   Camera.scroll_to(6000, 270, 12);
-  
+
   TUX.set_action("big-run-right");
   wait(0.3);
   play_sound("sounds/jump.wav");
@@ -110,9 +110,9 @@ function initialize()
   TUX.enable_gravity(false);
   TUX.set_solid(false);
   TUX.set_velocity(500, 0);
-  
+
   wait(7);
-  
+
   trigger_state("end_level");
   end_cutscene();
 }
@@ -123,51 +123,51 @@ function textbox()
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(2);
-  
+
   Text.set_text(_("While it did not take long for the yeti to get up again, to Tux's relief, he did not throw hands again."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("The yeti was furious however! He could not understand how a tiny penguin like Tux could have beaten him in a fight."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(2);
-  
+
   Text.set_text(_("Almost as if he forgot Tux was there to begin with, the yeti rushed off, grumbling to himself."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(2);
-  
+
   Text.set_text(_("Not sure what to make of it, Tux decided to continue moving onwards."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(5);
-  
+
   Text.set_text(_("As he reached the shore, Tux could already see the Glacier Isle on the horizon."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(3);
-  
+
   Text.set_text(_("If he knew Nolok went over there sooner, he could have been there much faster."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1.5);
-  
+
   Text.set_text(_("Perhaps that was Nolok's goal with the note he left behind..."));
   Text.fade_in(0.5);
   wait(4);
@@ -181,6 +181,49 @@ function end_level()
   wait(4);
   stop_music(1);
   wait(1);
+  Level.finish(true);
+}
+
+function crystal_mine_outlook()
+{
+  Tux.deactivate();
+  Effect.sixteen_to_nine(0);
+  Effect.fade_in(1.5);
+  Tux.walk(200);
+  wait(2.75);
+  Tux.walk(100);
+  wait(0.3);
+  Tux.walk(50);
+  wait(0.1);
+  Tux.walk(0);
+  wait(1);
+  Text.set_text(_("Tux: The thing over there must be the\\n     crystal mine the Yeti was talking\\n     about."));
+  Text.fade_in(1);
+  wait(3);
+  Text.fade_out(1);
+  wait(2);
+  Tux.walk(200);
+  Tux.do_jump(-200);
+  wait(0.68);
+  Tux.walk(0);
+  wait(0.3);
+  Tux.walk(225);
+  wait(0.3);
+  Tux.do_jump(-375);
+  wait(1.7);
+  Tux.do_jump(-375);
+  wait(1.2);
+  Tux.do_jump(-375);
+  wait(0.5);
+  Tux.walk(250);
+  Effect.fade_out(2);
+  wait(0.3);
+  Tux.walk(275);
+  Tux.do_jump(-420);
+  wait(1.5);
+  Tux.walk(225);
+  Tux.do_jump(-375);
+  wait(1.3);
   Level.finish(true);
 }
 

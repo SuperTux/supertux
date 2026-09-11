@@ -1,24 +1,24 @@
 function level_intro()
 {
   start_cutscene();
-  
+
   Tux.use_scripting_controller(true);
   Camera.set_mode("manual");
   Effect.sixteen_to_nine(1);
-  
+
   end_cutscene();
 }
 
 function level_outro()
 {
   start_cutscene();
-  
+
   Effect.sixteen_to_nine(0);
-  
+
   trigger_state("end_level");
-  
+
   end_cutscene();
-  
+
 }
 
 function textbox_intro()
@@ -27,100 +27,100 @@ function textbox_intro()
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("The ground was riddled with cracks and crevices. And now one of them was blocking Tux's path..."));
   Text.fade_in(0.5);
   wait(3);
   Text.fade_out(0.5);
-  
+
   wait(9);
-  
+
   Text.set_text(_("Fortunately for him, a Granito, alive and well, revealed themself, excited to see him on the other side of the crevice."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("The Granito spoke of 3 groups of his fellow Granito who had gotten lost when trying to escape the roots to the east coast."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("They were swallowed by the earth as the ground collapsed in on itself. If Tux could help find them they could help him reach the other side."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("Tux agreed to help! Soon after he noticed a dying roots revealing a path underneath, he began his search for the lost Granito."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
 }
 
 function textbox_outro()
-{ 
+{
   Text.set_text(_("With the help of the saved Granito, Tux managed to reach the other side."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
 
   Text.set_text(_("He was glad there were more Granito that had survived the Ghost Tree's overgrowth."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("One of the Granito asked him what a penguin like him was doing so far from the Antarctic."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("Tux replied that he was looking for his friend Penny and that she was captured by an evil creature named \"Nolok\". A name the Granito remembered unpleasantly..."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("The Granito mentioned they knew his homeland. But whether he still called it his home nor if he held Penny there, they do not know for certain."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("They offered to show Tux the way. It was the least they could do to show their gratitute."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("Tux gladly accepted and together with a handful of Granito they soon made their way to the tropics, in the north-east."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
   wait(1);
-  
+
   Text.set_text(_("The remaining Granito would stay behind, slowly rebuilding their home, now that the corruption was finally vanquished..."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
-  
+
 }
 
 function end_level()
@@ -178,41 +178,41 @@ sector.granito_freed <- 0
 function free_granito1()
 {
   granito_freed += 1
-  
+
   start_cutscene();
-  
+
   Effect.sixteen_to_nine(1);
   Tux.use_scripting_controller(true);
   Tux.deactivate();
-  
+
   Effect.fade_out(1);
   wait(1.2);
   Camera.set_scale(2);
   Camera.set_pos(11650, 2950);
   wait(0.3);
   Effect.fade_in(1);
-  
+
   root_prison1.start_moving();
-  
+
   Text.set_text(_("Granito freed!"));
   Text.fade_in(0.5);
   wait(1.5);
   Text.fade_out(0.5);
   wait(3)
-  
+
   granito_big1.set_action("left");
   granito_big1.set_velocity(-80, 0);
   granito_small1.set_action("left");
   granito_small1.set_velocity(-100, 0);
   granito_small2.set_action("left");
   granito_small2.set_velocity(-100, 0);
-  
+
   wait(3);
-  
+
   Effect.fade_out(1);
   wait(1.2);
   Camera.set_scale(1.2);
-  
+
   ///Teleport Granito to their destination.
   granito_big1.set_action("stand-left");
   granito_big1.set_velocity(0, 0);
@@ -220,62 +220,62 @@ function free_granito1()
   granito_small1.set_velocity(0, 0);
   granito_small2.set_action("stand-left");
   granito_small2.set_velocity(0, 0);
-  
+
   granito_big1.set_pos(10208, 1024);
   granito_small1.set_pos(10144, 1024);
   granito_small2.set_pos(10304, 1024);
-  
+
   dead_root4.fade(0, 0);
-  
+
   Camera.set_mode("normal");
   wait(0.3);
   Effect.fade_in(1);
-  
+
   Tux.activate();
   Tux.use_scripting_controller(false);
   Effect.four_to_three(1);
-  
+
   end_cutscene();
 }
 
 function free_granito2()
 {
   granito_freed += 1
-  
+
   start_cutscene();
-  
+
   Effect.sixteen_to_nine(1);
   Tux.use_scripting_controller(true);
   Tux.deactivate();
-  
+
   Effect.fade_out(1);
   wait(1.2);
   Camera.set_scale(2);
   Camera.set_pos(15600, 1700);
   wait(0.3);
   Effect.fade_in(1);
-  
+
   root_prison2.start_moving();
-  
+
   Text.set_text(_("Granito freed!"));
   Text.fade_in(0.5);
   wait(1.5);
   Text.fade_out(0.5);
   wait(3)
-  
+
   granito_big2.set_action("left");
   granito_big2.set_velocity(-80, 0);
   granito_small3.set_action("left");
   granito_small3.set_velocity(-100, 0);
   granito_small4.set_action("left");
   granito_small4.set_velocity(-100, 0);
-  
+
   wait(3);
-  
+
   Effect.fade_out(1);
   wait(1.2);
   Camera.set_scale(1.2);
-    
+
   ///Teleport Granito to their destination.
   granito_big2.set_action("stand-left");
   granito_big2.set_velocity(0, 0);
@@ -283,49 +283,49 @@ function free_granito2()
   granito_small3.set_velocity(0, 0);
   granito_small4.set_action("stand-left");
   granito_small4.set_velocity(0, 0);
-  
+
   granito_big2.set_pos(10560, 960);
   granito_small3.set_pos(10576, 928);
   granito_small4.set_pos(10576, 896);
-  
+
   dead_root6.start_moving();
 
   Camera.set_mode("normal");
   wait(0.3);
   Effect.fade_in(1);
-  
+
   Tux.activate();
   Tux.use_scripting_controller(false);
   Effect.four_to_three(1);
-  
+
   end_cutscene();
 }
 
 function free_granito3()
 {
   granito_freed += 1
-  
+
   start_cutscene();
-  
+
   Effect.sixteen_to_nine(1);
   Tux.use_scripting_controller(true);
   Tux.deactivate();
-  
+
   Effect.fade_out(1);
   wait(1.2);
   Camera.set_scale(2);
   Camera.set_pos(15300, 3200);
   wait(0.3);
   Effect.fade_in(1);
-  
+
   root_prison3.start_moving();
-  
+
   Text.set_text(_("Granito freed!"));
   Text.fade_in(0.5);
   wait(1.5);
   Text.fade_out(0.5);
   wait(3)
-  
+
   granito_big3.set_action("left");
   granito_big3.set_velocity(-80, 0);
   granito_small5.set_action("left");
@@ -334,13 +334,13 @@ function free_granito3()
   granito_small6.set_velocity(-100, 0);
   granito_small7.set_action("left");
   granito_small7.set_velocity(-100, 0);
-  
+
   wait(3);
-  
+
   Effect.fade_out(1);
   wait(1.2);
   Camera.set_scale(1.2);
-  
+
   ///Teleport Granito to their destination.
   granito_big3.set_action("stand-left");
   granito_big3.set_velocity(0, 0);
@@ -350,21 +350,81 @@ function free_granito3()
   granito_small6.set_velocity(0, 0);
   granito_small7.set_action("stand-left");
   granito_small7.set_velocity(0, 0);
-  
+
   granito_big3.set_pos(10784, 864);
   granito_small5.set_pos(10800, 832);
   granito_small6.set_pos(10800, 800);
   granito_small7.set_pos(10800, 768);
-  
+
   dead_root5.fade(0, 0);
-  
+
   Camera.set_mode("normal");
   wait(0.3);
   Effect.fade_in(1);
-  
+
   Tux.activate();
   Tux.use_scripting_controller(false);
   Effect.four_to_three(1);
-  
+
   end_cutscene();
 }
+
+function check_granito_freed()
+{
+  if(granito_freed >= 3)
+  {
+    //You saved all Granito. Hurray!
+    Text.set_text(_("You saved all Granito. Hurray!"));
+    Text.fade_in(1);
+    wait(2);
+    Text.fade_out(1);
+  }
+  else if(granito_freed < 0)
+  {
+    start_cutscene();
+
+    Effect.sixteen_to_nine(1);
+
+    Camera.ease_scale_anchor(1.2, 4, 4, "EaseQuadInOut");
+    Tux.use_scripting_controller(true);
+    Tux.do_scripting_controller("right", true);
+    wait(12);
+    Camera.scroll_to(10250, 350, 5.5);
+    wait(1.5);
+    GRANITO_CLIFF.walk_for(3.5);
+    wait(3.5);
+    GRANITO_CLIFF.wave();
+    //Granito says "hi, path is too high up but there's friend trapped below ground. Help them and they help you up!
+    //Granito mentions that since the Ghost tree is deadm, the roots slowy begin to decay
+    //Tux notices just in time that one root decays right now below him giving room to progress to save Granito
+    wait(8);
+    Camera.scroll_to(10000, 500, 3);
+    wait(2);
+
+    Effect.fade_out(0.5);
+    wait(1);
+    //Camera.set_pos(9220, 950);
+    Tux.set_pos(9696, 1280);
+    Camera.set_mode("normal")
+    Camera.set_scale_anchor(1.5, 4);
+    Effect.fade_in(0.5);
+    wait(1);
+    dead_root3.start_moving();
+    wait(0.5);
+    cave_cover.fade(0, 2);
+    wait(4);
+    Tux.do_scripting_controller("right", true);
+    wait(0.5);
+    Camera.ease_scale_anchor(1.2, 3, 4, "EaseQuadInOut");
+    wait(2);
+    Tux.use_scripting_controller(false);
+    Effect.four_to_three(1);
+
+    Level.set_respawn_point("main", "search");
+    granito_freed = 0;
+
+    end_cutscene();
+  }
+}
+
+sector.check_granito_freed <- check_granito_freed;
