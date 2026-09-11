@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.7.0-rev.1-69-gdf1535bf4\n"
+"Project-Id-Version: SuperTux v0.7.0-rev.1-98-g2da6795c8\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:53+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -300,6 +300,10 @@ msgstr ""
 #: data/levels/world2/scripts_floral_blossom.txt:17
 #: data/levels/world2/scripts_floral_blossom.txt:18
 msgid "Granito freed!"
+msgstr ""
+
+#: data/levels/world2/scripts_floral_blossom.txt:19
+msgid "You saved all Granito. Hurray!"
 msgstr ""
 
 #: data/levels/world2/scripts_forest_intro.txt:2
