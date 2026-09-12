@@ -32,7 +32,9 @@ EditorTempSaveAs::EditorTempSaveAs(std::unique_ptr<World> world) :
   m_world(std::move(world)),
   m_file_name()
 {
-  Level* level = Editor::current()->get_level();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
   add_label(_("Save Level as"));
 
   add_hl();
@@ -60,19 +62,20 @@ EditorTempSaveAs::~EditorTempSaveAs()
   if (editor == nullptr) {
     return;
   }
-  editor->m_reactivate_request = true;
+  editor->reactivate_after_menu_close();
 }
 
 void
 EditorTempSaveAs::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
 
   switch (item.get_id())
   {
     case MNID_SAVE:
     {
-      Level* level = editor->get_level();
+      Level* level = editor_project->get_level();
 
       if (level->m_name.empty())
       {
@@ -81,11 +84,9 @@ EditorTempSaveAs::menu_action(MenuItem& item)
       }
 
       // post_save will get implicitly called here
-      editor->m_save_request = true;
-      editor->m_save_request_filename = m_file_name;
-      editor->m_save_temp_level = true;
+      editor->save_level(m_file_name, /* switch_file = */ false, /* post_save_cb = */ nullptr, /* save_temp_level = */ true);
 
-      editor->set_world(std::move(std::unique_ptr<World>(m_world.release())));
+      editor_project->set_world(std::move(std::unique_ptr<World>(m_world.release())));
 
       auto notif = std::make_unique<Notification>("create_level_notif", 5.f);
       notif->set_text(_("Level created!"));
