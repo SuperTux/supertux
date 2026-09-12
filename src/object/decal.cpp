@@ -21,7 +21,6 @@
 
 #include "squirrel/squirrel_object_initializer.hpp"
 #include "supertux/flip_level_transformer.hpp"
-#include "supertux/sector.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
