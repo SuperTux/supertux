@@ -47,9 +47,11 @@ EditorMenu::refresh()
 {
   clear();
 
-  bool worldmap = Editor::current()->get_level()->is_worldmap();
-  bool is_world = Editor::current()->get_world() != nullptr;
-  bool is_temp_level = Editor::current()->is_temp_level();
+  auto editor = Editor::current();
+  bool worldmap = editor->get_level()->is_worldmap();
+  bool is_world = editor->get_world() != nullptr;
+  bool is_temp_level = editor->is_temp_level();
+  auto tile_converter = editor->get_tile_converter();
 
   add_label(_("Level Editor"));
   add_hl();
@@ -85,7 +87,7 @@ EditorMenu::refresh()
       .set_help(_("Convert all tiles in the level using converters."));
   }
 
-  if (Editor::current()->has_deprecated_tiles())
+  if (tile_converter->has_deprecated_tiles())
   {
     add_hl();
 
@@ -241,27 +243,20 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_CHECKDEPRECATEDTILES:
-      editor->check_deprecated_tiles(true);
-      if (editor->has_deprecated_tiles())
+    {
+      auto tile_converter = editor->get_tile_converter();
+
+      tile_converter->check_deprecated_tiles(/* initial_check = */ false);
+      
+      if (!tile_converter->has_deprecated_tiles())
       {
-        const std::string present_message = _("Deprecated tiles are still present in the level.");
-        if (g_config->editor_show_deprecated_tiles)
-        {
-          Dialog::show_message(present_message);
-        }
-        else
-        {
-          Dialog::show_confirmation(present_message + "\n\n" + _("Do you want to show all deprecated tiles on active tilemaps?"), []() {
-            g_config->editor_show_deprecated_tiles = true;
-          });
-        }
-      }
-      else
-      {
-        Dialog::show_message(_("There are no more deprecated tiles in the level!"));
+        // The current level does not have deprecated tiles anymore.
+        // Refresh the menu so that the menu item can disappear.
+        // Showing a message is done through the tile_converter class
         refresh();
       }
-      break;
+    }
+    break;
 
     default:
       break;
