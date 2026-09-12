@@ -19,10 +19,23 @@
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
 
+#include "squirrel/squirrel_object_initializer.hpp"
 #include "supertux/flip_level_transformer.hpp"
+#include "supertux/sector.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
+
+Decal::Decal() :
+  MovingSprite(Vector(0, 0), "images/decal/explanations/billboard-bigtux.png", COLGROUP_DISABLED),
+  m_default_action("default"),
+  m_solid(),
+  m_fade_sprite(m_sprite.get()->clone()),
+  m_fade_timer(),
+  m_sprite_timer(),
+  m_visible(true)
+{
+}
 
 Decal::Decal(const ReaderMapping& reader) :
   MovingSprite(reader, "images/decal/explanations/billboard-bigtux.png", LAYER_OBJECTS, COLGROUP_DISABLED),
@@ -148,7 +161,8 @@ Decal::update(float)
 void
 Decal::register_class(ssq::VM& vm)
 {
-  ssq::Class cls = vm.addAbstractClass<Decal>("Decal", vm.findClass("MovingSprite"));
+  ssq::Class cls = vm.addClass("Decal", get_default_object_initializer<Decal>, {},
+  false /* Do not free pointer from Squirrel */, vm.findClass("MovingSprite"));
 
   cls.addFunc("fade_sprite", &Decal::fade_sprite);
   cls.addFunc("change_sprite", &MovingSprite::change_sprite); // Deprecated; for compatibility

@@ -20,6 +20,7 @@
 #include <simplesquirrel/vm.hpp>
 
 #include "control/input_manager.hpp"
+#include "squirrel/squirrel_object_initializer.hpp"
 #include "supertux/sector.hpp"
 
 TextArrayObject::TextArrayObject(const std::string& name) :
@@ -415,15 +416,9 @@ TextArrayObject::get_roundness() const
 void
 TextArrayObject::register_class(ssq::VM& vm)
 {
-  ssq::Class cls = vm.addClass("TextArrayObject", []()
-    {
-      if (!Sector::current())
-        throw std::runtime_error("Tried to create 'TextArrayObject' without an active sector.");
-
-      return &Sector::get().add<TextArrayObject>();
-    },
-    {},
-    false /* Do not free pointer from Squirrel */,
+  ssq::Class cls = vm.addClass("TextArrayObject",
+    get_default_object_initializer<TextArrayObject>, {}, 
+    false /* Do not free pointer from Squirrel */, 
     vm.findClass("GameObject"));
 
   cls.addFunc("clear", &TextArrayObject::clear);
