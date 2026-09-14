@@ -20,6 +20,7 @@
 #include <sexp/util.hpp>
 #include <simplesquirrel/table.hpp>
 
+#include "squirrel/squirrel_util.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -102,6 +103,9 @@ void save_squirrel_table(const ssq::Table& table, Writer& writer)
         writer.start_list(key, true);
         save_squirrel_table(value.toTable(), writer);
         writer.end_list(key);
+        break;
+      case ssq::Type::ARRAY:
+        writer.write(key, squirrel_to_string(value, true));
         break;
 
       case ssq::Type::CLOSURE:
