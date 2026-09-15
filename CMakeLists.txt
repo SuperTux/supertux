@@ -382,9 +382,9 @@ if(SUPERTUX_PCH)
     # PhysicsFS
     <physfs.h>
     # SDL
-    <SDL.h>
-    <SDL_ttf.h>
-    <SDL_image.h>
+    <SDL3/SDL.h>
+    <SDL3_ttf/SDL_ttf.h>
+    <SDL3_image/SDL_image.h>
     # FMT
     <fmt/format.h>
     "${proj_headers}"
