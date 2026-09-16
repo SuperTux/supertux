@@ -137,8 +137,8 @@ jobs:
           #   /usr/local/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left
-          sudo mv /Library/Frameworks/Mono.framework                           \
-                  /Library/Frameworks/Mono.framework-disabled
+          # sudo mv /Library/Frameworks/Mono.framework                           \
+          #         /Library/Frameworks/Mono.framework-disabled
 
       - name: Set compiler
         run: |
