@@ -94,6 +94,14 @@ jobs:
 
           git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
           cd vcpkg
+
+          # TODO: Remove this code once the PR here https://github.com/microsoft/vcpkg/pull/53943
+          # was merged:
+          git remote add xiaozhuai https://github.com/xiaozhuai/vcpkg
+          git fetch xiaozhuai
+          git checkout -b "dev-openal-soft" -t xiaozhuai/dev-openal-soft
+          git rebase origin/master
+
           ./bootstrap-vcpkg.sh
 
           ./vcpkg install --classic --triplet=$VCPKG_TRIPLET \
