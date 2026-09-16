@@ -74,9 +74,9 @@ jobs:
             /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.12.dylib \
             /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
 
-          # Something funky happens with freetype if mono is left
-          sudo mv /Library/Frameworks/Mono.framework                           \
-                  /Library/Frameworks/Mono.framework-disabled
+          # # Something funky happens with freetype if mono is left
+          # sudo mv /Library/Frameworks/Mono.framework                           \
+          #         /Library/Frameworks/Mono.framework-disabled
 
       - name: Install macos dependencies (Intel)
         if: ${{ matrix.os == 'macos-15' && matrix.arch == 'x86_64' }}
