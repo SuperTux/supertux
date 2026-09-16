@@ -52,6 +52,13 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - name: Use cached dependencies
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg
+          key: android-${{ matrix.arch }}-vcpkg-${{ hashFiles('.github/workflows/macos.yml') }}
+
       - name: Install macos dependencies (ARM)
         if: ${{ matrix.os == 'macos-15' && matrix.arch == 'arm64' }}
         run: |
