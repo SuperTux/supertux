@@ -31,15 +31,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-14]
+        os: [macos-15]
         build_type: [Debug, Release]
         arch: [arm64, x86_64]
         include:
-          - os: macos-14
+          - os: macos-15
             build_type: Release
             arch: arm64
             release: ON
-          - os: macos-14
+          - os: macos-15
             build_type: Release
             arch: x86_64
             release: ON
@@ -53,7 +53,7 @@ jobs:
           submodules: recursive
 
       - name: Install macos dependencies (ARM)
-        if: ${{ matrix.os == 'macos-14' && matrix.arch == 'arm64' }}
+        if: ${{ matrix.os == 'macos-15' && matrix.arch == 'arm64' }}
         run: |
           brew install cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl3 sdl3_image libraqm freetype libpng \
@@ -79,7 +79,7 @@ jobs:
                   /Library/Frameworks/Mono.framework-disabled
 
       - name: Install macos dependencies (Intel)
-        if: ${{ matrix.os == 'macos-14' && matrix.arch == 'x86_64' }}
+        if: ${{ matrix.os == 'macos-15' && matrix.arch == 'x86_64' }}
         run: |
           # # Install x86_64 Homebrew and dependencies using Rosetta 2
           # arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

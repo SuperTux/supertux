@@ -2,7 +2,7 @@
 
 shopt -s nullglob
 
-if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-14" ]) && [ "$PACKAGE" = "ON" ]; then
+if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-15" ]) && [ "$PACKAGE" = "ON" ]; then
     sudo chmod -R +w /usr/local/Cellar
     cpack -G Bundle;
 fi
