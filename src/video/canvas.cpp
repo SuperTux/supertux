@@ -23,12 +23,44 @@
 #include "supertux/gameconfig.hpp"
 #include "util/log.hpp"
 #include "util/obstackpp.hpp"
+#include "util/string_util.hpp"
 #include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
 #include "video/painter.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
+
+namespace {
+
+const char* const HOUSE_WORDS[] = { "maison", "hause", "house", "haus" };
+
+size_t house_word_length(const std::string& lower, size_t pos)
+{
+  for (const char* word : HOUSE_WORDS)
+  {
+    const size_t n = std::char_traits<char>::length(word);
+    if (lower.compare(pos, n, word) == 0)
+    {
+      return n;
+    }
+  }
+  return 0;
+}
+
+bool contains_house_word(const std::string& lower)
+{
+  for (const char* word : HOUSE_WORDS)
+  {
+    if (lower.find(word) != std::string::npos)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+} // namespace
 
 Canvas::Canvas(DrawingContext& context, obstack& obst) :
   m_context(context),
@@ -230,7 +262,55 @@ Canvas::draw_text(const FontPtr& font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
   // FIXME: Font viewport.
-  return font->draw_text(*this, text, pos, alignment, layer, color);
+  const std::string lower = StringUtil::tolower(text);
+  if (!contains_house_word(lower))
+  {
+    return font->draw_text(*this, text, pos, alignment, layer, color);
+  }
+
+  Color house_color = Color::BLUE;
+  house_color.alpha = color.alpha;
+
+  const float width = font->get_text_width(text);
+  float x = pos.x;
+  if (alignment == ALIGN_CENTER)
+  {
+    x -= width / 2.0f;
+  }
+  else if (alignment == ALIGN_RIGHT)
+  {
+    x -= width;
+  }
+  const float left = x;
+
+  size_t start = 0;
+  size_t i = 0;
+  while (i < text.size())
+  {
+    const size_t len = house_word_length(lower, i);
+    if (len == 0)
+    {
+      ++i;
+      continue;
+    }
+    if (i > start)
+    {
+      const std::string part = text.substr(start, i - start);
+      font->draw_text(*this, part, Vector(x, pos.y), ALIGN_LEFT, layer, color);
+      x += font->get_text_width(part);
+    }
+    const std::string word = text.substr(i, len);
+    font->draw_text(*this, word, Vector(x, pos.y), ALIGN_LEFT, layer, house_color);
+    x += font->get_text_width(word);
+    i += len;
+    start = i;
+  }
+  if (start < text.size())
+  {
+    font->draw_text(*this, text.substr(start), Vector(x, pos.y), ALIGN_LEFT, layer, color);
+  }
+
+  return Rectf(left, pos.y, left + width, pos.y + font->get_text_height(text));
 }
 
 Rectf
