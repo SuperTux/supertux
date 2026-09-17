@@ -45,6 +45,9 @@ jobs:
             release: ON
 
     runs-on: ${{ matrix.os }}
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+      VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}/vcpkg-binary-cache,readwrite"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,12 +55,15 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - name: Use cached dependencies
-        id: cache-dependencies
-        uses: actions/cache@v4
+      - name: Restore vcpkg binaries
+        id: vcpkg-cache
+        if: matrix.arch == 'x86_64'
+        uses: actions/cache/restore@v4
         with:
-          path: ${{ github.workspace }}/vcpkg
-          key: android-${{ matrix.arch }}-vcpkg-${{ hashFiles('.github/workflows/macos.yml') }}
+          path: ${{ github.workspace }}/vcpkg-binary-cache
+          key: vcpkg-binary-v1-macos-${{ runner.os }}-${{ runner.arch }}-${{ matrix.arch }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.build_type }}
+          restore-keys: |
+            vcpkg-binary-v1-macos-${{ runner.os }}-${{ runner.arch }}-${{ matrix.arch }}-
 
       - name: Install macos dependencies (ARM)
         if: ${{ matrix.os == 'macos-15' && matrix.arch == 'arm64' }}
@@ -99,8 +105,9 @@ jobs:
           echo "VCPKG_TRIPLET=$VCPKG_TRIPLET" >> $GITHUB_ENV
           echo "VCPKG_ROOT=$VCPKG_ROOT" >> $GITHUB_ENV
 
-          git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
-          cd vcpkg
+          mkdir -p "$GITHUB_WORKSPACE/vcpkg-binary-cache"
+          git clone https://github.com/microsoft/vcpkg.git "$VCPKG_ROOT"
+          cd "$VCPKG_ROOT"
 
           # TODO: Remove this code once the PR here https://github.com/microsoft/vcpkg/pull/53943
           # was merged:
@@ -147,6 +154,13 @@ jobs:
           # sudo mv /Library/Frameworks/Mono.framework                           \
           #         /Library/Frameworks/Mono.framework-disabled
 
+      - name: Save vcpkg binaries
+        if: ${{ always() && steps.vcpkg-cache.outputs.cache-primary-key != '' }}
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg-binary-cache
+          key: ${{ steps.vcpkg-cache.outputs.cache-primary-key }}
+
       - name: Set compiler
         run: |
           # This ensures for now we use clang11
@@ -186,8 +200,7 @@ jobs:
           # Set architecture-specific flags and PKG_CONFIG_PATH
           CMAKE_ARCH_FLAGS=""
           if [ "$BUILD_ARCH" = "x86_64" ]; then
-            CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0 -DCMAKE_PREFIX_PATH=/usr/local"
-            export PKG_CONFIG_PATH="/usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:/usr/local/opt/freetype/lib/pkgconfig:/usr/local/opt/libpng/lib/pkgconfig"
+            CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0 -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-osx"
           else
             export PKG_CONFIG_PATH="/opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig"
           fi
