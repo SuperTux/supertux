@@ -65,8 +65,15 @@ GrowUp::draw(DrawingContext& context)
 void
 GrowUp::collision_solid(const CollisionHit& hit)
 {
-  if (hit.top)
-    m_physic.set_velocity_y(0);
+  // The following code was introduced to fix
+  // https://github.com/SuperTux/supertux/issues/2994
+  // However, this caused a regression, see this bug (#2):
+  // https://github.com/SuperTux/supertux/issues/3686
+  // Commenting out this part of the code in case it
+  // causes unknown side-effects:
+
+  // if (hit.top)
+  //  m_physic.set_velocity_y(0);
 
   if (hit.bottom && m_physic.get_velocity_y() > 0)
     m_physic.set_velocity_y(0);
