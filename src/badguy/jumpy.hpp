@@ -43,6 +43,7 @@ public:
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
+  virtual bool get_type_from_sprite(const std::string& sprite_name, std::string& type) const override;
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
