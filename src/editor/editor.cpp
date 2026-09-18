@@ -716,7 +716,6 @@ Editor::event(const SDL_Event& ev)
       return;
 
   auto sector = m_project->get_sector();
-  auto& camera = sector->get_camera();
 
   try
   {
