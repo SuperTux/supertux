@@ -80,8 +80,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Portable)).add(typeid(BadGuy)); }
 
-  virtual std::string get_overlay_size() const { return "1x1"; }
-
+  virtual std::string get_overlay_size() const { return "1x1"; }//  SuperTux
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 

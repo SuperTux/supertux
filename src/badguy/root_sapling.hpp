@@ -18,10 +18,11 @@
 #define HEADER_SUPERTUX_BADGUY_ROOT_SAPLING_HPP
 
 #include "badguy/badguy.hpp"
+#include "object/sticky_object.hpp"
 
 #include "collision/collision_system.hpp"
 
-class RootSapling final : public BadGuy
+class RootSapling final : public StickyBadguy
 {
 public:
   RootSapling(const ReaderMapping& reader);
