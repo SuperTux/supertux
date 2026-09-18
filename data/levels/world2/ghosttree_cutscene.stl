@@ -15,7 +15,9 @@
     (init-script "import(\"levels/world2/ghosttree_cutscene.nut\");
 
 Text.set_anchor_point(7);
-Text.set_pos(0, -250);")
+Text.set_pos(0, -250);
+
+trigger_state(\"start\");")
     (ambient-light
       (color 0.48 0.46 0.58)
     )
