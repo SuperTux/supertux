@@ -106,9 +106,12 @@ ObjectMenu::menu_action(MenuItem& item)
     }
 
     case MNID_REMOVE:
-      m_editor.delete_markers();
+    {
+      auto overlay_widget = m_editor.get_overlay_widget();
+      overlay_widget->delete_markers();
       m_object->remove_me();
       MenuManager::instance().pop_menu();
+    }
       break;
 
     case MNID_REMOVEFUNCTION:
@@ -118,15 +121,17 @@ ObjectMenu::menu_action(MenuItem& item)
 
     case MNID_TEST_FROM_HERE: {
       const MovingObject* obj = static_cast<const MovingObject*>(m_object);
-      m_editor.m_test_pos = std::make_pair(m_editor.get_sector()->get_name(),
-                                           obj->get_pos());
-      m_editor.m_test_request = true;
+      auto editor_project = m_editor.get_project();
+      auto sector = editor_project->get_sector();
+
+      auto spawnpoint = std::make_pair(sector->get_name(), obj->get_pos());
+      m_editor.test_level(spawnpoint);
       MenuManager::instance().pop_menu();
       break;
     }
 
     case MNID_OPEN_PARTICLE_EDITOR:
-      m_editor.m_particle_editor_request = true;
+      m_editor.open_particle_editor();
       MenuManager::instance().pop_menu();
       break;
 
@@ -138,16 +143,18 @@ ObjectMenu::menu_action(MenuItem& item)
 bool
 ObjectMenu::on_back_action()
 {
+  auto project = m_editor.get_project();
   // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
-  BIND_SECTOR(*m_editor.get_sector());
+  BIND_SECTOR(*project->get_sector());
 
   m_object->after_editor_set();
   m_object->check_state();
 
   if (!MenuManager::instance().previous_menu())
   {
+    auto layers_widget = m_editor.get_layers_widget();
     if (!dynamic_cast<MovingObject*>(m_object)) {
-      m_editor.sort_layers();
+      layers_widget->sort_layers();
     }
   }
 
