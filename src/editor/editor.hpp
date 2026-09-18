@@ -52,6 +52,9 @@ class World;
 class Editor final : public Screen,
                      public Currenton<Editor>
 {
+private:
+  friend class EditorTileConverter;
+
 public:
   using exit_cb_t = std::function<void()>;
 
@@ -96,8 +99,6 @@ public:
   inline World* get_world() const { return m_world.get(); }
 
   inline Level* get_level() const { return m_level.get(); }
-
-  void set_sector(Sector* sector);
 
   inline TileSet* get_tileset() const { return m_tileset; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
@@ -167,7 +168,6 @@ public:
   const std::vector<ObjectGroup>& get_objectgroups() const;
 
   void scroll(const Vector& velocity);
-  void keep_camera_in_bounds();
 
   inline bool is_level_loaded() const { return m_levelloaded; }
 
@@ -204,6 +204,7 @@ public:
   inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
 private:
+  void set_sector(Sector* sector);
   void reload_level();
   void reset_level();
   void reactivate();
@@ -216,6 +217,7 @@ private:
    */
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
+  void keep_camera_in_bounds();
 
   void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
