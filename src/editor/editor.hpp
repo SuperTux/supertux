@@ -28,6 +28,7 @@
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
+#include "editor/editor_tile_converter.hpp"
 #include "interface/control.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/world.hpp"
@@ -51,6 +52,9 @@ class World;
 class Editor final : public Screen,
                      public Currenton<Editor>
 {
+private:
+  friend class EditorTileConverter;
+
 public:
   using exit_cb_t = std::function<void()>;
 
@@ -91,10 +95,10 @@ public:
 
   void disable_keyboard() { m_enabled = false; }
 
-  inline Level* get_level() const { return m_level.get(); }
-
   inline void set_world(std::unique_ptr<World> w) { m_world = std::move(w); }
   inline World* get_world() const { return m_world.get(); }
+
+  inline Level* get_level() const { return m_level.get(); }
 
   inline TileSet* get_tileset() const { return m_tileset; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
@@ -133,12 +137,6 @@ public:
   inline bool is_testing_level() const { return m_leveltested; }
 
   void remove_autosave_file();
-
-  /** Convert tiles on every tilemap in the level, according to a tile conversion file. */
-  void convert_tiles_by_file(const std::string& file);
-
-  void check_deprecated_tiles(bool focus = false);
-  inline bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
 
   inline void update_autotileset() { m_overlay_widget->update_autotileset(); }
 
@@ -184,6 +182,8 @@ public:
   inline Sector* get_sector() { return m_sector; }
 
   inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
+
+  EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
 
   void queue_layers_refresh();
 
@@ -265,7 +265,6 @@ private:
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
   TileSet* m_tileset;
-  bool m_has_deprecated_tiles;
   bool m_temp_level;
 
   std::optional<std::pair<std::string, Vector>> m_last_test_pos;
@@ -277,6 +276,8 @@ private:
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
   EditorToolbarWidget* m_toolbar_widget;
+
+  std::unique_ptr<EditorTileConverter> m_tile_converter;
 
   TypedUID<GameObject> m_selected_object;
 
