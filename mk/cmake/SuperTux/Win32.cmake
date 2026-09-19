@@ -45,7 +45,7 @@ endif()
 if(MINGW)
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
-    COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -i${PROJECT_BINARY_DIR}/tmp/icon.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
+    COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
   set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
 endif()
 
