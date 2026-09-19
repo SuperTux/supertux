@@ -290,6 +290,11 @@ endif()
 include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
 
+if(WIN32)
+  ## Add an icon
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/icon_rc.template" "${PROJECT_BINARY_DIR}/tmp/icon.rc")
+endif()
+
 ## Build list of sources for supertux binary
 set(SUPERTUX_SOURCES_C ${CMAKE_CURRENT_SOURCE_DIR})
 
