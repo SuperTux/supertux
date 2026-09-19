@@ -4546,6 +4546,8 @@ msgstr "Manuell konfiguration"
 msgid ""
 "Use manual configuration instead of SDL3's automatic GameController support"
 msgstr ""
+"Använd manuell konfiguration i stället för SDL3:s automatiska "
+"GameController-stöd"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 #: src/supertux/menu/keyboard_menu.cpp:79
