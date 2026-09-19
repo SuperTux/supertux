@@ -197,6 +197,7 @@ public:
   inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
 private:
+  void set_sector(Sector *sector);
   void reset_level();
   void update_keyboard(const Controller& controller);
   void keep_camera_in_bounds();
