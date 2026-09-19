@@ -20,6 +20,7 @@
 
 #include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
+#include "physfs/util.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -66,7 +67,10 @@ CustomParticleSystemFile::update_data()
 {
   try
   {
-    auto doc = ReaderDocument::from_file("particles/" + ((m_filename == "") ? "default.stcp" : m_filename));
+    // realpath() is necessary for particle files outside the particles/ folder
+    std::string path = physfsutil::realpath("particles/" + ((m_filename == "") ? "default.stcp" : m_filename));
+
+    auto doc = ReaderDocument::from_file(path);
     auto root = doc.get_root();
     auto mapping = root.get_mapping();
 
