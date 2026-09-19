@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:53+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jonatan Nyberg, 2026\n"
 "Language-Team: Swedish (http://app.transifex.com/arctic-games/supertux/language/sv/)\n"
@@ -372,6 +372,13 @@ msgstr "Om han hade vetat att Nolok åkte dit tidigare, kunde han ha varit där 
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:9
 msgid "Perhaps that was Nolok's goal with the note he left behind..."
 msgstr "Kanske var det Noloks mål med lappen han lämnade efter sig..."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:10
+msgid ""
+"Tux: The thing over there must be the\n"
+"     crystal mine the Yeti was talking\n"
+"     about."
+msgstr ""
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"

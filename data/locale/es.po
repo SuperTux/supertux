@@ -5,6 +5,7 @@
 # Translators:
 # 69fe870410d3e630a708a509aed5c0f9_e3efcca <3d48305986fd1b36087a0ec11b9a769d_288033>, 2016
 # Alejandro Moctezuma <moctezumaalejandro25@gmail.com>, 2025-2026
+# Alessandro DiCioccio, 2026
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Diego Enmanuel Rosales Santander, 2024-2025
 # Fernando Carmona <ferkiwi@gmail.com>, 2006
@@ -37,9 +38,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:52+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Jorge <jorgesumle@freakspot.net>, 2024,2026\n"
+"Last-Translator: Alessandro DiCioccio, 2026\n"
 "Language-Team: Spanish (http://app.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,13 +87,13 @@ msgid "Graphics"
 msgstr "Gráficos"
 
 #: data/credits.stxt:189 data/credits.stxt:392 src/object/music_object.hpp:41
-#: src/supertux/menu/options_menu.cpp:156
+#: src/supertux/menu/options_menu.cpp:161
 msgid "Music"
 msgstr "Música"
 
 #: data/credits.stxt:202 data/credits.stxt:460 src/object/ambient_sound.cpp:87
 #: src/object/sound_object.cpp:70 src/object/sound_object.hpp:40
-#: src/supertux/menu/options_menu.cpp:154
+#: src/supertux/menu/options_menu.cpp:159
 msgid "Sound"
 msgstr "Sonido"
 
@@ -409,11 +410,11 @@ msgstr "mods"
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr "Solo se permite activar un paquete de recursos a la vez."
 
-#: src/addon/addon_manager.cpp:814
+#: src/addon/addon_manager.cpp:813
 msgid "Add-on {} by {} is already installed."
 msgstr "El mod «{}» de «{}» ya estaba instalado."
 
-#: src/addon/addon_manager.cpp:834
+#: src/addon/addon_manager.cpp:833
 msgid "Add-on {} by {} successfully installed."
 msgstr "El mod «{}» de «{}» se ha instalado."
 
@@ -658,7 +659,7 @@ msgstr "Sprite utilizado para el dardo."
 msgid "Skull"
 msgstr "Cráneo"
 
-#: src/badguy/darttrap.hpp:34
+#: src/badguy/darttrap.hpp:74
 msgid "Dart Trap"
 msgstr "Trampa de dardos"
 
@@ -1159,33 +1160,33 @@ msgstr "Aletín"
 msgid "Joystick Mappings"
 msgstr "Mapear joystick"
 
-#: src/editor/editor.cpp:354
+#: src/editor/editor.cpp:345
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
 msgstr "Nota: Los elementos arrastrables ahora están ocultos. Presione Ctrl+H para volver a mostrarlos."
 
-#: src/editor/editor.cpp:588
+#: src/editor/editor.cpp:579
 msgid "Level saved!"
 msgstr "¡Nivel guardado!"
 
-#: src/editor/editor.cpp:618
+#: src/editor/editor.cpp:609
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
 msgstr "No puedes probar un nivel al jugar desde el mapa global.Sal del editor de niveles."
 
-#: src/editor/editor.cpp:869
+#: src/editor/editor.cpp:860
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Este nivel contiene teselas obsoletas.\nTe recomendamos reemplazarlas para evitar la pérdida de compatibilidad en futuras versiones."
 
-#: src/editor/editor.cpp:871
+#: src/editor/editor.cpp:862
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Consejo: Activa «Mostrar teselas obsoletas» en el menú del editor de niveles."
 
-#: src/editor/editor.cpp:961
+#: src/editor/editor.cpp:952
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1193,33 +1194,33 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "No te olvides de que ni tus niveles ni datos\npersisten entre sesiones de juego.\nSi quieres guardar los niveles utiliza la función de descargar\n desde el menú de «gestionar datos»."
 
-#: src/editor/editor.cpp:1002
+#: src/editor/editor.cpp:993
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr "Este nivel aún no se ha guardado. ¿Quieres guardarlo?"
 
-#: src/editor/editor.cpp:1004
+#: src/editor/editor.cpp:995
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "No se han guardado los cambios del nivel, ¿quieres hacerlo ahora?"
 
-#: src/editor/editor.cpp:1005
+#: src/editor/editor.cpp:996
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Este nivel puede contener datos sin guardar, ¿quieres guardar ahora?"
 
-#: src/editor/editor.cpp:1006 src/gui/dialog.hpp:95
+#: src/editor/editor.cpp:997 src/gui/dialog.hpp:95
 #: src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "Sí"
 
-#: src/editor/editor.cpp:1012 src/editor/particle_editor.cpp:779
+#: src/editor/editor.cpp:1003 src/editor/particle_editor.cpp:779
 #: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 msgid "No"
 msgstr "No"
 
-#: src/editor/editor.cpp:1016 src/editor/particle_editor.cpp:783
+#: src/editor/editor.cpp:1007 src/editor/particle_editor.cpp:783
 #: src/gui/menu_filesystem.cpp:123 src/gui/menu_list.cpp:38
 #: src/gui/menu_paths.cpp:48
 #: src/supertux/menu/editor_level_select_menu.cpp:183
@@ -1235,7 +1236,7 @@ msgstr "No"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/editor/editor.cpp:1135
+#: src/editor/editor.cpp:1126
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1243,21 +1244,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Algunos mods obsoletos siguen activos y podrían causar conflictos con la estructura predeterminada de SuperTux.\nAún puedes activarlos en el menú.\nDesactivarlos no eliminará tu progreso en el juego."
 
-#: src/editor/editor.cpp:1138
+#: src/editor/editor.cpp:1129
 msgid "Disable add-ons"
 msgstr "Desactivar mods"
 
-#: src/editor/editor.cpp:1143
+#: src/editor/editor.cpp:1134
 msgid "Ignore (not advised)"
 msgstr "Ignorar (no recomendable)"
 
-#: src/editor/editor.cpp:1147
+#: src/editor/editor.cpp:1138
 msgid "Leave editor"
 msgstr "Salir del editor"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1493
+#: src/editor/editor.cpp:1501
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1266,7 +1267,7 @@ msgstr "No se encontró un sector llamado \"main\".\nPor favor, cambia el nombre
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1500
+#: src/editor/editor.cpp:1508
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1644,39 +1645,39 @@ msgstr "Autor"
 msgid "License"
 msgstr "Licencia"
 
-#: src/editor/overlay_widget.cpp:1061
+#: src/editor/overlay_widget.cpp:1065
 msgid "Cannot select deprecated tiles"
 msgstr "No se pueden seleccionar las teselas obsoletas"
 
-#: src/editor/overlay_widget.cpp:1700
+#: src/editor/overlay_widget.cpp:1718
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr "El modo de borrado automático de teselas está activado (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1704
+#: src/editor/overlay_widget.cpp:1722
 msgid "Autotile erasing cannot be performed here"
 msgstr "No se puede realizar el borrado automático de teselas aquí"
 
-#: src/editor/overlay_widget.cpp:1709
+#: src/editor/overlay_widget.cpp:1727
 msgid "Autotile mode is on (\"{}\")"
 msgstr "El modo automático de teselas está activado (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1713
+#: src/editor/overlay_widget.cpp:1731
 msgid "Selected tile isn't autotileable"
 msgstr "La tesela actual no es teselable automáticamente"
 
-#: src/editor/overlay_widget.cpp:1719
+#: src/editor/overlay_widget.cpp:1737
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Mantén pulsado Ctrl para borrar teselas de forma automática"
 
-#: src/editor/overlay_widget.cpp:1721
+#: src/editor/overlay_widget.cpp:1739
 msgid "Release Ctrl to use autotile erasing"
 msgstr "Suelta Ctrl para usar el borrado automático de teselas"
 
-#: src/editor/overlay_widget.cpp:1726
+#: src/editor/overlay_widget.cpp:1744
 msgid "Hold Ctrl to enable autotile"
 msgstr "Mantén pulsado Ctrl para activar el autoteselado"
 
-#: src/editor/overlay_widget.cpp:1728
+#: src/editor/overlay_widget.cpp:1746
 msgid "Release Ctrl to autotile"
 msgstr "Suelta Ctrl para colocar teselas automáticamente"
 
@@ -2017,7 +2018,7 @@ msgid "Select object ({})"
 msgstr "Seleccionar objecto ({})"
 
 #: src/gui/menu_object_select.cpp:50 src/gui/menu_string_array.cpp:79
-#: src/supertux/menu/profile_menu.cpp:88
+#: src/supertux/menu/profile_menu.cpp:89
 msgid "Add"
 msgstr "Añadir"
 
@@ -2075,9 +2076,9 @@ msgstr "Ruta {}"
 #: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/multiplayer_players_menu.cpp:106
-#: src/supertux/menu/options_menu.cpp:284
+#: src/supertux/menu/options_menu.cpp:293
 #: src/supertux/menu/options_select_menu.cpp:44
-#: src/supertux/menu/profile_menu.cpp:118
+#: src/supertux/menu/profile_menu.cpp:121
 #: src/supertux/menu/profile_name_menu.cpp:45
 #: src/supertux/menu/sorted_contrib_menu.cpp:135
 #: src/supertux/menu/video_system_menu.cpp:52
@@ -2116,8 +2117,8 @@ msgstr "Texto"
 msgid "Insert"
 msgstr "Insertar"
 
-#: src/gui/menu_string_array.cpp:82 src/supertux/menu/profile_menu.cpp:108
-#: src/supertux/menu/profile_menu.cpp:110
+#: src/gui/menu_string_array.cpp:82 src/supertux/menu/profile_menu.cpp:109
+#: src/supertux/menu/profile_menu.cpp:111
 msgid "Delete"
 msgstr "Borrar"
 
@@ -3334,8 +3335,8 @@ msgstr "arriba"
 msgid "down"
 msgstr "abajo"
 
-#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:307
-#: src/supertux/menu/options_menu.cpp:350
+#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:316
+#: src/supertux/menu/options_menu.cpp:359
 msgid "auto"
 msgstr "autom."
 
@@ -3397,15 +3398,15 @@ msgstr "Mejor tiempo"
 msgid "Level target time"
 msgstr "Tiempo a batir"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:895
 msgid "New release: SuperTux {}!"
 msgstr "Nueva versión: ¡SuperTux {}!"
 
-#: src/supertux/main.cpp:894
+#: src/supertux/main.cpp:896
 msgid "Click for more details."
 msgstr "Haz clic aquí para más información."
 
-#: src/supertux/main.cpp:897
+#: src/supertux/main.cpp:899
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -3413,7 +3414,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "¡Hay una versión nueva de SuperTux ({}) disponible!\nPara más información, puedes visitar el sitio web de SuperTux.\n\n¿Quieres visitar el sitio web ahora?"
 
-#: src/supertux/main.cpp:908
+#: src/supertux/main.cpp:910
 msgid "Checking for new releases..."
 msgstr "Buscando una versión más reciente..."
 
@@ -3792,7 +3793,7 @@ msgid "No User Contrib Levels yet. Create some with the Level Editor."
 msgstr "Aún no tienes niveles contribuidos por usuarios. Crea algunos con el editor de niveles."
 
 #: src/supertux/menu/custom_menu_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:227
+#: src/supertux/menu/options_menu.cpp:232
 msgid "Menu Customization"
 msgstr "Personalización de menús"
 
@@ -4551,7 +4552,7 @@ msgid "Discord (disabled; not compiled)"
 msgstr "Discord (desactivado en esta versión)"
 
 #: src/supertux/menu/joystick_menu.cpp:54
-#: src/supertux/menu/options_menu.cpp:194
+#: src/supertux/menu/options_menu.cpp:199
 msgid "Setup Joystick"
 msgstr "Configurar joystick"
 
@@ -4562,7 +4563,7 @@ msgstr "Configuración manual"
 #: src/supertux/menu/joystick_menu.cpp:59
 msgid ""
 "Use manual configuration instead of SDL3's automatic GameController support"
-msgstr ""
+msgstr "Use el manual de configuración en vez del soporte automático del GameController de SDL3"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 #: src/supertux/menu/keyboard_menu.cpp:79
@@ -4727,7 +4728,7 @@ msgid "Left Command"
 msgstr "Control izquierdo"
 
 #: src/supertux/menu/keyboard_menu.cpp:73
-#: src/supertux/menu/options_menu.cpp:191
+#: src/supertux/menu/options_menu.cpp:196
 msgid "Setup Keyboard"
 msgstr "Configurar teclado"
 
@@ -4894,434 +4895,442 @@ msgid ""
 "Do you wish to remove them anyways?"
 msgstr "Cuidado: El jugador que estás a punto\nde borrar está en mitad de la partida.\n¿Seguro que quieres hacerlo?"
 
-#: src/supertux/menu/options_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:91
 #: src/supertux/menu/options_select_menu.cpp:35
 msgid "Locale"
 msgstr "Idioma"
 
-#: src/supertux/menu/options_menu.cpp:90
+#: src/supertux/menu/options_menu.cpp:95
 msgid "Select Language"
 msgstr "Elegir idioma"
 
-#: src/supertux/menu/options_menu.cpp:91
+#: src/supertux/menu/options_menu.cpp:96
 msgid "Select a different language to display text in"
 msgstr "Selecciona otro idioma distinto para los textos del juego"
 
-#: src/supertux/menu/options_menu.cpp:93
+#: src/supertux/menu/options_menu.cpp:98
 msgid "Language Packs"
 msgstr "Paquetes de idioma"
 
-#: src/supertux/menu/options_menu.cpp:94
+#: src/supertux/menu/options_menu.cpp:99
 msgid "Language packs contain up-to-date translations"
 msgstr "Los paquetes de idioma contienen traducciones actualizadas"
 
-#: src/supertux/menu/options_menu.cpp:102
+#: src/supertux/menu/options_menu.cpp:107
 #: src/supertux/menu/options_select_menu.cpp:37
 msgid "Video"
 msgstr "Vídeo"
 
-#: src/supertux/menu/options_menu.cpp:105
+#: src/supertux/menu/options_menu.cpp:110
 msgid "Window Resizable"
 msgstr "Ventana de tamaño variable"
 
-#: src/supertux/menu/options_menu.cpp:106
+#: src/supertux/menu/options_menu.cpp:111
 msgid "Allow window resizing, might require a restart to take effect"
 msgstr "Permite cambiar el tamaño de la ventana arrastrando los bordes, puede ser necesario reiniciar para que se apliquen los cambios"
 
-#: src/supertux/menu/options_menu.cpp:110
+#: src/supertux/menu/options_menu.cpp:115
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: src/supertux/menu/options_menu.cpp:111
+#: src/supertux/menu/options_menu.cpp:116
 msgid "Fill the entire screen"
 msgstr "Llenar toda la pantalla"
 
-#: src/supertux/menu/options_menu.cpp:118
+#: src/supertux/menu/options_menu.cpp:123
 msgid "Fit to browser"
 msgstr "Ajustarse al navegador"
 
-#: src/supertux/menu/options_menu.cpp:119
+#: src/supertux/menu/options_menu.cpp:124
 msgid "Fit the resolution to the size of your browser"
 msgstr "Ajusta automáticamente la resolución para que coincida con el tamaño del marco de tu navegador"
 
-#: src/supertux/menu/options_menu.cpp:126
+#: src/supertux/menu/options_menu.cpp:131
 msgid "Frame prediction"
 msgstr "Predicción de cuadros"
 
-#: src/supertux/menu/options_menu.cpp:127
+#: src/supertux/menu/options_menu.cpp:132
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
 msgstr "Movimiento fluido de la cámara, generando cuadros intermedios. Esto lleva un efecto notable en monitores a > 60 Hz. Los objetos en movimiento pueden verse borrosos."
 
-#: src/supertux/menu/options_menu.cpp:129
+#: src/supertux/menu/options_menu.cpp:134
 msgid "Fancy Effects"
 msgstr "Efectos chulos"
 
-#: src/supertux/menu/options_menu.cpp:130
+#: src/supertux/menu/options_menu.cpp:135
 msgid ""
 "Applies fancy effects such as blur, clear tile refraction, and various other"
 " effects deemed \"fancy\". May significantly degrade performance."
 msgstr "Aplica efectos sofisticados como desenfoque, refracción de mosaicos transparentes y otros efectos considerados \"chulos\". Puede reducir significativamente el rendimiento."
 
-#: src/supertux/menu/options_menu.cpp:140
+#: src/supertux/menu/options_menu.cpp:145
 msgid "Camera Peek Multiplier"
 msgstr "Multiplicador de vista previa de cámara"
 
-#: src/supertux/menu/options_menu.cpp:141
+#: src/supertux/menu/options_menu.cpp:146
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
 msgstr "La distancia fraccionaria hacia la posición de vista previa de la cámara para mover cada cuadro.\n\n0 = Sin vista previa, 1 = Vista previa instantánea"
 
-#: src/supertux/menu/options_menu.cpp:143
+#: src/supertux/menu/options_menu.cpp:148
 msgid "Change Video System"
 msgstr "Cambiar el sistema de vídeo"
 
-#: src/supertux/menu/options_menu.cpp:144
+#: src/supertux/menu/options_menu.cpp:149
 msgid "Change video system used to render graphics"
 msgstr "Cambia el método que se usa para dibujar los gráficos"
 
-#: src/supertux/menu/options_menu.cpp:150
+#: src/supertux/menu/options_menu.cpp:155
 #: src/supertux/menu/options_select_menu.cpp:38
 msgid "Audio"
 msgstr "Sonido"
 
-#: src/supertux/menu/options_menu.cpp:155
+#: src/supertux/menu/options_menu.cpp:160
 msgid "Disable all sound effects"
 msgstr "Desactivar los efectos de sonido"
 
-#: src/supertux/menu/options_menu.cpp:157
+#: src/supertux/menu/options_menu.cpp:162
 msgid "Disable all music"
 msgstr "Desactivar toda la música"
 
-#: src/supertux/menu/options_menu.cpp:164
+#: src/supertux/menu/options_menu.cpp:169
 msgid "Sound (disabled)"
 msgstr "Sonido (desactivado)"
 
-#: src/supertux/menu/options_menu.cpp:165
+#: src/supertux/menu/options_menu.cpp:170
 msgid "Music (disabled)"
 msgstr "Música (desactivada)"
 
-#: src/supertux/menu/options_menu.cpp:173
+#: src/supertux/menu/options_menu.cpp:178
 #: src/supertux/menu/options_select_menu.cpp:39
 msgid "Controls"
 msgstr "Controles"
 
-#: src/supertux/menu/options_menu.cpp:178
+#: src/supertux/menu/options_menu.cpp:183
 msgid "Enable Rumbling Controllers"
 msgstr "Activar vibración"
 
-#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:184
 msgid "Enable vibrating the game controllers."
 msgstr "Hace que los mandos vibren durante el juego."
 
-#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:184
 msgid "This feature is currently only used in the multiplayer options menu."
 msgstr "Esto solo funciona en el menú multijugador, al menos de momento."
 
-#: src/supertux/menu/options_menu.cpp:181
+#: src/supertux/menu/options_menu.cpp:186
 msgid "Show Touch Controls"
-msgstr ""
+msgstr "Mostrar controles de toque"
 
-#: src/supertux/menu/options_menu.cpp:182
+#: src/supertux/menu/options_menu.cpp:187
 msgid ""
 "If disabled, touch controls will still work, but the buttons will remain "
 "hidden."
-msgstr ""
+msgstr "Si deshabilitado, los controles de toque seguirán funcionando, pero los botones permanecerán ocultos."
 
-#: src/supertux/menu/options_menu.cpp:184
+#: src/supertux/menu/options_menu.cpp:189
 msgid "Enable Haptic Feedback"
 msgstr "Activar retroalimentación háptica"
 
-#: src/supertux/menu/options_menu.cpp:185
+#: src/supertux/menu/options_menu.cpp:190
 msgid "Enable haptic feedback for touchscreen controls"
 msgstr "Activa la retroalimentación háptica para los controles de pantalla táctil"
 
-#: src/supertux/menu/options_menu.cpp:187
+#: src/supertux/menu/options_menu.cpp:192
 msgid "Only Haptic Feedback for D-Pad"
 msgstr "Solo retroalimentación háptica para el D-Pad"
 
-#: src/supertux/menu/options_menu.cpp:188
+#: src/supertux/menu/options_menu.cpp:193
 msgid "Only enable haptic feedback for the D-Pad"
 msgstr "Activar la retroalimentación háptica únicamente para el D-Pad"
 
-#: src/supertux/menu/options_menu.cpp:192
+#: src/supertux/menu/options_menu.cpp:197
 msgid "Configure key-action mappings"
 msgstr "Configurar mapeo de teclas de acción"
 
-#: src/supertux/menu/options_menu.cpp:195
+#: src/supertux/menu/options_menu.cpp:200
 msgid "Configure joystick control-action mappings"
 msgstr "Configura el mapeo de control de efecto del joystick"
 
-#: src/supertux/menu/options_menu.cpp:202
+#: src/supertux/menu/options_menu.cpp:207
 #: src/supertux/menu/options_select_menu.cpp:40
 msgid "Extras"
 msgstr "Más cosas"
 
-#: src/supertux/menu/options_menu.cpp:205
-#: src/supertux/menu/profile_menu.cpp:56
+#: src/supertux/menu/options_menu.cpp:210
+#: src/supertux/menu/profile_menu.cpp:57
 msgid "Select Profile"
 msgstr "Seleccionar perfil"
 
-#: src/supertux/menu/options_menu.cpp:206
+#: src/supertux/menu/options_menu.cpp:211
 msgid "Select a profile to play with"
 msgstr "Selecciona un perfil para jugar"
 
-#: src/supertux/menu/options_menu.cpp:208
+#: src/supertux/menu/options_menu.cpp:213
 msgid "Multiplayer settings"
 msgstr "Ajustes multijugador"
 
-#: src/supertux/menu/options_menu.cpp:209
+#: src/supertux/menu/options_menu.cpp:214
 msgid "Configure settings specific to multiplayer"
 msgstr "Configura opciones específicas para el modo multijugador"
 
-#: src/supertux/menu/options_menu.cpp:211
+#: src/supertux/menu/options_menu.cpp:216
 msgid "Enable transitions"
 msgstr "Activar transiciones"
 
-#: src/supertux/menu/options_menu.cpp:212
+#: src/supertux/menu/options_menu.cpp:217
 msgid "Enable screen transitions and smooth menu animation"
 msgstr "Permite las transiciones graduales al cambiar de pantalla y el movimiento en los menús"
 
-#: src/supertux/menu/options_menu.cpp:214
+#: src/supertux/menu/options_menu.cpp:219
 msgid "Show game timer"
 msgstr "Mostrar temporizador del juego"
 
-#: src/supertux/menu/options_menu.cpp:215
+#: src/supertux/menu/options_menu.cpp:220
 msgid "Show a game timer while playing a level"
 msgstr "Muestra un temporizador de juego mientras se juega un nivel"
 
-#: src/supertux/menu/options_menu.cpp:217
+#: src/supertux/menu/options_menu.cpp:222
 msgid "Custom title screen levels"
 msgstr "Niveles de pantalla de título personalizados"
 
-#: src/supertux/menu/options_menu.cpp:218
+#: src/supertux/menu/options_menu.cpp:223
 msgid "Allow overriding the title screen level, when loading certain worlds"
 msgstr "Permitir sobrescribir el nivel de la pantalla de título al cargar ciertos mundos"
 
-#: src/supertux/menu/options_menu.cpp:221
+#: src/supertux/menu/options_menu.cpp:226
 msgid "Force Christmas Mode"
 msgstr "Forzar modo navideño"
 
-#: src/supertux/menu/options_menu.cpp:223
+#: src/supertux/menu/options_menu.cpp:228
 msgid "Integrations and presence"
 msgstr "Integraciones y compartir estado de juego"
 
-#: src/supertux/menu/options_menu.cpp:224
+#: src/supertux/menu/options_menu.cpp:229
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
 msgstr "Elige si SuperTux muestra en qué nivel estás jugando para que todos lo vean (Discord)"
 
-#: src/supertux/menu/options_menu.cpp:228
+#: src/supertux/menu/options_menu.cpp:233
 msgid "Customize the appearance of the menus"
 msgstr "Personaliza la apariencia de los menús"
 
-#: src/supertux/menu/options_menu.cpp:235
+#: src/supertux/menu/options_menu.cpp:240
 #: src/supertux/menu/options_select_menu.cpp:41
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: src/supertux/menu/options_menu.cpp:240
+#: src/supertux/menu/options_menu.cpp:245
 msgid "Developer Mode"
 msgstr "Modo desarrollador"
 
-#: src/supertux/menu/options_menu.cpp:242
+#: src/supertux/menu/options_menu.cpp:247
 msgid "Confirm aborting level"
 msgstr "Preguntar antes de salir del nivel"
 
-#: src/supertux/menu/options_menu.cpp:242
+#: src/supertux/menu/options_menu.cpp:247
 msgid "Confirmation Dialog"
 msgstr "Cuadro de confirmación"
 
-#: src/supertux/menu/options_menu.cpp:244
+#: src/supertux/menu/options_menu.cpp:249
 msgid "Pause on focus loss"
 msgstr "Pausar en segundo plano"
 
-#: src/supertux/menu/options_menu.cpp:245
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Automatically pause the game when the window loses focus"
 msgstr "Pausar el juego al cambiar a otra aplicación"
 
-#: src/supertux/menu/options_menu.cpp:248
+#: src/supertux/menu/options_menu.cpp:253
 msgid "Use custom mouse cursor"
 msgstr "Utilizar cursor personalizado"
 
-#: src/supertux/menu/options_menu.cpp:248
+#: src/supertux/menu/options_menu.cpp:253
 msgid "Whether the game renders its own cursor or uses the system's cursor"
 msgstr "Elige si el juego dibuja su propio cursor o utiliza el del sistema"
 
-#: src/supertux/menu/options_menu.cpp:250
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Use native custom cursor"
 msgstr "Utilizar cursor personalizado nativo"
 
-#: src/supertux/menu/options_menu.cpp:250
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Whether the game uses a native custom cursor or renders it in the game"
 msgstr "Si el juego utiliza un cursor personalizado nativo o lo renderiza en el juego"
 
-#: src/supertux/menu/options_menu.cpp:252
+#: src/supertux/menu/options_menu.cpp:257
 msgid "Precise scrolling"
 msgstr "Desplazamiento preciso"
 
-#: src/supertux/menu/options_menu.cpp:253
+#: src/supertux/menu/options_menu.cpp:258
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
 msgstr "La mayoría de los paneles táctiles modernos informan eventos de desplazamiento precisos.\nDesactiva esta opción si el desplazamiento con un ratón convencional te parece inusual o simplemente no te gusta"
 
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:260
 msgid "Invert horizontal scrolling"
 msgstr "Invertir desplazamiento horizontal"
 
-#: src/supertux/menu/options_menu.cpp:256
+#: src/supertux/menu/options_menu.cpp:261
 msgid "Inverts scrolling in the X-axis"
 msgstr "Invierte el desplazamiento en el eje X"
 
-#: src/supertux/menu/options_menu.cpp:258
+#: src/supertux/menu/options_menu.cpp:263
 msgid "Invert vertical scrolling"
 msgstr "Invertir desplazamiento vertical"
 
-#: src/supertux/menu/options_menu.cpp:259
+#: src/supertux/menu/options_menu.cpp:264
 msgid "Inverts scrolling in the Y-axis"
 msgstr "Invierte el desplazamiento en el eje Y"
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:270
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
 msgstr "No intentar escalar ni aplicar ninguna relación de aspecto. Ignora algunos ajustes de video. Útil para máquinas recreativas o pantallas inusuales."
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:270
 msgid "Force full viewport"
 msgstr "Forzar ventana gráfica completa"
 
-#: src/supertux/menu/options_menu.cpp:269
+#: src/supertux/menu/options_menu.cpp:274
 msgid "Check for new releases"
 msgstr "Buscar nuevas actualizaciones"
 
-#: src/supertux/menu/options_menu.cpp:270
+#: src/supertux/menu/options_menu.cpp:275
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr "Permite que el juego compruebe si hay versiones nuevas al arrancar, así como mostrarte un mensaje de notificación."
 
-#: src/supertux/menu/options_menu.cpp:274
+#: src/supertux/menu/options_menu.cpp:279
 msgid "Disable network"
 msgstr "Desactivar red"
 
-#: src/supertux/menu/options_menu.cpp:275
+#: src/supertux/menu/options_menu.cpp:280
 msgid "Prevents the game from connecting online"
 msgstr "Evita que el juego se conecte en línea"
 
-#: src/supertux/menu/options_menu.cpp:277
+#: src/supertux/menu/options_menu.cpp:282
 msgid "Network support is disabled."
 msgstr "El soporte de red está deshabilitado."
 
-#: src/supertux/menu/options_menu.cpp:343
+#: src/supertux/menu/options_menu.cpp:285
+msgid "Open user directory"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:286
+msgid "Open the user directory containing the SuperTux configuration"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:352
 msgid "Magnification"
 msgstr "Ampliación"
 
-#: src/supertux/menu/options_menu.cpp:344
+#: src/supertux/menu/options_menu.cpp:353
 msgid "Change the magnification of the game area"
 msgstr "Hace más o menos grande el área del juego"
 
-#: src/supertux/menu/options_menu.cpp:380
+#: src/supertux/menu/options_menu.cpp:389
 msgid "Aspect Ratio"
 msgstr "Relación de aspecto"
 
-#: src/supertux/menu/options_menu.cpp:381
+#: src/supertux/menu/options_menu.cpp:390
 msgid "Adjust the aspect ratio"
 msgstr "Ajusta la proporción de la imagen en pantalla"
 
-#: src/supertux/menu/options_menu.cpp:408
+#: src/supertux/menu/options_menu.cpp:417
 msgid "Window Resolution"
 msgstr "Resolución de ventana"
 
-#: src/supertux/menu/options_menu.cpp:409
+#: src/supertux/menu/options_menu.cpp:418
 msgid "Resize the window to the given size"
 msgstr "Ajustar la ventana al tamaño configurado"
 
-#: src/supertux/menu/options_menu.cpp:450
+#: src/supertux/menu/options_menu.cpp:461
 msgid "Desktop"
 msgstr "Escritorio"
 
-#: src/supertux/menu/options_menu.cpp:479
+#: src/supertux/menu/options_menu.cpp:490
 msgid "Fullscreen Resolution"
 msgstr "Pantalla completa"
 
-#: src/supertux/menu/options_menu.cpp:480
+#: src/supertux/menu/options_menu.cpp:491
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Elige automáticamente la resolución que mejor se adapte a tu pantalla (reactiva la pantalla completa para que se apliquen los cambios)"
 
-#: src/supertux/menu/options_menu.cpp:486
+#: src/supertux/menu/options_menu.cpp:497
 msgid "on"
 msgstr "sí"
 
-#: src/supertux/menu/options_menu.cpp:487
-#: src/supertux/menu/options_menu.cpp:512
+#: src/supertux/menu/options_menu.cpp:498
+#: src/supertux/menu/options_menu.cpp:523
 msgid "off"
 msgstr "no"
 
-#: src/supertux/menu/options_menu.cpp:488
+#: src/supertux/menu/options_menu.cpp:499
 msgid "adaptive"
 msgstr "adaptarse"
 
-#: src/supertux/menu/options_menu.cpp:506
+#: src/supertux/menu/options_menu.cpp:517
 msgid "VSync"
 msgstr "Sincronización vertical"
 
-#: src/supertux/menu/options_menu.cpp:507
+#: src/supertux/menu/options_menu.cpp:518
 msgid "Set the VSync mode"
 msgstr "Establecer el modo «v-sync», para reducir efecto de pantalla partida"
 
-#: src/supertux/menu/options_menu.cpp:513
+#: src/supertux/menu/options_menu.cpp:524
 msgid "reduced"
-msgstr ""
+msgstr "reducido"
 
-#: src/supertux/menu/options_menu.cpp:514
+#: src/supertux/menu/options_menu.cpp:525
 msgid "full"
-msgstr ""
+msgstr "completo"
 
-#: src/supertux/menu/options_menu.cpp:528
+#: src/supertux/menu/options_menu.cpp:539
 msgid "Screen shake"
-msgstr ""
+msgstr "Sacudida de pantalla"
 
-#: src/supertux/menu/options_menu.cpp:529
+#: src/supertux/menu/options_menu.cpp:540
 msgid "Adjust amount of screen shake effects"
-msgstr ""
+msgstr "Ajusta la cantidad de efectos de sacudida de la pantalla"
 
-#: src/supertux/menu/options_menu.cpp:564
+#: src/supertux/menu/options_menu.cpp:575
 msgid "Sound Volume"
 msgstr "Volumen de sonido"
 
-#: src/supertux/menu/options_menu.cpp:565
+#: src/supertux/menu/options_menu.cpp:576
 msgid "Adjust sound volume"
 msgstr "Ajusta el volumen de los sonidos ambientales"
 
-#: src/supertux/menu/options_menu.cpp:600
+#: src/supertux/menu/options_menu.cpp:611
 msgid "Music Volume"
 msgstr "Volumen de música"
 
-#: src/supertux/menu/options_menu.cpp:601
+#: src/supertux/menu/options_menu.cpp:612
 msgid "Adjust music volume"
 msgstr "Configura el volumen de la música"
 
-#: src/supertux/menu/options_menu.cpp:636
+#: src/supertux/menu/options_menu.cpp:647
 msgid "Flash Intensity"
 msgstr "Intensidad de destellos"
 
-#: src/supertux/menu/options_menu.cpp:637
+#: src/supertux/menu/options_menu.cpp:648
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr "Ajusta la intensidad de destellos producidos por tormentas eléctricas"
 
-#: src/supertux/menu/options_menu.cpp:650
+#: src/supertux/menu/options_menu.cpp:661
 msgid "On-screen controls scale"
 msgstr "Escala de la interfaz durante la partida"
 
-#: src/supertux/menu/options_menu.cpp:781
+#: src/supertux/menu/options_menu.cpp:792
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -5376,61 +5385,65 @@ msgstr "Abrir archivo de partícula"
 msgid "Save particle as"
 msgstr "Guardar partícula como"
 
-#: src/supertux/menu/profile_menu.cpp:60
+#: src/supertux/menu/profile_menu.cpp:61
 msgid "No profiles found."
 msgstr "No se ha encontrado ningún perfil."
 
-#: src/supertux/menu/profile_menu.cpp:68
-#: src/supertux/menu/profile_menu.cpp:149
-#: src/supertux/menu/profile_menu.cpp:168
+#: src/supertux/menu/profile_menu.cpp:69
+#: src/supertux/menu/profile_menu.cpp:155
+#: src/supertux/menu/profile_menu.cpp:173
 msgid "Profile {}"
 msgstr "Perfil {}"
 
-#: src/supertux/menu/profile_menu.cpp:69
+#: src/supertux/menu/profile_menu.cpp:70
 msgid "{} (Profile {})"
 msgstr "{} (Perfil {})"
 
-#: src/supertux/menu/profile_menu.cpp:84
+#: src/supertux/menu/profile_menu.cpp:85
 msgid "No profile selected."
 msgstr "No has elegido ningún perfil."
 
-#: src/supertux/menu/profile_menu.cpp:91 src/supertux/menu/profile_menu.cpp:93
+#: src/supertux/menu/profile_menu.cpp:92 src/supertux/menu/profile_menu.cpp:94
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Rename"
 msgstr "Renombrar"
 
-#: src/supertux/menu/profile_menu.cpp:98
-#: src/supertux/menu/profile_menu.cpp:100
+#: src/supertux/menu/profile_menu.cpp:99
+#: src/supertux/menu/profile_menu.cpp:101
 msgid "Reset"
 msgstr "Restablecer"
 
-#: src/supertux/menu/profile_menu.cpp:103
-#: src/supertux/menu/profile_menu.cpp:105
+#: src/supertux/menu/profile_menu.cpp:104
+#: src/supertux/menu/profile_menu.cpp:106
 msgid "Reset all"
 msgstr "Restablecer todo"
 
-#: src/supertux/menu/profile_menu.cpp:113
-#: src/supertux/menu/profile_menu.cpp:115
+#: src/supertux/menu/profile_menu.cpp:114
+#: src/supertux/menu/profile_menu.cpp:116
 msgid "Delete all"
 msgstr "Borrar todo"
 
-#: src/supertux/menu/profile_menu.cpp:148
+#: src/supertux/menu/profile_menu.cpp:118
+msgid "Open Profile Directory"
+msgstr ""
+
+#: src/supertux/menu/profile_menu.cpp:154
 msgid ""
 "This will reset all game progress on the profile \"{}\".\n"
 "Are you sure?"
 msgstr "Esto restablecerá todo el progreso del juego en el perfil \"{}\".¿Estás seguro?"
 
-#: src/supertux/menu/profile_menu.cpp:157
+#: src/supertux/menu/profile_menu.cpp:163
 msgid "This will reset your game progress on all profiles. Are you sure?"
 msgstr "Esto reiniciará todo tu progreso del juego en todos los perfiles. ¿Estás seguro?"
 
-#: src/supertux/menu/profile_menu.cpp:167
+#: src/supertux/menu/profile_menu.cpp:172
 msgid ""
 "This will delete the profile \"{}\",\n"
 "including all game progress on it. Are you sure?"
 msgstr "Esto borrará el perfil \"{}\", incluyendo todo el progreso del juego. ¿Estás seguro?"
 
-#: src/supertux/menu/profile_menu.cpp:179
+#: src/supertux/menu/profile_menu.cpp:184
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"

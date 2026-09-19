@@ -11,13 +11,13 @@
 # Savsish <alex.ahmetshins@mail.ru>, 2016
 # sdaladman asylum, 2025
 # 85e8e9a0e917e081842b0894245d15cc_1e402b3, 2021
-# Темак, 2022
+# 11fae04751cc88bf0b4daf15dbd7e33d_68cdff3, 2022
 # Dmitry Anikonov <starwars32@yandex.ru>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:53+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Andrei Stepanov, 2018-2019,2021-2022,2024-2026\n"
 "Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
@@ -374,6 +374,13 @@ msgstr "Если он знал, что Нолок будет направлят�
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:9
 msgid "Perhaps that was Nolok's goal with the note he left behind..."
 msgstr "Видимо, это была цель Нолока с письмом, которое он оставил..."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:10
+msgid ""
+"Tux: The thing over there must be the\n"
+"     crystal mine the Yeti was talking\n"
+"     about."
+msgstr "Такс: Вон то штука впереди, должно\n     быть, и есть кристальная шахта,\n     о которой говорил Йети."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"

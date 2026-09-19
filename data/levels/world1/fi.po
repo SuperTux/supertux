@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:53+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jaakko Muilu, 2025-2026\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -81,7 +81,7 @@ msgstr "Tienhaara?"
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
-msgstr "-Salainen maali\n#Kentissä voi joskus olla salaisia maaleja, jotka johtavat vaihtoehtoisille poluille! Siispä pidä arvelluttavia kohtia silmällä maailmankartalla."
+msgstr "-Salainen maali\n#Kentissä voi joskus olla salaisia maaleja, jotka johtavat vaihtoehtoisille poluille! Siispä pidä arveluttavia kohtia silmällä maailmankartalla."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
@@ -243,7 +243,7 @@ msgstr "Poistuessaan kaivoksesta Tux toivoi pohjimmiltaan, että Nolokin viesti 
 msgid ""
 "To his relief, he did find a boat still docked. With it, he could sail up "
 "north, to find Nolok and save Penny."
-msgstr "Tux onnekseen löysi telakoidun veneen. Sillä hän voisi purjehtia pohjoiseen etsiäkseen Nolokin ja pelastaakseen Pennyn."
+msgstr "Tux onnekseen löysi telakoidun veneen. Sillä hän purjehtisi pohjoiseen etsiäkseen Nolokin ja pelastaakseen Pennyn."
 
 #: data/levels/world1/scripts_crystal_mine.txt:8
 msgid "It seemed the map in the note wasn't a trap after all."
@@ -279,11 +279,11 @@ msgstr "Tux alkoi huolestua. Sitten hän näki kirjeen, jossa luki:"
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr "\"Tux, olen kaapannut rakkaan Pennysi ja vienyt hänet linnoitukseeni.\""
+msgstr "\"Tux, olen siepannut rakkaan Pennysi ja vienyt hänet linnoitukseeni.\""
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"Reitti linnoitukselleni on kätyreitteni vartioima.\""
+msgstr "\"Reitti linnoitukselleni on täynnä kätyreitäni.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
@@ -303,7 +303,7 @@ msgstr "Sitten Tux näki Nolokin linnan horisontissa, ja aloitti matkansa pelast
 msgid ""
 "After an entire day of navigating Icy Island, Tux had now almost reached the"
 " supposed castle of Nolok."
-msgstr "Matkattuaan koko päivän Jääsaarella Tux oli melkein saavuttanut Nolokin linnan oletetun sijainnin."
+msgstr "Matkattuaan koko päivän Jääsaarella Tux oli jo melkein päässyt oletettuun Nolokin linnaan."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid ""
@@ -321,7 +321,7 @@ msgstr "Tux ei halunnut hukata enempää aikaa, joten hän jatkoi matkaansa edes
 msgid ""
 "Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
 "close eye on Tux as he continued his journey."
-msgstr "Hänen tietämättään eräs lumimies näytti hyvin innostuneelta hänen länsäolostaan, sillä se piti Tuxia silmällä tämän jatkaessa matkaansa."
+msgstr "Hänen tietämättään eräs lumimies näytti hyvin innokkaalta hänen länsäolostaan, sillä se piti Tuxia silmällä tämän jatkaessa matkaansa."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid ""
@@ -369,6 +369,13 @@ msgstr "Jos hän olisi tiennyt Nolokin menneen sinne aikaisemmin, hän olisi eht
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:9
 msgid "Perhaps that was Nolok's goal with the note he left behind..."
 msgstr "Ehkä se oli Nolokin tavoite, kun hän jätti jälkeensä viestin..."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:10
+msgid ""
+"Tux: The thing over there must be the\n"
+"     crystal mine the Yeti was talking\n"
+"     about."
+msgstr "Tux: Tuon tuolla täytyy olla\nkristallikaivos, josta lumimies\npuhui."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:52+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: X X <vvmsda@orion.rs>, 2018\n"
 "Language-Team: Serbian (http://app.transifex.com/arctic-games/supertux/language/sr/)\n"
@@ -66,13 +66,13 @@ msgid "Graphics"
 msgstr "Графика"
 
 #: data/credits.stxt:189 data/credits.stxt:392 src/object/music_object.hpp:41
-#: src/supertux/menu/options_menu.cpp:156
+#: src/supertux/menu/options_menu.cpp:161
 msgid "Music"
 msgstr "Музика"
 
 #: data/credits.stxt:202 data/credits.stxt:460 src/object/ambient_sound.cpp:87
 #: src/object/sound_object.cpp:70 src/object/sound_object.hpp:40
-#: src/supertux/menu/options_menu.cpp:154
+#: src/supertux/menu/options_menu.cpp:159
 msgid "Sound"
 msgstr "Звук"
 
@@ -389,11 +389,11 @@ msgstr "додаци"
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr "Само један пакет ресурса је дозвољен истовремено."
 
-#: src/addon/addon_manager.cpp:814
+#: src/addon/addon_manager.cpp:813
 msgid "Add-on {} by {} is already installed."
 msgstr "Додатак {} од {} је већ инсталиран."
 
-#: src/addon/addon_manager.cpp:834
+#: src/addon/addon_manager.cpp:833
 msgid "Add-on {} by {} successfully installed."
 msgstr "Додатак {} од {} је успешно инсталиран."
 
@@ -638,7 +638,7 @@ msgstr "Сприт који се користи за стрелицу."
 msgid "Skull"
 msgstr "Лобања"
 
-#: src/badguy/darttrap.hpp:34
+#: src/badguy/darttrap.hpp:74
 msgid "Dart Trap"
 msgstr "Замка за стрелице"
 
@@ -1139,33 +1139,33 @@ msgstr "Зиклинг"
 msgid "Joystick Mappings"
 msgstr "Мапирање џојстика"
 
-#: src/editor/editor.cpp:354
+#: src/editor/editor.cpp:345
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
 msgstr "Напомена: Померајући елементи су сада скривени. Притисните Ctrl+H да бисте их поново приказали."
 
-#: src/editor/editor.cpp:588
+#: src/editor/editor.cpp:579
 msgid "Level saved!"
 msgstr "Ниво сачуван!"
 
-#: src/editor/editor.cpp:618
+#: src/editor/editor.cpp:609
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
 msgstr "Не можете тестирати ниво када играте са светске мапе. Уместо тога, изађите из уређивача нивоа."
 
-#: src/editor/editor.cpp:869
+#: src/editor/editor.cpp:860
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Овај ниво садржи застареле плочице.\nТопло се препоручује да замените све застареле плочице како бисте избегли губитак компатибилности у будућим верзијама."
 
-#: src/editor/editor.cpp:871
+#: src/editor/editor.cpp:862
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Савет: Укључите „Прикажи застареле плочице“ у менију уређивача нивоа."
 
-#: src/editor/editor.cpp:961
+#: src/editor/editor.cpp:952
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1173,33 +1173,33 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Не заборавите да се ваши нивои и средства не чувају између сесија!\nАко желите да задржите своје нивое, преузмите их\nиз менија „Управљање средствима“."
 
-#: src/editor/editor.cpp:1002
+#: src/editor/editor.cpp:993
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr "Овај ниво још није сачуван. Да ли желите да га сачувате уместо тога?"
 
-#: src/editor/editor.cpp:1004
+#: src/editor/editor.cpp:995
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Овај ниво садржи несачуване измене, да ли желите да их сачувате?"
 
-#: src/editor/editor.cpp:1005
+#: src/editor/editor.cpp:996
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Овај ниво може да садржи несачуване измене, да ли желите да их сачувате?"
 
-#: src/editor/editor.cpp:1006 src/gui/dialog.hpp:95
+#: src/editor/editor.cpp:997 src/gui/dialog.hpp:95
 #: src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "Да"
 
-#: src/editor/editor.cpp:1012 src/editor/particle_editor.cpp:779
+#: src/editor/editor.cpp:1003 src/editor/particle_editor.cpp:779
 #: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 msgid "No"
 msgstr "Не"
 
-#: src/editor/editor.cpp:1016 src/editor/particle_editor.cpp:783
+#: src/editor/editor.cpp:1007 src/editor/particle_editor.cpp:783
 #: src/gui/menu_filesystem.cpp:123 src/gui/menu_list.cpp:38
 #: src/gui/menu_paths.cpp:48
 #: src/supertux/menu/editor_level_select_menu.cpp:183
@@ -1215,7 +1215,7 @@ msgstr "Не"
 msgid "Cancel"
 msgstr "Откажи"
 
-#: src/editor/editor.cpp:1135
+#: src/editor/editor.cpp:1126
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1223,21 +1223,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Неки застарели додаци су и даље активни и могу изазвати колизије са подразумеваном структуром СуперТукс-а.\nИ даље можете омогућити ове додатке у менију.\nОнемогућавање ових додатака неће избрисати ваш напредак у игри."
 
-#: src/editor/editor.cpp:1138
+#: src/editor/editor.cpp:1129
 msgid "Disable add-ons"
 msgstr "Искључи додатке"
 
-#: src/editor/editor.cpp:1143
+#: src/editor/editor.cpp:1134
 msgid "Ignore (not advised)"
 msgstr "Игнориши (није препоручљиво)"
 
-#: src/editor/editor.cpp:1147
+#: src/editor/editor.cpp:1138
 msgid "Leave editor"
 msgstr "Напусти едитор"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1493
+#: src/editor/editor.cpp:1501
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1246,7 +1246,7 @@ msgstr "Нисам могао да пронађем сектор са имено
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1500
+#: src/editor/editor.cpp:1508
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1624,39 +1624,39 @@ msgstr "Аутор"
 msgid "License"
 msgstr "Лиценца"
 
-#: src/editor/overlay_widget.cpp:1061
+#: src/editor/overlay_widget.cpp:1065
 msgid "Cannot select deprecated tiles"
 msgstr "Не можете да изаберете застареле плочице"
 
-#: src/editor/overlay_widget.cpp:1700
+#: src/editor/overlay_widget.cpp:1718
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr "Режим аутоматског брисања плочица је укључен („{}“)"
 
-#: src/editor/overlay_widget.cpp:1704
+#: src/editor/overlay_widget.cpp:1722
 msgid "Autotile erasing cannot be performed here"
 msgstr "Аутоматско брисање плочица не може се извршити овде"
 
-#: src/editor/overlay_widget.cpp:1709
+#: src/editor/overlay_widget.cpp:1727
 msgid "Autotile mode is on (\"{}\")"
 msgstr "Режим аутоматског постављања плочица је укључен („{}“)"
 
-#: src/editor/overlay_widget.cpp:1713
+#: src/editor/overlay_widget.cpp:1731
 msgid "Selected tile isn't autotileable"
 msgstr "Изабрана плочица се не може аутоматски поплочати"
 
-#: src/editor/overlay_widget.cpp:1719
+#: src/editor/overlay_widget.cpp:1737
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Држите Ctrl да бисте омогућили аутоматско брисање плочица"
 
-#: src/editor/overlay_widget.cpp:1721
+#: src/editor/overlay_widget.cpp:1739
 msgid "Release Ctrl to use autotile erasing"
 msgstr "Ослободите Ctrl да бисте користили аутоматско брисање плочица"
 
-#: src/editor/overlay_widget.cpp:1726
+#: src/editor/overlay_widget.cpp:1744
 msgid "Hold Ctrl to enable autotile"
 msgstr "Држите Ctrl да бисте омогућили аутоматско постављање плочица"
 
-#: src/editor/overlay_widget.cpp:1728
+#: src/editor/overlay_widget.cpp:1746
 msgid "Release Ctrl to autotile"
 msgstr "Ослободите Ctrl за аутоматско полагање плочица"
 
@@ -1997,7 +1997,7 @@ msgid "Select object ({})"
 msgstr "Изаберите објекат ({})"
 
 #: src/gui/menu_object_select.cpp:50 src/gui/menu_string_array.cpp:79
-#: src/supertux/menu/profile_menu.cpp:88
+#: src/supertux/menu/profile_menu.cpp:89
 msgid "Add"
 msgstr "Додај"
 
@@ -2055,9 +2055,9 @@ msgstr "Путања {}"
 #: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/multiplayer_players_menu.cpp:106
-#: src/supertux/menu/options_menu.cpp:284
+#: src/supertux/menu/options_menu.cpp:293
 #: src/supertux/menu/options_select_menu.cpp:44
-#: src/supertux/menu/profile_menu.cpp:118
+#: src/supertux/menu/profile_menu.cpp:121
 #: src/supertux/menu/profile_name_menu.cpp:45
 #: src/supertux/menu/sorted_contrib_menu.cpp:135
 #: src/supertux/menu/video_system_menu.cpp:52
@@ -2096,8 +2096,8 @@ msgstr "Текст"
 msgid "Insert"
 msgstr "Убаци"
 
-#: src/gui/menu_string_array.cpp:82 src/supertux/menu/profile_menu.cpp:108
-#: src/supertux/menu/profile_menu.cpp:110
+#: src/gui/menu_string_array.cpp:82 src/supertux/menu/profile_menu.cpp:109
+#: src/supertux/menu/profile_menu.cpp:111
 msgid "Delete"
 msgstr "Брисање"
 
@@ -3314,8 +3314,8 @@ msgstr "горе"
 msgid "down"
 msgstr "доле"
 
-#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:307
-#: src/supertux/menu/options_menu.cpp:350
+#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:316
+#: src/supertux/menu/options_menu.cpp:359
 msgid "auto"
 msgstr "аутоматски"
 
@@ -3377,15 +3377,15 @@ msgstr "Најбоље време"
 msgid "Level target time"
 msgstr "Циљно време"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:895
 msgid "New release: SuperTux {}!"
 msgstr "Ново издање: SuperTux {}!"
 
-#: src/supertux/main.cpp:894
+#: src/supertux/main.cpp:896
 msgid "Click for more details."
 msgstr "Кликните за више детаља."
 
-#: src/supertux/main.cpp:897
+#: src/supertux/main.cpp:899
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -3393,7 +3393,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "Доступно је ново издање SuperTux-а ({})! За више информација можете посетити веб-сајт SuperTux-а. Желите ли да сада посетите веб-сајт?"
 
-#: src/supertux/main.cpp:908
+#: src/supertux/main.cpp:910
 msgid "Checking for new releases..."
 msgstr "Провера нових издања..."
 
@@ -3772,7 +3772,7 @@ msgid "No User Contrib Levels yet. Create some with the Level Editor."
 msgstr "Још увек нема нивоа које доприносе корисници. Направите их помоћу Уређивача нивоа."
 
 #: src/supertux/menu/custom_menu_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:227
+#: src/supertux/menu/options_menu.cpp:232
 msgid "Menu Customization"
 msgstr "Прилагођавање менија"
 
@@ -4531,7 +4531,7 @@ msgid "Discord (disabled; not compiled)"
 msgstr "Discord (онемогућен; није компајлиран)"
 
 #: src/supertux/menu/joystick_menu.cpp:54
-#: src/supertux/menu/options_menu.cpp:194
+#: src/supertux/menu/options_menu.cpp:199
 msgid "Setup Joystick"
 msgstr "Подеси џојстик"
 
@@ -4707,7 +4707,7 @@ msgid "Left Command"
 msgstr "Леви Команд"
 
 #: src/supertux/menu/keyboard_menu.cpp:73
-#: src/supertux/menu/options_menu.cpp:191
+#: src/supertux/menu/options_menu.cpp:196
 msgid "Setup Keyboard"
 msgstr "Подеси тастере"
 
@@ -4874,434 +4874,442 @@ msgid ""
 "Do you wish to remove them anyways?"
 msgstr "Упозорење: Играч кога покушавате да уклоните је тренутно у игри.\n\nДа ли желите да га ипак уклоните?"
 
-#: src/supertux/menu/options_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:91
 #: src/supertux/menu/options_select_menu.cpp:35
 msgid "Locale"
 msgstr "Локализација"
 
-#: src/supertux/menu/options_menu.cpp:90
+#: src/supertux/menu/options_menu.cpp:95
 msgid "Select Language"
 msgstr "Изабери језик"
 
-#: src/supertux/menu/options_menu.cpp:91
+#: src/supertux/menu/options_menu.cpp:96
 msgid "Select a different language to display text in"
 msgstr "Изабери језик за приказ текста"
 
-#: src/supertux/menu/options_menu.cpp:93
+#: src/supertux/menu/options_menu.cpp:98
 msgid "Language Packs"
 msgstr "Језички пакети"
 
-#: src/supertux/menu/options_menu.cpp:94
+#: src/supertux/menu/options_menu.cpp:99
 msgid "Language packs contain up-to-date translations"
 msgstr "Језички пакети садрже ажурне преводе"
 
-#: src/supertux/menu/options_menu.cpp:102
+#: src/supertux/menu/options_menu.cpp:107
 #: src/supertux/menu/options_select_menu.cpp:37
 msgid "Video"
 msgstr "Видео"
 
-#: src/supertux/menu/options_menu.cpp:105
+#: src/supertux/menu/options_menu.cpp:110
 msgid "Window Resizable"
 msgstr "Променљива величина прозора"
 
-#: src/supertux/menu/options_menu.cpp:106
+#: src/supertux/menu/options_menu.cpp:111
 msgid "Allow window resizing, might require a restart to take effect"
 msgstr "Дозволи промену величине прозора, можда ће бити потребно поновно покретање да би се применило"
 
-#: src/supertux/menu/options_menu.cpp:110
+#: src/supertux/menu/options_menu.cpp:115
 msgid "Fullscreen"
 msgstr "Пун екран"
 
-#: src/supertux/menu/options_menu.cpp:111
+#: src/supertux/menu/options_menu.cpp:116
 msgid "Fill the entire screen"
 msgstr "Попуњава цео екран"
 
-#: src/supertux/menu/options_menu.cpp:118
+#: src/supertux/menu/options_menu.cpp:123
 msgid "Fit to browser"
 msgstr "Прилагоди прегледачу"
 
-#: src/supertux/menu/options_menu.cpp:119
+#: src/supertux/menu/options_menu.cpp:124
 msgid "Fit the resolution to the size of your browser"
 msgstr "Прилагодите резолуцију величини вашег прегледача"
 
-#: src/supertux/menu/options_menu.cpp:126
+#: src/supertux/menu/options_menu.cpp:131
 msgid "Frame prediction"
 msgstr "Предвиђање фрејмова"
 
-#: src/supertux/menu/options_menu.cpp:127
+#: src/supertux/menu/options_menu.cpp:132
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
 msgstr "Глатко кретање камере, генерисање међукадрова. Ово има приметан ефекат на мониторима на >> 60Hz. Покретни објекти могу бити замућени."
 
-#: src/supertux/menu/options_menu.cpp:129
+#: src/supertux/menu/options_menu.cpp:134
 msgid "Fancy Effects"
 msgstr "Фенси ефекти"
 
-#: src/supertux/menu/options_menu.cpp:130
+#: src/supertux/menu/options_menu.cpp:135
 msgid ""
 "Applies fancy effects such as blur, clear tile refraction, and various other"
 " effects deemed \"fancy\". May significantly degrade performance."
 msgstr "Примењује спектакуларне ефекте као што су замућење, рефракција провидних плочица и разни други ефекти који се сматрају \"спектакуларним\". Може значајно успорити перформансе."
 
-#: src/supertux/menu/options_menu.cpp:140
+#: src/supertux/menu/options_menu.cpp:145
 msgid "Camera Peek Multiplier"
 msgstr "Множитељ камере"
 
-#: src/supertux/menu/options_menu.cpp:141
+#: src/supertux/menu/options_menu.cpp:146
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
 msgstr "Делимична удаљеност од позиције камере за померање сваког кадра.\n\n0 = Без прегледа, 1 = Тренутни преглед"
 
-#: src/supertux/menu/options_menu.cpp:143
+#: src/supertux/menu/options_menu.cpp:148
 msgid "Change Video System"
 msgstr "Промена видео система"
 
-#: src/supertux/menu/options_menu.cpp:144
+#: src/supertux/menu/options_menu.cpp:149
 msgid "Change video system used to render graphics"
 msgstr "Промена видео система који се користи за приказивање графике"
 
-#: src/supertux/menu/options_menu.cpp:150
+#: src/supertux/menu/options_menu.cpp:155
 #: src/supertux/menu/options_select_menu.cpp:38
 msgid "Audio"
 msgstr "Аудио"
 
-#: src/supertux/menu/options_menu.cpp:155
+#: src/supertux/menu/options_menu.cpp:160
 msgid "Disable all sound effects"
 msgstr "Искључује све звучне ефекте"
 
-#: src/supertux/menu/options_menu.cpp:157
+#: src/supertux/menu/options_menu.cpp:162
 msgid "Disable all music"
 msgstr "Искључује сву музику"
 
-#: src/supertux/menu/options_menu.cpp:164
+#: src/supertux/menu/options_menu.cpp:169
 msgid "Sound (disabled)"
 msgstr "Звук (искључен)"
 
-#: src/supertux/menu/options_menu.cpp:165
+#: src/supertux/menu/options_menu.cpp:170
 msgid "Music (disabled)"
 msgstr "Музика (искључена)"
 
-#: src/supertux/menu/options_menu.cpp:173
+#: src/supertux/menu/options_menu.cpp:178
 #: src/supertux/menu/options_select_menu.cpp:39
 msgid "Controls"
 msgstr "КонтролеControls"
 
-#: src/supertux/menu/options_menu.cpp:178
+#: src/supertux/menu/options_menu.cpp:183
 msgid "Enable Rumbling Controllers"
 msgstr "Омогући контролере тутњаве"
 
-#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:184
 msgid "Enable vibrating the game controllers."
 msgstr "Омогућите вибрацију контролера игре."
 
-#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:184
 msgid "This feature is currently only used in the multiplayer options menu."
 msgstr "Ова функција се тренутно користи само у менију опција за више играча."
 
-#: src/supertux/menu/options_menu.cpp:181
+#: src/supertux/menu/options_menu.cpp:186
 msgid "Show Touch Controls"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:182
+#: src/supertux/menu/options_menu.cpp:187
 msgid ""
 "If disabled, touch controls will still work, but the buttons will remain "
 "hidden."
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:184
+#: src/supertux/menu/options_menu.cpp:189
 msgid "Enable Haptic Feedback"
 msgstr "Омогући хаптичку повратну спрегу"
 
-#: src/supertux/menu/options_menu.cpp:185
+#: src/supertux/menu/options_menu.cpp:190
 msgid "Enable haptic feedback for touchscreen controls"
 msgstr "Омогућите хаптичку повратну везу за контроле на екрану осетљивом на додир"
 
-#: src/supertux/menu/options_menu.cpp:187
+#: src/supertux/menu/options_menu.cpp:192
 msgid "Only Haptic Feedback for D-Pad"
 msgstr "Само хаптична повратна информација за Д-пад"
 
-#: src/supertux/menu/options_menu.cpp:188
+#: src/supertux/menu/options_menu.cpp:193
 msgid "Only enable haptic feedback for the D-Pad"
 msgstr "Омогућите хаптички повратни одзив само за Д-пад"
 
-#: src/supertux/menu/options_menu.cpp:192
+#: src/supertux/menu/options_menu.cpp:197
 msgid "Configure key-action mappings"
 msgstr "Подеси команде са тастатуре"
 
-#: src/supertux/menu/options_menu.cpp:195
+#: src/supertux/menu/options_menu.cpp:200
 msgid "Configure joystick control-action mappings"
 msgstr "Подеси команде са џојстика"
 
-#: src/supertux/menu/options_menu.cpp:202
+#: src/supertux/menu/options_menu.cpp:207
 #: src/supertux/menu/options_select_menu.cpp:40
 msgid "Extras"
 msgstr "Додатно"
 
-#: src/supertux/menu/options_menu.cpp:205
-#: src/supertux/menu/profile_menu.cpp:56
+#: src/supertux/menu/options_menu.cpp:210
+#: src/supertux/menu/profile_menu.cpp:57
 msgid "Select Profile"
 msgstr "Изабери профил"
 
-#: src/supertux/menu/options_menu.cpp:206
+#: src/supertux/menu/options_menu.cpp:211
 msgid "Select a profile to play with"
 msgstr "Изабери профил са којим ћеш играти"
 
-#: src/supertux/menu/options_menu.cpp:208
+#: src/supertux/menu/options_menu.cpp:213
 msgid "Multiplayer settings"
 msgstr "Подешавања за више играча"
 
-#: src/supertux/menu/options_menu.cpp:209
+#: src/supertux/menu/options_menu.cpp:214
 msgid "Configure settings specific to multiplayer"
 msgstr "Конфигуришите подешавања специфична за више играча"
 
-#: src/supertux/menu/options_menu.cpp:211
+#: src/supertux/menu/options_menu.cpp:216
 msgid "Enable transitions"
 msgstr "Укључи анимације"
 
-#: src/supertux/menu/options_menu.cpp:212
+#: src/supertux/menu/options_menu.cpp:217
 msgid "Enable screen transitions and smooth menu animation"
 msgstr "Укључи анимације екрана и менија"
 
-#: src/supertux/menu/options_menu.cpp:214
+#: src/supertux/menu/options_menu.cpp:219
 msgid "Show game timer"
 msgstr "Прикажи тајмер игре"
 
-#: src/supertux/menu/options_menu.cpp:215
+#: src/supertux/menu/options_menu.cpp:220
 msgid "Show a game timer while playing a level"
 msgstr "Прикажи тајмер за игру током играња нивое"
 
-#: src/supertux/menu/options_menu.cpp:217
+#: src/supertux/menu/options_menu.cpp:222
 msgid "Custom title screen levels"
 msgstr "Нивои прилагођеног насловног екрана"
 
-#: src/supertux/menu/options_menu.cpp:218
+#: src/supertux/menu/options_menu.cpp:223
 msgid "Allow overriding the title screen level, when loading certain worlds"
 msgstr "Дозволите превазилажење нивоа насловног екрана приликом учитавања одређених светова"
 
-#: src/supertux/menu/options_menu.cpp:221
+#: src/supertux/menu/options_menu.cpp:226
 msgid "Force Christmas Mode"
 msgstr "Присили у Божићни режим"
 
-#: src/supertux/menu/options_menu.cpp:223
+#: src/supertux/menu/options_menu.cpp:228
 msgid "Integrations and presence"
 msgstr "Интеграције и присуство"
 
-#: src/supertux/menu/options_menu.cpp:224
+#: src/supertux/menu/options_menu.cpp:229
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
 msgstr "Одредите да ли СуперТукс треба да приказује нивое које играте на вашим профилима на друштвеним мрежама (Discord)"
 
-#: src/supertux/menu/options_menu.cpp:228
+#: src/supertux/menu/options_menu.cpp:233
 msgid "Customize the appearance of the menus"
 msgstr "Прилагодите изглед менија"
 
-#: src/supertux/menu/options_menu.cpp:235
+#: src/supertux/menu/options_menu.cpp:240
 #: src/supertux/menu/options_select_menu.cpp:41
 msgid "Advanced"
 msgstr "Напредни"
 
-#: src/supertux/menu/options_menu.cpp:240
+#: src/supertux/menu/options_menu.cpp:245
 msgid "Developer Mode"
 msgstr "Програмерски режим"
 
-#: src/supertux/menu/options_menu.cpp:242
+#: src/supertux/menu/options_menu.cpp:247
 msgid "Confirm aborting level"
 msgstr "Потврдите ниво прекида"
 
-#: src/supertux/menu/options_menu.cpp:242
+#: src/supertux/menu/options_menu.cpp:247
 msgid "Confirmation Dialog"
 msgstr "Дијалог за потврду"
 
-#: src/supertux/menu/options_menu.cpp:244
+#: src/supertux/menu/options_menu.cpp:249
 msgid "Pause on focus loss"
 msgstr "Паузирај при губитку фокуса"
 
-#: src/supertux/menu/options_menu.cpp:245
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Automatically pause the game when the window loses focus"
 msgstr "Аутоматски паузирај игру када прозор изгуби фокус"
 
-#: src/supertux/menu/options_menu.cpp:248
+#: src/supertux/menu/options_menu.cpp:253
 msgid "Use custom mouse cursor"
 msgstr "Користите прилагођени курсор миша"
 
-#: src/supertux/menu/options_menu.cpp:248
+#: src/supertux/menu/options_menu.cpp:253
 msgid "Whether the game renders its own cursor or uses the system's cursor"
 msgstr "Да ли игра приказује сопствени курсор или користи системски курсор"
 
-#: src/supertux/menu/options_menu.cpp:250
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Use native custom cursor"
 msgstr "Користи прилагођени курсор"
 
-#: src/supertux/menu/options_menu.cpp:250
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Whether the game uses a native custom cursor or renders it in the game"
 msgstr "Да ли игра користи изворни прилагођени курсор или га приказује у игри"
 
-#: src/supertux/menu/options_menu.cpp:252
+#: src/supertux/menu/options_menu.cpp:257
 msgid "Precise scrolling"
 msgstr "Прецизно скролање"
 
-#: src/supertux/menu/options_menu.cpp:253
+#: src/supertux/menu/options_menu.cpp:258
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
 msgstr "Већина савремених тачпадова пријављује прецизне догађаје скроловања.\nОнемогућите ово ако вам скроловање обичним мишем делује необично или једноставно не волите"
 
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:260
 msgid "Invert horizontal scrolling"
 msgstr "Обратни хоризонтално скролање"
 
-#: src/supertux/menu/options_menu.cpp:256
+#: src/supertux/menu/options_menu.cpp:261
 msgid "Inverts scrolling in the X-axis"
 msgstr "Окретање инвертованог приказа дуж X-осе"
 
-#: src/supertux/menu/options_menu.cpp:258
+#: src/supertux/menu/options_menu.cpp:263
 msgid "Invert vertical scrolling"
 msgstr "Обратни вертикално прескакање"
 
-#: src/supertux/menu/options_menu.cpp:259
+#: src/supertux/menu/options_menu.cpp:264
 msgid "Inverts scrolling in the Y-axis"
 msgstr "Преокретање у Y-осовини"
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:270
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
 msgstr "Не покушавајте да мењате величину или примењујете било који однос страна. Игнорише неке видео поставке. Корисно за аркадне кабине или необичне екране."
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:270
 msgid "Force full viewport"
 msgstr "Присили пуни приказ"
 
-#: src/supertux/menu/options_menu.cpp:269
+#: src/supertux/menu/options_menu.cpp:274
 msgid "Check for new releases"
 msgstr "Проверите нова издања"
 
-#: src/supertux/menu/options_menu.cpp:270
+#: src/supertux/menu/options_menu.cpp:275
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr "Омогућава игри да проверава нова издања СуперТукс-а при покретању и обавештава ако се нека пронађу."
 
-#: src/supertux/menu/options_menu.cpp:274
+#: src/supertux/menu/options_menu.cpp:279
 msgid "Disable network"
 msgstr "Онемогући мрежу"
 
-#: src/supertux/menu/options_menu.cpp:275
+#: src/supertux/menu/options_menu.cpp:280
 msgid "Prevents the game from connecting online"
 msgstr "Спречава игру да се повеже на мрежу"
 
-#: src/supertux/menu/options_menu.cpp:277
+#: src/supertux/menu/options_menu.cpp:282
 msgid "Network support is disabled."
 msgstr "Подршка за мрежу је онемогућена."
 
-#: src/supertux/menu/options_menu.cpp:343
+#: src/supertux/menu/options_menu.cpp:285
+msgid "Open user directory"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:286
+msgid "Open the user directory containing the SuperTux configuration"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:352
 msgid "Magnification"
 msgstr "Увећање"
 
-#: src/supertux/menu/options_menu.cpp:344
+#: src/supertux/menu/options_menu.cpp:353
 msgid "Change the magnification of the game area"
 msgstr "Мења увећање простора за игру"
 
-#: src/supertux/menu/options_menu.cpp:380
+#: src/supertux/menu/options_menu.cpp:389
 msgid "Aspect Ratio"
 msgstr "Размера"
 
-#: src/supertux/menu/options_menu.cpp:381
+#: src/supertux/menu/options_menu.cpp:390
 msgid "Adjust the aspect ratio"
 msgstr "Подешава однос ширине и висине"
 
-#: src/supertux/menu/options_menu.cpp:408
+#: src/supertux/menu/options_menu.cpp:417
 msgid "Window Resolution"
 msgstr "Резолуција прозора"
 
-#: src/supertux/menu/options_menu.cpp:409
+#: src/supertux/menu/options_menu.cpp:418
 msgid "Resize the window to the given size"
 msgstr "Промените величину прозора на дату величину"
 
-#: src/supertux/menu/options_menu.cpp:450
+#: src/supertux/menu/options_menu.cpp:461
 msgid "Desktop"
 msgstr "Радна површина"
 
-#: src/supertux/menu/options_menu.cpp:479
+#: src/supertux/menu/options_menu.cpp:490
 msgid "Fullscreen Resolution"
 msgstr "Резолуција целог екрана"
 
-#: src/supertux/menu/options_menu.cpp:480
+#: src/supertux/menu/options_menu.cpp:491
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Одређује резолуцију за режим пуног екрана (морате укључити Пун екран да довршите измену)"
 
-#: src/supertux/menu/options_menu.cpp:486
+#: src/supertux/menu/options_menu.cpp:497
 msgid "on"
 msgstr "укључено"
 
-#: src/supertux/menu/options_menu.cpp:487
-#: src/supertux/menu/options_menu.cpp:512
+#: src/supertux/menu/options_menu.cpp:498
+#: src/supertux/menu/options_menu.cpp:523
 msgid "off"
 msgstr "искључено"
 
-#: src/supertux/menu/options_menu.cpp:488
+#: src/supertux/menu/options_menu.cpp:499
 msgid "adaptive"
 msgstr "адаптивни"
 
-#: src/supertux/menu/options_menu.cpp:506
+#: src/supertux/menu/options_menu.cpp:517
 msgid "VSync"
 msgstr "VSync"
 
-#: src/supertux/menu/options_menu.cpp:507
+#: src/supertux/menu/options_menu.cpp:518
 msgid "Set the VSync mode"
 msgstr "Подесите VSync режим"
 
-#: src/supertux/menu/options_menu.cpp:513
+#: src/supertux/menu/options_menu.cpp:524
 msgid "reduced"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:514
+#: src/supertux/menu/options_menu.cpp:525
 msgid "full"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:528
+#: src/supertux/menu/options_menu.cpp:539
 msgid "Screen shake"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:529
+#: src/supertux/menu/options_menu.cpp:540
 msgid "Adjust amount of screen shake effects"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:564
+#: src/supertux/menu/options_menu.cpp:575
 msgid "Sound Volume"
 msgstr "Јачина звука"
 
-#: src/supertux/menu/options_menu.cpp:565
+#: src/supertux/menu/options_menu.cpp:576
 msgid "Adjust sound volume"
 msgstr "Подесите јачину звука"
 
-#: src/supertux/menu/options_menu.cpp:600
+#: src/supertux/menu/options_menu.cpp:611
 msgid "Music Volume"
 msgstr "Јачина звука музике"
 
-#: src/supertux/menu/options_menu.cpp:601
+#: src/supertux/menu/options_menu.cpp:612
 msgid "Adjust music volume"
 msgstr "Подесите јачину звука музике"
 
-#: src/supertux/menu/options_menu.cpp:636
+#: src/supertux/menu/options_menu.cpp:647
 msgid "Flash Intensity"
 msgstr "Интензитет блица"
 
-#: src/supertux/menu/options_menu.cpp:637
+#: src/supertux/menu/options_menu.cpp:648
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr "Подесите интензитет блица који производи грмљавина"
 
-#: src/supertux/menu/options_menu.cpp:650
+#: src/supertux/menu/options_menu.cpp:661
 msgid "On-screen controls scale"
 msgstr "Скала контрола на екрану"
 
-#: src/supertux/menu/options_menu.cpp:781
+#: src/supertux/menu/options_menu.cpp:792
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -5356,61 +5364,65 @@ msgstr "Учитај датотеку честица"
 msgid "Save particle as"
 msgstr "Сачувај честицу као"
 
-#: src/supertux/menu/profile_menu.cpp:60
+#: src/supertux/menu/profile_menu.cpp:61
 msgid "No profiles found."
 msgstr "Није пронађен ниједан профил."
 
-#: src/supertux/menu/profile_menu.cpp:68
-#: src/supertux/menu/profile_menu.cpp:149
-#: src/supertux/menu/profile_menu.cpp:168
+#: src/supertux/menu/profile_menu.cpp:69
+#: src/supertux/menu/profile_menu.cpp:155
+#: src/supertux/menu/profile_menu.cpp:173
 msgid "Profile {}"
 msgstr "Профил {}"
 
-#: src/supertux/menu/profile_menu.cpp:69
+#: src/supertux/menu/profile_menu.cpp:70
 msgid "{} (Profile {})"
 msgstr "{} (Профил {})"
 
-#: src/supertux/menu/profile_menu.cpp:84
+#: src/supertux/menu/profile_menu.cpp:85
 msgid "No profile selected."
 msgstr "Није изабран профил."
 
-#: src/supertux/menu/profile_menu.cpp:91 src/supertux/menu/profile_menu.cpp:93
+#: src/supertux/menu/profile_menu.cpp:92 src/supertux/menu/profile_menu.cpp:94
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Rename"
 msgstr "Преименуј"
 
-#: src/supertux/menu/profile_menu.cpp:98
-#: src/supertux/menu/profile_menu.cpp:100
+#: src/supertux/menu/profile_menu.cpp:99
+#: src/supertux/menu/profile_menu.cpp:101
 msgid "Reset"
 msgstr "Ресетуј"
 
-#: src/supertux/menu/profile_menu.cpp:103
-#: src/supertux/menu/profile_menu.cpp:105
+#: src/supertux/menu/profile_menu.cpp:104
+#: src/supertux/menu/profile_menu.cpp:106
 msgid "Reset all"
 msgstr "Поништи све"
 
-#: src/supertux/menu/profile_menu.cpp:113
-#: src/supertux/menu/profile_menu.cpp:115
+#: src/supertux/menu/profile_menu.cpp:114
+#: src/supertux/menu/profile_menu.cpp:116
 msgid "Delete all"
 msgstr "Избриши све"
 
-#: src/supertux/menu/profile_menu.cpp:148
+#: src/supertux/menu/profile_menu.cpp:118
+msgid "Open Profile Directory"
+msgstr ""
+
+#: src/supertux/menu/profile_menu.cpp:154
 msgid ""
 "This will reset all game progress on the profile \"{}\".\n"
 "Are you sure?"
 msgstr "Ово ће ресетовати сав напредак у игри на профилу „0}“.\nЈеси ли сигуран/сигурна?"
 
-#: src/supertux/menu/profile_menu.cpp:157
+#: src/supertux/menu/profile_menu.cpp:163
 msgid "This will reset your game progress on all profiles. Are you sure?"
 msgstr "Ово ће ресетовати ваш напредак у игри на свим профилима. Јесте ли сигурни?"
 
-#: src/supertux/menu/profile_menu.cpp:167
+#: src/supertux/menu/profile_menu.cpp:172
 msgid ""
 "This will delete the profile \"{}\",\n"
 "including all game progress on it. Are you sure?"
 msgstr "Овим ћете избрисати профил „{}“, укључујући сав напредак у игри на њему. Јесте ли сигурни?"
 
-#: src/supertux/menu/profile_menu.cpp:179
+#: src/supertux/menu/profile_menu.cpp:184
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"
