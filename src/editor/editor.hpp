@@ -107,7 +107,6 @@ public:
     m_project->set_level_file(levelfile);
     m_reload_request = true;
   }
-  void set_sector(Sector* sector);
 
   inline bool is_testing_level() const { return m_leveltested; }
 
@@ -134,7 +133,6 @@ public:
 
   void scroll(const Vector& velocity);
   void update_camera(Camera& camera, float dt_sec);
-  void keep_camera_in_bounds();
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
