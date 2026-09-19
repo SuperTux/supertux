@@ -245,13 +245,13 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           TileMap* tilemap = m_layer_icons[m_hovered_layer]->get_layer_tilemap();
           if (tilemap) {
             set_selected_tilemap(tilemap);
-            m_editor.edit_path(tilemap->get_path_gameobject(), tilemap);
             m_editor.select_object(tilemap);
+            m_editor.edit_object_path(tilemap);
           } else {
             auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->get_layer());
             if (cam) {
-              m_editor.edit_path(cam->get_path_gameobject(), cam);
               m_editor.select_object(cam);
+              m_editor.edit_object_path(cam);
             }
           }
         }

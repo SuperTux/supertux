@@ -69,7 +69,7 @@ public:
   void update_node_iterators();
   void on_level_change();
 
-  void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
+  void edit_object_path(GameObject* object = nullptr);
   //void reset_action_press();
 
   inline Vector get_sector_pos() const { return m_sector_pos; }

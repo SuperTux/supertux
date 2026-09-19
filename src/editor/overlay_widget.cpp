@@ -614,9 +614,18 @@ EditorOverlayWidget::hover_object()
 }
 
 void
-EditorOverlayWidget::edit_path(PathGameObject* path, GameObject* new_marked_object)
+EditorOverlayWidget::edit_object_path(GameObject* object)
 {
-  if (!path) return;
+  auto path_object = dynamic_cast<PathObject *>(object);
+
+  if (!path_object)
+    return;
+
+  auto path = path_object->get_path_gameobject();
+
+  if (!path)
+    return;
+
   delete_markers();
 
   if (!path->is_valid())
@@ -626,8 +635,10 @@ EditorOverlayWidget::edit_path(PathGameObject* path, GameObject* new_marked_obje
   }
   m_edited_path = path;
   m_edited_path->get_path().edit_path();
-  if (new_marked_object) {
-    m_selected_object = new_marked_object;
+
+  if (object)
+  {
+    m_selected_object = object;
   }
 }
 
@@ -644,11 +655,7 @@ EditorOverlayWidget::select_object()
     return;
   }
 
-  auto path_obj = dynamic_cast<PathObject*>(m_dragged_object.get());
-
-  if (path_obj && path_obj->get_path_gameobject()) {
-    edit_path(path_obj->get_path_gameobject(), m_dragged_object.get());
-  }
+  edit_object_path(m_dragged_object.get());
 }
 
 void
