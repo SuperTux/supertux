@@ -63,7 +63,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
     {
       assert(tilebox.get_input_type() == EditorTilebox::InputType::OBJECT);
 
-      m_editor.get_sector()->add_object(GameObjectFactory::instance().create(tilebox.get_object()));
+      m_editor.get_project()->get_sector()->add_object(GameObjectFactory::instance().create(tilebox.get_object()));
       m_add_layer_box_visible = false;
     });
 }
@@ -122,7 +122,7 @@ EditorLayersWidget::draw(DrawingContext& context)
                                        LAYER_GUI-5);
   }
 
-  if (!m_editor.is_level_loaded()) {
+  if (!m_editor.get_project()->is_level_loaded()) {
     return;
   }
 
@@ -403,8 +403,11 @@ EditorLayersWidget::setup()
 void
 EditorLayersWidget::refresh()
 {
+  auto editor_project = m_editor.get_project();
+  auto sector = editor_project->get_sector();
+
   m_layer_icons.clear();
-  for (const auto& obj : m_editor.get_sector()->get_objects())
+  for (const auto& obj : sector->get_objects())
     add_layer(obj.get(), true);
 
   sort_layers();
@@ -414,7 +417,8 @@ EditorLayersWidget::refresh()
 void
 EditorLayersWidget::refresh_sector_text()
 {
-  m_sector_text = fmt::format(fmt::runtime(_("Sector: {}")), m_editor.get_sector()->get_name());
+  auto sector = m_editor.get_project()->get_sector();
+  m_sector_text = fmt::format(fmt::runtime(_("Sector: {}")), sector->get_name());
   m_sector_text_width  = int(Resources::normal_font->get_text_width(m_sector_text)) + 6;
 }
 
@@ -532,7 +536,9 @@ EditorLayersWidget::remove_invalid_layers()
 TileMap*
 EditorLayersWidget::get_selected_tilemap() const
 {
-  return m_editor.get_sector()->get_object_by_uid<TileMap>(m_selected_tilemap);
+  auto editor_project = m_editor.get_project();
+  auto sector = editor_project->get_sector();
+  return sector->get_object_by_uid<TileMap>(m_selected_tilemap);
 }
 
 void

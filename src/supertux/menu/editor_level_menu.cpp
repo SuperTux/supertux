@@ -23,9 +23,9 @@
 #include "util/log.hpp"
 
 EditorLevelMenu::EditorLevelMenu() :
-  old_tileset(Editor::current()->get_level()->m_tileset)
+  old_tileset(Editor::current()->get_project()->get_level()->m_tileset)
 {
-  auto level = Editor::current()->get_level();
+  auto level = Editor::current()->get_project()->get_level();
   bool is_worldmap = level->is_worldmap();
 
   add_label(is_worldmap ? _("Worldmap Settings") :_("Level Settings"));
@@ -62,7 +62,11 @@ EditorLevelMenu::~EditorLevelMenu()
   if (editor == nullptr) {
     return;
   }
-  if (editor->get_level()->m_tileset != old_tileset) {
+
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
+
+  if (level->m_tileset != old_tileset) {
     try
     {
       editor->change_tileset();
@@ -83,8 +87,10 @@ EditorLevelMenu::menu_action(MenuItem& item)
 bool
 EditorLevelMenu::on_back_action()
 {
-  auto level = Editor::current()->get_level();
-  if (!level->m_name.empty() && !level->m_author.empty() && !level->m_license.empty() || Editor::current()->is_temp_level())
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
+  if (!level->m_name.empty() && !level->m_author.empty() && !level->m_license.empty() || editor_project->is_temp_level())
   {
     return true;
   }
