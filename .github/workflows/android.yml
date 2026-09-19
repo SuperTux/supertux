@@ -114,7 +114,7 @@ jobs:
           cache: 'gradle'
 
       - name: Setup Android environment
-        uses: android-actions/setup-android@v2
+        uses: android-actions/setup-android@v4
         with:
           packages: |
             platforms;android-${{ env.SDK_VERSION }}
