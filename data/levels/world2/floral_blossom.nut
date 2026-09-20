@@ -30,7 +30,7 @@ function textbox_intro()
 
   wait(1);
 
-  Text.set_text(_("The ground was riddled with cracks and crevices. And now one of them was blocking Tux's path..."));
+  Text.set_text(_("The ground was riddled with cracks and crevices, and now one of them was blocking Tux's path..."));
   Text.fade_in(0.5);
   wait(3);
   Text.fade_out(0.5);
@@ -44,7 +44,7 @@ function textbox_intro()
 
   wait(1);
 
-  Text.set_text(_("The Granito spoke of 3 groups of his fellow Granito who had gotten lost while trying to escape the roots to the east coast."));
+  Text.set_text(_("The Granito spoke of three groups of his fellow Granito who had gotten lost while trying to escape the roots near the east coast."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -74,49 +74,49 @@ function textbox_outro()
 
   wait(1);
 
-  Text.set_text(_("He was glad there were more Granito that had survived the Ghost Tree's overgrowth."));
+  Text.set_text(_("He was glad there were more Granito that had survived the Ghost Tree's corruption."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
 
   wait(1);
 
-  Text.set_text(_("One of the Granito asked him what a penguin like him was doing so far from the Antarctic."));
+  Text.set_text(_("One of the Granito asked Tux what a penguin like himself was doing so far from the Antarctic."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
 
   wait(1);
 
-  Text.set_text(_("Tux replied that he was looking for his friend Penny and that she was captured by an evil creature named \"Nolok\". A name the Granito remembered unpleasantly..."));
+  Text.set_text(_("Tux replied that he was looking for his friend Penny, and that she was captured by an evil creature named \"Nolok\" – a name the Granito remembered unpleasantly..."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
 
   wait(1);
 
-  Text.set_text(_("The Granito mentioned they knew Nolok's homeland. But whether he still called it his home or if he held Penny there, they did not know for certain."));
+  Text.set_text(_("The Granito mentioned they knew Nolok's homeland, but whether he still called it his home or if he held Penny there, they did not know for certain."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
 
   wait(1);
 
-  Text.set_text(_("They offered to show Tux the way. It was the least they could do to show their gratitute."));
+  Text.set_text(_("They offered to show Tux the way. It was the least they could do to show their gratitude."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
 
   wait(1);
 
-  Text.set_text(_("Tux gladly accepted, and together with a handful of Granito they soon began their journey to the tropics, in the northeast."));
+  Text.set_text(_("Tux gladly accepted their offer. Together with a handful of Granito, he soon began his journey to the tropics, in the northeast."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
 
   wait(1);
 
-  Text.set_text(_("The remaining Granito would stay behind, slowly rebuilding their home, now that the corruption was finally vanquished..."));
+  Text.set_text(_("The remaining Granito would stay behind, slowly rebuilding their home, now that the corruption had finally died away..."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
