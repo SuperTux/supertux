@@ -21,7 +21,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   #   install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
   # endforeach()
 
-  install(IMPORTED_RUNTIME_ARTIFACTS supertux2 LIBRARY DESTINATION "MacOS")
+  install(IMPORTED_RUNTIME_ARTIFACTS supertux2 RUNTIME_DEPENDENCY_SET supertux2_deps)
+  install(RUNTIME_DEPENDENCY_SET supertux2_deps LIBRARY DESTINATION "MacOS"
+)
 
   install(CODE "
        if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
