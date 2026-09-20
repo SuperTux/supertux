@@ -878,8 +878,8 @@ BadGuy::run_dead_script()
 
     for (int i = 0; i < num_coins; ++i)
     {
-      auto velocity = Vector(graphicsRandom.randf(-96.0f, 96.0f));
-      sector.add<HeavyCoin>(Vector(coin_x, coin_y), velocity, 0.0f);
+      auto velocity = Vector(graphicsRandom.randf(-96.0f, 96.0f), 0.0f);
+      sector.add<HeavyCoin>(Vector(coin_x, coin_y), velocity);
     }
   }
 
