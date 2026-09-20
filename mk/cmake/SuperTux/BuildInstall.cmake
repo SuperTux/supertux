@@ -57,8 +57,7 @@ if(WIN32 AND CMAKE_HOST_WIN32)
           DESTINATION ${INSTALL_SUBDIR_BIN}
           RUNTIME_DEPENDENCIES PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
                                POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
-                               DIRECTORIES $<TARGET_RUNTIME_DLL_DIRS:supertux2>
-          RUNTIME_DEPENDENCY_SET supertux2_deps)
+                               DIRECTORIES $<TARGET_RUNTIME_DLL_DIRS:supertux2>)
 else()
   install(TARGETS supertux2
           DESTINATION ${INSTALL_SUBDIR_BIN}
