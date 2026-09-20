@@ -9265,6 +9265,7 @@
 
 (tiles
   (width 3)(height 2)
+  (images "tiles/forest/slime.png")
   (ids
     8015 8016 8017
     8018 8019 8020
@@ -9277,11 +9278,11 @@
     0 0 0
     0 0 0
   )
-  (images "tiles/forest/slime.png")
 )
 
 (tiles
   (width 3)(height 2)
+  (images "tiles/ghostwood/ghost_slime.png")
   (ids
     8021 8022 8023
     8024 8025 8026
@@ -9294,11 +9295,127 @@
     0 0 0
     0 0 0
   )
-  (images "tiles/ghostwood/ghost_slime.png")
+)
+
+(tiles
+  (width 2)(height 3)
+  (images "tiles/forest/variants2.png")
+  (ids
+    8027 8028
+    8029 8030
+    8031 8032
+  )
+  (attributes
+    17 17
+    17 17
+    17 17
+  )
+  (datas
+    18 16
+    2  0
+    50 64
+  )
+)
+(tiles
+  (width 2)(height 3)
+  (images "tiles/forest/underground/special2_nograss.png")
+  (ids
+    8033 8034
+    8035 8036
+    8037 8038
+  )
+  (attributes
+    17 17
+    17 17
+    17 17
+  )
+  (datas
+    18 16
+    2  0
+    50 64
+  )
+)
+
+(tiles
+  (width 2)(height 3)
+  (images "tiles/ghostwood/variants2_ghost.png")
+  (ids
+    8039 8040
+    8041 8042
+    8043 8044
+  )
+  (attributes
+    17 17
+    17 17
+    17 17
+  )
+  (datas
+    18 16
+    2  0
+    50 64
+  )
+)
+(tiles
+  (width 2)(height 3)
+  (images "tiles/ghostwood/underground/corrupt_special2_nograss.png")
+  (ids
+    8045 8046
+    8047 8048
+    8049 8050
+  )
+  (attributes
+    17 17
+    17 17
+    17 17
+  )
+  (datas
+    18 16
+    2  0
+    50 64
+  )
+)
+
+(tiles
+  (width 2)(height 3)
+  (images "tiles/snow/ice-floor-special2.png")
+  (ids
+    8051 8052
+    8053 8054
+    8055 8056
+  )
+  (attributes
+    17 17
+    17 17
+    17 17
+  )
+  (datas
+    18 16
+    2  0
+    50 64
+  )
+)
+(tiles
+  (width 2)(height 3)
+  (images "tiles/snow/underground/special3.png")
+  (ids
+    8057 8058
+    8059 8060
+    8061 8062
+  )
+  (attributes
+    17 17
+    17 17
+    17 17
+  )
+  (datas
+    18 16
+    2  0
+    50 64
+  )
 )
 
 
-  
+
   ;; Additional attributes
   (additional
     (thunderstorm
