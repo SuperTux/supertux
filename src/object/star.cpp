@@ -80,7 +80,7 @@ Star::collision_solid(const CollisionHit& hit)
   if (hit.bottom) {
     physic.set_velocity_y(JUMPSTAR_SPEED);
   } else if (hit.top) {
-    physic.set_velocity_y(0);
+    physic.set_velocity_y(-JUMPSTAR_SPEED);
   } else if (hit.left || hit.right) {
     physic.set_velocity_x(-physic.get_velocity_x());
   }
