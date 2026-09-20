@@ -369,6 +369,48 @@ function free_granito3()
   end_cutscene();
 }
 
+function check_first_group_freed()
+{
+  if(granito_freed < 1)
+  {
+    granito_freed = 1
+    Text.set_text(_("You have 1 Granito Group saved!"));
+    Text.fade_in(0.5);
+    wait(2);
+    Text.fade_out(0.5);
+  }
+  else if(granito_freed >= 1)
+  {
+    Text.set_text(_("Everything is as it should be!"));
+    Text.fade_in(0.5);
+    wait(2);
+    Text.fade_out(0.5);
+  }
+}
+
+sector.check_first_group_freed <- check_first_group_freed;
+
+function check_second_group_freed()
+{
+  if(granito_freed < 2)
+  {
+    granito_freed = 1
+    Text.set_text(_("You have 2 Granito Group saved!"))
+    Text.fade_in(0.5);
+    wait(2);
+    Text.fade_out(0.5);
+  }
+  else if(granito_freed >= 2)
+  {
+    Text.set_text(_("Everything is as it should be!"))
+    Text.fade_in(0.5);
+    wait(2);
+    Text.fade_out(0.5);
+  }
+}
+
+sector.check_second_group_freed <- check_second_group_freed;
+
 function check_granito_freed()
 {
   if(granito_freed >= 3)

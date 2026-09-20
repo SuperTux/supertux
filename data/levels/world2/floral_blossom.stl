@@ -593,19 +593,7 @@ trigger_state(\"textbox_intro\");
       (y 800)
     )
     (scripttrigger
-      (script "if(granito_freed < 1) {
-  granito_freed = 1
-  Text.set_text(\"You have 1 Granito Group saved!\")
-  Text.fade_in(0.5);
-  wait(2);
-  Text.fade_out(0.5);
-}
-else if(granito_freed >= 1) {
-  Text.set_text(\"Everything is as it should be!\")
-  Text.fade_in(0.5);
-  wait(2);
-  Text.fade_out(0.5);
-}")
+      (script "check_first_group_freed()")
       (button #f)
       (width 52)
       (height 192)
@@ -613,19 +601,7 @@ else if(granito_freed >= 1) {
       (y 1560)
     )
     (scripttrigger
-      (script "if(granito_freed < 2) {
-  granito_freed = 1
-  Text.set_text(\"You have 2 Granito Group saved!\")
-  Text.fade_in(0.5);
-  wait(2);
-  Text.fade_out(0.5);
-}
-else if(granito_freed >= 2) {
-  Text.set_text(\"Everything is as it should be!\")
-  Text.fade_in(0.5);
-  wait(2);
-  Text.fade_out(0.5);
-}")
+      (script "check_second_group_freed()")
       (button #f)
       (width 96)
       (height 192)
