@@ -58,7 +58,7 @@ function textbox_intro()
 
   wait(1);
 
-  Text.set_text(_("Tux agreed to help! Soon after, he noticed a decaying root revealing a path underneath, so he began his search for the lost Granito."));
+  Text.set_text(_("Tux agreed to help! Soon after, he noticed a decaying root revealing a path leading underground, so he began his search for the lost Granito."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -109,7 +109,7 @@ function textbox_outro()
 
   wait(1);
 
-  Text.set_text(_("Tux gladly accepted and together with a handful of Granito they soon made their way to the tropics, in the north-east."));
+  Text.set_text(_("Tux gladly accepted, and together with a handful of Granito they soon began their journey to the tropics, in the northeast."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
