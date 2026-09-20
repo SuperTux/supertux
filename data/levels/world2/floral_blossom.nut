@@ -395,7 +395,7 @@ function check_second_group_freed()
   if(granito_freed < 2)
   {
     granito_freed = 1
-    Text.set_text(_("You have 2 Granito Group saved!"))
+    Text.set_text(_("You have 2 Granito Groups saved!"))
     Text.fade_in(0.5);
     wait(2);
     Text.fade_out(0.5);
