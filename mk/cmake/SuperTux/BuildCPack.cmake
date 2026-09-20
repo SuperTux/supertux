@@ -23,12 +23,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
 
   install(IMPORTED_RUNTIME_ARTIFACTS supertux2 DESTINATION "MacOS")
 
-  install(CODE "
-       if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
-       include(BundleUtilities)
-       fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
-       endif()
-       ")
+  # install(CODE "
+  #      if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
+  #      include(BundleUtilities)
+  #      fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
+  #      endif()
+  #      ")
 
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
 
