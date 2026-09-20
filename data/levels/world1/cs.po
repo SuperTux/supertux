@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:53+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2022,2025-2026\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
@@ -372,6 +372,13 @@ msgstr "Kdyby věděl, že tam Nolok šel dříve, mohl tam už dávno být"
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:9
 msgid "Perhaps that was Nolok's goal with the note he left behind..."
 msgstr "Možná to byl Nolokův cíl, když za sebou zanechal tu poznámku..."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:10
+msgid ""
+"Tux: The thing over there must be the\n"
+"     crystal mine the Yeti was talking\n"
+"     about."
+msgstr "Tux: Tohle musí být křišťálový důl,\n  o kterém mluvil Yeti."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"

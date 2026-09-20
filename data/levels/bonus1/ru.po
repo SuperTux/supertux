@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Alexander Polyanski, 2025
-# Andrei Stepanov, 2018-2019,2021,2024
+# Andrei Stepanov, 2018-2019,2021,2024,2026
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 23:04+0000\n"
-"Last-Translator: Alexander Polyanski, 2025\n"
+"Last-Translator: Andrei Stepanov, 2018-2019,2021,2024,2026\n"
 "Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,7 +131,7 @@ msgstr "Всё ещё слишком легко"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr "Полу-замёрзший"
+msgstr "Полузамёрзший"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
@@ -175,23 +175,23 @@ msgstr "Выйти из острова команды SuperTux'а"
 
 #: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
-msgstr "Переместиться в зону Abednego"
+msgstr "Переместиться в зону Абеднего"
 
 #: data/levels/bonus1/worldmap.stwm:172 data/levels/bonus1/worldmap.stwm:262
 msgid "Leave Torfi's Territory"
-msgstr "Выйти из территории Torfi"
+msgstr "Покинуть территорию Торфи"
 
 #: data/levels/bonus1/worldmap.stwm:179 data/levels/bonus1/worldmap.stwm:207
 msgid "Leave Abednego's Area"
-msgstr "Выйти из зоны Abednego"
+msgstr "Покинуть зону Абеднего"
 
 #: data/levels/bonus1/worldmap.stwm:186 data/levels/bonus1/worldmap.stwm:234
 msgid "Leave Thompson's Domain"
-msgstr "Выйти из области Thompson'а"
+msgstr "Покинуть область Томсона"
 
 #: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
-msgstr "Вернуться в сектор Matr1x'а"
+msgstr "Вернуться в сектор Матр1кса"
 
 #: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
@@ -203,7 +203,7 @@ msgstr "Переместиться на остров команды SuperTux'а"
 
 #: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
-msgstr "Выйти из сектора Matr1x'а"
+msgstr "Покинуть сектор Матр1кса"
 
 #: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
@@ -211,4 +211,4 @@ msgstr "Продолжить сектор Матр1кса"
 
 #: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"
-msgstr "Переместиться на территорию Torfi"
+msgstr "Перескочить на территорию Торфи"

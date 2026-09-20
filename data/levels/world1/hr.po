@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:53+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: 9c8b4d6ac7d832f4054ebaee3aff066e_7360642 <3855c9e76d424e88fbb359b5497feb63_122043>, 2013\n"
 "Language-Team: Croatian (http://app.transifex.com/arctic-games/supertux/language/hr/)\n"
@@ -370,6 +370,13 @@ msgstr "Da je znao da je Nolok tamo ranije otišao, mogao je stići puno brže."
 #: data/levels/world1/scripts_yetiwin_cutscene.txt:9
 msgid "Perhaps that was Nolok's goal with the note he left behind..."
 msgstr "Možda je to bio Nolokov cilj s porukom koju je ostavio..."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:10
+msgid ""
+"Tux: The thing over there must be the\n"
+"     crystal mine the Yeti was talking\n"
+"     about."
+msgstr ""
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"

@@ -139,17 +139,23 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
   if (m_sprite->get_action() == "squished")
     return;
 
-
-  if (hit.bottom) {
-    if (get_state() == STATE_ACTIVE) {
-      float bounce_speed = -m_physic.get_velocity_y()*0.8f;
-      m_physic.set_velocity_y(std::min(JUMPSPEED, bounce_speed));
-      set_action(m_dir, "up", /* loops = */ 1);
-    } else {
-      m_physic.set_velocity_y(0);
-    }
-  } else if (hit.top) {
+  if ((hit.bottom || hit.top) && get_state() != STATE_ACTIVE)
+  {
     m_physic.set_velocity_y(0);
+    return;
+  }
+
+  if (hit.bottom)
+  {
+    float bounce_speed = -m_physic.get_velocity_y() * 0.8f;
+    m_physic.set_velocity_y(std::min(JUMPSPEED, bounce_speed));
+    set_action(m_dir, "up", /* loops = */ 1);
+  }
+  else if (hit.top)
+  {
+    float bounce_speed = -m_physic.get_velocity_y();
+    m_physic.set_velocity_y(std::min(-JUMPSPEED, bounce_speed));
+    set_action(m_dir, "down", /* loops = */ 1);
   }
 
   //Left/right collisions handled in update because otherwise we would get weird wall-hugging behavior.

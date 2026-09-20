@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:52+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Jaakko Muilu, 2025-2026\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -67,13 +67,13 @@ msgid "Graphics"
 msgstr "Grafiikka"
 
 #: data/credits.stxt:189 data/credits.stxt:392 src/object/music_object.hpp:41
-#: src/supertux/menu/options_menu.cpp:156
+#: src/supertux/menu/options_menu.cpp:161
 msgid "Music"
 msgstr "Musiikki"
 
 #: data/credits.stxt:202 data/credits.stxt:460 src/object/ambient_sound.cpp:87
 #: src/object/sound_object.cpp:70 src/object/sound_object.hpp:40
-#: src/supertux/menu/options_menu.cpp:154
+#: src/supertux/menu/options_menu.cpp:159
 msgid "Sound"
 msgstr "Äänet"
 
@@ -263,7 +263,7 @@ msgstr "Puut ja kivet"
 
 #: data/images/ice_world.strf:500
 msgid "Seasonal"
-msgstr "Sesongit"
+msgstr "Kausittaiset"
 
 #: data/images/ice_world.strf:611
 msgid "Structure"
@@ -390,11 +390,11 @@ msgstr "lisäosaa"
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr "Vain yksi resurssipaketti voi olla käytössä kerrallaan."
 
-#: src/addon/addon_manager.cpp:814
+#: src/addon/addon_manager.cpp:813
 msgid "Add-on {} by {} is already installed."
 msgstr "Lisäosa {}, jonka tekijä on {}, on jo asennettu."
 
-#: src/addon/addon_manager.cpp:834
+#: src/addon/addon_manager.cpp:833
 msgid "Add-on {} by {} successfully installed."
 msgstr "Lisäosa {}, jonka tekijä on {}, on asennettu."
 
@@ -548,7 +548,7 @@ msgstr "Alas"
 
 #: src/badguy/crusher.cpp:1249 src/object/gradient.cpp:102
 msgid "Horizontal"
-msgstr "Pystysuuntainen"
+msgstr "Sivusuuntainen"
 
 #: src/badguy/crusher.cpp:1249 src/math/anchor_point.cpp:36
 #: src/object/textscroller.cpp:365 src/object/textscroller.cpp:376
@@ -571,7 +571,7 @@ msgstr "Ylös"
 
 #: src/badguy/crusher.cpp:1249 src/object/gradient.cpp:102
 msgid "Vertical"
-msgstr "Sivusuuntainen"
+msgstr "Pystysuuntainen"
 
 #: src/badguy/crusher.cpp:1254
 msgid "Crush script"
@@ -613,7 +613,7 @@ msgstr "Onko ansa käytössä."
 
 #: src/badguy/darttrap.cpp:158
 msgid "Fire delay"
-msgstr "Tuliviive"
+msgstr "Tulitusviive"
 
 #: src/badguy/darttrap.cpp:159
 msgid "Time between consecutive darts."
@@ -639,13 +639,13 @@ msgstr "Sprite-tiedosto nuolelle."
 msgid "Skull"
 msgstr "Pääkallo"
 
-#: src/badguy/darttrap.hpp:34
+#: src/badguy/darttrap.hpp:74
 msgid "Dart Trap"
 msgstr "Nuoliansa"
 
 #: src/badguy/dispenser.cpp:413
 msgid "Interval (seconds)"
-msgstr "Aikaväli (sekunteina)"
+msgstr "Aikaväli (sekunneissa)"
 
 #: src/badguy/dispenser.cpp:414
 msgid "Random"
@@ -980,7 +980,7 @@ msgstr "Heinähattu"
 
 #: src/badguy/snowball.cpp:42
 msgid "BSOD"
-msgstr ""
+msgstr "BSOD"
 
 #: src/badguy/snowball.hpp:30
 msgid "Mr. Snowball"
@@ -1138,35 +1138,35 @@ msgstr "Syöksyjä"
 
 #: src/control/joystick_config.cpp:86
 msgid "Joystick Mappings"
-msgstr "Määritä peliohjain"
+msgstr "Peliohjaimen määritys"
 
-#: src/editor/editor.cpp:354
+#: src/editor/editor.cpp:345
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
 msgstr "Huom. raahattavat ovat nyt piilotettu. Näytä ne painamalla Ctrl+H."
 
-#: src/editor/editor.cpp:588
+#: src/editor/editor.cpp:579
 msgid "Level saved!"
 msgstr "Kenttä tallennettu!"
 
-#: src/editor/editor.cpp:618
+#: src/editor/editor.cpp:609
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
-msgstr "Et voi testata kenttää, kun pelaat maailmankartalta\n\nSen sijaan poistu kenttämuokkaimesta."
+msgstr "Et voi testata kenttää, kun pelaat maailmankartalta.\n\nSen sijaan poistu kenttämuokkaimesta."
 
-#: src/editor/editor.cpp:869
+#: src/editor/editor.cpp:860
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Tässä kentässä on vanhentuneita ruutuja.\nVanhentuneet ruudut suositellaan korvattaviksi,\njotta yhteensopivuus säilyy tulevissa versioissa."
 
-#: src/editor/editor.cpp:871
+#: src/editor/editor.cpp:862
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Vihje: Laita \"Näytä vanhentuneet ruudut\" päälle kenttämuokkaimen valikossa."
 
-#: src/editor/editor.cpp:961
+#: src/editor/editor.cpp:952
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1174,33 +1174,33 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Ethän unohda, että kenttäsi sekä työkalusi\neivät tallennu istuntojen välissä!\nMikäli haluat säilyttää kenttäsi, lataa ne\n\"Hallitse työkaluja\" -valikosta."
 
-#: src/editor/editor.cpp:1002
+#: src/editor/editor.cpp:993
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr "Tätä kenttää ei ole tallennettu vielä. Haluatko sen sijaan tallentaa kentän?"
 
-#: src/editor/editor.cpp:1004
+#: src/editor/editor.cpp:995
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Tässä kentässä on tallentamattomia muutoksia, haluatko tallentaa?"
 
-#: src/editor/editor.cpp:1005
+#: src/editor/editor.cpp:996
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Tässä kentässä voi olla tallentamattomia muutoksia, haluatko tallentaa?"
 
-#: src/editor/editor.cpp:1006 src/gui/dialog.hpp:95
+#: src/editor/editor.cpp:997 src/gui/dialog.hpp:95
 #: src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "Kyllä"
 
-#: src/editor/editor.cpp:1012 src/editor/particle_editor.cpp:779
+#: src/editor/editor.cpp:1003 src/editor/particle_editor.cpp:779
 #: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 msgid "No"
 msgstr "Ei"
 
-#: src/editor/editor.cpp:1016 src/editor/particle_editor.cpp:783
+#: src/editor/editor.cpp:1007 src/editor/particle_editor.cpp:783
 #: src/gui/menu_filesystem.cpp:123 src/gui/menu_list.cpp:38
 #: src/gui/menu_paths.cpp:48
 #: src/supertux/menu/editor_level_select_menu.cpp:183
@@ -1216,43 +1216,43 @@ msgstr "Ei"
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: src/editor/editor.cpp:1135
+#: src/editor/editor.cpp:1126
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "Jotkut vanhentuneet lisäosat ovat vielä aktiivisia ja ne\nsaattavat aiheuttaa ristiriitoja SuperTux-perusrakenteen kanssa.\nVoit silti ottaa nämä lisäosat käyttöön valikosta.\nNäiden lisäosien poistaminen käytöstä ei poista peliedistystäsi."
+msgstr "Jotkut vanhentuneet lisäosat ovat vielä aktiivisia ja ne\nsaattavat aiheuttaa ristiriitoja SuperTux-perusrakenteen kanssa.\nVoit silti ottaa nämä lisäosat käyttöön valikosta.\nNäiden lisäosien poistaminen käytöstä ei poista peliedistymistäsi."
 
-#: src/editor/editor.cpp:1138
+#: src/editor/editor.cpp:1129
 msgid "Disable add-ons"
 msgstr "Poista lisäosat käytöstä"
 
-#: src/editor/editor.cpp:1143
+#: src/editor/editor.cpp:1134
 msgid "Ignore (not advised)"
 msgstr "Sivuuta (ei suositella)"
 
-#: src/editor/editor.cpp:1147
+#: src/editor/editor.cpp:1138
 msgid "Leave editor"
 msgstr "Sulje muokkain"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1493
+#: src/editor/editor.cpp:1501
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr "Nimeä \"pääsektori\" ei voitu löytää.\nMuuta sen sektorin nimeä, minkä haluat olevan\npelaajan aloittamisen \"pääsektori\""
+msgstr "Nimeä \"pääsektori\" ei löytynyt.\nMuuta sen sektorin nimeä, jonka haluat\npelaajan aloittamisen \"pääsektoriksi\""
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1500
+#: src/editor/editor.cpp:1508
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr "Ei löytynyt \"pääsyntymäpistettä\".\nMuuta syntymäpisteen nimeä, jonka haluat\npelaajan aloittamisen \"pääsyntymäpisteeksi\""
+msgstr "Ei löytynyt \"pääsyntymäpistettä\".\nMuuta sen syntymäpisteen nimeä, jonka haluat\npelaajan aloittamisen \"pääsyntymäpisteeksi\""
 
 #. l10n: A note refers to a reminder left for future
 #. level designers to read in order to better understand
@@ -1279,7 +1279,7 @@ msgstr "Korjaa minut"
 #. non-ideal way of implementing a level design idea.
 #: src/editor/editor_comment.cpp:88
 msgid "Hack"
-msgstr ""
+msgstr "Pätsäys"
 
 #: src/editor/editor_comment.cpp:97
 msgid "Comment"
@@ -1316,7 +1316,7 @@ msgstr "Aika"
 
 #: src/editor/node_marker.cpp:127
 msgid "Easing"
-msgstr "Helpoitus"
+msgstr "Helpotus"
 
 #: src/editor/node_marker.cpp:129 src/object/custom_particle_system.cpp:434
 #: src/object/custom_particle_system.cpp:469
@@ -1511,11 +1511,11 @@ msgstr "Päivitystiedot: v{}:"
 
 #: src/editor/object_option.cpp:185
 msgid "false"
-msgstr "ei totta"
+msgstr "epätosi"
 
 #: src/editor/object_option.cpp:185
 msgid "true"
-msgstr "totta"
+msgstr "tosi"
 
 #: src/editor/object_option.cpp:402 src/editor/object_option.cpp:591
 msgid "Edit..."
@@ -1625,39 +1625,39 @@ msgstr "Tekijä"
 msgid "License"
 msgstr "Lisenssi"
 
-#: src/editor/overlay_widget.cpp:1061
+#: src/editor/overlay_widget.cpp:1065
 msgid "Cannot select deprecated tiles"
 msgstr "Vanhentuneita ruutuja ei voi valita"
 
-#: src/editor/overlay_widget.cpp:1700
+#: src/editor/overlay_widget.cpp:1718
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr "Automaattiruutu-pyyhkimistila on päällä (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1704
+#: src/editor/overlay_widget.cpp:1722
 msgid "Autotile erasing cannot be performed here"
 msgstr "Automaattiruutu-pyyhkimistä ei voi tehdä tässä"
 
-#: src/editor/overlay_widget.cpp:1709
+#: src/editor/overlay_widget.cpp:1727
 msgid "Autotile mode is on (\"{}\")"
 msgstr "Automaattiruutu-tila on päällä (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1713
+#: src/editor/overlay_widget.cpp:1731
 msgid "Selected tile isn't autotileable"
 msgstr "Valittua ruutua ei ruuduteta automaattisesti"
 
-#: src/editor/overlay_widget.cpp:1719
+#: src/editor/overlay_widget.cpp:1737
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Laita automaattiruutujen pyyhkimistila päälle Ctrl-näppäintä pohjassa"
 
-#: src/editor/overlay_widget.cpp:1721
+#: src/editor/overlay_widget.cpp:1739
 msgid "Release Ctrl to use autotile erasing"
 msgstr "Käytä automaattiruutujen pyyhkimistä päästämällä Ctrl"
 
-#: src/editor/overlay_widget.cpp:1726
+#: src/editor/overlay_widget.cpp:1744
 msgid "Hold Ctrl to enable autotile"
 msgstr "Pidä Ctrl-näppäintä alaspainettuna kytkeäksesi automaattiruudut päälle"
 
-#: src/editor/overlay_widget.cpp:1728
+#: src/editor/overlay_widget.cpp:1746
 msgid "Release Ctrl to autotile"
 msgstr "Ruuduta automaattisesti päästämällä Ctrl"
 
@@ -1731,7 +1731,7 @@ msgstr "Kuolinhelpotus"
 
 #: src/editor/particle_editor.cpp:175
 msgid "Horizontal speed"
-msgstr "Vaakatason nopeus"
+msgstr "Sivusuuntainen nopeus"
 
 #: src/editor/particle_editor.cpp:180
 msgid "Vertical speed"
@@ -1739,7 +1739,7 @@ msgstr "Pystysuuntainen nopeus"
 
 #: src/editor/particle_editor.cpp:185
 msgid "Horizontal acceleration"
-msgstr "Vaakatason kiihdytys"
+msgstr "Sivusuuntainen kiihdytys"
 
 #: src/editor/particle_editor.cpp:186
 msgid "Vertical acceleration"
@@ -1747,7 +1747,7 @@ msgstr "Pystysuuntainen kiihdytys"
 
 #: src/editor/particle_editor.cpp:187
 msgid "Horizontal friction"
-msgstr "Vaakatason kitka"
+msgstr "Sivusuuntainen kitka"
 
 #: src/editor/particle_editor.cpp:188
 msgid "Vertical friction"
@@ -1998,7 +1998,7 @@ msgid "Select object ({})"
 msgstr "Valitse objekti ({})"
 
 #: src/gui/menu_object_select.cpp:50 src/gui/menu_string_array.cpp:79
-#: src/supertux/menu/profile_menu.cpp:88
+#: src/supertux/menu/profile_menu.cpp:89
 msgid "Add"
 msgstr "Lisää"
 
@@ -2056,9 +2056,9 @@ msgstr "Polku {}"
 #: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/multiplayer_players_menu.cpp:106
-#: src/supertux/menu/options_menu.cpp:284
+#: src/supertux/menu/options_menu.cpp:293
 #: src/supertux/menu/options_select_menu.cpp:44
-#: src/supertux/menu/profile_menu.cpp:118
+#: src/supertux/menu/profile_menu.cpp:121
 #: src/supertux/menu/profile_name_menu.cpp:45
 #: src/supertux/menu/sorted_contrib_menu.cpp:135
 #: src/supertux/menu/video_system_menu.cpp:52
@@ -2097,8 +2097,8 @@ msgstr "Teksti"
 msgid "Insert"
 msgstr "Lisää"
 
-#: src/gui/menu_string_array.cpp:82 src/supertux/menu/profile_menu.cpp:108
-#: src/supertux/menu/profile_menu.cpp:110
+#: src/gui/menu_string_array.cpp:82 src/supertux/menu/profile_menu.cpp:109
+#: src/supertux/menu/profile_menu.cpp:111
 msgid "Delete"
 msgstr "Poista"
 
@@ -2213,11 +2213,11 @@ msgstr "Vierimisen ylimeno y"
 
 #: src/object/background.cpp:293
 msgid "Scroll speed x"
-msgstr "Vierimisnopeus x"
+msgstr "Vieritysnopeus x"
 
 #: src/object/background.cpp:294
 msgid "Scroll speed y"
-msgstr "Vierimisnopeus y"
+msgstr "Vieritysnopeus y"
 
 #: src/object/background.cpp:295
 msgid "Parallax Speed x"
@@ -2395,7 +2395,7 @@ msgstr "Kolikkosprite"
 
 #: src/object/bonus_block.hpp:61
 msgid "Bonus Block"
-msgstr "Bonuslaatikko"
+msgstr "Lisäpalikka"
 
 #: src/object/brick.cpp:180
 msgid "Breakable"
@@ -2598,7 +2598,7 @@ msgstr "Tartu ikuisesti"
 
 #: src/object/custom_particle_system.cpp:522
 msgid "Delete if off-screen"
-msgstr "Poista mikäli ruudun ulkopuolella"
+msgstr "Poista ruudun ulkopuolella"
 
 #: src/object/custom_particle_system.cpp:523
 msgid "Always"
@@ -2654,7 +2654,7 @@ msgstr "Haamupartikkelit"
 
 #: src/object/gradient.cpp:96
 msgid "Primary Colour"
-msgstr "Ensisijainen väri"
+msgstr "Pääväri"
 
 #: src/object/gradient.cpp:97
 msgid "Secondary Colour"
@@ -2700,7 +2700,7 @@ msgstr "Viesti"
 
 #: src/object/infoblock.cpp:78
 msgid "Front Color"
-msgstr "Edustaväri"
+msgstr "Etuväri"
 
 #: src/object/infoblock.cpp:80
 msgid "Back Color"
@@ -2876,7 +2876,7 @@ msgstr "Poista painovoima"
 msgid ""
 "Sprites no longer define the behaviour of the object.\n"
 "Object types are used instead."
-msgstr "Sprite-kuvat eivät enää määritä objektin käytöstä.\nObjektityyppejä käytetään sen sijaan."
+msgstr "Sprite-kuvat eivät enää määritä objektin käyttäytymistä.\nObjektityyppejä käytetään sen sijaan."
 
 #: src/object/powerup.hpp:55
 msgid "Powerup"
@@ -2956,7 +2956,7 @@ msgstr "Sirpale"
 
 #: src/object/snow_particle_system.cpp:114
 msgid "Epsilon"
-msgstr ""
+msgstr "Epsilon"
 
 #: src/object/snow_particle_system.cpp:115
 msgid "Spin Speed"
@@ -3000,7 +3000,7 @@ msgstr "Tekstiryhmä"
 
 #: src/object/textscroller.cpp:359
 msgid "Finish Script"
-msgstr "Viimeistele skripti"
+msgstr "Lopetus-skripti"
 
 #: src/object/textscroller.cpp:361
 msgid "X-offset"
@@ -3185,19 +3185,19 @@ msgstr "Videoasetukset:"
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "-f, --fullscreen Aja kokoruudulla"
+msgstr "-f, --fullscreen Käytä kokoruututilassa"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "  -w, --window                 Run in window mode"
-msgstr "-w, --window Aja ikkunatilassa"
+msgstr "-w, --window Käytä ikkunatilassa"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "-g, --geometry LEVEYSxKORKEUS Aja SuperTux annetulla resoluutiolla"
+msgstr "-g, --geometry LEVEYSxKORKEUS Suorita SuperTux annetulla resoluutiolla"
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "-a, --aspect LEVEYS:KORKEUS Aja SuperTux annetulla kuvasuhteella"
+msgstr "-a, --aspect LEVEYS:KORKEUS Suorita SuperTux annetulla kuvasuhteella"
 
 #: src/supertux/command_line_arguments.cpp:108
 msgid "  -d, --default                Reset video settings to default values"
@@ -3249,7 +3249,7 @@ msgstr "--no-show-pos Älä näytä pelaajan nykyistä sijaintia"
 
 #: src/supertux/command_line_arguments.cpp:122
 msgid "  --developer                  Switch on developer feature"
-msgstr "--developer Kytke päälle kehittäjäominaisuudet"
+msgstr "--developer Kytke kehittäjäominaisuudet päälle"
 
 #: src/supertux/command_line_arguments.cpp:123
 msgid "  -s, --debug-scripts          Enable script debugger."
@@ -3294,7 +3294,7 @@ msgstr "--repository-url URL Aseta URL lisäosien säilytyskansioon"
 
 #: src/supertux/command_line_arguments.cpp:135
 msgid "Environment variables:"
-msgstr "Ympäristömuuttojat:"
+msgstr "Ympäristömuuttujat:"
 
 #. l10n: Keep SUPERTUX2_USER_DIR untranslated
 #: src/supertux/command_line_arguments.cpp:137
@@ -3315,8 +3315,8 @@ msgstr "ylös"
 msgid "down"
 msgstr "alas"
 
-#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:307
-#: src/supertux/menu/options_menu.cpp:350
+#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:316
+#: src/supertux/menu/options_menu.cpp:359
 msgid "auto"
 msgstr "automaattinen"
 
@@ -3348,7 +3348,7 @@ msgstr "Tyyppi"
 msgid ""
 "The type of an object defines its theme and behaviour. This is mostly used "
 "to distinguish between forest and ice world types of this object"
-msgstr "Objektin tyyppi määrittää sen teeman ja käytöksen. Tällä pääasiassa erotetaan metsä- ja jäämaailmatyypit toisistaan."
+msgstr "Objektin tyyppi määrittää sen teeman ja käyttäytymisen. Tällä pääasiassa erotetaan metsä- ja jäämaailmatyypit toisistaan."
 
 #: src/supertux/game_object.hpp:122
 msgid "Unknown object"
@@ -3378,15 +3378,15 @@ msgstr "Paras aika"
 msgid "Level target time"
 msgstr "Kentän tavoiteaika"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:895
 msgid "New release: SuperTux {}!"
 msgstr "Uusi julkaisu: SuperTux {}!"
 
-#: src/supertux/main.cpp:894
+#: src/supertux/main.cpp:896
 msgid "Click for more details."
 msgstr "Katso lisätietoja napsauttamalla."
 
-#: src/supertux/main.cpp:897
+#: src/supertux/main.cpp:899
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -3394,7 +3394,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "Uusi versio SuperTuxista ({}) on saatavilla!\nLisätietoja on SuperTuxin verkkosivustolla.\n\nHaluatko käydä sivustolla nyt?"
 
-#: src/supertux/main.cpp:908
+#: src/supertux/main.cpp:910
 msgid "Checking for new releases..."
 msgstr "Tarkistetaan uudet julkaisut..."
 
@@ -3439,11 +3439,11 @@ msgstr "Seuraava sivu"
 
 #: src/supertux/menu/addon_browse_menu.cpp:153
 msgid "Check Online (disabled)"
-msgstr "Päivitä lista (Ei käytössä)"
+msgstr "Tarkista verkossa (ei käytössä)"
 
 #: src/supertux/menu/addon_browse_menu.cpp:157
 msgid "Check Online"
-msgstr "Päivitä lista"
+msgstr "Tarkista verkossa"
 
 #: src/supertux/menu/addon_browse_menu.cpp:194
 msgid "Downloading Add-On Repository Index"
@@ -3587,19 +3587,19 @@ msgstr "Korvaa tiedot: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:154
 msgid "Failed to load all available screenshot previews."
-msgstr "Kaikkia saatavilla olevia kuvakaappauksen esikatseluja ei voitu ladata."
+msgstr "Kaikkia saatavilla olevia kuvankaappauksen esikatseluja ei voitu ladata."
 
 #: src/supertux/menu/addon_preview_menu.cpp:159
 msgid "To fetch add-on screenshots, you must enable networking."
-msgstr "Voit hakea kuvakaappauksia vain, jos verkko on käytössä."
+msgstr "Voit hakea kuvankaappauksia vain, jos verkko on käytössä."
 
 #: src/supertux/menu/addon_preview_menu.cpp:163
 msgid "Show screenshots"
-msgstr "Näytä kuvakaappaukset"
+msgstr "Näytä kuvankaappaukset"
 
 #: src/supertux/menu/addon_preview_menu.cpp:176
 msgid "Screenshot previews are disabled for automatic installs."
-msgstr "Kuvakaappauksen esikatselut ovat pois käytöstä automaattista asentamista varten."
+msgstr "Kuvankaappauksen esikatselut ovat pois käytöstä automaattista asentamista varten."
 
 #: src/supertux/menu/addon_preview_menu.cpp:180
 msgid "No screenshot previews available."
@@ -3637,7 +3637,7 @@ msgstr "Ei voi vahtaa lisäosaa \"{}\":\n{}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:290
 msgid "Fetching screenshot previews..."
-msgstr "Haetaan kuvakaappauksen esikatselut..."
+msgstr "Haetaan kuvankaappauksen esikatseluja..."
 
 #: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Downloading {}"
@@ -3688,7 +3688,7 @@ msgstr "Huijaukset"
 #: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
 msgid "Bonus: Grow"
-msgstr "Bonus: Kasva"
+msgstr "Bonus: Kasvu"
 
 #: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
@@ -3773,7 +3773,7 @@ msgid "No User Contrib Levels yet. Create some with the Level Editor."
 msgstr "Ei vielä käyttäjän lisäkenttiä. Luo niitä kenttämuokkaimella."
 
 #: src/supertux/menu/custom_menu_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:227
+#: src/supertux/menu/options_menu.cpp:232
 msgid "Menu Customization"
 msgstr "Valikon mukauttaminen"
 
@@ -3827,15 +3827,15 @@ msgstr "Palauta oletusarvot"
 
 #: src/supertux/menu/debug_menu.cpp:36
 msgid "Debug"
-msgstr "Buginpoisto"
+msgstr "Vianetsintä"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Game Speed"
-msgstr "Pelinopeus"
+msgstr "Pelin nopeus"
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Adjust Game Speed"
-msgstr "Säädä pelinopeutta"
+msgstr "Säädä pelin nopeutta"
 
 #: src/supertux/menu/debug_menu.cpp:67
 msgid "Show Collision Rects"
@@ -3918,7 +3918,7 @@ msgstr "Muunna kaikki nykyisen kentän ruudut yllä määritetyn tiedoston mukai
 
 #: src/supertux/menu/editor_converters_menu.cpp:91
 msgid "No tile conversion file selected."
-msgstr "Ruudun muunnostiedostoa ei valitty."
+msgstr "Ruudun muunnostiedostoa ei valittu."
 
 #: src/supertux/menu/editor_converters_menu.cpp:95
 msgid ""
@@ -3970,7 +3970,7 @@ msgstr "Maailmankartan asetukset"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
 msgid "Level Note"
-msgstr "Tasoilmoite"
+msgstr "Kentän ilmoite"
 
 #: src/supertux/menu/editor_level_menu.cpp:38
 msgid "Tileset"
@@ -4042,7 +4042,7 @@ msgstr "Jaa tämä kenttä CC-BY-SA 4.0 International -lisenssin alla (suositelt
 msgid ""
 "An auto-save recovery file was found. Would you like to restore the recovery\n"
 "file and resume where you were before the editor crashed?"
-msgstr "Automaattitallennuksen palautustiedosto löytyi. Haluatko palauttaa \ntiedoston ja jatkaa siitä missä olit silloin kun muokkain kaatui?"
+msgstr "Automaattitallennuksen palautustiedosto löytyi. Haluatko palauttaa \ntiedoston ja jatkaa siitä, mihin jäit, kun muokkain kaatui?"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:179
 msgid "This will delete the auto-save file. Are you sure?"
@@ -4159,13 +4159,13 @@ msgstr "Tarkista, onko kentässä yhtään vanhentunutta ruutua tällä hetkell�
 
 #: src/supertux/menu/editor_menu.cpp:94
 msgid "Show Deprecated Tiles"
-msgstr "Näytä vanhentuneet tiilet"
+msgstr "Näytä vanhentuneet ruudut"
 
 #: src/supertux/menu/editor_menu.cpp:95
 msgid ""
 "Indicate all deprecated tiles on the active tilemap, without the need of "
 "hovering over."
-msgstr "äytä kaikki vanhentuneet ruudut aktiivisessa ruudukossa ilman, että hiiren osoitinta tarvitsee viedä päälle."
+msgstr "Näytä kaikki vanhentuneet ruudut aktiivisessa ruudukossa ilman, että hiiren osoitinta tarvitsee viedä päälle."
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Editor settings"
@@ -4411,7 +4411,7 @@ msgstr "Käännä Shift+vieritys"
 
 #: src/supertux/menu/editor_settings.cpp:49
 msgid "Centered Zoom"
-msgstr "Keskitetty zoomi"
+msgstr "Keskitetty zoomaus"
 
 #: src/supertux/menu/editor_settings.cpp:50
 msgid "Autotile Mode"
@@ -4475,7 +4475,7 @@ msgstr "Aloita kenttä alusta"
 
 #: src/supertux/menu/game_menu.cpp:66
 msgid "Restart from Checkpoint"
-msgstr "Aloita kenttä viime Välietapilta"
+msgstr "Aloita kenttä välietapilta"
 
 #: src/supertux/menu/game_menu.cpp:75
 msgid "Edit Level"
@@ -4531,7 +4531,7 @@ msgid "Discord (disabled; not compiled)"
 msgstr "Discord (kytketty pois; sitä ei ole koottu)"
 
 #: src/supertux/menu/joystick_menu.cpp:54
-#: src/supertux/menu/options_menu.cpp:194
+#: src/supertux/menu/options_menu.cpp:199
 msgid "Setup Joystick"
 msgstr "Määritä peliohjain"
 
@@ -4542,7 +4542,7 @@ msgstr "Manuaaliset asetukset"
 #: src/supertux/menu/joystick_menu.cpp:59
 msgid ""
 "Use manual configuration instead of SDL3's automatic GameController support"
-msgstr ""
+msgstr "Käytä manuaalisia asetuksia SDL3:n automaattisen peliohjaintuen sijaan"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 #: src/supertux/menu/keyboard_menu.cpp:79
@@ -4591,7 +4591,7 @@ msgstr "Huijausvalikko"
 #: src/supertux/menu/joystick_menu.cpp:86
 #: src/supertux/menu/keyboard_menu.cpp:93
 msgid "Debug Menu"
-msgstr "Buginpoistovalikko"
+msgstr "Virheenkorjausvalikko"
 
 #: src/supertux/menu/joystick_menu.cpp:88
 #: src/supertux/menu/keyboard_menu.cpp:96
@@ -4707,7 +4707,7 @@ msgid "Left Command"
 msgstr "Vasen Command/Windows"
 
 #: src/supertux/menu/keyboard_menu.cpp:73
-#: src/supertux/menu/options_menu.cpp:191
+#: src/supertux/menu/options_menu.cpp:196
 msgid "Setup Keyboard"
 msgstr "Määritä näppäimet"
 
@@ -4780,7 +4780,7 @@ msgstr "Hallinnoi pelaajia automaattisesti"
 msgid ""
 "Automatically add and remove players when controllers are plugged or "
 "unplugged"
-msgstr "Lisää ja poista pelaajia automaattisesti, kun peliohjaimet kytketään tai irrotetaan"
+msgstr "Lisää ja poista pelaajia automaattisesti, kun peliohjaimia kytketään tai irrotetaan"
 
 #: src/supertux/menu/multiplayer_menu.cpp:33
 msgid "Allow Multibind"
@@ -4852,7 +4852,7 @@ msgstr "Tämä peliohjain ei tue värinää:\ntarkista ohjaimet manuaalisesti."
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "joysticks; please check the joysticks manually."
-msgstr "Tämä SuperTux-versio ei tue väriseviä\npeliohjaimia. Tarkista ohjaimet manuaalisesti."
+msgstr "Tämä SuperTux-versio ei tue väriseviä\npeliohjaimia. Tarkista peliohjaimet manuaalisesti."
 
 #: src/supertux/menu/multiplayer_players_menu.cpp:48
 msgid "Add Player (Keyboard)"
@@ -4874,434 +4874,442 @@ msgid ""
 "Do you wish to remove them anyways?"
 msgstr "Varoitus: pelaaja, jota koetat poistaa,\non pelissä tällä hetkellä.\n\nHaluatko silti poistaa hänet?"
 
-#: src/supertux/menu/options_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:91
 #: src/supertux/menu/options_select_menu.cpp:35
 msgid "Locale"
 msgstr "Maa-asetusto"
 
-#: src/supertux/menu/options_menu.cpp:90
+#: src/supertux/menu/options_menu.cpp:95
 msgid "Select Language"
 msgstr "Valitse kieli"
 
-#: src/supertux/menu/options_menu.cpp:91
+#: src/supertux/menu/options_menu.cpp:96
 msgid "Select a different language to display text in"
 msgstr "Valitse käyttöliittymälle toinen kieli"
 
-#: src/supertux/menu/options_menu.cpp:93
+#: src/supertux/menu/options_menu.cpp:98
 msgid "Language Packs"
 msgstr "Kielipaketit"
 
-#: src/supertux/menu/options_menu.cpp:94
+#: src/supertux/menu/options_menu.cpp:99
 msgid "Language packs contain up-to-date translations"
 msgstr "Kielipaketit sisältävät päivitettyjä käännöksiä"
 
-#: src/supertux/menu/options_menu.cpp:102
+#: src/supertux/menu/options_menu.cpp:107
 #: src/supertux/menu/options_select_menu.cpp:37
 msgid "Video"
 msgstr "Video"
 
-#: src/supertux/menu/options_menu.cpp:105
+#: src/supertux/menu/options_menu.cpp:110
 msgid "Window Resizable"
 msgstr "Ikkunan koko muutettavissa"
 
-#: src/supertux/menu/options_menu.cpp:106
+#: src/supertux/menu/options_menu.cpp:111
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr "Salli ikkunan koon muuttaminen, saattaa tarvita uudelleenkäynnistämisen vaikuttamiseen"
+msgstr "Salli ikkunan koon muuttaminen, saattaa tarvita uudelleenkäynnistämisen"
 
-#: src/supertux/menu/options_menu.cpp:110
+#: src/supertux/menu/options_menu.cpp:115
 msgid "Fullscreen"
 msgstr "Koko näyttö"
 
-#: src/supertux/menu/options_menu.cpp:111
+#: src/supertux/menu/options_menu.cpp:116
 msgid "Fill the entire screen"
 msgstr "Käytä koko näyttöä"
 
-#: src/supertux/menu/options_menu.cpp:118
+#: src/supertux/menu/options_menu.cpp:123
 msgid "Fit to browser"
 msgstr "Sovita selaimeen"
 
-#: src/supertux/menu/options_menu.cpp:119
+#: src/supertux/menu/options_menu.cpp:124
 msgid "Fit the resolution to the size of your browser"
 msgstr "Sovita ruuduntarkkuus vastaamaan selaintasi"
 
-#: src/supertux/menu/options_menu.cpp:126
+#: src/supertux/menu/options_menu.cpp:131
 msgid "Frame prediction"
 msgstr "Kehyksen ennakointi"
 
-#: src/supertux/menu/options_menu.cpp:127
+#: src/supertux/menu/options_menu.cpp:132
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
 msgstr "Sujuva kameran liike, mikä luo välikehyksiä. Tämä vaikuttaa huomattavasti näytöillä >> 60Hz. Liikkuvat esineet saattavat näyttää sumeilta."
 
-#: src/supertux/menu/options_menu.cpp:129
+#: src/supertux/menu/options_menu.cpp:134
 msgid "Fancy Effects"
 msgstr "Hienot efektit"
 
-#: src/supertux/menu/options_menu.cpp:130
+#: src/supertux/menu/options_menu.cpp:135
 msgid ""
 "Applies fancy effects such as blur, clear tile refraction, and various other"
 " effects deemed \"fancy\". May significantly degrade performance."
 msgstr "Lisää hienoja efektejä, kuten sumennusta, ruudun refraktiota ja muita \"hienoina\" pidettyjä efektejä. Voi alentaa suorituskykyä merkittävästi."
 
-#: src/supertux/menu/options_menu.cpp:140
+#: src/supertux/menu/options_menu.cpp:145
 msgid "Camera Peek Multiplier"
 msgstr "Kameran katsomiskerroin"
 
-#: src/supertux/menu/options_menu.cpp:141
+#: src/supertux/menu/options_menu.cpp:146
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
 msgstr "Kunkin kehyksen siirtämiseen tarvittava osittainen etäisyys kameran katselukohdasta.\n\n0 = Ei esikatselua, 1 = Välitön esikatselu"
 
-#: src/supertux/menu/options_menu.cpp:143
+#: src/supertux/menu/options_menu.cpp:148
 msgid "Change Video System"
 msgstr "Vaihda videojärjestelmä"
 
-#: src/supertux/menu/options_menu.cpp:144
+#: src/supertux/menu/options_menu.cpp:149
 msgid "Change video system used to render graphics"
 msgstr "Vaihda videojärjestelmää grafiikan renderöimiseen"
 
-#: src/supertux/menu/options_menu.cpp:150
+#: src/supertux/menu/options_menu.cpp:155
 #: src/supertux/menu/options_select_menu.cpp:38
 msgid "Audio"
 msgstr "Äänet"
 
-#: src/supertux/menu/options_menu.cpp:155
+#: src/supertux/menu/options_menu.cpp:160
 msgid "Disable all sound effects"
 msgstr "Poista kaikki ääniefektit"
 
-#: src/supertux/menu/options_menu.cpp:157
+#: src/supertux/menu/options_menu.cpp:162
 msgid "Disable all music"
 msgstr "Poista kaikki musiikki"
 
-#: src/supertux/menu/options_menu.cpp:164
+#: src/supertux/menu/options_menu.cpp:169
 msgid "Sound (disabled)"
-msgstr "Äänet (Ei käytössä)"
+msgstr "Äänet (ei käytössä)"
 
-#: src/supertux/menu/options_menu.cpp:165
+#: src/supertux/menu/options_menu.cpp:170
 msgid "Music (disabled)"
-msgstr "Musiikki (Ei käytössä)"
+msgstr "Musiikki (ei käytössä)"
 
-#: src/supertux/menu/options_menu.cpp:173
+#: src/supertux/menu/options_menu.cpp:178
 #: src/supertux/menu/options_select_menu.cpp:39
 msgid "Controls"
 msgstr "Ohjaus"
 
-#: src/supertux/menu/options_menu.cpp:178
+#: src/supertux/menu/options_menu.cpp:183
 msgid "Enable Rumbling Controllers"
 msgstr "Ota käyttöön ohjainvärinä"
 
-#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:184
 msgid "Enable vibrating the game controllers."
 msgstr "Ota käyttöön peliohjaimien värinät."
 
-#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:184
 msgid "This feature is currently only used in the multiplayer options menu."
 msgstr "Tämä ominaisuus on tällä hetkellä käytössä vain moninpelin asetusvalikossa."
 
-#: src/supertux/menu/options_menu.cpp:181
+#: src/supertux/menu/options_menu.cpp:186
 msgid "Show Touch Controls"
 msgstr "Näytä kosketusohjaus"
 
-#: src/supertux/menu/options_menu.cpp:182
+#: src/supertux/menu/options_menu.cpp:187
 msgid ""
 "If disabled, touch controls will still work, but the buttons will remain "
 "hidden."
 msgstr "Jos on pois päältä, kosketusohjaus toimii edelleen, mutta painikkeet pysyvät piilossa."
 
-#: src/supertux/menu/options_menu.cpp:184
+#: src/supertux/menu/options_menu.cpp:189
 msgid "Enable Haptic Feedback"
 msgstr "Ota haptinen palaute käyttöön"
 
-#: src/supertux/menu/options_menu.cpp:185
+#: src/supertux/menu/options_menu.cpp:190
 msgid "Enable haptic feedback for touchscreen controls"
 msgstr "Ota kosketusohjauksen haptinen palaute käyttöön"
 
-#: src/supertux/menu/options_menu.cpp:187
+#: src/supertux/menu/options_menu.cpp:192
 msgid "Only Haptic Feedback for D-Pad"
 msgstr "Haptinen palaute vain suuntapainikkeille"
 
-#: src/supertux/menu/options_menu.cpp:188
+#: src/supertux/menu/options_menu.cpp:193
 msgid "Only enable haptic feedback for the D-Pad"
 msgstr "Ota haptinen palaute käyttöön vain suuntapainikkeille"
 
-#: src/supertux/menu/options_menu.cpp:192
+#: src/supertux/menu/options_menu.cpp:197
 msgid "Configure key-action mappings"
 msgstr "Määritä toiminnot näppäimille"
 
-#: src/supertux/menu/options_menu.cpp:195
+#: src/supertux/menu/options_menu.cpp:200
 msgid "Configure joystick control-action mappings"
 msgstr "Määritä peliohjaimen toiminnot"
 
-#: src/supertux/menu/options_menu.cpp:202
+#: src/supertux/menu/options_menu.cpp:207
 #: src/supertux/menu/options_select_menu.cpp:40
 msgid "Extras"
 msgstr "Ekstrat"
 
-#: src/supertux/menu/options_menu.cpp:205
-#: src/supertux/menu/profile_menu.cpp:56
+#: src/supertux/menu/options_menu.cpp:210
+#: src/supertux/menu/profile_menu.cpp:57
 msgid "Select Profile"
 msgstr "Valitse profiili"
 
-#: src/supertux/menu/options_menu.cpp:206
+#: src/supertux/menu/options_menu.cpp:211
 msgid "Select a profile to play with"
-msgstr "Valitse profiili jolla aiot pelata"
+msgstr "Valitse profiili, jolla aiot pelata"
 
-#: src/supertux/menu/options_menu.cpp:208
+#: src/supertux/menu/options_menu.cpp:213
 msgid "Multiplayer settings"
 msgstr "Moninpelin asetukset"
 
-#: src/supertux/menu/options_menu.cpp:209
+#: src/supertux/menu/options_menu.cpp:214
 msgid "Configure settings specific to multiplayer"
 msgstr "Määritä moninpelin asetukset"
 
-#: src/supertux/menu/options_menu.cpp:211
+#: src/supertux/menu/options_menu.cpp:216
 msgid "Enable transitions"
 msgstr "Aktivoi muutokset"
 
-#: src/supertux/menu/options_menu.cpp:212
+#: src/supertux/menu/options_menu.cpp:217
 msgid "Enable screen transitions and smooth menu animation"
 msgstr "Salli näytön siirtymät ja pehmeät valikkoanimaatiot"
 
-#: src/supertux/menu/options_menu.cpp:214
+#: src/supertux/menu/options_menu.cpp:219
 msgid "Show game timer"
 msgstr "Näytä pelin ajastin"
 
-#: src/supertux/menu/options_menu.cpp:215
+#: src/supertux/menu/options_menu.cpp:220
 msgid "Show a game timer while playing a level"
 msgstr "Näytä pelin ajastin kenttää pelatessa"
 
-#: src/supertux/menu/options_menu.cpp:217
+#: src/supertux/menu/options_menu.cpp:222
 msgid "Custom title screen levels"
 msgstr "Mukautettu aloitusnäytön kentät"
 
-#: src/supertux/menu/options_menu.cpp:218
+#: src/supertux/menu/options_menu.cpp:223
 msgid "Allow overriding the title screen level, when loading certain worlds"
 msgstr "Salli aloitusnäytön kentän korvaamisen, kun ladataan tiettyjä maailmoja"
 
-#: src/supertux/menu/options_menu.cpp:221
+#: src/supertux/menu/options_menu.cpp:226
 msgid "Force Christmas Mode"
 msgstr "Pakota joulutila"
 
-#: src/supertux/menu/options_menu.cpp:223
+#: src/supertux/menu/options_menu.cpp:228
 msgid "Integrations and presence"
 msgstr "Integraatiot ja läsnäolo"
 
-#: src/supertux/menu/options_menu.cpp:224
+#: src/supertux/menu/options_menu.cpp:229
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
 msgstr "Päätä, saako SuperTux näyttää pelaamiasi kenttiä sosiaalisen median profiileissasi (esim. Discord)"
 
-#: src/supertux/menu/options_menu.cpp:228
+#: src/supertux/menu/options_menu.cpp:233
 msgid "Customize the appearance of the menus"
 msgstr "Mukauta valikkojen ulkoasua"
 
-#: src/supertux/menu/options_menu.cpp:235
+#: src/supertux/menu/options_menu.cpp:240
 #: src/supertux/menu/options_select_menu.cpp:41
 msgid "Advanced"
 msgstr "Edistyneet"
 
-#: src/supertux/menu/options_menu.cpp:240
+#: src/supertux/menu/options_menu.cpp:245
 msgid "Developer Mode"
 msgstr "Kehittäjätila"
 
-#: src/supertux/menu/options_menu.cpp:242
+#: src/supertux/menu/options_menu.cpp:247
 msgid "Confirm aborting level"
 msgstr "Vahvista kentän hylkääminen"
 
-#: src/supertux/menu/options_menu.cpp:242
+#: src/supertux/menu/options_menu.cpp:247
 msgid "Confirmation Dialog"
 msgstr "Vahvistusdialogi"
 
-#: src/supertux/menu/options_menu.cpp:244
+#: src/supertux/menu/options_menu.cpp:249
 msgid "Pause on focus loss"
 msgstr "Keskeytä kohdistamaan häviötä"
 
-#: src/supertux/menu/options_menu.cpp:245
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Automatically pause the game when the window loses focus"
 msgstr "Keskeytä peli automaattisesti, jos ikkunaa ei keskitetä"
 
-#: src/supertux/menu/options_menu.cpp:248
+#: src/supertux/menu/options_menu.cpp:253
 msgid "Use custom mouse cursor"
 msgstr "Käytä mukautettua hiiren osoitinta"
 
-#: src/supertux/menu/options_menu.cpp:248
+#: src/supertux/menu/options_menu.cpp:253
 msgid "Whether the game renders its own cursor or uses the system's cursor"
 msgstr "Käyttääkö peli omaa vai järjestelmän määräämää osoitinta"
 
-#: src/supertux/menu/options_menu.cpp:250
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Use native custom cursor"
 msgstr "Käytä mukautettua hiiren osoitinta"
 
-#: src/supertux/menu/options_menu.cpp:250
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Whether the game uses a native custom cursor or renders it in the game"
 msgstr "Käyttääkö peli natiiviosoitinta vai renderöikö sen peliin"
 
-#: src/supertux/menu/options_menu.cpp:252
+#: src/supertux/menu/options_menu.cpp:257
 msgid "Precise scrolling"
 msgstr "Tarkka vieritys"
 
-#: src/supertux/menu/options_menu.cpp:253
+#: src/supertux/menu/options_menu.cpp:258
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
-msgstr "Useimmat nykyaikaiset kosketuslevyt ilmoittavat vieritystapahtumat tarkasti.\nPoista tämä asetus käytöstä, jos vieritys tavallisella hiirellä tuntuu epätavalliselta, tai et vain pidä siitä"
+msgstr "Useimmat nykyaikaiset kosketuslevyt ilmoittavat vieritystapahtumista tarkasti.\nPoista tämä asetus käytöstä, jos vieritys tavallisella hiirellä tuntuu epätavalliselta, tai et vain pidä siitä"
 
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:260
 msgid "Invert horizontal scrolling"
 msgstr "Käännä vaakavieritys"
 
-#: src/supertux/menu/options_menu.cpp:256
+#: src/supertux/menu/options_menu.cpp:261
 msgid "Inverts scrolling in the X-axis"
 msgstr "Kääntää vierityksen X-akselilla"
 
-#: src/supertux/menu/options_menu.cpp:258
+#: src/supertux/menu/options_menu.cpp:263
 msgid "Invert vertical scrolling"
 msgstr "Käännä pystyvieritys"
 
-#: src/supertux/menu/options_menu.cpp:259
+#: src/supertux/menu/options_menu.cpp:264
 msgid "Inverts scrolling in the Y-axis"
 msgstr "Kääntää vierityksen Y-akselilla"
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:270
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
 msgstr "Älä yritä skaalata kuvaa tai soveltaa kuvasuhdetta. Jotkin videoasetukset ohitetaan. Kätevä kolikkopeleille tai epätavallisille näytöille."
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:270
 msgid "Force full viewport"
 msgstr "Pakota koko kuvanäkymä"
 
-#: src/supertux/menu/options_menu.cpp:269
+#: src/supertux/menu/options_menu.cpp:274
 msgid "Check for new releases"
 msgstr "Tarkista uudet julkaisut"
 
-#: src/supertux/menu/options_menu.cpp:270
+#: src/supertux/menu/options_menu.cpp:275
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr "Antaa pelin tarkistaa käynnistettäessä, onko uusia SuperTux-versioita, ja ilmoittaa, jos niitä löytyy."
 
-#: src/supertux/menu/options_menu.cpp:274
+#: src/supertux/menu/options_menu.cpp:279
 msgid "Disable network"
 msgstr "Poista verkko käytöstä"
 
-#: src/supertux/menu/options_menu.cpp:275
+#: src/supertux/menu/options_menu.cpp:280
 msgid "Prevents the game from connecting online"
 msgstr "Estää peliä yhdistämästä verkkoon"
 
-#: src/supertux/menu/options_menu.cpp:277
+#: src/supertux/menu/options_menu.cpp:282
 msgid "Network support is disabled."
 msgstr "Verkkotuki on poistettu käytöstä."
 
-#: src/supertux/menu/options_menu.cpp:343
+#: src/supertux/menu/options_menu.cpp:285
+msgid "Open user directory"
+msgstr "Avaa käyttäjähakemisto"
+
+#: src/supertux/menu/options_menu.cpp:286
+msgid "Open the user directory containing the SuperTux configuration"
+msgstr "Avaa käyttäjähakemisto, joka sisältää SuperTux-asetukset"
+
+#: src/supertux/menu/options_menu.cpp:352
 msgid "Magnification"
 msgstr "Suurennus"
 
-#: src/supertux/menu/options_menu.cpp:344
+#: src/supertux/menu/options_menu.cpp:353
 msgid "Change the magnification of the game area"
 msgstr "Muuta pelialueen suurennusta"
 
-#: src/supertux/menu/options_menu.cpp:380
+#: src/supertux/menu/options_menu.cpp:389
 msgid "Aspect Ratio"
 msgstr "Kuvasuhde"
 
-#: src/supertux/menu/options_menu.cpp:381
+#: src/supertux/menu/options_menu.cpp:390
 msgid "Adjust the aspect ratio"
 msgstr "Säädä kuvasuhdetta"
 
-#: src/supertux/menu/options_menu.cpp:408
+#: src/supertux/menu/options_menu.cpp:417
 msgid "Window Resolution"
 msgstr "Ikkunan resoluutio"
 
-#: src/supertux/menu/options_menu.cpp:409
+#: src/supertux/menu/options_menu.cpp:418
 msgid "Resize the window to the given size"
 msgstr "Muuta ikkunan koko tiettyyn kokoon"
 
-#: src/supertux/menu/options_menu.cpp:450
+#: src/supertux/menu/options_menu.cpp:461
 msgid "Desktop"
 msgstr "Työpöytä"
 
-#: src/supertux/menu/options_menu.cpp:479
+#: src/supertux/menu/options_menu.cpp:490
 msgid "Fullscreen Resolution"
 msgstr "Koko ruudun resoluutio"
 
-#: src/supertux/menu/options_menu.cpp:480
+#: src/supertux/menu/options_menu.cpp:491
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Määrittele resoluutiota kokonäytön tilassa (sinun tulee lisäksi valita kokonäytön tila, jotta asetus tulee voimaan). "
 
-#: src/supertux/menu/options_menu.cpp:486
+#: src/supertux/menu/options_menu.cpp:497
 msgid "on"
 msgstr "päällä"
 
-#: src/supertux/menu/options_menu.cpp:487
-#: src/supertux/menu/options_menu.cpp:512
+#: src/supertux/menu/options_menu.cpp:498
+#: src/supertux/menu/options_menu.cpp:523
 msgid "off"
 msgstr "pois"
 
-#: src/supertux/menu/options_menu.cpp:488
+#: src/supertux/menu/options_menu.cpp:499
 msgid "adaptive"
 msgstr "mukautuva"
 
-#: src/supertux/menu/options_menu.cpp:506
+#: src/supertux/menu/options_menu.cpp:517
 msgid "VSync"
 msgstr "Pystytahdistus"
 
-#: src/supertux/menu/options_menu.cpp:507
+#: src/supertux/menu/options_menu.cpp:518
 msgid "Set the VSync mode"
 msgstr "Aseta pystytahdistustila"
 
-#: src/supertux/menu/options_menu.cpp:513
+#: src/supertux/menu/options_menu.cpp:524
 msgid "reduced"
 msgstr "vähennetty"
 
-#: src/supertux/menu/options_menu.cpp:514
+#: src/supertux/menu/options_menu.cpp:525
 msgid "full"
 msgstr "täysi"
 
-#: src/supertux/menu/options_menu.cpp:528
+#: src/supertux/menu/options_menu.cpp:539
 msgid "Screen shake"
 msgstr "Näytön tärinä"
 
-#: src/supertux/menu/options_menu.cpp:529
+#: src/supertux/menu/options_menu.cpp:540
 msgid "Adjust amount of screen shake effects"
 msgstr "Säädä ruudun tärinäefektin määrää"
 
-#: src/supertux/menu/options_menu.cpp:564
+#: src/supertux/menu/options_menu.cpp:575
 msgid "Sound Volume"
 msgstr "Äänien voimakkuus"
 
-#: src/supertux/menu/options_menu.cpp:565
+#: src/supertux/menu/options_menu.cpp:576
 msgid "Adjust sound volume"
 msgstr "Säädä äänien voimakkuutta"
 
-#: src/supertux/menu/options_menu.cpp:600
+#: src/supertux/menu/options_menu.cpp:611
 msgid "Music Volume"
 msgstr "Musiikin voimakkuus"
 
-#: src/supertux/menu/options_menu.cpp:601
+#: src/supertux/menu/options_menu.cpp:612
 msgid "Adjust music volume"
 msgstr "Säädä musiikin voimakkuutta"
 
-#: src/supertux/menu/options_menu.cpp:636
+#: src/supertux/menu/options_menu.cpp:647
 msgid "Flash Intensity"
 msgstr "Välähdyksen voimakkuus"
 
-#: src/supertux/menu/options_menu.cpp:637
+#: src/supertux/menu/options_menu.cpp:648
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr "Säätää ukkosen tuottaman salaman voimakkuutta"
 
-#: src/supertux/menu/options_menu.cpp:650
+#: src/supertux/menu/options_menu.cpp:661
 msgid "On-screen controls scale"
 msgstr "Ruudulla olevien ohjaimien skaalaus"
 
-#: src/supertux/menu/options_menu.cpp:781
+#: src/supertux/menu/options_menu.cpp:792
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -5356,61 +5364,65 @@ msgstr "Lataa partikkelitiedosto"
 msgid "Save particle as"
 msgstr "Tallenna partikkeli nimellä"
 
-#: src/supertux/menu/profile_menu.cpp:60
+#: src/supertux/menu/profile_menu.cpp:61
 msgid "No profiles found."
 msgstr "Profiileja ei löytynyt."
 
-#: src/supertux/menu/profile_menu.cpp:68
-#: src/supertux/menu/profile_menu.cpp:149
-#: src/supertux/menu/profile_menu.cpp:168
+#: src/supertux/menu/profile_menu.cpp:69
+#: src/supertux/menu/profile_menu.cpp:155
+#: src/supertux/menu/profile_menu.cpp:173
 msgid "Profile {}"
 msgstr "Profiili {}"
 
-#: src/supertux/menu/profile_menu.cpp:69
+#: src/supertux/menu/profile_menu.cpp:70
 msgid "{} (Profile {})"
 msgstr "{} (Profiili {})"
 
-#: src/supertux/menu/profile_menu.cpp:84
+#: src/supertux/menu/profile_menu.cpp:85
 msgid "No profile selected."
 msgstr "Profiilia ei ole valittu."
 
-#: src/supertux/menu/profile_menu.cpp:91 src/supertux/menu/profile_menu.cpp:93
+#: src/supertux/menu/profile_menu.cpp:92 src/supertux/menu/profile_menu.cpp:94
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
-#: src/supertux/menu/profile_menu.cpp:98
-#: src/supertux/menu/profile_menu.cpp:100
+#: src/supertux/menu/profile_menu.cpp:99
+#: src/supertux/menu/profile_menu.cpp:101
 msgid "Reset"
 msgstr "Nollaa"
 
-#: src/supertux/menu/profile_menu.cpp:103
-#: src/supertux/menu/profile_menu.cpp:105
+#: src/supertux/menu/profile_menu.cpp:104
+#: src/supertux/menu/profile_menu.cpp:106
 msgid "Reset all"
 msgstr "Nollaa kaikki"
 
-#: src/supertux/menu/profile_menu.cpp:113
-#: src/supertux/menu/profile_menu.cpp:115
+#: src/supertux/menu/profile_menu.cpp:114
+#: src/supertux/menu/profile_menu.cpp:116
 msgid "Delete all"
 msgstr "Poista kaikki"
 
-#: src/supertux/menu/profile_menu.cpp:148
+#: src/supertux/menu/profile_menu.cpp:118
+msgid "Open Profile Directory"
+msgstr "Avaa profiilihakemisto"
+
+#: src/supertux/menu/profile_menu.cpp:154
 msgid ""
 "This will reset all game progress on the profile \"{}\".\n"
 "Are you sure?"
-msgstr "Tämä nollaa peliedistyksen kaikilla profiileilla. Oletko varma?"
+msgstr "Tämä nollaa peliedistymisen kaikilta profiileilta. Oletko varma?"
 
-#: src/supertux/menu/profile_menu.cpp:157
+#: src/supertux/menu/profile_menu.cpp:163
 msgid "This will reset your game progress on all profiles. Are you sure?"
-msgstr "Tämä nollaa pelin edistyksen kaikilla profiileilla. Oletko varma?"
+msgstr "Tämä nollaa peliedistymisen kaikilta profiileilta. Oletko varma?"
 
-#: src/supertux/menu/profile_menu.cpp:167
+#: src/supertux/menu/profile_menu.cpp:172
 msgid ""
 "This will delete the profile \"{}\",\n"
 "including all game progress on it. Are you sure?"
 msgstr "Tämä poistaa profiilin \"{}\".\nmukaan lukien kaiken peliedistyksen. Oletko varma?"
 
-#: src/supertux/menu/profile_menu.cpp:179
+#: src/supertux/menu/profile_menu.cpp:184
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"
@@ -5426,7 +5438,7 @@ msgstr "Nimeä uudelleen \"{}\""
 
 #: src/supertux/menu/profile_name_menu.cpp:40
 msgid "Profile names must have a maximum of 20 characters."
-msgstr "Profiilissa voi olla enintään 20 merkkiä."
+msgstr "Profiilissa saa olla enintään 20 merkkiä."
 
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Create"
@@ -5436,7 +5448,7 @@ msgstr "Luo"
 msgid ""
 "Profile names must have a maximum of 20 characters.\n"
 "Please choose a different name."
-msgstr "Profiilissa voi olla enintään 20 merkkiä.\nValitse jokin muu nimi."
+msgstr "Profiilissa saa olla enintään 20 merkkiä.\nValitse jokin muu nimi."
 
 #: src/supertux/menu/profile_name_menu.cpp:77
 msgid "An error occurred while creating the profile."
@@ -5444,7 +5456,7 @@ msgstr "Profiilia luotaessa tapahtui virhe."
 
 #: src/supertux/menu/sorted_contrib_menu.cpp:45
 msgid "Collect {} more Tux Dolls in Story Mode to unlock!"
-msgstr "Kerää {} Tux-nukkea lisää tarinatilassa avataksesi!"
+msgstr "Avaa keräämällä {} Tux-nukkea lisää tarinatilassa!"
 
 #: src/supertux/menu/video_system_menu.cpp:40
 msgid "Select Video System"
@@ -5452,7 +5464,7 @@ msgstr "Valitse videojärjestelmä"
 
 #: src/supertux/menu/video_system_menu.cpp:61
 msgid "Restart game for the changes to take effect"
-msgstr "Ota muutokset voimaan käynnistämällä peli uudelleen"
+msgstr "Ota muutokset käyttöön käynnistämällä peli uudelleen"
 
 #: src/supertux/menu/web_asset_menu.cpp:42
 msgid "New files location"
@@ -5464,7 +5476,7 @@ msgstr "Lisää tiedostoja"
 
 #: src/supertux/menu/web_asset_menu.cpp:44
 msgid "Download Files"
-msgstr "Posta tiedostoja"
+msgstr "Lataa tiedostoja"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:43
 msgid "Bonus: None"
@@ -5504,11 +5516,11 @@ msgstr "Poistu maailmasta"
 
 #: src/supertux/moving_object.cpp:72
 msgid "The horizontal location of the object in pixels from the left."
-msgstr "Kohteen vaakasuuntainen sijainti pikseleinä vasemmalta reunalta."
+msgstr "Kohteen vaakasuora sijainti pikseleinä vasemmalta reunalta."
 
 #: src/supertux/moving_object.cpp:74
 msgid "The vertical location of the object in pixels from the top."
-msgstr "Kohteen pystysuuntainen sijainti pikseleinä yläreunalta."
+msgstr "Kohteen pystysuora sijainti pikseleinä yläreunalta."
 
 #: src/supertux/sector.cpp:500
 msgid "Press escape to skip"
@@ -5516,7 +5528,7 @@ msgstr "Ohita painamalla ESC"
 
 #: src/supertux/statistics.cpp:68
 msgid "Enable Coins Statistic"
-msgstr "Aktivoi kolikkotilastot"
+msgstr "Aktivoi kolikkojen tilastot"
 
 #: src/supertux/statistics.cpp:69
 msgid "Enable Secrets Statistic"
@@ -5566,7 +5578,7 @@ msgstr "Tekijänoikeus"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Tämä peli toimitetaan ILMAN MINKÄÄNLAISTA TAKUUTA. Tämä on vapaa ohjelmisto, ja voit\njakaa sitä tiettyjen ehtojen mukaisesti; katso lisätietoja lisenssitiedostosta.\n"
+msgstr "Tämä peli toimitetaan ILMAN MINKÄÄNLAISTA TAKUUTA. Tämä on vapaa ohjelmisto, ja voit\njakaa sitä tiettyjen ehtojen mukaisesti. Katso lisätietoja lisenssitiedostosta.\n"
 
 #: src/trigger/climbable.hpp:45
 msgid "Climbable"
@@ -5753,7 +5765,7 @@ msgstr "Pysy toiminnassa heti"
 
 #: src/worldmap/sprite_change.cpp:94
 msgid "Stay group"
-msgstr "Pysymisryhmä"
+msgstr "Pysy ryhmässä"
 
 #: src/worldmap/sprite_change.cpp:95
 msgid "Change on touch"

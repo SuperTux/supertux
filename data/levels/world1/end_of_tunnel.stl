@@ -850,7 +850,7 @@ lift4.start_moving();")
       (y 592)
     )
     (scripttrigger
-      (oneshot #t)
+      (oneshot #f)
       (script "lift1.start_moving();")
       (button #f)
       (width 32)

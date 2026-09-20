@@ -290,17 +290,22 @@ endif()
 include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
 
+if(WIN32)
+  ## Add an icon
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/icon_rc.template" "${PROJECT_BINARY_DIR}/tmp/icon.rc")
+endif()
+
 ## Build list of sources for supertux binary
 set(SUPERTUX_SOURCES_C ${CMAKE_CURRENT_SOURCE_DIR})
 
-file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
-file(GLOB SUPERTUX_SOURCES_HXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.hpp src/supertux/menu/*.hpp src/video/sdl/*.hpp src/video/null/*.hpp)
-file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
+file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
+file(GLOB SUPERTUX_SOURCES_HXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS  src/*/*.hpp src/supertux/menu/*.hpp src/video/sdl/*.hpp src/video/null/*.hpp)
+file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
 if(HAVE_OPENGL)
   message(STATUS "Adding OpenGL sources")
-  file(GLOB SUPERTUX_OPENGL_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.cpp)
-  file(GLOB SUPERTUX_OPENGL_SOURCES_HXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.hpp)
+  file(GLOB SUPERTUX_OPENGL_SOURCES_CXX RELATIVE  ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS src/video/gl/*.cpp)
+  file(GLOB SUPERTUX_OPENGL_SOURCES_HXX RELATIVE  ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS src/video/gl/*.hpp)
   set(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_OPENGL_SOURCES_CXX})
   set(SUPERTUX_SOURCES_HXX ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_OPENGL_SOURCES_HXX})
 endif()
@@ -382,9 +387,9 @@ if(SUPERTUX_PCH)
     # PhysicsFS
     <physfs.h>
     # SDL
-    <SDL.h>
-    <SDL_ttf.h>
-    <SDL_image.h>
+    <SDL3/SDL.h>
+    <SDL3_ttf/SDL_ttf.h>
+    <SDL3_image/SDL_image.h>
     # FMT
     <fmt/format.h>
     "${proj_headers}"
@@ -502,7 +507,7 @@ if(ANDROID)
     file(MAKE_DIRECTORY "${ANDROID_ASSETS_DIR}")
   endif()
 
-  file(GLOB DATA_CONTENTS RELATIVE "${DATA_DIR}" "${DATA_DIR}/*")
+  file(GLOB DATA_CONTENTS RELATIVE CONFIGURE_DEPENDS "${DATA_DIR}" "${DATA_DIR}/*")
   add_custom_command(
     OUTPUT "${ANDROID_DATA_ZIP}"
     COMMAND ${CMAKE_COMMAND} -E tar "cfv" "${ANDROID_DATA_ZIP}" --format=zip ${DATA_CONTENTS}

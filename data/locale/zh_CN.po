@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:52+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Wenbin Lv <wenbin816@gmail.com>, 2024,2026\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
@@ -66,13 +66,13 @@ msgid "Graphics"
 msgstr "图形"
 
 #: data/credits.stxt:189 data/credits.stxt:392 src/object/music_object.hpp:41
-#: src/supertux/menu/options_menu.cpp:156
+#: src/supertux/menu/options_menu.cpp:161
 msgid "Music"
 msgstr "音乐"
 
 #: data/credits.stxt:202 data/credits.stxt:460 src/object/ambient_sound.cpp:87
 #: src/object/sound_object.cpp:70 src/object/sound_object.hpp:40
-#: src/supertux/menu/options_menu.cpp:154
+#: src/supertux/menu/options_menu.cpp:159
 msgid "Sound"
 msgstr "音效"
 
@@ -389,11 +389,11 @@ msgstr "扩展"
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr "只允许同时启用一个资源包。"
 
-#: src/addon/addon_manager.cpp:814
+#: src/addon/addon_manager.cpp:813
 msgid "Add-on {} by {} is already installed."
 msgstr "扩展 {}（作者 {}）已经安装过了。"
 
-#: src/addon/addon_manager.cpp:834
+#: src/addon/addon_manager.cpp:833
 msgid "Add-on {} by {} successfully installed."
 msgstr "扩展 {}（作者 {}）已成功安装。"
 
@@ -638,7 +638,7 @@ msgstr "用于此飞镖的贴图。"
 msgid "Skull"
 msgstr "颅骨怪"
 
-#: src/badguy/darttrap.hpp:34
+#: src/badguy/darttrap.hpp:74
 msgid "Dart Trap"
 msgstr "飞镖陷阱"
 
@@ -1139,33 +1139,33 @@ msgstr "恶龙"
 msgid "Joystick Mappings"
 msgstr "游戏杆映射"
 
-#: src/editor/editor.cpp:354
+#: src/editor/editor.cpp:345
 msgid "Note: Draggables are now hidden. Press Ctrl+H to show again."
 msgstr "注意：可拖动元素现已隐藏。按 Ctrl+H 重新显示。"
 
-#: src/editor/editor.cpp:588
+#: src/editor/editor.cpp:579
 msgid "Level saved!"
 msgstr "关卡已保存！"
 
-#: src/editor/editor.cpp:618
+#: src/editor/editor.cpp:609
 msgid ""
 "You cannot test a level when playing from the worldmap.\n"
 "\n"
 "Exit the level editor instead."
 msgstr "从世界地图进入游戏时，无法测试关卡。\n\n请退出关卡编辑器。"
 
-#: src/editor/editor.cpp:869
+#: src/editor/editor.cpp:860
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "该关卡包含已废弃的图片。\n强烈建议替换掉所有已废弃的图块，以避免在未来版本中失去兼容性。"
 
-#: src/editor/editor.cpp:871
+#: src/editor/editor.cpp:862
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "提示：从关卡编辑菜单中打开“显示已废弃的图块”。"
 
-#: src/editor/editor.cpp:961
+#: src/editor/editor.cpp:952
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1173,33 +1173,33 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "不要忘了，您的关卡和资产\n在会话关闭后不会保存！\n如果您想保留您的关卡，\n请从“管理资产”菜单下载它们。"
 
-#: src/editor/editor.cpp:1002
+#: src/editor/editor.cpp:993
 msgid "This level hasn't been saved yet. Do you want to save it instead?"
 msgstr "此关卡尚未保存。您要保存吗？"
 
-#: src/editor/editor.cpp:1004
+#: src/editor/editor.cpp:995
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "此关卡包含未保存的更改，您要保存吗？"
 
-#: src/editor/editor.cpp:1005
+#: src/editor/editor.cpp:996
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "该关卡可能包含未保存的改动，您想保存吗？"
 
-#: src/editor/editor.cpp:1006 src/gui/dialog.hpp:95
+#: src/editor/editor.cpp:997 src/gui/dialog.hpp:95
 #: src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:174
 msgid "Yes"
 msgstr "是"
 
-#: src/editor/editor.cpp:1012 src/editor/particle_editor.cpp:779
+#: src/editor/editor.cpp:1003 src/editor/particle_editor.cpp:779
 #: src/gui/dialog.hpp:96 src/supertux/menu/addon_preview_menu.cpp:140
 #: src/supertux/menu/editor_level_menu.cpp:40
 #: src/supertux/menu/editor_level_select_menu.cpp:178
 msgid "No"
 msgstr "否"
 
-#: src/editor/editor.cpp:1016 src/editor/particle_editor.cpp:783
+#: src/editor/editor.cpp:1007 src/editor/particle_editor.cpp:783
 #: src/gui/menu_filesystem.cpp:123 src/gui/menu_list.cpp:38
 #: src/gui/menu_paths.cpp:48
 #: src/supertux/menu/editor_level_select_menu.cpp:183
@@ -1215,7 +1215,7 @@ msgstr "否"
 msgid "Cancel"
 msgstr "取消"
 
-#: src/editor/editor.cpp:1135
+#: src/editor/editor.cpp:1126
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -1223,21 +1223,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "部分已过时的插件仍然处于激活状态，\n并且可能会与 SuperTux 的默认结构发生冲突。\n您仍然可以在菜单中启用这些插件。\n禁用这些插件不会删除您的游戏进度。"
 
-#: src/editor/editor.cpp:1138
+#: src/editor/editor.cpp:1129
 msgid "Disable add-ons"
 msgstr "禁用扩展"
 
-#: src/editor/editor.cpp:1143
+#: src/editor/editor.cpp:1134
 msgid "Ignore (not advised)"
 msgstr "忽略（不推荐）"
 
-#: src/editor/editor.cpp:1147
+#: src/editor/editor.cpp:1138
 msgid "Leave editor"
 msgstr "离开编辑器"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the sector to be "main").
-#: src/editor/editor.cpp:1493
+#: src/editor/editor.cpp:1501
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -1246,7 +1246,7 @@ msgstr "找不到名为“main”的区块。\n请将您希望玩家从此处开
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
-#: src/editor/editor.cpp:1500
+#: src/editor/editor.cpp:1508
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
@@ -1624,39 +1624,39 @@ msgstr "作者"
 msgid "License"
 msgstr "许可证"
 
-#: src/editor/overlay_widget.cpp:1061
+#: src/editor/overlay_widget.cpp:1065
 msgid "Cannot select deprecated tiles"
 msgstr "无法选择已废弃的图块"
 
-#: src/editor/overlay_widget.cpp:1700
+#: src/editor/overlay_widget.cpp:1718
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr "自动擦除模式已启用 (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1704
+#: src/editor/overlay_widget.cpp:1722
 msgid "Autotile erasing cannot be performed here"
 msgstr "无法在此执行自动擦除"
 
-#: src/editor/overlay_widget.cpp:1709
+#: src/editor/overlay_widget.cpp:1727
 msgid "Autotile mode is on (\"{}\")"
 msgstr "自动放置模式已启用 (\"{}\")"
 
-#: src/editor/overlay_widget.cpp:1713
+#: src/editor/overlay_widget.cpp:1731
 msgid "Selected tile isn't autotileable"
 msgstr "选择的图块无法被自动放置"
 
-#: src/editor/overlay_widget.cpp:1719
+#: src/editor/overlay_widget.cpp:1737
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "按住 Ctrl 来启用自动擦除图块"
 
-#: src/editor/overlay_widget.cpp:1721
+#: src/editor/overlay_widget.cpp:1739
 msgid "Release Ctrl to use autotile erasing"
 msgstr "释放 Ctrl 以自动擦除图块"
 
-#: src/editor/overlay_widget.cpp:1726
+#: src/editor/overlay_widget.cpp:1744
 msgid "Hold Ctrl to enable autotile"
 msgstr "按住 Ctrl 来启用自动放置图块"
 
-#: src/editor/overlay_widget.cpp:1728
+#: src/editor/overlay_widget.cpp:1746
 msgid "Release Ctrl to autotile"
 msgstr "释放 Ctrl 以自动放置图块"
 
@@ -1997,7 +1997,7 @@ msgid "Select object ({})"
 msgstr "选择物体（{}）"
 
 #: src/gui/menu_object_select.cpp:50 src/gui/menu_string_array.cpp:79
-#: src/supertux/menu/profile_menu.cpp:88
+#: src/supertux/menu/profile_menu.cpp:89
 msgid "Add"
 msgstr "添加"
 
@@ -2055,9 +2055,9 @@ msgstr "路径 {}"
 #: src/supertux/menu/multiplayer_menu.cpp:42
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 #: src/supertux/menu/multiplayer_players_menu.cpp:106
-#: src/supertux/menu/options_menu.cpp:284
+#: src/supertux/menu/options_menu.cpp:293
 #: src/supertux/menu/options_select_menu.cpp:44
-#: src/supertux/menu/profile_menu.cpp:118
+#: src/supertux/menu/profile_menu.cpp:121
 #: src/supertux/menu/profile_name_menu.cpp:45
 #: src/supertux/menu/sorted_contrib_menu.cpp:135
 #: src/supertux/menu/video_system_menu.cpp:52
@@ -2096,8 +2096,8 @@ msgstr "文本"
 msgid "Insert"
 msgstr "插入"
 
-#: src/gui/menu_string_array.cpp:82 src/supertux/menu/profile_menu.cpp:108
-#: src/supertux/menu/profile_menu.cpp:110
+#: src/gui/menu_string_array.cpp:82 src/supertux/menu/profile_menu.cpp:109
+#: src/supertux/menu/profile_menu.cpp:111
 msgid "Delete"
 msgstr "删除"
 
@@ -3314,8 +3314,8 @@ msgstr "上"
 msgid "down"
 msgstr "下"
 
-#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:307
-#: src/supertux/menu/options_menu.cpp:350
+#: src/supertux/direction.cpp:76 src/supertux/menu/options_menu.cpp:316
+#: src/supertux/menu/options_menu.cpp:359
 msgid "auto"
 msgstr "自动"
 
@@ -3377,15 +3377,15 @@ msgstr "最佳时间"
 msgid "Level target time"
 msgstr "关卡目标时间"
 
-#: src/supertux/main.cpp:893
+#: src/supertux/main.cpp:895
 msgid "New release: SuperTux {}!"
 msgstr "新版本：SuperTux {}！"
 
-#: src/supertux/main.cpp:894
+#: src/supertux/main.cpp:896
 msgid "Click for more details."
 msgstr "点击查看更多内容。"
 
-#: src/supertux/main.cpp:897
+#: src/supertux/main.cpp:899
 msgid ""
 "A new release of SuperTux ({}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -3393,7 +3393,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "SuperTux 新版本 ({}) 已发布！\n欲了解更多信息，请访问 SuperTux 网站。\n\n您想现在访问网站吗？"
 
-#: src/supertux/main.cpp:908
+#: src/supertux/main.cpp:910
 msgid "Checking for new releases..."
 msgstr "正在检查新版本……"
 
@@ -3772,7 +3772,7 @@ msgid "No User Contrib Levels yet. Create some with the Level Editor."
 msgstr "尚无用户贡献的关卡，请使用关卡编辑器创建一些关卡。"
 
 #: src/supertux/menu/custom_menu_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:227
+#: src/supertux/menu/options_menu.cpp:232
 msgid "Menu Customization"
 msgstr "自定义菜单"
 
@@ -4529,7 +4529,7 @@ msgid "Discord (disabled; not compiled)"
 msgstr "Discord（已禁用；未编译）"
 
 #: src/supertux/menu/joystick_menu.cpp:54
-#: src/supertux/menu/options_menu.cpp:194
+#: src/supertux/menu/options_menu.cpp:199
 msgid "Setup Joystick"
 msgstr "游戏杆设置"
 
@@ -4705,7 +4705,7 @@ msgid "Left Command"
 msgstr "左Command"
 
 #: src/supertux/menu/keyboard_menu.cpp:73
-#: src/supertux/menu/options_menu.cpp:191
+#: src/supertux/menu/options_menu.cpp:196
 msgid "Setup Keyboard"
 msgstr "键盘设置"
 
@@ -4872,434 +4872,442 @@ msgid ""
 "Do you wish to remove them anyways?"
 msgstr "警告：您想删除的玩家\n当前正处于游戏中。\n\n您仍想要删除吗？"
 
-#: src/supertux/menu/options_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:91
 #: src/supertux/menu/options_select_menu.cpp:35
 msgid "Locale"
 msgstr "本地化"
 
-#: src/supertux/menu/options_menu.cpp:90
+#: src/supertux/menu/options_menu.cpp:95
 msgid "Select Language"
 msgstr "选择语言"
 
-#: src/supertux/menu/options_menu.cpp:91
+#: src/supertux/menu/options_menu.cpp:96
 msgid "Select a different language to display text in"
 msgstr "使用其他语言来显示文字"
 
-#: src/supertux/menu/options_menu.cpp:93
+#: src/supertux/menu/options_menu.cpp:98
 msgid "Language Packs"
 msgstr "语言包"
 
-#: src/supertux/menu/options_menu.cpp:94
+#: src/supertux/menu/options_menu.cpp:99
 msgid "Language packs contain up-to-date translations"
 msgstr "语言包内有最新的翻译文件"
 
-#: src/supertux/menu/options_menu.cpp:102
+#: src/supertux/menu/options_menu.cpp:107
 #: src/supertux/menu/options_select_menu.cpp:37
 msgid "Video"
 msgstr "视频"
 
-#: src/supertux/menu/options_menu.cpp:105
+#: src/supertux/menu/options_menu.cpp:110
 msgid "Window Resizable"
 msgstr "窗口可调整大小"
 
-#: src/supertux/menu/options_menu.cpp:106
+#: src/supertux/menu/options_menu.cpp:111
 msgid "Allow window resizing, might require a restart to take effect"
 msgstr "允许窗口调整大小，可能需要重启来生效"
 
-#: src/supertux/menu/options_menu.cpp:110
+#: src/supertux/menu/options_menu.cpp:115
 msgid "Fullscreen"
 msgstr "全屏"
 
-#: src/supertux/menu/options_menu.cpp:111
+#: src/supertux/menu/options_menu.cpp:116
 msgid "Fill the entire screen"
 msgstr "填满整个屏幕"
 
-#: src/supertux/menu/options_menu.cpp:118
+#: src/supertux/menu/options_menu.cpp:123
 msgid "Fit to browser"
 msgstr "适应到浏览器"
 
-#: src/supertux/menu/options_menu.cpp:119
+#: src/supertux/menu/options_menu.cpp:124
 msgid "Fit the resolution to the size of your browser"
 msgstr "使分辨率适应您的浏览器的大小"
 
-#: src/supertux/menu/options_menu.cpp:126
+#: src/supertux/menu/options_menu.cpp:131
 msgid "Frame prediction"
 msgstr "帧预测"
 
-#: src/supertux/menu/options_menu.cpp:127
+#: src/supertux/menu/options_menu.cpp:132
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
 msgstr "平滑摄像机的移动并生成中间帧。对于刷新率远高于 60Hz 的显示器有肉眼可见的效果。运动中的物体可能变模糊。"
 
-#: src/supertux/menu/options_menu.cpp:129
+#: src/supertux/menu/options_menu.cpp:134
 msgid "Fancy Effects"
 msgstr "花哨效果"
 
-#: src/supertux/menu/options_menu.cpp:130
+#: src/supertux/menu/options_menu.cpp:135
 msgid ""
 "Applies fancy effects such as blur, clear tile refraction, and various other"
 " effects deemed \"fancy\". May significantly degrade performance."
 msgstr "使用诸如模糊、清晰的图块折射，以及其他各种“花哨”的效果。可能会显著降低性能。"
 
-#: src/supertux/menu/options_menu.cpp:140
+#: src/supertux/menu/options_menu.cpp:145
 msgid "Camera Peek Multiplier"
 msgstr "摄像机观察系数"
 
-#: src/supertux/menu/options_menu.cpp:141
+#: src/supertux/menu/options_menu.cpp:146
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
 msgstr "每帧向摄像机观察点的移动距离，以小数系数表示。\n\n0 = 不观察，1 = 立即观察"
 
-#: src/supertux/menu/options_menu.cpp:143
+#: src/supertux/menu/options_menu.cpp:148
 msgid "Change Video System"
 msgstr "更改视频系统"
 
-#: src/supertux/menu/options_menu.cpp:144
+#: src/supertux/menu/options_menu.cpp:149
 msgid "Change video system used to render graphics"
 msgstr "更改用于渲染图形的视频系统"
 
-#: src/supertux/menu/options_menu.cpp:150
+#: src/supertux/menu/options_menu.cpp:155
 #: src/supertux/menu/options_select_menu.cpp:38
 msgid "Audio"
 msgstr "声音"
 
-#: src/supertux/menu/options_menu.cpp:155
+#: src/supertux/menu/options_menu.cpp:160
 msgid "Disable all sound effects"
 msgstr "禁用所有音效"
 
-#: src/supertux/menu/options_menu.cpp:157
+#: src/supertux/menu/options_menu.cpp:162
 msgid "Disable all music"
 msgstr "禁用所有音乐"
 
-#: src/supertux/menu/options_menu.cpp:164
+#: src/supertux/menu/options_menu.cpp:169
 msgid "Sound (disabled)"
 msgstr "音效（已禁用）"
 
-#: src/supertux/menu/options_menu.cpp:165
+#: src/supertux/menu/options_menu.cpp:170
 msgid "Music (disabled)"
 msgstr "音乐（已禁用）"
 
-#: src/supertux/menu/options_menu.cpp:173
+#: src/supertux/menu/options_menu.cpp:178
 #: src/supertux/menu/options_select_menu.cpp:39
 msgid "Controls"
 msgstr "控制器设置"
 
-#: src/supertux/menu/options_menu.cpp:178
+#: src/supertux/menu/options_menu.cpp:183
 msgid "Enable Rumbling Controllers"
 msgstr "启用控制器震动"
 
-#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:184
 msgid "Enable vibrating the game controllers."
 msgstr "启用游戏控制器的震动。"
 
-#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:184
 msgid "This feature is currently only used in the multiplayer options menu."
 msgstr "此功能目前仅在多人游戏选项菜单中使用。"
 
-#: src/supertux/menu/options_menu.cpp:181
+#: src/supertux/menu/options_menu.cpp:186
 msgid "Show Touch Controls"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:182
+#: src/supertux/menu/options_menu.cpp:187
 msgid ""
 "If disabled, touch controls will still work, but the buttons will remain "
 "hidden."
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:184
+#: src/supertux/menu/options_menu.cpp:189
 msgid "Enable Haptic Feedback"
 msgstr "启用触觉反馈"
 
-#: src/supertux/menu/options_menu.cpp:185
+#: src/supertux/menu/options_menu.cpp:190
 msgid "Enable haptic feedback for touchscreen controls"
 msgstr "为触摸屏控制启用触觉反馈"
 
-#: src/supertux/menu/options_menu.cpp:187
+#: src/supertux/menu/options_menu.cpp:192
 msgid "Only Haptic Feedback for D-Pad"
 msgstr "仅方向键有触觉反馈"
 
-#: src/supertux/menu/options_menu.cpp:188
+#: src/supertux/menu/options_menu.cpp:193
 msgid "Only enable haptic feedback for the D-Pad"
 msgstr "仅启用方向键的触觉反馈"
 
-#: src/supertux/menu/options_menu.cpp:192
+#: src/supertux/menu/options_menu.cpp:197
 msgid "Configure key-action mappings"
 msgstr "配置键盘映射"
 
-#: src/supertux/menu/options_menu.cpp:195
+#: src/supertux/menu/options_menu.cpp:200
 msgid "Configure joystick control-action mappings"
 msgstr "配置游戏杆映射"
 
-#: src/supertux/menu/options_menu.cpp:202
+#: src/supertux/menu/options_menu.cpp:207
 #: src/supertux/menu/options_select_menu.cpp:40
 msgid "Extras"
 msgstr "附加设置"
 
-#: src/supertux/menu/options_menu.cpp:205
-#: src/supertux/menu/profile_menu.cpp:56
+#: src/supertux/menu/options_menu.cpp:210
+#: src/supertux/menu/profile_menu.cpp:57
 msgid "Select Profile"
 msgstr "选择配置"
 
-#: src/supertux/menu/options_menu.cpp:206
+#: src/supertux/menu/options_menu.cpp:211
 msgid "Select a profile to play with"
 msgstr "选择要载入的配置"
 
-#: src/supertux/menu/options_menu.cpp:208
+#: src/supertux/menu/options_menu.cpp:213
 msgid "Multiplayer settings"
 msgstr "多人游戏设置"
 
-#: src/supertux/menu/options_menu.cpp:209
+#: src/supertux/menu/options_menu.cpp:214
 msgid "Configure settings specific to multiplayer"
 msgstr "配置和多人游戏有关的设置"
 
-#: src/supertux/menu/options_menu.cpp:211
+#: src/supertux/menu/options_menu.cpp:216
 msgid "Enable transitions"
 msgstr "启用渐变"
 
-#: src/supertux/menu/options_menu.cpp:212
+#: src/supertux/menu/options_menu.cpp:217
 msgid "Enable screen transitions and smooth menu animation"
 msgstr "启用屏幕渐变和平滑菜单动画"
 
-#: src/supertux/menu/options_menu.cpp:214
+#: src/supertux/menu/options_menu.cpp:219
 msgid "Show game timer"
 msgstr "显示游戏计时器"
 
-#: src/supertux/menu/options_menu.cpp:215
+#: src/supertux/menu/options_menu.cpp:220
 msgid "Show a game timer while playing a level"
 msgstr "在关卡中显示游戏计时器"
 
-#: src/supertux/menu/options_menu.cpp:217
+#: src/supertux/menu/options_menu.cpp:222
 msgid "Custom title screen levels"
 msgstr "自定义标题画面关卡"
 
-#: src/supertux/menu/options_menu.cpp:218
+#: src/supertux/menu/options_menu.cpp:223
 msgid "Allow overriding the title screen level, when loading certain worlds"
 msgstr "在加载特定的世界时，允许覆盖标题画面关卡"
 
-#: src/supertux/menu/options_menu.cpp:221
+#: src/supertux/menu/options_menu.cpp:226
 msgid "Force Christmas Mode"
 msgstr "强制启用圣诞节模式"
 
-#: src/supertux/menu/options_menu.cpp:223
+#: src/supertux/menu/options_menu.cpp:228
 msgid "Integrations and presence"
 msgstr "集成和展示"
 
-#: src/supertux/menu/options_menu.cpp:224
+#: src/supertux/menu/options_menu.cpp:229
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
 msgstr "管理 SuperTux 是否应在社交媒体（Discord）个人资料中显示您所玩的关卡"
 
-#: src/supertux/menu/options_menu.cpp:228
+#: src/supertux/menu/options_menu.cpp:233
 msgid "Customize the appearance of the menus"
 msgstr "自定义菜单外观"
 
-#: src/supertux/menu/options_menu.cpp:235
+#: src/supertux/menu/options_menu.cpp:240
 #: src/supertux/menu/options_select_menu.cpp:41
 msgid "Advanced"
 msgstr "高级"
 
-#: src/supertux/menu/options_menu.cpp:240
+#: src/supertux/menu/options_menu.cpp:245
 msgid "Developer Mode"
 msgstr "开发者模式"
 
-#: src/supertux/menu/options_menu.cpp:242
+#: src/supertux/menu/options_menu.cpp:247
 msgid "Confirm aborting level"
 msgstr "确认退出关卡"
 
-#: src/supertux/menu/options_menu.cpp:242
+#: src/supertux/menu/options_menu.cpp:247
 msgid "Confirmation Dialog"
 msgstr "确认对话框"
 
-#: src/supertux/menu/options_menu.cpp:244
+#: src/supertux/menu/options_menu.cpp:249
 msgid "Pause on focus loss"
 msgstr "失去焦点时暂停"
 
-#: src/supertux/menu/options_menu.cpp:245
+#: src/supertux/menu/options_menu.cpp:250
 msgid "Automatically pause the game when the window loses focus"
 msgstr "当窗口失去焦点时自动暂停游戏"
 
-#: src/supertux/menu/options_menu.cpp:248
+#: src/supertux/menu/options_menu.cpp:253
 msgid "Use custom mouse cursor"
 msgstr "使用自定义鼠标光标"
 
-#: src/supertux/menu/options_menu.cpp:248
+#: src/supertux/menu/options_menu.cpp:253
 msgid "Whether the game renders its own cursor or uses the system's cursor"
 msgstr "游戏要渲染自己的光标还是使用系统光标"
 
-#: src/supertux/menu/options_menu.cpp:250
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Use native custom cursor"
 msgstr "使用原生自定义光标"
 
-#: src/supertux/menu/options_menu.cpp:250
+#: src/supertux/menu/options_menu.cpp:255
 msgid "Whether the game uses a native custom cursor or renders it in the game"
 msgstr "游戏是使用原生自定义光标还是在游戏中渲染光标"
 
-#: src/supertux/menu/options_menu.cpp:252
+#: src/supertux/menu/options_menu.cpp:257
 msgid "Precise scrolling"
 msgstr "精确滚动"
 
-#: src/supertux/menu/options_menu.cpp:253
+#: src/supertux/menu/options_menu.cpp:258
 msgid ""
 "Most modern touchpads report precise scrolling events.\n"
 "Disable this if scrolling with a typical mouse seems unusual, or you simply dislike it"
 msgstr "大多数现代触控板都支持产生精确滚动事件。\n如果在启用后使用普通鼠标滚动时感觉异常，或者您不喜欢这种滚动方式，请禁用此选项"
 
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:260
 msgid "Invert horizontal scrolling"
 msgstr "反转水平滚动"
 
-#: src/supertux/menu/options_menu.cpp:256
+#: src/supertux/menu/options_menu.cpp:261
 msgid "Inverts scrolling in the X-axis"
 msgstr "反转 X 轴上的滚动"
 
-#: src/supertux/menu/options_menu.cpp:258
+#: src/supertux/menu/options_menu.cpp:263
 msgid "Invert vertical scrolling"
 msgstr "反转垂直滚动"
 
-#: src/supertux/menu/options_menu.cpp:259
+#: src/supertux/menu/options_menu.cpp:264
 msgid "Inverts scrolling in the Y-axis"
 msgstr "反转 Y 轴上的滚动"
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:270
 msgid ""
 "Don't attempt to scale or apply any aspect ratio. Ignores some video "
 "settings. Useful for arcade cabinets or unusual screens."
 msgstr "不要尝试缩放或应用任何宽高比。忽略部分视频设置。适用于街机或特殊屏幕。"
 
-#: src/supertux/menu/options_menu.cpp:265
+#: src/supertux/menu/options_menu.cpp:270
 msgid "Force full viewport"
 msgstr "强制使用完整视口"
 
-#: src/supertux/menu/options_menu.cpp:269
+#: src/supertux/menu/options_menu.cpp:274
 msgid "Check for new releases"
 msgstr "检查新版本"
 
-#: src/supertux/menu/options_menu.cpp:270
+#: src/supertux/menu/options_menu.cpp:275
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr "允许游戏在启动时检查 SuperTux 的新版本，并在找到时通知您。"
 
-#: src/supertux/menu/options_menu.cpp:274
+#: src/supertux/menu/options_menu.cpp:279
 msgid "Disable network"
 msgstr "禁用网络"
 
-#: src/supertux/menu/options_menu.cpp:275
+#: src/supertux/menu/options_menu.cpp:280
 msgid "Prevents the game from connecting online"
 msgstr "阻止游戏联网"
 
-#: src/supertux/menu/options_menu.cpp:277
+#: src/supertux/menu/options_menu.cpp:282
 msgid "Network support is disabled."
 msgstr "网络支持已禁用。"
 
-#: src/supertux/menu/options_menu.cpp:343
+#: src/supertux/menu/options_menu.cpp:285
+msgid "Open user directory"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:286
+msgid "Open the user directory containing the SuperTux configuration"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:352
 msgid "Magnification"
 msgstr "放大倍率"
 
-#: src/supertux/menu/options_menu.cpp:344
+#: src/supertux/menu/options_menu.cpp:353
 msgid "Change the magnification of the game area"
 msgstr "改变游戏区域的放大倍率"
 
-#: src/supertux/menu/options_menu.cpp:380
+#: src/supertux/menu/options_menu.cpp:389
 msgid "Aspect Ratio"
 msgstr "纵横比"
 
-#: src/supertux/menu/options_menu.cpp:381
+#: src/supertux/menu/options_menu.cpp:390
 msgid "Adjust the aspect ratio"
 msgstr "调整纵横比"
 
-#: src/supertux/menu/options_menu.cpp:408
+#: src/supertux/menu/options_menu.cpp:417
 msgid "Window Resolution"
 msgstr "窗口分辨率"
 
-#: src/supertux/menu/options_menu.cpp:409
+#: src/supertux/menu/options_menu.cpp:418
 msgid "Resize the window to the given size"
 msgstr "将窗口调整至给定的大小"
 
-#: src/supertux/menu/options_menu.cpp:450
+#: src/supertux/menu/options_menu.cpp:461
 msgid "Desktop"
 msgstr "桌面"
 
-#: src/supertux/menu/options_menu.cpp:479
+#: src/supertux/menu/options_menu.cpp:490
 msgid "Fullscreen Resolution"
 msgstr "全屏分辨率"
 
-#: src/supertux/menu/options_menu.cpp:480
+#: src/supertux/menu/options_menu.cpp:491
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "选择全屏模式下的分辨率（您必须开关全屏来应用更改）"
 
-#: src/supertux/menu/options_menu.cpp:486
+#: src/supertux/menu/options_menu.cpp:497
 msgid "on"
 msgstr "开启"
 
-#: src/supertux/menu/options_menu.cpp:487
-#: src/supertux/menu/options_menu.cpp:512
+#: src/supertux/menu/options_menu.cpp:498
+#: src/supertux/menu/options_menu.cpp:523
 msgid "off"
 msgstr "关闭"
 
-#: src/supertux/menu/options_menu.cpp:488
+#: src/supertux/menu/options_menu.cpp:499
 msgid "adaptive"
 msgstr "自适应"
 
-#: src/supertux/menu/options_menu.cpp:506
+#: src/supertux/menu/options_menu.cpp:517
 msgid "VSync"
 msgstr "垂直同步"
 
-#: src/supertux/menu/options_menu.cpp:507
+#: src/supertux/menu/options_menu.cpp:518
 msgid "Set the VSync mode"
 msgstr "设置垂直同步模式"
 
-#: src/supertux/menu/options_menu.cpp:513
+#: src/supertux/menu/options_menu.cpp:524
 msgid "reduced"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:514
+#: src/supertux/menu/options_menu.cpp:525
 msgid "full"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:528
+#: src/supertux/menu/options_menu.cpp:539
 msgid "Screen shake"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:529
+#: src/supertux/menu/options_menu.cpp:540
 msgid "Adjust amount of screen shake effects"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:564
+#: src/supertux/menu/options_menu.cpp:575
 msgid "Sound Volume"
 msgstr "音效音量"
 
-#: src/supertux/menu/options_menu.cpp:565
+#: src/supertux/menu/options_menu.cpp:576
 msgid "Adjust sound volume"
 msgstr "调整音效音量"
 
-#: src/supertux/menu/options_menu.cpp:600
+#: src/supertux/menu/options_menu.cpp:611
 msgid "Music Volume"
 msgstr "音乐音量"
 
-#: src/supertux/menu/options_menu.cpp:601
+#: src/supertux/menu/options_menu.cpp:612
 msgid "Adjust music volume"
 msgstr "调整音乐音量"
 
-#: src/supertux/menu/options_menu.cpp:636
+#: src/supertux/menu/options_menu.cpp:647
 msgid "Flash Intensity"
 msgstr "闪光强度"
 
-#: src/supertux/menu/options_menu.cpp:637
+#: src/supertux/menu/options_menu.cpp:648
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr "调整雷雨产生的闪光的强度"
 
-#: src/supertux/menu/options_menu.cpp:650
+#: src/supertux/menu/options_menu.cpp:661
 msgid "On-screen controls scale"
 msgstr "屏上控制按钮缩放"
 
-#: src/supertux/menu/options_menu.cpp:781
+#: src/supertux/menu/options_menu.cpp:792
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -5354,61 +5362,65 @@ msgstr "打开粒子文件"
 msgid "Save particle as"
 msgstr "粒子另存为"
 
-#: src/supertux/menu/profile_menu.cpp:60
+#: src/supertux/menu/profile_menu.cpp:61
 msgid "No profiles found."
 msgstr "无任何配置。"
 
-#: src/supertux/menu/profile_menu.cpp:68
-#: src/supertux/menu/profile_menu.cpp:149
-#: src/supertux/menu/profile_menu.cpp:168
+#: src/supertux/menu/profile_menu.cpp:69
+#: src/supertux/menu/profile_menu.cpp:155
+#: src/supertux/menu/profile_menu.cpp:173
 msgid "Profile {}"
 msgstr "配置 {}"
 
-#: src/supertux/menu/profile_menu.cpp:69
+#: src/supertux/menu/profile_menu.cpp:70
 msgid "{} (Profile {})"
 msgstr "{} (配置 {})"
 
-#: src/supertux/menu/profile_menu.cpp:84
+#: src/supertux/menu/profile_menu.cpp:85
 msgid "No profile selected."
 msgstr "未选择配置。"
 
-#: src/supertux/menu/profile_menu.cpp:91 src/supertux/menu/profile_menu.cpp:93
+#: src/supertux/menu/profile_menu.cpp:92 src/supertux/menu/profile_menu.cpp:94
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Rename"
 msgstr "重命名"
 
-#: src/supertux/menu/profile_menu.cpp:98
-#: src/supertux/menu/profile_menu.cpp:100
+#: src/supertux/menu/profile_menu.cpp:99
+#: src/supertux/menu/profile_menu.cpp:101
 msgid "Reset"
 msgstr "重置"
 
-#: src/supertux/menu/profile_menu.cpp:103
-#: src/supertux/menu/profile_menu.cpp:105
+#: src/supertux/menu/profile_menu.cpp:104
+#: src/supertux/menu/profile_menu.cpp:106
 msgid "Reset all"
 msgstr "重置全部"
 
-#: src/supertux/menu/profile_menu.cpp:113
-#: src/supertux/menu/profile_menu.cpp:115
+#: src/supertux/menu/profile_menu.cpp:114
+#: src/supertux/menu/profile_menu.cpp:116
 msgid "Delete all"
 msgstr "删除全部"
 
-#: src/supertux/menu/profile_menu.cpp:148
+#: src/supertux/menu/profile_menu.cpp:118
+msgid "Open Profile Directory"
+msgstr ""
+
+#: src/supertux/menu/profile_menu.cpp:154
 msgid ""
 "This will reset all game progress on the profile \"{}\".\n"
 "Are you sure?"
 msgstr "这将重置配置 \"{}\" 的所有游戏进度。您确定吗？"
 
-#: src/supertux/menu/profile_menu.cpp:157
+#: src/supertux/menu/profile_menu.cpp:163
 msgid "This will reset your game progress on all profiles. Are you sure?"
 msgstr "这将重置您所有配置文件的游戏进度。您确定吗？"
 
-#: src/supertux/menu/profile_menu.cpp:167
+#: src/supertux/menu/profile_menu.cpp:172
 msgid ""
 "This will delete the profile \"{}\",\n"
 "including all game progress on it. Are you sure?"
 msgstr "这将删除配置 \"{}\" 并包括它的游戏进度。您确定吗？"
 
-#: src/supertux/menu/profile_menu.cpp:179
+#: src/supertux/menu/profile_menu.cpp:184
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"

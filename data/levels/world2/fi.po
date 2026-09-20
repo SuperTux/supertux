@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-08-07 18:53+0000\n"
+"POT-Creation-Date: 2026-09-11 22:47+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: Jaakko Muilu, 2025-2026\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -180,7 +180,7 @@ msgstr "Hän meni tutkimaan, ja hänet säikäytti Ilkeä Muratti, joka kupsahti
 msgid ""
 "However, this one looked different. Its usual bright green leaves seemed to "
 "have turned an ailing purple."
-msgstr "Tämä kuitenkin näytti erilaiselta. Sen tavalliset kirkkaat lehdet ovat näköjään muuttuneet sairaan vihreiksi."
+msgstr "Tämä kuitenkin näytti erilaiselta. Sen tavalliset kirkkaat lehdet näyttävät muuttuneen sairaan vihreiksi."
 
 #: data/levels/world2/scripts_corrupted_cutscene.txt:7
 msgid ""
@@ -192,13 +192,13 @@ msgstr "Ennen kuin Tux ehti ajatella, mitä raukkaparalle oli tapahtunut, maa al
 msgid ""
 "Massive purple roots burst through the ground, followed by an onslaught of "
 "many more coming closer and closer!"
-msgstr "Massiiviset purppurajuuret tulivat maasta, minkä perässä vyöryi yhä useampi lähestyen yhä enemmän!"
+msgstr "Massiiviset purppurajuuret tulivat maasta, minkä perässä vyöryi lisääi lähestyen yhä enemmän!"
 
 #: data/levels/world2/scripts_corrupted_cutscene.txt:9
 msgid ""
 "Tux panicked! Whatever these roots were, they were covering everything. "
 "Where could he go?"
-msgstr "Tux panikoi! Mitä nämä juuret olivatkaan, ne peittivät kaiken. Minne häne voisi mennä?"
+msgstr "Tux panikoi! Mitä nuo juuret olivatkaan, ne peittivät kaiken. Minne häne voisi mennä?"
 
 #: data/levels/world2/scripts_corrupted_cutscene.txt:10
 msgid ""
@@ -284,7 +284,7 @@ msgstr "Graniitti mainitsi, että he tunsivat hänen kotimaansa, mutta he eivät
 msgid ""
 "They offered to show Tux the way. It was the least they could do to show "
 "their gratitute."
-msgstr "He tarjoutuivat opastamaan Tuxia. Vähintäänkin sitä he voisivat tehdä kiitollisuuden osoituksena."
+msgstr "He tarjoutuivat opastamaan Tuxia. Sitä he ainakin voisivat tehdä kiitollisuuden osoituksena."
 
 #: data/levels/world2/scripts_floral_blossom.txt:14
 msgid ""
@@ -304,6 +304,10 @@ msgstr "Jäljelle jääneet Graniitit jäisivät rakentamaan kotinsa hitaasti en
 msgid "Granito freed!"
 msgstr "Graniitti vapaa!"
 
+#: data/levels/world2/scripts_floral_blossom.txt:19
+msgid "You saved all Granito. Hurray!"
+msgstr "Pelastit kaikki Graniitit. Hurraa!"
+
 #: data/levels/world2/scripts_forest_intro.txt:2
 msgid "After quite the long trip, Tux arrived at the new biome."
 msgstr "Pitkähkön matkan jälkeen Tux saapui uuteen biomiin."
@@ -316,7 +320,7 @@ msgstr "Tuxia hämmästytti tämän värikkään maan laajuus, mikä erosi häne
 
 #: data/levels/world2/scripts_forest_intro.txt:4
 msgid "But how was he ever going to find Nolok in this vast forest?"
-msgstr "Vaan miten hän ikinä löytäisi Nolokin tästä suuresta mestästä?"
+msgstr "Vaan miten hän löytäisikään Nolokin tästä suuresta mestästä?"
 
 #: data/levels/world2/scripts_forest_intro.txt:5
 msgid ""
@@ -328,7 +332,7 @@ msgstr "Tux mietti hetken ja päätti etsiä korkean paikan nähdäkseen paremmi
 msgid ""
 "Maybe he could find some kind of landmark to help him locate Nolok, wherever"
 " he may be."
-msgstr "Ehkäpä hän löytäisi jonkin maamerkin Nolokin paikallistamiseksi, missä hän sitten olikaan."
+msgstr "Ehkäpä hän löytäisi jonkin maamerkin Nolokin paikallistamiseksi, olipa hän missä hyvänsä."
 
 #: data/levels/world2/scripts_ghosttree_cutscene.txt:2
 msgid ""
@@ -397,7 +401,7 @@ msgstr "Oliko se ohi? Oliko painajainen vihdoinkin ohi?"
 msgid ""
 "Tux could not believe his eyes, but it seemed so! The roots began "
 "retreating. The ground looked more vital again."
-msgstr "Tux ei voinut uskoa silmiään, mutta siltä näytti! Juuret alkoivat vetäytyä. Maa näytti jälleen ehyemmältä."
+msgstr "Tux ei voinut uskoa silmiään, mutta siltä se näytti! Juuret alkoivat vetäytyä. Maa näytti jälleen ehyemmältä."
 
 #: data/levels/world2/scripts_ghosttreewin_cutscene.txt:4
 msgid ""

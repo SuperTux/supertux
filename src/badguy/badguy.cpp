@@ -864,16 +864,22 @@ BadGuy::run_dead_script()
 
   if (m_is_glinting && m_can_glint && !m_holds_coins)
   {
+    auto& sector = Sector::get();
     const int num_coins = get_coins_worth();
+
+    float coin_x = get_bbox().get_middle().x - 16.0f;
+    float coin_y = get_bbox().get_top() - 32.0f;
+    auto velocity = Vector(graphicsRandom.randf(-96.0f, 96.0f));
+
+    if (!sector.is_free_of_solid_tiles(coin_x, coin_y, coin_x + 32.f, coin_y + 32.f, false))
+    {
+      coin_x = get_bbox().get_left();
+      coin_y = get_bbox().get_top();
+    }
 
     for (int i = 0; i < num_coins; ++i)
     {
-      const float coin_x = get_bbox().get_middle().x - 16.0f;
-      const float coin_y = get_bbox().get_top() - 32.0f;
-
-      Sector::get().add<HeavyCoin>(Vector(coin_x, coin_y),
-                                   Vector(graphicsRandom.randf(-96.0f, 96.0f),
-                                   0.0f));
+      sector.add<HeavyCoin>(Vector(coin_x, coin_y), velocity, 0.0f);
     }
   }
 
