@@ -37,28 +37,28 @@ function textbox_intro()
 
   wait(9);
 
-  Text.set_text(_("Fortunately for him, a Granito, alive and well, revealed themself, excited to see him on the other side of the crevice."));
+  Text.set_text(_("Fortunately for him, a Granito, alive and well, revealed himself, excited to see Tux on the other side of the crevice."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
 
   wait(1);
 
-  Text.set_text(_("The Granito spoke of 3 groups of his fellow Granito who had gotten lost when trying to escape the roots to the east coast."));
+  Text.set_text(_("The Granito spoke of 3 groups of his fellow Granito who had gotten lost while trying to escape the roots to the east coast."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
 
   wait(1);
 
-  Text.set_text(_("They were swallowed by the earth as the ground collapsed in on itself. If Tux could help find them they could help him reach the other side."));
+  Text.set_text(_("They were swallowed by the earth as the ground collapsed in on itself. If Tux could help find them, they could help him reach the other side."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
 
   wait(1);
 
-  Text.set_text(_("Tux agreed to help! Soon after he noticed a dying roots revealing a path underneath, he began his search for the lost Granito."));
+  Text.set_text(_("Tux agreed to help! Soon after, he noticed a decaying root revealing a path underneath, so he began his search for the lost Granito."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -95,7 +95,7 @@ function textbox_outro()
 
   wait(1);
 
-  Text.set_text(_("The Granito mentioned they knew his homeland. But whether he still called it his home nor if he held Penny there, they do not know for certain."));
+  Text.set_text(_("The Granito mentioned they knew Nolok's homeland. But whether he still called it his home or if he held Penny there, they did not know for certain."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
