@@ -57,7 +57,6 @@ jobs:
 
       - name: Restore vcpkg binaries
         id: vcpkg-cache
-        if: matrix.arch == 'x86_64'
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg-binary-cache
@@ -65,43 +64,17 @@ jobs:
           restore-keys: |
             vcpkg-binary-v1-macos-${{ runner.os }}-${{ runner.arch }}-${{ matrix.arch }}-
 
-      - name: Install macos dependencies (ARM)
-        if: ${{ matrix.os == 'macos-15' && matrix.arch == 'arm64' }}
+      - name: Install macos dependencies
+        env:
+          BUILD_ARCH: ${{ matrix.arch }}
         run: |
-          brew install cmake bash rename libogg libvorbis glew glm \
-                       openal-soft sdl3 sdl3_image libraqm freetype libpng \
-                       glib gtk-doc zlib physfs fmt
-          # can be removed when bidirectional text gets fixed
-          brew install sdl3_ttf
+          brew install rename
 
-          install_name_tool -change \
-            '@rpath/libsharpyuv.0.dylib' \
-            /opt/homebrew/opt/webp/lib/libsharpyuv.0.dylib \
-            /opt/homebrew/opt/webp/lib/libwebp.7.dylib
-          install_name_tool -change \
-            '@rpath/libjxl_cms.0.11.dylib' \
-            /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
-            /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
-          install_name_tool -change \
-            '@rpath/libjxl_cms.0.12.dylib' \
-            /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.12.dylib \
-            /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
-
-          # # Something funky happens with freetype if mono is left
-          # sudo mv /Library/Frameworks/Mono.framework                           \
-          #         /Library/Frameworks/Mono.framework-disabled
-
-      - name: Install macos dependencies (Intel)
-        if: ${{ matrix.os == 'macos-15' && matrix.arch == 'x86_64' }}
-        run: |
-          # # Install x86_64 Homebrew and dependencies using Rosetta 2
-          # arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          # # Remove pre-installed Python symlinks that conflict with Homebrew Python
-          # sudo rm -f /usr/local/bin/idle3* /usr/local/bin/pip3* /usr/local/bin/pydoc3* /usr/local/bin/python3* || true
-          # arch -x86_64 /usr/local/bin/brew install cmake bash rename libogg libvorbis glew glm \
-          #              openal-soft sdl3 sdl3_image sdl3_ttf physfs libraqm freetype libpng fmt \
-
-          export VCPKG_TRIPLET=x64-osx
+          if [ "$BUILD_ARCH" = "x86_64" ]; then
+            export VCPKG_TRIPLET=x64-osx
+          else
+            export VCPKG_TRIPLET=arm64-osx
+          fi
           echo "VCPKG_TRIPLET=$VCPKG_TRIPLET" >> $GITHUB_ENV
           echo "VCPKG_ROOT=$VCPKG_ROOT" >> $GITHUB_ENV
 
@@ -136,23 +109,6 @@ jobs:
             openal-soft \
             libogg      \
             libvorbis
-
-          # install_name_tool -change \
-          #   '@rpath/libsharpyuv.0.dylib' \
-          #   /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
-          #   /usr/local/opt/webp/lib/libwebp.7.dylib
-          # install_name_tool -change \
-          #   '@rpath/libjxl_cms.0.11.dylib' \
-          #   /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
-          #   /usr/local/opt/jpeg-xl/lib/libjxl.dylib
-          # install_name_tool -change \
-          #   '@rpath/libjxl_cms.0.12.dylib' \
-          #   /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.12.dylib \
-          #   /usr/local/opt/jpeg-xl/lib/libjxl.dylib
-
-          # Something funky happens with freetype if mono is left
-          # sudo mv /Library/Frameworks/Mono.framework                           \
-          #         /Library/Frameworks/Mono.framework-disabled
 
       - name: Save vcpkg binaries
         if: ${{ always() && steps.vcpkg-cache.outputs.cache-primary-key != '' }}
@@ -197,12 +153,10 @@ jobs:
           mkdir "build"
           cd "build"
 
-          # Set architecture-specific flags and PKG_CONFIG_PATH
-          CMAKE_ARCH_FLAGS=""
+          # Set architecture-specific flags
+          CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=$BUILD_ARCH -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=$VCPKG_TRIPLET"
           if [ "$BUILD_ARCH" = "x86_64" ]; then
-            CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0 -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-osx"
-          else
-            export PKG_CONFIG_PATH="/opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig"
+            CMAKE_ARCH_FLAGS="$CMAKE_ARCH_FLAGS -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0"
           fi
 
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $CMAKE_ARCH_FLAGS             \

@@ -1,7 +1,6 @@
 option(DISABLE_CPACK_BUNDLING "Build an .app bundle without CPack" OFF)
 
 include(InstallRequiredSystemLibraries)
-set(DIRS ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext ${CMAKE_CURRENT_BINARY_DIR}/external/simplesquirrel)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
@@ -21,15 +20,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   #   install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
   # endforeach()
 
-  install(IMPORTED_RUNTIME_ARTIFACTS supertux2 RUNTIME_DEPENDENCY_SET supertux2_deps)
   install(RUNTIME_DEPENDENCY_SET supertux2_deps LIBRARY DESTINATION "MacOS")
-
-  install(CODE "
-       if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
-       include(BundleUtilities)
-       fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
-       endif()
-       ")
 
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
 
@@ -75,7 +66,15 @@ if(WIN32)
     set(SUPERTUX_SYSTEM_NAME "win32")
   endif()
 elseif(APPLE)
-  set(SUPERTUX_SYSTEM_NAME "${CMAKE_SYSTEM_PROCESSOR}-${SUPERTUX_SYSTEM_NAME}")
+  list(LENGTH CMAKE_OSX_ARCHITECTURES SUPERTUX_OSX_ARCH_COUNT)
+  if(SUPERTUX_OSX_ARCH_COUNT GREATER 1)
+    set(SUPERTUX_MACOS_ARCH "universal2")
+  elseif(SUPERTUX_OSX_ARCH_COUNT EQUAL 1)
+    set(SUPERTUX_MACOS_ARCH "${CMAKE_OSX_ARCHITECTURES}")
+  else()
+    set(SUPERTUX_MACOS_ARCH "${CMAKE_SYSTEM_PROCESSOR}")
+  endif()
+  set(SUPERTUX_SYSTEM_NAME "${SUPERTUX_MACOS_ARCH}-${SUPERTUX_SYSTEM_NAME}")
 endif()
 
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${SUPERTUX_VERSION_STRING}-${SUPERTUX_SYSTEM_NAME}")

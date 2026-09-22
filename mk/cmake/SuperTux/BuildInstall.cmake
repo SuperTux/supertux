@@ -32,6 +32,9 @@ else()
 
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
 
+  elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    # The CPack Bundle generator installs Info.plist and the app icon itself,
+    # via the CPACK_BUNDLE_PLIST/CPACK_BUNDLE_ICON variables set in BuildCPack.cmake.
   else()
     # HACK: Flatpak is dumb right now and still uses nightly icons, so ignore that case
     if(IS_SUPERTUX_RELEASE AND NOT FLATPAK)
@@ -45,7 +48,6 @@ else()
     endif()
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop.in ${CMAKE_BINARY_DIR}/supertux2.desktop)
     install(FILES ${CMAKE_BINARY_DIR}/supertux2.desktop DESTINATION "share/applications")
-    set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
 
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.svg DESTINATION "share/icons/hicolor/scalable/apps")
 
@@ -63,7 +65,11 @@ else()
           DESTINATION ${INSTALL_SUBDIR_BIN}
           RUNTIME_DEPENDENCY_SET supertux2_deps)
   if(NOT USE_STATIC_SIMPLESQUIRREL)
-    install(TARGETS simplesquirrel RUNTIME_DEPENDENCY_SET supertux2_deps)
+    if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
+      install(TARGETS simplesquirrel RUNTIME_DEPENDENCY_SET supertux2_deps LIBRARY DESTINATION "MacOS")
+    else()
+      install(TARGETS simplesquirrel RUNTIME_DEPENDENCY_SET supertux2_deps)
+    endif()
   endif()
 endif()
 

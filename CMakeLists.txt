@@ -87,6 +87,11 @@ else()
     set(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
     set(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
     set(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
+  elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    # Relative to the CPack Bundle generator's Resources root (Contents/Resources/).
+    set(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
+    set(INSTALL_SUBDIR_SHARE "share/supertux2" CACHE STRING "Installation subdir for data")
+    set(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
   else()
     set(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for binaries")
     set(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
@@ -482,6 +487,14 @@ endif()
 if(ANDROID)
   target_link_libraries(supertux2 PUBLIC log)
   target_compile_definitions(supertux2 PUBLIC -D__ANDROID__ -DANDROID)
+endif()
+
+if(APPLE AND NOT DISABLE_CPACK_BUNDLING)
+  # Find the dependencies that BuildCPack.cmake's RUNTIME_DEPENDENCY_SET
+  # install places inside the bundle (Contents/Resources/MacOS)
+  set_target_properties(supertux2 PROPERTIES
+    INSTALL_RPATH "@executable_path/../MacOS"
+    BUILD_WITH_INSTALL_RPATH FALSE)
 endif()
 
 ## Install stuff
