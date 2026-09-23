@@ -71,9 +71,7 @@ bool
 ControlCheckbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  if (!m_rect.contains(mouse_pos)) {
-    m_has_focus = false;
-  }
+  m_has_focus = m_rect.contains(mouse_pos);
   return false;
 }
 
