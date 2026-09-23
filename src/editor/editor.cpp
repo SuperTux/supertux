@@ -114,10 +114,6 @@ Editor::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  auto show_test_here_icon = 
-    m_event_handling->get_alt_pressed() &&
-    m_event_handling->get_shift_pressed();
-
   if (m_project->is_level_loaded())
   {
     for(const auto& widget : m_widgets)
@@ -167,23 +163,7 @@ Editor::draw(Compositor& compositor)
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
 
-    auto mouse_pos = m_event_handling->get_mouse_pos();
-
-    if (show_test_here_icon)
-    {
-      if (m_enabled)
-        MouseCursor::current()->set_visible(false);
-      context.color().draw_text(
-        Resources::normal_font,
-        "T",
-        { mouse_pos.x + 12.f, mouse_pos.y - 16.f - 12.f }, ALIGN_LEFT, LAYER_OBJECTS+1,
-        Color(1.0f, 1.0f, 0.6f, 0.8f));
-      m_test_icon->draw_scaled(context.color(),
-                               {{mouse_pos.x - 16.f, mouse_pos.y - 16.f}, Sizef{32.f, 32.f}},
-                               LAYER_GUI + 1);
-    }
-    else if (m_enabled)
-      MouseCursor::current()->set_visible(true);
+    draw_mouse_pointer(context);
 
     if (!m_show_draggables && m_show_draggables_hint.get_progress() < 1.0f)
     {
@@ -200,9 +180,30 @@ Editor::draw(Compositor& compositor)
                                         context.get_rect(),
                                         -100);
   }
+}
 
-  if (!show_test_here_icon)
-    MouseCursor::current()->set_visible(true);
+void
+Editor::draw_mouse_pointer(DrawingContext& context)
+{
+  auto show_test_here_icon =
+      m_event_handling->get_alt_pressed() &&
+      m_event_handling->get_shift_pressed();
+
+  auto mouse_pos = m_event_handling->get_mouse_pos();
+
+  if (m_enabled)
+  {
+    MouseCursor::current()->set_visible(!show_test_here_icon);
+  }
+
+  if (show_test_here_icon)
+  {
+    Vector label_position = {mouse_pos.x + 12.f, mouse_pos.y - 16.f - 12.f};
+    Vector icon_position = {mouse_pos.x - 16.f, mouse_pos.y - 16.f};
+    context.color().draw_text(Resources::normal_font, "T", label_position,
+                              ALIGN_LEFT, LAYER_OBJECTS + 1, Color(1.0f, 1.0f, 0.6f, 0.8f));
+    m_test_icon->draw_scaled(context.color(), { icon_position, Sizef{32.f, 32.f} }, LAYER_GUI + 1);
+  }
 }
 
 void
