@@ -36,6 +36,34 @@ ControlTextboxFloat::update(float dt_sec)
 }
 
 bool
+ControlTextboxFloat::on_key_down(const SDL_KeyboardEvent& key)
+{
+  if (!m_has_focus)
+    return false;
+
+  if (key.key == SDLK_DOWN || key.key == SDLK_UP)
+  {
+    float default_value = 0.0f;
+    if (m_value == nullptr)
+    {
+      m_value = &default_value;
+    }
+
+    if (key.key == SDLK_DOWN)
+      *m_value = *m_value - 1;
+
+    if (key.key == SDLK_UP)
+      *m_value = *m_value + 1;
+
+    revert_value();
+
+    return true;
+  }
+
+  return ControlTextbox::on_key_down(key);
+}
+
+bool
 ControlTextboxFloat::parse_value(bool call_on_change /* = true (see header */)
 {
   if (!m_value)
