@@ -108,6 +108,7 @@ Editor::Editor() :
   m_layers_widget(),
   m_toolbar_widget(),
   m_properties_panel(new EditorPropertiesPanel),
+  m_history_manager(new EditorHistoryManager),
   m_project(new EditorProject),
   m_tile_converter(new EditorTileConverter),
   m_event_handling(new EditorEventHandling),
@@ -422,8 +423,8 @@ Editor::reload_level()
     reset_level();
   }
 
-  retoggle_undo_tracking();
-  undo_stack_cleanup();
+  m_history_manager->retoggle_undo_tracking();
+  m_history_manager->undo_stack_cleanup();
 }
 
 void
@@ -688,47 +689,6 @@ const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
   return m_toolbox_widget->get_tilebox().get_object_info().m_groups;
-}
-
-void
-Editor::retoggle_undo_tracking()
-{
-  auto level = m_project->get_level();
-  m_toolbar_widget->set_undo_disabled(true);
-  m_toolbar_widget->set_redo_disabled(true);
-  // Toggle undo tracking for all sectors.
-  for (const auto& sector : level->get_sectors())
-    sector->toggle_undo_tracking(g_config->editor_undo_tracking);
-}
-
-void
-Editor::undo_stack_cleanup()
-{
-  auto level = m_project->get_level();
-  // Set the undo stack size and perform undo stack cleanup on all sectors.
-  for (const auto& sector : level->get_sectors())
-  {
-    sector->set_undo_stack_size(g_config->editor_undo_stack_size);
-    sector->undo_stack_cleanup();
-  }
-}
-
-void
-Editor::undo()
-{
-  auto sector = m_project->get_sector();
-  BIND_SECTOR(*sector);
-  sector->undo();
-  m_layers_widget->update_current_tip();
-}
-
-void
-Editor::redo()
-{
-  auto sector = m_project->get_sector();
-  BIND_SECTOR(*sector);
-  sector->redo();
-  m_layers_widget->update_current_tip();
 }
 
 IntegrationStatus

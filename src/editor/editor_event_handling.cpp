@@ -43,6 +43,7 @@ EditorEventHandling::on_event(const SDL_Event& ev)
   auto layers_widget = editor->get_layers_widget();
   auto& camera = editor_project->get_sector()->get_camera();
   auto editor_camera = editor->get_camera();
+  auto history_manager = editor->get_history_manager();
 
   // If properties sidebar controls are active and the mouse is hovering over the sidebar,
   // do not propagate mouse events to the editor or its widgets.
@@ -63,10 +64,10 @@ EditorEventHandling::on_event(const SDL_Event& ev)
     switch (ev.button.button)
     {
       case SDL_BUTTON_X1:
-        editor->undo();
+        history_manager->undo();
         break;
       case SDL_BUTTON_X2:
-        editor->redo();
+        history_manager->redo();
         break;
     }
   } else {
@@ -114,10 +115,10 @@ EditorEventHandling::on_event(const SDL_Event& ev)
             editor_project->save_level();
             break;
           case SDLK_Z:
-            editor->undo();
+            history_manager->undo();
             break;
           case SDLK_Y:
-            editor->redo();
+            history_manager->redo();
             break;
           case SDLK_H:
           {
