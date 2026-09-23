@@ -51,12 +51,12 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
-        std::bind(&Editor::undo, Editor::current()),
+        std::bind(&EditorHistoryManager::undo, Editor::current()->get_history_manager()),
         _("Undo"),
         Sizef(32.f, 32.f)),
 
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
-        std::bind(&Editor::redo, Editor::current()),
+        std::bind(&EditorHistoryManager::redo, Editor::current()->get_history_manager()),
         _("Redo"),
         Sizef(32.f, 32.f)),
 
