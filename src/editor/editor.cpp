@@ -115,8 +115,6 @@ Editor::Editor() :
   m_testing_disabled(false),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
-  m_scroll_speed(32.0f),
-  m_new_scale(0.f),
   m_show_draggables(true),
   m_show_draggables_hint(),
   m_script_manager(),
