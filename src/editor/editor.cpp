@@ -186,7 +186,7 @@ void
 Editor::draw_mouse_pointer(DrawingContext& context)
 {
   auto show_test_here_icon =
-      m_event_handling->get_alt_pressed() &&
+      m_event_handling->get_ctrl_pressed() &&
       m_event_handling->get_shift_pressed();
 
   auto mouse_pos = m_event_handling->get_mouse_pos();
