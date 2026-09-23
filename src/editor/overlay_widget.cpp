@@ -672,7 +672,7 @@ EditorOverlayWidget::grab_object()
     if (!m_hovered_object->is_valid())
     {
       m_hovered_object = nullptr;
-      m_editor.select_object(nullptr);
+      m_editor.set_selected_object(nullptr);
     }
     else
     {
@@ -703,7 +703,7 @@ EditorOverlayWidget::grab_object()
       delete_markers();
     }
 
-    m_editor.select_object(nullptr);
+    m_editor.set_selected_object(nullptr);
   }
 }
 
@@ -797,8 +797,9 @@ EditorOverlayWidget::move_object()
 void
 EditorOverlayWidget::rubber_object()
 {
-  m_editor.select_object(nullptr);
-  if (!m_edited_path) {
+  m_editor.set_selected_object(nullptr);
+  if (!m_edited_path)
+  {
     delete_markers();
   }
 
@@ -964,7 +965,7 @@ EditorOverlayWidget::process_left_click()
       }
 
       if (m_hovered_object)
-        m_editor.select_object(m_hovered_object.get());
+        m_editor.set_selected_object(m_hovered_object.get());
 
       switch (m_editor.get_tileselect_move_mode())
       {
@@ -1742,10 +1743,10 @@ EditorOverlayWidget::draw(DrawingContext& context)
   }
 
   Vector hint_pos(32, 16);
-  if (g_config->editor_show_toolbar_widgets || m_editor.get_properties_panel_visible())
+  if (g_config->editor_show_toolbar_widgets || m_editor.get_properties_panel()->is_visible())
     hint_pos.y += 32.f;
   // TODO calculate width of rect
-  if (m_editor.get_properties_panel_visible())
+  if (m_editor.get_properties_panel()->is_visible())
     hint_pos.x += 200.f;
 
   if (m_editor.get_tilebox().get_input_type() == InputType::TILE && g_config->editor_autotile_help)
