@@ -103,14 +103,18 @@ EditorPropertiesPanel::has_mouse_focus(const SDL_Event& ev, const Vector& mouse_
 bool
 EditorPropertiesPanel::event(const SDL_Event& ev)
 {
-  for(const auto& control : m_controls)
+  bool event_handled = false;
+  for (const auto &control : m_controls)
   {
     control->event(ev);
-    if (control->has_focus())
-      return true;
+
+    if (!event_handled)
+    {
+      event_handled = control->has_focus();
+    }
   }
 
-  return false;
+  return event_handled;
 }
 
 void
