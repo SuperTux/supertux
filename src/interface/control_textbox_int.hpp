@@ -24,6 +24,7 @@ public:
   ControlTextboxInt();
 
   virtual void update(float dt_sec) override;
+  virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
   inline int get_value() const { return *m_value; }
   inline void set_value(int value) { *m_value = value; revert_value(); }
