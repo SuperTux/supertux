@@ -221,6 +221,13 @@ public:
 private:
 
   /**
+   * Draws the current mouse pointer (and in some circumstances the "Test here" icon) 
+   * on top of the currently displayed sector
+   * @param context The current DrawingContext instance
+   */
+  void draw_mouse_pointer(DrawingContext &context);
+
+  /**
    * Draws a selection border around the currently selected object
    * @param context The current DrawingContext instance
    */
