@@ -30,6 +30,7 @@
 #include "editor/scroller_widget.hpp"
 #include "editor/editor_camera.hpp"
 #include "editor/editor_event_handling.hpp"
+#include "editor/editor_history_manager.hpp"
 #include "editor/editor_project.hpp"
 #include "editor/editor_properties_panel.hpp"
 #include "editor/editor_tile_converter.hpp"
@@ -87,6 +88,7 @@ public:
   void on_window_resize() override;
 
   inline EditorCamera* get_camera() const { return m_camera; }
+  inline EditorHistoryManager* get_history_manager() const { return m_history_manager; }
 
   inline EditorOverlayWidget* get_overlay_widget() const { return m_overlay_widget; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
@@ -153,14 +155,6 @@ public:
     m_properties_panel->load_object_properties(object);
   }
   const GameObject* get_selected_object() const { return m_selected_object.get(); }
-
-  void retoggle_undo_tracking();
-  void undo_stack_cleanup();
-
-  void undo();
-  void redo();
-  void set_undo_disabled(bool state);
-  void set_redo_disabled(bool state);
 
   void set_test_position(const std::optional<std::pair<std::string, Vector>>& test_position)
   {
@@ -252,6 +246,7 @@ private:
   EditorLayersWidget* m_layers_widget;
   EditorToolbarWidget* m_toolbar_widget;
   EditorPropertiesPanel* m_properties_panel;
+  EditorHistoryManager* m_history_manager;
 
   std::unique_ptr<EditorProject> m_project;
   std::unique_ptr<EditorTileConverter> m_tile_converter;
