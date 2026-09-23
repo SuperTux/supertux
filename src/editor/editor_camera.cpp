@@ -20,8 +20,8 @@
 #include "object/camera.hpp"
 
 EditorCamera::EditorCamera() :
-  m_scroll_speed(),
-  m_new_scale()
+  m_scroll_speed(32.0f),
+  m_new_scale(0.f)
 {
 }
 
