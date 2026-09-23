@@ -51,10 +51,10 @@ public:
   void set_help_text(const std::string& help_text);
   
   inline void set_disabled(bool disabled) { m_disabled = disabled; }
-  inline bool is_disabled() { return m_disabled; }
+  inline bool is_disabled() const { return m_disabled; }
   
   inline void set_flat(bool flat) { m_flat = flat; }
-  inline bool is_flat() { return m_flat; }
+  inline bool is_flat() const { return m_flat; }
 
 protected:
   SpritePtr m_sprite;
