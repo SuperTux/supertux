@@ -273,8 +273,10 @@ EditorMenu::on_back_action()
   if (!editor)
     return true;
 
-  editor->retoggle_undo_tracking();
-  editor->undo_stack_cleanup();
+  auto history_manager = editor->get_history_manager();
+
+  history_manager->retoggle_undo_tracking();
+  history_manager->undo_stack_cleanup();
 
   return true;
 }
