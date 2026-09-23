@@ -93,14 +93,15 @@ EditorEventHandling::on_event(const SDL_Event& ev)
         {
           case SDLK_T:
           {
+            std::optional<std::pair<std::string, Vector>> test_pos = std::nullopt;
+
             if (m_shift_pressed && m_alt_pressed)
             {
-              auto test_pos = editor->get_test_position();
+              test_pos = editor->get_test_position();
               editor->test_level(test_pos);
               break;
             }
 
-            std::optional<std::pair<std::string, Vector>> test_pos = std::nullopt;
             if (m_shift_pressed)
             {
               auto sector_name = editor_project->get_sector()->get_name();
