@@ -697,8 +697,6 @@ Editor::event(const SDL_Event& ev)
   if (m_properties_panel->event(ev))
     return;
 
-  auto sector = m_project->get_sector();
-
   try
   {
     // handles generic editor events
