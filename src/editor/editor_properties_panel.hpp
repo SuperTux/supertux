@@ -66,6 +66,12 @@ public:
   void draw(DrawingContext& context);
 
   /**
+   * Returns `true` when the properties panel has focus
+   * @return `true`, when the properties panel has focus, otherwise `false`
+   */
+  bool has_focus() const;
+
+  /**
    * Returns `true` when the properties panel should handle the current mouse event
    * @param ev Instance of `SDL_Event` class describing the current event
    * @param mouse_pos Vector instance describing the current mouse position
