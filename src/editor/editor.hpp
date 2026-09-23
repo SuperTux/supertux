@@ -266,8 +266,6 @@ private:
   bool m_enabled;
   SurfacePtr m_bgr_surface;
 
-  float m_scroll_speed;
-  float m_new_scale;
   bool m_show_draggables;
   Timer m_show_draggables_hint;
 
