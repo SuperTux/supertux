@@ -213,7 +213,9 @@ void
 EditorEventHandling::update_keyboard(const Controller& controller)
 {
   auto editor = Editor::current();
-  if (!editor->has_focus())
+  auto properties_panel = editor->get_properties_panel();
+
+  if (!editor->has_focus() || properties_panel->has_focus())
     return;
 
   auto scroll_speed = editor->get_scroll_speed();
