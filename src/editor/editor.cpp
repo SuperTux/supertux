@@ -102,11 +102,11 @@ Editor::Editor() :
   m_testing_level(false),
   m_after_setup(false),
   m_widgets(),
-  m_controls(),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
   m_toolbar_widget(),
+  m_properties_panel(new EditorPropertiesPanel),
   m_project(new EditorProject),
   m_tile_converter(new EditorTileConverter),
   m_event_handling(new EditorEventHandling),
@@ -163,21 +163,7 @@ Editor::draw(Compositor& compositor)
       widget->draw(context);
     }
 
-    if (get_properties_panel_visible())
-    {
-      context.color().set_blur(g_config->editor_blur);
-      context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
-                       Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
-
-      context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
-                       Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
-      context.color().set_blur(0);
-
-      for(const auto& control : m_controls)
-      {
-        control->draw(context);
-      }
-    }
+    m_properties_panel->draw(context);
 
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
@@ -225,7 +211,7 @@ Editor::draw(Compositor& compositor)
       else
       {
         m_selected_object = 0;
-        m_controls.clear();
+        m_properties_panel->clear();
       }
     }
 
@@ -317,10 +303,7 @@ Editor::update(float dt_sec, const Controller& controller)
       widget->update(dt_sec);
     }
 
-    for(const auto& control : m_controls)
-    {
-      control->update(dt_sec);
-    }
+    m_properties_panel->update(dt_sec);
 
     // Now that all widgets have been updated, which should have relinquished
     // pointers to objects marked for deletion, we can actually delete them.
@@ -437,7 +420,7 @@ Editor::set_sector(Sector* sector)
   m_project->set_sector(sector);
 
   m_layers_widget->refresh();
-  select_object(nullptr);
+  set_selected_object(nullptr);
 }
 
 void
@@ -711,9 +694,8 @@ Editor::event(const SDL_Event& ev)
   if (!has_focus())
     return;
 
-  for(const auto& control : m_controls)
-    if (control->event(ev))
-      return;
+  if (m_properties_panel->event(ev))
+    return;
 
   auto sector = m_project->get_sector();
 
@@ -834,74 +816,4 @@ Editor::get_status() const
     status.m_details.push_back(status_text);
   }
   return status;
-}
-
-bool
-Editor::get_properties_panel_visible() const
-{
-  return !m_controls.empty() && g_config->editor_show_properties_sidebar;
-}
-
-void
-Editor::add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description)
-{
-  assert(new_control);
-  if (!g_config->editor_show_properties_sidebar)
-    return;
-
-  float height = 35.f;
-  for (const auto& control : m_controls)
-    height = std::max(height, control->get_rect().get_bottom() + 5.f);
-
-  auto control_rect = new_control->get_rect();
-  Rectf target_rect;
-  if (control_rect.get_width() == 0.f || control_rect.get_height() == 0.f)
-  {
-    target_rect = Rectf(100.f, height, 200.f - 1.0f, height + 20.f);
-  }
-  else
-  {
-    target_rect = Rectf(control_rect.get_left(), height,
-                        control_rect.get_right(), height + control_rect.get_height());
-  }
-  new_control->set_rect(target_rect);
-
-  auto dimensions = Rectf(3.f, height, 100.f, height + 20.f);
-  new_control->m_label = std::make_unique<InterfaceLabel>(dimensions, std::move(name), std::move(description));
-  m_controls.push_back(std::move(new_control));
-}
-
-void
-Editor::select_object(GameObject* object)
-{
-  m_controls.clear();
-
-  if (!object || !g_config->editor_show_properties_sidebar)
-  {
-    m_selected_object = 0;
-    return;
-  }
-  m_selected_object = object;
-
-  ObjectSettings os = object->get_settings();
-  for (const auto& option : os.get_options())
-  {
-    if ((option->get_flags() & OPTION_HIDDEN) && !(option->get_flags() & OPTION_VISIBLE_PROPERTIES))
-      continue;
-
-    auto control = option->create_interface_control();
-    if (!control)
-      continue;
-
-    control->m_on_activate_callbacks.emplace_back([object]() {
-        object->save_state();
-      });
-    control->m_on_change_callbacks.emplace_back([object]() {
-        // TODO: Updating the object doesn't work every time.
-        // Investigate why this is the case!
-        object->after_editor_set();
-        object->check_state();
-      });
-    add_control(option->get_text(), std::move(control), option->get_description());
-  }
 }
