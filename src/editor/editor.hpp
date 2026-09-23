@@ -30,6 +30,7 @@
 #include "editor/scroller_widget.hpp"
 #include "editor/editor_event_handling.hpp"
 #include "editor/editor_project.hpp"
+#include "editor/editor_properties_panel.hpp"
 #include "editor/editor_tile_converter.hpp"
 #include "interface/control.hpp"
 #include "supertux/screen.hpp"
@@ -94,6 +95,8 @@ public:
   inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
   inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
   inline TileSelection* get_selected_tiles() const { return get_tilebox().get_tiles(); }
+
+  inline EditorPropertiesPanel* get_properties_panel() const { return m_properties_panel; }
   inline std::string get_selected_object_class() const { return get_tilebox().get_object(); }
 
   inline EditorTilebox::InputType get_tileselect_input_type() const { return get_tilebox().get_input_type(); }
@@ -154,22 +157,12 @@ public:
   EditorProject* get_project() const { return m_project.get(); }
   EditorEventHandling* get_event_handling() const { return m_event_handling.get(); }
 
-  bool get_properties_panel_visible() const;
-
-  /**
-   * Checks if `pos` is inside the properties panel's area
-   * (Meh, this is temporary until I move the new properties panel code elsewhere)
-   */
-  bool pos_in_properties_panel(const Vector& pos) const
+  void set_selected_object(GameObject* object)
   {
-    if (m_controls.empty())
-      return false;
-    
-    auto area = Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f);
-    return area.contains(pos);
+    m_selected_object = object;
+    m_properties_panel->load_object_properties(object);
   }
-
-  void select_object(GameObject* object);
+  const GameObject* get_selected_object() const { return m_selected_object.get(); }
 
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
@@ -247,8 +240,6 @@ private:
   void update_keyboard(const Controller& controller);
   void keep_camera_in_bounds();
 
-  void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
-
 public:
   bool m_testing_disabled;
 
@@ -265,12 +256,12 @@ private:
 
   std::optional<std::pair<std::string, Vector>> m_test_position;
   std::vector<std::unique_ptr<Widget> > m_widgets;
-  std::vector<std::unique_ptr<InterfaceControl>> m_controls;
 
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
   EditorToolbarWidget* m_toolbar_widget;
+  EditorPropertiesPanel* m_properties_panel;
 
   std::unique_ptr<EditorProject> m_project;
   std::unique_ptr<EditorTileConverter> m_tile_converter;
