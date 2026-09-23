@@ -91,6 +91,17 @@ EditorPropertiesPanel::draw(DrawingContext& context)
 }
 
 bool
+EditorPropertiesPanel::has_focus() const
+{
+  for (const auto &control : m_controls)
+  {
+    if (control->has_focus())
+      return true;
+  }
+  return false;
+}
+
+bool
 EditorPropertiesPanel::has_mouse_focus(const SDL_Event& ev, const Vector& mouse_pos) const
 {
   return (ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN ||
