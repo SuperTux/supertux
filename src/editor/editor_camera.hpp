@@ -47,13 +47,13 @@ public:
   /**
    * Returns the scale of the camera
    */
-  float get_camera_scale() const { return m_new_scale; }
+  float get_scale() const { return m_new_scale; }
 
   /**
    * Sets the scale of the camera
    * @param value Camera scale value
    */
-  void set_camera_scale(float value) { m_new_scale = value; }
+  void set_scale(float value) { m_new_scale = value; }
 
   /**
    * Scrolls the camera by the specified velocity
