@@ -138,15 +138,15 @@ EditorEventHandling::on_event(const SDL_Event& ev)
           case SDLK_EQUALS:
           case SDLK_KP_PLUS:
             m_key_zoomed = true;
-            editor_camera->set_camera_scale(camera.get_current_scale() + CAMERA_ZOOM_SENSITIVITY);
+            editor_camera->set_scale(camera.get_current_scale() + CAMERA_ZOOM_SENSITIVITY);
             break;
           case SDLK_MINUS: // Zoom out
           case SDLK_KP_MINUS:
             m_key_zoomed = true;
-            editor_camera->set_camera_scale(camera.get_current_scale() - CAMERA_ZOOM_SENSITIVITY);
+            editor_camera->set_scale(camera.get_current_scale() - CAMERA_ZOOM_SENSITIVITY);
             break;
           case SDLK_D: // Reset zoom
-            editor_camera->set_camera_scale(1.0f);
+            editor_camera->set_scale(1.0f);
             break;
           default:
             break;
@@ -188,7 +188,7 @@ EditorEventHandling::on_event(const SDL_Event& ev)
       // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
       // The toolbox does scrolling independently from the main area.
       if (m_ctrl_pressed)
-        editor_camera->set_camera_scale(camera.get_current_scale() + wheel_y * CAMERA_ZOOM_SENSITIVITY);
+        editor_camera->set_scale(camera.get_current_scale() + wheel_y * CAMERA_ZOOM_SENSITIVITY);
       else
         editor_camera->scroll({ static_cast<float>((m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1 : 1) : wheel_x) * 40),
                                 static_cast<float>((m_shift_pressed ? wheel_x : wheel_y) * -40) });
