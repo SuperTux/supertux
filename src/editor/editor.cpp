@@ -15,12 +15,28 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "editor/editor.hpp"
-#include "gui/notification.hpp"
-#include "math/rectf.hpp"
 
-#include <fstream>
+#include "audio/sound_manager.hpp"
+#include "editor/particle_editor.hpp"
+#include "editor/layer_icon.hpp"
+#include "editor/tool_icon.hpp"
+#include "editor/button_widget.hpp"
+#include "editor/toolbar_widget.hpp"
+#include "gui/dialog.hpp"
+#include "gui/mousecursor.hpp"
+#include "object/camera.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/console.hpp"
+#include "supertux/moving_object.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/screen_fade.hpp"
+#include "supertux/screen_manager.hpp"
+#include "supertux/tile_manager.hpp"
+#include "util/script_manager.hpp"
+#include "video/compositor.hpp"
+#include "video/surface.hpp"
+
 #include <functional>
-#include <sstream>
 #include <limits>
 #include <unordered_map>
 
@@ -28,59 +44,6 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
-
-#include <fmt/format.h>
-
-#include "zip_manager.hpp"
-
-#include "audio/sound_manager.hpp"
-#include "control/input_manager.hpp"
-#include "editor/button_widget.hpp"
-#include "editor/layer_icon.hpp"
-#include "editor/object_info.hpp"
-#include "editor/particle_editor.hpp"
-#include "editor/resize_marker.hpp"
-#include "editor/tile_selection.hpp"
-#include "editor/tip.hpp"
-#include "editor/tool_icon.hpp"
-#include "gui/dialog.hpp"
-#include "gui/menu_manager.hpp"
-#include "gui/menu_script.hpp"
-#include "gui/mousecursor.hpp"
-#include "math/util.hpp"
-#include "object/camera.hpp"
-#include "object/player.hpp"
-#include "object/spawnpoint.hpp"
-#include "object/tilemap.hpp"
-#include "physfs/ifile_stream.hpp"
-#include "physfs/util.hpp"
-#include "sdk/integration.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/constants.hpp"
-#include "supertux/console.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/level.hpp"
-#include "supertux/level_parser.hpp"
-#include "supertux/menu/menu_storage.hpp"
-#include "supertux/savegame.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/tile.hpp"
-#include "supertux/tile_manager.hpp"
-#include "supertux/world.hpp"
-#include "util/file_system.hpp"
-#include "util/reader_document.hpp"
-#include "util/reader_mapping.hpp"
-#include "video/compositor.hpp"
-#include "video/drawing_context.hpp"
-#include "video/surface.hpp"
-#include "video/video_system.hpp"
-#include "video/viewport.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/sector_parser.hpp"
 
 bool Editor::s_resaving_in_progress = false;
 
@@ -96,7 +59,6 @@ Editor::is_active()
     return self && !self->m_testing_level && self->m_after_setup;
   }
 }
-
 
 Editor::Editor() :
   m_testing_level(false),
@@ -374,7 +336,6 @@ Editor::delete_current_sector()
   }
 
   set_sector(sectors.front().get());
-
 }
 
 void
