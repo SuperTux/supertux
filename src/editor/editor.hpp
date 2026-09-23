@@ -28,6 +28,7 @@
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
+#include "editor/editor_camera.hpp"
 #include "editor/editor_event_handling.hpp"
 #include "editor/editor_project.hpp"
 #include "editor/editor_properties_panel.hpp"
@@ -89,6 +90,8 @@ public:
   void event(const SDL_Event& ev) override;
   void on_window_resize() override;
 
+  inline EditorCamera* get_camera() const { return m_camera; }
+
   inline EditorOverlayWidget* get_overlay_widget() const { return m_overlay_widget; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
@@ -139,15 +142,6 @@ public:
 
   void select_objectgroup(int id);
   const std::vector<ObjectGroup>& get_objectgroups() const;
-
-  float get_scroll_speed() const { return m_scroll_speed; }
-  void set_scroll_speed(float scroll_speed) { m_scroll_speed = scroll_speed; }
-  
-  void scroll(const Vector& velocity);
-
-  float get_camera_scale() const { return m_new_scale; }
-  void set_camera_scale(float value) { m_new_scale = value; }
-  void update_camera(Camera& camera, float dt_sec);
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
@@ -238,7 +232,6 @@ private:
   void set_sector(Sector *sector);
   void reset_level();
   void update_keyboard(const Controller& controller);
-  void keep_camera_in_bounds();
 
 public:
   bool m_testing_disabled;
@@ -257,7 +250,8 @@ private:
   std::optional<std::pair<std::string, Vector>> m_test_position;
   std::vector<std::unique_ptr<Widget> > m_widgets;
 
-  EditorOverlayWidget* m_overlay_widget;
+  EditorCamera* m_camera;
+  EditorOverlayWidget *m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
   EditorToolbarWidget* m_toolbar_widget;
