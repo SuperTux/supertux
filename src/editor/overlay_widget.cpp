@@ -1220,9 +1220,10 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   }
   else if (m_scrolling)
   {
+    auto editor_camera = m_editor.get_camera();
     // TODO: would be nice if this was configurable
     // for convenience, since drawing tablets tend to be rather large, we scale larger.
-    m_editor.scroll((m_previous_mouse_pos - m_mouse_pos) * m_scrolling_scale);
+    editor_camera->scroll((m_previous_mouse_pos - m_mouse_pos) * m_scrolling_scale);
     m_previous_mouse_pos = m_mouse_pos;
     return true;
   }
