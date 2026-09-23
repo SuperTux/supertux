@@ -104,8 +104,11 @@ bool
 EditorPropertiesPanel::event(const SDL_Event& ev)
 {
   for(const auto& control : m_controls)
-    if (control->event(ev))
+  {
+    control->event(ev);
+    if (control->has_focus())
       return true;
+  }
 
   return false;
 }
