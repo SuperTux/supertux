@@ -200,8 +200,9 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
       return true;
     }
   } else {
-    if (!m_rect.contains(mouse_pos)) {
-      m_has_focus = false;
+    m_has_focus = m_rect.contains(mouse_pos);
+    if (!m_has_focus)
+    {
       m_open_list = false;
     }
   }
