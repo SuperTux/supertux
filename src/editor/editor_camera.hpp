@@ -20,6 +20,11 @@
 
 class Camera;
 
+static const float CAMERA_MIN_ZOOM = 0.39f;
+static const float CAMERA_MAX_ZOOM = 3.0f;
+static const float CAMERA_ZOOM_SENSITIVITY = 0.05f;
+static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
+
 /**
  * Class responsible for camera navigation / handling in the SuperTux editor
  */
