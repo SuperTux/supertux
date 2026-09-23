@@ -37,6 +37,7 @@ EditorEventHandling::on_event(const SDL_Event& ev)
 {
   auto editor = Editor::current();
   auto editor_project = editor->get_project();
+  auto properties_panel = editor->get_properties_panel();
   auto toolbar_widget = editor->get_toolbar_widget();
   auto toolbox_widget = editor->get_toolbox_widget();
   auto layers_widget = editor->get_layers_widget();
@@ -44,13 +45,8 @@ EditorEventHandling::on_event(const SDL_Event& ev)
 
   // If properties sidebar controls are active and the mouse is hovering over the sidebar,
   // do not propagate mouse events to the editor or its widgets.
-  if ((ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN ||
-       ev.type == SDL_EVENT_MOUSE_BUTTON_UP ||
-       ev.type == SDL_EVENT_MOUSE_WHEEL) &&
-      editor->pos_in_properties_panel(m_mouse_pos))
-  {
+  if (properties_panel->has_mouse_focus(ev, m_mouse_pos))
     return;
-  }
 
   if (ev.type == SDL_EVENT_MOUSE_MOTION)
   {
@@ -58,7 +54,7 @@ EditorEventHandling::on_event(const SDL_Event& ev)
 
     // If properties sidebar controls are active and the mouse is hovering over the sidebar,
     // do not propagate mouse motion to the editor or its widgets.
-    if (editor->pos_in_properties_panel(m_mouse_pos))
+    if (properties_panel->has_mouse_focus(ev, m_mouse_pos))
       return;
   }
   else if (ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
