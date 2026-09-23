@@ -22,6 +22,30 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
 
   install(RUNTIME_DEPENDENCY_SET supertux2_deps LIBRARY DESTINATION "MacOS")
 
+  file(GLOB SUPERTUX_HOMEBREW_LIB_DIRS LIST_DIRECTORIES true
+       "/opt/homebrew/opt/*/lib" "/usr/local/opt/*/lib")
+  set(DIRS ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext
+           ${CMAKE_CURRENT_BINARY_DIR}/external/simplesquirrel
+           ${SUPERTUX_HOMEBREW_LIB_DIRS})
+  install(CODE "
+       if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
+       function(gp_item_default_embedded_path_override item path_var)
+         set(\${path_var} \"@executable_path/../MacOS\" PARENT_SCOPE)
+       endfunction()
+       include(BundleUtilities)
+       fixup_bundle(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2\" \"\" \"${DIRS}\")
+
+       find_program(SUPERTUX_CODESIGN_PROGRAM codesign)
+       if(SUPERTUX_CODESIGN_PROGRAM)
+         file(GLOB SUPERTUX_BUNDLE_DYLIBS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/MacOS/*.dylib\")
+         list(APPEND SUPERTUX_BUNDLE_DYLIBS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2\")
+         foreach(_supertux_bundle_item \${SUPERTUX_BUNDLE_DYLIBS})
+           execute_process(COMMAND \${SUPERTUX_CODESIGN_PROGRAM} --force --sign - \"\${_supertux_bundle_item}\")
+         endforeach()
+       endif()
+       endif()
+       ")
+
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
 
   set(CPACK_BUNDLE_NAME "SuperTux")
