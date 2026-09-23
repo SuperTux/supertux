@@ -139,42 +139,7 @@ Editor::draw(Compositor& compositor)
 
       context.pop_transform();
 
-      // If an object is selected, draw an indicator around it.
-      const GameObject* selected_object = m_selected_object.get();
-      if (selected_object)
-      {
-        const MovingObject* moving_selected_obj = dynamic_cast<const MovingObject*>(selected_object);
-        if (moving_selected_obj)
-        {
-          context.push_transform();
-          const Camera& camera = sector->get_camera();
-          context.set_translation(camera.get_translation());
-          context.scale(camera.get_current_scale());
-
-          const Rectf& bbox = moving_selected_obj->get_bbox();
-          context.color().draw_rect(bbox.grown(10.f), Color::WHITE, LAYER_GUI + 1);
-          
-          // context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
-          //                           Vector(bbox.get_right() + 10.f, bbox.get_top()),
-          //                           Color::WHITE, LAYER_GUI + 1);
-          // context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
-          //                           Vector(bbox.get_right(), bbox.get_top() - 10.f),
-          //                           Color::WHITE, LAYER_GUI + 1);
-          // context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
-          //                           Vector(bbox.get_left() - 10.f, bbox.get_bottom()),
-          //                           Color::WHITE, LAYER_GUI + 1);
-          // context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
-          //                           Vector(bbox.get_left(), bbox.get_bottom() + 10.f),
-          //                           Color::WHITE, LAYER_GUI + 1);
-
-          context.pop_transform();
-        }
-      }
-      else
-      {
-        m_selected_object = 0;
-        m_properties_panel->clear();
-      }
+      draw_selection_border(context);
     }
 
     // BEGIN Draw shadows and line
@@ -241,6 +206,48 @@ Editor::draw(Compositor& compositor)
 }
 
 void
+Editor::draw_selection_border(DrawingContext& context)
+{
+  // If an object is selected, draw an indicator around it.
+  const GameObject* selected_object = m_selected_object.get();
+  if (!selected_object)
+  {
+    return;
+  }
+
+  const MovingObject *moving_selected_obj = dynamic_cast<const MovingObject *>(selected_object);
+  if (!moving_selected_obj)
+  {
+    return;
+  }
+
+  auto sector = m_project->get_sector();
+
+  context.push_transform();
+  const Camera& camera = sector->get_camera();
+  context.set_translation(camera.get_translation());
+  context.scale(camera.get_current_scale());
+
+  const Rectf& bbox = moving_selected_obj->get_bbox();
+  context.color().draw_rect(bbox.grown(10.f), Color::WHITE, LAYER_GUI + 1);
+  
+  // context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
+  //                           Vector(bbox.get_right() + 10.f, bbox.get_top()),
+  //                           Color::WHITE, LAYER_GUI + 1);
+  // context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
+  //                           Vector(bbox.get_right(), bbox.get_top() - 10.f),
+  //                           Color::WHITE, LAYER_GUI + 1);
+  // context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
+  //                           Vector(bbox.get_left() - 10.f, bbox.get_bottom()),
+  //                           Color::WHITE, LAYER_GUI + 1);
+  // context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
+  //                           Vector(bbox.get_left(), bbox.get_bottom() + 10.f),
+  //                           Color::WHITE, LAYER_GUI + 1);
+
+  context.pop_transform();
+}
+
+void
 Editor::update(float dt_sec, const Controller& controller)
 {
   m_project->check_autosave(dt_sec);
@@ -251,6 +258,13 @@ Editor::update(float dt_sec, const Controller& controller)
   if (sector == nullptr)
   {
     return;
+  }
+
+  const GameObject* selected_object = m_selected_object.get();
+  if (!selected_object)
+  {
+    m_selected_object = 0;
+    m_properties_panel->clear();
   }
 
   // Update other components.

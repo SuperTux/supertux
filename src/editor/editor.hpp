@@ -219,6 +219,14 @@ public:
   inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
 private:
+
+  /**
+   * Draws a selection border around the currently selected object
+   * @param context The current DrawingContext instance
+   */
+  void draw_selection_border(DrawingContext& context);
+
+private:
   void set_sector(Sector *sector);
   void reset_level();
   void update_keyboard(const Controller& controller);
