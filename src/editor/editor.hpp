@@ -171,8 +171,13 @@ public:
 
   inline bool is_level_loaded() const { return m_levelloaded; }
 
-  void edit_path(PathGameObject* path, GameObject* new_marked_object) {
-    m_overlay_widget->edit_path(path, new_marked_object);
+  /**
+   * Edits the path of an object
+   * @note The path must inherit from the `PathObject` class in order for it to work 
+   * @param object The object whose path to edit
+   */
+  void edit_object_path(GameObject* object) {
+    m_overlay_widget->edit_object_path(object);
   }
 
   void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
