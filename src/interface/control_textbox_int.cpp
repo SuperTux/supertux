@@ -27,6 +27,34 @@ ControlTextboxInt::ControlTextboxInt() :
   revert_value();
 }
 
+bool
+ControlTextboxInt::on_key_down(const SDL_KeyboardEvent& key)
+{
+  if (!m_has_focus)
+    return false;
+
+  if (key.key == SDLK_DOWN || key.key == SDLK_UP)
+  {
+    int default_value = 0;
+    if (m_value == nullptr)
+    {
+      m_value = &default_value;
+    }
+
+    if (key.key == SDLK_DOWN)
+      *m_value = *m_value - 1;
+
+    if (key.key == SDLK_UP)
+      *m_value = *m_value + 1;
+
+    revert_value();
+
+    return true;
+  }
+
+  return ControlTextbox::on_key_down(key);
+}
+
 void
 ControlTextboxInt::update(float dt_sec)
 {
