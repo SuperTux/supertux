@@ -53,10 +53,6 @@ class Sector;
 class TileSet;
 class World;
 
-static const float CAMERA_MIN_ZOOM = 0.39f;
-static const float CAMERA_MAX_ZOOM = 3.0f;
-static const float CAMERA_ZOOM_SENSITIVITY = 0.05f;
-static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
 class Editor final : public Screen,
                      public Currenton<Editor>
 {
