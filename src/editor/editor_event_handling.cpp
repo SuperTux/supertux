@@ -42,6 +42,7 @@ EditorEventHandling::on_event(const SDL_Event& ev)
   auto toolbox_widget = editor->get_toolbox_widget();
   auto layers_widget = editor->get_layers_widget();
   auto& camera = editor_project->get_sector()->get_camera();
+  auto editor_camera = editor->get_camera();
 
   // If properties sidebar controls are active and the mouse is hovering over the sidebar,
   // do not propagate mouse events to the editor or its widgets.
@@ -76,9 +77,9 @@ EditorEventHandling::on_event(const SDL_Event& ev)
       m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
 
       if (m_ctrl_pressed)
-        editor->set_scroll_speed(16.0f);
+        editor_camera->set_scroll_speed(16.0f);
       else if (ev.key.mod & SDL_KMOD_RSHIFT)
-        editor->set_scroll_speed(96.0f);
+        editor_camera->set_scroll_speed(96.0f);
 
       if (ev.key.key == SDLK_F6)
       {
@@ -137,15 +138,15 @@ EditorEventHandling::on_event(const SDL_Event& ev)
           case SDLK_EQUALS:
           case SDLK_KP_PLUS:
             m_key_zoomed = true;
-            editor->set_camera_scale(camera.get_current_scale() + CAMERA_ZOOM_SENSITIVITY);
+            editor_camera->set_camera_scale(camera.get_current_scale() + CAMERA_ZOOM_SENSITIVITY);
             break;
           case SDLK_MINUS: // Zoom out
           case SDLK_KP_MINUS:
             m_key_zoomed = true;
-            editor->set_camera_scale(camera.get_current_scale() - CAMERA_ZOOM_SENSITIVITY);
+            editor_camera->set_camera_scale(camera.get_current_scale() - CAMERA_ZOOM_SENSITIVITY);
             break;
           case SDLK_D: // Reset zoom
-            editor->set_camera_scale(1.0f);
+            editor_camera->set_camera_scale(1.0f);
             break;
           default:
             break;
@@ -159,7 +160,7 @@ EditorEventHandling::on_event(const SDL_Event& ev)
       m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
 
       if (!m_ctrl_pressed && !(ev.key.mod & SDL_KMOD_RSHIFT))
-        editor->set_scroll_speed(32.0f);
+        editor_camera->set_scroll_speed(32.0f);
     }
     else if (ev.type == SDL_EVENT_PEN_BUTTON_DOWN)
     {
@@ -187,10 +188,10 @@ EditorEventHandling::on_event(const SDL_Event& ev)
       // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
       // The toolbox does scrolling independently from the main area.
       if (m_ctrl_pressed)
-        editor->set_camera_scale(camera.get_current_scale() + wheel_y * CAMERA_ZOOM_SENSITIVITY);
+        editor_camera->set_camera_scale(camera.get_current_scale() + wheel_y * CAMERA_ZOOM_SENSITIVITY);
       else
-        editor->scroll({ static_cast<float>((m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1 : 1) : wheel_x) * 40),
-                         static_cast<float>((m_shift_pressed ? wheel_x : wheel_y) * -40) });
+        editor_camera->scroll({ static_cast<float>((m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1 : 1) : wheel_x) * 40),
+                                static_cast<float>((m_shift_pressed ? wheel_x : wheel_y) * -40) });
     }
   }
 }
@@ -218,7 +219,8 @@ EditorEventHandling::update_keyboard(const Controller& controller)
   if (!editor->has_focus() || properties_panel->has_focus())
     return;
 
-  auto scroll_speed = editor->get_scroll_speed();
+  auto camera = editor->get_camera();
+  auto scroll_speed = camera->get_scroll_speed();
 
   const bool* keys = nullptr;
   keys = SDL_GetKeyboardState(nullptr);
@@ -236,18 +238,18 @@ EditorEventHandling::update_keyboard(const Controller& controller)
   }
 
   if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT] || keys[SDL_SCANCODE_A]) {
-    editor->scroll({ -scroll_speed, 0.0f });
+    camera->scroll({ -scroll_speed, 0.0f });
   }
 
   if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT] || keys[SDL_SCANCODE_D]) {
-    editor->scroll({ scroll_speed, 0.0f });
+    camera->scroll({ scroll_speed, 0.0f });
   }
 
   if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP] || keys[SDL_SCANCODE_W]) {
-    editor->scroll({ 0.0f, -scroll_speed });
+    camera->scroll({ 0.0f, -scroll_speed });
   }
 
   if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN] || keys[SDL_SCANCODE_S]) {
-    editor->scroll({ 0.0f, scroll_speed });
+    camera->scroll({ 0.0f, scroll_speed });
   }
 }

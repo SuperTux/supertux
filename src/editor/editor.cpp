@@ -102,6 +102,7 @@ Editor::Editor() :
   m_testing_level(false),
   m_after_setup(false),
   m_widgets(),
+  m_camera(new EditorCamera),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
@@ -313,39 +314,7 @@ Editor::update(float dt_sec, const Controller& controller)
     m_event_handling->update_keyboard(controller);
   }
 
-  update_camera(sector->get_camera(), dt_sec);
-}
-
-void
-Editor::update_camera(Camera& camera, float dt_sec)
-{
-  auto key_zoomed_pressed = m_event_handling->get_key_zoomed_pressed();
-  auto mouse_pos = m_event_handling->get_mouse_pos();
-
-  // Ensure camera is free, which is like normal but immune to the camera boundary.
-  camera.set_mode(Camera::Mode::FREE);
-  // If camera scale must be changed, change it here.
-  if (m_new_scale != 0.f)
-  {
-    // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
-    if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
-    {
-      const bool zooming_in = camera.get_current_scale() < m_new_scale;
-
-      camera.set_scale(m_new_scale);
-
-      // When zooming in, focus on the position of the mouse.
-      if (zooming_in && !key_zoomed_pressed && !g_config->editor_zoom_centered)
-        camera.move((mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
-                                        static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
-
-      keep_camera_in_bounds();
-    }
-    m_event_handling->set_key_zoomed_pressed(false);
-    m_new_scale = 0.f;
-  }
-
-  camera.update(dt_sec);
+  m_camera->update(sector->get_camera(), dt_sec);
 }
 
 void
@@ -375,41 +344,6 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
       reactivate_after_level_test();
     }
   });
-}
-
-void
-Editor::scroll(const Vector& velocity)
-{
-  if (!m_project->is_level_loaded())
-    return;
-
-  auto sector = m_project->get_sector();
-  auto& camera = sector->get_camera();
-
-  camera.move(velocity / camera.get_current_scale());
-  keep_camera_in_bounds();
-}
-
-void
-Editor::keep_camera_in_bounds()
-{
-  auto sector = m_project->get_sector();
-  auto& camera = sector->get_camera();
-
-  constexpr float offset = 80.f;
-#if 0
-  float controls_offset_x = m_controls.size() != 0 ? -200.f : 0.f;
-  float controls_offset_y = m_controls.size() != 0 ? -32.f : 0.f;
-  camera.keep_in_bounds(Rectf(-offset + controls_offset_x, -offset + controls_offset_y,
-                              std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()) + offset,
-                              std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale()) + offset));
-#endif
-
-  camera.keep_in_bounds(Rectf(-offset,
-                              -offset,
-                              std::max(0.f, sector->get_editor_width()) + offset + 128.f,
-                              std::max(0.f, sector->get_editor_height()) + offset));
-  m_overlay_widget->update_pos();
 }
 
 void
