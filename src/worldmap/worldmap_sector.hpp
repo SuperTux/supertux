@@ -20,6 +20,7 @@
 
 #include "supertux/sector_base.hpp"
 
+#include "worldmap/level_tile.hpp"
 #include "worldmap/tux.hpp"
 
 namespace worldmap {
@@ -83,7 +84,7 @@ public:
 
   /** gets called from the GameSession when a level has been successfully
       finished */
-  void finished_level(Level* level);
+  void finished_level(Level* level, const std::vector<LevelTile::GhostRunPoint>& level_path);
 
   /** Get a spawnpoint by its name @param name The name of the
       spawnpoint @return spawnpoint corresponding to that name */
