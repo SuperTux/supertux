@@ -25,22 +25,24 @@
 
 ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   Trigger(Color(1.0f, 0.0f, 1.0f, 0.6f), reader),
-  triggerevent(),
-  script(),
-  must_activate(false),
-  oneshot(false),
-  runcount(0)
+  m_triggerevent(),
+  m_script(),
+  m_leave_script(),
+  m_must_activate(false),
+  m_oneshot(false),
+  m_runcount(0)
 {
-  reader.get("script", script);
-  reader.get("button", must_activate);
-  reader.get("oneshot", oneshot);
-  if (script.empty() && !Editor::is_active())
+  reader.get("script", m_script);
+  reader.get("leave-script", m_leave_script);
+  reader.get("button", m_must_activate);
+  reader.get("oneshot", m_oneshot);
+  if (m_script.empty() && !Editor::is_active())
     log_warning << "No script set in script trigger" << std::endl;
 
-  if (must_activate)
-    triggerevent = EVENT_ACTIVATE;
+  if (m_must_activate)
+    m_triggerevent = EVENT_ACTIVATE;
   else
-    triggerevent = EVENT_TOUCH;
+    m_triggerevent = EVENT_TOUCH;
 }
 
 ObjectSettings
@@ -48,11 +50,12 @@ ScriptTrigger::get_settings()
 {
   ObjectSettings result = Trigger::get_settings();
 
-  result.add_script(get_uid(), _("Script"), &script, "script");
-  result.add_bool(_("Button"), &must_activate, "button");
-  result.add_bool(_("Oneshot"), &oneshot, "oneshot", false);
+  result.add_script(get_uid(), _("Script"), &m_script, "script");
+  result.add_script(get_uid(), _("Leave script"), &m_leave_script, "leave-script");
+  result.add_bool(_("Button"), &m_must_activate, "button");
+  result.add_bool(_("Oneshot"), &m_oneshot, "oneshot", false);
 
-  result.reorder({"script", "button", "width", "height", "x", "y"});
+  result.reorder({"script", "leave-script", "button", "width", "height", "x", "y"});
 
   return result;
 }
@@ -60,9 +63,13 @@ ScriptTrigger::get_settings()
 void
 ScriptTrigger::event(Player& , EventType type)
 {
-  if (type != triggerevent || (oneshot && runcount >= 1))
+  if ((type != m_triggerevent && !(m_triggerevent == EVENT_TOUCH && type == EVENT_LOSETOUCH)) ||
+      (m_oneshot && m_runcount >= 1))
     return;
 
-  Sector::get().run_script(script, "ScriptTrigger");
-  runcount++;
+  if (type == EVENT_LOSETOUCH) Sector::get().run_script(m_leave_script, "ScriptTrigger");
+  else Sector::get().run_script(m_script, "ScriptTrigger");
+
+  //for non-button triggers. only increase the counter upon leaving the trigger to avoid double increase
+  if (!(m_triggerevent == EVENT_TOUCH && type == EVENT_TOUCH)) m_runcount++;
 }
