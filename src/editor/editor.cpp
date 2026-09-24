@@ -159,20 +159,11 @@ Editor::draw(Compositor& compositor)
     context.color().draw_filled_rect(layers_rect, line_color, LAYER_GUI + 1);
     // END Draw shadows and line
 
-    context.color().draw_filled_rect(context.get_rect(),
-                                     Color(0.0f, 0.0f, 0.0f),
+    context.color().draw_filled_rect(context.get_rect(), Color::BLACK,
                                      0.0f, std::numeric_limits<int>::min());
 
     draw_mouse_pointer(context);
-
-    if (!m_show_draggables && m_show_draggables_hint.get_progress() < 1.0f)
-    {
-      context.color().draw_text(
-        Resources::normal_font,
-        _("Note: Draggables are now hidden. Press Ctrl+H to show again."),
-        { 16.0f, SCREEN_HEIGHT - 64.f }, ALIGN_LEFT, LAYER_OBJECTS+1,
-        Color(1.0f, 1.0f, 0.6f, (1.0f - m_show_draggables_hint.get_progress())));
-    }
+    draw_draggables_hint(context);
   }
   else
   {
@@ -180,6 +171,19 @@ Editor::draw(Compositor& compositor)
                                         context.get_rect(),
                                         -100);
   }
+}
+
+void
+Editor::draw_draggables_hint(DrawingContext& context)
+{
+  if (m_show_draggables || m_show_draggables_hint.get_progress() == 1.0f)
+    return;
+
+  context.color().draw_text(
+    Resources::normal_font,
+    _("Note: Draggables are now hidden. Press Ctrl+H to show again."),
+    { 16.0f, SCREEN_HEIGHT - 64.f }, ALIGN_LEFT, LAYER_OBJECTS+1,
+    Color(1.0f, 1.0f, 0.6f, (1.0f - m_show_draggables_hint.get_progress())));
 }
 
 void
