@@ -131,8 +131,6 @@ public:
 
   void delete_current_sector();
 
-  inline bool get_draggables_visible() { return m_show_draggables; }
-
   inline void disable_testing() { m_testing_disabled = true; }
 
   void select_tilegroup(int id);
@@ -167,12 +165,12 @@ public:
   }
 
   // TODO: Move elsewhere (?) EditorInputCenter perhaps?
-  bool get_show_draggables() const { return m_show_draggables; }
-  void set_show_draggables(bool show_draggables)
+  bool get_draggables_visible() const { return m_draggables_visible; }
+  void set_draggables_visible(bool draggables_visible)
   {
-    m_show_draggables = show_draggables;
-    if (!m_show_draggables)
-      m_show_draggables_hint.start(6.7f);
+    m_draggables_visible = draggables_visible;
+    if (!m_draggables_visible)
+      m_draggables_visible_hint.start(6.7f);
   }
 
   /**
@@ -279,8 +277,8 @@ private:
   bool m_enabled;
   SurfacePtr m_bgr_surface;
 
-  bool m_show_draggables;
-  Timer m_show_draggables_hint;
+  bool m_draggables_visible;
+  Timer m_draggables_visible_hint;
 
   SpritePtr m_test_icon;
 
