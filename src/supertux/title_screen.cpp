@@ -28,6 +28,7 @@
 #include "sdk/integration.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
@@ -78,6 +79,9 @@ TitleScreen::setup()
   // calls) we only do this when setup is called again (usually after leaving
   // the game/editor), not on first initialization (because then we'd call
   // apply_config twice...)
+  if (GameManager::current())
+    GameManager::current()->ensure_title_screen_savegame();
+
   if (m_fully_initialized)
   {
     VideoSystem::current()->get_viewport().force_full_viewport(g_config->max_viewport);
