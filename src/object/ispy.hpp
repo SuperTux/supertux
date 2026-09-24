@@ -24,8 +24,12 @@
 class Ispy final : public StickyObject
 {
 public:
+  enum Type {
+    ISPY, METAL
+  };
+public:
   Ispy(const ReaderMapping& mapping);
-
+  Ispy(const ReaderMapping& reader, int type);
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
@@ -37,7 +41,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
-
+  virtual GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
   virtual void on_flip(float height) override;
 
 private:
