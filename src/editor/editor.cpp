@@ -112,6 +112,11 @@ Editor::~Editor()
 void
 Editor::draw(Compositor& compositor)
 {
+  // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
+  // issue with the PlayerStatus. (TODO: Test if this is still the case?)
+  if (m_testing_level)
+    return;
+
   auto& context = compositor.make_context();
 
   if (!m_project->is_level_loaded())
@@ -127,20 +132,7 @@ Editor::draw(Compositor& compositor)
 
   m_properties_panel->draw(context);
 
-  // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
-  // issue with the PlayerStatus.
-  if (!m_testing_level)
-  {
-    auto sector = m_project->get_sector();
-    context.push_transform();
-    context.set_max_layer(LAYER_GUI - 22); // Lowest layer used by an editor UI item is LAYER_GUI - 21
-
-    sector->draw(context);
-
-    context.pop_transform();
-
-    draw_selection_border(context);
-  }
+  draw_sector(context);
 
   // BEGIN Draw shadows and line
   constexpr float LINE_THICKNESS = 1.f;
@@ -164,10 +156,24 @@ Editor::draw(Compositor& compositor)
   // END Draw shadows and line
 
   context.color().draw_filled_rect(context.get_rect(), Color::BLACK,
-                                    0.0f, std::numeric_limits<int>::min());
+                                   0.0f, std::numeric_limits<int>::min());
 
   draw_mouse_pointer(context);
   draw_draggables_hint(context);
+}
+
+void
+Editor::draw_sector(DrawingContext& context)
+{
+  auto sector = m_project->get_sector();
+  context.push_transform();
+  context.set_max_layer(LAYER_GUI - 22); // Lowest layer used by an editor UI item is LAYER_GUI - 21
+
+  sector->draw(context);
+
+  context.pop_transform();
+
+  draw_selection_border(context);
 }
 
 void
