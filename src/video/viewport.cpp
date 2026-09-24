@@ -166,7 +166,7 @@ float calculate_pixel_aspect_ratio(const Size& source, const Size& target)
 } // namespace
 
 Viewport
-Viewport::from_size(const Size& target_size, const Size& desktop_size)
+Viewport::from_size(const Size& target_size, const Size& desktop_size, float pixel_scale)
 {
   float pixel_aspect_ratio = 1.0f;
   if (g_config->aspect_size != Size(0, 0))
@@ -189,18 +189,20 @@ Viewport::from_size(const Size& target_size, const Size& desktop_size)
                      g_config->magnification,
                      scale, viewport);
 
-  return Viewport(viewport, scale);
+  return Viewport(viewport, scale, pixel_scale);
 }
 
 Viewport::Viewport() :
   m_rect(),
-  m_scale(0.0f, 0.0f)
+  m_scale(0.0f, 0.0f),
+  m_pixel_scale(1.0f)
 {
 }
 
-Viewport::Viewport(const Rect& rect, const Vector& scale) :
+Viewport::Viewport(const Rect& rect, const Vector& scale, float pixel_scale) :
   m_rect(rect),
-  m_scale(scale)
+  m_scale(scale),
+  m_pixel_scale(pixel_scale)
 {
 }
 
@@ -225,8 +227,11 @@ Viewport::get_screen_size() const
 Vector
 Viewport::to_logical(int physical_x, int physical_y) const
 {
-  return Vector(static_cast<float>(physical_x - m_rect.left) / m_scale.x,
-                static_cast<float>(physical_y - m_rect.top) / m_scale.y);
+  // Scale screen coordinates (points) to pixel coordinates for HiDPI support
+  int pixel_x = static_cast<int>(static_cast<float>(physical_x) * m_pixel_scale);
+  int pixel_y = static_cast<int>(static_cast<float>(physical_y) * m_pixel_scale);
+  return Vector(static_cast<float>(pixel_x - m_rect.left) / m_scale.x,
+                static_cast<float>(pixel_y - m_rect.top) / m_scale.y);
 }
 
 bool
