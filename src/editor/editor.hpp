@@ -219,6 +219,12 @@ public:
 private:
 
   /**
+   * Draws the contents of the current sector
+   * @param context The current DrawingContext instance
+   */
+  void draw_sector(DrawingContext &context);
+
+  /**
    * Draws a hint notifying the user that draggable objects are hidden
    * and how to enable them again.
    * @param context The current DrawingContext instance
