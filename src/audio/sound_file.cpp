@@ -93,6 +93,7 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename_original)
       sound_file = std::make_unique<OggSoundFile>(file, loop_begin, loop_at);
     }
 
+    music.get("volume", sound_file->m_volume, 1.0f);
     music.get("authors", sound_file->m_authors);
     music.get("license", sound_file->m_license);
     music.get("title", sound_file->m_title);

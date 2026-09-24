@@ -63,6 +63,8 @@ StreamSoundSource::set_sound_file(std::unique_ptr<SoundFile> newfile)
 {
   m_file = std::move(newfile);
 
+  alSourcef(m_source, AL_GAIN, m_gain * m_volume * m_file->m_volume);
+
   ALint queued;
   alGetSourcei(m_source, AL_BUFFERS_QUEUED, &queued);
   for (size_t i = 0; i < STREAMFRAGMENTS - queued; ++i) {
@@ -128,6 +130,24 @@ StreamSoundSource::update()
     } else {
       set_gain( (m_fade_time - time) / m_fade_time);
     }
+  }
+}
+
+void
+StreamSoundSource::set_gain(float gain)
+{
+  m_gain = gain;
+  if (m_file) {
+    alSourcef(m_source, AL_GAIN, m_gain * m_volume * m_file->m_volume);
+  }
+}
+
+void
+StreamSoundSource::set_volume(float volume)
+{
+  m_volume = volume;
+  if (m_file) {
+    alSourcef(m_source, AL_GAIN, m_gain * m_volume * m_file->m_volume);
   }
 }
 
