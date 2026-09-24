@@ -114,63 +114,60 @@ Editor::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  if (m_project->is_level_loaded())
+  if (!m_project->is_level_loaded())
   {
-    for(const auto& widget : m_widgets)
-    {
-      widget->draw(context);
-    }
-
-    m_properties_panel->draw(context);
-
-    // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
-    // issue with the PlayerStatus.
-    if (!m_testing_level)
-    {
-      auto sector = m_project->get_sector();
-      context.push_transform();
-      context.set_max_layer(LAYER_GUI - 22); // Lowest layer used by an editor UI item is LAYER_GUI - 21
-
-      sector->draw(context);
-
-      context.pop_transform();
-
-      draw_selection_border(context);
-    }
-
-    // BEGIN Draw shadows and line
-    constexpr float LINE_THICKNESS = 1.f;
-    Rectf border_rect = Rectf{SCREEN_WIDTH - 128.f - LINE_THICKNESS, 0,
-                              SCREEN_WIDTH - 128.f, static_cast<float>(SCREEN_HEIGHT - 32.f)};
-    Color line_color = (g_config->editorcolor - Color(0.2, 0.2, 0.2, 0.2)).validate();
-    context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
-
-    Rectf shadow_rect = border_rect;
-    shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
-    shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
-    context.color().draw_gradient(Color(0.0f, 0.0f, 0.0f, 0.0f),
-                                  Color(0.0f, 0.0f, 0.0f, 0.2f),
-                                  LAYER_GUI + 1,
-                                  GradientDirection::HORIZONTAL,
-                                  shadow_rect);
-
-    Rectf layers_rect = Rectf{0, SCREEN_HEIGHT - 32.f - LINE_THICKNESS,
-                              SCREEN_WIDTH - 128.f, SCREEN_HEIGHT - 32.f};
-    context.color().draw_filled_rect(layers_rect, line_color, LAYER_GUI + 1);
-    // END Draw shadows and line
-
-    context.color().draw_filled_rect(context.get_rect(), Color::BLACK,
-                                     0.0f, std::numeric_limits<int>::min());
-
-    draw_mouse_pointer(context);
-    draw_draggables_hint(context);
+    context.color().draw_surface_scaled(m_bgr_surface, context.get_rect(), -100);
+    return;
   }
-  else
+
+  for(const auto& widget : m_widgets)
   {
-    context.color().draw_surface_scaled(m_bgr_surface,
-                                        context.get_rect(),
-                                        -100);
+    widget->draw(context);
   }
+
+  m_properties_panel->draw(context);
+
+  // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
+  // issue with the PlayerStatus.
+  if (!m_testing_level)
+  {
+    auto sector = m_project->get_sector();
+    context.push_transform();
+    context.set_max_layer(LAYER_GUI - 22); // Lowest layer used by an editor UI item is LAYER_GUI - 21
+
+    sector->draw(context);
+
+    context.pop_transform();
+
+    draw_selection_border(context);
+  }
+
+  // BEGIN Draw shadows and line
+  constexpr float LINE_THICKNESS = 1.f;
+  Rectf border_rect = Rectf{SCREEN_WIDTH - 128.f - LINE_THICKNESS, 0,
+                            SCREEN_WIDTH - 128.f, static_cast<float>(SCREEN_HEIGHT - 32.f)};
+  Color line_color = (g_config->editorcolor - Color(0.2, 0.2, 0.2, 0.2)).validate();
+  context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
+
+  Rectf shadow_rect = border_rect;
+  shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
+  shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
+  context.color().draw_gradient(Color(0.0f, 0.0f, 0.0f, 0.0f),
+                                Color(0.0f, 0.0f, 0.0f, 0.2f),
+                                LAYER_GUI + 1,
+                                GradientDirection::HORIZONTAL,
+                                shadow_rect);
+
+  Rectf layers_rect = Rectf{0, SCREEN_HEIGHT - 32.f - LINE_THICKNESS,
+                            SCREEN_WIDTH - 128.f, SCREEN_HEIGHT - 32.f};
+  context.color().draw_filled_rect(layers_rect, line_color, LAYER_GUI + 1);
+  // END Draw shadows and line
+
+  context.color().draw_filled_rect(context.get_rect(), Color::BLACK,
+                                    0.0f, std::numeric_limits<int>::min());
+
+  draw_mouse_pointer(context);
+  draw_draggables_hint(context);
 }
 
 void
