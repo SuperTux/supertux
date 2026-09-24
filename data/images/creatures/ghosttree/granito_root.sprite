@@ -1,12 +1,10 @@
 (supertux-sprite
   (action
     (name "variant1")
-	(hitbox 37 37 16 188)
-    (images "granito_root-0.png")
-  )
+	  (hitbox 37 37 16 188)
+    (images "granito_root-0.png"))
   (action
     (name "variant2")
-	(hitbox 37 37 16 188)
-    (images "granito_root-1.png")
-  )
+	  (hitbox 37 37 16 188)
+    (images "granito_root-1.png"))
 )

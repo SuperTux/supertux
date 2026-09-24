@@ -15,9 +15,10 @@
   (action
     (name "right")
     (hitbox 5 8 32 32)
-	(fps 12)
+	  (fps 12)
     (mirror-action "left")
   )
+
   (action
     (name "squished-left")
     (hitbox 1 -19 31.8 31.8)
@@ -34,7 +35,6 @@
     (hitbox 0 3 45 43)
     (fps 12)
     (images "bsod-0.png"))
-
   (action
     (name "iced-right")
     (hitbox 0 3 45 43)

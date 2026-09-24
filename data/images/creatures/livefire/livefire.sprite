@@ -10,14 +10,13 @@
             "livefire-4.png"
             "livefire-5.png"
             "livefire-6.png"
-            "livefire-7.png")
-  )
+            "livefire-7.png"))
   (action
     (name "right")
     (fps 14)
     (hitbox 20 18 40 40)
-    (mirror-action "left")
-  )
+    (mirror-action "left"))
+
   (action
     (fps 28)
     (name "sleeping-left")
@@ -29,14 +28,13 @@
 		        "sleep-4.png"
             "sleep-5.png"
 		        "sleep-6.png"
-            "sleep-7.png")
-  )
+            "sleep-7.png"))
   (action
     (name "sleeping-right")
     (fps 28)
     (hitbox 20 18 40 40)
-    (mirror-action "sleeping-left")
-  )
+    (mirror-action "sleeping-left"))
+
   (action
     (name "waking-left")
     (hitbox 4.1 18 40 40)
@@ -44,14 +42,13 @@
     (images "wake-0.png"
             "wake-1.png"
             "wake-2.png"
-            "wake-3.png")
-  )
+            "wake-3.png"))
   (action
     (name "waking-right")
     (fps 7)
     (hitbox 20 18 40 40)
-    (mirror-action "waking-left")
-  )
+    (mirror-action "waking-left"))
+
   (action
     (name "extinguish-left")
     (fps 14)
@@ -59,12 +56,10 @@
     (images "dying-0.png"
 		        "dying-1.png"
 		        "dying-2.png"
-		        "dying-3.png")
-  )
+		        "dying-3.png"))
   (action
     (name "extinguish-right")
     (fps 14)
     (hitbox 20 18 40 40)
-    (mirror-action "extinguish-left")
-  )
+    (mirror-action "extinguish-left"))
 )

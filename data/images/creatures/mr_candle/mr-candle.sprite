@@ -1,31 +1,28 @@
 (supertux-sprite
   (action
     (name "left")
-	(fps 14)
+	  (fps 14)
     (hitbox 43 43 15 34)
-    (images "c1.png"
-	        "c2.png"
-			"c3.png"
-			"c4.png"
-			"c5.png"
-			"c6.png"
-			"c7.png"
-			"c8.png")
-  )
+    (images "candle-0.png"
+	          "candle-1.png"
+			      "candle-2.png"
+			      "candle-3.png"
+			      "candle-4.png"
+			      "candle-5.png"
+			      "candle-6.png"
+			      "candle-7.png"))
   (action
     (name "right")
-	(fps 14)
+	  (fps 14)
     (hitbox 43 43 15 34)
-    (mirror-action "left")
-  )
+    (mirror-action "left"))
+
   (action
     (name "iced-left")
     (hitbox 27 35 45 43)
-    (images "c-ice.png")
-  )
+    (images "iced.png"))
   (action
     (name "iced-right")
     (hitbox 26 35 45 43)
-    (mirror-action "iced-left")
-  )  
+    (mirror-action "iced-left"))  
 )
