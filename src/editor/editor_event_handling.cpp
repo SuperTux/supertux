@@ -192,8 +192,8 @@ EditorEventHandling::on_event(const SDL_Event& ev)
       if (m_ctrl_pressed)
         editor_camera->set_scale(camera.get_current_scale() + wheel_y * CAMERA_ZOOM_SENSITIVITY);
       else
-        editor_camera->scroll({ static_cast<float>((m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1 : 1) : wheel_x) * 40),
-                                static_cast<float>((m_shift_pressed ? wheel_x : wheel_y) * -40) });
+        editor_camera->scroll( {(m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1.f : 1.f) : wheel_x) * 40.f,
+                                (m_shift_pressed ? wheel_x : wheel_y) * -40.f });
     }
   }
 }
