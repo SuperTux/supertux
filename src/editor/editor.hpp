@@ -241,7 +241,6 @@ private:
 private:
   void set_sector(Sector *sector);
   void reset_level();
-  void update_keyboard(const Controller& controller);
 
 public:
   bool m_testing_disabled;
