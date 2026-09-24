@@ -123,8 +123,8 @@ EditorEventHandling::on_event(const SDL_Event& ev)
             break;
           case SDLK_H:
           {
-            auto show_draggables = editor->get_show_draggables();
-            editor->set_show_draggables(!show_draggables);
+            auto draggables_visible = editor->get_draggables_visible();
+            editor->set_draggables_visible(!draggables_visible);
           }
             break;
           case SDLK_X:
