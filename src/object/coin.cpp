@@ -22,6 +22,7 @@
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
+#include "object/weak_block.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
@@ -243,6 +244,17 @@ Coin::collision(MovingObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*>(&other);
   if (player == nullptr)
     return ABORT_MOVE;
+  
+  // Check if this coin is trapped inside an active WeakBlock
+  Vector coin_center = m_col.m_bbox.get_middle();
+  for (auto& weak_block : Sector::get().get_objects_by_type<WeakBlock>()) {
+    if (weak_block.get_group() == COLGROUP_DISABLED)
+      continue;
+      
+    if (weak_block.get_bbox().contains(coin_center)) 
+      return ABORT_MOVE;
+  }
+  
   if (m_col.get_bbox().overlaps(player->get_bbox().grown(-0.1f)))
     collect();
   return ABORT_MOVE;
