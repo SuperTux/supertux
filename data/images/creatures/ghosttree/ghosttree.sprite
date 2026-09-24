@@ -2,58 +2,38 @@
   (action
     (name "idle")
     (hitbox 526 520 48 48)
-	(fps 10)
-    (images
-      "idle-0.png"
-    )
-  )
+	  (fps 10)
+    (images "idle-0.png"))
   (action
     (name "charge")
     (hitbox 526 520 48 48)
-	(fps 10)
-    (images
-      "charge-0.png"
-    )
-  )
+	  (fps 10)
+    (images "charge-0.png"))
   (action
     (name "scream")
     (hitbox 526 520 48 48)
-	(fps 10)
-    (images
-      "scream-0.png"
-    )
-  )
-  
+	  (fps 10)
+    (images "scream-0.png"))
+
   (action
     (name "idle-pinch")
     (hitbox 296 520 48 48)
-	(fps 10)
-    (images
-      "pinch_idle-0.png"
-    )
-  )
+	  (fps 10)
+    (images "pinch_idle-0.png"))
   (action
     (name "charge-pinch")
     (hitbox 296 520 48 48)
-	(fps 10)
-    (images
-      "pinch_charge-0.png"
-    )
-  )
+	  (fps 10)
+    (images "pinch_charge-0.png"))
   (action
     (name "scream-pinch")
     (hitbox 296 520 48 48)
-	(fps 10)
-    (images
-      "pinch_scream-0.png"
-    )
-  )
+	  (fps 10)
+    (images "pinch_scream-0.png"))
+
   (action
     (name "busted")
     (hitbox 296 520 48 48)
-	(fps 10)
-    (images
-      "bust-0.png"
-    )
-  )
+	  (fps 10)
+    (images "bust-0.png"))
 )

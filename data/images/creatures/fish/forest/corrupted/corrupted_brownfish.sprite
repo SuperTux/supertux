@@ -11,7 +11,6 @@
             "swim_brown-5.png"
             "swim_brown-6.png"
             "swim_brown-7.png"))
-
   (action
     (name "swim-right")
     (hitbox 12 10 46 46)
@@ -27,8 +26,7 @@
             "notice_brown-0.png"
             "notice_brown-1.png"
             "notice_brown-2.png"
-			"notice_brown-3.png"))
-
+			      "notice_brown-3.png"))
   (action
     (name "notice-right")
     (hitbox 12 10 46 46)
@@ -46,7 +44,6 @@
             "chase_brown-3.png"
             "chase_brown-4.png"
             "chase_brown-5.png"))
-
   (action
     (name "chase-right")
     (hitbox 16 10 46 46)
@@ -57,7 +54,6 @@
     (name "iced-left")
     (hitbox 8 10 46 46)
     (images "swim_brown-0.png"))
-
   (action
     (name "iced-right")
     (hitbox 12 10 46 46)
@@ -67,10 +63,8 @@
     (name "burning-left")
     (hitbox 8 10 46 46)
     (images "swim_blue-0.png"))
-
   (action
     (name "burning-right")
     (hitbox 12 10 46 46)
     (mirror-action "iced-left"))
-
 )
