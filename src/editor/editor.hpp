@@ -74,6 +74,10 @@ private:
     return is_autosave_file(filename) ? filename : filename + "~";
   }
 
+  static std::string get_readonly_levelname(const std::string& filename) {
+    return filename + ".txt";
+  }
+
 public:
   static bool s_resaving_in_progress;
 
@@ -133,6 +137,7 @@ public:
   inline bool is_temp_level() const { return m_temp_level; }
 
   void open_level_directory();
+  void open_level_in_external_editor();
 
   inline bool is_testing_level() const { return m_leveltested; }
 
