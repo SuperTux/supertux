@@ -22,7 +22,6 @@
 
 #include <physfs.h>
 #include "editor/editor_project.hpp"
-#include "editor/editor_properties_panel.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/toolbox_widget.hpp"
 #include "editor/overlay_widget.hpp"
@@ -41,6 +40,7 @@ class EditorToolbarButtonWidget;
 class EditorCamera;
 class EditorHistoryManager;
 class EditorLayersWidget;
+class EditorPropertiesPanel;
 class TileSelection;
 class EditorTileConverter;
 class EditorEventHandling;
@@ -108,8 +108,7 @@ public:
   inline std::string get_selected_object_class() const { return get_tilebox().get_object(); }
 
   inline InputMode get_input_mode() const { return m_input_mode; }
-  inline void set_input_mode(const InputMode& input_mode) { m_input_mode = input_mode; }
-
+  void set_input_mode(const InputMode &input_mode);
 
   inline bool has_active_toolbox_tip() const { return get_tilebox().has_active_object_tip(); }
 
@@ -117,11 +116,7 @@ public:
   inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
 
   void set_level(std::unique_ptr<Level> level, bool reset = true);
-  inline void set_level(const std::string& levelfile)
-  {
-    m_project->set_level_file(levelfile);
-    reload_level();
-  }
+  void set_level(const std::string &levelfile);
 
   inline bool is_reloading() const { return m_is_reloading; }
   inline bool is_testing_level() const { return m_testing_level; }
@@ -142,12 +137,8 @@ public:
   EditorProject* get_project() const { return m_project.get(); }
   EditorEventHandling* get_event_handling() const { return m_event_handling.get(); }
 
-  void set_selected_object(GameObject* object)
-  {
-    m_selected_object = object;
-    m_properties_panel->load_object_properties(object);
-  }
-  const GameObject* get_selected_object() const { return m_selected_object.get(); }
+  void set_selected_object(GameObject *object);
+  const GameObject *get_selected_object() const { return m_selected_object.get(); }
 
   void set_test_position(const std::optional<std::pair<std::string, Vector>>& test_position)
   {
