@@ -89,6 +89,7 @@ public:
 
   int get_width() const;
   int get_height() const;
+  Sizef get_size() const;
 
   const std::optional<std::vector<SurfacePtr>> get_action_surfaces(const std::string& name) const;
   const SurfacePtr get_current_action_surface() const;
