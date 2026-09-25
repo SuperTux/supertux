@@ -24,6 +24,7 @@
 #include "editor/editor_camera.hpp"
 #include "editor/editor_event_handling.hpp"
 #include "editor/editor_history_manager.hpp"
+#include "editor/editor_properties_panel.hpp"
 #include "editor/editor_tile_converter.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/toolbar_widget.hpp"
@@ -390,6 +391,13 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 }
 
 void
+Editor::set_level(const std::string& levelfile)
+{
+  m_project->set_level_file(levelfile);
+  reload_level();
+}
+
+void
 Editor::reload_level()
 {
   m_is_reloading = true;
@@ -646,6 +654,23 @@ Editor::change_tileset()
     }
   }
   m_toolbox_widget->get_tilebox().select_tilegroup(0);
+}
+
+void
+Editor::set_input_mode(const InputMode& input_mode)
+{
+  if (m_input_mode == input_mode)
+    return;
+
+  m_input_mode = input_mode;
+  m_toolbar_widget->set_mode(input_mode);
+}
+
+void
+Editor::set_selected_object(GameObject* object)
+{
+  m_selected_object = object;
+  m_properties_panel->load_object_properties(object);
 }
 
 const std::vector<ObjectGroup>&
