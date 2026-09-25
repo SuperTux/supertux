@@ -38,7 +38,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual bool event(const SDL_Event& ev) override;
 
-  void set_mode(const Editor::InputType& input_type);
+  void set_mode(const Editor::InputMode& input_mode);
   void toggle_tile_object_mode();
 
   void set_undo_disabled(bool state);
