@@ -64,10 +64,9 @@ private:
 public:
 
   /**
-   * InputType defines what we're currently editing
-   * TODO: Rename to InputMode
+   * InputMode defines what we're currently editing
    */
-  enum class InputType { NONE, TILE, OBJECT };
+  enum class InputMode { NONE, TILE, OBJECT };
 
 public:
   using exit_cb_t = std::function<void()>;
@@ -109,8 +108,8 @@ public:
   inline EditorPropertiesPanel* get_properties_panel() const { return m_properties_panel; }
   inline std::string get_selected_object_class() const { return get_tilebox().get_object(); }
 
-  inline InputType get_input_type() const { return m_input_type; }
-  inline void set_input_type(const InputType& input_type) { m_input_type = input_type; }
+  inline InputMode get_input_mode() const { return m_input_mode; }
+  inline void set_input_mode(const InputMode& input_mode) { m_input_mode = input_mode; }
 
 
   inline bool has_active_toolbox_tip() const { return get_tilebox().has_active_object_tip(); }
@@ -277,7 +276,7 @@ private:
   TypedUID<GameObject> m_selected_object;
 
   bool m_enabled;
-  InputType m_input_type;
+  InputMode m_input_mode;
   SurfacePtr m_bgr_surface;
 
   bool m_draggables_visible;
