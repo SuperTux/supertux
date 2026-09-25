@@ -293,15 +293,14 @@ EditorProject::remove_autosave_file()
 std::string
 EditorProject::get_level_directory() const
 {
-  std::string basedir;
-  if (m_world != nullptr)
+  auto world = m_world.get();
+  if (world == nullptr)
   {
-    basedir = m_world->get_basedir();
+    auto directory = FileSystem::dirname(m_levelfile);
+    world = World::from_directory(directory).get();
   }
-  else
-  {
-    basedir = FileSystem::dirname(m_levelfile);
-  }
+
+  std::string basedir = world->get_basedir();
 
   if (basedir == "./")
   {
