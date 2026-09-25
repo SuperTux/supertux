@@ -21,19 +21,12 @@
 #include <string>
 
 #include <physfs.h>
-
-#include "editor/overlay_widget.hpp"
-#include "editor/tilebox.hpp"
-#include "editor/toolbar_widget.hpp"
-#include "editor/toolbox_widget.hpp"
-#include "editor/layers_widget.hpp"
-#include "editor/scroller_widget.hpp"
-#include "editor/editor_camera.hpp"
-#include "editor/editor_event_handling.hpp"
-#include "editor/editor_history_manager.hpp"
 #include "editor/editor_project.hpp"
 #include "editor/editor_properties_panel.hpp"
-#include "editor/editor_tile_converter.hpp"
+#include "editor/scroller_widget.hpp"
+#include "editor/tilebox.hpp"
+#include "editor/toolbox_widget.hpp"
+#include "editor/overlay_widget.hpp"
 #include "interface/control.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/world.hpp"
@@ -44,7 +37,15 @@
 #include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
+class EditorToolbarWidget;
 class EditorToolbarButtonWidget;
+class EditorCamera;
+class EditorHistoryManager;
+class EditorLayersWidget;
+class TileSelection;
+class EditorTileConverter;
+class EditorEventHandling;
+
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -59,6 +60,14 @@ class Editor final : public Screen,
 {
 private:
   friend class EditorTileConverter;
+
+public:
+
+  /**
+   * InputType defines what we're currently editing
+   * TODO: Rename to InputMode
+   */
+  enum class InputType { NONE, TILE, OBJECT };
 
 public:
   using exit_cb_t = std::function<void()>;
@@ -100,7 +109,9 @@ public:
   inline EditorPropertiesPanel* get_properties_panel() const { return m_properties_panel; }
   inline std::string get_selected_object_class() const { return get_tilebox().get_object(); }
 
-  inline EditorTilebox::InputType get_tileselect_input_type() const { return get_tilebox().get_input_type(); }
+  inline InputType get_input_type() const { return m_input_type; }
+  inline void set_input_type(const InputType& input_type) { m_input_type = input_type; }
+
 
   inline bool has_active_toolbox_tip() const { return get_tilebox().has_active_object_tip(); }
 
@@ -266,6 +277,7 @@ private:
   TypedUID<GameObject> m_selected_object;
 
   bool m_enabled;
+  InputType m_input_type;
   SurfacePtr m_bgr_surface;
 
   bool m_draggables_visible;

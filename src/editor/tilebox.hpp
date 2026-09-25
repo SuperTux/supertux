@@ -53,10 +53,6 @@ public:
     NONE, UP, DOWN
   };
 
-  enum class InputType {
-    NONE, TILE, OBJECT
-  };
-
 public:
   EditorTilebox(Editor& editor, const Rectf& rect);
 
@@ -83,8 +79,6 @@ public:
   bool select_layers_objectgroup();
 
   inline const ObjectInfo& get_object_info() const { return *m_object_info; }
-  inline InputType get_input_type() const { return m_input_type; }
-  inline void set_input_type(InputType input_type) { m_input_type = input_type; }
 
   inline TileSelection* get_tiles() const { return m_tiles.get(); }
   inline const std::string& get_object() const { return m_object; }
@@ -124,7 +118,6 @@ private:
 
   std::string m_object;
   std::unique_ptr<Tip> m_object_tip;
-  InputType m_input_type;
 
   std::unique_ptr<Tilegroup> m_active_tilegroup;
   ObjectGroup* m_active_objectgroup;
