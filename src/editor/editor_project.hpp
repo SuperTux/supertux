@@ -202,16 +202,16 @@ public:
    * Saves the level under the specified filename
    * @param filename The filename to save the level under or empty string to save with default filename
    * @param switch_file If ""true"", the current file gets switched with the specified filename
-   * @param post_save callback function that gets executed once the file was saved
+   * @param post_save_callback callback function that gets executed once the file was saved
    * @param save_temp_level Specifies whether to save this level as a temporary level
    */
   bool save_level(const std::string& filename = "", bool switch_file = false,
-                  const std::function<void ()>& post_save = nullptr, bool save_temp_level = false);
+                  const std::function<void ()>& post_save_callback = nullptr, bool save_temp_level = false);
   
   /**
-   * Triggers the `post_save` callback function after a save
+   * Triggers the `post_save_callback` function after a save
    */
-  void trigger_post_save();
+  void trigger_post_save_callback();
 
   /**
    * Adds the current value of `dt_sec` to the elapsed time
@@ -281,7 +281,7 @@ private:
   bool m_level_loaded;
   float m_time_since_last_save;
 
-  std::function<void ()> m_post_save;
+  std::function<void ()> m_post_save_callback;
 
   std::string* m_particle_editor_filename;
 };
