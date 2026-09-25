@@ -297,15 +297,17 @@ EditorProject::get_level_directory() const
   if (m_world != nullptr)
   {
     basedir = m_world->get_basedir();
-    if (basedir == "./")
-    {
-      basedir = PHYSFS_getRealDir(m_levelfile.c_str());
-    }
   }
   else
   {
     basedir = FileSystem::dirname(m_levelfile);
   }
+
+  if (basedir == "./")
+  {
+    basedir = PHYSFS_getRealDir(m_levelfile.c_str());
+  }
+
   return basedir;
 }
 
