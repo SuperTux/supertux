@@ -231,6 +231,12 @@ Sprite::get_height() const
   return static_cast<int>(m_action->surfaces[m_frameidx]->get_height());
 }
 
+Sizef
+Sprite::get_size() const
+{
+  return { get_width() * 1.0f, get_height() * 1.0f };
+}
+
 const std::optional<std::vector<SurfacePtr>>
 Sprite::get_action_surfaces(const std::string& name) const
 {
