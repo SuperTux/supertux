@@ -314,6 +314,7 @@ EditorProject::open_level_directory()
 {
   if (m_temp_level)
     return;
+
   m_level->save(FileSystem::join(get_level_directory(), m_levelfile));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
   FileSystem::open_path(path);
@@ -378,8 +379,7 @@ EditorProject::load_sector(const std::string& name, bool reset)
 bool
 EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
-  std::unique_ptr<World> owned_world;
-  World* current_world = m_world.get();
+  auto current_world = m_world.get();
 
   if ((m_level && !current_world) || m_levelfile == "")
   {
@@ -387,28 +387,28 @@ EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>&
       return true;
   }
 
-  std::string directory = get_level_directory();
+  autosave();
 
   // This is jank to get an owned World pointer, GameManager/World
   // could probably need a refactor to handle this better.
-  if (!current_world) {
-      owned_world = World::from_directory(directory);
-      current_world = owned_world.get();
+  if (!current_world)
+  {
+    std::string directory = get_level_directory();
+    auto world = World::from_directory(directory);
+    current_world = world.get();
   }
-
-  autosave();
 
   if (!m_level->is_worldmap())
   {
-      // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
-      //       If not, call reactivate().
-      std::string backup_filename = get_autosave_from_levelname(m_levelfile);
-      GameManager::current()->start_level(*current_world, backup_filename, start_pos, true);
-      return true;
+    // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
+    //       If not, call reactivate().
+    std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+    GameManager::current()->start_level(*current_world, backup_filename, start_pos, true);
+    return true;
   }
   else
   {
-      return GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, start_pos);
+    return GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, start_pos);
   }
 }
 
