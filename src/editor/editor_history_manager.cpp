@@ -17,6 +17,8 @@
 #include "editor/editor_history_manager.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/layers_widget.hpp"
+#include "editor/toolbar_widget.hpp"
 #include "supertux/gameconfig.hpp"
 
 void

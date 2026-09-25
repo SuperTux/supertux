@@ -19,6 +19,7 @@
 #include <math.h>
 
 #include "editor/editor.hpp"
+#include "editor/editor_camera.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"

@@ -17,6 +17,10 @@
 #include "editor/editor_event_handling.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/editor_camera.hpp"
+#include "editor/editor_history_manager.hpp"
+#include "editor/layers_widget.hpp"
+#include "editor/toolbar_widget.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
 #include "supertux/menu/menu_storage.hpp"

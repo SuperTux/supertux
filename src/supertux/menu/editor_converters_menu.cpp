@@ -19,6 +19,7 @@
 #include <fmt/format.h>
 
 #include "editor/editor.hpp"
+#include "editor/editor_tile_converter.hpp"
 #include "gui/dialog.hpp"
 #include "gui/item_action.hpp"
 #include "gui/menu_manager.hpp"
