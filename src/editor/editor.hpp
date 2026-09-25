@@ -133,10 +133,8 @@ public:
 
   inline void disable_testing() { m_testing_disabled = true; }
 
-  void select_tilegroup(int id);
   void change_tileset();
 
-  void select_objectgroup(int id);
   const std::vector<ObjectGroup>& get_objectgroups() const;
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object) {

@@ -48,7 +48,9 @@ EditorTilegroupMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() >= 0)
   {
-    Editor::current()->select_tilegroup(item.get_id());
+    auto editor = Editor::current();
+    auto toolbox_widget = editor->get_toolbox_widget();
+    toolbox_widget->select_tilegroup(item.get_id());
   }
   MenuManager::instance().clear_menu_stack();
 }
