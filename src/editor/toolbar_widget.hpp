@@ -21,12 +21,11 @@
 #include <array>
 #include <memory>
 
-#include "editor/tilebox.hpp"
+#include "editor/editor.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 
-class Editor;
 class EditorToolbarButtonWidget;
 
 /** The toolbar is at the top of the screen and offers easy access to the most commonly used functions of the editor. */
@@ -39,7 +38,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual bool event(const SDL_Event& ev) override;
 
-  void set_mode(const EditorTilebox::InputType& input_type);
+  void set_mode(const Editor::InputType& input_type);
   void toggle_tile_object_mode();
 
   void set_undo_disabled(bool state);

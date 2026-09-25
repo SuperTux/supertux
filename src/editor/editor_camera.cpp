@@ -17,6 +17,8 @@
 #include "editor/editor_camera.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/editor_event_handling.hpp"
+#include "editor/editor_project.hpp"
 #include "object/camera.hpp"
 
 EditorCamera::EditorCamera() :
