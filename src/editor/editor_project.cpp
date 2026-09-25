@@ -337,6 +337,11 @@ EditorProject::set_sector(Sector* sector)
 void
 EditorProject::load_sector(const std::string& name, bool reset)
 {
+  if (m_level->get_sector_count() == 0)
+  {
+    return;
+  }
+
   auto sector_name = name;
   Vector cam_position(0.0f, 0.0f);
 
@@ -355,12 +360,6 @@ EditorProject::load_sector(const std::string& name, bool reset)
   if (sector == nullptr)
   {
     sector = m_level->get_sector(0);
-  }
-
-  // Level has no sectors whatsoever. Return early.
-  if (sector == nullptr)
-  {
-    return;
   }
 
   sector->set_undo_stack_size(g_config->editor_undo_stack_size);
