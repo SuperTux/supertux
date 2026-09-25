@@ -133,9 +133,9 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVELEVEL:
     {
-      editor_project->check_save_prerequisites([editor]() {
+      editor_project->check_save_prerequisites([editor_project]() {
         MenuManager::instance().clear_menu_stack();
-        editor->save_level();
+        editor_project->save_level();
       });
     }
       break;

@@ -52,9 +52,13 @@ EditorSaveAs::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_SAVE:
-      Editor::current()->save_level(m_filename, m_do_switch_file);
+    {
+      auto editor = Editor::current();
+      auto editor_project = editor->get_project();
+      editor_project->save_level(m_filename, m_do_switch_file);
       MenuManager::instance().clear_menu_stack();
-      break;
+    }
+    break;
 
     case MNID_CANCEL:
       MenuManager::instance().clear_menu_stack();
