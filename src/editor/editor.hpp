@@ -23,7 +23,6 @@
 #include <physfs.h>
 #include "editor/editor_project.hpp"
 #include "editor/editor_properties_panel.hpp"
-#include "editor/scroller_widget.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/toolbox_widget.hpp"
 #include "editor/overlay_widget.hpp"
