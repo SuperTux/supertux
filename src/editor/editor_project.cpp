@@ -49,7 +49,7 @@ EditorProject::EditorProject() :
   m_autosave_levelfile(),
   m_level_loaded(),
   m_time_since_last_save(),
-  m_post_save(nullptr),
+  m_post_save_callback(nullptr),
   m_particle_editor_filename(nullptr)
 {
 }
@@ -168,9 +168,9 @@ EditorProject::set_level(std::unique_ptr<Level> level, bool reset)
 
 bool
 EditorProject::save_level(const std::string& filename, bool switch_file,
-                          const std::function<void ()>& post_save, bool save_temp_level)
+                          const std::function<void ()>& post_save_callback, bool save_temp_level)
 {
-  m_post_save = post_save;
+  m_post_save_callback = post_save_callback;
 
   if (m_temp_level && !save_temp_level)
   {
@@ -203,17 +203,17 @@ EditorProject::save_level(const std::string& filename, bool switch_file,
   notif->set_text(_("Level saved!"));
   MenuManager::instance().set_notification(std::move(notif));
 
-  trigger_post_save();
+  trigger_post_save_callback();
   return true;
 }
 
 void
-EditorProject::trigger_post_save()
+EditorProject::trigger_post_save_callback()
 {
-  if (m_post_save)
+  if (m_post_save_callback)
   {
-    m_post_save();
-    m_post_save = nullptr;
+    m_post_save_callback();
+    m_post_save_callback = nullptr;
   }
 }
 
