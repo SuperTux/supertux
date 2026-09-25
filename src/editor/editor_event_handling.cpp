@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "editor/editor_camera.hpp"
 #include "editor/editor_history_manager.hpp"
+#include "editor/editor_properties_panel.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/toolbar_widget.hpp"
 #include "gui/menu_manager.hpp"
