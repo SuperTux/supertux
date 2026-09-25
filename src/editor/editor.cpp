@@ -374,8 +374,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   auto& tilebox = m_toolbox_widget->get_tilebox();
 
-  if (reset) {
-    set_input_mode(InputMode::NONE);
+  if (reset)
+  {
     set_input_mode(InputMode::TILE);
     tilebox.select_tilegroup(0);
   }
