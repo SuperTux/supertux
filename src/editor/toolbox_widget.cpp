@@ -18,7 +18,9 @@
 #include "editor/toolbox_widget.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/toolbar_widget.hpp"
 #include "editor/tilebox.hpp"
+#include "editor/object_info.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -34,7 +36,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-using InputType = EditorTilebox::InputType;
+using InputType = Editor::InputType;
 
 EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
@@ -92,7 +94,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
 
   m_rubber->draw(context);
   m_undo_mode->draw(context);
-  switch (m_tilebox->get_input_type())
+  switch (m_editor.get_input_type())
   {
     case InputType::TILE:
       m_select_mode->draw(context);
@@ -176,7 +178,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
 
           case 1:
-            switch (m_tilebox->get_input_type())
+            switch (m_editor.get_input_type())
             {
               case InputType::TILE:
                 m_select_mode->next_mode();
@@ -192,8 +194,8 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
 
            case 2:
-             if (m_tilebox->get_input_type() == InputType::OBJECT ||
-                 m_tilebox->get_input_type() == InputType::NONE)
+             if (m_editor.get_input_type() == InputType::OBJECT ||
+                 m_editor.get_input_type() == InputType::NONE)
                m_move_mode->next_mode();
              update_mouse_icon();
              break;
@@ -386,10 +388,9 @@ EditorToolboxWidget::select_tilegroup(int id)
   // nor ToolbarWidget, this is central to the editor, so move
   // to Editor class  
   // dumb hack around dumb design...
-  if (m_tilebox->get_input_type() != InputType::TILE)
+  if (m_editor.get_input_type() != InputType::TILE)
   {
-    auto editor = Editor::current();
-    editor->get_toolbar_widget()->toggle_tile_object_mode();
+    m_editor.get_toolbar_widget()->set_mode(InputType::TILE);
   }
 
   m_tilebox->select_tilegroup(id);
@@ -399,14 +400,10 @@ EditorToolboxWidget::select_tilegroup(int id)
 void
 EditorToolboxWidget::select_objectgroup(int id)
 {
-  // TODO: current InputType should not be part of m_tilebox,
-  // nor ToolbarWidget, this is central to the editor, so move
-  // to Editor class  
   // dumb hack around dumb design...
-  if (m_tilebox->get_input_type() != InputType::OBJECT)
+  if (m_editor.get_input_type() != InputType::OBJECT)
   {
-    auto editor = Editor::current();
-    editor->get_toolbar_widget()->toggle_tile_object_mode(); 
+    m_editor.get_toolbar_widget()->set_mode(InputType::OBJECT);
   }
   m_tilebox->select_objectgroup(id);
   update_mouse_icon();
@@ -490,8 +487,8 @@ EditorToolboxWidget::get_rect_from_hovered_item(HoveredItem item) const
 Rectf
 EditorToolboxWidget::get_active_item_rect() const
 {
-  InputType it_type = m_tilebox->get_input_type();
-  switch (it_type)
+  InputType input_type = m_editor.get_input_type();
+  switch (input_type)
   {
     case InputType::TILE:
       return get_rect_from_hovered_item(HoveredItem::TILEGROUP);
@@ -518,7 +515,7 @@ EditorToolboxWidget::update_mouse_icon()
 ToolIcon*
 EditorToolboxWidget::get_mouse_icon() const
 {
-  switch (m_tilebox->get_input_type())
+  switch (m_editor.get_input_type())
   {
     case InputType::NONE:
     case InputType::OBJECT:

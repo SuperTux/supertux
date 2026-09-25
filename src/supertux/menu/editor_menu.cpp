@@ -19,6 +19,8 @@
 #include <physfs.h>
 
 #include "editor/editor.hpp"
+#include "editor/editor_history_manager.hpp"
+#include "editor/editor_tile_converter.hpp"
 #include "gui/dialog.hpp"
 #include "gui/item_action.hpp"
 #include "gui/item_goto.hpp"
