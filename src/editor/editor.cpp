@@ -21,6 +21,11 @@
 #include "editor/layer_icon.hpp"
 #include "editor/tool_icon.hpp"
 #include "editor/button_widget.hpp"
+#include "editor/editor_camera.hpp"
+#include "editor/editor_event_handling.hpp"
+#include "editor/editor_history_manager.hpp"
+#include "editor/editor_tile_converter.hpp"
+#include "editor/layers_widget.hpp"
 #include "editor/toolbar_widget.hpp"
 #include "gui/dialog.hpp"
 #include "gui/mousecursor.hpp"
@@ -46,8 +51,6 @@
 #endif
 
 bool Editor::s_resaving_in_progress = false;
-
-using InputType = EditorTilebox::InputType;
 
 bool
 Editor::is_active()
@@ -77,6 +80,7 @@ Editor::Editor() :
   m_selected_object(),
   m_testing_disabled(false),
   m_enabled(false),
+  m_input_type(InputType::NONE),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_draggables_visible(true),
   m_draggables_visible_hint(),
@@ -370,8 +374,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   auto& tilebox = m_toolbox_widget->get_tilebox();
 
   if (reset) {
-    tilebox.set_input_type(InputType::NONE);
-    tilebox.set_input_type(InputType::TILE);
+    set_input_type(InputType::NONE);
+    set_input_type(InputType::TILE);
     tilebox.select_tilegroup(0);
   }
 
@@ -635,7 +639,7 @@ Editor::change_tileset()
   auto level = m_project->get_level();
   auto level_tileset = level->get_tileset();
   m_project->set_tileset(TileManager::current()->get_tileset(level_tileset));
-  m_toolbox_widget->get_tilebox().set_input_type(InputType::TILE);
+  set_input_type(InputType::TILE);
   for (const auto& sector : level->get_sectors()) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_project->get_tileset());

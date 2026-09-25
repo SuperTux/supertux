@@ -20,6 +20,7 @@
 
 #include "editor/button_widget.hpp"
 #include "editor/editor.hpp"
+#include "editor/editor_history_manager.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
@@ -38,7 +39,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-using InputType = EditorTilebox::InputType;
+using InputType = Editor::InputType;
 
 EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_editor(editor),
@@ -250,12 +251,7 @@ EditorToolbarWidget::set_mode(const InputType& input_type)
 void
 EditorToolbarWidget::toggle_tile_object_mode()
 {
-  auto editor = Editor::current();
-  auto toolbox_widget = editor->get_toolbox_widget();
-  auto& tilebox = toolbox_widget->get_tilebox();
-  const auto& input_type = tilebox.get_input_type();
-  
-  set_mode(input_type == InputType::OBJECT ? InputType::TILE : InputType::OBJECT);
+  set_mode(m_editor.get_input_type() == InputType::OBJECT ? InputType::TILE : InputType::OBJECT);
 }
 
 bool
