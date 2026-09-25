@@ -149,10 +149,6 @@ Editor::draw(Compositor& compositor)
                                 LAYER_GUI + 1,
                                 GradientDirection::HORIZONTAL,
                                 shadow_rect);
-
-  Rectf layers_rect = Rectf{0, SCREEN_HEIGHT - 32.f - LINE_THICKNESS,
-                            SCREEN_WIDTH - 128.f, SCREEN_HEIGHT - 32.f};
-  context.color().draw_filled_rect(layers_rect, line_color, LAYER_GUI + 1);
   // END Draw shadows and line
 
   context.color().draw_filled_rect(context.get_rect(), Color::BLACK,

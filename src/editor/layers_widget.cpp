@@ -71,6 +71,15 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
 void
 EditorLayersWidget::draw(DrawingContext& context)
 {
+  // TODO: `LINE_THICKNESS` and `line_color` were copied from Editor::draw.
+  // We need to find a better place for them, so as to not duplicate code.
+
+  constexpr float LINE_THICKNESS = 1.f;
+  Color line_color = (g_config->editorcolor - Color(0.2, 0.2, 0.2, 0.2)).validate();
+  Rectf layers_rect = Rectf{0, SCREEN_HEIGHT - 32.f - LINE_THICKNESS,
+                            SCREEN_WIDTH - 128.f, SCREEN_HEIGHT - 32.f};
+  context.color().draw_filled_rect(layers_rect, line_color, LAYER_GUI + 1);
+
   if (m_add_layer_box_visible)
   {
     m_add_layer_box->draw(context);
