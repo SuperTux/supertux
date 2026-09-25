@@ -19,6 +19,9 @@
 #include <fmt/format.h>
 
 #include "editor/editor.hpp"
+#include "editor/editor_camera.hpp"
+#include "editor/editor_event_handling.hpp"
+#include "editor/layers_widget.hpp"
 #include "editor/node_marker.hpp"
 #include "editor/object_info.hpp"
 #include "editor/object_menu.hpp"
@@ -65,7 +68,7 @@ bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos)
 
 } // namespace
 
-using InputType = EditorTilebox::InputType;
+using InputType = Editor::InputType;
 
 bool EditorOverlayWidget::action_pressed = false;
 bool EditorOverlayWidget::alt_pressed = false;
@@ -928,7 +931,7 @@ EditorOverlayWidget::process_left_click()
   m_dragging_right = false;
   m_drag_start = m_sector_pos;
 
-  switch (m_editor.get_tileselect_input_type())
+  switch (m_editor.get_input_type())
   {
     case InputType::TILE:
       switch (m_editor.get_tileselect_select_mode())
@@ -999,7 +1002,7 @@ EditorOverlayWidget::process_left_click()
 void
 EditorOverlayWidget::process_right_click()
 {
-  switch (m_editor.get_tileselect_input_type())
+  switch (m_editor.get_input_type())
   {
     case InputType::TILE:
       m_dragging = true;
@@ -1110,7 +1113,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (button.button == SDL_BUTTON_LEFT)
   {
-    if (m_editor.get_tileselect_input_type() == InputType::TILE)
+    if (m_editor.get_input_type() == InputType::TILE)
     {
       if (m_dragging && m_editor.get_tileselect_select_mode() == 1)
       {
@@ -1175,7 +1178,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
   if (m_dragging)
   {
-    switch (m_editor.get_tileselect_input_type())
+    switch (m_editor.get_input_type())
     {
       case InputType::TILE:
         if (m_dragging_right)
@@ -1412,7 +1415,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
   auto editor_project = m_editor.get_project();
   auto tileset = editor_project->get_tileset();
 
-  if (m_editor.get_tileselect_input_type() == InputType::TILE)
+  if (m_editor.get_input_type() == InputType::TILE)
   {
     auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
     if (!tilemap) return;
@@ -1683,7 +1686,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
   draw_rectangle_preview(context);
   draw_path(context);
 
-  if (m_editor.get_tileselect_input_type() == InputType::TILE &&
+  if (m_editor.get_input_type() == InputType::TILE &&
       !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
   {
     // Deprecated tiles in active tilemaps should have indication, when hovered
@@ -1750,7 +1753,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
   if (m_editor.get_properties_panel()->is_visible())
     hint_pos.x += 200.f;
 
-  if (m_editor.get_tilebox().get_input_type() == InputType::TILE && g_config->editor_autotile_help)
+  if (m_editor.get_input_type() == InputType::TILE && g_config->editor_autotile_help)
   {
     auto events = m_editor.get_event_handling();
     auto selected_tiles = m_editor.get_selected_tiles();

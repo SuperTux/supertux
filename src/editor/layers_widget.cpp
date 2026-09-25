@@ -61,7 +61,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
 {
   m_add_layer_box->on_select([this](EditorTilebox& tilebox)
     {
-      assert(tilebox.get_input_type() == EditorTilebox::InputType::OBJECT);
+      assert(m_editor.get_input_type() == Editor::InputType::OBJECT);
 
       m_editor.get_project()->get_sector()->add_object(GameObjectFactory::instance().create(tilebox.get_object()));
       m_add_layer_box_visible = false;
