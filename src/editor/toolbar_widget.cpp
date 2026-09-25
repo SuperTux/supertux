@@ -39,7 +39,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-using InputType = Editor::InputType;
+using InputMode = Editor::InputMode;
 
 EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_editor(editor),
@@ -214,13 +214,13 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 }
 
 void
-EditorToolbarWidget::set_mode(const InputType& input_type)
+EditorToolbarWidget::set_mode(const InputMode& input_mode)
 {
   int i = 0;
   auto editor = Editor::current();
   auto toolbox_widget = editor->get_toolbox_widget();
 
-  if (input_type == InputType::OBJECT)
+  if (input_mode == InputMode::OBJECT)
   {
     toolbox_widget->select_last_objectgroup();
     for(const auto& toolbar_button : m_widgets)
@@ -251,7 +251,7 @@ EditorToolbarWidget::set_mode(const InputType& input_type)
 void
 EditorToolbarWidget::toggle_tile_object_mode()
 {
-  set_mode(m_editor.get_input_type() == InputType::OBJECT ? InputType::TILE : InputType::OBJECT);
+  set_mode(m_editor.get_input_mode() == InputMode::OBJECT ? InputMode::TILE : InputMode::OBJECT);
 }
 
 bool
