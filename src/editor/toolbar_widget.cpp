@@ -213,24 +213,13 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 }
 
 void
-EditorToolbarWidget::toggle_tile_object_mode()
+EditorToolbarWidget::set_mode(const InputType& input_type)
 {
   int i = 0;
   auto editor = Editor::current();
   auto toolbox_widget = editor->get_toolbox_widget();
-  auto& tilebox = toolbox_widget->get_tilebox();
-  const auto& input_type = tilebox.get_input_type();
 
-  if (input_type == InputType::OBJECT) // Object mode -> Tile mode
-  {
-    toolbox_widget->select_last_tilegroup();
-    for(const auto& toolbar_button : m_widgets)
-    {
-      toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
-    }
-    toolbox_widget->set_tileselect_select_mode(0);
-  }
-  else // Tile mode -> Object mode
+  if (input_type == InputType::OBJECT)
   {
     toolbox_widget->select_last_objectgroup();
     for(const auto& toolbar_button : m_widgets)
@@ -238,6 +227,15 @@ EditorToolbarWidget::toggle_tile_object_mode()
       toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
   	}
     toolbox_widget->set_tileselect_move_mode(0);
+  }
+  else
+  {
+    toolbox_widget->select_last_tilegroup();
+    for(const auto& toolbar_button : m_widgets)
+    {
+      toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
+    }
+    toolbox_widget->set_tileselect_select_mode(0);
   }
 
   for (const auto& toolbar_button : m_widgets)
@@ -247,6 +245,17 @@ EditorToolbarWidget::toggle_tile_object_mode()
 	}
 
   m_widgets_width = i * 32.f;
+}
+
+void
+EditorToolbarWidget::toggle_tile_object_mode()
+{
+  auto editor = Editor::current();
+  auto toolbox_widget = editor->get_toolbox_widget();
+  auto& tilebox = toolbox_widget->get_tilebox();
+  const auto& input_type = tilebox.get_input_type();
+  
+  set_mode(input_type == InputType::OBJECT ? InputType::TILE : InputType::OBJECT);
 }
 
 bool

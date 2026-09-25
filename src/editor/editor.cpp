@@ -634,16 +634,6 @@ Editor::event(const SDL_Event& ev)
 }
 
 void
-Editor::select_tilegroup(int id)
-{
-  // dumb hack around dumb design...
-  if (m_toolbox_widget->get_tilebox().get_input_type() != InputType::TILE)
-    m_toolbar_widget->toggle_tile_object_mode();
-
-  m_toolbox_widget->select_tilegroup(id);
-}
-
-void
 Editor::change_tileset()
 {
   auto level = m_project->get_level();
@@ -656,16 +646,6 @@ Editor::change_tileset()
     }
   }
   m_toolbox_widget->get_tilebox().select_tilegroup(0);
-}
-
-void
-Editor::select_objectgroup(int id)
-{
-  // dumb hack around dumb design...
-  if (m_toolbox_widget->get_tilebox().get_input_type() != InputType::OBJECT)
-    m_toolbar_widget->toggle_tile_object_mode();
-
-  m_toolbox_widget->select_objectgroup(id);
 }
 
 const std::vector<ObjectGroup>&
