@@ -36,7 +36,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-using InputType = Editor::InputType;
+using InputMode = Editor::InputMode;
 
 EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
@@ -94,14 +94,14 @@ EditorToolboxWidget::draw(DrawingContext& context)
 
   m_rubber->draw(context);
   m_undo_mode->draw(context);
-  switch (m_editor.get_input_type())
+  switch (m_editor.get_input_mode())
   {
-    case InputType::TILE:
+    case InputMode::TILE:
       m_select_mode->draw(context);
       break;
 
-    case InputType::NONE:
-    case InputType::OBJECT:
+    case InputMode::NONE:
+    case InputMode::OBJECT:
       m_node_marker_mode->draw(context);
       m_move_mode->draw(context);
       break;
@@ -178,13 +178,13 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
 
           case 1:
-            switch (m_editor.get_input_type())
+            switch (m_editor.get_input_mode())
             {
-              case InputType::TILE:
+              case InputMode::TILE:
                 m_select_mode->next_mode();
                 break;
-              case InputType::NONE:
-              case InputType::OBJECT:
+              case InputMode::NONE:
+              case InputMode::OBJECT:
                 m_tilebox->set_object("#node");
                 break;
               default:
@@ -194,8 +194,8 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
 
            case 2:
-             if (m_editor.get_input_type() == InputType::OBJECT ||
-                 m_editor.get_input_type() == InputType::NONE)
+             if (m_editor.get_input_mode() == InputMode::OBJECT ||
+                 m_editor.get_input_mode() == InputMode::NONE)
                m_move_mode->next_mode();
              update_mouse_icon();
              break;
@@ -384,13 +384,13 @@ EditorToolboxWidget::setup()
 void
 EditorToolboxWidget::select_tilegroup(int id)
 {
-  // TODO: current InputType should not be part of m_tilebox,
+  // TODO: current InputMode should not be part of m_tilebox,
   // nor ToolbarWidget, this is central to the editor, so move
   // to Editor class  
   // dumb hack around dumb design...
-  if (m_editor.get_input_type() != InputType::TILE)
+  if (m_editor.get_input_mode() != InputMode::TILE)
   {
-    m_editor.get_toolbar_widget()->set_mode(InputType::TILE);
+    m_editor.get_toolbar_widget()->set_mode(InputMode::TILE);
   }
 
   m_tilebox->select_tilegroup(id);
@@ -401,9 +401,9 @@ void
 EditorToolboxWidget::select_objectgroup(int id)
 {
   // dumb hack around dumb design...
-  if (m_editor.get_input_type() != InputType::OBJECT)
+  if (m_editor.get_input_mode() != InputMode::OBJECT)
   {
-    m_editor.get_toolbar_widget()->set_mode(InputType::OBJECT);
+    m_editor.get_toolbar_widget()->set_mode(InputMode::OBJECT);
   }
   m_tilebox->select_objectgroup(id);
   update_mouse_icon();
@@ -487,14 +487,14 @@ EditorToolboxWidget::get_rect_from_hovered_item(HoveredItem item) const
 Rectf
 EditorToolboxWidget::get_active_item_rect() const
 {
-  InputType input_type = m_editor.get_input_type();
-  switch (input_type)
+  InputMode input_mode = m_editor.get_input_mode();
+  switch (input_mode)
   {
-    case InputType::TILE:
+    case InputMode::TILE:
       return get_rect_from_hovered_item(HoveredItem::TILEGROUP);
-    case InputType::OBJECT:
+    case InputMode::OBJECT:
       return get_rect_from_hovered_item(HoveredItem::OBJECTS);
-    case InputType::NONE:
+    case InputMode::NONE:
     default:
       return {};
   }
@@ -515,10 +515,10 @@ EditorToolboxWidget::update_mouse_icon()
 ToolIcon*
 EditorToolboxWidget::get_mouse_icon() const
 {
-  switch (m_editor.get_input_type())
+  switch (m_editor.get_input_mode())
   {
-    case InputType::NONE:
-    case InputType::OBJECT:
+    case InputMode::NONE:
+    case InputMode::OBJECT:
     {
       const std::string object = m_tilebox->get_object();
 
@@ -530,7 +530,7 @@ EditorToolboxWidget::get_mouse_icon() const
       return m_move_mode.get();
     }
 
-    case InputType::TILE:
+    case InputMode::TILE:
       return m_select_mode.get();
 
     default:
