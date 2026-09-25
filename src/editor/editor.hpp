@@ -114,18 +114,6 @@ public:
     reload_level();
   }
 
-  /**
-   * Saves the level under the specified filename
-   * @param filename The filename to save the level under or empty string to save with default filename
-   * @param switch_file If ""true"", the current file gets switched with the specified filename
-   * @param post_save callback function that gets executed once the file was saved
-   */
-  void save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr, bool save_temp_level = false)
-  {
-    m_project->save_level(filename, switch_file, post_save, save_temp_level);
-    m_enabled = true;
-  }
-
   inline bool is_reloading() const { return m_is_reloading; }
   inline bool is_testing_level() const { return m_testing_level; }
 
