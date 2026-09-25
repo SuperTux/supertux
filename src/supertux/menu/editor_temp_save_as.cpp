@@ -83,8 +83,8 @@ EditorTempSaveAs::menu_action(MenuItem& item)
         return;
       }
 
-      // post_save will get implicitly called here
-      editor_project->save_level(m_file_name, /* switch_file = */ false, /* post_save_cb = */ nullptr, /* save_temp_level = */ true);
+      // post_save_callback will get implicitly called here
+      editor_project->save_level(m_file_name, /* switch_file = */ false, /* post_save_callback = */ nullptr, /* save_temp_level = */ true);
 
       editor_project->set_world(std::move(std::unique_ptr<World>(m_world.release())));
 
