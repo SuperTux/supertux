@@ -364,22 +364,20 @@ Editor::delete_current_sector()
 void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
-  m_script_manager.clear_tmp();
-
   m_project->set_level(std::move(level));
   m_project->load_sector(DEFAULT_SECTOR_NAME, reset);
 
   m_is_reloading = false;
   m_enabled = true;
 
-  auto& tilebox = m_toolbox_widget->get_tilebox();
-
   if (reset)
   {
-    set_input_mode(InputMode::TILE);
+    auto& tilebox = m_toolbox_widget->get_tilebox();
     tilebox.select_tilegroup(0);
+    set_input_mode(InputMode::TILE);
   }
 
+  m_script_manager.clear_tmp();
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
@@ -473,45 +471,7 @@ Editor::setup()
   Sector::s_draw_solids_only = false;
   m_after_setup = true;
 
-  if (!m_project->is_level_loaded())
-  {
-#if 0
-    if (AddonManager::current()->is_old_addon_enabled())
-    {
-      auto dialog = std::make_unique<Dialog>();
-      dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with the default SuperTux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
-      dialog->clear_buttons();
-
-      dialog->add_default_button(_("Disable add-ons"), [] {
-        AddonManager::current()->disable_old_addons();
-        MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
-      });
-
-      dialog->add_button(_("Ignore (not advised)"), [] {
-        MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
-      });
-
-      dialog->add_button(_("Leave editor"), [this] {
-        quit_request = true;
-      });
-
-      MenuManager::instance().set_dialog(std::move(dialog));
-    }
-    else
-#endif
-    if (g_config->editor_remember_last_level &&
-        !g_config->editor_last_edited_level.empty())
-    {
-      m_project->set_world(std::move(
-        World::from_directory(FileSystem::dirname(g_config->editor_last_edited_level))));
-      set_level(FileSystem::basename(g_config->editor_last_edited_level));
-    }
-    else
-    {
-      set_level(nullptr, true);
-      g_config->editor_last_edited_level = "";
-    }
-  }
+  m_project->setup();
   m_toolbox_widget->setup();
   m_layers_widget->setup();
 
