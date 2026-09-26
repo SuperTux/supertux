@@ -24,6 +24,8 @@
 #include <simplesquirrel/vm.hpp>
 
 #include "editor/editor.hpp"
+#include "editor/layers_widget.hpp"
+#include "editor/toolbar_widget.hpp"
 #include "object/ambient_light.hpp"
 #include "object/music_object.hpp"
 #include "object/tilemap.hpp"
@@ -192,7 +194,11 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 
   // Attempt to add object to editor layers.
   if (m_initialized && Editor::is_active())
-    Editor::current()->add_layer(object.get());
+  {
+    auto editor = Editor::current();
+    auto layers_widget = editor->get_layers_widget();
+    layers_widget->add_layer(object.get());
+  }
 
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));

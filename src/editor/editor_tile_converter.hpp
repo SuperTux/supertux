@@ -95,7 +95,7 @@ private:
    * @param initial_check If `initial_check`, indicates that the check was done during level load
    *                       (shows no message, unless deprecated tiles were found)
    */
-  void show_message(bool first_check);
+  void show_message(bool initial_check);
 
 private:
   std::map<std::string, ConverterInfo> m_converters;

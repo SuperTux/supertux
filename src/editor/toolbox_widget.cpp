@@ -18,7 +18,9 @@
 #include "editor/toolbox_widget.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/toolbar_widget.hpp"
 #include "editor/tilebox.hpp"
+#include "editor/object_info.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -34,7 +36,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-using InputType = EditorTilebox::InputType;
+using InputMode = Editor::InputMode;
 
 EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
@@ -62,6 +64,8 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 void
 EditorToolboxWidget::draw(DrawingContext& context)
 {
+  draw_separator(context);
+
   m_tilebox->draw(context);
 
   context.color().set_blur(g_config->editor_blur);
@@ -92,14 +96,14 @@ EditorToolboxWidget::draw(DrawingContext& context)
 
   m_rubber->draw(context);
   m_undo_mode->draw(context);
-  switch (m_tilebox->get_input_type())
+  switch (m_editor.get_input_mode())
   {
-    case InputType::TILE:
+    case InputMode::TILE:
       m_select_mode->draw(context);
       break;
 
-    case InputType::NONE:
-    case InputType::OBJECT:
+    case InputMode::NONE:
+    case InputMode::OBJECT:
       m_node_marker_mode->draw(context);
       m_move_mode->draw(context);
       break;
@@ -107,6 +111,25 @@ EditorToolboxWidget::draw(DrawingContext& context)
     default:
       break;
   }
+}
+
+void
+EditorToolboxWidget::draw_separator(DrawingContext& context)
+{
+  constexpr float LINE_THICKNESS = 1.f;
+  Rectf border_rect = Rectf{SCREEN_WIDTH - 128.f - LINE_THICKNESS, 0,
+                            SCREEN_WIDTH - 128.f, static_cast<float>(SCREEN_HEIGHT - 32.f)};
+  Color line_color = (g_config->editorcolor - Color(0.2, 0.2, 0.2, 0.2)).validate();
+  context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
+
+  Rectf shadow_rect = border_rect;
+  shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
+  shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
+
+  auto start_color = Color(0.0f, 0.0f, 0.0f, 0.0f);
+  auto end_color = Color(0.0f, 0.0f, 0.0f, 0.2f);
+  context.color().draw_gradient(start_color, end_color, LAYER_GUI + 1,
+                                GradientDirection::HORIZONTAL, shadow_rect);
 }
 
 bool
@@ -120,19 +143,26 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (m_tilebox->on_mouse_button_down(button))
   {
-    m_editor.update_autotileset();
+    m_editor.get_overlay_widget()->update_autotileset();
     update_mouse_icon();
     return true;
   }
 
   if (button.button == SDL_BUTTON_LEFT)
   {
-    switch (m_hovered_item)
+    auto editor_project = m_editor.get_project();
+    auto level = editor_project->get_level();
+
+    auto hovered_item = m_hovered_item;
+    m_hovered_item = HoveredItem::NONE;
+
+    switch (hovered_item)
     {
       case HoveredItem::TILEGROUP:
-        if (m_editor.get_tileset()->get_tilegroups().size() > 1)
+      {
+        auto tileset = editor_project->get_tileset();
+        if (tileset->get_tilegroups().size() > 1)
         {
-          m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
           MenuManager::instance().current_menu()->set_item(m_tilebox->get_tilegroup_id());
         }
@@ -140,23 +170,25 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           select_tilegroup(0);
         }
+      }
         return true;
 
       case HoveredItem::OBJECTS:
-        if ((m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
-            (!m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
+      {
+        if ((level->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
+            (!level->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
         {
-          m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
           MenuManager::instance().current_menu()->set_item(m_tilebox->get_objectgroup_id());
         }
         else
         {
-          if (m_editor.get_level()->is_worldmap())
+          if (level->is_worldmap())
             select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
           else
             select_objectgroup(0);
         }
+      }
         return true;
 
       case HoveredItem::TOOL:
@@ -167,13 +199,13 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
 
           case 1:
-            switch (m_tilebox->get_input_type())
+            switch (m_editor.get_input_mode())
             {
-              case InputType::TILE:
+              case InputMode::TILE:
                 m_select_mode->next_mode();
                 break;
-              case InputType::NONE:
-              case InputType::OBJECT:
+              case InputMode::NONE:
+              case InputMode::OBJECT:
                 m_tilebox->set_object("#node");
                 break;
               default:
@@ -183,8 +215,8 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
 
            case 2:
-             if (m_tilebox->get_input_type() == InputType::OBJECT ||
-                 m_tilebox->get_input_type() == InputType::NONE)
+             if (m_editor.get_input_mode() == InputMode::OBJECT ||
+                 m_editor.get_input_mode() == InputMode::NONE)
                m_move_mode->next_mode();
              update_mouse_icon();
              break;
@@ -213,7 +245,7 @@ EditorToolboxWidget::set_rubber_tool()
 {
   m_tilebox->set_object("");
   m_tilebox->get_tiles()->set_tile(0);
-  m_editor.update_autotileset();
+  m_editor.get_overlay_widget()->update_autotileset();
   update_mouse_icon();
 }
 
@@ -299,10 +331,13 @@ void
 EditorToolboxWidget::switch_current_group(int dir)
 {
   update_last_active_group();
+  auto editor_project = m_editor.get_project();
+  auto level = editor_project->get_level();
+
   switch (m_last_active_group)
   {
     case HoveredItem::TILEGROUP:
-      if (m_editor.get_tileset()->get_tilegroups().size() > 1)
+      if (editor_project->get_tileset()->get_tilegroups().size() > 1)
       {
         m_tilebox->change_tilegroup(dir);
       }
@@ -313,14 +348,14 @@ EditorToolboxWidget::switch_current_group(int dir)
       break;
 
     case HoveredItem::OBJECTS:
-      if ((m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
-          (!m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
+      if ((level->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
+          (!level->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
       {
         m_tilebox->change_objectgroup(dir);
       }
       else
       {
-        if (m_editor.get_level()->is_worldmap())
+        if (level->is_worldmap())
           select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
         else
           select_objectgroup(0);
@@ -370,6 +405,15 @@ EditorToolboxWidget::setup()
 void
 EditorToolboxWidget::select_tilegroup(int id)
 {
+  // TODO: current InputMode should not be part of m_tilebox,
+  // nor ToolbarWidget, this is central to the editor, so move
+  // to Editor class  
+  // dumb hack around dumb design...
+  if (m_editor.get_input_mode() != InputMode::TILE)
+  {
+    m_editor.get_toolbar_widget()->set_mode(InputMode::TILE);
+  }
+
   m_tilebox->select_tilegroup(id);
   update_mouse_icon();
 }
@@ -377,6 +421,11 @@ EditorToolboxWidget::select_tilegroup(int id)
 void
 EditorToolboxWidget::select_objectgroup(int id)
 {
+  // dumb hack around dumb design...
+  if (m_editor.get_input_mode() != InputMode::OBJECT)
+  {
+    m_editor.get_toolbar_widget()->set_mode(InputMode::OBJECT);
+  }
   m_tilebox->select_objectgroup(id);
   update_mouse_icon();
 }
@@ -459,14 +508,14 @@ EditorToolboxWidget::get_rect_from_hovered_item(HoveredItem item) const
 Rectf
 EditorToolboxWidget::get_active_item_rect() const
 {
-  InputType it_type = m_tilebox->get_input_type();
-  switch (it_type)
+  InputMode input_mode = m_editor.get_input_mode();
+  switch (input_mode)
   {
-    case InputType::TILE:
+    case InputMode::TILE:
       return get_rect_from_hovered_item(HoveredItem::TILEGROUP);
-    case InputType::OBJECT:
+    case InputMode::OBJECT:
       return get_rect_from_hovered_item(HoveredItem::OBJECTS);
-    case InputType::NONE:
+    case InputMode::NONE:
     default:
       return {};
   }
@@ -487,10 +536,10 @@ EditorToolboxWidget::update_mouse_icon()
 ToolIcon*
 EditorToolboxWidget::get_mouse_icon() const
 {
-  switch (m_tilebox->get_input_type())
+  switch (m_editor.get_input_mode())
   {
-    case InputType::NONE:
-    case InputType::OBJECT:
+    case InputMode::NONE:
+    case InputMode::OBJECT:
     {
       const std::string object = m_tilebox->get_object();
 
@@ -502,7 +551,7 @@ EditorToolboxWidget::get_mouse_icon() const
       return m_move_mode.get();
     }
 
-    case InputType::TILE:
+    case InputMode::TILE:
       return m_select_mode.get();
 
     default:

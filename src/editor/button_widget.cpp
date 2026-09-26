@@ -26,9 +26,7 @@
 ButtonWidget::ButtonWidget(SpritePtr sprite, const Vector& pos,
                            std::function<void()> sig_click, std::optional<Sizef> sprite_size) :
   m_sprite(std::move(sprite)),
-  m_rect(pos, sprite_size ? *sprite_size :
-    Sizef(static_cast<float>(m_sprite->get_width()),
-          static_cast<float>(m_sprite->get_height()))),
+  m_rect(pos, sprite_size ? *sprite_size : m_sprite->get_size()),
   m_grab(false),
   m_hover(false),
   m_sig_click(std::move(sig_click)),

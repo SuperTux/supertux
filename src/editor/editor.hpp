@@ -21,14 +21,10 @@
 #include <string>
 
 #include <physfs.h>
-
-#include "editor/overlay_widget.hpp"
+#include "editor/editor_project.hpp"
 #include "editor/tilebox.hpp"
-#include "editor/toolbar_widget.hpp"
 #include "editor/toolbox_widget.hpp"
-#include "editor/layers_widget.hpp"
-#include "editor/scroller_widget.hpp"
-#include "editor/editor_tile_converter.hpp"
+#include "editor/overlay_widget.hpp"
 #include "interface/control.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/world.hpp"
@@ -39,7 +35,16 @@
 #include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
+class EditorToolbarWidget;
 class EditorToolbarButtonWidget;
+class EditorCamera;
+class EditorHistoryManager;
+class EditorLayersWidget;
+class EditorPropertiesPanel;
+class TileSelection;
+class EditorTileConverter;
+class EditorEventHandling;
+
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -56,23 +61,16 @@ private:
   friend class EditorTileConverter;
 
 public:
-  using exit_cb_t = std::function<void()>;
+
+  /**
+   * InputMode defines what we're currently editing
+   */
+  enum class InputMode { NONE, TILE, OBJECT };
+
+public:
+  using exit_callback_t = std::function<void()>;
 
   static bool is_active();
-
-  static void may_deactivate();
-  static void may_reactivate();
-
-private:
-  static bool is_autosave_file(const std::string& filename) {
-    return StringUtil::has_suffix(filename, "~");
-  }
-  static std::string get_levelname_from_autosave(const std::string& filename) {
-    return is_autosave_file(filename) ? filename.substr(0, filename.size() - 1) : filename;
-  }
-  static std::string get_autosave_from_levelname(const std::string& filename) {
-    return is_autosave_file(filename) ? filename : filename + "~";
-  }
 
 public:
   static bool s_resaving_in_progress;
@@ -89,211 +87,194 @@ public:
 
   virtual IntegrationStatus get_status() const override;
 
+  bool get_enabled() const { return m_enabled; }
+  void set_enabled(bool enabled) { m_enabled = enabled; }
+
   bool has_focus() const;
   void event(const SDL_Event& ev) override;
   void on_window_resize() override;
 
-  void disable_keyboard() { m_enabled = false; }
+  inline EditorCamera* get_camera() const { return m_camera; }
+  inline EditorHistoryManager* get_history_manager() const { return m_history_manager; }
 
-  inline void set_world(std::unique_ptr<World> w) { m_world = std::move(w); }
-  inline World* get_world() const { return m_world.get(); }
-
-  inline Level* get_level() const { return m_level.get(); }
-
-  inline TileSet* get_tileset() const { return m_tileset; }
+  inline EditorOverlayWidget* get_overlay_widget() const { return m_overlay_widget; }
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
+  inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
   inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
   inline TileSelection* get_selected_tiles() const { return get_tilebox().get_tiles(); }
+
+  inline EditorPropertiesPanel* get_properties_panel() const { return m_properties_panel; }
   inline std::string get_selected_object_class() const { return get_tilebox().get_object(); }
 
-  inline EditorTilebox::InputType get_tileselect_input_type() const { return get_tilebox().get_input_type(); }
+  inline InputMode get_input_mode() const { return m_input_mode; }
+  void set_input_mode(const InputMode &input_mode);
 
   inline bool has_active_toolbox_tip() const { return get_tilebox().has_active_object_tip(); }
 
   inline int get_tileselect_select_mode() const { return m_toolbox_widget->get_tileselect_select_mode(); }
   inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
 
-  inline const std::string& get_levelfile() const { return m_levelfile; }
-
-  void level_from_nothing();
-
   void set_level(std::unique_ptr<Level> level, bool reset = true);
-  inline void set_level(const std::string& levelfile)
-  {
-    m_levelfile = levelfile;
-    m_reload_request = true;
-  }
-  bool save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr);
+  void set_level(const std::string &levelfile);
 
-  void trigger_post_save();
+  inline bool is_reloading() const { return m_is_reloading; }
+  inline bool is_testing_level() const { return m_testing_level; }
 
-  std::string get_level_directory() const;
-
-  inline bool is_temp_level() const { return m_temp_level; }
-
-  void open_level_directory();
-
-  inline bool is_testing_level() const { return m_leveltested; }
-
-  void remove_autosave_file();
-
-  inline void update_autotileset() { m_overlay_widget->update_autotileset(); }
-
-  /** Checks whether the level can be saved and does not contain
-      obvious issues (currently: check if main sector and a spawn point
-      named "main" is present) */
-  void check_save_prerequisites(const std::function<void ()>& callback) const;
-  void check_unsaved_changes(const std::function<void ()>& action);
-
-  void load_sector(const std::string& name);
   void delete_current_sector();
-
-  void update_node_iterators();
-  void esc_press();
-  void delete_markers();
-  void sort_layers();
-
-  inline bool get_draggables_visible() { return m_show_draggables; }
 
   inline void disable_testing() { m_testing_disabled = true; }
 
-  void select_tilegroup(int id);
-  void select_last_tilegroup();
-  const std::vector<Tilegroup>& get_tilegroups() const;
-  void change_tileset();
-
-  void select_objectgroup(int id);
-  void select_last_objectgroup();
-  const std::vector<ObjectGroup>& get_objectgroups() const;
-
-  void scroll(const Vector& velocity);
-
-  inline bool is_level_loaded() const { return m_levelloaded; }
+  /**
+   * Reloads the tileset from the level definition
+   * after it was changed in the Level settings.
+   */
+  void reload_tileset_from_level();
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
   }
 
-  void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
-
-  inline TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
-
-  inline Sector* get_sector() { return m_sector; }
-
-  inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
-
   EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
+  EditorProject* get_project() const { return m_project.get(); }
+  EditorEventHandling* get_event_handling() const { return m_event_handling.get(); }
 
-  void queue_layers_refresh();
+  void set_selected_object(GameObject *object);
+  const GameObject *get_selected_object() const { return m_selected_object.get(); }
 
-  bool get_properties_panel_visible() const;
-  void select_object(GameObject* object);
+  void set_test_position(const std::optional<std::pair<std::string, Vector>>& test_position)
+  {
+    m_test_position = test_position;
+  }
 
-  void retoggle_undo_tracking();
-  void undo_stack_cleanup();
+  const std::optional<std::pair<std::string, Vector>>& get_test_position() const
+  {
+    return m_test_position;
+  }
 
-  void undo();
-  void redo();
-  void set_undo_disabled(bool state);
-  void set_redo_disabled(bool state);
+  // TODO: Move elsewhere (?) EditorInputCenter perhaps?
+  bool get_draggables_visible() const { return m_draggables_visible; }
+  void set_draggables_visible(bool draggables_visible)
+  {
+    m_draggables_visible = draggables_visible;
+    if (!m_draggables_visible)
+      m_draggables_visible_hint.start(6.7f);
+  }
 
-  bool has_unsaved_changes();
-
-  void pack_addon();
-  inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
-
-private:
-  void set_sector(Sector* sector);
-  void reload_level();
-  void reset_level();
-  void reactivate();
-  void quit_editor();
   /**
    * @param filename    If non-empty, save to this file instead.
    * @param switch_file If true, the level editor will bind itself to the new
    *                    filename; subsequest saves will by default save to the
    *                    new filename.
    */
-  void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
-  void update_keyboard(const Controller& controller);
-  void keep_camera_in_bounds();
+  void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos = std::nullopt);
 
-  void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
+  /**
+   * Deactivates the editor so that it doesn't receive
+   * any keyboard or mouse events (e.g. when a menu is shown)
+   */
+  void deactivate();
 
-protected:
-  std::shared_ptr<Level> m_level;
-  std::unique_ptr<World> m_world;
+  /**
+   * Reloads the current level (e.g. after changing it)
+   */
+  void reload_level();
 
-  std::string m_levelfile;
-  std::string m_autosave_levelfile;
+  /**
+   * Method that gets called after the editor was reactivated
+   * after testing a level
+   */
+  void reactivate_after_level_test();
+  
+  /**
+   * Method that gets called after reactivating after showing
+   * the menu
+   */
+  void reactivate_after_menu_close();
+
+  /**
+   * Opens the particle editor
+   */
+  void open_particle_editor();
+
+  /**
+   * Exits the editor
+   */
+  void exit();
+
+  inline void set_on_exit_callback(exit_callback_t exit_callback) {
+    m_on_exit_callback = exit_callback;
+  }
+
+private:
+
+  /**
+   * Draws the contents of the current sector
+   * @param context The current DrawingContext instance
+   */
+  void draw_sector(DrawingContext &context);
+
+  /**
+   * Draws a hint notifying the user that draggable objects are hidden
+   * and how to enable them again.
+   * @param context The current DrawingContext instance
+   */
+  void draw_draggables_hint(DrawingContext &context);
+
+  /**
+   * Draws the current mouse pointer (and in some circumstances the "Test here" icon)
+   * on top of the currently displayed sector
+   * @param context The current DrawingContext instance
+   */
+  void draw_mouse_pointer(DrawingContext &context);
+
+  /**
+   * Draws a selection border around the currently selected object
+   * @param context The current DrawingContext instance
+   */
+  void draw_selection_border(DrawingContext& context);
+
+private:
+  void set_sector(Sector *sector);
+  void reset_level();
 
 public:
-  bool m_quit_request;
-  bool m_newlevel_request;
-  bool m_reload_request;
-  bool m_reactivate_request;
-  bool m_deactivate_request;
-  bool m_save_request;
-  bool m_save_temp_level;
-  std::string m_save_request_filename;
-  bool m_save_request_switch;
-  bool m_test_request;
-  bool m_particle_editor_request;
   bool m_testing_disabled;
-  std::optional<std::pair<std::string, Vector>> m_test_pos;
-
-  std::string* m_particle_editor_filename;
-
-  bool m_ctrl_pressed;
-  bool m_shift_pressed;
-  bool m_alt_pressed;
-  bool m_key_zoomed;
-  bool m_pen_down;
 
   ScriptManager m_script_manager;
 
-  exit_cb_t m_on_exit_cb;
+  exit_callback_t m_on_exit_callback;
 
   bool m_tilebox_something_selected;
 
 private:
-  Sector* m_sector;
-
-  bool m_levelloaded;
-  bool m_leveltested;
+  bool m_is_reloading;
+  bool m_testing_level;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
-  TileSet* m_tileset;
-  bool m_temp_level;
-
-  std::optional<std::pair<std::string, Vector>> m_last_test_pos;
+  std::optional<std::pair<std::string, Vector>> m_test_position;
   std::vector<std::unique_ptr<Widget> > m_widgets;
-  std::vector<std::unique_ptr<InterfaceControl>> m_controls;
-  std::function<void ()> m_post_save;
 
-  EditorOverlayWidget* m_overlay_widget;
+  EditorCamera* m_camera;
+  EditorOverlayWidget *m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
   EditorToolbarWidget* m_toolbar_widget;
+  EditorPropertiesPanel* m_properties_panel;
+  EditorHistoryManager* m_history_manager;
 
+  std::unique_ptr<EditorProject> m_project;
   std::unique_ptr<EditorTileConverter> m_tile_converter;
+  std::unique_ptr<EditorEventHandling> m_event_handling;
 
   TypedUID<GameObject> m_selected_object;
 
   bool m_enabled;
+  InputMode m_input_mode;
   SurfacePtr m_bgr_surface;
 
-  float m_time_since_last_save;
-
-  float m_scroll_speed;
-  float m_new_scale;
-  bool m_show_draggables;
-  Timer m_show_draggables_hint;
-
-  Vector m_mouse_pos;
-
-  bool m_layers_widget_needs_refresh;
+  bool m_draggables_visible;
+  Timer m_draggables_visible_hint;
 
   SpritePtr m_test_icon;
 

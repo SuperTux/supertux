@@ -15,7 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "editor/editor.hpp"
+#include "editor/editor_camera.hpp"
 #include "editor/editor_tile_converter.hpp"
+#include "editor/layers_widget.hpp"
 #include "gui/dialog.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
@@ -82,7 +84,8 @@ void
 EditorTileConverter::check_deprecated_tiles(bool initial_check)
 {
   auto editor = Editor::current();
-  auto level = editor->get_level();
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
 
   m_has_deprecated_tiles = false;
 
@@ -94,7 +97,7 @@ EditorTileConverter::check_deprecated_tiles(bool initial_check)
       for (const uint32_t& tile_id : tilemap.get_tiles())
       {
         idx++;
-        if (editor->get_tileset()->get(tile_id).is_deprecated())
+        if (editor_project->get_tileset()->get(tile_id).is_deprecated())
         {
           m_has_deprecated_tiles = true;
 
@@ -129,7 +132,7 @@ EditorTileConverter::focus_on_tile(Sector* sector, TileMap* tilemap, int pos)
   auto screen_position = Vector(pos % width, pos / width) * 32.f;
   
   sector->get_camera().set_translation_centered(screen_position);
-  editor->keep_camera_in_bounds();
+  editor->get_camera()->keep_in_bounds();
 }
 
 void
@@ -176,7 +179,7 @@ void
 EditorTileConverter::convert_tiles_by_file(const std::string& file)
 {
   auto editor = Editor::current();
-  auto level = editor->get_level();
+  auto level = editor->get_project()->get_level();
 
   std::unordered_map<int, int> tiles;
 

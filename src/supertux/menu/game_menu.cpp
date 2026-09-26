@@ -137,10 +137,10 @@ GameMenu::menu_action(MenuItem& item)
           if (level_file.empty())
             return editor;
 
+          editor->get_project()->set_world(World::from_directory(FileSystem::strip_leading_dirs(return_to)));
           editor->set_level(FileSystem::basename(level_file));
-          editor->set_world(World::from_directory(FileSystem::strip_leading_dirs(return_to)));
           editor->update(0, Controller());
-          editor->on_exit([return_to]() {
+          editor->set_on_exit_callback([return_to]() {
             // Same as last comment... This restarts the previous level
             ScreenManager::current()->push_screen([return_to]() -> worldmap::WorldMap* {
               // TODO: Move this somewhere else, it is similar to the GameManager::start_worldmap code
