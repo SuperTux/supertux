@@ -131,8 +131,6 @@ public:
    */
   void reload_tileset_from_level();
 
-  const std::vector<ObjectGroup>& get_objectgroups() const;
-
   void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
   }

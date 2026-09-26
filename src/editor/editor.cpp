@@ -609,12 +609,6 @@ Editor::set_selected_object(GameObject* object)
   m_properties_panel->load_object_properties(object);
 }
 
-const std::vector<ObjectGroup>&
-Editor::get_objectgroups() const
-{
-  return m_toolbox_widget->get_tilebox().get_object_info().m_groups;
-}
-
 IntegrationStatus
 Editor::get_status() const
 {
