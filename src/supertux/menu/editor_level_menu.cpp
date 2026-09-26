@@ -66,16 +66,17 @@ EditorLevelMenu::~EditorLevelMenu()
   auto editor_project = editor->get_project();
   auto level = editor_project->get_level();
 
-  if (level->m_tileset != old_tileset) {
-    try
-    {
-      editor->change_tileset();
-    }
-    catch(std::exception& e)
-    {
-      // Lisp Type error might occur.
-      log_warning << e.what() << std::endl;
-    }
+  if (level->m_tileset == old_tileset)
+    return;
+
+  try
+  {
+    editor->reload_tileset_from_level();
+  }
+  catch(std::exception& e)
+  {
+    // Lisp Type error might occur.
+    log_warning << e.what() << std::endl;
   }
 }
 
