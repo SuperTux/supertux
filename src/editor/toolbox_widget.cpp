@@ -64,6 +64,8 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 void
 EditorToolboxWidget::draw(DrawingContext& context)
 {
+  draw_separator(context);
+
   m_tilebox->draw(context);
 
   context.color().set_blur(g_config->editor_blur);
@@ -109,6 +111,25 @@ EditorToolboxWidget::draw(DrawingContext& context)
     default:
       break;
   }
+}
+
+void
+EditorToolboxWidget::draw_separator(DrawingContext& context)
+{
+  constexpr float LINE_THICKNESS = 1.f;
+  Rectf border_rect = Rectf{SCREEN_WIDTH - 128.f - LINE_THICKNESS, 0,
+                            SCREEN_WIDTH - 128.f, static_cast<float>(SCREEN_HEIGHT - 32.f)};
+  Color line_color = (g_config->editorcolor - Color(0.2, 0.2, 0.2, 0.2)).validate();
+  context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
+
+  Rectf shadow_rect = border_rect;
+  shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
+  shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
+
+  auto start_color = Color(0.0f, 0.0f, 0.0f, 0.0f);
+  auto end_color = Color(0.0f, 0.0f, 0.0f, 0.2f);
+  context.color().draw_gradient(start_color, end_color, LAYER_GUI + 1,
+                                GradientDirection::HORIZONTAL, shadow_rect);
 }
 
 bool
