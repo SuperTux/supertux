@@ -428,6 +428,30 @@ EditorProject::load_sector(const std::string& name, bool reset)
   set_sector(sector);
 }
 
+void
+EditorProject::reload_tileset_from_level()
+{
+  auto tileset_path = get_level()->get_tileset();
+  auto tileset = TileManager::current()->get_tileset(tileset_path);
+
+  set_tileset(tileset);
+}
+
+void
+EditorProject::set_tileset(TileSet *tileset)
+{
+  m_tileset = tileset;
+
+  auto level = get_level();
+  for (const auto& sector : level->get_sectors())
+  {
+    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
+    {
+      tilemap.set_tileset(tileset);
+    }
+  }
+}
+
 bool
 EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
