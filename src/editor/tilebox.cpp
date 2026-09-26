@@ -455,8 +455,9 @@ EditorTilebox::change_objectgroup(int dir)
   }
 
   bool is_worldmap = m_editor.get_project()->get_level()->is_worldmap();
+  auto object_groups = m_object_info->m_groups;
 
-  size_t objectgroups_size = m_object_info->m_groups.size();
+  size_t objectgroups_size = object_groups.size();
   // We also need to skip worldmap groups if we aren't a worldmap here
   do
   {
@@ -467,7 +468,7 @@ EditorTilebox::change_objectgroup(int dir)
     else if (m_objectgroup_id > objectgroups_size - 1)
       m_objectgroup_id = 0;
   }
-  while (!is_worldmap && m_editor.get_objectgroups().at(m_objectgroup_id).is_worldmap());
+  while (!is_worldmap && object_groups.at(m_objectgroup_id).is_worldmap());
 
   select_last_objectgroup();
 }
