@@ -173,9 +173,15 @@ public:
 
   /**
    * Sets the tileset of the current level
+   * and all tilemaps contained within.
    * @param tileset The tileset of the current level
    */
-  inline void set_tileset(TileSet* tileset) { m_tileset = tileset; }
+  inline void set_tileset(TileSet *tileset);
+
+  /**
+   * Reloads the tileset from the path specified in the level definition
+   */
+  void reload_tileset_from_level();
 
   /**
    * Sets the filename pointer of the particle system that is to be opened in the particle
