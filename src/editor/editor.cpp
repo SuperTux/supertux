@@ -86,7 +86,7 @@ Editor::Editor() :
   m_draggables_visible(true),
   m_draggables_visible_hint(),
   m_script_manager(),
-  m_on_exit_cb(nullptr),
+  m_on_exit_callback(nullptr),
   m_test_position(std::nullopt),
   m_test_icon(SpriteManager::current()->create("images/engine/editor/spawnpoint.png"))
 {
@@ -108,8 +108,8 @@ Editor::Editor() :
 
 Editor::~Editor()
 {
-  if (m_on_exit_cb)
-    m_on_exit_cb();
+  if (m_on_exit_callback)
+    m_on_exit_callback();
 
   m_script_manager.clear_tmp();
 }
