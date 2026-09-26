@@ -130,6 +130,9 @@ Editor::draw(Compositor& compositor)
     return;
   }
 
+  context.color().draw_filled_rect(context.get_rect(), Color::BLACK,
+                                   0.0f, std::numeric_limits<int>::min());
+
   for(const auto& widget : m_widgets)
   {
     widget->draw(context);
@@ -139,25 +142,7 @@ Editor::draw(Compositor& compositor)
 
   draw_sector(context);
 
-  // BEGIN Draw shadows and line
-  constexpr float LINE_THICKNESS = 1.f;
-  Rectf border_rect = Rectf{SCREEN_WIDTH - 128.f - LINE_THICKNESS, 0,
-                            SCREEN_WIDTH - 128.f, static_cast<float>(SCREEN_HEIGHT - 32.f)};
-  Color line_color = (g_config->editorcolor - Color(0.2, 0.2, 0.2, 0.2)).validate();
-  context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
-
-  Rectf shadow_rect = border_rect;
-  shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
-  shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
-  context.color().draw_gradient(Color(0.0f, 0.0f, 0.0f, 0.0f),
-                                Color(0.0f, 0.0f, 0.0f, 0.2f),
-                                LAYER_GUI + 1,
-                                GradientDirection::HORIZONTAL,
-                                shadow_rect);
-  // END Draw shadows and line
-
-  context.color().draw_filled_rect(context.get_rect(), Color::BLACK,
-                                   0.0f, std::numeric_limits<int>::min());
+  draw_tilebox_separator(context);
 
   draw_mouse_pointer(context);
   draw_draggables_hint(context);
@@ -175,6 +160,25 @@ Editor::draw_sector(DrawingContext& context)
   context.pop_transform();
 
   draw_selection_border(context);
+}
+
+void
+Editor::draw_tilebox_separator(DrawingContext& context)
+{
+  constexpr float LINE_THICKNESS = 1.f;
+  Rectf border_rect = Rectf{SCREEN_WIDTH - 128.f - LINE_THICKNESS, 0,
+                            SCREEN_WIDTH - 128.f, static_cast<float>(SCREEN_HEIGHT - 32.f)};
+  Color line_color = (g_config->editorcolor - Color(0.2, 0.2, 0.2, 0.2)).validate();
+  context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
+
+  Rectf shadow_rect = border_rect;
+  shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
+  shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
+
+  auto start_color = Color(0.0f, 0.0f, 0.0f, 0.0f);
+  auto end_color = Color(0.0f, 0.0f, 0.0f, 0.2f);
+  context.color().draw_gradient(start_color, end_color, LAYER_GUI + 1,
+                                GradientDirection::HORIZONTAL, shadow_rect);
 }
 
 void
