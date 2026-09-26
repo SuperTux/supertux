@@ -55,6 +55,57 @@ EditorProject::EditorProject() :
 }
 
 void
+EditorProject::setup()
+{
+  if (is_level_loaded())
+  {
+    return;
+  }
+#if 0
+  if (AddonManager::current()->is_old_addon_enabled())
+  {
+    auto dialog = std::make_unique<Dialog>();
+    dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with the default SuperTux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
+    dialog->clear_buttons();
+
+    dialog->add_default_button(_("Disable add-ons"), [] {
+      AddonManager::current()->disable_old_addons();
+      MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+    });
+
+    dialog->add_button(_("Ignore (not advised)"), [] {
+      MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+    });
+
+    dialog->add_button(_("Leave editor"), [this] {
+      quit_request = true;
+    });
+
+    MenuManager::instance().set_dialog(std::move(dialog));
+  }
+  else
+#endif
+
+  auto editor = Editor::current();
+  const auto& last_edited_level = get_last_edited_level();
+
+  if (g_config->editor_remember_last_level && !last_edited_level.empty())
+  {
+    auto last_level_directory = FileSystem::dirname(last_edited_level);
+    auto last_level_filename = FileSystem::basename(last_edited_level);
+    auto world = World::from_directory(last_level_directory);
+
+    set_world(std::move(world));
+    editor->set_level(last_level_filename);
+  }
+  else
+  {
+    editor->set_level(nullptr, true);
+    set_last_edited_level("");
+  }
+}
+
+void
 EditorProject::reactivate()
 {
   m_level_loaded = true;
@@ -79,7 +130,8 @@ EditorProject::close()
 
   if (m_world && !get_level_file().empty() && g_config->editor_remember_last_level)
   {
-    g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), get_level_file());
+    auto level_path = FileSystem::join(get_level_directory(), get_level_file());
+    g_config->editor_last_edited_level = level_path;
   }
 
   reset();
