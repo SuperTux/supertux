@@ -68,7 +68,7 @@ public:
   enum class InputMode { NONE, TILE, OBJECT };
 
 public:
-  using exit_cb_t = std::function<void()>;
+  using exit_callback_t = std::function<void()>;
 
   static bool is_active();
 
@@ -200,7 +200,9 @@ public:
    */
   void exit();
 
-  inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
+  inline void set_on_exit_callback(exit_callback_t exit_callback) {
+    m_on_exit_callback = exit_callback;
+  }
 
 private:
 
@@ -239,7 +241,7 @@ public:
 
   ScriptManager m_script_manager;
 
-  exit_cb_t m_on_exit_cb;
+  exit_callback_t m_on_exit_callback;
 
   bool m_tilebox_something_selected;
 
