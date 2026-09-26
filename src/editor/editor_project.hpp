@@ -293,7 +293,7 @@ private:
 
   bool m_temp_level;
   std::string m_level_filename;
-  std::string m_autosave_levelfile;
+  std::string m_autosave_filename;
   bool m_level_loaded;
   float m_time_since_last_save;
 
