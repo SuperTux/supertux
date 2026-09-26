@@ -125,7 +125,11 @@ public:
 
   inline void disable_testing() { m_testing_disabled = true; }
 
-  void change_tileset();
+  /**
+   * Reloads the tileset from the level definition
+   * after it was changed in the Level settings.
+   */
+  void reload_tileset_from_level();
 
   const std::vector<ObjectGroup>& get_objectgroups() const;
 

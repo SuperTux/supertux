@@ -585,17 +585,10 @@ Editor::event(const SDL_Event& ev)
 }
 
 void
-Editor::change_tileset()
+Editor::reload_tileset_from_level()
 {
-  auto level = m_project->get_level();
-  auto level_tileset = level->get_tileset();
-  m_project->set_tileset(TileManager::current()->get_tileset(level_tileset));
+  m_project->reload_tileset_from_level();
   set_input_mode(InputMode::TILE);
-  for (const auto& sector : level->get_sectors()) {
-    for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
-      tilemap.set_tileset(m_project->get_tileset());
-    }
-  }
   m_toolbox_widget->get_tilebox().select_tilegroup(0);
 }
 
