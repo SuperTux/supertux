@@ -75,6 +75,13 @@ public:
   inline bool has_mouse_focus() const { return m_has_mouse_focus; }
 
 private:
+  /**
+   * Draws the line and shadow on the intersection between the
+   * OverlayWidget and the tile selector on the right side.
+   * @param context The current DrawingContext instance
+   */
+  void draw_separator(DrawingContext &context);
+
   Vector get_tool_coords(int pos) const;
   int get_tool_pos(const Vector& coords) const;
 
