@@ -36,10 +36,10 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
   add_hl();
 
   int id = 0;
-  for (auto &og : object_groups)
+  for (auto &group : object_groups)
   {
-    if (worldmap == og.is_worldmap()) {
-      add_entry(id, og.get_name());
+    if (worldmap == group.is_worldmap()) {
+      add_entry(id, group.get_name());
     }
     id++;
   }
