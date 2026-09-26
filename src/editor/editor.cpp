@@ -425,30 +425,6 @@ Editor::open_particle_editor()
 }
 
 void
-Editor::exit()
-{
-  m_project->check_unsaved_changes([this] {
-    deactivate();
-    m_project->close();
-    ScreenManager::current()->pop_screen();
-#ifdef __EMSCRIPTEN__
-    int persistent = EM_ASM_INT({
-      return supertux2_ispersistent();
-    }, 0); // EM_ASM_INT is a variadic macro and Clang requires at least 1 value for the variadic argument.
-    if (!persistent)
-      Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
-#endif
-  });
-}
-
-void
-Editor::leave()
-{
-  deactivate();
-  m_after_setup = false;
-}
-
-void
 Editor::setup()
 {
   Sector::s_draw_solids_only = false;
@@ -463,6 +439,30 @@ Editor::setup()
 
   // Reactivate the editor after level test.
   reactivate_after_level_test();
+}
+
+void
+Editor::leave()
+{
+  deactivate();
+  m_after_setup = false;
+}
+
+void
+Editor::exit()
+{
+  m_project->check_unsaved_changes([this] {
+    deactivate();
+    m_project->close();
+    ScreenManager::current()->pop_screen();
+#ifdef __EMSCRIPTEN__
+    int persistent = EM_ASM_INT({
+      return supertux2_ispersistent();
+    }, 0); // EM_ASM_INT is a variadic macro and Clang requires at least 1 value for the variadic argument.
+    if (!persistent)
+      Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
+#endif
+  });
 }
 
 void
