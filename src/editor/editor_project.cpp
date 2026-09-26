@@ -46,7 +46,7 @@ EditorProject::EditorProject() :
   m_sector(),
   m_temp_level(true),
   m_level_filename(),
-  m_autosave_levelfile(),
+  m_autosave_filename(),
   m_level_loaded(),
   m_time_since_last_save(),
   m_post_save_callback(nullptr),
@@ -275,7 +275,7 @@ EditorProject::reload_level()
   // Autosave files : Once the level is loaded, make sure
   // to use the regular file.
   m_level_filename = get_level_filename_from_autosave(m_level_filename);
-  m_autosave_levelfile = FileSystem::join(get_level_directory(),
+  m_autosave_filename = FileSystem::join(get_level_directory(),
                                           get_autosave_from_level_filename(m_level_filename));
 }
 
@@ -310,11 +310,11 @@ EditorProject::autosave()
   // Set the test level file even though we're not testing, so that
   // if the user quits the editor without ever testing, it'll delete
   // the autosave file anyways.
-  m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+  m_autosave_filename = FileSystem::join(directory, backup_filename);
 
   try
   {
-    m_level->save(m_autosave_levelfile);
+    m_level->save(m_autosave_filename);
   }
   catch(const std::exception& e)
   {
@@ -329,15 +329,15 @@ EditorProject::remove_autosave_file()
     return;
 
   // Clear the auto-save file.
-  if (!m_autosave_levelfile.empty())
+  if (!m_autosave_filename.empty())
   {
     // Try to remove the test level using the PhysFS file system
-    if (physfsutil::remove(m_autosave_levelfile) != 0)
+    if (physfsutil::remove(m_autosave_filename) != 0)
     {
       // This file is not inside any PhysFS mounts,
       // try to remove this using normal file system
       // methods.
-      FileSystem::remove(m_autosave_levelfile);
+      FileSystem::remove(m_autosave_filename);
     }
   }
 }
@@ -460,7 +460,7 @@ EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>&
   }
   else
   {
-    return GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, start_pos);
+    return GameManager::current()->start_worldmap(*current_world, m_autosave_filename, start_pos);
   }
 }
 
