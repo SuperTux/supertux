@@ -213,6 +213,13 @@ private:
   void draw_sector(DrawingContext &context);
 
   /**
+   * Draws the line and shadow on the intersection between the
+   * OverlayWidget and the tile selector on the right side.
+   * @param context The current DrawingContext instance
+   */
+  void draw_tilebox_separator(DrawingContext &context);
+
+  /**
    * Draws a hint notifying the user that draggable objects are hidden
    * and how to enable them again.
    * @param context The current DrawingContext instance
