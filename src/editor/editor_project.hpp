@@ -56,6 +56,12 @@ public:
   EditorProject();
 
   /**
+   * Function to be called when setting up the editor
+   * (mainly loads the last level)
+   */
+  void setup();
+
+  /**
    * Returns the current project's world instance
    */
   inline World* get_world() const { return m_world.get(); }
@@ -128,6 +134,16 @@ public:
    * Returns ""true"", when the current project is a worldmap
    */
   inline bool is_worldmap() const { return StringUtil::has_suffix(get_level_file(), ".stwm"); }
+
+  const std::string& get_last_edited_level() const
+  {
+    return g_config->editor_last_edited_level;
+  }
+
+  void set_last_edited_level(const std::string& level)
+  {
+    g_config->editor_last_edited_level = level;
+  }
 
   /**
    * Returns the currently edited sector
