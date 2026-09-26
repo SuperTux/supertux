@@ -58,11 +58,6 @@ EditorEventHandling::on_event(const SDL_Event& ev)
   if (ev.type == SDL_EVENT_MOUSE_MOTION)
   {
     m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-
-    // If properties sidebar controls are active and the mouse is hovering over the sidebar,
-    // do not propagate mouse motion to the editor or its widgets.
-    if (properties_panel->has_mouse_focus(ev, m_mouse_pos))
-      return;
   }
   else if (ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
   {
