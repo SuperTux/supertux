@@ -45,7 +45,7 @@ EditorProject::EditorProject() :
   m_tileset(),
   m_sector(),
   m_temp_level(true),
-  m_levelfile(),
+  m_level_filename(),
   m_autosave_levelfile(),
   m_level_loaded(),
   m_time_since_last_save(),
@@ -119,7 +119,7 @@ EditorProject::reset()
   m_level_loaded = false;
   m_level.reset();
   m_world.reset();
-  m_levelfile.clear();
+  m_level_filename.clear();
   m_sector = nullptr;
 }
 
@@ -152,7 +152,7 @@ EditorProject::create_empty_project()
   m_level->add_sector(std::move(sector));
 
   m_level->initialize();
-  m_levelfile = "";
+  m_level_filename = "";
   m_level_loaded = true;
   // Editor::current()->reload_level();
 }
@@ -186,7 +186,7 @@ EditorProject::get_editable_level()
     // In case the error was caused by the last edited level, say, not
     // existing/being invalid, let's clear it
     g_config->editor_last_edited_level = "";
-    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
+    log_warning << "Error loading level '" << m_level_filename << "' in editor: " << err.what() << std::endl;
     throw err;
   }
   ReaderMapping::s_translations_enabled = true;
@@ -237,10 +237,10 @@ EditorProject::save_level(const std::string& filename, bool switch_file,
     switch_file = true;
   }
 
-  auto file = !filename.empty() ? filename : m_levelfile;
+  auto file = !filename.empty() ? filename : m_level_filename;
 
   if (switch_file)
-    m_levelfile = filename;
+    m_level_filename = filename;
 
   for (const auto& sector : m_level->get_sectors())
   {
@@ -274,9 +274,9 @@ EditorProject::reload_level()
 {
   // Autosave files : Once the level is loaded, make sure
   // to use the regular file.
-  m_levelfile = get_levelname_from_autosave(m_levelfile);
+  m_level_filename = get_level_filename_from_autosave(m_level_filename);
   m_autosave_levelfile = FileSystem::join(get_level_directory(),
-                                          get_autosave_from_levelname(m_levelfile));
+                                          get_autosave_from_level_filename(m_level_filename));
 }
 
 void
@@ -305,7 +305,7 @@ EditorProject::autosave()
 {
   m_time_since_last_save = 0.f;
   std::string directory = get_level_directory();
-  std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+  std::string backup_filename = get_autosave_from_level_filename(m_level_filename);
 
   // Set the test level file even though we're not testing, so that
   // if the user quits the editor without ever testing, it'll delete
@@ -348,7 +348,7 @@ EditorProject::get_level_directory() const
   auto world = m_world.get();
   if (world == nullptr)
   {
-    auto directory = FileSystem::dirname(m_levelfile);
+    auto directory = FileSystem::dirname(m_level_filename);
     world = World::from_directory(directory).get();
   }
 
@@ -356,7 +356,7 @@ EditorProject::get_level_directory() const
 
   if (basedir == "./")
   {
-    basedir = PHYSFS_getRealDir(m_levelfile.c_str());
+    basedir = PHYSFS_getRealDir(m_level_filename.c_str());
   }
 
   return basedir;
@@ -368,7 +368,7 @@ EditorProject::open_level_directory()
   if (m_temp_level)
     return;
 
-  m_level->save(FileSystem::join(get_level_directory(), m_levelfile));
+  m_level->save(FileSystem::join(get_level_directory(), m_level_filename));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
   FileSystem::open_path(path);
 }
@@ -433,7 +433,7 @@ EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>&
 {
   auto current_world = m_world.get();
 
-  if ((m_level && !current_world) || m_levelfile == "")
+  if ((m_level && !current_world) || m_level_filename == "")
   {
       GameManager::current()->start_level(m_level.get(), start_pos, true);
       return true;
@@ -454,7 +454,7 @@ EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>&
   {
     // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
     //       If not, call reactivate().
-    std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+    std::string backup_filename = get_autosave_from_level_filename(m_level_filename);
     GameManager::current()->start_level(*current_world, backup_filename, start_pos, true);
     return true;
   }

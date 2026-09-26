@@ -40,7 +40,7 @@ private:
    * Returns the level's filename from an autosave file
    * @param filename filename of the level
    */
-  static std::string get_levelname_from_autosave(const std::string& filename) {
+  static std::string get_level_filename_from_autosave(const std::string& filename) {
     return is_autosave_file(filename) ? filename.substr(0, filename.size() - 1) : filename;
   }
 
@@ -48,7 +48,7 @@ private:
    * Returns the autosave filename from a level's filename
    * @param filename filename of the level
    */
-  static std::string get_autosave_from_levelname(const std::string& filename) {
+  static std::string get_autosave_from_level_filename(const std::string& filename) {
     return is_autosave_file(filename) ? filename : filename + "~";
   }
 
@@ -80,12 +80,12 @@ public:
   /**
    * Returns the filename of the current level
    */
-  inline const std::string& get_level_file() const { return m_levelfile; }
+  inline const std::string& get_level_file() const { return m_level_filename; }
 
   /**
    * Sets the filename of the current level
    */
-  inline void set_level_file(const std::string& levelfile) { m_levelfile = levelfile; }
+  inline void set_level_file(const std::string& levelfile) { m_level_filename = levelfile; }
 
   /**
    * Returns the complete path of the current level
@@ -292,7 +292,7 @@ private:
   Sector* m_sector;
 
   bool m_temp_level;
-  std::string m_levelfile;
+  std::string m_level_filename;
   std::string m_autosave_levelfile;
   bool m_level_loaded;
   float m_time_since_last_save;
