@@ -71,9 +71,6 @@ bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos)
 
 using InputMode = Editor::InputMode;
 
-bool EditorOverlayWidget::action_pressed = false;
-bool EditorOverlayWidget::alt_pressed = false;
-
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_editor(editor),
   m_hovered_tile(0, 0),
@@ -226,8 +223,11 @@ EditorOverlayWidget::input_autotile_erase(const Vector& pos)
 void
 EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
 {
-  if (m_editor.get_layers_widget()->get_selected_tilemap())
-    m_editor.get_layers_widget()->get_selected_tilemap()->save_state();
+  auto selected_tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
+  if (selected_tilemap)
+  {
+    selected_tilemap->save_state();
+  }
 
   // Don't put tile if the position (or til^e) hasn't changed
   if (floor(m_last_target_pos.x) == floor(target_tile.x) &&
@@ -786,7 +786,8 @@ EditorOverlayWidget::move_object()
 
     // TODO: Temporarily disabled during ongoing discussion
     // Special case: Bezier markers should influence each other when holding shift
-    //if (alt_pressed) {
+    // auto editor_events = m_editor.get_event_handling();
+    // if (editor_events->get_alt_pressed()) {
     //  auto bm = dynamic_cast<BezierMarker*>(m_dragged_object);
     //  if (bm) {
     //    auto nm = bm->get_parent();
@@ -1247,7 +1248,6 @@ bool
 EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
   auto editor_events = m_editor.get_event_handling();
-  std::uint16_t mod = key.mod;
 
   if (!editor_events->get_ctrl_pressed())
   {
@@ -1255,10 +1255,6 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 
     // Hovered objects depend on if ctrl is pressed
     hover_object();
-  }
-  else if (mod & SDL_KMOD_ALT)
-  {
-    alt_pressed = false;
   }
 
   if (key.key == SDLK_SPACE)
@@ -1275,7 +1271,6 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
   auto events = m_editor.get_event_handling();
   SDL_Keycode sym = key.key;
-  std::uint16_t mod = key.mod;
 
   if (sym == SDLK_F8)
   {
@@ -1301,10 +1296,6 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
     m_autotile_mode = !g_config->editor_autotile_mode;
     // Hovered objects depend on if ctrl is pressed.
     hover_object();
-  }
-  else if (mod & SDL_KMOD_ALT)
-  {
-    alt_pressed = true;
   }
   else if (sym == SDLK_0 || sym == SDLK_KP_0)
   {

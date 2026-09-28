@@ -75,10 +75,6 @@ public:
   inline Vector get_sector_pos() const { return m_sector_pos; }
 
 private:
-  static bool action_pressed;
-  static bool alt_pressed;
-
-private:
   void input_tile(const Vector& pos, uint32_t tile);
   void input_autotile(const Vector& pos, uint32_t tile);
   void input_autotile_erase(const Vector& pos);
