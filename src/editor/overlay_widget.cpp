@@ -555,6 +555,7 @@ EditorOverlayWidget::hover_object()
   auto editor_project = m_editor.get_project();
   auto editor_events = m_editor.get_event_handling();
   auto sector = editor_project->get_sector();
+  auto& editor_tilebox = m_editor.get_tilebox();
 
   m_object_tip->set_visible(false);
   m_hovered_object = nullptr;
@@ -616,7 +617,7 @@ EditorOverlayWidget::hover_object()
     }
   }
 
-  if (m_hovered_object && m_hovered_object->has_settings() && !m_editor.has_active_toolbox_tip()) {
+  if (m_hovered_object && m_hovered_object->has_settings() && !editor_tilebox.has_active_object_tip()) {
     m_object_tip->set_info_for_object(*m_hovered_object);
   }
 
