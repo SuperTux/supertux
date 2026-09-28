@@ -115,8 +115,8 @@ public:
   inline int get_tileselect_select_mode() const { return m_toolbox_widget->get_tileselect_select_mode(); }
   inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
 
-  void set_level(std::unique_ptr<Level> level, bool reset = true);
-  void set_level(const std::string &levelfile);
+  void set_level(std::unique_ptr<Level> level);
+  void set_level_file(const std::string& level_file);
 
   inline bool is_reloading() const { return m_is_reloading; }
   inline bool is_testing_level() const { return m_testing_level; }

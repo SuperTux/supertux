@@ -105,9 +105,8 @@ public:
   /**
    * Sets the currently edited level
    * @param level The level to set as currently edited level
-   * @param reset If ""true"", the current tileset is loaded from the specific level
    */
-  void set_level(std::unique_ptr<Level> level, bool reset = true);
+  void set_level(std::unique_ptr<Level> level);
 
   /**
    * Reloads the current level from the latest autosave
@@ -159,11 +158,8 @@ public:
   /**
    * Loads the specified sector and sets some default settings for the sector
    * @param name The name of the sector to load (default: "main")
-   * @param reset If ""true"", the main sector and camera position will be reset, 
-   *              Otherwise, sector and camera position are taken from the
-   *              previously edited level
    */
-  void load_sector(const std::string& name = DEFAULT_SECTOR_NAME, bool reset = true);
+  void load_sector(const std::string& name = DEFAULT_SECTOR_NAME);
 
   /**
    * Returns the tileset of the current level
