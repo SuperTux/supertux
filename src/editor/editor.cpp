@@ -363,7 +363,7 @@ Editor::set_level(std::unique_ptr<Level> level)
   m_overlay_widget->on_level_change();
 
   // Warn the user if any deprecated tiles are used throughout the level
-  m_tile_converter->check_deprecated_tiles(/* first_check = */ true);
+  m_tile_converter->check_deprecated_tiles(/* initial_check = */ true);
 }
 
 void
