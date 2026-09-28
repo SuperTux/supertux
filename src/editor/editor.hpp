@@ -105,7 +105,7 @@ public:
   inline TileSelection* get_selected_tiles() const { return get_tilebox().get_tiles(); }
 
   inline EditorPropertiesPanel* get_properties_panel() const { return m_properties_panel; }
-  inline std::string get_selected_object_class() const { return get_tilebox().get_object(); }
+  inline const std::string& get_selected_object_class_name() const { return get_tilebox().get_selected_object_class_name(); }
 
   inline InputMode get_input_mode() const { return m_input_mode; }
   void set_input_mode(const InputMode &input_mode);
