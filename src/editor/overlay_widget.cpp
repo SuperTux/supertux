@@ -697,9 +697,11 @@ EditorOverlayWidget::grab_object()
   {
     m_dragged_object = nullptr;
 
-    if (m_edited_path &&
-        m_editor.get_selected_object_class() == "#node" &&
-        m_edited_path->is_valid())
+    const auto& selected_object_class_name = m_editor.get_tilebox().get_selected_object_class_name();
+    const auto& node_marker_class = NodeMarker::class_name();
+
+    if (m_edited_path && m_edited_path->is_valid() &&
+        selected_object_class_name == node_marker_class)
     {
       // do nothing
     }
@@ -883,10 +885,12 @@ EditorOverlayWidget::put_object()
 {
   auto editor_project = m_editor.get_project();
 
-  const std::string& object_class = m_editor.get_selected_object_class();
-  if (object_class[0] == '#')
+  const std::string& object_class_name = m_editor.get_selected_object_class_name();
+  if (object_class_name[0] == '#')
   {
-    if (m_edited_path && object_class == "#node") {
+    const auto& node_marker_class_name = NodeMarker::class_name();
+    if (m_edited_path && object_class_name == node_marker_class_name)
+    {
       if (m_edited_path->is_valid() && m_last_node_marker) {
         add_path_node();
       }
@@ -901,7 +905,7 @@ EditorOverlayWidget::put_object()
       target_pos = glm::floor(target_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
     }
 
-    auto object = GameObjectFactory::instance().create(object_class, target_pos);
+    auto object = GameObjectFactory::instance().create(object_class_name, target_pos);
     object->after_editor_set();
 
     auto* mo = dynamic_cast<MovingObject*>(object.get());
@@ -986,7 +990,7 @@ EditorOverlayWidget::process_left_click()
           break;
       }
 
-      if (!m_editor.get_selected_object_class().empty())
+      if (!m_editor.get_selected_object_class_name().empty())
       {
         if (!m_dragged_object) put_object();
       }
@@ -1205,7 +1209,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
       case InputMode::NONE:
       case InputMode::OBJECT:
-        if (m_editor.get_selected_object_class().empty())
+        if (m_editor.get_selected_object_class_name().empty())
         {
           if (m_editor.get_tileselect_select_mode() == 1)
           {

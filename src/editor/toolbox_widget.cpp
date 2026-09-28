@@ -18,6 +18,7 @@
 #include "editor/toolbox_widget.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/node_marker.hpp"
 #include "editor/toolbar_widget.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/object_info.hpp"
@@ -206,8 +207,10 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
                 break;
               case InputMode::NONE:
               case InputMode::OBJECT:
-                m_tilebox->set_object("#node");
-                break;
+              {
+                m_tilebox->set_selected_object_class_name(NodeMarker::class_name());
+              }
+              break;
               default:
                 break;
             }
@@ -243,7 +246,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 void
 EditorToolboxWidget::set_rubber_tool()
 {
-  m_tilebox->set_object("");
+  m_tilebox->set_selected_object_class_name("");
   m_tilebox->get_tiles()->set_tile(0);
   m_editor.get_overlay_widget()->update_autotileset();
   update_mouse_icon();
@@ -252,7 +255,7 @@ EditorToolboxWidget::set_rubber_tool()
 void
 EditorToolboxWidget::set_mouse_tool()
 {
-  m_tilebox->set_object("#move");
+  m_tilebox->set_selected_object_class_name("#move");
   update_mouse_icon();
 }
 
@@ -541,11 +544,11 @@ EditorToolboxWidget::get_mouse_icon() const
     case InputMode::NONE:
     case InputMode::OBJECT:
     {
-      const std::string object = m_tilebox->get_object();
-
-      if (object.empty())
+      const std::string& object_class_name = m_tilebox->get_selected_object_class_name();
+      const auto &node_marker_class_name = NodeMarker::class_name();
+      if (object_class_name.empty())
         return m_rubber.get();
-      if (object == "#node")
+      if (object_class_name == node_marker_class_name)
         return m_node_marker_mode.get();
 
       return m_move_mode.get();
