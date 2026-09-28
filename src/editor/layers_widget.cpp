@@ -63,7 +63,9 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
     {
       assert(m_editor.get_input_mode() == Editor::InputMode::OBJECT);
 
-      m_editor.get_project()->get_sector()->add_object(GameObjectFactory::instance().create(tilebox.get_object()));
+      const auto& object_class_name = tilebox.get_selected_object_class_name();
+      auto game_object = GameObjectFactory::instance().create(object_class_name);
+      m_editor.get_project()->get_sector()->add_object(std::move(game_object));
       m_add_layer_box_visible = false;
     });
 }

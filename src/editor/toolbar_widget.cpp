@@ -21,6 +21,7 @@
 #include "editor/button_widget.hpp"
 #include "editor/editor.hpp"
 #include "editor/editor_history_manager.hpp"
+#include "editor/node_marker.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
@@ -141,26 +142,22 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   };
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 3> object_mode_widgets = {
-    // Path edit mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png",
-      [this] {
-        Editor::current()->get_tilebox().set_object("#node");
-      },
-      _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
+      // Path edit mode
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png", [this]
+      {
+        const auto& node_marker_class = NodeMarker::class_name();
+        Editor::current()->get_tilebox().set_selected_object_class_name(node_marker_class);
+      }, _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
 
-    // Select mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png",
-      [this] {
+      // Select mode
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png", [this]
+      { 
         Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(0);
-      },
-      _("Select mode (Clicking selects the object under the mouse)")),
+      }, _("Select mode (Clicking selects the object under the mouse)")),
 
-    // Duplicate mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png",
-      [this] {
-        Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(1);
-      },
-      _("Duplicate mode (Clicking duplicates the object under the mouse)")),
+      // Duplicate mode
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png", [this]
+                                                  { Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(1); }, _("Duplicate mode (Clicking duplicates the object under the mouse)")),
   };
 
   size_t i = 0;
