@@ -290,7 +290,12 @@ Sector::activate(const Vector& player_pos)
 
   // Run init script
   if (!m_init_script.empty() && !Editor::is_active() && !m_init_script_run) {
-    run_script(m_init_script, "init-script");
+    try {
+      run_script(m_init_script, "init-script");
+    }
+    catch(std::exception&) {
+      // doesn't exist or erroneous; do nothing
+    }
     if (m_init_script_run_once)
       m_init_script_run = true;
   }
