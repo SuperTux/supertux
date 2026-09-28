@@ -155,6 +155,7 @@ EditorProject::create_empty_project()
   m_level_filename = "";
   m_level_loaded = true;
   // Editor::current()->reload_level();
+  g_config->editor_last_edited_level = "";
 }
 
 std::string
@@ -199,15 +200,13 @@ EditorProject::set_level(std::unique_ptr<Level> level)
 {
   m_temp_level = (level == nullptr);
 
-  if (level != nullptr)
+  if (m_temp_level)
   {
-    // Reload level.
-    m_level = std::move(level);
+    create_empty_project();
   }
   else
   {
-    create_empty_project();
-    g_config->editor_last_edited_level = "";
+    m_level = std::move(level);
   }
 
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
