@@ -201,7 +201,9 @@ EditorEventHandling::on_event(const SDL_Event& ev)
 void
 EditorEventHandling::reset_state()
 {
-  m_ctrl_pressed = m_alt_pressed = false;
+  m_ctrl_pressed = false;
+  m_alt_pressed = false;
+  m_shift_pressed = false;
 
   // any mouse events from earlier (i.e. in menu, testing) dont pass through
   // the editor in those states, so as a lazy hack, let's just get the mouse
