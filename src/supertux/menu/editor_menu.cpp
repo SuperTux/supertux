@@ -166,7 +166,7 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_OPEN_DIR:
-      Editor::current()->get_project()->open_level_directory();
+      editor_project->open_level_directory();
       break;
 
     case MNID_TESTLEVEL:
@@ -236,15 +236,15 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_CLOSELEVEL:
-      editor_project->check_unsaved_changes([] {
-        Editor::current()->set_level(nullptr, true);
+      editor_project->check_unsaved_changes([editor] {
+        editor->set_level(nullptr);
         MenuManager::instance().clear_menu_stack();
       });
       break;
 
     case MNID_QUITEDITOR:
       MenuManager::instance().clear_menu_stack();
-      Editor::current()->exit();
+      editor->exit();
       break;
 
     case MNID_CHECKDEPRECATEDTILES:

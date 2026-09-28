@@ -345,36 +345,31 @@ Editor::delete_current_sector()
 }
 
 void
-Editor::set_level(std::unique_ptr<Level> level, bool reset)
+Editor::set_level(std::unique_ptr<Level> level)
 {
   m_project->set_level(std::move(level));
-  m_project->load_sector(DEFAULT_SECTOR_NAME, reset);
+  m_project->load_sector(DEFAULT_SECTOR_NAME);
 
   m_is_reloading = false;
   m_enabled = true;
 
-  if (reset)
-  {
-    auto& tilebox = m_toolbox_widget->get_tilebox();
-    tilebox.select_tilegroup(0);
-    set_input_mode(InputMode::TILE);
-  }
+  auto& tilebox = m_toolbox_widget->get_tilebox();
+  tilebox.select_tilegroup(0);
+  set_input_mode(InputMode::TILE);
 
   m_script_manager.clear_tmp();
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
 
-  if (!reset) return;
-
   // Warn the user if any deprecated tiles are used throughout the level
   m_tile_converter->check_deprecated_tiles(/* first_check = */ true);
 }
 
 void
-Editor::set_level(const std::string& levelfile)
+Editor::set_level_file(const std::string& level_file)
 {
-  m_project->set_level_file(levelfile);
+  m_project->set_level_file(level_file);
   reload_level();
 }
 
@@ -407,7 +402,7 @@ Editor::reset_level()
   m_is_reloading = false;
 
   MouseCursor::current()->set_icon(nullptr);
-  set_level(nullptr, true);
+  set_level(nullptr);
 }
 
 void
