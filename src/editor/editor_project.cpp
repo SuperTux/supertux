@@ -96,11 +96,11 @@ EditorProject::setup()
     auto world = World::from_directory(last_level_directory);
 
     set_world(std::move(world));
-    editor->set_level(last_level_filename);
+    editor->set_level_file(last_level_filename);
   }
   else
   {
-    editor->set_level(nullptr, true);
+    editor->set_level(nullptr);
     set_last_edited_level("");
   }
 }
@@ -195,7 +195,7 @@ EditorProject::get_editable_level()
 }
 
 void
-EditorProject::set_level(std::unique_ptr<Level> level, bool reset)
+EditorProject::set_level(std::unique_ptr<Level> level)
 {
   m_temp_level = (level == nullptr);
 
@@ -210,10 +210,7 @@ EditorProject::set_level(std::unique_ptr<Level> level, bool reset)
     g_config->editor_last_edited_level = "";
   }
 
-  if (reset)
-  {
-    m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  }
+  m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
 
   m_level_loaded = true;
 }
@@ -388,7 +385,7 @@ EditorProject::set_sector(Sector* sector)
 }
 
 void
-EditorProject::load_sector(const std::string& name, bool reset)
+EditorProject::load_sector(const std::string& name)
 {
   if (m_level->get_sector_count() == 0)
   {
@@ -396,14 +393,6 @@ EditorProject::load_sector(const std::string& name, bool reset)
   }
 
   auto sector_name = name;
-  Vector cam_position(0.0f, 0.0f);
-
-  auto previous_sector = get_sector();
-  if (previous_sector != nullptr && !reset)
-  {
-    sector_name = previous_sector->get_name();
-    cam_position = previous_sector->get_camera().get_translation();
-  }
 
   // First pass: Load sector with specified name.
   auto sector = m_level->get_sector(sector_name);
@@ -419,11 +408,6 @@ EditorProject::load_sector(const std::string& name, bool reset)
   sector->toggle_undo_tracking(g_config->editor_undo_tracking);
   
   sector->get_camera().set_mode(Camera::Mode::FREE);
-
-  if (!reset)
-  {
-    sector->get_camera().set_translation(cam_position);
-  }
 
   set_sector(sector);
 }
