@@ -191,13 +191,14 @@ EditorOverlayWidget::drag_rect() const
 void
 EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
 {
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
+  if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
+
   auto events = m_editor.get_event_handling();
 
   if (events->get_pen_down())
     tile = 0;
-  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
-  if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
-
+  
   tilemap->save_state();
   tilemap->change(static_cast<int>(pos.x), static_cast<int>(pos.y), tile);
 }
