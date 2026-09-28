@@ -34,7 +34,11 @@ public:
   virtual void draw(DrawingContext& context, const Vector& pos);
   virtual void draw(DrawingContext& context, const Vector& pos, int pixels_shown);
 
-  inline const std::string& get_object_class() const { return m_object_class; }
+  /**
+   * Returns the class name of the object represented by the icon
+   * @return a string representing the object class
+   */
+  inline const std::string& get_object_class_name() const { return m_object_class_name; }
 
   ObjectIcon(const ObjectIcon&) = default;
   ObjectIcon& operator=(const ObjectIcon&) = default;
@@ -43,7 +47,7 @@ private:
   void calculate_offset();
 
 private:
-  std::string m_object_class;
+  std::string m_object_class_name;
   SurfacePtr m_surface;
   Vector m_offset;
 };

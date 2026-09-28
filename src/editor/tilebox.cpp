@@ -41,7 +41,7 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_editor(editor),
   m_rect(rect),
   m_tiles(new TileSelection()),
-  m_object(),
+  m_selected_object_class_name(),
   m_tilegroup_id(0),
   m_objectgroup_id(0),
   m_object_tip(new Tip()),
@@ -249,10 +249,11 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
         case InputMode::OBJECT:
           {
-            int size = static_cast<int>(m_active_objectgroup->get_icons().size());
+            auto& icons = m_active_objectgroup->get_icons();
+            int size = static_cast<int>(icons.size());
             if (m_hovered_tile < size && m_hovered_tile >= 0)
             {
-              m_object = m_active_objectgroup->get_icons()[m_hovered_tile].get_object_class();
+              m_selected_object_class_name = icons[m_hovered_tile].get_object_class_name();
               m_on_select_callback(*this);
             }
           }
@@ -317,7 +318,7 @@ EditorTilebox::update_hovered_tile()
   {
     const auto& icons = m_active_objectgroup->get_icons();
     if (m_hovered_tile < static_cast<int>(icons.size())) {
-      const std::string obj_class = icons[m_hovered_tile].get_object_class();
+      const std::string& obj_class = icons[m_hovered_tile].get_object_class_name();
       std::string obj_name = obj_class;
       try {
         obj_name = GameObjectFactory::instance().get_display_name(obj_class);
