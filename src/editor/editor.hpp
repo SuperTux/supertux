@@ -156,7 +156,7 @@ public:
   {
     m_draggables_visible = draggables_visible;
     if (!m_draggables_visible)
-      m_draggables_visible_hint.start(6.7f);
+      m_draggables_visible_hint_timer.start(6.7f);
   }
 
   /**
@@ -272,7 +272,7 @@ private:
   SurfacePtr m_bgr_surface;
 
   bool m_draggables_visible;
-  Timer m_draggables_visible_hint;
+  Timer m_draggables_visible_hint_timer;
 
   SpritePtr m_test_icon;
 
