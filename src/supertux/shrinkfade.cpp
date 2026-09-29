@@ -64,5 +64,5 @@ ShrinkFade::draw(DrawingContext& context)
 bool
 ShrinkFade::done() const
 {
-  return m_fade_timer.get_progress() >= 1.0f;
+  return m_fade_timer.done();
 }
