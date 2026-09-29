@@ -129,10 +129,6 @@ public:
    */
   void reload_tileset_from_level();
 
-  void edit_path(PathGameObject* path, GameObject* new_marked_object) {
-    m_overlay_widget->edit_path(path, new_marked_object);
-  }
-
   EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
   EditorProject* get_project() const { return m_project.get(); }
   EditorEventHandling* get_event_handling() const { return m_event_handling.get(); }
