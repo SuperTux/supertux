@@ -265,15 +265,16 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         else
         {
+          auto overlay_widget = m_editor.get_overlay_widget();
           TileMap *tilemap = m_layer_icons[m_hovered_layer]->get_layer_tilemap();
           if (tilemap) {
             set_selected_tilemap(tilemap);
-            m_editor.edit_path(tilemap->get_path_gameobject(), tilemap);
+            overlay_widget->edit_object_path(tilemap);
             m_editor.set_selected_object(tilemap);
           } else {
             auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->get_layer());
             if (cam) {
-              m_editor.edit_path(cam->get_path_gameobject(), cam);
+              overlay_widget->edit_object_path(cam);
               m_editor.set_selected_object(cam);
             }
           }
