@@ -411,11 +411,10 @@ Editor::open_particle_editor()
   std::unique_ptr<Screen> screen(new ParticleEditor());
   ScreenManager::current()->push_screen(std::move(screen));
 
-  auto particle_editor_filename = m_project->get_particle_editor_filename();
-  if (particle_editor_filename != nullptr)
+  auto particle_system_path = m_project->get_particle_editor_filepath();
+  if (particle_system_path != nullptr)
   {
-    auto particle_system_path = FileSystem::join("particles", *particle_editor_filename);
-    ParticleEditor::current()->open(particle_system_path);
+    ParticleEditor::current()->open(*particle_system_path);
   }
 }
 
