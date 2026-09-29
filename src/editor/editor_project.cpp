@@ -50,7 +50,7 @@ EditorProject::EditorProject() :
   m_level_loaded(),
   m_time_since_last_save(),
   m_post_save_callback(nullptr),
-  m_particle_editor_filename(nullptr)
+  m_particle_editor_filepath(nullptr)
 {
 }
 
