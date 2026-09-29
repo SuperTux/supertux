@@ -21,6 +21,7 @@
 #include "supertux/level_parser.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/world.hpp"
+#include "util/file_system.hpp"
 #include "util/string_util.hpp"
 
 #include <string>
@@ -183,18 +184,39 @@ public:
    * Sets the filename pointer of the particle system that is to be opened in the particle
    * editor
    */
-  void set_particle_editor_filename(std::string* particle_editor_filename) {
-    m_particle_editor_filename = particle_editor_filename;
+  void set_particle_editor_filename(std::string* particle_editor_filename)
+  {
+    if (particle_editor_filename == nullptr)
+    {
+      m_particle_editor_filepath = nullptr;
+      return;
+    }
+    
+    *m_particle_editor_filepath = FileSystem::join("particles", *particle_editor_filename);
   }
 
   /**
    * Gets the filename of the particle system that is supposed to be edited with
    * the particle editor
    */
-   const std::string* get_particle_editor_filename() const
-   {
-     return m_particle_editor_filename;
-   }
+  const std::string get_particle_editor_filename() const
+  {
+    if (m_particle_editor_filepath == nullptr)
+      return "";
+    
+    return FileSystem::basename(*m_particle_editor_filepath);
+  }
+
+  /**
+   * Gets the full filename including directory of the particle system that is
+   * supposed to be edited with the particle editor
+   * @return full filepath to particle system, or nullptr in case filename
+   *         is not set.
+   */
+  const std::string* get_particle_editor_filepath() const
+  {
+    return m_particle_editor_filepath;
+  }
 
   /**
    * Reactivates the editor project after testing a level
@@ -301,5 +323,5 @@ private:
 
   std::function<void ()> m_post_save_callback;
 
-  std::string* m_particle_editor_filename;
+  std::string* m_particle_editor_filepath;
 };
