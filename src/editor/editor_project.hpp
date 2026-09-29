@@ -183,6 +183,15 @@ public:
   void set_sector(Sector* sector);
 
   /**
+   * Set the callback function that gets executed once a sector was set
+   * @param callback Callback function to set.
+   */
+  void set_on_sector_set_callback(std::function<void()> callback)
+  {
+    m_on_sector_set_callback = callback;
+  }
+
+  /**
    * Loads the specified sector and sets some default settings for the sector
    * @param name The name of the sector to load (default: "main")
    */
@@ -351,6 +360,7 @@ private:
 
   std::function<void()> m_on_level_set_callback;
   std::function<void()> m_on_level_file_set_callback;
+  std::function<void()> m_on_sector_set_callback;
 
   std::string* m_particle_editor_filepath;
 };
