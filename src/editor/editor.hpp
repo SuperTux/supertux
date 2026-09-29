@@ -228,7 +228,6 @@ private:
   void draw_selection_border(DrawingContext& context);
 
 private:
-  void set_sector(Sector *sector);
   void reset_level();
 
 public:
