@@ -75,19 +75,6 @@ public:
   inline Vector get_sector_pos() const { return m_sector_pos; }
 
 private:
-  /**
-   * Draws the zoom percentage in the top right corner when it's not 100%
-   * and applies the current zoom percentage
-   * @param DrawingContext Current DrawingContext instance
-   */
-  void draw_zoom_indicator(DrawingContext &);
-
-  /**
-   * Draws help text for autotiling, including the necessary key presses
-   * @param DrawingContext Current DrawingContext instance
-   */
-  void draw_autotile_help(DrawingContext &);
-
   void input_tile(const Vector& pos, uint32_t tile);
   void input_autotile(const Vector& pos, uint32_t tile);
   void input_autotile_erase(const Vector& pos);
@@ -114,6 +101,18 @@ private:
   AutotileSet* get_current_autotileset() const;
   std::string get_autotileset_key_range() const;
 
+  /**
+   * Draws the zoom percentage in the top right corner when it's not 100%
+   * and applies the current zoom percentage
+   * @param DrawingContext Current DrawingContext instance
+   */
+  void draw_zoom_indicator(DrawingContext &);
+
+  /**
+   * Draws help text for autotiling, including the necessary key presses
+   * @param DrawingContext Current DrawingContext instance
+   */
+  void draw_autotile_help(DrawingContext &);
   void draw_tilemap_outer_shading(DrawingContext&);
   void draw_tilemap_border(DrawingContext&);
   void draw_tile_tip(DrawingContext&);
