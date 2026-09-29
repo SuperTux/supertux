@@ -117,9 +117,6 @@ public:
 
   inline bool is_reloading() const { return m_is_reloading; }
   inline bool is_testing_level() const { return m_testing_level; }
-
-  void delete_current_sector();
-
   inline void disable_testing() { m_testing_disabled = true; }
 
   /**
