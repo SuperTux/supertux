@@ -1814,7 +1814,7 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
     {
       if (autotileset)
       {
-        hint_text = fmt::format(fmt::runtime(_("Autotile erasing mode is on (\"{}\")\n{}")), autotileset_name, key_range_hint);
+        hint_text = fmt::format(fmt::runtime(_("Autotile erasing mode is on (\"{}\")")), autotileset_name);
         text_color = EditorOverlayWidget::text_autotile_active_color;
       }
       else
@@ -1825,7 +1825,7 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
     }
     else if (autotileset)
     {
-      hint_text = fmt::format(fmt::runtime(_("Autotile mode is on (\"{}\")\n{}")), autotileset_name, key_range_hint);
+      hint_text = fmt::format(fmt::runtime(_("Autotile mode is on (\"{}\")")), autotileset_name);
       text_color = EditorOverlayWidget::text_autotile_active_color;
     }
     else
@@ -1838,11 +1838,11 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
   {
     if (!events->get_ctrl_pressed())
     {
-      hint_text = fmt::format(fmt::runtime(_("Hold Ctrl to enable autotile erasing\n{}")), key_range_hint);
+      hint_text = _("Hold Ctrl to enable autotile erasing");
     }
     else
     {
-      hint_text = fmt::format(fmt::runtime(_("Release Ctrl to use autotile erasing\n{}")), key_range_hint);
+      hint_text = _("Release Ctrl to use autotile erasing");
     }
     text_color = EditorOverlayWidget::text_autotile_available_color;
   }
@@ -1850,13 +1850,21 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
   {
     if (!events->get_ctrl_pressed())
     {
-      hint_text = fmt::format(fmt::runtime(_("Hold Ctrl to enable autotile\n{}")), key_range_hint);
+      hint_text = _("Hold Ctrl to enable autotile");
     }
     else
     {
-      hint_text = fmt::format(fmt::runtime(_("Release Ctrl to autotile\n{}")), key_range_hint);
+      hint_text = _("Release Ctrl to autotile");
     }
     text_color = EditorOverlayWidget::text_autotile_available_color;
+  }
+
+  auto autotile_error = text_color ==
+    EditorOverlayWidget::text_autotile_error_color;
+
+  if (!autotile_error && m_available_autotilesets.size() > 1)
+  {
+    hint_text += "\n" + key_range_hint;
   }
 
   context.color().draw_text(Resources::normal_font, hint_text, hint_pos, ALIGN_LEFT, LAYER_OBJECTS + 1, text_color);
