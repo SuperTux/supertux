@@ -45,7 +45,6 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_tilegroup_id(0),
   m_objectgroup_id(0),
   m_object_tip(new Tip()),
-  m_active_tilegroup(),
   m_active_objectgroup(),
   m_object_info(new ObjectInfo()),
   m_on_select_callback([](EditorTilebox&) {}),
@@ -121,7 +120,14 @@ void
 EditorTilebox::draw_tilegroup(DrawingContext& context)
 {
   int pos = -1;
-  for (auto& tile_ID : m_active_tilegroup->tiles)
+  auto active_tilegroup = get_active_tilegroup();
+  
+  if (active_tilegroup == nullptr)
+  {
+    return;
+  }
+  
+  for (auto &tile_ID : active_tilegroup->tiles)
   {
     pos++;
     if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
@@ -130,13 +136,13 @@ EditorTilebox::draw_tilegroup(DrawingContext& context)
     auto position = get_tile_coords(pos, false);
     m_editor.get_project()->get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
 
-    if (g_config->developer_mode && (m_active_tilegroup->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
+    if (g_config->developer_mode && (active_tilegroup->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
     {
       // Display tile ID on top of tile:
       context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
                                 position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
     }
-  }
+    }
 }
 
 void
@@ -189,18 +195,25 @@ void
 EditorTilebox::update_selection()
 {
   Rectf select = normalize_selection(true);
+  auto active_tilegroup = get_active_tilegroup();
+  
+  if (active_tilegroup == nullptr)
+  {
+    return;
+  }
+
   m_tiles->m_tiles.clear();
   m_tiles->m_width = static_cast<int>(select.get_width() + 1);
   m_tiles->m_height = static_cast<int>(select.get_height() + 1);
 
-  int size = static_cast<int>(m_active_tilegroup->tiles.size());
+  int size = static_cast<int>(active_tilegroup->tiles.size());
   for (int y = static_cast<int>(select.get_top()); y <= static_cast<int>(select.get_bottom()); y++)
   {
     for (int x = static_cast<int>(select.get_left()); x <= static_cast<int>(select.get_right()); x++)
     {
       int tile_pos = (y + static_cast<int>(m_scroll_progress / 32.f)) * 4 + x;
       if (tile_pos < size && tile_pos >= 0)
-        m_tiles->m_tiles.push_back(m_active_tilegroup->tiles[tile_pos]);
+        m_tiles->m_tiles.push_back(active_tilegroup->tiles[tile_pos]);
       else
         m_tiles->m_tiles.push_back(0);
     }
@@ -238,10 +251,16 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             m_dragging = true;
             m_drag_start = Vector(static_cast<float>(m_hovered_tile % 4),
                                   static_cast<float>(m_hovered_tile / 4)); // NOLINT
+            auto active_tilegroup = get_active_tilegroup();
 
-            int size = static_cast<int>(m_active_tilegroup->tiles.size());
+            if (active_tilegroup == nullptr)
+            {
+              break;
+            }
+
+            int size = static_cast<int>(active_tilegroup->tiles.size());
             if (m_hovered_tile < size && m_hovered_tile >= 0)
-              m_tiles->set_tile(m_active_tilegroup->tiles[m_hovered_tile]);
+              m_tiles->set_tile(active_tilegroup->tiles[m_hovered_tile]);
             else
               m_tiles->set_tile(0);
           }
@@ -397,7 +416,6 @@ EditorTilebox::on_select(const std::function<void(EditorTilebox&)>& callback)
 void
 EditorTilebox::select_tilegroup(int id)
 {
-  m_active_tilegroup.reset(new Tilegroup(m_editor.get_project()->get_tileset()->get_tilegroups()[id]));
   m_tilegroup_id = id;
   m_editor.set_input_mode(InputMode::TILE);
   reset_scrollbar();
@@ -443,6 +461,16 @@ EditorTilebox::change_tilegroup(int dir)
     m_tilegroup_id = 0;
 
   select_last_tilegroup();
+}
+
+const Tilegroup* 
+EditorTilebox::get_active_tilegroup() const
+{
+  auto tileset = m_editor.get_project()->get_tileset();
+  if (m_tilegroup_id < 0 || m_tilegroup_id >= tileset->get_tilegroups().size())
+    return nullptr;
+
+  return &(tileset->get_tilegroups()[m_tilegroup_id]);
 }
 
 void
@@ -503,7 +531,10 @@ EditorTilebox::get_tiles_height() const
   switch (input_mode)
   {
     case InputMode::TILE:
-      return ceilf(static_cast<float>(m_active_tilegroup->tiles.size()) / 4.f) * 32.f;
+    {
+      auto active_tilegroup = get_active_tilegroup();
+      return active_tilegroup ? ceilf((active_tilegroup->tiles.size() * 1.f) / 4.f) * 32.f : 0.f;
+    }
 
     case InputMode::OBJECT:
       return ceilf(static_cast<float>(m_active_objectgroup->get_icons().size()) / 4.f) * 32.f;

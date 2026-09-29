@@ -73,7 +73,9 @@ public:
 
   void select_tilegroup(int id);
   void select_last_tilegroup();
-  inline void set_tilegroup(std::unique_ptr<Tilegroup> tilegroup) { m_active_tilegroup = std::move(tilegroup); }
+
+  const Tilegroup* get_active_tilegroup() const;
+
   void select_objectgroup(int id);
   void select_last_objectgroup();
   bool select_layers_objectgroup();
@@ -131,7 +133,6 @@ private:
   std::string m_selected_object_class_name;
   std::unique_ptr<Tip> m_object_tip;
 
-  std::unique_ptr<Tilegroup> m_active_tilegroup;
   ObjectGroup* m_active_objectgroup;
   std::unique_ptr<ObjectInfo> m_object_info;
   int m_tilegroup_id, m_objectgroup_id;
