@@ -113,6 +113,12 @@ Editor::Editor() :
     m_layers_widget->refresh();
     set_selected_object(nullptr);
   });
+
+  m_project->set_on_tileset_reloaded_callback([this]()
+  {
+    set_input_mode(InputMode::TILE);
+    m_toolbox_widget->get_tilebox().select_tilegroup(0);
+  });
 }
 
 Editor::~Editor()
@@ -540,14 +546,6 @@ Editor::event(const SDL_Event& ev)
   {
     log_warning << "error while processing Editor::event(): " << err.what() << std::endl;
   }
-}
-
-void
-Editor::reload_tileset_from_level()
-{
-  set_input_mode(InputMode::TILE);
-  m_project->reload_tileset_from_level();
-  m_toolbox_widget->get_tilebox().select_tilegroup(0);
 }
 
 void
