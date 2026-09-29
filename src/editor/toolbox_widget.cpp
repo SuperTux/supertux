@@ -408,15 +408,7 @@ EditorToolboxWidget::setup()
 void
 EditorToolboxWidget::select_tilegroup(int id)
 {
-  // TODO: current InputMode should not be part of m_tilebox,
-  // nor ToolbarWidget, this is central to the editor, so move
-  // to Editor class  
-  // dumb hack around dumb design...
-  if (m_editor.get_input_mode() != InputMode::TILE)
-  {
-    m_editor.get_toolbar_widget()->set_mode(InputMode::TILE);
-  }
-
+  m_editor.set_input_mode(InputMode::TILE);
   m_tilebox->select_tilegroup(id);
   update_mouse_icon();
 }
@@ -424,11 +416,7 @@ EditorToolboxWidget::select_tilegroup(int id)
 void
 EditorToolboxWidget::select_objectgroup(int id)
 {
-  // dumb hack around dumb design...
-  if (m_editor.get_input_mode() != InputMode::OBJECT)
-  {
-    m_editor.get_toolbar_widget()->set_mode(InputMode::OBJECT);
-  }
+  m_editor.set_input_mode(InputMode::OBJECT);
   m_tilebox->select_objectgroup(id);
   update_mouse_icon();
 }
