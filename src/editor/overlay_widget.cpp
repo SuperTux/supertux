@@ -1408,43 +1408,62 @@ EditorOverlayWidget::get_autotileset_key_range() const
 }
 
 void
+EditorOverlayWidget::draw_tile_grid(DrawingContext& context) const
+{
+  if (!g_config->editor_render_grid)
+  {
+    return;
+  }
+
+  auto snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
+  draw_tile_grid(context, snap_grid_size);
+}
+
+void
 EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
+  if (m_editor.get_input_mode() != InputMode::TILE)
+  {
+    return;
+  }
+
+  auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
+  if (!tilemap)
+  {
+    return;
+  }
+
   auto editor_project = m_editor.get_project();
   auto tileset = editor_project->get_tileset();
+  auto tiles = m_editor.get_selected_tiles();
 
-  if (m_editor.get_input_mode() == InputMode::TILE)
+  if (tiles->empty())
   {
-    auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
-    if (!tilemap) return;
+    return;
+  }
 
-    auto tiles = m_editor.get_selected_tiles();
+  const Vector screen_corner = context.get_cliprect().p2();
+  Vector drawn_tile(0.f, 0.f);
 
-    if (tiles->empty()) return;
-
-    const Vector screen_corner = context.get_cliprect().p2();
-    Vector drawn_tile(0.f, 0.f);
-
-    for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--)
+  for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--)
+  {
+    for (drawn_tile.y = static_cast<float>(tiles->m_height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--)
     {
-      for (drawn_tile.y = static_cast<float>(tiles->m_height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--)
-      {
-        Vector on_tile = m_hovered_tile + drawn_tile;
+      Vector on_tile = m_hovered_tile + drawn_tile;
 
-        if (!is_position_inside_tilemap(tilemap, on_tile) ||
-            on_tile.x >= ceilf(screen_corner.x / 32) ||
-            on_tile.y >= ceilf(screen_corner.y / 32))
-        {
-          continue;
-        }
-        uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
-        tileset->get(tile_id).draw(context.color(), align_to_tilemap(on_tile), LAYER_GUI - 11, Color(1, 1, 1, 0.5));
-        //if (tile_id) {
-        //const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
-        //tg_tile->draw(context.color(), tp_to_sp(on_tile),
-        //              LAYER_GUI-11, Color(1, 1, 1, 0.5));
-        //}
+      if (!is_position_inside_tilemap(tilemap, on_tile) ||
+          on_tile.x >= ceilf(screen_corner.x / 32) ||
+          on_tile.y >= ceilf(screen_corner.y / 32))
+      {
+        continue;
       }
+      uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
+      tileset->get(tile_id).draw(context.color(), align_to_tilemap(on_tile), LAYER_GUI - 11, Color(1, 1, 1, 0.5));
+      //if (tile_id) {
+      //const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
+      //tg_tile->draw(context.color(), tp_to_sp(on_tile),
+      //              LAYER_GUI-11, Color(1, 1, 1, 0.5));
+      //}
     }
   }
 }
@@ -1485,7 +1504,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
 }
 
 void
-EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size, bool draw_shadow) const
+EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size) const
 {
   auto current_tm = m_editor.get_layers_widget()->get_selected_tilemap();
   if (current_tm == nullptr) return;
@@ -1508,44 +1527,61 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size, bool
     context.color().draw_line(from, to, col, current_tm->get_layer());
   };
 
-  if (draw_shadow)
+  auto origin = tile_screen_pos(Vector(0, 0));
+  Vector viewport_scale = VideoSystem::current()->get_viewport().get_scale();
+  const Color shadow_colour(0.0f, 0.0f, 0.0f, 0.05f);
+  const Vector shadow_offset(1.0f / viewport_scale.x,
+    1.0f / viewport_scale.y);
+  for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++)
   {
-    Vector viewport_scale = VideoSystem::current()->get_viewport().get_scale();
-    const Color shadow_colour(0.0f, 0.0f, 0.0f, 0.05f);
-    const Vector shadow_offset(1.0f / viewport_scale.x,
-      1.0f / viewport_scale.y);
-    for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++)
+    line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f),
+      tile_size) + shadow_offset;
+    line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y),
+      tile_size) + shadow_offset;
+    bool is_border = (int)(line_start.x - origin.x - shadow_offset.x) % 32 == 0;
+
+    if (!is_border)
     {
-      line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f),
-        tile_size) + shadow_offset;
-      line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y),
-        tile_size) + shadow_offset;
-      draw_line(line_start, line_end, shadow_colour);
+      continue;
     }
 
-    for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++)
+    draw_line(line_start, line_end, shadow_colour);
+  }
+
+  for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++)
+  {
+    line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)),
+      tile_size) + shadow_offset;
+    line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)),
+      tile_size) + shadow_offset;
+    bool is_border = ((int)(line_start.y - origin.y - shadow_offset.y)) % 32 == 0;
+    
+    if (!is_border)
     {
-      line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)),
-        tile_size) + shadow_offset;
-      line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)),
-        tile_size) + shadow_offset;
-      draw_line(line_start, line_end, shadow_colour);
+      continue;
     }
+    
+    draw_line(line_start, line_end, shadow_colour);
   }
 
   const Color line_color(1.f, 1.f, 1.f, 0.2f);
+  const Color line_color_tile_border(1.f, 1.f, 1.f, 0.4f);
   for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++)
   {
     line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f), tile_size);
     line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y), tile_size);
-    draw_line(line_start, line_end, line_color);
+    bool is_border = (int)(line_start.x - origin.x) % 32 == 0;
+    auto color = is_border ? line_color_tile_border : line_color;
+    draw_line(line_start, line_end, color);
   }
 
   for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++)
   {
     line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)), tile_size);
     line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)), tile_size);
-    draw_line(line_start, line_end, line_color);
+    bool is_border = (int)(line_start.y - origin.y) % 32 == 0;
+    auto color = is_border ? line_color_tile_border : line_color;
+    draw_line(line_start, line_end, color);
   }
 }
 
@@ -1649,16 +1685,7 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
 void
 EditorOverlayWidget::draw(DrawingContext& context)
 {
-  if (g_config->editor_render_grid)
-  {
-    draw_tile_grid(context, 32, true);
-    auto snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-    if (snap_grid_size != 32)
-    {
-      draw_tile_grid(context, snap_grid_size, false);
-    }
-  }
-
+  draw_tile_grid(context);
   draw_tilemap_outer_shading(context);
   draw_tilemap_border(context);
 
