@@ -322,26 +322,6 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 }
 
 void
-Editor::delete_current_sector()
-{
-  auto level = m_project->get_level();
-  auto& sectors = level->m_sectors;
-
-  if (sectors.size() <= 1) {
-    log_fatal << "Deleting the last sector is not allowed." << std::endl;
-  }
-
-  for (auto i = sectors.begin(); i != sectors.end(); ++i) {
-    if ( i->get() == m_project->get_sector() ) {
-      sectors.erase(i);
-      break;
-    }
-  }
-
-  m_project->set_sector(sectors.front().get());
-}
-
-void
 Editor::on_level_set()
 {
   m_is_reloading = false;
