@@ -582,8 +582,8 @@ Editor::event(const SDL_Event& ev)
 void
 Editor::reload_tileset_from_level()
 {
-  m_project->reload_tileset_from_level();
   set_input_mode(InputMode::TILE);
+  m_project->reload_tileset_from_level();
   m_toolbox_widget->get_tilebox().select_tilegroup(0);
 }
 
