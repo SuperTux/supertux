@@ -5,12 +5,12 @@
     (loops 1)
     (fps 20)
     (images "fatbat-0.png"
-		        "fatbat-1.png"
-		        "fatbat-2.png"
-		        "fatbat-3.png"
-		        "fatbat-4.png"
-		        "fatbat-5.png"
-		        "fatbat-4.png"))
+            "fatbat-1.png"
+            "fatbat-2.png"
+            "fatbat-3.png"
+            "fatbat-4.png"
+            "fatbat-5.png"
+            "fatbat-4.png"))
   (action
     (name "right")
       (hitbox 34 15 32 38)
@@ -24,9 +24,9 @@
     (hitbox 30 15 32 38)
     (fps 30)
     (images "fatbat-4.png"
-		        "fatbat-9.png"
-		        "fatbat-10.png"
-		        "fatbat-11.png"))
+            "fatbat-9.png"
+            "fatbat-10.png"
+            "fatbat-11.png"))
   (action
     (name "right-down")
     (loops 1)
@@ -40,9 +40,9 @@
     (hitbox 30 15 32 38)
     (fps 30)
     (images "fatbat-6.png"
-		        "fatbat-7.png"
-		        "fatbat-8.png"
-		        "fatbat-0.png"))
+            "fatbat-7.png"
+            "fatbat-8.png"
+            "fatbat-0.png"))
   (action
     (name "right-up")
     (loops 1)

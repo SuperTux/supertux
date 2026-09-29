@@ -15,7 +15,7 @@
   (action
     (name "right")
     (hitbox 5 8 32 32)
-	  (fps 12)
+    (fps 12)
     (mirror-action "left")
   )
 

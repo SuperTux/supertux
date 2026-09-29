@@ -20,8 +20,8 @@
 		        "spidermite-9.png"
 		        "spidermite-7.png"
 		        "spidermite-8.png"
-		        "spidermite-9.png")
-  )
+		        "spidermite-9.png"))
+
   (action
     (name "dive")
     (hitbox 36 16 48 54)
@@ -30,8 +30,8 @@
     (images "spidermite-0.png"
 		        "spidermite-1.png"
 		        "spidermite-2.png"
-		        "spidermite-3.png")
-  )
+		        "spidermite-3.png"))
+
   (action
     (name "rebound")
     (hitbox 36 16 48 54)
@@ -43,11 +43,10 @@
 		        "spidermite-6.png"
 		        "spidermite-7.png"
 		        "spidermite-8.png"
-		        "spidermite-9.png")
-  )
-    (action
+		        "spidermite-9.png"))
+
+  (action
     (name "squished")
     (hitbox 36 16 48 47)
-    (images "squished.png")
-    )
-  )
+    (images "squished.png"))
+)

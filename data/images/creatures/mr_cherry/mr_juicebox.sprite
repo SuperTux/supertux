@@ -7,7 +7,7 @@
             "juicebox2.png"
             "juicebox3.png"
             "juicebox4.png"
-	          "juicebox6.png"))
+            "juicebox6.png"))
   (action
     (name "right")
     (fps 10)

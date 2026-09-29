@@ -5,12 +5,12 @@
     (hitbox 14 19 32 32)
     (images "left-0.png"
             "left-1.png"
-        "left-2.png"
-        "left-3.png"
-        "left-4.png"
-        "left-5.png"
-        "left-6.png"
-        "left-7.png"))
+            "left-2.png"
+            "left-3.png"
+            "left-4.png"
+            "left-5.png"
+            "left-6.png"
+            "left-7.png"))
   (action
     (name "right")
     (fps 12.0)
@@ -32,12 +32,12 @@
     (hitbox 14 19 32 32)
     (images "chase-0.png"
             "chase-1.png"
-        "chase-2.png"
-        "chase-3.png"
-        "chase-4.png"
-        "chase-5.png"
-        "chase-6.png"
-        "chase-7.png"))
+            "chase-2.png"
+            "chase-3.png"
+            "chase-4.png"
+            "chase-5.png"
+            "chase-6.png"
+            "chase-7.png"))
   (action
     (name "ticking-right")
     (fps 20.0)
@@ -50,19 +50,19 @@
     (fps 20.0)
     (hitbox 14 19 32 32)
     (images "triggered-0.png"
-        "triggered-0.png"
-        "triggered-0.png"
-        "triggered-0.png"
-        "triggered-1.png"
-        "triggered-2.png"
-        "triggered-3.png"
-        "triggered-4.png"
-        "triggered-5.png"
-        "triggered-6.png"
-        "triggered-7.png"
-        "triggered-6.png"
-        "triggered-7.png"
-        "triggered-8.png"))
+            "triggered-0.png"
+            "triggered-0.png"
+            "triggered-0.png"
+            "triggered-1.png"
+            "triggered-2.png"
+            "triggered-3.png"
+            "triggered-4.png"
+            "triggered-5.png"
+            "triggered-6.png"
+            "triggered-7.png"
+            "triggered-6.png"
+            "triggered-7.png"
+            "triggered-8.png"))
   (action
     (name "active-right")
     (loops 1)
@@ -92,9 +92,9 @@
     (fps 20.0)
     (hitbox 14 19 32 32)
     (images "jump-0.png"
-        "jump-1.png"
-        "jump-2.png"
-        "jump-3.png"))
+            "jump-1.png"
+            "jump-2.png"
+            "jump-3.png"))
   (action
     (name "jump-right")
     (loops 1)

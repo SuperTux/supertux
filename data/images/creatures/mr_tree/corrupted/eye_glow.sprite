@@ -2,17 +2,17 @@
   (action
     (hitbox 14 10 62 78)
     (name "left")
-	  (fps 12)
+    (fps 12)
     (images 
       "eye_glow-0.png"
-	    "eye_glow-1.png"
-	    "eye_glow-2.png"
-	    "eye_glow-3.png"
-	    "eye_glow-4.png"))
+      "eye_glow-1.png"
+      "eye_glow-2.png"
+      "eye_glow-3.png"
+      "eye_glow-4.png"))
   (action
     (hitbox 14 10 62 78)
     (name "right")
-	  (fps 12)
+    (fps 12)
     (mirror-action "left"))
 
   (action
