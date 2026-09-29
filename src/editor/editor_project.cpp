@@ -216,12 +216,12 @@ EditorProject::set_level(std::unique_ptr<Level> level)
 
   m_level_loaded = true;
 
-  load_sector(DEFAULT_SECTOR_NAME);
-
   if (m_on_level_set_callback != nullptr)
   {
     m_on_level_set_callback();
   }
+
+  load_sector(DEFAULT_SECTOR_NAME);
 }
 
 bool
