@@ -386,8 +386,6 @@ Editor::reset_level()
   m_project->reset();
   m_project->set_level(nullptr);
 
-  m_is_reloading = false;
-
   MouseCursor::current()->set_icon(nullptr);
 }
 
