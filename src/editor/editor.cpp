@@ -104,6 +104,9 @@ Editor::Editor() :
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
   m_widgets.push_back(std::move(toolbar_widget));
+
+  m_project->set_on_level_set_callback([this]() { on_level_set(); });
+  m_project->set_on_level_file_set_callback([this]() { reload_level(); });
 }
 
 Editor::~Editor()
@@ -345,11 +348,8 @@ Editor::delete_current_sector()
 }
 
 void
-Editor::set_level(std::unique_ptr<Level> level)
+Editor::on_level_set()
 {
-  m_project->set_level(std::move(level));
-  m_project->load_sector(DEFAULT_SECTOR_NAME);
-
   m_is_reloading = false;
   m_enabled = true;
 
@@ -367,19 +367,12 @@ Editor::set_level(std::unique_ptr<Level> level)
 }
 
 void
-Editor::set_level_file(const std::string& level_file)
-{
-  m_project->set_level_file(level_file);
-  reload_level();
-}
-
-void
 Editor::reload_level()
 {
   m_is_reloading = true;
 
   auto level = m_project->get_editable_level();
-  set_level(std::move(level));
+  m_project->set_level(std::move(level));
 
   try
   {
@@ -398,11 +391,11 @@ void
 Editor::reset_level()
 {
   m_project->reset();
+  m_project->set_level(nullptr);
 
   m_is_reloading = false;
 
   MouseCursor::current()->set_icon(nullptr);
-  set_level(nullptr);
 }
 
 void
@@ -495,7 +488,7 @@ Editor::reactivate_after_menu_close()
       selected_object->check_state();
     }
   }
-  
+
   m_enabled = true;
 
   Tile::draw_editor_images = true;

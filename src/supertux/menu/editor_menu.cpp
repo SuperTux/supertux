@@ -236,8 +236,8 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_CLOSELEVEL:
-      editor_project->check_unsaved_changes([editor] {
-        editor->set_level(nullptr);
+      editor_project->check_unsaved_changes([editor_project] {
+        editor_project->set_level(nullptr);
         MenuManager::instance().clear_menu_stack();
       });
       break;
