@@ -69,7 +69,12 @@ public:
   void update_node_iterators();
   void on_level_change();
 
-  void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
+  /**
+   * Edits the path of an object
+   * @note The path must inherit from the `PathObject` class in order for it to work 
+   * @param object The object whose path to edit
+   */
+  void edit_object_path(GameObject* object = nullptr);
   //void reset_action_press();
 
   inline Vector get_sector_pos() const { return m_sector_pos; }
