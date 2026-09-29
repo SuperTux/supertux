@@ -84,7 +84,7 @@ Editor::Editor() :
   m_input_mode(InputMode::NONE),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_draggables_visible(true),
-  m_draggables_visible_hint(),
+  m_draggables_visible_hint_timer(),
   m_script_manager(),
   m_on_exit_callback(nullptr),
   m_test_position(std::nullopt),
@@ -163,14 +163,14 @@ Editor::draw_sector(DrawingContext& context)
 void
 Editor::draw_draggables_hint(DrawingContext& context)
 {
-  if (m_draggables_visible || m_draggables_visible_hint.get_progress() == 1.0f)
+  if (m_draggables_visible || m_draggables_visible_hint_timer.done())
     return;
 
   context.color().draw_text(
     Resources::normal_font,
     _("Note: Draggables are now hidden. Press Ctrl+H to show again."),
     { 16.0f, SCREEN_HEIGHT - 64.f }, ALIGN_LEFT, LAYER_OBJECTS+1,
-    Color(1.0f, 1.0f, 0.6f, (1.0f - m_draggables_visible_hint.get_progress())));
+    Color(1.0f, 1.0f, 0.6f, (1.0f - m_draggables_visible_hint_timer.get_progress())));
 }
 
 void
