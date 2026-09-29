@@ -226,6 +226,11 @@ public:
    */
   void reload_tileset_from_level();
 
+  void set_on_tileset_reloaded_callback(std::function<void()> callback)
+  {
+    m_on_tileset_reloaded_callback = callback;
+  }
+
   /**
    * Sets the filename pointer of the particle system that is to be opened in the particle
    * editor
@@ -372,6 +377,7 @@ private:
   std::function<void()> m_on_level_set_callback;
   std::function<void()> m_on_level_file_set_callback;
   std::function<void()> m_on_sector_set_callback;
+  std::function<void()> m_on_tileset_reloaded_callback;
 
   std::string* m_particle_editor_filepath;
 };

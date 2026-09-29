@@ -119,12 +119,6 @@ public:
   inline bool is_testing_level() const { return m_testing_level; }
   inline void disable_testing() { m_testing_disabled = true; }
 
-  /**
-   * Reloads the tileset from the level definition
-   * after it was changed in the Level settings.
-   */
-  void reload_tileset_from_level();
-
   EditorTileConverter* get_tile_converter() const { return m_tile_converter.get(); }
   EditorProject* get_project() const { return m_project.get(); }
   EditorEventHandling* get_event_handling() const { return m_event_handling.get(); }
