@@ -53,6 +53,7 @@ EditorProject::EditorProject() :
   m_on_level_set_callback(nullptr),
   m_on_level_file_set_callback(nullptr),
   m_on_sector_set_callback(nullptr),
+  m_on_tileset_reloaded_callback(nullptr),
   m_particle_editor_filepath(nullptr)
 {
 }
@@ -461,6 +462,11 @@ EditorProject::reload_tileset_from_level()
   auto tileset = TileManager::current()->get_tileset(tileset_path);
 
   set_tileset(tileset);
+
+  if (m_on_tileset_reloaded_callback != nullptr)
+  {
+    m_on_tileset_reloaded_callback();
+  }
 }
 
 void

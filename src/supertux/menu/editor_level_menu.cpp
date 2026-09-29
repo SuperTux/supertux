@@ -71,7 +71,7 @@ EditorLevelMenu::~EditorLevelMenu()
 
   try
   {
-    editor->reload_tileset_from_level();
+    editor_project->reload_tileset_from_level();
   }
   catch(std::exception& e)
   {
