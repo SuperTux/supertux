@@ -123,9 +123,10 @@ EditorTileConverter::focus_on_tile(Sector* sector, TileMap* tilemap, int pos)
     return;
 
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
   auto layers_widget = editor->get_layers_widget();
 
-  editor->set_sector(sector);
+  editor_project->set_sector(sector);
   layers_widget->set_selected_tilemap(tilemap);
 
   const int width = tilemap->get_width();

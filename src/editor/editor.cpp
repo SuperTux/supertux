@@ -107,6 +107,12 @@ Editor::Editor() :
 
   m_project->set_on_level_set_callback([this]() { on_level_set(); });
   m_project->set_on_level_file_set_callback([this]() { reload_level(); });
+
+  m_project->set_on_sector_set_callback([this]()
+  {
+    m_layers_widget->refresh();
+    set_selected_object(nullptr);
+  });
 }
 
 Editor::~Editor()
@@ -258,8 +264,7 @@ Editor::update(float dt_sec, const Controller& controller)
   const GameObject* selected_object = m_selected_object.get();
   if (!selected_object)
   {
-    m_selected_object = 0;
-    m_properties_panel->clear();
+    set_selected_object(nullptr);
   }
 
   // Update other components.
@@ -317,17 +322,6 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 }
 
 void
-Editor::set_sector(Sector* sector)
-{
-  if (!sector) return;
-
-  m_project->set_sector(sector);
-
-  m_layers_widget->refresh();
-  set_selected_object(nullptr);
-}
-
-void
 Editor::delete_current_sector()
 {
   auto level = m_project->get_level();
@@ -344,7 +338,7 @@ Editor::delete_current_sector()
     }
   }
 
-  set_sector(sectors.front().get());
+  m_project->set_sector(sectors.front().get());
 }
 
 void
@@ -358,7 +352,6 @@ Editor::on_level_set()
   set_input_mode(InputMode::TILE);
 
   m_script_manager.clear_tmp();
-  m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
 
