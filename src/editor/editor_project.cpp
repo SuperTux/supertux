@@ -52,6 +52,7 @@ EditorProject::EditorProject() :
   m_post_save_callback(nullptr),
   m_on_level_set_callback(nullptr),
   m_on_level_file_set_callback(nullptr),
+  m_on_sector_set_callback(nullptr),
   m_particle_editor_filepath(nullptr)
 {
 }
@@ -388,6 +389,11 @@ EditorProject::set_sector(Sector* sector)
     for(auto& object : m_sector->get_objects()) {
       object->after_editor_set();
     }
+  }
+
+  if (m_on_sector_set_callback != nullptr)
+  {
+    m_on_sector_set_callback();
   }
 }
 
