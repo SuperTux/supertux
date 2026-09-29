@@ -198,6 +198,17 @@ public:
   void load_sector(const std::string& name = DEFAULT_SECTOR_NAME);
 
   /**
+   * Deletes the current sector
+   */
+  void delete_current_sector();
+
+  /**
+   * Deletes the specified sector
+   * @param sector Sector to delete
+   */
+  void delete_sector(Sector *sector);
+
+  /**
    * Returns the tileset of the current level
    * @return Returns the current level's tileset
    */

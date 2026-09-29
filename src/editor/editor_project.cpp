@@ -405,10 +405,8 @@ EditorProject::load_sector(const std::string& name)
     return;
   }
 
-  auto sector_name = name;
-
   // First pass: Load sector with specified name.
-  auto sector = m_level->get_sector(sector_name);
+  auto sector = m_level->get_sector(name);
 
   // Second pass: Sector with the specified name does not exist.
   // Load first sector available
@@ -423,6 +421,37 @@ EditorProject::load_sector(const std::string& name)
   sector->get_camera().set_mode(Camera::Mode::FREE);
 
   set_sector(sector);
+}
+
+void
+EditorProject::delete_current_sector()
+{
+  delete_sector(get_sector());
+}
+
+void
+EditorProject::delete_sector(Sector* sector)
+{
+  if(sector == nullptr)
+  {
+    return;
+  }
+
+  auto level = get_level();
+  auto& sectors = level->m_sectors;
+
+  if (sectors.size() <= 1) {
+    log_fatal << "Deleting the last sector is not allowed." << std::endl;
+  }
+
+  for (auto i = sectors.begin(); i != sectors.end(); ++i) {
+    if (i->get() == sector) {
+      sectors.erase(i);
+      break;
+    }
+  }
+
+  set_sector(sectors.front().get());
 }
 
 void
