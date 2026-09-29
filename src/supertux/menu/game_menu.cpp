@@ -137,8 +137,12 @@ GameMenu::menu_action(MenuItem& item)
           if (level_file.empty())
             return editor;
 
-          editor->get_project()->set_world(World::from_directory(FileSystem::strip_leading_dirs(return_to)));
-          editor->set_level_file(FileSystem::basename(level_file));
+          auto editor_project = editor->get_project();
+          auto world = World::from_directory(FileSystem::strip_leading_dirs(return_to));
+          auto level = FileSystem::basename(level_file);
+
+          editor_project->set_world(std::move(world));
+          editor_project->set_level_file(level);
           editor->update(0, Controller());
           editor->set_on_exit_callback([return_to]() {
             // Same as last comment... This restarts the previous level

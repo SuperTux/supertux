@@ -86,7 +86,24 @@ public:
   /**
    * Sets the filename of the current level
    */
-  inline void set_level_file(const std::string& levelfile) { m_level_filename = levelfile; }
+  inline void set_level_file(const std::string& levelfile)
+  { 
+    m_level_filename = levelfile;
+
+    if (m_on_level_file_set_callback != nullptr)
+    {
+      m_on_level_file_set_callback();
+    }
+  }
+
+  /**
+   * Sets the callback function that gets executed once a level file was set
+   * @param callback Callback function to set.
+   */
+  void set_on_level_file_set_callback(std::function<void()> callback)
+  {
+    m_on_level_file_set_callback = callback;
+  }
 
   /**
    * Returns the complete path of the current level
@@ -108,6 +125,15 @@ public:
    * @param level The level to set as currently edited level
    */
   void set_level(std::unique_ptr<Level> level);
+
+  /**
+   * Set the callback function that gets executed once a level was set
+   * @param callback Callback function to set.
+   */
+  void set_on_level_set_callback(std::function<void()> callback)
+  {
+    m_on_level_set_callback = callback;
+  }
 
   /**
    * Reloads the current level from the latest autosave
@@ -322,6 +348,9 @@ private:
   float m_time_since_last_save;
 
   std::function<void ()> m_post_save_callback;
+
+  std::function<void()> m_on_level_set_callback;
+  std::function<void()> m_on_level_file_set_callback;
 
   std::string* m_particle_editor_filepath;
 };

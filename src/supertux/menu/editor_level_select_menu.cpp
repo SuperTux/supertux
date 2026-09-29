@@ -156,7 +156,7 @@ EditorLevelSelectMenu::open_level(const std::string& filename)
   if (m_world)
     editor_project->set_world(std::move(m_world));
 
-  editor->set_level_file(filename);
+  editor_project->set_level_file(filename);
   MenuManager::instance().clear_menu_stack();
 }
 

@@ -50,6 +50,8 @@ EditorProject::EditorProject() :
   m_level_loaded(),
   m_time_since_last_save(),
   m_post_save_callback(nullptr),
+  m_on_level_set_callback(nullptr),
+  m_on_level_file_set_callback(nullptr),
   m_particle_editor_filepath(nullptr)
 {
 }
@@ -86,7 +88,6 @@ EditorProject::setup()
   else
 #endif
 
-  auto editor = Editor::current();
   const auto& last_edited_level = get_last_edited_level();
 
   if (g_config->editor_remember_last_level && !last_edited_level.empty())
@@ -96,11 +97,11 @@ EditorProject::setup()
     auto world = World::from_directory(last_level_directory);
 
     set_world(std::move(world));
-    editor->set_level_file(last_level_filename);
+    set_level_file(last_level_filename);
   }
   else
   {
-    editor->set_level(nullptr);
+    set_level(nullptr);
     set_last_edited_level("");
   }
 }
@@ -212,6 +213,13 @@ EditorProject::set_level(std::unique_ptr<Level> level)
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
 
   m_level_loaded = true;
+
+  load_sector(DEFAULT_SECTOR_NAME);
+
+  if (m_on_level_set_callback != nullptr)
+  {
+    m_on_level_set_callback();
+  }
 }
 
 bool
@@ -561,11 +569,14 @@ EditorProject::check_unsaved_changes(const std::function<void ()>& action)
         editor->set_enabled(true);
       });
   });
-  dialog->add_button(_("No"), [this, action, editor] {
+
+  dialog->add_button(_("No"), [action, editor] {
     action();
     editor->set_enabled(true);
   });
-  dialog->add_button(_("Cancel"), [editor] {
+
+  dialog->add_button(_("Cancel"), [action, editor] {
+    action();
     editor->set_enabled(true);
   });
 
