@@ -1530,14 +1530,12 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size) cons
   auto origin = tile_screen_pos(Vector(0, 0));
   Vector viewport_scale = VideoSystem::current()->get_viewport().get_scale();
   const Color shadow_colour(0.0f, 0.0f, 0.0f, 0.05f);
-  const Vector shadow_offset(1.0f / viewport_scale.x,
-    1.0f / viewport_scale.y);
+  const Vector shadow_offset = 1.0f / viewport_scale;
+
   for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++)
   {
-    line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f),
-      tile_size) + shadow_offset;
-    line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y),
-      tile_size) + shadow_offset;
+    line_start = tile_screen_pos(Vector(i * 1.f, 0.0f), tile_size) + shadow_offset;
+    line_end = tile_screen_pos(Vector(i * 1.f, end.y), tile_size) + shadow_offset;
     bool is_border = (int)(line_start.x - origin.x - shadow_offset.x) % 32 == 0;
 
     if (!is_border)
@@ -1550,10 +1548,8 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size) cons
 
   for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++)
   {
-    line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)),
-      tile_size) + shadow_offset;
-    line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)),
-      tile_size) + shadow_offset;
+    line_start = tile_screen_pos(Vector(0.0f, i * 1.f), tile_size) + shadow_offset;
+    line_end = tile_screen_pos(Vector(end.x, i * 1.f), tile_size) + shadow_offset;
     bool is_border = ((int)(line_start.y - origin.y - shadow_offset.y)) % 32 == 0;
     
     if (!is_border)
@@ -1568,8 +1564,8 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size) cons
   const Color line_color_tile_border(1.f, 1.f, 1.f, 0.4f);
   for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++)
   {
-    line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f), tile_size);
-    line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y), tile_size);
+    line_start = tile_screen_pos(Vector(i * 1.f, 0.0f), tile_size);
+    line_end = tile_screen_pos(Vector(i * 1.f, end.y), tile_size);
     bool is_border = (int)(line_start.x - origin.x) % 32 == 0;
     auto color = is_border ? line_color_tile_border : line_color;
     draw_line(line_start, line_end, color);
@@ -1577,8 +1573,8 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size) cons
 
   for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++)
   {
-    line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)), tile_size);
-    line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)), tile_size);
+    line_start = tile_screen_pos(Vector(0.0f, i * 1.f), tile_size);
+    line_end = tile_screen_pos(Vector(end.x, i * 1.f), tile_size);
     bool is_border = (int)(line_start.y - origin.y) % 32 == 0;
     auto color = is_border ? line_color_tile_border : line_color;
     draw_line(line_start, line_end, color);
