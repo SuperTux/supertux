@@ -17,6 +17,7 @@
 #include "editor/layers_widget.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/editor_event_handling.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/tilebox.hpp"
@@ -230,6 +231,15 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
   if (button.button == SDL_BUTTON_LEFT)
   {
+    auto editor_events = m_editor.get_event_handling();
+    auto mouse_pos = editor_events->get_mouse_pos();
+    auto add_layer_box_rect = m_add_layer_box->get_rect();
+    if (m_add_layer_box_visible && !add_layer_box_rect.contains(mouse_pos))
+    {
+      m_add_layer_box_visible = false;
+      return true;
+    }
+
     switch (hovered_item)
     {
       case HoveredItem::SECTOR:
@@ -255,7 +265,6 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         else
         {
-          auto properties_panel = m_editor.get_properties_panel();
           TileMap *tilemap = m_layer_icons[m_hovered_layer]->get_layer_tilemap();
           if (tilemap) {
             set_selected_tilemap(tilemap);
