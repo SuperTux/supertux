@@ -1534,24 +1534,18 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size, bool
   }
 
   const Color line_color(1.f, 1.f, 1.f, 0.2f);
-  const Color line_color_tile(1.f, 1.f, 1.f, 0.4f);
-
-  int tile_size_idx = 0;
   for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++)
   {
     line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f), tile_size);
     line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y), tile_size);
-    draw_line(line_start, line_end, tile_size_idx % 32 == 0 ? line_color_tile : line_color);
-    tile_size_idx += tile_size;
+    draw_line(line_start, line_end, line_color);
   }
 
-  tile_size_idx = 0;
   for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++)
   {
     line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)), tile_size);
     line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)), tile_size);
-    draw_line(line_start, line_end, tile_size_idx % 32 == 0 ? line_color_tile : line_color);
-    tile_size_idx += tile_size;
+    draw_line(line_start, line_end, line_color);
   }
 }
 
@@ -1655,7 +1649,16 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
 void
 EditorOverlayWidget::draw(DrawingContext& context)
 {
-  draw_tile_grid(context);
+  if (g_config->editor_render_grid)
+  {
+    draw_tile_grid(context, 32, true);
+    auto snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
+    if (snap_grid_size != 32)
+    {
+      draw_tile_grid(context, snap_grid_size, false);
+    }
+  }
+
   draw_tilemap_outer_shading(context);
   draw_tilemap_border(context);
 
@@ -1727,18 +1730,6 @@ EditorOverlayWidget::draw(DrawingContext& context)
   }
 
   draw_autotile_help(context);
-}
-
-void
-EditorOverlayWidget::draw_tile_grid(DrawingContext& context)
-{
-  if (!g_config->editor_render_grid)
-  {
-    return;
-  }
-
-  auto snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-  draw_tile_grid(context, snap_grid_size, false);
 }
 
 void
