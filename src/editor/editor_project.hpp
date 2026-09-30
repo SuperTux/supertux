@@ -18,6 +18,7 @@
 
 #include "supertux/constants.hpp"
 #include "supertux/level.hpp"
+#include "supertux/levelset.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/world.hpp"
@@ -77,6 +78,12 @@ public:
    * Returns the level directory of the currently edited level
    */
   std::string get_level_directory() const;
+
+  /**
+   * Returns the levels belonging to the specific world
+   * @param parse_level_names If true, will also parse the names of each level in the levelset
+   */
+  std::unique_ptr<Levelset> get_world_levelset(bool parse_level_names);
 
   /**
    * Returns the filename of the current level
