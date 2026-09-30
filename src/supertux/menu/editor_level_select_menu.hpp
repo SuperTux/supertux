@@ -39,7 +39,7 @@ private:
   void initialize();
   void create_level();
   void create_worldmap();
-  void create_item(bool worldmap);
+  void save_item(const std::unique_ptr<Level> level);
 
   World* get_world() const;
 
