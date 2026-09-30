@@ -25,6 +25,7 @@
 #include "physfs/util.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/levelset.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/sector_parser.hpp"
@@ -182,8 +183,7 @@ EditorProject::get_editable_level()
   ReaderMapping::s_translations_enabled = false;
   try
   {
-    auto full_path = get_level_path();
-    level = LevelParser::from_file(full_path, is_worldmap(), true);
+    level = LevelParser::from_file(get_level_path(), is_worldmap(), true);
   }
   catch (const std::exception& err)
   {
@@ -366,6 +366,12 @@ EditorProject::get_level_directory() const
   }
 
   return basedir;
+}
+
+std::unique_ptr<Levelset>
+EditorProject::get_world_levelset(bool parse_level_names)
+{
+  return std::make_unique<Levelset>(get_level_directory(), /* recursively = */ true, parse_level_names);
 }
 
 void
