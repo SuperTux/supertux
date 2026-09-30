@@ -55,7 +55,7 @@ public:
   float get_scale() const { return m_new_scale; }
 
   /**
-   * Sets the scale of the camera
+   * Sets the scale value of the camera
    * @param value Camera scale value
    */
   void set_scale(float value) { m_new_scale = value; }
@@ -73,6 +73,10 @@ public:
    */
   void update(Camera &camera, float dt_sec);
 
+  /**
+   * Applies the new scale level to the camera
+   * @param camera The camera to apply the scale level to
+   */
   void apply_scale(Camera& camera);
 
   /**
