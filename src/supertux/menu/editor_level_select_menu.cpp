@@ -57,9 +57,12 @@ EditorLevelSelectMenu::reload_menu()
 void
 EditorLevelSelectMenu::initialize()
 {
-  World* world = get_world();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  World *world = get_world();
   auto basedir = world->get_basedir();
-  m_levelset = std::unique_ptr<Levelset>(new Levelset(basedir, /* recursively = */ true));
+  
+  m_levelset = editor_project->get_world_levelset(true);
   auto num_levels = m_levelset->get_num_levels();
 
   add_label(world->get_title());
@@ -73,10 +76,11 @@ EditorLevelSelectMenu::initialize()
   {
     for (int i = 0; i < num_levels; ++i)
     {
-      std::string filename = m_levelset->get_level_filename(i);
-      std::string full_filename = FileSystem::join(basedir, filename);
-      std::string title = LevelParser::get_level_name(full_filename);
-      add_entry(i, title);
+      auto level_name = m_levelset->get_level_name(i);
+      if (level_name == nullptr)
+        continue;
+      
+      add_entry(i, *level_name);
     }
   }
 
