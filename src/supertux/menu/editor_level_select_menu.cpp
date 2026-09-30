@@ -59,10 +59,8 @@ EditorLevelSelectMenu::initialize()
 {
   auto editor = Editor::current();
   auto editor_project = editor->get_project();
-  World *world = get_world();
-  auto basedir = world->get_basedir();
-  
-  m_levelset = editor_project->get_world_levelset(true);
+  auto world = get_world();
+  m_levelset = editor_project->get_world_levelset(world, true);
   auto num_levels = m_levelset->get_num_levels();
 
   add_label(world->get_title());
@@ -88,7 +86,7 @@ EditorLevelSelectMenu::initialize()
 
   add_entry(-1, _("Create Level"));
 
-  std::string worldmap_file = FileSystem::join(basedir, "worldmap.stwm");
+  const auto& worldmap_file = world->get_worldmap_filename();
   if (PHYSFS_exists(worldmap_file.c_str())) {
     add_entry(-4, _("Edit Worldmap"));
   } else {

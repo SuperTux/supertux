@@ -80,10 +80,17 @@ public:
   std::string get_level_directory() const;
 
   /**
-   * Returns the levels belonging to the specific world
+   * Returns the levels belonging to the current world
    * @param parse_level_names If true, will also parse the names of each level in the levelset
    */
   std::unique_ptr<Levelset> get_world_levelset(bool parse_level_names);
+
+  /**
+   * Returns the levels belonging to the specific world
+   * @param world The world to get the levels from
+   * @param parse_level_names If true, will also parse the names of each level in the levelset
+   */
+  std::unique_ptr<Levelset> get_world_levelset(World* world, bool parse_level_names);
 
   /**
    * Returns the filename of the current level

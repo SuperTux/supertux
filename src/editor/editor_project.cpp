@@ -374,6 +374,12 @@ EditorProject::get_world_levelset(bool parse_level_names)
   return std::make_unique<Levelset>(get_level_directory(), /* recursively = */ true, parse_level_names);
 }
 
+std::unique_ptr<Levelset>
+EditorProject::get_world_levelset(World* world, bool parse_level_names)
+{
+  return std::make_unique<Levelset>(world->get_basedir(), /* recursively = */ true, parse_level_names);
+}
+
 void
 EditorProject::open_level_directory()
 {
