@@ -73,6 +73,8 @@ public:
    */
   void update(Camera &camera, float dt_sec);
 
+  void apply_scale(Camera& camera);
+
   /**
    * Makes sure that the camera does not exceed window boundaries
    */
