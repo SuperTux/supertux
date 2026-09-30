@@ -44,35 +44,44 @@ EditorCamera::scroll(const Vector& velocity)
 void
 EditorCamera::update(Camera& camera, float dt_sec)
 {
-  auto event_handling = Editor::current()->get_event_handling();
-  auto key_zoomed_pressed = event_handling->get_key_zoomed_pressed();
-  auto mouse_pos = event_handling->get_mouse_pos();
-
   // Ensure camera is free, which is like normal but immune to the camera boundary.
   camera.set_mode(Camera::Mode::FREE);
 
   // If camera scale must be changed, change it here.
-  if (m_new_scale != 0.f)
-  {
-    // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
-    if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
-    {
-      const bool zooming_in = camera.get_current_scale() < m_new_scale;
-
-      camera.set_scale(m_new_scale);
-
-      // When zooming in, focus on the position of the mouse.
-      if (zooming_in && !key_zoomed_pressed && !g_config->editor_zoom_centered)
-        camera.move((mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
-                                        static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
-
-      keep_in_bounds();
-    }
-    event_handling->set_key_zoomed_pressed(false);
-    m_new_scale = 0.f;
-  }
+  apply_scale(camera);
 
   camera.update(dt_sec);
+}
+
+void
+EditorCamera::apply_scale(Camera& camera)
+{
+  if (m_new_scale == 0.f)
+  {
+    return;
+  }
+
+  auto event_handling = Editor::current()->get_event_handling();
+  auto key_zoomed_pressed = event_handling->get_key_zoomed_pressed();
+  auto mouse_pos = event_handling->get_mouse_pos();
+
+  // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
+  if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
+  {
+    const bool zooming_in = camera.get_current_scale() < m_new_scale;
+
+    camera.set_scale(m_new_scale);
+
+    // When zooming in, focus on the position of the mouse.
+    if (zooming_in && !key_zoomed_pressed && !g_config->editor_zoom_centered)
+      camera.move((mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
+                                      static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
+
+    keep_in_bounds();
+  }
+
+  event_handling->set_key_zoomed_pressed(false);
+  m_new_scale = 0.f;
 }
 
 void
