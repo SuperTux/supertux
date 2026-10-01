@@ -21,6 +21,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/notification.hpp"
+#include "physfs/util.hpp"
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -47,13 +48,8 @@ EditorTempSaveAs::EditorTempSaveAs(std::unique_ptr<World> world) :
   add_entry(MNID_SAVE, _("Save"));
   add_back(_("Cancel"));
 
-  std::string dir;
-  int num = 0;
-  do {
-    num++;
-    m_file_name = "level" + std::to_string(num) + ".stl";
-    dir = m_world->get_basedir() + "/" + m_file_name;
-  } while ( PHYSFS_exists(dir.c_str()) );
+  m_file_name = physfsutil::get_first_nonexisting_filename(
+      m_world->get_basedir(), "level", "stl");
 }
 
 EditorTempSaveAs::~EditorTempSaveAs()
