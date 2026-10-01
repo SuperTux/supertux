@@ -49,4 +49,18 @@ bool enumerate_files_alphabetical(const std::string& pathname, std::function<boo
 /** Open directory and call callback for each file recursively (including child directories) */
 bool enumerate_files_recurse(const std::string& pathname, std::function<bool(const std::string&)> callback);
 
+/**
+ * Returns the first non-existing file of a particular pattern, by appending a number {1..n} to it
+ * @param basedir Directory to check the file in
+ * @param file_pattern File name without the extension (for `level.stl`, this would be `level`)
+ * @param extension File extension (for `level.stl`, this would be `.stl`)
+ * @param allow_unnumbered True if we allow a filename without adding a number at the end.
+ * @param file_number Optional out parameter that returns the number appended to the file name
+ * @return Next existing filename, appending 1..n to the filename as necessary
+ * TODO: Needs a better name
+ */
+std::string get_first_nonexisting_filename(const std::string &basedir, const std::string &file_pattern, 
+                                           const std::string &extension, bool allow_unnumbered = false, 
+                                           int* file_number = nullptr);
+
 } // namespace physfsutil
