@@ -38,14 +38,17 @@ LevelParser::get_level_name(const std::string& filename)
     auto doc = ReaderDocument::from_file(filename, 1);
     auto root = doc.get_root();
 
-    if (root.get_name() != "supertux-level") {
+    if (root.get_name() != "supertux-level")
+    {
       return "";
-    } else {
-      auto mapping = root.get_mapping();
-      std::string name;
-      mapping.get("name", name);
-      return name;
     }
+
+    auto mapping = root.get_mapping();
+    
+    std::string name;
+    mapping.get("name", name);
+    
+    return name;
   }
   catch(const std::exception& e)
   {
