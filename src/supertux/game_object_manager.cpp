@@ -289,21 +289,24 @@ GameObjectManager::draw(DrawingContext& context)
 void
 GameObjectManager::flush_game_objects()
 {
-  { // Clean up marked objects.
-    m_gameobjects.erase(
-      std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
-                     [this](const std::unique_ptr<GameObject>& obj) {
-                       if (!obj->is_valid())
-                       {
-                         this_before_object_remove(*obj);
-                         before_object_remove(*obj);
-                         return true;
-                       } else {
-                         return false;
-                       }
-                     }),
-      m_gameobjects.end());
-  }
+  /**
+   * Performs functions before removing object
+   * @param obj Object to check potential removal
+   * @return true if object is supposed to be removed, otherwise false
+   */
+  auto needs_removal = [this](const std::unique_ptr<GameObject> &obj)
+  {
+    if (obj->is_valid())
+      return false;
+
+    this_before_object_remove(*obj);
+    before_object_remove(*obj);
+    return true;
+  };
+
+  // Clean up marked objects.
+  m_gameobjects.erase(
+    std::remove_if(m_gameobjects.begin(), m_gameobjects.end(), needs_removal), m_gameobjects.end());
 
   { // Add newly created objects.
     // Objects might add new objects in finish_construction(), so we
