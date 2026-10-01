@@ -5,21 +5,6 @@ include(InstallRequiredSystemLibraries)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
 
-  #find_package(PNG)
-  # foreach(_file ${PNG_LIBRARIES})
-  #   message(WARNING "Adding ${_file} to installation list...")
-  #   get_filename_component(_resolvedFile "${_file}" REALPATH)
-  #   get_filename_component(_name "${_file}" NAME)
-  #   install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  # endforeach()
-  #find_package(JPEG)
-  # foreach(_file ${JPEG_LIBRARIES})
-  #   message(WARNING "Adding ${_file} to installation list...")
-  #   get_filename_component(_resolvedFile "${_file}" REALPATH)
-  #   get_filename_component(_name "${_file}" NAME)
-  #   install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  # endforeach()
-
   install(RUNTIME_DEPENDENCY_SET supertux2_deps LIBRARY DESTINATION "MacOS")
 
   file(GLOB SUPERTUX_HOMEBREW_LIB_DIRS LIST_DIRECTORIES true
