@@ -47,7 +47,19 @@ public:
     return false;
   }
 
-  inline void set_focus(bool focus) { m_has_focus = focus; }
+  virtual void on_focus() {}
+
+  virtual void on_blur() {}
+
+  inline void set_has_focus(bool focus)
+  {
+    if (m_has_focus == focus)
+      return;
+
+    m_has_focus = focus;
+
+    m_has_focus ? on_focus() : on_blur();
+  }
   inline bool has_focus() const { return m_has_focus; }
 
   inline void set_rect(const Rectf& rect) { m_rect = rect; }
