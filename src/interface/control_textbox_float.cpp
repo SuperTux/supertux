@@ -19,6 +19,8 @@
 #include <string>
 #include <exception>
 
+#include "util/log.hpp"
+
 ControlTextboxFloat::ControlTextboxFloat() :
   ControlTextbox(),
   m_validate_float(),
@@ -49,11 +51,15 @@ ControlTextboxFloat::on_key_down(const SDL_KeyboardEvent& key)
       m_value = &default_value;
     }
 
+    bool shift_pressed = SDL_GetModState() & SDL_KMOD_SHIFT;
+
+    int step_size = shift_pressed ? 10.f : 1.f;
+
     if (key.key == SDLK_DOWN)
-      *m_value = *m_value - 1;
+      *m_value -= step_size;
 
     if (key.key == SDLK_UP)
-      *m_value = *m_value + 1;
+      *m_value += step_size;
 
     revert_value();
 
