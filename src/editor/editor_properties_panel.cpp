@@ -17,6 +17,7 @@
 #include "editor/editor_properties_panel.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/editor_event_handling.hpp"
 #include "interface/control.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_object.hpp"
@@ -106,8 +107,7 @@ EditorPropertiesPanel::has_mouse_focus(const SDL_Event& ev, const Vector& mouse_
 {
   return (ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN ||
           ev.type == SDL_EVENT_MOUSE_BUTTON_UP ||
-          ev.type == SDL_EVENT_MOUSE_WHEEL ||
-          ev.type == SDL_EVENT_MOUSE_MOTION) &&
+          ev.type == SDL_EVENT_MOUSE_WHEEL) &&
          contains_position(mouse_pos);
 }
 
@@ -136,6 +136,12 @@ EditorPropertiesPanel::event(const SDL_Event& ev)
     {
       event_handled = control->has_focus();
     }
+  }
+
+  if (!event_handled)
+  {
+    auto editor_events = Editor::current()->get_event_handling();
+    event_handled = has_mouse_focus(ev, editor_events->get_mouse_pos());
   }
 
   return event_handled;
