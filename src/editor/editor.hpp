@@ -124,7 +124,7 @@ public:
   EditorEventHandling* get_event_handling() const { return m_event_handling.get(); }
 
   void set_selected_object(GameObject *object);
-  const GameObject *get_selected_object() const { return m_selected_object.get(); }
+  GameObject *get_selected_object() const { return m_selected_object.get(); }
 
   void set_test_position(const std::optional<std::pair<std::string, Vector>>& test_position)
   {
