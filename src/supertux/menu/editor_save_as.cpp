@@ -26,11 +26,11 @@
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
 
-EditorSaveAs::EditorSaveAs(bool override_current_filename) :
+EditorSaveAs::EditorSaveAs(bool set_as_current_filename) :
   m_filename(Editor::current()->get_project()->get_level_file()),
-  m_override_current_filename(override_current_filename)
+  m_set_as_current_filename(set_as_current_filename)
 {
-  add_label(override_current_filename ? _("Save Level as") : _("Save Copy"));
+  add_label(set_as_current_filename ? _("Save Level as") : _("Save Copy"));
 
   add_hl();
 
@@ -55,7 +55,7 @@ EditorSaveAs::menu_action(MenuItem& item)
     {
       auto editor = Editor::current();
       auto editor_project = editor->get_project();
-      editor_project->save_level(m_filename, m_override_current_filename);
+      editor_project->save_level(m_filename, m_set_as_current_filename);
       MenuManager::instance().clear_menu_stack();
     }
     break;
