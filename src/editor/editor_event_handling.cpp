@@ -25,6 +25,7 @@
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/moving_object.hpp"
 #include "video/compositor.hpp"
 
 EditorEventHandling::EditorEventHandling() :
@@ -81,6 +82,8 @@ EditorEventHandling::on_event(const SDL_Event& ev)
         editor_camera->set_scroll_speed(16.0f);
       else if (ev.key.mod & SDL_KMOD_RSHIFT)
         editor_camera->set_scroll_speed(96.0f);
+
+      handle_move_input(ev);
 
       if (ev.key.key == SDLK_F6)
       {
@@ -199,6 +202,48 @@ EditorEventHandling::on_event(const SDL_Event& ev)
 }
 
 void
+EditorEventHandling::handle_move_input(const SDL_Event& ev)
+{
+  if(ev.type != SDL_EVENT_KEY_DOWN)
+    return;
+  
+  auto editor = Editor::current();
+  auto selected_object = editor->get_selected_object();
+  
+  if (selected_object == nullptr)
+    return;
+
+  auto moving_object = dynamic_cast<MovingObject *>(selected_object);
+
+  if (moving_object == nullptr)
+    return;
+
+  const auto& object_position = moving_object->get_pos();
+  auto move_increment = m_shift_pressed ? 32 : 1;
+  auto move_vector = Vector();
+  
+  if (ev.key.key == SDLK_LEFT)
+  {
+    move_vector = Vector(-move_increment, 0);
+  }
+  if (ev.key.key == SDLK_RIGHT)
+  {
+    move_vector = Vector(move_increment, 0);
+  }
+  if (ev.key.key == SDLK_UP)
+  {
+    move_vector = Vector(0, -move_increment);
+  }
+  if (ev.key.key == SDLK_DOWN)
+  {
+    move_vector = Vector(0, move_increment);
+  }
+
+  auto target_position = object_position + move_vector;
+  moving_object->set_pos(target_position.x, target_position.y);
+}
+
+void
 EditorEventHandling::reset_state()
 {
   m_ctrl_pressed = false;
@@ -241,19 +286,22 @@ EditorEventHandling::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT] || keys[SDL_SCANCODE_A]) {
-    camera->scroll({ -scroll_speed, 0.0f });
-  }
+  if (editor->get_selected_object() == nullptr)
+  {
+    if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT] || keys[SDL_SCANCODE_A]) {
+      camera->scroll({ -scroll_speed, 0.0f });
+    }
 
-  if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT] || keys[SDL_SCANCODE_D]) {
-    camera->scroll({ scroll_speed, 0.0f });
-  }
+    if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT] || keys[SDL_SCANCODE_D]) {
+      camera->scroll({ scroll_speed, 0.0f });
+    }
 
-  if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP] || keys[SDL_SCANCODE_W]) {
-    camera->scroll({ 0.0f, -scroll_speed });
-  }
+    if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP] || keys[SDL_SCANCODE_W]) {
+      camera->scroll({ 0.0f, -scroll_speed });
+    }
 
-  if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN] || keys[SDL_SCANCODE_S]) {
-    camera->scroll({ 0.0f, scroll_speed });
+    if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN] || keys[SDL_SCANCODE_S]) {
+      camera->scroll({ 0.0f, scroll_speed });
+    }
   }
 }
