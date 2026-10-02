@@ -160,9 +160,9 @@ public:
   void deactivate();
 
   /**
-   * Reloads the current level (e.g. after changing it)
+   * Callback function that gets called after a level file has been set
    */
-  void reload_level();
+  void on_level_file_set();
 
   /**
    * Method that gets called after the editor was reactivated
