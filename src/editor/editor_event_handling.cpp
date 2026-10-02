@@ -46,9 +46,6 @@ EditorEventHandling::on_event(const SDL_Event& ev)
   auto properties_panel = editor->get_properties_panel();
   auto toolbar_widget = editor->get_toolbar_widget();
   auto toolbox_widget = editor->get_toolbox_widget();
-  auto layers_widget = editor->get_layers_widget();
-  auto& camera = editor_project->get_sector()->get_camera();
-  auto editor_camera = editor->get_camera();
   auto history_manager = editor->get_history_manager();
 
   // If properties sidebar controls are active and the mouse is hovering over the sidebar,
@@ -77,13 +74,6 @@ EditorEventHandling::on_event(const SDL_Event& ev)
       m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
       m_shift_pressed = ev.key.mod & SDL_KMOD_SHIFT;
       m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
-
-      if (m_ctrl_pressed)
-        editor_camera->set_scroll_speed(16.0f);
-      else if (ev.key.mod & SDL_KMOD_RSHIFT)
-        editor_camera->set_scroll_speed(96.0f);
-
-      handle_move_input(ev);
 
       if (ev.key.key == SDLK_F6)
       {
@@ -139,20 +129,6 @@ EditorEventHandling::on_event(const SDL_Event& ev)
           case SDLK_PAGEDOWN:
             toolbox_widget->switch_current_group(1);
             break;
-          case SDLK_PLUS: // Zoom in
-          case SDLK_EQUALS:
-          case SDLK_KP_PLUS:
-            m_key_zoomed = true;
-            editor_camera->set_scale(camera.get_current_scale() + CAMERA_ZOOM_SENSITIVITY);
-            break;
-          case SDLK_MINUS: // Zoom out
-          case SDLK_KP_MINUS:
-            m_key_zoomed = true;
-            editor_camera->set_scale(camera.get_current_scale() - CAMERA_ZOOM_SENSITIVITY);
-            break;
-          case SDLK_D: // Reset zoom
-            editor_camera->set_scale(1.0f);
-            break;
           default:
             break;
         }
@@ -163,9 +139,6 @@ EditorEventHandling::on_event(const SDL_Event& ev)
       m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
       m_shift_pressed = ev.key.mod & SDL_KMOD_SHIFT;
       m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
-
-      if (!m_ctrl_pressed && !(ev.key.mod & SDL_KMOD_RSHIFT))
-        editor_camera->set_scroll_speed(32.0f);
     }
     else if (ev.type == SDL_EVENT_PEN_BUTTON_DOWN)
     {
@@ -175,30 +148,10 @@ EditorEventHandling::on_event(const SDL_Event& ev)
     {
       m_pen_down = false;
     }
-    else if (ev.type == SDL_EVENT_MOUSE_WHEEL && !toolbox_widget->has_mouse_focus() && !layers_widget->has_mouse_focus())
-    {
-#if SDL_VERSION_ATLEAST(3, 2, 12)
-      float wheel_x = g_config->precise_scrolling ? ev.wheel.x : ev.wheel.integer_x;
-      float wheel_y = g_config->precise_scrolling ? ev.wheel.y : ev.wheel.integer_y;
-#else
-      float wheel_x = ev.wheel.x;
-      float wheel_y = ev.wheel.y;
-#endif
-      if (g_config->invert_wheel_x)
-        wheel_x *= -1.f;
-
-      if (g_config->invert_wheel_y)
-        wheel_y *= -1.f;
-
-      // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
-      // The toolbox does scrolling independently from the main area.
-      if (m_ctrl_pressed)
-        editor_camera->set_scale(camera.get_current_scale() + wheel_y * CAMERA_ZOOM_SENSITIVITY);
-      else
-        editor_camera->scroll( {(m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1.f : 1.f) : wheel_x) * 40.f,
-                                (m_shift_pressed ? wheel_x : wheel_y) * -40.f });
-    }
   }
+
+  handle_move_input(ev);
+  handle_camera_input(ev);
 }
 
 void
@@ -244,6 +197,80 @@ EditorEventHandling::handle_move_input(const SDL_Event& ev)
 }
 
 void
+EditorEventHandling::handle_camera_input(const SDL_Event& ev)
+{
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  auto& camera = editor_project->get_sector()->get_camera();
+  auto editor_camera = editor->get_camera();
+
+  auto toolbox_widget = editor->get_toolbox_widget();
+  auto layers_widget = editor->get_layers_widget();
+
+  if (ev.type == SDL_EVENT_KEY_DOWN)
+  {
+    if (m_ctrl_pressed)
+      editor_camera->set_scroll_speed(16.0f);
+    else if (ev.key.mod & SDL_KMOD_RSHIFT)
+      editor_camera->set_scroll_speed(96.0f);
+
+    if (m_ctrl_pressed)
+    {
+      switch (ev.key.key)
+      {
+        case SDLK_PLUS: // Zoom in
+        case SDLK_EQUALS:
+        case SDLK_KP_PLUS:
+          m_key_zoomed = true;
+          editor_camera->set_scale(camera.get_current_scale() + CAMERA_ZOOM_SENSITIVITY);
+          break;
+        case SDLK_MINUS: // Zoom out
+        case SDLK_KP_MINUS:
+          m_key_zoomed = true;
+          editor_camera->set_scale(camera.get_current_scale() - CAMERA_ZOOM_SENSITIVITY);
+          break;
+        case SDLK_D: // Reset zoom
+          editor_camera->set_scale(1.0f);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  else if (ev.type == SDL_EVENT_KEY_UP)
+  {
+    if (!m_ctrl_pressed && !(ev.key.mod & SDL_KMOD_RSHIFT))
+      editor_camera->set_scroll_speed(32.0f);
+  }
+  else if (ev.type == SDL_EVENT_MOUSE_WHEEL)
+  {
+    if (toolbox_widget->has_mouse_focus() || layers_widget->has_mouse_focus())
+      return;
+
+#if SDL_VERSION_ATLEAST(3, 2, 12)
+    float wheel_x = g_config->precise_scrolling ? ev.wheel.x : ev.wheel.integer_x;
+    float wheel_y = g_config->precise_scrolling ? ev.wheel.y : ev.wheel.integer_y;
+#else
+    float wheel_x = ev.wheel.x;
+    float wheel_y = ev.wheel.y;
+#endif
+    if (g_config->invert_wheel_x)
+      wheel_x *= -1.f;
+
+    if (g_config->invert_wheel_y)
+      wheel_y *= -1.f;
+
+    // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
+    // The toolbox does scrolling independently from the main area.
+    if (m_ctrl_pressed)
+      editor_camera->set_scale(camera.get_current_scale() + wheel_y * CAMERA_ZOOM_SENSITIVITY);
+    else
+      editor_camera->scroll( {(m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1.f : 1.f) : wheel_x) * 40.f,
+                              (m_shift_pressed ? wheel_x : wheel_y) * -40.f });
+  }
+}
+
+void
 EditorEventHandling::reset_state()
 {
   m_ctrl_pressed = false;
@@ -266,6 +293,9 @@ EditorEventHandling::update_keyboard(const Controller& controller)
   auto properties_panel = editor->get_properties_panel();
 
   if (!editor->has_focus() || properties_panel->has_focus())
+    return;
+
+  if (m_ctrl_pressed || m_alt_pressed || m_shift_pressed)
     return;
 
   auto camera = editor->get_camera();
