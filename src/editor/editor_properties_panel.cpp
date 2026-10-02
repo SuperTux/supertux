@@ -114,9 +114,22 @@ EditorPropertiesPanel::has_mouse_focus(const SDL_Event& ev, const Vector& mouse_
 bool
 EditorPropertiesPanel::event(const SDL_Event& ev)
 {
+  for (const auto &control : m_controls)
+  {
+    if (!control->prevents_event_propagation())
+      continue;
+    
+    if(control->event(ev))
+      return true;
+  }
+
   bool event_handled = false;
   for (const auto &control : m_controls)
   {
+    // Events that don't propagate were handled earlier
+    if (control->prevents_event_propagation())
+      continue;
+
     control->event(ev);
 
     if (!event_handled)
