@@ -53,6 +53,8 @@ public:
   inline void set_rect(const Rectf& rect) { m_rect = rect; }
   inline Rectf get_rect() const { return m_rect; }
 
+  virtual bool prevents_event_propagation() const { return false; }
+
 protected:
   void call_on_activate_callbacks() const;
   void call_on_change_callbacks() const;
