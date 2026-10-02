@@ -35,6 +35,8 @@ public:
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
+  virtual bool prevents_event_propagation() const override { return m_open_list; }
+
   inline T get_value() const { return *m_value; }
   inline void set_value(T value) { *m_value = value; }
   inline void bind_value(T* value) { m_value = value; }
