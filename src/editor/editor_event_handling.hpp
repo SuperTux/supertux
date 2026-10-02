@@ -106,7 +106,7 @@ private:
    * Handles moving objects around that were selected in the editor
    * @param ev SDL_Event structure of the event
    */
-  void handle_move_events(const SDL_Event& ev);
+  void handle_keyboard_move_events(const SDL_Event& ev);
 
   /**
    * Handles all input events that have something to do with the camera movement / zoom
