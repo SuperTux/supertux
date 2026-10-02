@@ -110,10 +110,10 @@ TitleScreen::refresh_level()
         If a level still isn't specified, or it cannot be entered, use the default. */
     std::string title_level;
 
-    const std::string last_world = ProfileManager::current()->get_current_profile().get_last_world();
+    const std::string& last_world = ProfileManager::current()->get_current_profile().get_last_world();
     if (!last_world.empty())
     {
-      const std::string savegame_title_level = Savegame::from_current_profile(last_world, true)->get_player_status().title_level;
+      const std::string& savegame_title_level = Savegame::from_current_profile(last_world, true)->get_player_status().title_level;
       if (savegame_title_level.empty())
       {
         const auto world = World::from_directory("levels/" + last_world);

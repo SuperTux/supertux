@@ -63,7 +63,7 @@ ProfileMenu::rebuild_menu()
   for (auto* profile : m_profiles)
   {
     const int id = profile->get_id();
-    const std::string name = profile->get_name();
+    const std::string& name = profile->get_name();
     const bool current = (id == g_config->profile);
 
     std::string text = (name.empty() ? fmt::format(fmt::runtime(_("Profile {}")), id) :
