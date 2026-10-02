@@ -163,7 +163,7 @@ EditorEventHandling::handle_keyboard_move_events(const SDL_Event& ev)
   }
 
   auto target_position = object_position + move_vector;
-  moving_object->set_pos(target_position.x, target_position.y);
+  moving_object->move_to(target_position);
 }
 
 void
