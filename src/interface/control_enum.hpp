@@ -180,7 +180,7 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
   if (m_open_list) {
     if (!get_list_rect().contains(mouse_pos)) {
-      m_has_focus = false;
+      set_has_focus(false);
       m_open_list = false;
     } else {
       int pos = int(floor((mouse_pos.y - m_rect.get_bottom()) / m_rect.get_height()));
@@ -197,7 +197,7 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
             break;
           }
-          m_has_focus = false;
+          set_has_focus(false);
           m_open_list = false;
         } else {
           log_warning << "Clicked on control enum inside dropdown but at invalid position ("
