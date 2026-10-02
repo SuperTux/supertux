@@ -91,6 +91,12 @@ EditorProject::setup()
   else
 #endif
 
+  load_initial_level();
+}
+
+void
+EditorProject::load_initial_level()
+{
   const auto& last_edited_level = get_last_edited_level();
 
   if (g_config->editor_remember_last_level && !last_edited_level.empty())
@@ -101,12 +107,11 @@ EditorProject::setup()
 
     set_world(std::move(world));
     set_level_file(last_level_filename);
+    return;
   }
-  else
-  {
-    set_level(nullptr);
-    set_last_edited_level("");
-  }
+
+  set_level(nullptr);
+  set_last_edited_level("");
 }
 
 void
