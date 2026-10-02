@@ -147,7 +147,7 @@ public:
 
   /**
    * @param filename                If non-empty, save to this file instead.
-   * @param override_current_filename If true, the current project's filename
+   * @param set_as_current_filename If true, the current project's filename
    *                                  gets set to the new filename.
    */
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos = std::nullopt);
