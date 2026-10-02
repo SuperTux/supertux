@@ -230,7 +230,7 @@ EditorProject::set_level(std::unique_ptr<Level> level)
 }
 
 bool
-EditorProject::save_level(const std::string& filename, bool switch_file,
+EditorProject::save_level(const std::string& filename, bool override_current_filename,
                           const std::function<void ()>& post_save_callback, bool save_temp_level)
 {
   m_post_save_callback = post_save_callback;
@@ -245,12 +245,12 @@ EditorProject::save_level(const std::string& filename, bool switch_file,
   {
     m_temp_level = false;
     // Implied
-    switch_file = true;
+    override_current_filename = true;
   }
 
   auto file = !filename.empty() ? filename : m_level_filename;
 
-  if (switch_file)
+  if (override_current_filename)
     m_level_filename = filename;
 
   for (const auto& sector : m_level->get_sectors())

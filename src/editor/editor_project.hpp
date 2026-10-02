@@ -312,11 +312,11 @@ public:
   /**
    * Saves the level under the specified filename
    * @param filename The filename to save the level under or empty string to save with default filename
-   * @param switch_file If ""true"", the current file gets switched with the specified filename
+   * @param override_current_filename If ""true"", the current project's filename gets overridden
    * @param post_save_callback callback function that gets executed once the file was saved
    * @param save_temp_level Specifies whether to save this level as a temporary level
    */
-  bool save_level(const std::string& filename = "", bool switch_file = false,
+  bool save_level(const std::string& filename = "", bool override_current_filename = false,
                   const std::function<void ()>& post_save_callback = nullptr, bool save_temp_level = false);
   
   /**
