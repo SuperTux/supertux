@@ -62,7 +62,7 @@ ControlCheckbox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 
   call_on_change_callbacks();
 
-  m_has_focus = true;
+  set_has_focus(true);
 
   return true;
 }
@@ -71,7 +71,7 @@ bool
 ControlCheckbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  m_has_focus = m_rect.contains(mouse_pos);
+  set_has_focus(m_rect.contains(mouse_pos));
   return false;
 }
 
