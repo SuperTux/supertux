@@ -49,24 +49,7 @@ EditorEventHandling::on_event(const SDL_Event& ev)
   if (properties_panel->has_mouse_focus(ev, m_mouse_pos))
     return;
 
-  switch(ev.type)
-  {
-    case SDL_EVENT_MOUSE_MOTION:
-      m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-      break;
-    case SDL_EVENT_KEY_DOWN:
-    case SDL_EVENT_KEY_UP:
-      m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
-      m_shift_pressed = ev.key.mod & SDL_KMOD_SHIFT;
-      m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
-      break;
-    case SDL_EVENT_PEN_BUTTON_DOWN:
-      m_pen_down = true;
-      break;
-    case SDL_EVENT_PEN_BUTTON_UP:
-      m_pen_down = false;
-      break;
-  };
+  handle_internal_state(ev);
 
   handle_generic_events(ev);
   handle_move_events(ev);
@@ -311,11 +294,35 @@ EditorEventHandling::handle_toolbox_events(const SDL_Event& ev)
 }
 
 void
+EditorEventHandling::handle_internal_state(const SDL_Event& ev)
+{
+  switch(ev.type)
+  {
+    case SDL_EVENT_MOUSE_MOTION:
+      m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+      break;
+    case SDL_EVENT_KEY_DOWN:
+    case SDL_EVENT_KEY_UP:
+      m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
+      m_shift_pressed = ev.key.mod & SDL_KMOD_SHIFT;
+      m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
+      break;
+    case SDL_EVENT_PEN_BUTTON_DOWN:
+      m_pen_down = true;
+      break;
+    case SDL_EVENT_PEN_BUTTON_UP:
+      m_pen_down = false;
+      break;
+  };
+}
+
+void
 EditorEventHandling::reset_state()
 {
   m_ctrl_pressed = false;
   m_alt_pressed = false;
   m_shift_pressed = false;
+  m_pen_down = false;
 
   // any mouse events from earlier (i.e. in menu, testing) dont pass through
   // the editor in those states, so as a lazy hack, let's just get the mouse
