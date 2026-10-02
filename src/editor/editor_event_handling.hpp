@@ -91,6 +91,12 @@ public:
 private:
 
   /**
+   * Handles the internal state variables of the event handler
+   * @param ev SDL_Event structure of the event
+   */
+  void handle_internal_state(const SDL_Event &ev);
+
+  /**
    * Handles generic editor events that do not fit into any other category
    * @param ev SDL_Event structure of the event
    */
