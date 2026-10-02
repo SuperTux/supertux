@@ -95,6 +95,11 @@ private:
    */
   void handle_move_input(const SDL_Event& ev);
 
+  /**
+   * Handles all input events that have something to do with the camera movement / zoom
+   */
+  void handle_camera_input(const SDL_Event &ev);
+
 private:
   Vector m_mouse_pos;
   bool m_ctrl_pressed;
