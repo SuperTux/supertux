@@ -2,6 +2,6 @@
   (file "snowfort.ogg")
   (authors "SnugglyBun")
   (license "CC-BY-SA 4.0")
-  (loop-begin 7.683)
-  (loop-at 88.320)
+  (loop-begin 7.68)
+  (loop-at 88.32)
 )
