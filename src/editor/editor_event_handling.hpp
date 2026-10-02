@@ -87,6 +87,14 @@ public:
    */
   bool get_pen_down() const { return m_pen_down; }
 
+
+private:
+  /**
+   * Handles moving objects around that were selected in the editor
+   * @param ev SDL_Event structure of the event
+   */
+  void handle_move_input(const SDL_Event& ev);
+
 private:
   Vector m_mouse_pos;
   bool m_ctrl_pressed;
