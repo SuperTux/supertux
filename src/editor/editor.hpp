@@ -146,10 +146,9 @@ public:
   }
 
   /**
-   * @param filename    If non-empty, save to this file instead.
-   * @param switch_file If true, the level editor will bind itself to the new
-   *                    filename; subsequest saves will by default save to the
-   *                    new filename.
+   * @param filename                If non-empty, save to this file instead.
+   * @param override_current_filename If true, the current project's filename
+   *                                  gets set to the new filename.
    */
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos = std::nullopt);
 
