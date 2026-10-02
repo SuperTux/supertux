@@ -4,5 +4,5 @@
   (license "CC-BY-SA / GPL 2+")
   (title "Riding The Wind")
   (loop-begin 0)
-  (loop-at    99)
+  (loop-at 99)
 )

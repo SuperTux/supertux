@@ -4,5 +4,5 @@
   (authors "Bart Kelsey")
   (license "CC-BY-SA 3.0 / GPL 3.0 / GPL 2.0")
   (loop-begin 4)
-  (loop-at    58)
+  (loop-at 58)
 )

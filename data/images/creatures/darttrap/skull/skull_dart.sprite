@@ -2,21 +2,18 @@
   (action
     (name "flying-left")
     (hitbox 6 12 22 9)
-    (images "skull_dart_left.png")
-  )
+    (images "skull_dart_left.png"))
   (action
     (name "flying-right")
     (hitbox 4 12 22 9)
-    (mirror-action "flying-left")
-  )
+    (mirror-action "flying-left"))
+
   (action
     (name "flying-down")
     (hitbox 12 4 9 22)
-    (images "skull_dart_down.png")
-  )
+    (images "skull_dart_down.png"))
   (action
     (name "flying-up")
     (hitbox 12 6 9 22)
-    (flip-action "flying-down")
-  )
+    (flip-action "flying-down"))
 )

@@ -12,34 +12,31 @@
             "stumpy-6.png"
             "stumpy-7.png"
             "stumpy-8.png"
-            "stumpy-9.png")
-  )
+            "stumpy-9.png"))
   (action
     (hitbox 22 38 46 50)
     (name "right")
     (fps 15)
-    (mirror-action "left")
-  )
+    (mirror-action "left"))
+
   (action
     (hitbox 12 30 64 64)
     (name "iced-left")
-    (images "stumpy-7.png")
-  )
+    (images "stumpy-7.png"))
   (action
     (hitbox 12 30 64 64)
     (name "iced-right")
-    (mirror-action "iced-left")
-  )
+    (mirror-action "iced-left"))
+
   (action
     (hitbox 22 38 46 50)
     (name "burning-left")
-    (images "stumpy-7.png")
-  )
+    (images "stumpy-7.png"))
   (action
     (hitbox 22 38 46 50)
     (name "burning-right")
-    (mirror-action "burning-left")
-  )
+    (mirror-action "burning-left"))
+
   (action
     (hitbox 22 38 46 50)
     (name "dizzy-left")
@@ -51,23 +48,20 @@
             "dizzy-3.png"
             "dizzy-4.png"
             "dizzy-5.png"
-            "dizzy-4.png")
-  )
+            "dizzy-4.png"))
   (action
     (hitbox 22 38 46 50)
     (name "dizzy-right")
     (fps 15)
     (loop-frame 4)
-    (mirror-action "dizzy-left")
-  )
+    (mirror-action "dizzy-left"))
+
   (action
     (hitbox 22 38 46 32)
     (name "squished-left")
-    (images "squished.png")
-  )
+    (images "squished.png"))
   (action
     (hitbox 22 38 46 32)
     (name "squished-right")
-    (mirror-action "squished-left")
-  )
+    (mirror-action "squished-left"))
 )
