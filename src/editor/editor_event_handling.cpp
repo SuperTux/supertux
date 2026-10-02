@@ -42,93 +42,103 @@ void
 EditorEventHandling::on_event(const SDL_Event& ev)
 {
   auto editor = Editor::current();
-  auto editor_project = editor->get_project();
   auto properties_panel = editor->get_properties_panel();
-  auto toolbar_widget = editor->get_toolbar_widget();
 
   // If properties sidebar controls are active and the mouse is hovering over the sidebar,
   // do not propagate mouse events to the editor or its widgets.
   if (properties_panel->has_mouse_focus(ev, m_mouse_pos))
     return;
 
-  if (ev.type == SDL_EVENT_MOUSE_MOTION)
+  switch(ev.type)
   {
-    m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-  }
-  else {
-    if (ev.type == SDL_EVENT_KEY_DOWN)
-    {
+    case SDL_EVENT_MOUSE_MOTION:
+      m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+      break;
+    case SDL_EVENT_KEY_DOWN:
+    case SDL_EVENT_KEY_UP:
       m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
       m_shift_pressed = ev.key.mod & SDL_KMOD_SHIFT;
       m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
-
-      if (ev.key.key == SDLK_F6)
-      {
-        Compositor::s_render_lighting = !Compositor::s_render_lighting;
-        return;
-      }
-      else if (m_ctrl_pressed)
-      {
-        switch (ev.key.key)
-        {
-          case SDLK_T:
-          {
-            std::optional<std::pair<std::string, Vector>> test_pos = std::nullopt;
-
-            if (m_shift_pressed && m_alt_pressed)
-            {
-              test_pos = editor->get_test_position();
-              editor->test_level(test_pos);
-              break;
-            }
-
-            if (m_shift_pressed)
-            {
-              auto sector_name = editor_project->get_sector()->get_name();
-              auto position = editor->get_overlay_widget()->get_sector_pos();
-              test_pos = std::make_pair(sector_name, position);
-            }
-
-            editor->test_level(test_pos);
-          }
-            break;
-          case SDLK_S:
-            editor_project->save_level();
-            break;
-          case SDLK_H:
-          {
-            auto draggables_visible = editor->get_draggables_visible();
-            editor->set_draggables_visible(!draggables_visible);
-          }
-            break;
-          case SDLK_X:
-            toolbar_widget->toggle_tile_object_mode();
-            break;
-          default:
-            break;
-        }
-      }
-    }
-    else if (ev.type == SDL_EVENT_KEY_UP)
-    {
-      m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
-      m_shift_pressed = ev.key.mod & SDL_KMOD_SHIFT;
-      m_alt_pressed = ev.key.mod & SDL_KMOD_ALT;
-    }
-    else if (ev.type == SDL_EVENT_PEN_BUTTON_DOWN)
-    {
+      break;
+    case SDL_EVENT_PEN_BUTTON_DOWN:
       m_pen_down = true;
-    }
-    else if (ev.type == SDL_EVENT_PEN_BUTTON_UP)
-    {
+      break;
+    case SDL_EVENT_PEN_BUTTON_UP:
       m_pen_down = false;
-    }
-  }
+      break;
+  };
 
+  handle_generic_events(ev);
   handle_move_events(ev);
   handle_camera_events(ev);
   handle_history_manager_events(ev);
   handle_toolbox_events(ev);
+  handle_toolbar_events(ev);
+}
+
+void
+EditorEventHandling::handle_generic_events(const SDL_Event& ev)
+{
+  if (ev.type != SDL_EVENT_KEY_DOWN)
+    return;
+
+  if (ev.key.key == SDLK_F6) // F6
+  {
+    Compositor::s_render_lighting = !Compositor::s_render_lighting;
+    return;
+  }
+
+  if (!m_ctrl_pressed)
+    return;
+
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+
+  switch (ev.key.key)
+  {
+    case SDLK_T: // Test Level (Ctrl+T)
+    {
+      std::optional<std::pair<std::string, Vector>> test_pos = std::nullopt;
+
+      if (m_shift_pressed && m_alt_pressed)
+      {
+        test_pos = editor->get_test_position();
+      }
+      else if (m_shift_pressed)
+      {
+        auto sector_name = editor_project->get_sector()->get_name();
+        auto position = editor->get_overlay_widget()->get_sector_pos();
+        test_pos = std::make_pair(sector_name, position);
+      }
+
+      editor->test_level(test_pos);
+    }
+      break;
+    case SDLK_S: // Save level (Ctrl+S)
+      editor_project->save_level();
+      break;
+    case SDLK_H: // Toggle draggables (Ctrl+H)
+    {
+      auto draggables_visible = editor->get_draggables_visible();
+      editor->set_draggables_visible(!draggables_visible);
+    }
+      break;
+  }
+}
+
+void
+EditorEventHandling::handle_toolbar_events(const SDL_Event& ev)
+{
+  if (ev.type != SDL_EVENT_KEY_DOWN || !m_ctrl_pressed)
+    return;
+
+  auto editor = Editor::current();
+  auto toolbar_widget = editor->get_toolbar_widget();
+  
+  if (ev.key.key == SDLK_X) // Ctrl+X
+  {
+    toolbar_widget->toggle_tile_object_mode();
+  }
 }
 
 void
