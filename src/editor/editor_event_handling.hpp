@@ -93,12 +93,22 @@ private:
    * Handles moving objects around that were selected in the editor
    * @param ev SDL_Event structure of the event
    */
-  void handle_move_input(const SDL_Event& ev);
+  void handle_move_events(const SDL_Event& ev);
 
   /**
    * Handles all input events that have something to do with the camera movement / zoom
    */
-  void handle_camera_input(const SDL_Event &ev);
+  void handle_camera_events(const SDL_Event &ev);
+
+  /**
+   * Handles all input events that have something to with the history manager (back / forward navigation)
+   */
+  void handle_history_manager_events(const SDL_Event &ev);
+
+  /**
+   * Handles all input events that have something to do with the toolbox (tool / tile / object select)
+   */
+  void handle_toolbox_events(const SDL_Event &ev);
 
 private:
   Vector m_mouse_pos;

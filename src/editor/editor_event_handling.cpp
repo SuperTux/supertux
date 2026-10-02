@@ -45,8 +45,6 @@ EditorEventHandling::on_event(const SDL_Event& ev)
   auto editor_project = editor->get_project();
   auto properties_panel = editor->get_properties_panel();
   auto toolbar_widget = editor->get_toolbar_widget();
-  auto toolbox_widget = editor->get_toolbox_widget();
-  auto history_manager = editor->get_history_manager();
 
   // If properties sidebar controls are active and the mouse is hovering over the sidebar,
   // do not propagate mouse events to the editor or its widgets.
@@ -57,18 +55,7 @@ EditorEventHandling::on_event(const SDL_Event& ev)
   {
     m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
   }
-  else if (ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
-  {
-    switch (ev.button.button)
-    {
-      case SDL_BUTTON_X1:
-        history_manager->undo();
-        break;
-      case SDL_BUTTON_X2:
-        history_manager->redo();
-        break;
-    }
-  } else {
+  else {
     if (ev.type == SDL_EVENT_KEY_DOWN)
     {
       m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
@@ -108,12 +95,6 @@ EditorEventHandling::on_event(const SDL_Event& ev)
           case SDLK_S:
             editor_project->save_level();
             break;
-          case SDLK_Z:
-            history_manager->undo();
-            break;
-          case SDLK_Y:
-            history_manager->redo();
-            break;
           case SDLK_H:
           {
             auto draggables_visible = editor->get_draggables_visible();
@@ -122,12 +103,6 @@ EditorEventHandling::on_event(const SDL_Event& ev)
             break;
           case SDLK_X:
             toolbar_widget->toggle_tile_object_mode();
-            break;
-          case SDLK_PAGEUP:
-            toolbox_widget->switch_current_group(-1);
-            break;
-          case SDLK_PAGEDOWN:
-            toolbox_widget->switch_current_group(1);
             break;
           default:
             break;
@@ -150,12 +125,14 @@ EditorEventHandling::on_event(const SDL_Event& ev)
     }
   }
 
-  handle_move_input(ev);
-  handle_camera_input(ev);
+  handle_move_events(ev);
+  handle_camera_events(ev);
+  handle_history_manager_events(ev);
+  handle_toolbox_events(ev);
 }
 
 void
-EditorEventHandling::handle_move_input(const SDL_Event& ev)
+EditorEventHandling::handle_move_events(const SDL_Event& ev)
 {
   if(ev.type != SDL_EVENT_KEY_DOWN)
     return;
@@ -197,7 +174,7 @@ EditorEventHandling::handle_move_input(const SDL_Event& ev)
 }
 
 void
-EditorEventHandling::handle_camera_input(const SDL_Event& ev)
+EditorEventHandling::handle_camera_events(const SDL_Event& ev)
 {
   auto editor = Editor::current();
   auto editor_project = editor->get_project();
@@ -267,6 +244,59 @@ EditorEventHandling::handle_camera_input(const SDL_Event& ev)
     else
       editor_camera->scroll( {(m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1.f : 1.f) : wheel_x) * 40.f,
                               (m_shift_pressed ? wheel_x : wheel_y) * -40.f });
+  }
+}
+
+void
+EditorEventHandling::handle_history_manager_events(const SDL_Event &ev)
+{
+  auto editor = Editor::current();
+  auto history_manager = editor->get_history_manager();
+
+  if (ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+  {
+    switch (ev.button.button)
+    {
+      case SDL_BUTTON_X1:
+        history_manager->undo();
+        break;
+      case SDL_BUTTON_X2:
+        history_manager->redo();
+        break;
+    }
+  }
+  
+  if (ev.type == SDL_EVENT_KEY_DOWN && m_ctrl_pressed)
+  {
+    switch (ev.key.key)
+    {
+      case SDLK_Z:
+        history_manager->undo();
+        break;
+      case SDLK_Y:
+        history_manager->redo();
+        break;
+    }
+  }
+}
+
+void
+EditorEventHandling::handle_toolbox_events(const SDL_Event& ev)
+{
+  auto editor = Editor::current();
+  auto toolbox_widget = editor->get_toolbox_widget();
+
+  if (ev.type != SDL_EVENT_KEY_DOWN || !m_ctrl_pressed)
+    return;
+
+  switch (ev.key.key)
+  {
+    case SDLK_PAGEUP:
+      toolbox_widget->switch_current_group(-1);
+      break;
+    case SDLK_PAGEDOWN:
+      toolbox_widget->switch_current_group(1);
+      break;
   }
 }
 
