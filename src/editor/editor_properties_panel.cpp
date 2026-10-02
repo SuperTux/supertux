@@ -218,7 +218,12 @@ EditorPropertiesPanel::load_object_properties(GameObject* object)
 {
   m_controls.clear();
 
-  if (!object || !g_config->editor_show_properties_sidebar)
+  if (!g_config->editor_show_properties_sidebar)
+  {
+    return;
+  }
+
+  if (!object || !object->has_settings())
   {
     return;
   }
