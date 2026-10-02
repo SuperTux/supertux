@@ -112,8 +112,45 @@ EditorPropertiesPanel::has_mouse_focus(const SDL_Event& ev, const Vector& mouse_
 }
 
 bool
+EditorPropertiesPanel::handle_tab_event(const SDL_Event& ev)
+{
+  if (ev.type != SDL_EVENT_KEY_DOWN)
+    return false;
+
+  if (ev.key.key != SDLK_TAB && ev.key.key != SDLK_LEFT_TAB)
+    return false;
+
+  if (m_controls.empty() || m_controls.size() == 1)
+    return false;
+
+  bool shift_pressed = SDL_GetModState() & SDL_KMOD_SHIFT;
+  auto focused_control = std::find_if(m_controls.begin(), m_controls.end(),
+    [](const auto& control) { return control->has_focus(); });
+  
+  if (focused_control == m_controls.end())
+    return false;
+
+  focused_control->get()->set_has_focus(false);
+
+  if (focused_control == m_controls.end() - 1 && !shift_pressed)
+    focused_control = m_controls.begin();
+  else if (focused_control == m_controls.begin() && shift_pressed)
+    focused_control = m_controls.end() - 1;
+  else if (shift_pressed)
+    focused_control--;
+  else
+    focused_control++;
+
+  focused_control->get()->set_has_focus(true);
+  return true;
+}
+
+bool
 EditorPropertiesPanel::event(const SDL_Event& ev)
 {
+  if (handle_tab_event(ev))
+    return true;
+
   for (const auto &control : m_controls)
   {
     if (!control->prevents_event_propagation())
