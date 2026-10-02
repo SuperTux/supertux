@@ -64,6 +64,12 @@ public:
   void setup();
 
   /**
+   * Loads the level to start the editor with. This is either
+   * the last level that was edited or a temporary level
+   */
+  void load_initial_level();
+
+  /**
    * Returns the current project's world instance
    */
   inline World* get_world() const { return m_world.get(); }
