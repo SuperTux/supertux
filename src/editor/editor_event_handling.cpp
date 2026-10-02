@@ -52,7 +52,7 @@ EditorEventHandling::on_event(const SDL_Event& ev)
   handle_internal_state(ev);
 
   handle_generic_events(ev);
-  handle_move_events(ev);
+  handle_keyboard_move_events(ev);
   handle_camera_events(ev);
   handle_history_manager_events(ev);
   handle_toolbox_events(ev);
