@@ -125,7 +125,7 @@ EditorEventHandling::handle_toolbar_events(const SDL_Event& ev)
 }
 
 void
-EditorEventHandling::handle_move_events(const SDL_Event& ev)
+EditorEventHandling::handle_keyboard_move_events(const SDL_Event& ev)
 {
   if(ev.type != SDL_EVENT_KEY_DOWN)
     return;
