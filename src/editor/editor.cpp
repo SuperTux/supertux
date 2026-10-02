@@ -105,8 +105,8 @@ Editor::Editor() :
   m_widgets.push_back(std::move(overlay_widget));
   m_widgets.push_back(std::move(toolbar_widget));
 
-  m_project->set_on_level_set_callback([this]() { on_level_set(); });
-  m_project->set_on_level_file_set_callback([this]() { reload_level(); });
+  m_project->set_on_level_set_callback(std::bind(&Editor::on_level_set, this));
+  m_project->set_on_level_file_set_callback(std::bind(&Editor::on_level_file_set, this));
 
   m_project->set_on_sector_set_callback([this]()
   {
@@ -346,7 +346,7 @@ Editor::on_level_set()
 }
 
 void
-Editor::reload_level()
+Editor::on_level_file_set()
 {
   m_is_reloading = true;
 
