@@ -118,6 +118,8 @@ private:
    */
   void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
+  bool handle_tab_event(const SDL_Event &ev);
+
 private:
 
   /**
