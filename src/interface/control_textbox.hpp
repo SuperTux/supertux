@@ -20,6 +20,7 @@
 
 #include "control/input_manager.hpp"
 #include "interface/control.hpp"
+#include "video/video_system.hpp"
 
 
 class ControlTextbox : public InterfaceControl
@@ -36,6 +37,18 @@ public:
   virtual bool event(const SDL_Event& ev) override;
 
   virtual void update(float dt_sec) override;
+
+  virtual void on_focus() override
+  {
+    auto window = VideoSystem::current()->get_window();
+    SDL_StartTextInput(window);
+  }
+
+  virtual void on_blur() override
+  {
+    auto window = VideoSystem::current()->get_window();
+    SDL_StopTextInput(window);
+  }
 
   /** Binds a string to the textbox */
   inline void bind_string(std::string* value)

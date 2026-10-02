@@ -155,17 +155,22 @@ ControlEnum<T>::on_mouse_button_up(const SDL_MouseButtonEvent& button)
     return false;
 
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  if (m_rect.contains(mouse_pos)) {
+  if (m_rect.contains(mouse_pos))
+  {
     m_open_list = !m_open_list;
-    m_has_focus = true;
+    set_has_focus(true);
     if (m_open_list)
       call_on_activate_callbacks();
+
     return true;
-  } else if (get_list_rect().contains(mouse_pos) && m_open_list) {
-    return true;
-  } else {
-    return false;
   }
+
+  if (get_list_rect().contains(mouse_pos) && m_open_list)
+  {
+    return true;
+  }
+
+  return false;
 }
 
 template<class T>
@@ -202,7 +207,7 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
       return true;
     }
   } else {
-    m_has_focus = m_rect.contains(mouse_pos);
+    set_has_focus(m_rect.contains(mouse_pos));
     if (!m_has_focus)
     {
       m_open_list = false;
