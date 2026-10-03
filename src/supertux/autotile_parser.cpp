@@ -151,7 +151,7 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
 
   tile_id += m_offset;
 
-  bool solid;
+  bool solid = corner;
   if (!reader.get("solid", solid))
   {
     if (!corner)
