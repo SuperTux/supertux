@@ -656,8 +656,7 @@ Sector::resize(const Size& old_size, const Size& new_size, const Size& resize_of
   BIND_SECTOR(*this);
 
   const bool is_offset = resize_offset.width || resize_offset.height;
-  const Vector obj_shift(static_cast<float>(resize_offset.width) * 32.0f,
-                         static_cast<float>(resize_offset.height) * 32.0f);
+  const Vector obj_shift = resize_offset.to_vector() * 32.0f;
 
   for (auto* tilemap : get_all_tilemaps())
   {
