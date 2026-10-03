@@ -684,7 +684,8 @@ EditorProject::check_unsaved_changes(const std::function<void ()>& action)
 void
 EditorProject::pack_addon()
 {
-  auto id = FileSystem::basename(get_world()->get_basedir());
+  const auto& basedir = get_world()->get_basedir();
+  auto id = FileSystem::basename(basedir);
   auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
 
   int version = 0;
@@ -709,7 +710,7 @@ EditorProject::pack_addon()
   version++;
 
   Partio::ZipFileWriter zip(output_file_path);
-  physfsutil::enumerate_files_recurse(get_world()->get_basedir(),
+  physfsutil::enumerate_files_recurse(basedir,
     [&zip](const std::string& full_path)
     {
       auto os = zip.Add_File(full_path);
