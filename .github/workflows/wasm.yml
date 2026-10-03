@@ -24,6 +24,7 @@ on:
       - mobile-web-phase1-wasm-reliability
       - mobile-web-phase2-safari-shell
       - mobile-web-phase3-touch-controls
+      - mobile-web-audit
     tags:
       - '*'
   pull_request: {}
