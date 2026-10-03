@@ -225,6 +225,7 @@
       <br/>
       <div class="emscripten"><progress hidden id="progress" max="100" value="0"></progress></div>
       <div>
+        <p id="touch_help" hidden>Touch the arrows to move, jump to select, and pause to go back. Landscape gives more room to play.</p>
         <button id="start_button" type="button" hidden disabled>Start</button>
         <button id="play_muted" type="button" hidden>Play without sound</button>
         <button id="fullscreen_button" type="button" hidden>Fullscreen</button>

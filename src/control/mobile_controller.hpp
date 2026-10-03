@@ -39,6 +39,7 @@ public:
   void update();
 #ifdef __EMSCRIPTEN__
   void reset();
+  void cancel_finger(SDL_FingerID id);
 #endif
 
   /** returns true if the finger event was inside the screen button area */
@@ -51,8 +52,13 @@ public:
   void buzz();
 
 private:
+#ifdef __EMSCRIPTEN__
+  void update_browser_layout();
+  Vector browser_finger_pos(const Vector& normalized) const;
+#endif
   bool pos_inside_widget(const Vector& pos) const;
   void activate_widget_at_pos(float x, float y);
+  std::bitset<static_cast<size_t>(Control::CONTROLCOUNT)> input_at_pos(float x, float y) const;
 
 private:
   std::bitset<(size_t)Control::CONTROLCOUNT> m_input, m_input_last;
@@ -60,6 +66,7 @@ private:
   std::map<SDL_FingerID, Vector> m_fingers;
 #ifdef __EMSCRIPTEN__
   bool m_ignore_mouse_until_release = false;
+  std::map<SDL_FingerID, decltype(m_input)> m_browser_taps;
 #endif
 
   Rectf m_rect_directions, m_rect_jump, m_rect_action, m_rect_cheats,

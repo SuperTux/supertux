@@ -23,12 +23,18 @@ on:
       - master
       - mobile-web-phase1-wasm-reliability
       - mobile-web-phase2-safari-shell
+      - mobile-web-phase3-touch-controls
     tags:
       - '*'
   pull_request: {}
 
 permissions:
   contents: read
+
+defaults:
+  run:
+    # Explicit bash enables pipefail: tee must not hide build/test failures.
+    shell: bash
 
 env:
   EMSDK_VERSION: '6.0.11'
@@ -98,6 +104,14 @@ jobs:
                            -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
                            -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON
 
+      - name: Controller source ownership checks
+        run: |
+          source ~/emsdk/emsdk_env.sh
+          em++ -std=c++17 -I build -I src tests/wasm/controller.test.cpp src/control/controller.cpp -o build/controller-test.js
+          node build/controller-test.js
+          g++ -std=c++17 -I build -I src tests/wasm/controller.test.cpp src/control/controller.cpp -o build/controller-native-test
+          build/controller-native-test
+
       - name: Sync data folder
         working-directory: build
         run: |
@@ -154,6 +168,19 @@ jobs:
         run: |
           python tests/wasm/browser_smoke.py build --browser webkit --output build/webkit-evidence 2>&1 | tee build/webkit-smoke.log
 
+      - name: Touch-only normal entry and multitouch checks
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        run: |
+          touch_options=()
+          if [ "$BUILD_TYPE" = Debug ]; then touch_options+=(--record-known-ub); fi
+          python tests/wasm/touch_smoke.py build --output build/touch-evidence "${touch_options[@]}" 2>&1 | tee build/touch-smoke.log
+
+      - name: WebKit Release touch routing checks
+        if: matrix.build_type == 'Release'
+        run: |
+          python tests/wasm/touch_smoke.py build --browser webkit --output build/webkit-touch-evidence 2>&1 | tee build/webkit-touch-smoke.log
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -161,9 +188,13 @@ jobs:
           path: |
             build/browser-evidence/
             build/webkit-evidence/
+            build/touch-evidence/
+            build/webkit-touch-evidence/
             build/build.log
             build/browser-smoke.log
             build/webkit-smoke.log
+            build/touch-smoke.log
+            build/webkit-touch-smoke.log
             build/compile_commands.json
           if-no-files-found: error
 

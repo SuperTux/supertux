@@ -85,6 +85,9 @@ Controller::reset()
     m_old_controls[i] = false;
   }
   m_touchscreen = false;
+#ifdef __EMSCRIPTEN__
+  m_touch_controls.reset();
+#endif
   m_jump_key_pressed = false;
 }
 
@@ -106,28 +109,40 @@ Controller::set_jump_key_with_up(bool value)
   }
 }
 
+#ifdef __EMSCRIPTEN__
+void
+Controller::set_touch_controls(const std::bitset<static_cast<size_t>(Control::CONTROLCOUNT)>& controls)
+{
+  m_touch_controls = controls;
+}
+#endif
+
 bool
 Controller::hold(Control control) const
 {
+#ifdef __EMSCRIPTEN__
+  return m_controls[static_cast<int>(control)] || m_touch_controls[static_cast<size_t>(control)];
+#else
   return m_controls[static_cast<int>(control)];
+#endif
 }
 
 bool
 Controller::pressed(Control control) const
 {
-  return !m_old_controls[static_cast<int>(control)] && m_controls[static_cast<int>(control)];
+  return !m_old_controls[static_cast<int>(control)] && hold(control);
 }
 
 bool
 Controller::released(Control control) const
 {
-  return m_old_controls[static_cast<int>(control)] && !m_controls[static_cast<int>(control)];
+  return m_old_controls[static_cast<int>(control)] && !hold(control);
 }
 
 void
 Controller::update()
 {
   for (int i = 0; i < static_cast<int>(Control::CONTROLCOUNT); ++i) {
-    m_old_controls[i] = m_controls[i];
+    m_old_controls[i] = hold(static_cast<Control>(i));
   }
 }

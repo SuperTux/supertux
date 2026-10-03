@@ -665,7 +665,7 @@ Menu::event(const SDL_Event& ev)
     case SDL_EVENT_MOUSE_BUTTON_DOWN:
     if (ev.button.button == SDL_BUTTON_LEFT)
     {
-      Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+      Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
 
       if ((mouse_pos.x > m_pos.x - get_width() / 2.0f &&
            mouse_pos.x < m_pos.x + get_width() / 2.0f &&
@@ -681,6 +681,7 @@ Menu::event(const SDL_Event& ev)
 
     case SDL_EVENT_MOUSE_MOTION:
     {
+      if (ev.motion.which == SDL_TOUCH_MOUSEID) m_mouse_deadzone = 0;
       if (m_mouse_deadzone > 0)
       {
         m_mouse_deadzone -= abs(ev.motion.xrel);

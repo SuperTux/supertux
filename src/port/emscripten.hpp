@@ -34,6 +34,8 @@ void set_resolution(int w, int h);
 void save_config();
 void set_browser_suspended(int suspended);
 void reset_browser_input();
+void set_browser_touch_available(int available);
+void cancel_browser_touch(int pointer_id);
 void init_emscripten();
 void onDownloadProgress(intptr_t address, int id, int loaded, int total);
 void onDownloadFinished(intptr_t address, int id, const char* data);
@@ -62,6 +64,24 @@ void
 reset_browser_input()
 {
   ScreenManager::current()->reset_browser_input();
+}
+
+void
+set_browser_touch_available(int available)
+{
+  g_config->browser_touch_available = available != 0;
+  if (g_config->browser_touch_controls == -1) g_config->mobile_controls = available != 0;
+}
+
+void
+cancel_browser_touch(int pointer_id)
+{
+  // SDL3 maps browser pointer IDs to finger IDs by adding one.
+  // Queue after any SDL DOWN/MOTION events already produced this turn.
+  SDL_Event event{};
+  event.type = SDL_EVENT_FINGER_CANCELED;
+  event.tfinger.fingerID = static_cast<SDL_FingerID>(pointer_id) + 1;
+  SDL_PushEvent(&event);
 }
 
 EMSCRIPTEN_KEEPALIVE // Same as above

@@ -21,6 +21,7 @@ function runtime(visual = true) {
   const document = new Target(), window = new Target();
   document.getElementById = id => ids[id];
   document.hidden = false;
+  window.navigator = {maxTouchPoints: 5};
   window.innerWidth = 960; window.innerHeight = 600;
   const view = new Target();
   Object.assign(view, {width: 390.8, height: 844.2, offsetLeft: 0, offsetTop: 3});
@@ -135,8 +136,14 @@ test('audio interruption pauses active game; SDK unlock cannot unmute covered or
 test('canceled input clears actions; game gesture defaults suppressed; fullscreen rejection remains playable', async () => {
   const r = runtime(); r.shell.ready(); r.start();
   const before = r.calls.length;
-  r.ids.canvas.emit('touchcancel'); r.ids.canvas.emit('pointercancel');
-  assert.deepEqual(r.calls.slice(before), [['reset_browser_input'], ['reset_browser_input']]);
+  r.ids.canvas.emit('pointerdown', {pointerType: 'touch', pointerId: 7});
+  r.ids.canvas.emit('pointerdown', {pointerType: 'touch', pointerId: 8});
+  r.ids.canvas.emit('pointerup', {pointerId: 7});
+  r.ids.canvas.emit('lostpointercapture', {pointerId: 7});
+  assert.deepEqual(r.calls.slice(before), []); // Normal release keeps finger 8.
+  r.ids.canvas.emit('pointercancel', {pointerId: 8});
+  r.ids.canvas.emit('lostpointercapture', {pointerId: 8});
+  assert.deepEqual(r.calls.slice(before), [['cancel_browser_touch', 8]]);
   let prevented = false;
   r.ids.canvas.emit('touchmove', {preventDefault: () => { prevented = true; }});
   assert.equal(prevented, true);
@@ -150,4 +157,36 @@ test('context loss freezes game, saves best effort, and cannot be resumed', () =
   r.ids.canvas.emit('webglcontextlost', {preventDefault() {}});
   assert.equal(r.shell.active, false); assert.equal(r.ids.start_button.hidden, true);
   r.start(); assert.equal(r.shell.active, false);
+});
+
+
+test('touch capability is supplied after ready; only unexpected capture loss cancels its finger', () => {
+  const r = runtime(); r.shell.ready(); r.start();
+  assert.ok(r.calls.some(x => x[0] === 'set_browser_touch_available' && x[1] === 1));
+  const start = r.calls.length;
+  r.ids.canvas.emit('pointerdown', {pointerType: 'mouse', pointerId: 1});
+  r.ids.canvas.emit('lostpointercapture', {pointerId: 1});
+  r.ids.canvas.emit('pointerdown', {pointerType: 'touch', pointerId: 2});
+  r.ids.canvas.emit('lostpointercapture', {pointerId: 2});
+  assert.deepEqual(r.calls.slice(start), [['cancel_browser_touch', 2]]);
+  r.ids.canvas.emit('pointerdown', {pointerType: 'touch', pointerId: 3});
+  r.shell.resetInput();
+  const cleared = r.calls.length;
+  r.ids.canvas.emit('lostpointercapture', {pointerId: 3});
+  assert.equal(r.calls.length, cleared); // Resize/background cleared the gesture.
+});
+
+test('canceled contacts suppress stale move/up; a fresh contact with that ID works again', () => {
+  const r = runtime(); r.shell.ready(); r.start();
+  r.ids.canvas.emit('pointerdown', {pointerType:'touch', pointerId:5});
+  r.ids.canvas.emit('pointercancel', {pointerId:5});
+  let blocked = 0;
+  const event = {pointerId:5, preventDefault(){}, stopImmediatePropagation(){++blocked;}};
+  r.ids.canvas.emit('pointermove', event); r.ids.canvas.emit('pointerup', event);
+  assert.equal(blocked, 2);
+  r.ids.canvas.emit('pointerdown', {pointerType:'touch', pointerId:5});
+  r.ids.canvas.emit('pointermove', event);
+  assert.equal(blocked, 2);
+  r.shell.resetInput(); r.ids.canvas.emit('pointermove', event);
+  assert.equal(blocked, 3);
 });

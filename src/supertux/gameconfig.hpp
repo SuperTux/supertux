@@ -121,6 +121,10 @@ public:
   bool touch_just_directional;
 
   bool mobile_controls;
+#ifdef __EMSCRIPTEN__
+  int browser_touch_controls;
+  bool browser_touch_available;
+#endif
   float m_mobile_controls_scale;
   bool touch_controls_visible;
 

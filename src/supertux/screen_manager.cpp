@@ -235,6 +235,14 @@ ScreenManager::reset_browser_input()
   m_input_manager.reset();
   m_input_manager.keyboard_manager->reset_text_input();
   m_mobile_controller.reset();
+  m_browser_ui_finger.reset();
+}
+
+void
+ScreenManager::cancel_browser_touch(SDL_FingerID finger)
+{
+  m_mobile_controller.cancel_finger(finger);
+  if (m_browser_ui_finger == finger) m_browser_ui_finger.reset();
 }
 
 void
@@ -345,12 +353,17 @@ ScreenManager::update_gamelogic(float dt_sec)
 {
   Controller& controller = m_input_manager.get_controller();
 
+#ifndef __EMSCRIPTEN__
   if (g_config->mobile_controls)
+#endif
   {
     m_mobile_controller.update();
     m_mobile_controller.apply(controller);
   }
 
+#ifdef __EMSCRIPTEN__
+  const auto menu_before = m_menu_manager->current_menu();
+#endif
   SquirrelVirtualMachine::current()->update(g_game_time);
 
   if (!m_screen_stack.empty())
@@ -359,6 +372,13 @@ ScreenManager::update_gamelogic(float dt_sec)
   }
 
   m_menu_manager->process_input(controller);
+#ifdef __EMSCRIPTEN__
+  if (menu_before != m_menu_manager->current_menu())
+  {
+    m_mobile_controller.reset();
+    controller.set_touch_controls({});
+  }
+#endif
 
   if (m_screen_fade)
   {
@@ -388,7 +408,7 @@ ScreenManager::process_events()
 
     if (event.type == SDL_EVENT_FINGER_CANCELED)
     {
-      reset_browser_input();
+      cancel_browser_touch(event.tfinger.fingerID);
       continue;
     }
 #endif
@@ -396,6 +416,53 @@ ScreenManager::process_events()
     auto window_width = window_size.width * 1.0f;
     auto window_height = window_size.height * 1.0f;
 
+#ifdef __EMSCRIPTEN__
+    if (event.type >= SDL_EVENT_FINGER_DOWN && event.type <= SDL_EVENT_FINGER_MOTION)
+    {
+      const auto finger_type = event.type;
+      const auto finger = event.tfinger;
+      if (event.type == SDL_EVENT_FINGER_DOWN)
+      {
+        g_config->browser_touch_available = true;
+        if (g_config->browser_touch_controls == -1) g_config->mobile_controls = true;
+        if (m_mobile_controller.process_finger_down_event(finger)) continue;
+        if (m_browser_ui_finger) continue;
+        m_browser_ui_finger = finger.fingerID;
+      }
+      else if (event.type == SDL_EVENT_FINGER_MOTION)
+      {
+        if (m_mobile_controller.process_finger_motion_event(finger)) continue;
+        if (m_browser_ui_finger != finger.fingerID) continue;
+      }
+      else
+      {
+        if (m_mobile_controller.process_finger_up_event(finger)) continue;
+        if (m_browser_ui_finger != finger.fingerID) continue;
+        m_browser_ui_finger.reset();
+      }
+      // Select the tapped row before HIT. Only this UI finger generates mouse
+      // events; lifting a gameplay finger cannot click a menu or release it.
+      event = SDL_Event{};
+      event.type = SDL_EVENT_MOUSE_MOTION;
+      event.motion.windowID = finger.windowID;
+      event.motion.which = SDL_TOUCH_MOUSEID;
+      event.motion.x = finger.x * (window_width - 1.f);
+      event.motion.y = finger.y * (window_height - 1.f);
+      MouseCursor::current()->set_pos(static_cast<int>(event.motion.x), static_cast<int>(event.motion.y));
+      m_menu_manager->event(event);
+      m_screen_stack.back()->event(event);
+      if (finger_type == SDL_EVENT_FINGER_MOTION) continue;
+      event = SDL_Event{};
+      event.type = finger_type == SDL_EVENT_FINGER_DOWN ? SDL_EVENT_MOUSE_BUTTON_DOWN : SDL_EVENT_MOUSE_BUTTON_UP;
+      event.button.windowID = finger.windowID;
+      event.button.which = SDL_TOUCH_MOUSEID;
+      event.button.button = SDL_BUTTON_LEFT;
+      event.button.down = event.type == SDL_EVENT_MOUSE_BUTTON_DOWN;
+      event.button.clicks = 1;
+      event.button.x = finger.x * (window_width - 1.f);
+      event.button.y = finger.y * (window_height - 1.f);
+    }
+#else
     switch (event.type)
     {
       case SDL_EVENT_FINGER_DOWN:
@@ -457,6 +524,7 @@ ScreenManager::process_events()
         MouseCursor::current()->set_pos(event.motion.x, event.motion.y);
         break;
     }
+#endif
     m_input_manager.process_event(event);
 
 #define LOGMOUSEY(var) VideoSystem::current()->get_viewport().to_logical(0, var).y
@@ -606,6 +674,11 @@ ScreenManager::handle_screen_switch()
 
       // move actions to a new vector since setup() might modify it
       auto actions = std::move(m_actions);
+#ifdef __EMSCRIPTEN__
+      m_mobile_controller.reset();
+      m_input_manager.get_controller().set_touch_controls({});
+      m_browser_ui_finger.reset();
+#endif
       bool quit_action_triggered = false;
 
       for (auto& action : actions)
