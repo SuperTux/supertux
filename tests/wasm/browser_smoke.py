@@ -185,8 +185,10 @@ async def smoke(args, url, data_dir):
         await denied.add_init_script("Object.defineProperty(window, 'indexedDB', {get() { throw Error('phase1 denied IndexedDB'); }});")
         page = await boot(denied, "denied-storage-menu", memory=True)
         assert await page.locator("#storage_warning").is_visible()
+        warning_box = await page.locator("#storage_warning").bounding_box()
+        assert 0 <= warning_box["y"] and warning_box["y"] + warning_box["height"] <= 600
         assert not await page.evaluate("Module.supertuxStorage.flush()")
-        await capture(page, "memory-fallback.png")
+        await page.screenshot(path=str(args.output / "memory-fallback.png"))
         await denied.close()
         await browser.close()
 
