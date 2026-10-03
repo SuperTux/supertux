@@ -149,7 +149,10 @@ EditorProject::close()
 void
 EditorProject::create_empty_project()
 {
-  m_world.reset();
+  std::string world_name = "__LEVEL_EDITOR__TEMP__";
+  std::string world_description = "These are temporary levels created with the level editor";
+
+  set_world(World::create(world_name, world_description));
 
   m_level = std::make_unique<Level>(false);
   m_level->m_name = "";
@@ -161,8 +164,12 @@ EditorProject::create_empty_project()
   m_level->add_sector(std::move(sector));
 
   m_level->initialize();
-  m_level_filename = "";
+  m_level_filename =
+    physfsutil::get_first_nonexisting_filename(m_world->get_basedir(), "level", ".stl", false);
   m_level_loaded = true;
+
+  m_temp_level = true;
+
   // Editor::current()->reload_level();
   g_config->editor_last_edited_level = "";
 }
@@ -206,15 +213,13 @@ EditorProject::get_editable_level()
 void
 EditorProject::set_level(std::unique_ptr<Level> level)
 {
-  m_temp_level = (level == nullptr);
-
-  if (m_temp_level)
+  if (level)
   {
-    create_empty_project();
+    m_level = std::move(level);
   }
   else
   {
-    m_level = std::move(level);
+    create_empty_project();
   }
 
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
@@ -241,24 +246,27 @@ EditorProject::save_level(const std::string& filename, bool set_as_current_filen
     return false;
   }
 
-  if (save_temp_level)
+  if (m_temp_level)
   {
     m_temp_level = false;
     // Implied
     set_as_current_filename = true;
   }
 
-  auto file = !filename.empty() ? filename : m_level_filename;
+  const auto& level_directory = get_level_directory();
+
+  auto file = get_default_save_filename(filename);
+  auto filepath = FileSystem::join(level_directory, file);
 
   if (set_as_current_filename)
-    m_level_filename = filename;
+    m_level_filename = file;
 
   for (const auto& sector : m_level->get_sectors())
   {
     sector->on_editor_save();
   }
 
-  m_level->save(FileSystem::join(get_level_directory(), file));
+  m_level->save(filepath);
   m_time_since_last_save = 0.f;
   remove_autosave_file();
 
@@ -268,6 +276,18 @@ EditorProject::save_level(const std::string& filename, bool set_as_current_filen
 
   trigger_post_save_callback();
   return true;
+}
+
+std::string
+EditorProject::get_default_save_filename(const std::string &suggested_filename)
+{
+  if (!suggested_filename.empty())
+    return suggested_filename;
+  
+  if (!m_level_filename.empty())
+    return m_level_filename;
+  
+  return physfsutil::get_first_nonexisting_filename(get_level_directory(), "level", ".stl");
 }
 
 void

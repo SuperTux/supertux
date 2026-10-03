@@ -167,12 +167,18 @@ std::string get_first_nonexisting_filename(const std::string& basedir, const std
 {
   std::string file_extension = extension[0] == '.' ? extension : "." + extension;
   std::string filename = file_pattern + file_extension;
+
+  int num = 1;
+
+  // Base dir doesn't exist yet. It'll (hopefully) be created by the time the level is saved
+  if (basedir.empty())
+    return allow_unnumbered ? filename : file_pattern + std::to_string(num) + file_extension;
+
   std::string filepath = FileSystem::join(basedir, filename);
 
   if (allow_unnumbered && !PHYSFS_exists(filepath.c_str()))
     return filename;
 
-  int num = 1;
   while(PHYSFS_exists(filepath.c_str()))
   {
     filename = file_pattern + std::to_string(num) + file_extension;
