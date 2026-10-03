@@ -548,8 +548,8 @@ EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>&
 
   if ((m_level && !current_world) || m_level_filename == "")
   {
-      GameManager::current()->start_level(m_level.get(), start_pos, true);
-      return true;
+    GameManager::current()->start_level(m_level.get(), start_pos, true);
+    return true;
   }
 
   autosave();
