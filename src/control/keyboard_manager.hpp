@@ -37,6 +37,9 @@ public:
   void process_menu_key_event(const SDL_KeyboardEvent& event);
 
   void bind_next_event_to(int player_id, Control id);
+#ifdef __EMSCRIPTEN__
+  void reset_text_input() { m_lock_text_input = false; }
+#endif
 
 private:
   InputManager* m_parent;

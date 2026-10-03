@@ -54,6 +54,10 @@ public:
   bool has_pending_fadeout() const;
 
   void on_window_resize();
+#ifdef __EMSCRIPTEN__
+  void set_browser_suspended(bool suspended);
+  void reset_browser_input();
+#endif
 
   // push new screen on screen_stack
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
@@ -88,6 +92,10 @@ private:
   std::unique_ptr<FPS_Stats> m_fps_statistics;
 
   float m_speed;
+#ifdef __EMSCRIPTEN__
+  bool m_browser_suspended = false;
+  bool m_browser_managed = false;
+#endif
   struct Action
   {
     enum Type { PUSH_ACTION, POP_ACTION, QUIT_ACTION };

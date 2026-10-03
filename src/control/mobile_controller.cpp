@@ -201,7 +201,13 @@ MobileController::update()
   // Allow using on-screen controls with the mouse
   float x, y;
   auto buttons = SDL_GetMouseState(&x, &y);
+#ifdef __EMSCRIPTEN__
+  if ((buttons & SDL_BUTTON_LMASK) == 0)
+    m_ignore_mouse_until_release = false;
+  if (!m_ignore_mouse_until_release && (buttons & SDL_BUTTON_LMASK) != 0)
+#else
   if ((buttons & SDL_BUTTON_LMASK) != 0)
+#endif
   {
     activate_widget_at_pos(x, y);
   }
@@ -225,6 +231,18 @@ MobileController::update()
     }
   }
 }
+
+#ifdef __EMSCRIPTEN__
+void
+MobileController::reset()
+{
+  m_fingers.clear();
+  m_input.reset();
+  m_input_last.reset();
+  // SDL's mouse state can outlive a canceled touch or a lost mouse-up.
+  m_ignore_mouse_until_release = true;
+}
+#endif
 
 void
 MobileController::apply(Controller& controller) const

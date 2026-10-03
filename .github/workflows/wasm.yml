@@ -22,6 +22,7 @@ on:
     branches:
       - master
       - mobile-web-phase1-wasm-reliability
+      - mobile-web-phase2-safari-shell
     tags:
       - '*'
   pull_request: {}
@@ -72,8 +73,10 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Storage startup and failure checks
-        run: node tests/wasm/storage.test.cjs
+      - name: Storage and browser shell failure checks
+        run: |
+          node tests/wasm/storage.test.cjs
+          node tests/wasm/browser.test.cjs
 
       - name: Use cached dependencies
         id: cache-dependencies
@@ -129,9 +132,12 @@ jobs:
           python-version: '3.12'
 
       - name: Install browser validation tools
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
         run: |
           python -m pip install playwright==1.62.0 Pillow==11.3.0
           python -m playwright install --with-deps chromium
+          if [ "$BUILD_TYPE" = Release ]; then python -m playwright install --with-deps webkit; fi
 
       - name: Real browser boot, input, and persistence smoke
         env:
@@ -143,14 +149,21 @@ jobs:
           if [ "$BUILD_TYPE" = Debug ]; then smoke_options+=(--record-known-ub); fi
           python tests/wasm/browser_smoke.py build --output build/browser-evidence "${smoke_options[@]}" 2>&1 | tee build/browser-smoke.log
 
+      - name: WebKit Release boot, shell, audio, and viewport smoke
+        if: matrix.build_type == 'Release'
+        run: |
+          python tests/wasm/browser_smoke.py build --browser webkit --output build/webkit-evidence 2>&1 | tee build/webkit-smoke.log
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: wasm-${{ matrix.build_type }}-validation
           path: |
             build/browser-evidence/
+            build/webkit-evidence/
             build/build.log
             build/browser-smoke.log
+            build/webkit-smoke.log
             build/compile_commands.json
           if-no-files-found: error
 
