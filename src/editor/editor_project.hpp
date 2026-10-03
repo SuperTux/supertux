@@ -318,7 +318,14 @@ public:
    */
   bool save_level(const std::string& filename = "", bool set_as_current_filename = false,
                   const std::function<void ()>& post_save_callback = nullptr, bool save_temp_level = false);
-  
+
+  /**
+   * Returns the filename for saving the level, setting a
+   * default filename when the provided filename is empty
+   * @param suggested_filename Suggested filename
+   */
+  std::string get_default_save_filename(const std::string &suggested_filename);
+
   /**
    * Triggers the `post_save_callback` function after a save
    */
