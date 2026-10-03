@@ -148,13 +148,27 @@ EditorProject::close()
   reset();
 }
 
+std::unique_ptr<World>
+EditorProject::create_empty_world()
+{
+  static const auto& TEMP_PROJECT_NAME = "__LEVEL_EDITOR__TEMP__";
+  std::string world_description = "These are temporary levels created with the level editor";
+  auto levels_directory = FileSystem::join("levels", TEMP_PROJECT_NAME);
+  if (physfsutil::is_directory(levels_directory))
+  {
+    return World::from_directory(levels_directory);
+  }
+
+  auto world = World::create(TEMP_PROJECT_NAME, world_description);
+  world->save();
+
+  return world;
+}
+
 void
 EditorProject::create_empty_project()
 {
-  std::string world_name = "__LEVEL_EDITOR__TEMP__";
-  std::string world_description = "These are temporary levels created with the level editor";
-
-  set_world(World::create(world_name, world_description));
+  set_world(create_empty_world());
 
   m_level = std::make_unique<Level>(false);
   m_level->m_name = "";
@@ -166,8 +180,11 @@ EditorProject::create_empty_project()
   m_level->add_sector(std::move(sector));
 
   m_level->initialize();
+  int level_number = 0;
   m_level_filename =
-    physfsutil::get_first_nonexisting_filename(m_world->get_basedir(), "level", ".stl", false);
+      physfsutil::get_first_nonexisting_filename(m_world->get_basedir(), "level", ".stl", false, &level_number);
+
+  m_level->m_name = "Level " + std::to_string(level_number);
   m_level_loaded = true;
 
   m_temp_level = true;
@@ -218,6 +235,7 @@ EditorProject::set_level(std::unique_ptr<Level> level)
   if (level)
   {
     m_level = std::move(level);
+    m_temp_level = false;
   }
   else
   {
