@@ -18,6 +18,8 @@
 
 #include <iosfwd>
 
+#include "math/vector.hpp"
+
 class Sizef;
 
 class Size final
@@ -69,6 +71,11 @@ public:
   bool is_valid() const
   {
     return width > 0 && height > 0;
+  }
+
+  Vector to_vector() const
+  {
+    return Vector(width * 1.f, height * 1.f);
   }
 
 public:
