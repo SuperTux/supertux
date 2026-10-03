@@ -166,6 +166,12 @@ public:
   inline bool is_level_loaded() const { return m_level_loaded; }
 
   /**
+   * Creates an empty world for temporary levels
+   * @return Empty world
+   */
+  std::unique_ptr<World> create_empty_world();
+
+  /**
    * Sets the current project to an empty level with default values
    */
   void create_empty_project();
