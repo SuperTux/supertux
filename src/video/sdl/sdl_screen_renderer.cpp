@@ -18,6 +18,9 @@
 #include "video/sdl/sdl_screen_renderer.hpp"
 
 #include <SDL3/SDL_render.h>
+#ifdef __EMSCRIPTEN__
+#include <cmath>
+#endif
 
 #include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
@@ -70,11 +73,24 @@ SDLScreenRenderer::start_draw()
 
   SDL_Rect sdl_viewport = viewport.to_sdl();
 
+#ifdef __EMSCRIPTEN__
+  // SDL3 keeps the viewport in render coordinates and scales its rectangle as
+  // well as the drawing commands. Setting a pixel rectangle at scale 1 and then
+  // changing scale shrinks/clips portrait output. Express the physical viewport
+  // in the final coordinate system instead. Native rendering is unchanged.
+  SDL_SetRenderScale(m_renderer, scale.x, scale.y);
+  sdl_viewport.x = static_cast<int>(std::round(static_cast<float>(viewport.left) / scale.x));
+  sdl_viewport.y = static_cast<int>(std::round(static_cast<float>(viewport.top) / scale.y));
+  sdl_viewport.w = static_cast<int>(std::round(static_cast<float>(viewport.get_width()) / scale.x));
+  sdl_viewport.h = static_cast<int>(std::round(static_cast<float>(viewport.get_height()) / scale.y));
+  SDL_SetRenderViewport(m_renderer, &sdl_viewport);
+#else
   // SetViewport() works in scaled screen coordinates, so we have to
   // reset it to 1.0, 1.0 to get meaningful results
   SDL_SetRenderScale(m_renderer, 1.0f, 1.0f);
   SDL_SetRenderViewport(m_renderer, &sdl_viewport);
   SDL_SetRenderScale(m_renderer, scale.x, scale.y);
+#endif
 
   SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
   SDL_RenderClear(m_renderer);

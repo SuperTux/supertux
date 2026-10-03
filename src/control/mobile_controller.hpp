@@ -37,6 +37,9 @@ public:
   void draw(DrawingContext& context);
   void apply(Controller& controller) const;
   void update();
+#ifdef __EMSCRIPTEN__
+  void reset();
+#endif
 
   /** returns true if the finger event was inside the screen button area */
   bool process_finger_down_event(const SDL_TouchFingerEvent& event);
@@ -55,6 +58,9 @@ private:
   std::bitset<(size_t)Control::CONTROLCOUNT> m_input, m_input_last;
 
   std::map<SDL_FingerID, Vector> m_fingers;
+#ifdef __EMSCRIPTEN__
+  bool m_ignore_mouse_until_release = false;
+#endif
 
   Rectf m_rect_directions, m_rect_jump, m_rect_action, m_rect_cheats,
         m_rect_debug, m_rect_escape, m_rect_item;

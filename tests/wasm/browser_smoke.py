@@ -49,11 +49,15 @@ async def smoke(args, url, data_dir):
             log.write(line + "\n")
 
     async with async_playwright() as playwright:
-        browser = await playwright.chromium.launch(
-            executable_path=args.chromium,
-            args=["--no-sandbox", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
-        )
+        launch = {}
+        if args.browser == 'chromium':
+            launch = dict(executable_path=args.chromium,
+                          args=["--no-sandbox", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"])
+        elif args.webkit_executable:
+            launch['executable_path'] = args.webkit_executable
+        browser = await getattr(playwright, args.browser).launch(**launch)
         report["browser"] = browser.version
+        report['browser_engine'] = args.browser
 
         async def boot(context, name, level=False, memory=False):
             page = await context.new_page()
@@ -62,6 +66,25 @@ async def smoke(args, url, data_dir):
             page.on("pageerror", lambda error: errors.append(f"{name}: {error}"))
             page.on("response", lambda response: errors.append(f"{name}: HTTP {response.status}: {response.url}")
                     if response.status >= 400 else None)
+            # Observe the game's actual audio engine; do not create another
+            # context or substitute playback. Count real scheduled buffer starts.
+            await page.add_init_script("""(() => {
+                const Audio = window.AudioContext;
+                window.phase2AudioContexts = [];
+                window.AudioContext = class extends Audio {
+                    constructor(...args) {
+                        super(...args);
+                        window.phase2AudioContexts.push(this);
+                        this.phase2StartedBuffers = 0;
+                        const create = this.createBufferSource.bind(this);
+                        this.createBufferSource = () => {
+                            const source = create(), start = source.start.bind(source);
+                            source.start = (...args) => { ++this.phase2StartedBuffers; return start(...args); };
+                            return source;
+                        };
+                    }
+                };
+            })();""")
             arguments = ["--verbose"]
             if level:
                 # Use existing read-only scripting access to measure keyboard
@@ -74,13 +97,26 @@ async def smoke(args, url, data_dir):
             await page.wait_for_function("window.Module && Module.supertuxReady === true", timeout=180000)
             mode = await page.evaluate("Module.supertuxStorage.state")
             assert mode == ("memory" if memory else "indexeddb"), (name, mode)
+            assert not await page.evaluate('Module.supertuxShell.active')
+            await page.wait_for_function("phase2AudioContexts.length === 1 && phase2AudioContexts[0].state === 'suspended'")
+            await page.locator('#start_button').click()
+            await page.wait_for_function('Module.supertuxShell.active')
+            await page.wait_for_function("phase2AudioContexts[0].state === 'running' && phase2AudioContexts[0].phase2StartedBuffers > 0")
             assert await page.locator("#overlay").evaluate("element => getComputedStyle(element).display") == "none"
             await page.locator("#canvas").focus()
             report["checks"].append(name + ": boot and storage " + mode)
             return page
 
-        async def capture(page, filename):
-            data = await page.locator("#canvas").screenshot(path=str(args.output / filename))
+        async def capture(page, filename, uncovered=False):
+            if uncovered:
+                # Locator screenshots include covering HTML. Hide the animated
+                # prompt only for readback; shell/input/simulation remain paused.
+                await page.locator('#overlay').evaluate("e => e.style.visibility = 'hidden'")
+            try:
+                data = await page.locator("#canvas").screenshot(path=str(args.output / filename))
+            finally:
+                if uncovered:
+                    await page.locator('#overlay').evaluate("e => e.style.visibility = ''")
             image = Image.open(io.BytesIO(data)).convert("RGB")
             assert len(image.getcolors(image.width * image.height)) > 20, "Canvas has no rendered image/font content"
             return image
@@ -158,20 +194,72 @@ async def smoke(args, url, data_dir):
             await page.keyboard.press("Backquote", delay=100)
             return value
 
+        # Freeze the actual simulation with a key held; lifecycle return must
+        # retain an explicit Resume gate and clear the missing key-up.
+        await page.keyboard.down('ArrowRight')
+        await page.wait_for_timeout(100)
+        await page.evaluate("window.dispatchEvent(new Event('blur'))")
+        await page.wait_for_function("Module.supertuxShell.audioState === 'suspended'")
+        await page.screenshot(path=str(args.output / 'resume-prompt.png'))
+        frozen = await capture(page, 'shell-paused.png', uncovered=True)
+        await page.wait_for_timeout(500)
+        still = await capture(page, 'shell-still-paused.png', uncovered=True)
+        assert ImageChops.difference(frozen, still).getbbox() is None, 'Simulation drew/advanced while shell paused'
+        await page.evaluate("window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}))")
+        # The synthetic blur was also consumed by SDL. Model the matching window
+        # focus event on return; pageshow alone does not restore SDL text focus.
+        await page.evaluate("window.dispatchEvent(new Event('focus'))")
+        assert not await page.evaluate('Module.supertuxShell.active')
+        await page.locator('#start_button').click()
+        await page.wait_for_function('Module.supertuxShell.active')
+        # Do not send ArrowRight up yet. The reset must neutralize a held action
+        # even when a browser never delivered that release. Allow friction to settle.
+        await page.wait_for_timeout(600)
+        x_reset = await position('x_reset', 'x')
+        await page.wait_for_timeout(500)
+        x_still = await position('x_still', 'x')
+        assert abs(x_still - x_reset) < 5, (x_reset, x_still)
+        await page.keyboard.up('ArrowRight')
+        # Interrupt the real context while foregrounded, without browser blur.
+        await page.evaluate('phase2AudioContexts[0].suspend()')
+        await page.wait_for_function('!Module.supertuxShell.active')
+        await page.locator('#start_button').click()
+        await page.wait_for_function("Module.supertuxShell.active && Module.supertuxShell.audioState === 'running'")
+        # Rejection in the real engine wrapper must remain a recoverable UX.
+        await page.evaluate("""() => {
+            window.dispatchEvent(new Event('blur'));
+            window.dispatchEvent(new Event('focus'));
+            const context = phase2AudioContexts[0];
+            window.phase2Resume = context.resume.bind(context);
+            context.resume = () => Promise.reject(Error('phase2 denied audio resume'));
+        }""")
+        await page.locator('#start_button').click()
+        await page.locator('#play_muted').wait_for(state='visible')
+        assert not await page.evaluate('Module.supertuxShell.active')
+        await page.locator('#play_muted').click()
+        await page.wait_for_function("Module.supertuxShell.active && Module.supertuxShell.audioState === 'suspended'")
+        await page.evaluate("phase2AudioContexts[0].resume = window.phase2Resume")
+        await page.evaluate("window.dispatchEvent(new Event('blur')); window.dispatchEvent(new Event('focus'))")
+        await page.locator('#start_button').click()
+        await page.wait_for_function("Module.supertuxShell.active && Module.supertuxShell.audioState === 'running'")
+        report['checks'].append('Actual level frozen across blur/pageshow; repeated gesture resumes real OpenAL context; missing key-up neutralized')
+        report['checks'].append('Real AudioContext rejection shows retry/muted choice; muted play stays suspended; later gesture restores audio')
+
         x_before = await position("x_before", "x")
         y_ground = await position("y_ground", "y")
         before = await capture(page, "level-before.png")
-        await page.keyboard.down("ArrowRight")
-        await page.wait_for_timeout(1400)
-        await page.keyboard.up("ArrowRight")
-        x_after = await position("x_after", "x")
-        assert x_after > x_before + 50, (x_before, x_after)
         # Prepare the read-only query before jumping; typing it during the jump
         # can take longer than the full jump on an instrumented Debug build.
         await prepare_position("y_jump", "y")
         await page.keyboard.press("Space", delay=100)
         y_jump = await position("y_jump", "y", prepared=True)
         assert y_jump < y_ground - 10, (y_ground, y_jump)
+        await page.wait_for_timeout(600) # Land near spawn before moving toward terrain.
+        await page.keyboard.down("ArrowLeft")
+        await page.wait_for_timeout(700)
+        await page.keyboard.up("ArrowLeft")
+        x_after = await position("x_after", "x")
+        assert x_after < x_before - 50, (x_before, x_after)
         report["keyboard_positions"] = {"x_before": x_before, "x_after": x_after, "y_ground": y_ground, "y_jump": y_jump}
         after = await capture(page, "level-after.png")
         assert ImageChops.difference(before, after).getbbox() is not None
@@ -180,6 +268,44 @@ async def smoke(args, url, data_dir):
         report["checks"].append("Welcome to Antarctica entered; keyboard movement/jump measured through existing read-only console methods; pause screenshot captured")
         await page.close()
         await context.close()
+
+        mobile = await browser.new_context(viewport={'width': 390, 'height': 844},
+                                           device_scale_factor=3, is_mobile=True, has_touch=True)
+        page = await boot(mobile, 'mobile-shell-menu')
+        report['mobile_layouts'] = []
+        for width, height in [(390, 844), (844, 390), (844, 320), (390, 700), (390, 844)]:
+            await page.set_viewport_size({'width': width, 'height': height})
+            await page.wait_for_function("""size => {
+                const canvas = Module.canvas, rect = document.getElementById('game_area').getBoundingClientRect();
+                return canvas.width === size[0] && canvas.height === size[1] &&
+                       canvas.width === Math.floor(rect.width) && canvas.height === Math.floor(rect.height);
+            }""", arg=[width, height])
+            dimensions = await page.evaluate("""() => ({
+                width: Module.canvas.width, height: Module.canvas.height,
+                css: Module.canvas.getBoundingClientRect().toJSON(), dpr: devicePixelRatio,
+                scrollWidth: document.documentElement.scrollWidth, innerWidth
+            })""")
+            assert dimensions['width'] == width and dimensions['height'] == height, dimensions
+            assert dimensions['scrollWidth'] == dimensions['innerWidth'], dimensions
+            report['mobile_layouts'].append(dimensions)
+            await page.wait_for_timeout(200) # Allow a real frame at the new viewport.
+            rendered = await capture(page, f'mobile-{width}x{height}.png')
+            # Dimension equality alone misses SDL3 scaling the viewport twice.
+            # This title backdrop should span both horizontal edges, with only
+            # vertical letterboxing in these sizes. Require a substantial band
+            # of colored game pixels on each side, not merely one cursor pixel.
+            for fraction in (0.03, 0.97):
+                column = int(rendered.width * fraction)
+                colored = sum(max(rendered.getpixel((column, y))) > 30 for y in range(rendered.height))
+                assert colored > rendered.height * .1, (width, height, 'clipped rendered viewport', fraction, colored)
+        await capture(page, 'mobile-portrait.png')
+        # Test the actual CSS-padded inner area, modeling nonzero safe insets.
+        await page.locator('#game_shell').evaluate("e => e.style.padding = '10px 20px 30px 40px'")
+        await page.evaluate("window.dispatchEvent(new Event('resize'))")
+        await page.wait_for_function('Module.canvas.width === 330 && Module.canvas.height === 804')
+        await capture(page, 'mobile-safe-area-fixture.png')
+        await mobile.close()
+        report['checks'].append(args.browser + ' mobile emulation DPR 3: portrait/landscape/toolbar-size sequence, CSS-safe-area fixture; backing resolution uses CSS pixels')
 
         denied = await browser.new_context(viewport={"width": 960, "height": 600})
         await denied.add_init_script("Object.defineProperty(window, 'indexedDB', {get() { throw Error('phase1 denied IndexedDB'); }});")
@@ -211,6 +337,8 @@ def main():
     parser.add_argument("build", type=Path)
     parser.add_argument("--output", type=Path, default=Path("wasm-browser-evidence"))
     parser.add_argument("--chromium", help="Installed executable; omit to use Playwright Chromium")
+    parser.add_argument('--browser', choices=['chromium', 'webkit'], default='chromium')
+    parser.add_argument('--webkit-executable', help='Optional local WebKit launcher')
     parser.add_argument("--data-dir", help="Compiled virtual data directory; otherwise read build/config.h")
     parser.add_argument("--record-known-ub", action="store_true", help="Record the exact documented upstream Debug UBSan sites; fail any new site. Does not disable instrumentation.")
     args = parser.parse_args()

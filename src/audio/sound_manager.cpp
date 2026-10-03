@@ -27,6 +27,9 @@
 #include "audio/sound_file.hpp"
 #include "audio/stream_sound_source.hpp"
 #include "util/log.hpp"
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 SoundManager::SoundManager() :
   m_device(alcOpenDevice(nullptr)),
@@ -54,6 +57,14 @@ SoundManager::SoundManager() :
     m_music_enabled = true;
 
     set_listener_orientation(Vector(0.0f, 0.0f), Vector(0.0f, -1.0f));
+#ifdef __EMSCRIPTEN__
+    // SDK 6.0.11 OpenAL owns this context. Unlock that same instance, never a
+    // second audio engine. Recheck this integration when updating the SDK.
+    EM_ASM({
+      if (Module['supertuxShell'])
+        Module['supertuxShell'].setAudioContext(AL.currentCtx.audioCtx);
+    }, 0);
+#endif
   } catch(std::exception& e) {
     if (m_context != nullptr) {
       alcDestroyContext(m_context);

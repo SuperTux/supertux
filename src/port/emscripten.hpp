@@ -25,12 +25,15 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/screen_manager.hpp"
 #include "video/video_system.hpp"
 
 extern "C" {
 
 void set_resolution(int w, int h);
 void save_config();
+void set_browser_suspended(int suspended);
+void reset_browser_input();
 void init_emscripten();
 void onDownloadProgress(intptr_t address, int id, int loaded, int total);
 void onDownloadFinished(intptr_t address, int id, const char* data);
@@ -42,8 +45,23 @@ EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it 
 void
 set_resolution(int w, int h)
 {
+  if (w <= 0 || h <= 0 ||
+      (g_config->window_size == Size(w, h) && VideoSystem::current()->get_window_size() == Size(w, h)))
+    return;
   VideoSystem::current()->on_resize(w, h);
-  MenuManager::instance().on_window_resize();
+  ScreenManager::current()->on_window_resize();
+}
+
+void
+set_browser_suspended(int suspended)
+{
+  ScreenManager::current()->set_browser_suspended(suspended != 0);
+}
+
+void
+reset_browser_input()
+{
+  ScreenManager::current()->reset_browser_input();
 }
 
 EMSCRIPTEN_KEEPALIVE // Same as above

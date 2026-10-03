@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   <meta name="description" content="Play the official online version of SuperTux, directly in your browser. No installation required.">
   <link rel="icon" href="supertux2.ico?v=@SUPERTUX_VERSION_STRING@" />
@@ -11,7 +13,7 @@
     body {
       font-family: arial;
       margin: 0;
-      padding: none;
+      padding: 0;
       background-color: black;
     }
 
@@ -175,25 +177,69 @@
         background-position: -256px 0, 50% calc(50% - 100px);
       }
     }
+    html, body { width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
+    * { box-sizing: border-box; }
+    #game_shell {
+      position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh;
+      padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+               env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+      background: black;
+    }
+    #game_area { position: relative; width: 100%; height: 100%; overflow: hidden; }
+    #canvas {
+      width: 100% !important; height: 100% !important; outline: none;
+      touch-action: none; user-select: none; -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+    #overlay { position: absolute; inset: 0; background-size: auto, min(60vw, 420px) auto, auto; }
+    #activation_panel { max-width: 94%; max-height: 100%; overflow: auto; text-align: center; }
+    #status { margin: 12px; overflow-wrap: anywhere; }
+    #progress { max-width: 80%; margin: 0 auto; }
+    #start_button, #play_muted, #fullscreen_button {
+      min-height: 44px; margin: 8px; padding: 10px 20px;
+      color: white; background: #285484; border: 2px solid #b8d8ff;
+      border-radius: 8px; font: bold 1rem arial; cursor: pointer; touch-action: manipulation;
+    }
+    button:disabled { opacity: .6; cursor: wait; }
+    [hidden] { display: none !important; }
+    .bottom_stuff { padding: 8px; font-size: .8rem; pointer-events: none; }
+    .bottom_stuff a { pointer-events: auto; }
+    #storage_warning {
+      position: absolute; bottom: 0; left: 0; right: 0; margin: 0;
+      color: #ffd080; background: #151515; padding: 8px; z-index: 20;
+      max-height: 30%; overflow: auto; font-size: .85rem;
+    }
+    #output { display: none; }
+    @media (max-height: 450px) { .bottom_stuff { display: none; } }
+    @media (prefers-reduced-motion: reduce) { #overlay, .spinner { animation: none; } }
   </style>
 </head>
 
 <body>
+  <main id="game_shell" aria-label="SuperTux game">
+  <div id="game_area">
   <div id="overlay" class="center_stuff">
-    <center>
+    <div id="activation_panel">
       <div class="spinner" id="spinner"></div>
-      <div class="emscripten" id="status">Downloading...</div>
+      <div class="emscripten" id="status" role="status" aria-live="polite">Downloading...</div>
       <br/>
       <div class="emscripten"><progress hidden id="progress" max="100" value="0"></progress></div>
-    </center>
+      <div>
+        <button id="start_button" type="button" hidden disabled>Start</button>
+        <button id="play_muted" type="button" hidden>Play without sound</button>
+        <button id="fullscreen_button" type="button" hidden>Fullscreen</button>
+      </div>
+    </div>
     <div class="bottom_stuff">
       <p>If the game is unplayably slow, try downloading the desktop version for your platform at <a href="https://www.supertux.org/download.html" target="_blank">supertux.org</a></p>
       <p id="data_warning"></p>
       <p id="progress_desc"></p>
     </div>
   </div>
-  <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
-  <p id="storage_warning" hidden style="position:fixed; bottom:0; left:0; right:0; margin:0; color:#ffd080; background:#151515; padding:8px; z-index:20" role="status"></p>
+  <canvas class="emscripten" id="canvas" tabindex="0"></canvas>
+  <p id="storage_warning" hidden role="status"></p>
+  </div>
+  </main>
   <p id="output"></p>
   <input type="file" id="file_upload" multiple="multiple" style="display:none">
   <script>
@@ -209,8 +255,7 @@
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist().then((persists) => {
         if (!persists) {
-          //alert("Your browser denied persistent storage. That means your data could be cleared next time you open the game.\n\nIf you just received a prompt asking you if you want data to persist, you may ignore this message.\n\nChrome and Chromium-based browsers (Edge, Opera, Brave...) will not ask the user; instead, the browser will choose by itself based on if it considers the site important. It detemines which sites are important based on certain data, such as how often you visit the site, what you do, etc. If you want to choose whether or not to save your progress, you may use Firefox instead.\n\nYou can read more at https://web.dev/persistent-storage/#how-is-permission-granted\n\nIf you want to choose to save your data, please use Firefox.");
-          document.getElementById("data_warning").innerHTML = 'Your browser denied persistent data. That means the browser can choose to delete your progress anytime. Chrome, Edge and Opera are known to <a class="light" href="https://web.dev/persistent-storage/#how-is-permission-granted">silently deny persistent data</a>; please try with Firefox if necessary.';
+          document.getElementById("data_warning").textContent = 'Browser storage may be cleared. Export important progress using the in-game download option.';
         } else {
           data_persistent = true;
         }
@@ -218,7 +263,7 @@
         console.warn('Could not request storage retention:', error);
       });
     } else {
-      document.getElementById("data_warning").innerHTML = 'Your browser does not support persistent data. That means the browser can choose to delete your progress anytime.';
+      document.getElementById("data_warning").textContent = 'Storage retention is unavailable. Browser saves may still work, but keep a backup of important progress.';
     }
 
     window.supertux2_ispersistent = function() {
@@ -249,7 +294,6 @@
     }
 
     // Functions to be loaded with cwrap
-    var setResolution = null;
     var onDownloadProgress = null;
     var onDownloadFinished = null;
     var onDownloadError = null;
@@ -289,28 +333,9 @@
           }
         }
       }(),
-      canvas: function () {
-        var c = document.getElementById("canvas");
-        c.addEventListener("webglcontextlost", (function (e) {
-          alert("WebGL context lost. You will need to reload the page.");
-          e.preventDefault();
-        }), !1);
-        // Fixed a bug where an iframe containing SuperTUx (e. g. Newgrounds)
-        // would lose focus if the user clicks outside of the iframe and cannot
-        // get focus back when user clicks inside the iframe, thus preventing
-        // any keyboard input from being received by SuperTux.
-        // If you want to try: Disable the three lines below, compile, upload on
-        // Newgrounds, wait for the game to load, click outside the game, click
-        // back inside the game, then try to press buttons (e. g. arrows), it'll
-        // behave as if focus was outside the iframe (e. g. pressing down will scroll
-        // the page instead of navigating the menus/worldmap/ducking/whatever)
-        c.addEventListener("click", function(e) {
-          c.focus();
-        });
-        return c;
-      }(),
+      canvas: document.getElementById('canvas'),
       setStatus: function (e) {
-        if (bootFailed) return;
+        if (bootFailed || gameReady) return;
         if (!e && !gameReady) e = 'Starting SuperTux...';
         overlayElement.style.display = e ? "flex" : "none";
 
@@ -359,7 +384,6 @@
         Module.setStatus(e ? "Preparing... (" + (this.totalDependencies - e) + "/" + this.totalDependencies + ")" : "All downloads complete.")
       },
       onRuntimeInitialized: function() {
-        setResolution = Module.cwrap('set_resolution', null, ['number', 'number']);
         onDownloadProgress = Module.cwrap('onDownloadProgress', null, ['number', 'number', 'number', 'number']);
         onDownloadFinished = Module.cwrap('onDownloadFinished', null, ['number', 'number', 'string']);
         onDownloadError = Module.cwrap('onDownloadError', null, ['number', 'number']);
@@ -373,14 +397,14 @@
       bootFailed = true;
       gameReady = false;
       spinnerElement.style.display = 'none';
+      if (Module.supertuxShell) Module.supertuxShell.fail('SuperTux could not start. ' + message);
       console.error(message);
     };
     window.supertux_game_ready = function() {
       gameReady = true;
       Module['supertuxReady'] = true;
-      Module.setStatus('');
       console.log('SuperTux game ready');
-      tryResize();
+      Module.supertuxShell.ready();
     };
 
     Module.setStatus("Downloading...");
@@ -388,6 +412,7 @@
       if (typeof error == "number")
         message = Module.ccall('getExceptionMessage', 'string', ['number'], [error]);
       Module.setStatus("Oops!<br><br>An error occured and SuperTux crashed.<br><br><pre>" + message + "</pre>");
+      if (Module.supertuxShell) Module.supertuxShell.fail('SuperTux stopped. Reload this page to continue.');
       spinnerElement.style.display = "none";
       Module.setStatus = function (e) {
         if (e)
@@ -395,25 +420,9 @@
       }
     }
 
-    var autofit = true;
-
-    function tryResize() {
-      if (!autofit || !Module)
-        return;
-
-      if (!setResolution || !gameReady)
-        return;
-
-      try {
-        setResolution(window.innerWidth, window.innerHeight);
-      } catch(err) {}
-    }
-
-    window.supertux_setAutofit = function(newAutofit) {
-      autofit = newAutofit;
-      document.body.style.overflow = (autofit || ("@CMAKE_BUILD_TYPE@" == "Release")) ? "hidden" : "initial";
-      tryResize();
-    }
+    window.supertux_setAutofit = function() {
+      if (Module.supertuxShell) Module.supertuxShell.resize();
+    };
 
     // FIXME: Hardcoded
     const root = "/home/web_user/.local/share/supertux2/";
@@ -556,26 +565,6 @@
       xhr.addEventListener('abort', (e) => { onDownloadAborted(ptr, id); })
     }
 
-    window.addEventListener('resize', (e) => {
-      tryResize();
-    });
-    window.addEventListener('unload', (e) => {
-      try {
-        if (gameReady) Module.ccall("save_config", null, [], []);
-      } catch(e) {}
-      supertux_saveFiles();
-    });
-    window.addEventListener('keydown', (e) => {
-      if (e.key == "F11" || (e.key == "Enter" && e.altKey)) {
-        try {
-          if (document.fullscreenElement) {
-            document.exitFullscreen();
-          } else {
-            Module.canvas.requestFullscreen();
-          }
-        } catch(e) {}
-      }
-    });
   </script>
   <script async src="supertux2.js"></script>
 </body>

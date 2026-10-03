@@ -425,8 +425,8 @@ if(WIN32)
 endif()
 
 if(EMSCRIPTEN)
-  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap','FS'])
-  set_property(TARGET supertux2 APPEND PROPERTY LINK_DEPENDS "${PROJECT_SOURCE_DIR}/mk/emscripten/storage.js")
+  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_set_browser_suspended','_reset_browser_input','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap','FS'])
+  set_property(TARGET supertux2 APPEND PROPERTY LINK_DEPENDS "${PROJECT_SOURCE_DIR}/mk/emscripten/storage.js" "${PROJECT_SOURCE_DIR}/mk/emscripten/browser.js")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   # This option makes symbol names available for libc's backtrace().
   target_link_options(supertux2 PUBLIC -rdynamic)

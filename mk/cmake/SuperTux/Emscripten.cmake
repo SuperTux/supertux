@@ -5,7 +5,7 @@ set(SSQ_BUILD_INSTALL NO)
 
 set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0 -fPIC")
 # SDL3_image decodes real file bytes; browser preload plugins are unnecessary.
-set(EM_LINK_FLAGS " -sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH=1 -sMAXIMUM_MEMORY=536870912 -sERROR_ON_UNDEFINED_SYMBOLS=1 --preload-file ${BUILD_CONFIG_DATA_DIR} --pre-js ${PROJECT_SOURCE_DIR}/mk/emscripten/storage.js -lidbfs.js")
+set(EM_LINK_FLAGS " -sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH=1 -sMAXIMUM_MEMORY=536870912 -sERROR_ON_UNDEFINED_SYMBOLS=1 --preload-file ${BUILD_CONFIG_DATA_DIR} --pre-js ${PROJECT_SOURCE_DIR}/mk/emscripten/storage.js --pre-js ${PROJECT_SOURCE_DIR}/mk/emscripten/browser.js -lidbfs.js")
 if(ENABLE_OPENGL)
   set(EM_LINK_FLAGS "${EM_LINK_FLAGS} -sFULL_ES2")
   set(HAVE_OPENGL ON CACHE BOOL "")

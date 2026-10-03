@@ -21,6 +21,9 @@
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
+#ifdef __EMSCRIPTEN__
+#include "control/keyboard_manager.hpp"
+#endif
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -219,6 +222,33 @@ ScreenManager::on_window_resize()
     screen->on_window_resize();
 }
 
+#ifdef __EMSCRIPTEN__
+void
+ScreenManager::reset_browser_input()
+{
+  SDL_ResetKeyboard();
+  SDL_FlushEvents(SDL_EVENT_KEY_DOWN, SDL_EVENT_TEXT_INPUT);
+  SDL_FlushEvents(SDL_EVENT_MOUSE_MOTION, SDL_EVENT_MOUSE_WHEEL);
+  SDL_FlushEvents(SDL_EVENT_FINGER_DOWN, SDL_EVENT_FINGER_CANCELED);
+  SDL_FlushEvents(SDL_EVENT_JOYSTICK_AXIS_MOTION, SDL_EVENT_JOYSTICK_BUTTON_UP);
+  SDL_FlushEvents(SDL_EVENT_GAMEPAD_AXIS_MOTION, SDL_EVENT_GAMEPAD_BUTTON_UP);
+  m_input_manager.reset();
+  m_input_manager.keyboard_manager->reset_text_input();
+  m_mobile_controller.reset();
+}
+
+void
+ScreenManager::set_browser_suspended(bool suspended)
+{
+  reset_browser_input();
+  m_browser_managed = true;
+  m_browser_suspended = suspended;
+  // Background time must never become a catch-up step on return.
+  last_time = std::chrono::steady_clock::now();
+  elapsed_time = 0.0f;
+}
+#endif
+
 void
 ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
 {
@@ -346,6 +376,22 @@ ScreenManager::process_events()
   auto session = GameSession::current();
   while (SDL_PollEvent(&event))
   {
+#ifdef __EMSCRIPTEN__
+    // Pump window/device events while paused; discard covered-canvas input.
+    if (m_browser_suspended &&
+        ((event.type >= SDL_EVENT_KEY_DOWN && event.type <= SDL_EVENT_TEXT_INPUT) ||
+         (event.type >= SDL_EVENT_MOUSE_MOTION && event.type <= SDL_EVENT_MOUSE_WHEEL) ||
+         (event.type >= SDL_EVENT_FINGER_DOWN && event.type <= SDL_EVENT_FINGER_CANCELED) ||
+         (event.type >= SDL_EVENT_JOYSTICK_AXIS_MOTION && event.type <= SDL_EVENT_JOYSTICK_BUTTON_UP) ||
+         (event.type >= SDL_EVENT_GAMEPAD_AXIS_MOTION && event.type <= SDL_EVENT_GAMEPAD_BUTTON_UP)))
+      continue;
+
+    if (event.type == SDL_EVENT_FINGER_CANCELED)
+    {
+      reset_browser_input();
+      continue;
+    }
+#endif
     auto window_size = m_video_system.get_window_size();
     auto window_width = window_size.width * 1.0f;
     auto window_height = window_size.height * 1.0f;
@@ -440,12 +486,20 @@ ScreenManager::process_events()
         break;
 
       case SDL_EVENT_WINDOW_RESIZED:
+#ifdef __EMSCRIPTEN__
+        // Shell measurements own browser sizing. Queued SDL notifications can
+        // describe an older intermediate toolbar/orientation size.
+        if (m_browser_managed) break;
+#endif
         m_video_system.on_resize(event.window.data1, event.window.data2);
         on_window_resize();
         break;
 
       case SDL_EVENT_WINDOW_HIDDEN:
       case SDL_EVENT_WINDOW_FOCUS_LOST:
+#ifdef __EMSCRIPTEN__
+        if (m_browser_managed) break; // Shell pause is independent of game menus.
+#endif
         if (g_config->pause_on_focusloss)
         {
           if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
@@ -618,6 +672,15 @@ ScreenManager::handle_screen_switch()
 
 void ScreenManager::loop_iter()
 {
+#ifdef __EMSCRIPTEN__
+  if (m_browser_suspended)
+  {
+    last_time = std::chrono::steady_clock::now();
+    elapsed_time = 0.0f;
+    process_events();
+    return;
+  }
+#endif
   auto now = std::chrono::steady_clock::now();
   auto nsecs = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_time).count();
   elapsed_time += 1e-9f * static_cast<float>(nsecs);
