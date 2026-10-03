@@ -141,11 +141,15 @@ async def smoke(args, url, data_dir):
         await page.keyboard.press("Enter", delay=150)
         await page.wait_for_function("document.querySelector('#output').textContent.includes('Playing')", timeout=60000)
 
-        async def position(label, axis):
+        async def prepare_position(label, axis):
             await page.keyboard.press("Backquote", delay=100)
-            # One text event avoids a slow Debug frame between every typed
-            # character, which can let a complete jump finish before sampling.
-            await page.keyboard.insert_text(f'print("PHASE1_{label}=" + sector.Tux.get_{axis}());')
+            await page.keyboard.type(f'print("PHASE1_{label}=" + sector.Tux.get_{axis}());', delay=1)
+            await page.keyboard.press("Backquote", delay=100)
+
+        async def position(label, axis, prepared=False):
+            if not prepared:
+                await prepare_position(label, axis)
+            await page.keyboard.press("Backquote", delay=100)
             await page.keyboard.press("Enter", delay=100)
             pattern = r"\[SCRIPTING\] PHASE1_" + label + r"=([-0-9.]+)"
             await page.wait_for_function("pattern => new RegExp(pattern).test(document.querySelector('#output').textContent)", arg=pattern)
@@ -162,8 +166,11 @@ async def smoke(args, url, data_dir):
         await page.keyboard.up("ArrowRight")
         x_after = await position("x_after", "x")
         assert x_after > x_before + 50, (x_before, x_after)
+        # Prepare the read-only query before jumping; typing it during the jump
+        # can take longer than the full jump on an instrumented Debug build.
+        await prepare_position("y_jump", "y")
         await page.keyboard.press("Space", delay=100)
-        y_jump = await position("y_jump", "y")
+        y_jump = await position("y_jump", "y", prepared=True)
         assert y_jump < y_ground - 10, (y_ground, y_jump)
         report["keyboard_positions"] = {"x_before": x_before, "x_after": x_after, "y_ground": y_ground, "y_jump": y_jump}
         after = await capture(page, "level-after.png")
