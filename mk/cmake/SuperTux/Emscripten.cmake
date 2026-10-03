@@ -3,8 +3,9 @@ set(IS_EMSCRIPTEN_BUILD ON)
 set(SQ_DISABLE_INSTALLER YES)
 set(SSQ_BUILD_INSTALL NO)
 
-set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0 -sUSE_SDL=3 -sUSE_SDL_IMAGE=3 -sUSE_SDL_TTF=3 -sUSE_VORBIS=1 -fPIC")
-set(EM_LINK_FLAGS " -sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH=1 -sMAXIMUM_MEMORY=536870912 -sERROR_ON_UNDEFINED_SYMBOLS=0 --preload-file ${BUILD_CONFIG_DATA_DIR} --use-preload-plugins -lidbfs.js")
+set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0 -fPIC")
+# SDL3_image decodes real file bytes; browser preload plugins are unnecessary.
+set(EM_LINK_FLAGS " -sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH=1 -sMAXIMUM_MEMORY=536870912 -sERROR_ON_UNDEFINED_SYMBOLS=1 --preload-file ${BUILD_CONFIG_DATA_DIR} --pre-js ${PROJECT_SOURCE_DIR}/mk/emscripten/storage.js -lidbfs.js")
 if(ENABLE_OPENGL)
   set(EM_LINK_FLAGS "${EM_LINK_FLAGS} -sFULL_ES2")
   set(HAVE_OPENGL ON CACHE BOOL "")
@@ -20,8 +21,9 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   string(APPEND CMAKE_CXX_FLAGS " -Wno-lifetime-safety-intra-tu-suggestions")
 endif()
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EM_USE_FLAGS} ${EM_C_FLAGS}")
-set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${EM_USE_FLAGS} ${EM_LINK_FLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${EM_USE_FLAGS} ${EM_LINK_FLAGS}")
+# Do not append these twice: a repeated --pre-js evaluates the storage initializer
+# twice and tries to mount/hydrate the same directory concurrently.
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${EM_LINK_FLAGS}")
 
 add_library(OpenAL INTERFACE IMPORTED)
 set_target_properties(OpenAL PROPERTIES

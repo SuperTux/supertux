@@ -721,6 +721,10 @@ ScreenManager::run()
 
   handle_screen_switch();
 #ifdef __EMSCRIPTEN__
+  EM_ASM({
+    if (window.supertux_game_ready)
+      window.supertux_game_ready();
+  }, 0);
   emscripten_set_main_loop(g_loop_iter, -1, 1);
 #else
   while (!m_screen_stack.empty()) {

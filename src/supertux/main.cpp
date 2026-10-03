@@ -264,10 +264,15 @@ void PhysfsSubsystem::find_mount_datadir()
     log_warning << "Couldn't add '" << m_datadir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 #else
+  m_datadir = BUILD_CONFIG_DATA_DIR;
   if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
   {
-    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
+    throw std::runtime_error(std::string("Couldn't mount packaged browser assets at '") +
+                             BUILD_CONFIG_DATA_DIR + "': " + physfsutil::get_last_error());
   }
+  if (!PHYSFS_exists("credits.stxt") || !PHYSFS_exists("images") || !PHYSFS_exists("fonts"))
+    throw std::runtime_error(std::string("Incomplete browser asset package at '") + BUILD_CONFIG_DATA_DIR + "'");
+  log_info << "Mounted browser assets: " << m_datadir << std::endl;
 #endif
 }
 
@@ -307,6 +312,10 @@ void PhysfsSubsystem::add_data_to_search_path(const std::string& dir) const
 
 void PhysfsSubsystem::find_mount_userdir()
 {
+#ifdef __EMSCRIPTEN__
+  // storage.js creates and hydrates this directory before main is allowed to run.
+  m_userdir = "/home/web_user/.local/share/supertux2/";
+#else
   if (m_forced_userdir)
   {
     m_userdir = *m_forced_userdir;
@@ -378,8 +387,6 @@ if (FileSystem::is_directory(olduserdir)) {
 }
 #endif
 
-#ifdef __EMSCRIPTEN__
-  m_userdir = "/home/web_user/.local/share/supertux2/";
 #endif
 
   if (!FileSystem::is_directory(m_userdir))
@@ -387,15 +394,6 @@ if (FileSystem::is_directory(olduserdir)) {
     FileSystem::mkdir(m_userdir);
     log_info << "Created SuperTux userdir: " << m_userdir << std::endl;
   }
-
-#ifdef __EMSCRIPTEN__
-  EM_ASM({
-    try {
-      FS.mount(IDBFS, {}, m_userdir);
-      FS.syncfs(true, (err) => { console.log(err); });
-    } catch(err) {}
-  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
-#endif
 
   if (!PHYSFS_setWriteDir(m_userdir.c_str()))
   {
@@ -844,6 +842,14 @@ Main::run(int argc, char** argv)
 #endif
 
   g_dictionary_manager.reset();
+
+#ifdef __EMSCRIPTEN__
+  if (result != 0)
+    EM_ASM({
+      if (window.supertux_boot_failed)
+        window.supertux_boot_failed('SuperTux startup failed. See the browser console for the asset/filesystem error.');
+    }, 0);
+#endif
 
 #ifdef __ANDROID__
   // SDL3 keeps shared libraries loaded after the app is closed,

@@ -191,15 +191,22 @@ add_package(TARGET Freetype
 #     PKG RAQM PKG_USE RAQM CONFIG PKG_CONFIG libraqm raqm)
 # endif()
 
+# Use the same SDL3 provider on native and WASM; USE_SDL_IMAGE=3 supplies no image library.
+add_package(TARGET SDL3
+  PKG SDL3 PKG_USE SDL3::SDL3 CONFIG REQUIRED PKG_CONFIG sdl3 SDL3
+  ${SUPERTUX_ANDROID_PREFER_PKGCONF})
+add_package(TARGET SDL3_image
+  PKG SDL3_image PKG_USE SDL3_image::SDL3_image CONFIG REQUIRED PKG_CONFIG SDL3_image sdl3_image
+  ${SUPERTUX_ANDROID_PREFER_PKGCONF})
+add_package(TARGET SDL3_ttf
+  PKG SDL3_ttf PKG_USE SDL3_ttf::SDL3_ttf CONFIG REQUIRED PKG_CONFIG SDL3_ttf sdl3_ttf)
+add_package(TARGET Ogg
+  PKG Ogg PKG_USE Ogg::ogg CONFIG REQUIRED PKG_CONFIG ogg)
+add_package(TARGET Vorbis
+  PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
+add_package(TARGET VorbisFile
+  PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
 if(NOT EMSCRIPTEN)
-  add_package(TARGET SDL3
-    PKG SDL3 PKG_USE SDL3::SDL3 CONFIG REQUIRED PKG_CONFIG sdl3 SDL3
-    ${SUPERTUX_ANDROID_PREFER_PKGCONF})
-  add_package(TARGET SDL3_image
-    PKG SDL3_image PKG_USE SDL3_image::SDL3_image CONFIG REQUIRED PKG_CONFIG SDL3_image sdl3_image
-    ${SUPERTUX_ANDROID_PREFER_PKGCONF})
-  add_package(TARGET SDL3_ttf
-    PKG SDL3_ttf PKG_USE SDL3_ttf::SDL3_ttf CONFIG REQUIRED PKG_CONFIG SDL3_ttf sdl3_ttf)
   add_package(TARGET libcurl
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   if(ENABLE_NETWORKING)
@@ -208,12 +215,6 @@ if(NOT EMSCRIPTEN)
   endif()
   add_package(TARGET OpenAL
     PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL openal)
-  add_package(TARGET Ogg
-    PKG Ogg PKG_USE Ogg::ogg CONFIG REQUIRED PKG_CONFIG ogg)
-  add_package(TARGET Vorbis
-    PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
-  add_package(TARGET VorbisFile
-    PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
 else()
   include(SuperTux/Emscripten)
 endif()
@@ -240,6 +241,18 @@ add_subdirectory(external/findlocale EXCLUDE_FROM_ALL)
 add_subdirectory(external/obstack EXCLUDE_FROM_ALL)
 set(TINYGETTEXT_SDL_VERSION "3")
 add_subdirectory(external/tinygettext EXCLUDE_FROM_ALL)
+if(EMSCRIPTEN)
+  # This pinned submodule selects the SDK SDL port. Keep its SDL iconv support,
+  # but use our imported SDL3 target, without changing the submodule itself.
+  foreach(property COMPILE_OPTIONS INTERFACE_COMPILE_OPTIONS)
+    get_target_property(options tinygettext ${property})
+    if(options)
+      list(FILTER options EXCLUDE REGEX "^-sUSE_SDL=")
+      set_property(TARGET tinygettext PROPERTY ${property} "${options}")
+    endif()
+  endforeach()
+  target_link_libraries(tinygettext PUBLIC SDL3)
+endif()
 
 if(ENABLE_DISCORD)
   add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
@@ -412,7 +425,8 @@ if(WIN32)
 endif()
 
 if(EMSCRIPTEN)
-  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
+  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap','FS'])
+  set_property(TARGET supertux2 APPEND PROPERTY LINK_DEPENDS "${PROJECT_SOURCE_DIR}/mk/emscripten/storage.js")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   # This option makes symbol names available for libc's backtrace().
   target_link_options(supertux2 PUBLIC -rdynamic)
@@ -452,22 +466,13 @@ else()
 endif()
 
 target_link_libraries(supertux2 PUBLIC
-  tinygettext sexp SDL_SavePNG SDL3_ttf
+  tinygettext sexp SDL_SavePNG SDL3_ttf SDL3_image SDL3 Ogg Vorbis VorbisFile
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
-    # SDL3_image
-    SDL3_image
     # SDL3 main (windows?)
     $<TARGET_NAME_IF_EXISTS:SDL3::SDL3main>
-    # SDL3
-    SDL3
-  )
-  target_link_libraries(supertux2 PUBLIC
-    Ogg
-    Vorbis
-    VorbisFile
   )
 
   if(ADDPKG_CURL_FOUND AND ENABLE_NETWORKING)

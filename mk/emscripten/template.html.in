@@ -193,6 +193,7 @@
     </div>
   </div>
   <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+  <p id="storage_warning" hidden style="color:#ffd080; padding:8px" role="status"></p>
   <p id="output"></p>
   <input type="file" id="file_upload" multiple="multiple" style="display:none">
   <script>
@@ -213,6 +214,8 @@
         } else {
           data_persistent = true;
         }
+      }).catch(function(error) {
+        console.warn('Could not request storage retention:', error);
       });
     } else {
       document.getElementById("data_warning").innerHTML = 'Your browser does not support persistent data. That means the browser can choose to delete your progress anytime.';
@@ -251,6 +254,8 @@
     var onDownloadFinished = null;
     var onDownloadError = null;
     var onDownloadAborted = null;
+    var gameReady = false;
+    var bootFailed = false;
 
     var Module = {
       preRun: [],
@@ -305,6 +310,8 @@
         return c;
       }(),
       setStatus: function (e) {
+        if (bootFailed) return;
+        if (!e && !gameReady) e = 'Starting SuperTux...';
         overlayElement.style.display = e ? "flex" : "none";
 
         if (Module.setStatus.last || (Module.setStatus.last = { time: Date.now(), text: "" }), e !== Module.setStatus.last.text)
@@ -352,12 +359,28 @@
         Module.setStatus(e ? "Preparing... (" + (this.totalDependencies - e) + "/" + this.totalDependencies + ")" : "All downloads complete.")
       },
       onRuntimeInitialized: function() {
-        setResolution = Module.cwrap('set_resolution', 'void', ['number']);
-        onDownloadProgress = Module.cwrap('onDownloadProgress', 'void', ['number', 'number', 'number', 'number']);
-        onDownloadFinished = Module.cwrap('onDownloadFinished', 'void', ['number', 'number', 'string']);
-        onDownloadError = Module.cwrap('onDownloadError', 'void', ['number', 'number']);
-        onDownloadAborted = Module.cwrap('onDownloadAborted', 'void', ['number', 'number']);
+        setResolution = Module.cwrap('set_resolution', null, ['number', 'number']);
+        onDownloadProgress = Module.cwrap('onDownloadProgress', null, ['number', 'number', 'number', 'number']);
+        onDownloadFinished = Module.cwrap('onDownloadFinished', null, ['number', 'number', 'string']);
+        onDownloadError = Module.cwrap('onDownloadError', null, ['number', 'number']);
+        onDownloadAborted = Module.cwrap('onDownloadAborted', null, ['number', 'number']);
       },
+      onAbort: function(reason) { window.supertux_boot_failed(String(reason)); },
+    };
+
+    window.supertux_boot_failed = function(message) {
+      Module.setStatus('SuperTux could not start. ' + message);
+      bootFailed = true;
+      gameReady = false;
+      spinnerElement.style.display = 'none';
+      console.error(message);
+    };
+    window.supertux_game_ready = function() {
+      gameReady = true;
+      Module['supertuxReady'] = true;
+      Module.setStatus('');
+      console.log('SuperTux game ready');
+      tryResize();
     };
 
     Module.setStatus("Downloading...");
@@ -378,7 +401,7 @@
       if (!autofit || !Module)
         return;
 
-      if (!setResolution)
+      if (!setResolution || !gameReady)
         return;
 
       try {
@@ -395,49 +418,7 @@
     // FIXME: Hardcoded
     const root = "/home/web_user/.local/share/supertux2/";
 
-    window.supertux_loadFiles = function() {
-      try {
-        // Loading the config file from localStorage is needed, even though the
-        // rest of the files are stored in IndexedDB, managed by Emscripten.
-        // Check the supertux_saveFiles function below for details.
-        for (var key of Object.keys(localStorage)) {
-          if (key !== "supertux2_config" /*&& !key.match("^profile[0-9]+/")*/)
-            continue;
-
-          keyfilename = key.replace(/^supertux2_/, "");
-
-          if (keyfilename.indexOf("/") !== -1) {
-            try {
-              FS.mkdir(root + keyfilename.substr(0, keyfilename.indexOf("/")));
-            } catch {
-              // Folder probably already exists
-            }
-          }
-          FS.writeFile(root + keyfilename, localStorage.getItem(key));
-        }
-      } catch(e){}
-    }
-
-    window.supertux_saveFiles = function() {
-
-      try { FS.syncfs((err) => { console.log(err); }); } catch(err) { console.log(err); }
-
-      function save(file) {
-        try {
-          localStorage.setItem("supertux2_" + file, FS.readFile(root + file, { encoding: "utf8" }));
-          return true;
-        } catch(e) {
-          console.error(e);
-          console.error("ERROR: Couldn't save file '" + file + "'");
-          return false;
-        }
-      }
-
-      // IndexedDB can't save fast enough to be called when the window is closed,
-      // so save the config file in localStorage just in case it wasn't flushed
-      // to disk
-      save("config");
-    }
+    // storage.js owns hydration, fallback imports, and serialized save flushes.
 
     window.supertux_download = function(path) {
       try {
@@ -524,20 +505,6 @@
       }
     });
 
-    var saving = false;
-    window.supertux2_syncfs = function() {
-      if (saving) return;
-      saving = true;
-      try {
-        FS.syncfs((err) => {
-          if (err)
-            console.log(err);
-
-          saving = false;
-        });
-      } catch (err) {}
-    }
-
     var onDownloadProgress, onDownloadFinished, onDownloadError, onDownloadAborted;
     window.supertux_xhr_file_download = function(ptr, id, url, file) {
       console.log('downloader: ' + ptr);
@@ -594,7 +561,7 @@
     });
     window.addEventListener('unload', (e) => {
       try {
-        Module.ccall("save_config", "void", [], []);
+        if (gameReady) Module.ccall("save_config", null, [], []);
       } catch(e) {}
       supertux_saveFiles();
     });
