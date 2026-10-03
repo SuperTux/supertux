@@ -1310,11 +1310,11 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   }
   else if (sym >= SDLK_1 && sym <= SDLK_9)
   {
-    m_current_autotileset = static_cast<int>(sym - SDLK_1 + 1);
+    m_current_autotileset = static_cast<int>(sym - SDLK_1);
   }
   else if (sym >= SDLK_KP_1 && sym <= SDLK_KP_9)
   {
-    m_current_autotileset = static_cast<int>(sym - SDLK_KP_1 + 1);
+    m_current_autotileset = static_cast<int>(sym - SDLK_KP_1);
   }
   return true;
 }
@@ -1411,7 +1411,7 @@ EditorOverlayWidget::get_autotileset_key_range() const
   if (m_available_autotilesets.size() < 2)
     return "";
 
-  return "(0-" + std::to_string(std::min(static_cast<int>(m_available_autotilesets.size() - 1), 9)) + ")";
+  return "(1-" + std::to_string(std::min(static_cast<int>(m_available_autotilesets.size()), 9)) + ")";
 }
 
 void
