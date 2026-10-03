@@ -20,6 +20,8 @@
 
 #include "editor/button_widget.hpp"
 #include "editor/editor.hpp"
+#include "editor/editor_history_manager.hpp"
+#include "editor/node_marker.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
@@ -38,7 +40,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-using InputType = EditorTilebox::InputType;
+using InputMode = Editor::InputMode;
 
 EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_editor(editor),
@@ -51,12 +53,12 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
-        std::bind(&Editor::undo, Editor::current()),
+        std::bind(&EditorHistoryManager::undo, Editor::current()->get_history_manager()),
         _("Undo"),
         Sizef(32.f, 32.f)),
 
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
-        std::bind(&Editor::redo, Editor::current()),
+        std::bind(&EditorHistoryManager::redo, Editor::current()->get_history_manager()),
         _("Redo"),
         Sizef(32.f, 32.f)),
 
@@ -79,13 +81,13 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
     // Play button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
-      [this] { Editor::current()->m_test_request = true; },
+      [this] { Editor::current()->test_level(); },
       _("Test level")),
 
     // Save button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
       [this] {
-        Editor::current()->save_level();
+        Editor::current()->get_project()->save_level();
       },
       _("Save level")),
 
@@ -140,26 +142,22 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   };
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 3> object_mode_widgets = {
-    // Path edit mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png",
-      [this] {
-        Editor::current()->get_tilebox().set_object("#node");
-      },
-      _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
+      // Path edit mode
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png", [this]
+      {
+        const auto& node_marker_class = NodeMarker::class_name();
+        Editor::current()->get_tilebox().set_selected_object_class_name(node_marker_class);
+      }, _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
 
-    // Select mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png",
-      [this] {
+      // Select mode
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png", [this]
+      { 
         Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(0);
-      },
-      _("Select mode (Clicking selects the object under the mouse)")),
+      }, _("Select mode (Clicking selects the object under the mouse)")),
 
-    // Duplicate mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png",
-      [this] {
-        Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(1);
-      },
-      _("Duplicate mode (Clicking duplicates the object under the mouse)")),
+      // Duplicate mode
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png", [this]
+                                                  { Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(1); }, _("Duplicate mode (Clicking duplicates the object under the mouse)")),
   };
 
   size_t i = 0;
@@ -213,29 +211,29 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 }
 
 void
-EditorToolbarWidget::toggle_tile_object_mode()
+EditorToolbarWidget::set_mode(const InputMode& input_mode)
 {
   int i = 0;
-  auto& tilebox = Editor::current()->get_toolbox_widget()->get_tilebox();
-  const auto& input_type = tilebox.get_input_type();
+  auto editor = Editor::current();
+  auto toolbox_widget = editor->get_toolbox_widget();
 
-  if (input_type == InputType::OBJECT) // Object mode -> Tile mode
+  if (input_mode == InputMode::OBJECT)
   {
-    Editor::current()->select_last_tilegroup();
-    for(const auto& toolbar_button : m_widgets)
-    {
-      toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
-    }
-    Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(0);
-  }
-  else // Tile mode -> Object mode
-  {
-    Editor::current()->select_last_objectgroup();
+    toolbox_widget->select_last_objectgroup();
     for(const auto& toolbar_button : m_widgets)
     {
       toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
   	}
-    Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(0);
+    toolbox_widget->set_tileselect_move_mode(0);
+  }
+  else
+  {
+    toolbox_widget->select_last_tilegroup();
+    for(const auto& toolbar_button : m_widgets)
+    {
+      toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
+    }
+    toolbox_widget->set_tileselect_select_mode(0);
   }
 
   for (const auto& toolbar_button : m_widgets)
@@ -245,6 +243,12 @@ EditorToolbarWidget::toggle_tile_object_mode()
 	}
 
   m_widgets_width = i * 32.f;
+}
+
+void
+EditorToolbarWidget::toggle_tile_object_mode()
+{
+  set_mode(m_editor.get_input_mode() == InputMode::OBJECT ? InputMode::TILE : InputMode::OBJECT);
 }
 
 bool

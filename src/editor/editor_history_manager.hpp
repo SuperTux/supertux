@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2026 Tobias Markus <tobbi.bugs@googlemail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,28 +16,15 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-
-class Levelset final
+/**
+ * Class responsibly for back / forward navigation
+ */
+class EditorHistoryManager
 {
-private:
-  std::string m_basedir;
-  std::vector<std::string> m_levels;
-  std::vector<std::string> m_level_names;
-  bool m_parse_level_names;
-
 public:
-  Levelset(const std::string& basedir, bool recursively = false, bool parse_level_names = false);
+  void retoggle_undo_tracking();
+  void undo_stack_cleanup();
 
-  int get_num_levels() const;
-  const std::string& get_level_filename(int i) const;
-  const std::string* get_level_name(int i) const;
-
-private:
-  Levelset(const Levelset&) = delete;
-  Levelset& operator=(const Levelset&) = delete;
-
-  void walk_directory(const std::string& directory, bool recursively = false);
-  void parse_names();
+  void undo();
+  void redo();
 };

@@ -290,7 +290,12 @@ Sector::activate(const Vector& player_pos)
 
   // Run init script
   if (!m_init_script.empty() && !Editor::is_active() && !m_init_script_run) {
-    run_script(m_init_script, "init-script");
+    try {
+      run_script(m_init_script, "init-script");
+    }
+    catch(std::exception&) {
+      // doesn't exist or erroneous; do nothing
+    }
     if (m_init_script_run_once)
       m_init_script_run = true;
   }
@@ -651,8 +656,7 @@ Sector::resize(const Size& old_size, const Size& new_size, const Size& resize_of
   BIND_SECTOR(*this);
 
   const bool is_offset = resize_offset.width || resize_offset.height;
-  const Vector obj_shift(static_cast<float>(resize_offset.width) * 32.0f,
-                         static_cast<float>(resize_offset.height) * 32.0f);
+  const Vector obj_shift = resize_offset.to_vector() * 32.0f;
 
   for (auto* tilemap : get_all_tilemaps())
   {

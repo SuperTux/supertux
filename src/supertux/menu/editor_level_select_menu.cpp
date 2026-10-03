@@ -57,9 +57,10 @@ EditorLevelSelectMenu::reload_menu()
 void
 EditorLevelSelectMenu::initialize()
 {
-  World* world = get_world();
-  auto basedir = world->get_basedir();
-  m_levelset = std::unique_ptr<Levelset>(new Levelset(basedir, /* recursively = */ true));
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  auto world = get_world();
+  m_levelset = editor_project->get_world_levelset(world, true);
   auto num_levels = m_levelset->get_num_levels();
 
   add_label(world->get_title());
@@ -73,10 +74,11 @@ EditorLevelSelectMenu::initialize()
   {
     for (int i = 0; i < num_levels; ++i)
     {
-      std::string filename = m_levelset->get_level_filename(i);
-      std::string full_filename = FileSystem::join(basedir, filename);
-      std::string title = LevelParser::get_level_name(full_filename);
-      add_entry(i, title);
+      auto level_name = m_levelset->get_level_name(i);
+      if (level_name == nullptr)
+        continue;
+      
+      add_entry(i, *level_name);
     }
   }
 
@@ -84,7 +86,7 @@ EditorLevelSelectMenu::initialize()
 
   add_entry(-1, _("Create Level"));
 
-  std::string worldmap_file = FileSystem::join(basedir, "worldmap.stwm");
+  const auto& worldmap_file = world->get_worldmap_filename();
   if (PHYSFS_exists(worldmap_file.c_str())) {
     add_entry(-4, _("Edit Worldmap"));
   } else {
@@ -103,58 +105,60 @@ EditorLevelSelectMenu::~EditorLevelSelectMenu()
 World*
 EditorLevelSelectMenu::get_world() const
 {
-  return m_world ? m_world.get() : Editor::current()->get_world();
+  auto editor = Editor::current();
+  return m_world ? m_world.get() : editor->get_project()->get_world();
 }
 
 void
 EditorLevelSelectMenu::create_level()
 {
-  create_item(false);
+  auto world = get_world();
+  auto basedir = world->get_basedir();
+  auto level = LevelParser::from_nothing(basedir);
+  
+  save_item(std::move(level));
+
+  Dialog::show_message(_("Share this level under license CC-BY-SA 4.0 International (advised).\n"
+                        "It allows modifications and redistribution by third-parties.\nIf you don't "
+                        "agree with this license, change it in level properties.\nDISCLAIMER: The "
+                        "SuperTux authors take no responsibility for your choice of license."));
 }
 
 void
 EditorLevelSelectMenu::create_worldmap()
 {
-  create_item(true);
+  auto world = get_world();
+  auto basedir = world->get_basedir();
+  auto worldmap = LevelParser::from_nothing_worldmap(basedir, world->get_title());
+  
+  save_item(std::move(worldmap));
+
+  Dialog::show_message(_("Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
+                        "It allows modifications and redistribution by third-parties.\nIf you don't "
+                        "agree with this license, change it in worldmap properties.\nDISCLAIMER: The "
+                        "SuperTux authors take no responsibility for your choice of license."));
 }
 
 void
-EditorLevelSelectMenu::create_item(bool worldmap)
+EditorLevelSelectMenu::save_item(std::unique_ptr<Level> item)
 {
-  World* world = get_world();
+  auto world = get_world();
   auto basedir = world->get_basedir();
-  auto new_item = worldmap ?
-      LevelParser::from_nothing_worldmap(basedir, world->get_title()) :
-      LevelParser::from_nothing(basedir);
-  new_item->save(FileSystem::join(basedir, new_item->m_filename));
-  open_level(new_item->m_filename);
-
-  if (worldmap)
-  {
-    Dialog::show_message(_("Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
-                           "It allows modifications and redistribution by third-parties.\nIf you don't "
-                           "agree with this license, change it in worldmap properties.\nDISCLAIMER: The "
-                           "SuperTux authors take no responsibility for your choice of license."));
-  }
-  else
-  {
-    Dialog::show_message(_("Share this level under license CC-BY-SA 4.0 International (advised).\n"
-                           "It allows modifications and redistribution by third-parties.\nIf you don't "
-                           "agree with this license, change it in level properties.\nDISCLAIMER: The "
-                           "SuperTux authors take no responsibility for your choice of license."));
-  }
+  item->save(FileSystem::join(basedir, item->m_filename));
+  open_level(item->m_filename);
 }
 
 void
 EditorLevelSelectMenu::open_level(const std::string& filename)
 {
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
 
   // If a world has been provided (not associated with the editor), set it as the editor world.
   if (m_world)
-    editor->set_world(std::move(m_world));
+    editor_project->set_world(std::move(m_world));
 
-  editor->set_level(filename);
+  editor_project->set_level_file(filename);
   MenuManager::instance().clear_menu_stack();
 }
 
@@ -162,10 +166,11 @@ void
 EditorLevelSelectMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
   if (item.get_id() >= 0)
   {
     std::string file_name = m_levelset->get_level_filename(item.get_id());
-    std::string file_name_full = FileSystem::join(editor->get_level_directory(), file_name);
+    std::string file_name_full = FileSystem::join(editor_project->get_level_directory(), file_name);
 
     if (PHYSFS_exists((file_name_full + "~").c_str())) {
       auto dialog = std::make_unique<Dialog>(/* passive = */ false, /* auto_clear_dialogs = */ false);

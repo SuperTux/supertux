@@ -27,14 +27,14 @@ private:
   };
 
 public:
-  EditorSaveAs(bool do_switch_file);
+  EditorSaveAs(bool set_as_current_filename);
   ~EditorSaveAs() override;
 
   void menu_action(MenuItem& item) override;
 
 private:
   std::string m_filename;
-  bool m_do_switch_file;
+  bool m_set_as_current_filename;
 
 private:
   EditorSaveAs(const EditorSaveAs&) = delete;

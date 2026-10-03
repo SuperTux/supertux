@@ -26,11 +26,11 @@
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
 
-EditorSaveAs::EditorSaveAs(bool do_switch_file) :
-  m_filename(Editor::current()->get_levelfile()),
-  m_do_switch_file(do_switch_file)
+EditorSaveAs::EditorSaveAs(bool set_as_current_filename) :
+  m_filename(Editor::current()->get_project()->get_level_file()),
+  m_set_as_current_filename(set_as_current_filename)
 {
-  add_label(do_switch_file ? _("Save Level as") : _("Save Copy"));
+  add_label(set_as_current_filename ? _("Save Level as") : _("Save Copy"));
 
   add_hl();
 
@@ -49,16 +49,16 @@ EditorSaveAs::~EditorSaveAs()
 void
 EditorSaveAs::menu_action(MenuItem& item)
 {
-  auto editor = Editor::current();
-
   switch (item.get_id())
   {
     case MNID_SAVE:
-      editor->m_save_request = true;
-      editor->m_save_request_filename = m_filename;
-      editor->m_save_request_switch = m_do_switch_file;
+    {
+      auto editor = Editor::current();
+      auto editor_project = editor->get_project();
+      editor_project->save_level(m_filename, m_set_as_current_filename);
       MenuManager::instance().clear_menu_stack();
-      break;
+    }
+    break;
 
     case MNID_CANCEL:
       MenuManager::instance().clear_menu_stack();

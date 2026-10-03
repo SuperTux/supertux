@@ -109,11 +109,14 @@ NodeMarker::editor_delete()
   {
     return;
   }
+
+  auto overlay_widget = Editor::current()->get_overlay_widget();
+
   auto prev = prev_node();
   auto next = next_node();
   update_node_time(prev, next);
   m_path->m_nodes.erase(m_node);
-  Editor::current()->update_node_iterators();
+  overlay_widget->update_node_iterators();
 }
 
 ObjectSettings

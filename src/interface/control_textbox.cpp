@@ -129,19 +129,20 @@ ControlTextbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
   if (m_rect.contains(mouse_pos)) {
-    m_has_focus = true;
+    set_has_focus(true);
     m_cursor_timer = CONTROL_CURSOR_TIMER;
     m_caret_pos = get_text_position(mouse_pos);
     m_secondary_caret_pos = m_caret_pos;
     m_mouse_pressed = true;
     call_on_activate_callbacks();
     return true;
-  } else {
-    if (m_has_focus) {
-      parse_value();
-    }
-    m_has_focus = false;
   }
+  
+  if (m_has_focus)
+  {
+    parse_value();
+  }
+  set_has_focus(false);
   return false;
 }
 
@@ -295,7 +296,7 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
   }
   else if (key.key == SDLK_RETURN)
   {
-    m_has_focus = false;
+    set_has_focus(false);
     parse_value();
     return true;
   }
@@ -308,7 +309,10 @@ ControlTextbox::event(const SDL_Event& ev) {
   Widget::event(ev);
 
   if (ev.type == SDL_EVENT_TEXT_INPUT && m_has_focus)
+  {
     put_text(std::string(ev.text.text));
+    return true;
+  }
 
   return false;
 }

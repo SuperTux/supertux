@@ -19,6 +19,8 @@
 #include <string>
 #include <exception>
 
+#include "util/log.hpp"
+
 ControlTextboxFloat::ControlTextboxFloat() :
   ControlTextbox(),
   m_validate_float(),
@@ -33,6 +35,38 @@ ControlTextboxFloat::update(float dt_sec)
   ControlTextbox::update(dt_sec);
   if (!m_has_focus)
     revert_value();
+}
+
+bool
+ControlTextboxFloat::on_key_down(const SDL_KeyboardEvent& key)
+{
+  if (!m_has_focus)
+    return false;
+
+  if (key.key == SDLK_DOWN || key.key == SDLK_UP)
+  {
+    float default_value = 0.0f;
+    if (m_value == nullptr)
+    {
+      m_value = &default_value;
+    }
+
+    bool shift_pressed = SDL_GetModState() & SDL_KMOD_SHIFT;
+
+    int step_size = shift_pressed ? 10.f : 1.f;
+
+    if (key.key == SDLK_DOWN)
+      *m_value -= step_size;
+
+    if (key.key == SDLK_UP)
+      *m_value += step_size;
+
+    revert_value();
+
+    return true;
+  }
+
+  return ControlTextbox::on_key_down(key);
 }
 
 bool

@@ -1146,11 +1146,13 @@ TestFromHereOption::create_interface_control() const
   button->set_rect(Rectf(0, 32, 200, 32));
   button->m_on_activate_callbacks.emplace_back([object_ptr = m_value_pointer]() {
     Editor& editor = *Editor::current();
+    auto editor_project = editor.get_project();
+    auto sector = editor_project->get_sector();
     // TODO: Pressing the return key from within a game session automatically 
     // triggers this button again if it's previously been pushed. This needs
     // to get fixed.
-    editor.m_test_pos = std::make_pair(editor.get_sector()->get_name(), object_ptr->get_pos());
-    editor.m_test_request = true;
+    auto spawnpoint = std::make_pair(sector->get_name(), object_ptr->get_pos());
+    editor.test_level(spawnpoint);
   });
   return button;
 }
@@ -1177,7 +1179,7 @@ ParticleEditorOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Open"));
   button->m_on_activate_callbacks.emplace_back([]() {
-      Editor::current()->m_particle_editor_request = true;
+      Editor::current()->open_particle_editor();
     });
   button->set_rect(Rectf(0, 32, 20, 32));
   return button;
