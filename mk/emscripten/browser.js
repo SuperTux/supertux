@@ -14,12 +14,18 @@
   let audio = null, pending = false, epoch = 0, resizeFrame = 0;
   let lastWidth = 0, lastHeight = 0;
   let audioTimer = 0;
+  const touchPointers = new Set(), canceledPointers = new Set();
+  function forgetTouches() {
+    for (const id of touchPointers) canceledPointers.add(id);
+    touchPointers.clear();
+  }
 
   function call(name, types = [], args = []) {
     return Module.ccall(name, null, types, args);
   }
 
   function resetInput() {
+    forgetTouches();
     if (ready && !failed) call('reset_browser_input');
   }
 
@@ -57,6 +63,7 @@
 
   function pause(message = 'Paused. Press Resume to continue.') {
     const wasActive = active;
+    forgetTouches();
     ++epoch;
     active = false;
     pending = false;
@@ -168,6 +175,10 @@
     ready() {
       ready = true;
       call('set_browser_suspended', ['number'], [1]);
+      const touchAvailable = window.navigator.maxTouchPoints > 0;
+      call('set_browser_touch_available', ['number'], [Number(touchAvailable)]);
+      const touchHelp = element('touch_help');
+      if (touchHelp) touchHelp.hidden = !touchAvailable;
       resizeNow();
       prompt(audio ? 'Ready. Press Start to play.' : 'Ready. Audio is unavailable on this browser.');
     },
@@ -195,7 +206,7 @@
   }, true);
   // Covered-canvas gestures must not reach SDL or the SDK's document unlock
   // listeners. Real buttons/links remain operable, including keyboard access.
-  for (const type of ['keydown', 'keyup', 'mousedown', 'mouseup', 'touchstart', 'touchend']) {
+  for (const type of ['keydown', 'keyup', 'mousedown', 'mouseup', 'touchstart', 'touchend', 'pointerdown', 'pointermove', 'pointerup']) {
     window.addEventListener(type, event => {
       if (!active && !event.target.closest('button, a, input')) {
         event.preventDefault();
@@ -206,8 +217,32 @@
   for (const type of ['touchmove', 'gesturestart', 'gesturechange', 'contextmenu']) {
     canvas.addEventListener(type, event => event.preventDefault(), {passive: false});
   }
-  for (const type of ['pointercancel', 'touchcancel', 'lostpointercapture']) {
-    canvas.addEventListener(type, resetInput);
+  // SDL3 owns Pointer Event → finger → Control delivery. Track IDs only to
+  // distinguish normal implicit-capture release from unexpected capture loss.
+  // Canceling one pointer must leave the other fingers and keyboard intact.
+  canvas.addEventListener('pointerdown', event => {
+    if (active && event.pointerType === 'touch') {
+      canceledPointers.delete(event.pointerId); // A new physical contact.
+      touchPointers.add(event.pointerId);
+    }
+  }, true);
+  for (const type of ['pointermove', 'pointerup']) {
+    canvas.addEventListener(type, event => {
+      if (canceledPointers.has(event.pointerId)) {
+        event.preventDefault();
+        event.stopImmediatePropagation(); // SDL can synthesize DOWN from motion.
+        if (type === 'pointerup') canceledPointers.delete(event.pointerId);
+      }
+      if (type === 'pointerup') touchPointers.delete(event.pointerId);
+    }, {capture: true, passive: false});
+  }
+  for (const type of ['pointercancel', 'lostpointercapture', 'pointerleave']) {
+    canvas.addEventListener(type, event => {
+      if (touchPointers.delete(event.pointerId)) {
+        canceledPointers.add(event.pointerId);
+        if (ready && !failed) call('cancel_browser_touch', ['number'], [event.pointerId]);
+      }
+    }, true);
   }
   canvas.addEventListener('click', () => canvas.focus({preventScroll: true}));
   canvas.addEventListener('webglcontextlost', event => {

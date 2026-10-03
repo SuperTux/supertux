@@ -121,6 +121,9 @@ private:
   StringOption m_music_volumes;
   StringOption m_flash_intensity_values;
   StringOption m_mobile_control_scales;
+#ifdef __EMSCRIPTEN__
+  StringOption m_browser_touch_modes;
+#endif
 
 private:
   OptionsMenu(const OptionsMenu&) = delete;

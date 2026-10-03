@@ -19,6 +19,7 @@
 
 #include <chrono>
 #include <memory>
+#include <optional>
 #include <SDL3/SDL.h>
 
 #include "config.h"
@@ -57,6 +58,7 @@ public:
 #ifdef __EMSCRIPTEN__
   void set_browser_suspended(bool suspended);
   void reset_browser_input();
+  void cancel_browser_touch(SDL_FingerID finger);
 #endif
 
   // push new screen on screen_stack
@@ -95,6 +97,7 @@ private:
 #ifdef __EMSCRIPTEN__
   bool m_browser_suspended = false;
   bool m_browser_managed = false;
+  std::optional<SDL_FingerID> m_browser_ui_finger;
 #endif
   struct Action
   {

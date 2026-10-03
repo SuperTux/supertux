@@ -83,6 +83,10 @@ Config::Config() :
   joystick_config(),
   ignore_joystick_axis(false),
   mobile_controls(false),
+#ifdef __EMSCRIPTEN__
+  browser_touch_controls(-1),
+  browser_touch_available(false),
+#endif
   m_mobile_controls_scale(1.3f),
   touch_controls_visible(true),
   addons(),
@@ -146,9 +150,11 @@ Config::Config() :
   touch_just_directional(true),
   repository_url()
 {
+#ifndef __EMSCRIPTEN__
   int num_touch_devices;
   SDL_GetTouchDevices(&num_touch_devices);
   mobile_controls = (num_touch_devices > 0);
+#endif
 }
 
 void
@@ -390,6 +396,11 @@ Config::load()
     config_control_mapping->get("touch_just_directional", touch_just_directional);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 2);
     config_control_mapping->get("touch_controls_visible", touch_controls_visible);
+#ifdef __EMSCRIPTEN__
+    config_control_mapping->get("browser_touch_controls", browser_touch_controls);
+    if (browser_touch_controls < -1 || browser_touch_controls > 1) browser_touch_controls = -1;
+    mobile_controls = browser_touch_controls == 1;
+#endif
     config_control_mapping->get("precise_scrolling", precise_scrolling);
     config_control_mapping->get("invert_wheel_x", invert_wheel_x);
     config_control_mapping->get("invert_wheel_y", invert_wheel_y);
@@ -572,6 +583,9 @@ Config::save()
     writer.write("touch_just_directional", touch_just_directional);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
     writer.write("touch_controls_visible", touch_controls_visible);
+#ifdef __EMSCRIPTEN__
+    writer.write("browser_touch_controls", browser_touch_controls);
+#endif
     writer.write("precise_scrolling", precise_scrolling);
     writer.write("invert_wheel_x", invert_wheel_x);
     writer.write("invert_wheel_y", invert_wheel_y );

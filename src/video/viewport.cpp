@@ -88,8 +88,10 @@ calculate_scale(const Size& min_size, const Size& max_size,
     }
   }
 
+#ifndef __EMSCRIPTEN__
   if (g_config->mobile_controls)
     scale = std::max(scale, 1.f);
+#endif
 
   return scale;
 }

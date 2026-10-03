@@ -176,6 +176,13 @@ OptionsMenu::refresh()
     case CONTROLS: /** CONTROLS */
     {
       insert_label(_("Controls"));
+#ifdef __EMSCRIPTEN__
+      m_browser_touch_modes.list = {_("Off"), _("On"), _("Auto")};
+      m_browser_touch_modes.next = g_config->browser_touch_controls == -1 ? 2 : g_config->browser_touch_controls;
+      add_string_select(MNID_MOBILE_CONTROLS, _("Touch Controls"), &m_browser_touch_modes.next, m_browser_touch_modes.list);
+      add_toggle(-1, _("Show Touch Controls"), &g_config->touch_controls_visible);
+      add_mobile_control_scales();
+#endif
 
       // Separated both translation strings so the latter can be removed if it is
       // no longer true, without requiring a new round of translating
@@ -655,7 +662,16 @@ OptionsMenu::add_mobile_control_scales()
   {
     m_mobile_control_scales.list.push_back(std::to_string(i) + "%");
     if (i == static_cast<unsigned>(g_config->m_mobile_controls_scale * 100))
-      m_mobile_control_scales.next = (i - 50) / 25;
+      m_mobile_control_scales.next = static_cast<int>(m_mobile_control_scales.list.size()) - 1;
+#ifdef __EMSCRIPTEN__
+    // The existing default is 130%, which the native 25% increments omit.
+    if (i == 125)
+    {
+      m_mobile_control_scales.list.push_back("130%");
+      if (static_cast<unsigned>(g_config->m_mobile_controls_scale * 100) == 130)
+        m_mobile_control_scales.next = static_cast<int>(m_mobile_control_scales.list.size()) - 1;
+    }
+#endif
   }
 
   add_string_select(MNID_MOBILE_CONTROLS_SCALE, _("On-screen controls scale"), &m_mobile_control_scales.next, m_mobile_control_scales.list);
@@ -904,6 +920,15 @@ OptionsMenu::menu_action(MenuItem& item)
       VideoSystem::current()->get_viewport().force_full_viewport(g_config->max_viewport);
       break;
 
+#ifdef __EMSCRIPTEN__
+    case MNID_MOBILE_CONTROLS:
+      g_config->browser_touch_controls = m_browser_touch_modes.next == 2 ? -1 : m_browser_touch_modes.next;
+      g_config->mobile_controls = g_config->browser_touch_controls == 1 ||
+        (g_config->browser_touch_controls == -1 && g_config->browser_touch_available);
+      ScreenManager::current()->reset_browser_input();
+      g_config->save();
+      break;
+#endif
     case MNID_MOBILE_CONTROLS_SCALE:
       if (sscanf(m_mobile_control_scales.list[m_mobile_control_scales.next].c_str(), "%f", &g_config->m_mobile_controls_scale) == EOF)
         g_config->m_mobile_controls_scale = 1; // if sscanf fails revert to default scale
