@@ -817,8 +817,8 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
       catch(...)
       {
         // Save add-on title and author on stack before std::move.
-        const std::string addon_title = addon->get_title();
-        const std::string addon_author = addon->get_author();
+        const std::string& addon_title = addon->get_title();
+        const std::string& addon_author = addon->get_author();
         m_installed_addons[addon_id] = std::move(addon);
         if(user_install)
         {
