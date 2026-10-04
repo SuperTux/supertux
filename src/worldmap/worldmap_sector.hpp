@@ -150,7 +150,7 @@ public:
    * @scripting
    * @description Gets the path to the worldmap file. Useful for saving worldmap-specific data.
    */
-  std::string get_filename() const;
+  const std::string& get_filename() const;
   /**
    * @scripting
    * @description Overrides the "Title Screen Level" property for the world with ""filename"".

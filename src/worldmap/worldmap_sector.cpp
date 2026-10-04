@@ -663,7 +663,7 @@ WorldMapSector::get_tux_y() const
   return m_tux->get_pos().y;
 }
 
-std::string
+const std::string&
 WorldMapSector::get_filename() const
 {
   return m_parent.get_filename();

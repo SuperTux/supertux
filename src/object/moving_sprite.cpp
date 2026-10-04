@@ -213,7 +213,7 @@ MovingSprite::after_editor_set()
 {
   MovingObject::after_editor_set();
 
-  std::string current_action = m_sprite->get_action();
+  const std::string& current_action = m_sprite->get_action();
   if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.
   {
     change_sprite(get_default_sprite_name());
