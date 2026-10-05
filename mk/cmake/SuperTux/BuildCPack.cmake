@@ -22,10 +22,19 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
 
        find_program(SUPERTUX_CODESIGN_PROGRAM codesign)
        if(SUPERTUX_CODESIGN_PROGRAM)
-         file(GLOB SUPERTUX_BUNDLE_DYLIBS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/MacOS/*.dylib\")
+         file(GLOB SUPERTUX_BUNDLE_DYLIBS
+              \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/MacOS/*.dylib\"
+              \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/Frameworks/*.dylib\")
          list(APPEND SUPERTUX_BUNDLE_DYLIBS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2\")
          foreach(_supertux_bundle_item \${SUPERTUX_BUNDLE_DYLIBS})
-           execute_process(COMMAND \${SUPERTUX_CODESIGN_PROGRAM} --force --sign - \"\${_supertux_bundle_item}\")
+           if(NOT IS_SYMLINK \"\${_supertux_bundle_item}\")
+             execute_process(
+               COMMAND \${SUPERTUX_CODESIGN_PROGRAM} --force --sign - \"\${_supertux_bundle_item}\"
+               RESULT_VARIABLE _supertux_codesign_result)
+             if(NOT _supertux_codesign_result EQUAL 0)
+               message(FATAL_ERROR \"Failed to sign \${_supertux_bundle_item}\")
+             endif()
+           endif()
          endforeach()
        endif()
        endif()
