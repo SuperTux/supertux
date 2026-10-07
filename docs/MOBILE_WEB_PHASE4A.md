@@ -91,6 +91,11 @@ The workflow:
 
 After the Phase 4A branch is merged into `mobile-web-audit`, pushes to `mobile-web-audit` also deploy automatically.
 
+The HTTP smoke checks allow up to two minutes of retries per endpoint because a
+new `workers.dev` deployment can briefly return HTTP 404 after Wrangler succeeds.
+Persistent HTTP failures, missing frontend configuration, and incorrect R2 MIME
+types still fail the job. Each probe logs which endpoint it is checking.
+
 ## First deployment
 
 First register a `workers.dev` subdomain for the Cloudflare account in the

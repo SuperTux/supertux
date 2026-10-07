@@ -224,9 +224,25 @@ jobs:
           DATA_SHA: ${{ steps.remote.outputs.data_sha }}
           WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
         run: |
-          curl --fail --silent --show-error --location "$DEPLOY_URL/" | grep -q "SUPERTUX_DEPLOY_CONFIG"
-          curl --fail --silent --show-error --head "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data" | grep -qi "content-type: application/octet-stream"
-          curl --fail --silent --show-error --head "$DEPLOY_URL/game-assets/wasm/$WASM_SHA/supertux2.wasm" | grep -qi "content-type: application/wasm"
+          # A new workers.dev endpoint can return 404 briefly after Wrangler
+          # succeeds. Retry HTTP failures, including 404, for at most two minutes.
+          curl_options=(--fail --silent --show-error --retry 24 --retry-delay 5
+                        --retry-max-time 120 --retry-all-errors
+                        --connect-timeout 10 --max-time 30)
+          probe_dir="$(mktemp -d)"
+          trap 'rm -rf "$probe_dir"' EXIT
+
+          echo "Checking frontend: $DEPLOY_URL/"
+          curl "${curl_options[@]}" --location --output "$probe_dir/frontend.html" "$DEPLOY_URL/"
+          grep -q "SUPERTUX_DEPLOY_CONFIG" "$probe_dir/frontend.html"
+
+          echo "Checking R2 data gateway"
+          curl "${curl_options[@]}" --head --output "$probe_dir/data.headers" "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data"
+          grep -qi "content-type: application/octet-stream" "$probe_dir/data.headers"
+
+          echo "Checking R2 WASM gateway"
+          curl "${curl_options[@]}" --head --output "$probe_dir/wasm.headers" "$DEPLOY_URL/game-assets/wasm/$WASM_SHA/supertux2.wasm"
+          grep -qi "content-type: application/wasm" "$probe_dir/wasm.headers"
 
       - name: Upload deployment evidence
         if: always()
