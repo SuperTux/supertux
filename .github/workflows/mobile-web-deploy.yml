@@ -226,21 +226,28 @@ jobs:
           WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
           RESOLVED_SHA: ${{ steps.remote.outputs.resolved_sha }}
         run: |
-          # Allow bounded HTTP retries, but retain evidence of routing failures.
-          curl_options=(--fail-with-body --silent --show-error --retry 24 --retry-delay 5
-                        --retry-max-time 120 --retry-all-errors
-                        --connect-timeout 10 --max-time 30
+          curl_options=(--fail-with-body --silent --show-error --connect-timeout 10
                         --write-out 'HTTP %{http_code}: %{url_effective}\n')
           probe_dir="$RUNNER_TEMP/supertux-mobile-probes"
           mkdir -p "$probe_dir"
 
-          echo "Checking frontend: $DEPLOY_URL/"
-          curl "${curl_options[@]}" --location --dump-header "$probe_dir/frontend.headers" --output "$probe_dir/frontend.html" "$DEPLOY_URL/"
-          grep -q "SUPERTUX_DEPLOY_CONFIG" "$probe_dir/frontend.html"
+          # Both HTTP errors and an older HTTP-200 frontend can be visible
+          # during rollout. Require the selected build within one global budget.
+          deadline=$((SECONDS + ${DEPLOY_CHECK_TIMEOUT_SECONDS:-300}))
+          fetch_probe() {
+            local remaining=$((deadline - SECONDS))
+            if (( remaining <= 0 )); then return 1; fi
+            local request_timeout=$((remaining < 30 ? remaining : 30))
+            curl "${curl_options[@]}" --max-time "$request_timeout" "$@"
+          }
+          verify_deployment() {
+            echo "Checking frontend: $DEPLOY_URL/"
+            fetch_probe --location --dump-header "$probe_dir/frontend.headers" --output "$probe_dir/frontend.html" "$DEPLOY_URL/" || return $?
+            grep -q "SUPERTUX_DEPLOY_CONFIG" "$probe_dir/frontend.html" || return $?
 
-          echo "Checking deployed build manifest"
-          curl "${curl_options[@]}" --location --dump-header "$probe_dir/manifest.headers" --output "$probe_dir/manifest.json" "$DEPLOY_URL/asset-manifest.json"
-          python - "$probe_dir" <<'PY'
+            echo "Checking deployed build manifest"
+            fetch_probe --location --dump-header "$probe_dir/manifest.headers" --output "$probe_dir/manifest.json" "$DEPLOY_URL/asset-manifest.json" || return $?
+            python - "$probe_dir" <<'PY' || return $?
           import json
           import os
           import re
@@ -265,13 +272,31 @@ jobs:
           print(f"Verified deployed source commit: {manifest['sourceCommit']}")
           PY
 
-          echo "Checking R2 data gateway"
-          curl "${curl_options[@]}" --head --output "$probe_dir/data.headers" "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data"
-          grep -qi "content-type: application/octet-stream" "$probe_dir/data.headers"
+            echo "Checking R2 data gateway"
+            fetch_probe --head --output "$probe_dir/data.headers" "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data" || return $?
+            grep -qi "content-type: application/octet-stream" "$probe_dir/data.headers" || return $?
 
-          echo "Checking R2 WASM gateway"
-          curl "${curl_options[@]}" --head --output "$probe_dir/wasm.headers" "$DEPLOY_URL/game-assets/wasm/$WASM_SHA/supertux2.wasm"
-          grep -qi "content-type: application/wasm" "$probe_dir/wasm.headers"
+            echo "Checking R2 WASM gateway"
+            fetch_probe --head --output "$probe_dir/wasm.headers" "$DEPLOY_URL/game-assets/wasm/$WASM_SHA/supertux2.wasm" || return $?
+            grep -qi "content-type: application/wasm" "$probe_dir/wasm.headers" || return $?
+          }
+          last_error=1
+          while (( SECONDS < deadline )); do
+            if verify_deployment; then
+              echo "Deployment is ready with the selected frontend and assets"
+              exit 0
+            else
+              last_error=$?
+            fi
+            remaining=$((deadline - SECONDS))
+            if (( remaining <= 0 )); then break; fi
+            echo "Waiting for the selected deployment to become consistent"
+            retry_delay="${DEPLOY_CHECK_RETRY_DELAY_SECONDS:-5}"
+            if (( remaining < 5 )); then retry_delay="$remaining"; fi
+            sleep "$retry_delay"
+          done
+          echo "::error::Deployment did not become ready before the deadline; inspect the probe evidence"
+          exit "$last_error"
 
       - name: Upload deployment evidence
         if: always()
