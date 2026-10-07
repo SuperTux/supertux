@@ -164,7 +164,7 @@ SDL_IOStream* get_physfs_SDLRWops(const std::string& filename)
   iface.write = funcWrite;
   iface.flush = funcFlush;
   iface.close = funcClose;
-  return SDL_OpenIO(&iface, (void*)file);
+  return SDL_OpenIO(&iface, static_cast<void*>(file));
 }
 
 SDL_IOStream* get_writable_physfs_SDLRWops(const std::string& filename)
@@ -191,5 +191,5 @@ SDL_IOStream* get_writable_physfs_SDLRWops(const std::string& filename)
   iface.write = funcWrite;
   iface.flush = funcFlush;
   iface.close = funcClose;
-  return SDL_OpenIO(&iface, (void*)file);
+  return SDL_OpenIO(&iface, static_cast<void*>(file));
 }

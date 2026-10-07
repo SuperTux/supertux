@@ -755,7 +755,6 @@ OptionsMenu::menu_action(MenuItem& item)
         int width;
         int height;
         float refresh_rate;
-        auto& mode = m_resolutions.data[m_resolutions.next].mode;
         if (m_resolutions.list[m_resolutions.next] == "Desktop")
         {
           g_config->fullscreen_size.width = 0;
@@ -766,6 +765,7 @@ OptionsMenu::menu_action(MenuItem& item)
         else if (sscanf(m_resolutions.list[m_resolutions.next].c_str(), "%dx%d@%f",
                   &width, &height, &refresh_rate) == 3)
         {
+          auto& mode = m_resolutions.data[m_resolutions.next].mode;
           // do nothing, changes are only applied when toggling fullscreen mode
           g_config->fullscreen_size.width = width;
           g_config->fullscreen_size.height = height;

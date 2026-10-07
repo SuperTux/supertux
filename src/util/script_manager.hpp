@@ -30,7 +30,7 @@ public:
   struct ScriptInfo {
     UID uid;
     std::string key;
-    std::string* script;
+    std::string* script = nullptr;
 
     bool operator==(const struct ScriptInfo& other) const {
       return other.uid == uid && other.key == key;
