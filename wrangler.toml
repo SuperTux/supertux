@@ -1,0 +1,12 @@
+name = "supertux-mobile"
+main = "worker/index.js"
+compatibility_date = "2026-10-06"
+workers_dev = true
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+[[r2_buckets]]
+binding = "GAME_ASSETS"
+bucket_name = "supertux-assets"
