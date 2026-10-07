@@ -256,10 +256,21 @@ async def smoke(args, url, data_dir):
         assert y_jump < y_ground - 10, (y_ground, y_jump)
         await page.wait_for_timeout(600) # Land near spawn before moving toward terrain.
         await page.keyboard.down("ArrowLeft")
-        await page.wait_for_timeout(700)
-        await page.keyboard.up("ArrowLeft")
-        x_after = await position("x_after", "x")
-        assert x_after < x_before - 50, (x_before, x_after)
+        try:
+            # Slow instrumented frames advance less simulation per wall-clock
+            # second. Hold the real key until a fresh read-only query observes
+            # the required movement; a stuck or ignored key must still fail.
+            deadline = asyncio.get_running_loop().time() + 10
+            attempt = 0
+            while True:
+                x_after = await position(f"x_after_{attempt}", "x")
+                if x_after < x_before - 50:
+                    break
+                assert asyncio.get_running_loop().time() < deadline, (x_before, x_after)
+                attempt += 1
+                await page.wait_for_timeout(50)
+        finally:
+            await page.keyboard.up("ArrowLeft")
         report["keyboard_positions"] = {"x_before": x_before, "x_after": x_after, "y_ground": y_ground, "y_jump": y_jump}
         after = await capture(page, "level-after.png")
         assert ImageChops.difference(before, after).getbbox() is not None
