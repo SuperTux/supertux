@@ -111,7 +111,12 @@ jobs:
         env:
           UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
         run: |
+          if [ -z "$UPLOAD_URL" ]; then
+            echo "::notice::UPLOAD_URL is not configured; skipping the optional server upload. The WebAssembly artifact is available from this run."
+            exit 0
+          fi
+
           cd build/upload/
           mv supertux2.html index.html
           zip supertux2.zip *
-          curl -F "archive=@$(pwd)/supertux2.zip" -F "message=$(git log --format=%B -n 1 | head -1)" $UPLOAD_URL
+          curl --fail --show-error -F "archive=@$(pwd)/supertux2.zip" -F "message=$(git log --format=%B -n 1 | head -1)" "$UPLOAD_URL"
