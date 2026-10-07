@@ -93,6 +93,11 @@ After the Phase 4A branch is merged into `mobile-web-audit`, pushes to `mobile-w
 
 ## First deployment
 
+First register a `workers.dev` subdomain for the Cloudflare account in the
+Cloudflare dashboard under **Workers & Pages**. This configuration enables
+`workers_dev` and does not define custom routes. Wrangler cannot complete a
+noninteractive first deployment until the account has its subdomain.
+
 Open GitHub:
 
 **jbbejena/supertux -> Actions -> Mobile Web Deploy -> Run workflow**

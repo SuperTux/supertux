@@ -334,10 +334,15 @@ async def run(args, url):
         report['checks'].append('Blur/pageshow leaves explicit native Resume; held direction/item and stale motion are neutral afterward')
         # The real in-game Controls menu exposes preferences on web/hybrid
         # devices. No synthetic setting export or replacement settings UI.
-        # The layout checks left the normal pause menu open.
-        # Developer diagnostic mode adds Edit Level before Options.
-        for _ in range(3): await fingers.tap(g['down'])
-        await fingers.tap(g['jump'])
+        # The layout checks left the normal pause menu open. Resume and the
+        # diagnostic console can change its selected row, so tap Options
+        # directly instead of assuming three DOWN presses start at Continue.
+        # This fresh level has no checkpoint; developer mode adds Edit Level.
+        # Its eight rows center Options 36 logical pixels below the midpoint.
+        vp = g['viewport']
+        await fingers.tap([vp['x'] + vp['width'] / 2,
+                           vp['y'] + (480 / 2 + 36) * vp['height'] / 480])
+        await page.wait_for_timeout(300) # Finish the pause → Options transition.
         for _ in range(2): await fingers.tap(g['right']) # Video → Audio → Controls.
         await fingers.tap(g['jump'])
         await page.wait_for_timeout(300)
