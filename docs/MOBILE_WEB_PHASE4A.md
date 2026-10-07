@@ -91,10 +91,17 @@ The workflow:
 
 After the Phase 4A branch is merged into `mobile-web-audit`, pushes to `mobile-web-audit` also deploy automatically.
 
-The HTTP smoke checks allow up to two minutes of retries per endpoint because a
-new `workers.dev` deployment can briefly return HTTP 404 after Wrangler succeeds.
-Persistent HTTP failures, missing frontend configuration, and incorrect R2 MIME
-types still fail the job. Each probe logs which endpoint it is checking.
+The HTTP smoke checks allow up to two minutes of retries per endpoint. Persistent
+HTTP failures, missing frontend configuration, and incorrect R2 MIME types still
+fail the job. The deployed manifest must identify the selected source commit and
+asset hashes, and the frontend must reference those exact asset URLs.
+
+Each probe logs its URL and final HTTP status. Response headers (including
+Cloudflare request IDs), the frontend, the remote manifest, and HTTP error bodies
+are retained in the deployment evidence artifact, even when a check fails. A
+later successful request alone does not identify the cause of an earlier 404;
+use this evidence to distinguish routing errors, missing objects, and stale
+frontend deployments.
 
 ## First deployment
 

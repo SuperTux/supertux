@@ -377,6 +377,7 @@ ScreenManager::update_gamelogic(float dt_sec)
   {
     m_mobile_controller.reset();
     controller.set_touch_controls({});
+    m_browser_ui_finger.reset();
   }
 #endif
 
@@ -397,6 +398,7 @@ ScreenManager::process_events()
   while (SDL_PollEvent(&event))
   {
 #ifdef __EMSCRIPTEN__
+    const auto menu_before_event = m_menu_manager->current_menu();
     // Pump window/device events while paused; discard covered-canvas input.
     if (m_browser_suspended &&
         ((event.type >= SDL_EVENT_KEY_DOWN && event.type <= SDL_EVENT_TEXT_INPUT) ||
@@ -545,6 +547,17 @@ ScreenManager::process_events()
       m_menu_manager->event(event);
       m_screen_stack.back()->event(event);
     }
+#ifdef __EMSCRIPTEN__
+    // Direct menu taps change the menu during event dispatch, before the
+    // controller-action check in update_gamelogic(). Discard the opening
+    // finger so its later motion/up cannot focus or activate the new menu.
+    if (menu_before_event != m_menu_manager->current_menu())
+    {
+      m_mobile_controller.reset();
+      m_input_manager.get_controller().set_touch_controls({});
+      m_browser_ui_finger.reset();
+    }
+#endif
 #undef LOGMOUSEY
 
     switch (event.type)

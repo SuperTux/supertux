@@ -343,8 +343,18 @@ async def run(args, url):
         await fingers.tap([vp['x'] + vp['width'] / 2,
                            vp['y'] + (480 / 2 + 36) * vp['height'] / 480])
         await page.wait_for_timeout(300) # Finish the pause → Options transition.
-        for _ in range(2): await fingers.tap(g['right']) # Video → Audio → Controls.
-        await fingers.tap(g['jump'])
+        # Pointer motion can select a category as this menu opens. Controls is
+        # the middle tile of the five in-game categories; tap it directly rather
+        # than assuming two RIGHT presses always begin on Video.
+        await page.screenshot(path=str(args.output / 'touch-options-categories.png'))
+        category = [vp['x'] + vp['width'] / 2, vp['y'] + vp['height'] / 2]
+        await fingers.down(9, category)
+        await page.wait_for_timeout(300)
+        # The opening UI finger must lose ownership when the submenu changes.
+        # This point is over a different Controls-menu row. Its stale motion/up
+        # must leave Touch Controls selected for the subsequent RIGHT press.
+        await fingers.move(9, [category[0] + 1, category[1]])
+        await fingers.up(9)
         await page.wait_for_timeout(300)
         await page.screenshot(path=str(args.output / 'touch-controls-options.png'))
         await fingers.tap(g['right']) # Auto → Off; clear owned holds immediately.
@@ -367,7 +377,7 @@ async def run(args, url):
         await page.locator('#start_button').tap()
         await page.wait_for_function('Module.supertuxShell.active')
         assert await saved_mode() == 1, 'Touch preference did not survive IDBFS reload'
-        report['checks'].append('In-game Controls menu: Auto→Off through D-pad, Off→On by direct tap, persisted On survives real IDBFS reload')
+        report['checks'].append('Direct Controls-menu entry discards its opening UI finger; stale motion/up cannot refocus a setting; Auto→Off through D-pad, Off→On by direct tap, persisted On survives real IDBFS reload')
         await context.close()
         await browser.close()
     diagnostics = [line for line in logs if 'runtime error:' in line]

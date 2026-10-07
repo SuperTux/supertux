@@ -215,6 +215,7 @@ jobs:
 
           npx --yes wrangler@4 deploy --config wrangler.toml 2>&1 | tee worker-deploy.log
           DEPLOY_URL="$(grep -Eo 'https://[^[:space:]]+\.workers\.dev' worker-deploy.log | tail -1 || true)"
+          test -n "$DEPLOY_URL" || { echo "::error::Wrangler did not report a workers.dev URL"; exit 1; }
           echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
 
       - name: Smoke deployed frontend and R2 gateway
@@ -223,18 +224,46 @@ jobs:
           DEPLOY_URL: ${{ steps.deploy.outputs.url }}
           DATA_SHA: ${{ steps.remote.outputs.data_sha }}
           WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
+          RESOLVED_SHA: ${{ steps.remote.outputs.resolved_sha }}
         run: |
-          # A new workers.dev endpoint can return 404 briefly after Wrangler
-          # succeeds. Retry HTTP failures, including 404, for at most two minutes.
-          curl_options=(--fail --silent --show-error --retry 24 --retry-delay 5
+          # Allow bounded HTTP retries, but retain evidence of routing failures.
+          curl_options=(--fail-with-body --silent --show-error --retry 24 --retry-delay 5
                         --retry-max-time 120 --retry-all-errors
-                        --connect-timeout 10 --max-time 30)
-          probe_dir="$(mktemp -d)"
-          trap 'rm -rf "$probe_dir"' EXIT
+                        --connect-timeout 10 --max-time 30
+                        --write-out 'HTTP %{http_code}: %{url_effective}\n')
+          probe_dir="$RUNNER_TEMP/supertux-mobile-probes"
+          mkdir -p "$probe_dir"
 
           echo "Checking frontend: $DEPLOY_URL/"
-          curl "${curl_options[@]}" --location --output "$probe_dir/frontend.html" "$DEPLOY_URL/"
+          curl "${curl_options[@]}" --location --dump-header "$probe_dir/frontend.headers" --output "$probe_dir/frontend.html" "$DEPLOY_URL/"
           grep -q "SUPERTUX_DEPLOY_CONFIG" "$probe_dir/frontend.html"
+
+          echo "Checking deployed build manifest"
+          curl "${curl_options[@]}" --location --dump-header "$probe_dir/manifest.headers" --output "$probe_dir/manifest.json" "$DEPLOY_URL/asset-manifest.json"
+          python - "$probe_dir" <<'PY'
+          import json
+          import os
+          import re
+          import sys
+          from pathlib import Path
+
+          probes = Path(sys.argv[1])
+          expected = {
+              "sourceCommit": os.environ["RESOLVED_SHA"],
+              "dataSha256": os.environ["DATA_SHA"],
+              "wasmSha256": os.environ["WASM_SHA"],
+              "dataUrl": f"/game-assets/data/{os.environ['DATA_SHA']}/supertux2.data",
+              "wasmUrl": f"/game-assets/wasm/{os.environ['WASM_SHA']}/supertux2.wasm",
+          }
+          manifest = json.loads((probes / "manifest.json").read_text())
+          if any(manifest.get(key) != value for key, value in expected.items()):
+              raise SystemExit("Deployed manifest does not match the selected build")
+          match = re.search(r"window\.SUPERTUX_DEPLOY_CONFIG\s*=\s*(\{[^;]+\});", (probes / "frontend.html").read_text())
+          config = json.loads(match.group(1)) if match else {}
+          if any(config.get(key) != expected[key] for key in ("dataUrl", "wasmUrl")):
+              raise SystemExit("Deployed frontend does not reference the selected build's assets")
+          print(f"Verified deployed source commit: {manifest['sourceCommit']}")
+          PY
 
           echo "Checking R2 data gateway"
           curl "${curl_options[@]}" --head --output "$probe_dir/data.headers" "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data"
@@ -252,6 +281,7 @@ jobs:
           path: |
             dist/asset-manifest.json
             worker-deploy.log
+            ${{ runner.temp }}/supertux-mobile-probes/
           if-no-files-found: warn
           retention-days: 7
 
