@@ -303,6 +303,14 @@
     var bootFailed = false;
 
     var Module = {
+      locateFile: function(path, prefix) {
+        var deploy = window.SUPERTUX_DEPLOY_CONFIG || {};
+        if (path.endsWith("supertux2.data") && deploy.dataUrl)
+          return deploy.dataUrl;
+        if (path.endsWith("supertux2.wasm") && deploy.wasmUrl)
+          return deploy.wasmUrl;
+        return prefix + path;
+      },
       preRun: [],
       postRun: [],
       print: function () {
