@@ -104,6 +104,14 @@ Chromium uses trusted CDP touch events for multiple contacts. Partial `touchEnd`
 
 Checks include real Right movement and moving jumps, Right+Jump+Action together, independent releases, two fingers on one button, pad slides through neutral, cancellation plus stale motion/up, a completed tap in one browser turn, Item, Pause/Continue, portrait/landscape/toolbar-height changes, safe-area padding, background/Resume, and actual Controls-menu Off→On with IDBFS reload. Fresh matching samples and movement are awaited with a bounded deadline, rather than assuming simulation time matches wall-clock waits. Ordinary touch restarts reset enemies between unrelated action groups; long layout/settings checks pause the ordinary level to prevent idle enemy collisions invalidating the observations. This smoke is **not a complete level-clear or comfort test**.
 
+The Controls category is entered by tapping its tile directly. Pointer motion can
+change the selected category when the Options menu opens, so relative navigation
+from an assumed Video selection can open Extras instead. Menu changes through
+direct event dispatch now discard UI-finger ownership, as controller actions do.
+The opening finger is deliberately moved and released over a different submenu
+row; it must not change the selection before Off/On changes and IDBFS persistence
+are verified through the actual game configuration.
+
 The existing browser suite also checks actual fonts/images/assets, PhysFS boot, normal keyboard play, the real OpenAL context, repeated lifecycle/audio recovery, DPR 3 sizing and letterboxing, persisted setting/progression fixtures, and explicit storage failure/retry/fallback.
 
 Debug is **not sanitizer-clean upstream**. `--record-known-ub` records only the exact pre-existing player/SimpleSquirrel/obstack sites documented in Phase 1; any additional site fails. The allowance has not been expanded. The normal touch route additionally exposed `src/supertux/autotile_parser.cpp:227:79`: an invalid/uninitialized `bool` while loading the world map. `AutotileParser::parse_autotile()` declares `bool solid;` at line 154, permits a missing `solid` for corner tiles, then passes that uninitialized value to `Autotile`. Packaged corner entries in `data/images/autotiles_ice_world.satc` omit `solid`, as intended by the parser. The parser is byte-for-byte unchanged from Phase 2 tip `133205bf29c4bceeb298b75c480a944e515ae667`; the last file change predates this work. This confirms the source defect predates Phase 3; no complete baseline rebuild was performed to reproduce its nondeterministic stack value. The new check remains failing for this additional site rather than classifying Debug as clean. Resolve this narrowly in a separate reviewed parser repair before requiring a green Debug matrix; do not broaden the allowlist. Gameplay/parser/library changes remain outside this touch phase.

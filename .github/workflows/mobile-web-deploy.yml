@@ -215,6 +215,7 @@ jobs:
 
           npx --yes wrangler@4 deploy --config wrangler.toml 2>&1 | tee worker-deploy.log
           DEPLOY_URL="$(grep -Eo 'https://[^[:space:]]+\.workers\.dev' worker-deploy.log | tail -1 || true)"
+          test -n "$DEPLOY_URL" || { echo "::error::Wrangler did not report a workers.dev URL"; exit 1; }
           echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
 
       - name: Smoke deployed frontend and R2 gateway
@@ -223,10 +224,79 @@ jobs:
           DEPLOY_URL: ${{ steps.deploy.outputs.url }}
           DATA_SHA: ${{ steps.remote.outputs.data_sha }}
           WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
+          RESOLVED_SHA: ${{ steps.remote.outputs.resolved_sha }}
         run: |
-          curl --fail --silent --show-error --location "$DEPLOY_URL/" | grep -q "SUPERTUX_DEPLOY_CONFIG"
-          curl --fail --silent --show-error --head "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data" | grep -qi "content-type: application/octet-stream"
-          curl --fail --silent --show-error --head "$DEPLOY_URL/game-assets/wasm/$WASM_SHA/supertux2.wasm" | grep -qi "content-type: application/wasm"
+          curl_options=(--fail-with-body --silent --show-error --connect-timeout 10
+                        --write-out 'HTTP %{http_code}: %{url_effective}\n')
+          probe_dir="$RUNNER_TEMP/supertux-mobile-probes"
+          mkdir -p "$probe_dir"
+
+          # Both HTTP errors and an older HTTP-200 frontend can be visible
+          # during rollout. Require the selected build within one global budget.
+          deadline=$((SECONDS + ${DEPLOY_CHECK_TIMEOUT_SECONDS:-300}))
+          fetch_probe() {
+            local remaining=$((deadline - SECONDS))
+            if (( remaining <= 0 )); then return 1; fi
+            local request_timeout=$((remaining < 30 ? remaining : 30))
+            curl "${curl_options[@]}" --max-time "$request_timeout" "$@"
+          }
+          verify_deployment() {
+            echo "Checking frontend: $DEPLOY_URL/"
+            fetch_probe --location --dump-header "$probe_dir/frontend.headers" --output "$probe_dir/frontend.html" "$DEPLOY_URL/" || return $?
+            grep -q "SUPERTUX_DEPLOY_CONFIG" "$probe_dir/frontend.html" || return $?
+
+            echo "Checking deployed build manifest"
+            fetch_probe --location --dump-header "$probe_dir/manifest.headers" --output "$probe_dir/manifest.json" "$DEPLOY_URL/asset-manifest.json" || return $?
+            python - "$probe_dir" <<'PY' || return $?
+          import json
+          import os
+          import re
+          import sys
+          from pathlib import Path
+
+          probes = Path(sys.argv[1])
+          expected = {
+              "sourceCommit": os.environ["RESOLVED_SHA"],
+              "dataSha256": os.environ["DATA_SHA"],
+              "wasmSha256": os.environ["WASM_SHA"],
+              "dataUrl": f"/game-assets/data/{os.environ['DATA_SHA']}/supertux2.data",
+              "wasmUrl": f"/game-assets/wasm/{os.environ['WASM_SHA']}/supertux2.wasm",
+          }
+          manifest = json.loads((probes / "manifest.json").read_text())
+          if any(manifest.get(key) != value for key, value in expected.items()):
+              raise SystemExit("Deployed manifest does not match the selected build")
+          match = re.search(r"window\.SUPERTUX_DEPLOY_CONFIG\s*=\s*(\{[^;]+\});", (probes / "frontend.html").read_text())
+          config = json.loads(match.group(1)) if match else {}
+          if any(config.get(key) != expected[key] for key in ("dataUrl", "wasmUrl")):
+              raise SystemExit("Deployed frontend does not reference the selected build's assets")
+          print(f"Verified deployed source commit: {manifest['sourceCommit']}")
+          PY
+
+            echo "Checking R2 data gateway"
+            fetch_probe --head --output "$probe_dir/data.headers" "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data" || return $?
+            grep -qi "content-type: application/octet-stream" "$probe_dir/data.headers" || return $?
+
+            echo "Checking R2 WASM gateway"
+            fetch_probe --head --output "$probe_dir/wasm.headers" "$DEPLOY_URL/game-assets/wasm/$WASM_SHA/supertux2.wasm" || return $?
+            grep -qi "content-type: application/wasm" "$probe_dir/wasm.headers" || return $?
+          }
+          last_error=1
+          while (( SECONDS < deadline )); do
+            if verify_deployment; then
+              echo "Deployment is ready with the selected frontend and assets"
+              exit 0
+            else
+              last_error=$?
+            fi
+            remaining=$((deadline - SECONDS))
+            if (( remaining <= 0 )); then break; fi
+            echo "Waiting for the selected deployment to become consistent"
+            retry_delay="${DEPLOY_CHECK_RETRY_DELAY_SECONDS:-5}"
+            if (( remaining < 5 )); then retry_delay="$remaining"; fi
+            sleep "$retry_delay"
+          done
+          echo "::error::Deployment did not become ready before the deadline; inspect the probe evidence"
+          exit "$last_error"
 
       - name: Upload deployment evidence
         if: always()
@@ -236,6 +306,7 @@ jobs:
           path: |
             dist/asset-manifest.json
             worker-deploy.log
+            ${{ runner.temp }}/supertux-mobile-probes/
           if-no-files-found: warn
           retention-days: 7
 

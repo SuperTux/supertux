@@ -91,6 +91,25 @@ The workflow:
 
 After the Phase 4A branch is merged into `mobile-web-audit`, pushes to `mobile-web-audit` also deploy automatically.
 
+The readiness check allows five minutes for the deployed frontend and gateway to
+become consistent. It retries both HTTP failures and responses that still identify
+an older build within that single deadline. The deployed manifest must identify
+the selected source commit and asset hashes, and the frontend must reference
+those exact asset URLs. Persistent HTTP failures, mismatched builds, missing
+frontend configuration, and incorrect R2 MIME types fail the job.
+
+Each probe logs its URL and final HTTP status. Response headers (including
+Cloudflare request IDs), the frontend, the remote manifest, and HTTP error bodies
+are retained in the deployment evidence artifact, even when a check fails. A
+later successful request alone does not identify the cause of an earlier 404;
+use this evidence to distinguish routing errors, missing objects, and stale
+frontend deployments.
+
+A deployment probe captured an HTTP-200 frontend referencing the previous WASM
+hash while the manifest already identified the new build. The two responses came
+from different Cloudflare locations. HTTP status alone therefore cannot establish
+that a rollout is ready; the readiness check verifies build identity as well.
+
 ## First deployment
 
 First register a `workers.dev` subdomain for the Cloudflare account in the
