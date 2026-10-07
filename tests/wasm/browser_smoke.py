@@ -35,6 +35,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 async def smoke(args, url, data_dir):
     evidence = []
     errors = []
+    keyboard_samples = []
+    position_pattern = re.compile(r'\[SCRIPTING\] PHASE1_POSITION=([-0-9.]+),([-0-9.]+),(true|false),(true|false),(true|false)')
     report = {"checks": [], "artifact_sizes": {}}
     for suffix in ("html", "js", "wasm", "data", "png", "ico"):
         artifact = args.build / f"supertux2.{suffix}"
@@ -47,6 +49,11 @@ async def smoke(args, url, data_dir):
         evidence.append(line)
         with (args.output / "console.log").open("a") as log:
             log.write(line + "\n")
+        match = position_pattern.search(message.text)
+        if match:
+            x, y, left, right, jump = match.groups()
+            keyboard_samples.append(dict(x=float(x), y=float(y), left=left == 'true',
+                                         right=right == 'true', jump=jump == 'true'))
 
     async with async_playwright() as playwright:
         launch = {}
@@ -177,22 +184,34 @@ async def smoke(args, url, data_dir):
         await page.keyboard.press("Enter", delay=150)
         await page.wait_for_function("document.querySelector('#output').textContent.includes('Playing')", timeout=60000)
 
-        async def prepare_position(label, axis):
-            await page.keyboard.press("Backquote", delay=100)
-            await page.keyboard.type(f'print("PHASE1_{label}=" + sector.Tux.get_{axis}());', delay=1)
-            await page.keyboard.press("Backquote", delay=100)
+        # Prepare one read-only observer through the normal developer console
+        # while the ordinary pause menu stops enemies. Repeated console typing
+        # during live play can outlast a jump or let Tux die on a slow build.
+        await page.keyboard.press('Escape', delay=150)
+        await page.keyboard.press('Backquote', delay=100)
+        getters = ' + "," + '.join(['sector.Tux.get_x()', 'sector.Tux.get_y()'] +
+            [f'sector.Tux.get_input_held("{key}")' for key in ['left', 'right', 'jump']])
+        await page.keyboard.type('phase1Observer <- newthread(function(){for(local i=0;i<6000;i++){print("PHASE1_POSITION=" + ' + getters + ');wait(0.05);}});phase1Observer.call();', delay=1)
+        await page.keyboard.press('Enter', delay=100)
+        await page.keyboard.press('Backquote', delay=100)
+        await page.keyboard.press('Escape', delay=150)
 
-        async def position(label, axis, prepared=False):
-            if not prepared:
-                await prepare_position(label, axis)
-            await page.keyboard.press("Backquote", delay=100)
-            await page.keyboard.press("Enter", delay=100)
-            pattern = r"\[SCRIPTING\] PHASE1_" + label + r"=([-0-9.]+)"
-            await page.wait_for_function("pattern => new RegExp(pattern).test(document.querySelector('#output').textContent)", arg=pattern)
-            text = await page.locator("#output").text_content()
-            value = float(re.findall(pattern, text)[-1])
-            await page.keyboard.press("Backquote", delay=100)
-            return value
+        async def snapshot(label, observe=lambda sample: True):
+            start = len(keyboard_samples)
+            try:
+                async with asyncio.timeout(10):
+                    while len(keyboard_samples) <= start or not observe(keyboard_samples[-1]):
+                        await page.wait_for_timeout(50)
+            except TimeoutError as error:
+                raise AssertionError((label, keyboard_samples[-1] if keyboard_samples else None)) from error
+            sample = keyboard_samples[-1]
+            assert sample['y'] < 800, (label, 'Player died during input checks', sample)
+            return sample
+
+        async def position(label, axis):
+            return (await snapshot(label))[axis]
+
+        await snapshot('observer-ready')
 
         # Freeze the actual simulation with a key held; lifecycle return must
         # retain an explicit Resume gate and clear the missing key-up.
@@ -248,29 +267,19 @@ async def smoke(args, url, data_dir):
         x_before = await position("x_before", "x")
         y_ground = await position("y_ground", "y")
         before = await capture(page, "level-before.png")
-        # Prepare the read-only query before jumping; typing it during the jump
-        # can take longer than the full jump on an instrumented Debug build.
-        await prepare_position("y_jump", "y")
-        await page.keyboard.press("Space", delay=100)
-        y_jump = await position("y_jump", "y", prepared=True)
+        await page.keyboard.down("Space")
+        try:
+            y_jump = (await snapshot('jump', lambda sample: sample['jump'] and sample['y'] < y_ground - 10))['y']
+        finally:
+            await page.keyboard.up("Space")
         assert y_jump < y_ground - 10, (y_ground, y_jump)
-        await page.wait_for_timeout(600) # Land near spawn before moving toward terrain.
+        await snapshot('landed', lambda sample: not sample['jump'] and sample['y'] >= y_ground - 1)
         await page.keyboard.down("ArrowLeft")
         try:
-            # Slow instrumented frames advance less simulation per wall-clock
-            # second. Hold the real key until a fresh read-only query observes
-            # the required movement; a stuck or ignored key must still fail.
-            deadline = asyncio.get_running_loop().time() + 10
-            attempt = 0
-            while True:
-                x_after = await position(f"x_after_{attempt}", "x")
-                if x_after < x_before - 50:
-                    break
-                assert asyncio.get_running_loop().time() < deadline, (x_before, x_after)
-                attempt += 1
-                await page.wait_for_timeout(50)
+            x_after = (await snapshot('left', lambda sample: sample['left'] and sample['x'] < x_before - 50))['x']
         finally:
             await page.keyboard.up("ArrowLeft")
+        assert x_after < x_before - 50, (x_before, x_after)
         report["keyboard_positions"] = {"x_before": x_before, "x_after": x_after, "y_ground": y_ground, "y_jump": y_jump}
         after = await capture(page, "level-after.png")
         assert ImageChops.difference(before, after).getbbox() is not None
