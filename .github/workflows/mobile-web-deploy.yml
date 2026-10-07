@@ -32,6 +32,7 @@ env:
 jobs:
   deploy:
     name: Build and deploy playable browser version
+    environment: tux
     runs-on: ubuntu-latest
 
     steps:
