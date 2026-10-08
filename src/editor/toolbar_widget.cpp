@@ -50,66 +50,71 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_widgets_width(0.f),
   m_widgets_width_offset(0.f)
 {
-    std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
-    // Undo button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
-        std::bind(&EditorHistoryManager::undo, Editor::current()->get_history_manager()),
-        _("Undo"),
-        Sizef(32.f, 32.f)),
+  auto grid_button =
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png", []{},
+      _("Change grid size"));
 
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
-        std::bind(&EditorHistoryManager::redo, Editor::current()->get_history_manager()),
-        _("Redo"),
-        Sizef(32.f, 32.f)),
-
-    // Grid button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png",
-      [this] {
-        auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
-        if (snap_grid_size == 0)
-        {
-          if(!g_config->editor_render_grid)
-          {
-            snap_grid_size = 3;
-          }
-          g_config->editor_render_grid = !g_config->editor_render_grid;
-        }
-        else
-          snap_grid_size--;
-      },
-      _("Change / Toggle grid size")),
-
-    // Play button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
-      [this] { Editor::current()->test_level(); },
-      _("Test level")),
-
-    // Save button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
-      [this] {
-        Editor::current()->get_project()->save_level();
-      },
-      _("Save level")),
-
-    // Mode button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
-      std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this),
-      _("Toggle between object and tile mode")),
-
-    // Mouse select button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png",
-      [this]() {
-        Editor::current()->get_toolbox_widget()->set_mouse_tool();
-      },
-      _("Select or move the object under the mouse")),
-
-    // Rubber button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png",
-      [this]() {
-        Editor::current()->get_toolbox_widget()->set_rubber_tool();
-      },
-      _("Delete the tile or object under the mouse"))
+  auto snap_grid_sizes = {
+    _("No Grid"),
+    _("Tiny Grid (4px)"),
+    _("Small Grid (8px)"),
+    _("Medium Grid (16px)"),
+    _("Large Grid (32px)")
   };
+
+  int grid_size_idx = 0;
+
+  for (const auto &grid_size : snap_grid_sizes)
+  {
+    auto on_click = [grid_size_idx]
+    {
+      if (grid_size_idx == 0)
+      {
+        g_config->editor_render_grid = false;
+        return;
+      }
+      g_config->editor_render_grid = true;
+      g_config->editor_selected_snap_grid_size = grid_size_idx - 1;
+    };
+
+    auto menu_item = std::make_unique<MenuListItem>(grid_size, on_click);
+    grid_button->add_menu_item(std::move(menu_item));
+    grid_size_idx++;
+  }
+
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
+      // Undo button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
+                                                  std::bind(&EditorHistoryManager::undo, Editor::current()->get_history_manager()),
+                                                  _("Undo"),
+                                                  Sizef(32.f, 32.f)),
+
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
+                                                  std::bind(&EditorHistoryManager::redo, Editor::current()->get_history_manager()),
+                                                  _("Redo"),
+                                                  Sizef(32.f, 32.f)),
+
+      // Grid button,
+      std::move(grid_button),
+
+      // Play button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
+                                                  { Editor::current()->test_level(); }, _("Test level")),
+
+      // Save button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png", [this]
+                                                  { Editor::current()->get_project()->save_level(); }, _("Save level")),
+
+      // Mode button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png", std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this), _("Toggle between object and tile mode")),
+
+      // Mouse select button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [this]()
+                                                  { Editor::current()->get_toolbox_widget()->set_mouse_tool(); }, _("Select or move the object under the mouse")),
+
+      // Rubber button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [this]()
+                                                  { Editor::current()->get_toolbox_widget()->set_rubber_tool(); }, _("Delete the tile or object under the mouse"))};
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets = {
     // Select mode mouse
