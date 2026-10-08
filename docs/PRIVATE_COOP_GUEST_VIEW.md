@@ -155,8 +155,13 @@ labels use the native surviving-target presentation anchor; they do not invent
 guest respawn behavior. Native HUD/sound/arrow art is still unreplicated.
 
 Focused JavaScript tests pass 55/55; packaging/upload tests 6/6; CI-selection
-tests 6/6; actionlint and repository Cppcheck pass. Debug/native and retained
-regression outcomes are recorded when their validation completes.
+tests 6/6; actionlint and repository Cppcheck pass. Release and Debug WASM builds
+and complete artifact verification pass. Debug Chromium passes all nine display
+scenarios on runtime `43874d348266c456d7a9c16300abed75c4fd017f`, with no new
+sanitizer sites. The complete Debug WASM job and representative Linux Release
+build pass in CI run `37834580301`. Retained boot/audio/viewport, asset/cache, later-area, touch and
+local/remote co-op checks also pass in that run; final PR validation includes
+the frame-synchronized death fixture described below.
 
 Debug exposed an existing uninitialized `Player::m_reset_action` flag in the
 idle-animation path. It is now initialized to false, and the old Player-bool
@@ -172,11 +177,20 @@ so its required-check configuration could not be independently verified. No
 repository rules/settings were changed.
 
 The post-merge Release CI failure in run `37824389939` occurred in the touch
-test's restart-menu sequence. Short DOWN/JUMP gestures could collapse into one
-slow native input frame, leaving the menu paused and its observer stopped. The
-test now observes the existing native per-frame status callback between touch
-down/release/next gestures. It still requires neutral controls and the exact
-restarted spawn position; no control, restart or gameplay assertion was removed.
+test's restart-menu sequence. The regression test now observes the existing
+native per-frame status callback between touch down/release/next gestures.
+Local reproduction also exposed its read-only observer stopping while restart
+temporarily removed sector bindings, and slow screenshots extending held RUN
+into a hazard. The observer skips only those exact missing-binding errors, and
+screenshots follow the independent release assertions. Restart still requires
+neutral controls at the packaged spawn lane, x=96, after landing on its flat
+ground; the assertion accepts the native 672–674 pixel collision-contact range.
+No control, restart or gameplay check was removed.
+
+The new display fixture initially failed Release CI after closing the scripting
+console: timed Escape gestures left the host paused. Its keyboard edges now wait
+for native input updates and verify pause/resume state before proceeding. This
+changes automation timing, not production input or lifecycle handling.
 
 No physical iPhone Safari or hosted separate-network play has been verified in
 this environment.

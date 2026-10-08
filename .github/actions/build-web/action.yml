@@ -100,7 +100,7 @@ runs:
       BUILD_TYPE: ${{ inputs.build_type }}
     run: |-
       smoke_options=()
-      # Existing player/library UB is outside this phase's gameplay boundary.
+      # Remaining existing library UB is outside this phase's gameplay boundary.
       # These exact sites are annotated and archived; every new site fails.
       if [ "$BUILD_TYPE" = Debug ]; then smoke_options+=(--record-known-ub); fi
       python tests/wasm/browser_smoke.py build --output build/browser-evidence "${smoke_options[@]}" 2>&1 | tee build/browser-smoke.log

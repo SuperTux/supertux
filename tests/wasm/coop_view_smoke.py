@@ -51,7 +51,19 @@ async def run(args, url):
         await host.evaluate('''() => {
           window.lastViewPacket=null;const publish=Module.supertuxCoop.view;
           Module.supertuxCoop.view=frame=>{lastViewPacket=frame;publish(frame);};
+          window.viewInputFrames=0;const status=Module.supertuxCoop.engineStatus;
+          Module.supertuxCoop.engineStatus=(...args)=>{++viewInputFrames;status(...args);};
         }''')
+        async def host_key(key):
+            # Observe a native input update after each edge. Wall-clock presses
+            # can merge across slow CI frames, leaving Escape held when the
+            # console closes and reopening the pause menu on the next update.
+            await host.keyboard.down(key)
+            frame=await host.evaluate('viewInputFrames')
+            await host.wait_for_function('(frame)=>viewInputFrames>frame',arg=frame)
+            await host.keyboard.up(key)
+            frame=await host.evaluate('viewInputFrames')
+            await host.wait_for_function('(frame)=>viewInputFrames>frame',arg=frame)
         assert not await guest.evaluate('SupertuxView.state.enabled')
         await host.locator('#coop_view_start').click()
         await host.locator('#coop_panel').evaluate('(e)=>e.open=false')
@@ -111,21 +123,23 @@ async def run(args, url):
         report['checks'].append('Shared camera comes from the native group camera and keeps both living players visible; host input remains independent')
 
         old_generation=await guest.evaluate('supertuxGuest.state.generation')
-        await guest.keyboard.down('ArrowRight');await host.keyboard.press('Escape',delay=150)
+        await guest.keyboard.down('ArrowRight');await host_key('Escape')
         await guest.wait_for_function('!SupertuxView.state.enabled')
         assert not await guest.evaluate('SupertuxView.playable')
-        await host.keyboard.press('Escape',delay=150)
+        await host_key('Escape')
         await guest.wait_for_function('SupertuxView.playable && supertuxGuest.state.mask===0')
         assert await guest.evaluate('supertuxGuest.state.generation')!=old_generation
         await guest.keyboard.up('ArrowRight')
         report['checks'].append('Host Pause freezes presentation and releases guest input; Resume requires neutral state with a fresh generation')
 
         async def script(command):
-            await host.locator('#canvas').focus();await host.keyboard.press('Escape',delay=150)
-            await host.keyboard.press('Backquote',delay=100);await host.wait_for_timeout(250)
-            await host.keyboard.type(command,delay=4);await host.keyboard.press('Enter',delay=100)
+            await host.locator('#canvas').focus();await host_key('Escape')
+            await host.wait_for_function('!Module.supertuxCoop.state.enabled')
+            await host_key('Backquote')
+            await host.keyboard.type(command,delay=4);await host_key('Enter')
             assert any('> '+command in line for line in logs[-30:]),logs[-10:]
-            await host.keyboard.press('Backquote',delay=100);await host.keyboard.press('Escape',delay=150)
+            await host_key('Backquote');await host_key('Escape')
+            await host.wait_for_function('Module.supertuxCoop.state.enabled')
         await script('sector.Tux2.kill(true);')
         await sample('death',"SupertuxView.state.drawn.players[1].dead>0")
         # Press Action only after native death is complete. A held Action first
