@@ -8,6 +8,7 @@ import json
 import re
 import threading
 from pathlib import Path
+from urllib.parse import urljoin
 from playwright.async_api import async_playwright
 
 
@@ -61,6 +62,7 @@ async def smoke(args, url):
             await page.goto(url)
             await page.wait_for_function('window.Module && Module.supertuxReady === true',timeout=180000)
             assert not any('/game-assets/music/' in path for path in requests), 'Music blocked initial startup'
+            assert urljoin(url, manifest['packages']['wasm']['url']) not in requests, 'SDK downloaded WASM again instead of using validated cached bytes'
             await page.evaluate(r'''() => {
               window.engineMusicOpened=[];
               const open=Module.FS.open.bind(Module.FS);
@@ -170,7 +172,7 @@ async def smoke(args, url):
         await context.add_init_script("const put=IDBObjectStore.prototype.put;IDBObjectStore.prototype.put=function(...args){if(this.name==='metadata')throw new DOMException('Quota','QuotaExceededError');return put.apply(this,args)}")
         page, requests = await boot(context,'warm')
         await page.wait_for_function('engineMusicOpened.length > 0')
-        assert not any('.data' in path or '/game-assets/music/' in path for path in requests), requests
+        assert not any('.data' in path or '.wasm' in path or 'supertux2.js' in path or '/game-assets/music/' in path for path in requests), requests
         assert await page.evaluate("Module.FS.readFile(Module.supertuxStorage.root+'asset-cache-save-marker',{encoding:'utf8'})") == 'saved progress'
         record('New page reuses startup and title music with HTTP cache disabled even when cache accounting exceeds quota')
         await command(page, f'play_music("/{b["path"]}");')

@@ -29,6 +29,9 @@ execute_process(COMMAND "${Python3_EXECUTABLE}" "${WEB_PACKAGER}" ${WEB_PACKAGIN
   COMMAND_ERROR_IS_FATAL ANY)
 # SDL3_image decodes real file bytes; browser preload plugins are unnecessary.
 set(EM_LINK_FLAGS " -sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH=1 -sMAXIMUM_MEMORY=536870912 -sERROR_ON_UNDEFINED_SYMBOLS=1 --preload-file ${WEB_ASSETS_DIR}/startup@${BUILD_CONFIG_DATA_DIR} --pre-js ${WEB_ASSETS_DIR}/identity.js --pre-js ${PROJECT_SOURCE_DIR}/mk/emscripten/storage.js --pre-js ${PROJECT_SOURCE_DIR}/mk/emscripten/browser.js -lidbfs.js")
+# SDK 6.0.11 omits wasmBinary from its default incoming API. Preserve the
+# default APIs and explicitly accept the already validated/cached WASM bytes.
+string(APPEND EM_LINK_FLAGS " -sINCOMING_MODULE_JS_API=ENVIRONMENT,arguments,canvas,dynamicLibraries,elementPointerLock,instantiateWasm,locateFile,monitorRunDependencies,noExitRuntime,noInitialRun,onAbort,onExit,onRuntimeInitialized,postRun,preInit,preRun,print,printErr,setStatus,statusMessage,stderr,stdin,stdout,thisProgram,wasm,websocket,wasmBinary")
 if(ENABLE_OPENGL)
   set(EM_LINK_FLAGS "${EM_LINK_FLAGS} -sFULL_ES2")
   set(HAVE_OPENGL ON CACHE BOOL "")
