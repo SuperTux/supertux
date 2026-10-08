@@ -50,7 +50,7 @@ export default {
 
     if (/^\/coop-art\/[a-f0-9]{64}\.png$/.test(url.pathname)) {
       const response = await env.ASSETS.fetch(request);
-      if (!response.ok) return response;
+      if (!response.ok && response.status !== 304) return response;
       const headers = new Headers(response.headers);
       headers.set('Content-Type','image/png');
       headers.set('Cache-Control','public, max-age=31536000, immutable');

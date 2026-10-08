@@ -118,9 +118,68 @@ interpolation without prediction, discrete death, bounded history/backpressure,
 artifact completeness and presentation delivery. Full native matrix remains
 available through the existing workflow policy.
 
-Results and measured relay payload/latency observations are recorded after the
-compiled browser validation completes. No physical iPhone Safari or hosted
-separate-network play has been verified in this environment.
+The committed runtime `fdc11aa6334ba3e98d00c2a64e8d1acc57665bbe` passes all nine
+two-browser display scenarios in Release Chromium 151.0.7922.34 and Linux WebKit
+26.5. Each test uses separate actual browser processes, the compiled host and
+real local workerd/Durable Object, with 844×390 touch-capable viewports. No CPU or
+network throttling was applied; Chromium uses software SwiftShader rendering.
+Fresh browser contexts and a local same-machine relay are used. These are not
+physical-phone, WAN or Safari device results.
+
+| Measured observation | Release Chromium | Release Linux WebKit |
+| --- | ---: | ---: |
+| Input to visible 30-pixel guest movement | 334 ms | 326 ms |
+| Maximum observed visual snapshot | 482 bytes | 470 bytes |
+| Observed snapshot rate | 11.8/s | 11.0/s |
+| Visual snapshot payload throughput | 5,405 bytes/s | 4,832 bytes/s |
+
+The movement measurement includes the time for ordinary physics to travel 30
+pixels and the 90 ms presentation delay. It is not an isolated round-trip latency
+measurement. Throughput/rate averages span active play and test menu pauses;
+WebSocket framing, input/status messages and initial asset downloads are excluded.
+Injected 20/180 ms delay is at the guest presentation-delivery boundary after the
+real relay, not simulated WAN packet loss. History stays within eight complete
+snapshots and rendered order never reverses.
+
+Presentation files total 1,691,673 bytes for the viewer's code/HTML, scene and
+PNG inventory, plus the 853,561-byte complete build manifest and host-index
+compatibility check. No game WASM/DATA/music is fetched by the guest, and it
+creates no IndexedDB save/settings database. The mandatory host DATA gains only
+4,943 bytes for the generated fixture; deferred soundtrack bytes are unchanged.
+
+The browser scenarios verify ordinary movement and trusted touch Jump, isolated
+input owners, native group camera, pause/fresh neutral Resume, dying/dead/Action
+respawn, all-player restart with a fresh epoch, jitter/order/bounds, absence of
+guest simulation/downloads/storage and background/disconnect cleanup. Death
+labels use the native surviving-target presentation anchor; they do not invent
+guest respawn behavior. Native HUD/sound/arrow art is still unreplicated.
+
+Focused JavaScript tests pass 55/55; packaging/upload tests 6/6; CI-selection
+tests 6/6; actionlint and repository Cppcheck pass. Debug/native and retained
+regression outcomes are recorded when their validation completes.
+
+Debug exposed an existing uninitialized `Player::m_reset_action` flag in the
+idle-animation path. It is now initialized to false, and the old Player-bool
+sanitizer exemption is removed. The remaining exact pre-existing libc++/obstack
+diagnostics continue to be recorded with instrumentation enabled; any new site
+fails validation.
+
+The existing required gate and check names are preserved. This change selects
+Release/Debug WASM, representative Linux and lint/focused tests, without the
+unaffected native matrices. GitHub's ruleset listing is empty; classic branch
+protection inspection returns HTTP 403 (`Resource not accessible by integration`),
+so its required-check configuration could not be independently verified. No
+repository rules/settings were changed.
+
+The post-merge Release CI failure in run `37824389939` occurred in the touch
+test's restart-menu sequence. Short DOWN/JUMP gestures could collapse into one
+slow native input frame, leaving the menu paused and its observer stopped. The
+test now observes the existing native per-frame status callback between touch
+down/release/next gestures. It still requires neutral controls and the exact
+restarted spawn position; no control, restart or gameplay assertion was removed.
+
+No physical iPhone Safari or hosted separate-network play has been verified in
+this environment.
 
 For device acceptance, use isolated HTTPS staging and two physical phones on
 different networks. Try both host-on-phone and guest-on-phone roles; verify

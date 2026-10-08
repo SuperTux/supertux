@@ -235,6 +235,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_bubbles_sprite(SpriteManager::current()->create("images/particles/air_bubble.sprite")),
   m_should_fancy_idle(true),
   m_fancy_idle_active(true),
+  m_reset_action(false),
   m_floor_normal(0.0f, 0.0f),
   m_ghost_mode(false),
   m_unduck_hurt_timer(),

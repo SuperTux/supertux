@@ -8,6 +8,9 @@ test('content addressed guest PNGs use frontend streaming and immutable MIME wit
   assert.deepEqual(bindings.calls,[]);assert.match(await response.text(),/coop-art/);
   const missing=env();missing.ASSETS.fetch=()=>new Response('missing',{status:404});
   assert.equal((await worker.fetch(new Request(`https://game.example/coop-art/${sha}.png`),missing)).status,404);
+  const cached=env();cached.ASSETS.fetch=()=>new Response(null,{status:304});
+  const unchanged=await worker.fetch(new Request(`https://game.example/coop-art/${sha}.png`),cached);
+  assert.equal(unchanged.status,304);assert.match(unchanged.headers.get('cache-control'),/immutable/);
 });
 function env() {
   const calls = [];
