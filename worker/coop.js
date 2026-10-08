@@ -38,7 +38,7 @@ export async function coopFetch(request, env) {
     try { value = JSON.parse(body); } catch { return json({error: 'Invalid request'}, 400); }
     if (!value || typeof value !== 'object' || Array.isArray(value) ||
         Object.keys(value).some(key => !['protocol', 'build'].includes(key)) ||
-        value.protocol !== PROTOCOL || !BUILD.test(value.build)) return json({error: 'Unsupported build/protocol'}, 400);
+        value.protocol !== PROTOCOL || typeof value.build !== 'string' || !BUILD.test(value.build)) return json({error: 'Unsupported build/protocol'}, 400);
     const room = crypto.randomUUID().replaceAll('-', ''), host = secret(), guest = secret();
     const stub = env.COOP_ROOMS.get(env.COOP_ROOMS.idFromName(room));
     const response = await stub.fetch('https://room.internal/create', {
@@ -100,12 +100,18 @@ export class CoopRoom {
     if (typeof raw !== 'string' || new TextEncoder().encode(raw).length > 512) { this.close(socket, 1009, 'Message too large'); return; }
     const now = Date.now();
     if (now - info.rateStart >= 1000) { info.rateStart = now; info.count = 0; }
-    if (++info.count > 60) { this.close(socket, 1008, 'Input rate exceeded'); return; }
     let message;
     try { message = JSON.parse(raw); } catch { this.close(socket, 1008, 'Malformed message'); return; }
     if (!message || typeof message !== 'object' || Array.isArray(message)) { this.close(socket, 1008, 'Malformed message'); return; }
-    if (!FIELDS[message.type] || Object.keys(message).some(key => !FIELDS[message.type].includes(key))) {
+    if (typeof message.type !== 'string' || !Object.hasOwn(FIELDS, message.type) ||
+        Object.keys(message).some(key => !FIELDS[message.type].includes(key))) {
       this.close(socket, 1008, 'Unknown message fields or role change'); return;
+    }
+    // Receive credits acknowledge our own bounded output; charging them again
+    // can disconnect a healthy client when transition messages arrive in a
+    // burst. Only real outstanding credits are exempt from the command rate.
+    if (!(info.hello && message.type === 'seen') && ++info.count > 60) {
+      this.close(socket, 1008, 'Input rate exceeded'); return;
     }
     if (!info.hello) {
       if (message.type !== 'hello' || message.protocol !== PROTOCOL || message.build !== room.build) {
@@ -119,7 +125,8 @@ export class CoopRoom {
       // Application-level receive credit, independent of runtime-specific
       // bufferedAmount support. Never queue more than 32 outbound messages.
       const current = socket.deserializeAttachment();
-      current.inFlight = Math.max(0, (current.inFlight || 0) - 1);
+      if (!(current.inFlight > 0)) {this.close(socket, 1008, 'Unexpected receive credit'); return;}
+      current.inFlight -= 1;
       socket.serializeAttachment(current);
     } else if (info.role === 'host' && message.type === 'session' && UINT(message.generation) && typeof message.enabled === 'boolean') {
       info.session = {type: 'session', generation: message.generation, enabled: message.enabled};

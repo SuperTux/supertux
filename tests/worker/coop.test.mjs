@@ -23,7 +23,7 @@ async function ready(f, socket) {await send(f.object, socket, {type: 'hello', pr
 test('routing is opt-in, origin-bound, bounded and build-validated', async () => {
   assert.equal((await coopFetch(new Request('http://localhost/coop/rooms'), {})).status, 404);
   assert.equal((await coopFetch(new Request('http://localhost/coop/rooms'), {COOP_ROOMS: {}})).status, 403);
-  for (const body of ['invalid', 'null', '[]', JSON.stringify({protocol: 2, build}), JSON.stringify({protocol: 1, build, role:'host'}), 'x'.repeat(513)]) {
+  for (const body of ['invalid', 'null', '[]', JSON.stringify({protocol: 2, build}), JSON.stringify({protocol: 1, build:[build]}), JSON.stringify({protocol: 1, build, role:'host'}), 'x'.repeat(513)]) {
     const response = await coopFetch(new Request('http://localhost/coop/rooms', {method: 'POST', headers: {Origin: 'http://localhost'}, body}), {COOP_ROOMS: {}});
     assert.ok([400,413].includes(response.status));
   }
@@ -61,6 +61,10 @@ test('mismatch, menu bits, oversized and malformed messages cannot enter gamepla
   for (const value of ['x'.repeat(513), '{', new ArrayBuffer(16)]) {
     const f = fixture(), socket = f.add('guest');
     await f.object.webSocketMessage(socket, value); assert.ok(socket.closed);
+  }
+  for (const type of ['__proto__','constructor','toString',null,[]]) {
+    const f=fixture(), socket=f.add('guest');await ready(f,socket);
+    await send(f.object,socket,{type});assert.equal(socket.closed.code,1008);
   }
 });
 
@@ -100,4 +104,27 @@ test('only a neutral host gets bounded loading grace, not active play or guests'
     socket.info.last=Date.now()-idle;
     await f.object.alarm();assert.equal(!!socket.closed,closes);
   }
+});
+
+test('valid receive credits do not double-charge the client command budget', async () => {
+  const f=fixture(), guest=f.add('guest');await ready(f,guest);
+  // 45 commands with 45 valid responses are below the 60-command limit,
+  // including when a resumed receiver processes them within one time window.
+  for(let i=0;i<45;i++) {
+    await send(f.object,guest,{type:'ping'});
+    await send(f.object,guest,{type:'seen'});
+    assert.equal(guest.closed,undefined);
+  }
+  for(let i=0;i<20 && !guest.closed;i++) {
+    await send(f.object,guest,{type:'ping'});
+    await send(f.object,guest,{type:'seen'});
+  }
+  assert.equal(guest.closed.reason,'Input rate exceeded');
+});
+
+test('unsolicited receive credits cannot bypass rate or backpressure limits', async () => {
+  const f=fixture(), host=f.add('host');await ready(f,host);
+  await send(f.object,host,{type:'seen'});assert.equal(host.info.inFlight,0);
+  await send(f.object,host,{type:'seen'});
+  assert.equal(host.closed.reason,'Unexpected receive credit');
 });
