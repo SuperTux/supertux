@@ -59,7 +59,18 @@ async def run(args, url):
             for _ in range(600):
                 if any('Setting status: '+text in line for line in logs[start:]):return
                 await host.wait_for_timeout(100)
-            raise AssertionError(('Screen transition',text,logs[-8:]))
+            await host.locator('#canvas').screenshot(path=str(args.output/'transition-failure.png'))
+            state=await host.evaluate('({active:Module.supertuxShell.active,focus:document.hasFocus(),element:document.activeElement.tagName})')
+            raise AssertionError(('Screen transition',text,state,logs[-8:]))
+        async def key_until_status(key, text):
+            # SDL consumes ordinary keyboard state once per game frame. A
+            # short down/up can collapse in one slow software-rendered frame;
+            # hold the host menu action until its actual transition is seen.
+            start=len(logs)
+            await host.keyboard.down(key)
+            try:await status_after(text,start)
+            finally:await host.keyboard.up(key)
+            await host.wait_for_timeout(500)
         await status_after('In main menu');await host.wait_for_timeout(500)
         guest = None
         if not args.local_only:
@@ -87,18 +98,21 @@ async def run(args, url):
                 raise AssertionError(diagnostic)
         await host.locator('#canvas').focus()
         # The standard packaged campaign path, including story and world map.
-        entry_start=len(logs);await host.keyboard.press('Enter',delay=150)
+        # Shell Start/room clicks can leave the mouse hovering another menu
+        # row. Select Start Game directly instead of assuming Enter selects it.
+        entry_fingers=Fingers(host,await context.new_cdp_session(host) if args.browser=='chromium' else None)
+        entry_geometry=await controls(host);vp=entry_geometry['viewport']
+        main_y=vp['y']+(480/2+35-8*24/2+12)*(vp['height']/480)
+        entry_start=len(logs)
+        await entry_fingers.tap([vp['x']+vp['width']/2,main_y])
         # Story is a GameSession ("Playing"); "Watching a cutscene" is the
         # separate LevelIntro screen, which appears only after map entry.
         await status_after('Playing',entry_start);await host.wait_for_timeout(500)
-        map_start=len(logs);await host.keyboard.press('Escape',delay=150)
-        await status_after('In worldmap',map_start);await host.wait_for_timeout(500)
+        await key_until_status('Escape','In worldmap')
         await host.keyboard.down('ArrowDown');await host.wait_for_timeout(1000);await host.keyboard.up('ArrowDown')
         await host.wait_for_timeout(500)
-        intro_start=len(logs);await host.keyboard.press('Space',delay=150)
-        await status_after('Watching a cutscene',intro_start);await host.wait_for_timeout(500)
-        level_start=len(logs);await host.keyboard.press('Space',delay=150)
-        await status_after('Playing',level_start);await host.wait_for_timeout(400)
+        await key_until_status('Space','Watching a cutscene')
+        await key_until_status('Space','Playing')
 
         async def script(command, paused=True):
             await host.locator('#canvas').focus()
@@ -142,7 +156,7 @@ async def run(args, url):
         await host.locator('#canvas').screenshot(path=str(args.output/'two-player-game.png'))
         report['checks'].append('Actual packaged welcome_antarctica: independent movement, jump and action on real Tux/Tux2; shared mobile viewport; ordinary held/released controls')
         geometry=await controls(host)
-        fingers=Fingers(host,await context.new_cdp_session(host) if args.browser=='chromium' else None)
+        fingers=entry_fingers
         await fingers.down(1,geometry['right']);await p2('left',True)
         await sample('touch-and-second-owner',lambda s:s[0]['right'] and s[1]['left'] and not s[1]['right'])
         await fingers.up(1);await p2('left',False)

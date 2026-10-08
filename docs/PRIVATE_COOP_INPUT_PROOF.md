@@ -180,6 +180,13 @@ remain focused; the required aggregate gate and cancellation policy are retained
 That first CI run correctly failed the aggregate gate because the new Debug
 co-op entry fixture used fixed delays and observed the map instead of a level.
 Entry now waits for fresh main-menu/story/map/level-intro/gameplay statuses.
+Another final-head run passed Debug and both Chromium proofs but missed the
+expected first WebKit transition. The archived failure canvas showed **Manage
+Assets**: the shell Start click left the mouse over that row, so Enter opened
+the wrong menu. Entry now taps **Start Game** directly through the existing
+touch path. Subsequent transition keys remain down until the expected native
+status is observed, then release even on timeout. Failed transitions also
+archive the canvas and shell/focus state. No gameplay check was removed.
 Further Debug testing reproduced and fixed the relay load-timeout separately.
 The existing touch check also restarts through its ordinary menu after slow
 console setup, preserving its getter-only observation and all control checks.
