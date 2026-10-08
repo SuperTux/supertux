@@ -15,7 +15,7 @@ rejects PR artifacts, foreign repositories, mismatched source/toolchain/build
 identities, incomplete assets and missing artifacts. It never selects “latest.”
 
 The workflow runs from the staging tooling branch while checking out the runtime
-at the requested tested SHA. Its deployment tools are checked out separately;
+at the requested tested SHA. Its deployment and browser validation tools are checked out separately;
 the Worker, browser code and complete game artifact use the tested runtime. This
 allows publication tooling to be reviewed without rebuilding or changing that
 runtime. The build job contains no deployment secrets.
@@ -57,6 +57,10 @@ probe. Chromium and Linux WebKit then run the actual compiled-host/two-browser
 display proof through the hosted Worker. Reports and screenshots are retained
 in `private-coop-staging-evidence`; the successful run summary contains the host
 HTTPS URL and runtime SHA.
+
+HTTP probes identify themselves as `SuperTux-Coop-Validation`. The hosted edge
+rejects Python's default `Python-urllib` user-agent with HTTP 403; validation
+uses an explicit descriptive user-agent rather than disabling edge protection.
 
 ## Two physical phones
 

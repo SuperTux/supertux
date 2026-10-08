@@ -50,7 +50,8 @@ def origin(url):
 def fetch(base, path, deadline, method='GET', limit=4 * 1024 * 1024, data=None):
     remaining = deadline - time.monotonic()
     require(remaining > 0, 'Staging readiness deadline exceeded')
-    headers = {'Accept-Encoding': 'identity'}
+    headers = {'Accept-Encoding': 'identity',
+               'User-Agent': 'SuperTux-Coop-Validation/1.0 (+https://github.com/jbbejena/supertux)'}
     if data is not None:
         headers.update({'Content-Type': 'application/json', 'Origin': base})
     request = urllib.request.Request(base + '/' + path.lstrip('/'), headers=headers, data=data, method=method)

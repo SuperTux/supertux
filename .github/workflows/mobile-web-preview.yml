@@ -196,8 +196,8 @@ jobs:
       env:
         STAGING_URL: ${{ steps.publish.outputs.url }}
       run: |
-        python tests/wasm/coop_view_smoke.py build --url "$STAGING_URL" --output staging-evidence/chromium
-        python tests/wasm/coop_view_smoke.py build --url "$STAGING_URL" --browser webkit --output staging-evidence/webkit
+        python staging-tools/tests/wasm/coop_view_smoke.py build --url "$STAGING_URL" --output staging-evidence/chromium
+        python staging-tools/tests/wasm/coop_view_smoke.py build --url "$STAGING_URL" --browser webkit --output staging-evidence/webkit
     - name: Phone acceptance instructions
       env:
         STAGING_URL: ${{ steps.publish.outputs.url }}

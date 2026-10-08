@@ -63,6 +63,8 @@ class DeploymentTests(unittest.TestCase):
                 if self.command != 'HEAD': self.wfile.write(data)
             def do_GET(self):
                 requests.append(('GET', self.path))
+                if not self.headers.get('User-Agent', '').startswith('SuperTux-Coop-Validation/'):
+                    self.send_error(403); return
                 if self.path == '/asset-manifest.json':
                     remote = dict(manifest, sourceCommit='d' * 40) if tamper == 'manifest' else manifest
                     self.respond(json.dumps(remote).encode(), 'application/json')
