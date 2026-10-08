@@ -43,11 +43,12 @@
         tx.onerror = tx.onabort = () => {};
       } catch (_) { /* Cache accounting is best effort. */ }
     }
-    bounded(operation) {
+    bounded(operation, timeout = 3000) {
       return new Promise((resolve, reject) => {
-        const timer = setTimeout(() => reject(new Error('Asset storage timed out')), 3000);
+        let cancel;
+        const timer = setTimeout(() => { try { if (cancel) cancel(); } catch (_) { /* Already completed. */ } reject(new Error('Asset storage timed out')); }, timeout);
         const finish = fn => value => { clearTimeout(timer); fn(value); };
-        try { operation(finish(resolve), finish(reject)); } catch (error) { clearTimeout(timer); reject(error); }
+        try { cancel = operation(finish(resolve), finish(reject)); } catch (error) { clearTimeout(timer); reject(error); }
       });
     }
     async read(entry) {
@@ -59,7 +60,8 @@
           const request = transaction.objectStore('payloads').get(entry.sha256);
           request.onsuccess = () => resolve(request.result || null);
           transaction.onabort = transaction.onerror = () => reject(transaction.error);
-        });
+          return () => transaction.abort();
+        }, 15000);
       } catch (_) { return null; }
     }
     store(entry, bytes, epoch) {
@@ -98,8 +100,9 @@
             };
             tx.oncomplete = resolve;
             tx.onabort = tx.onerror = () => reject(tx.error);
-          });
-        } catch (error) { console.info('Downloaded asset could not be cached; online play remains available.', error.name); }
+            return () => tx.abort();
+          }, 30000);
+        } catch (error) { console.info('Downloaded asset could not be cached; online play remains available.', error.name, error.message); }
       }).catch(() => {});
       return this.pending;
     }

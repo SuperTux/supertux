@@ -15,6 +15,11 @@ test('concurrent cache readers all fall back when IndexedDB open throws', async 
   assert.equal(cache.disabled, true);
   delete global.indexedDB;
 });
+test('timed out storage cancels its transaction instead of publishing late partial work', async () => {
+  const cache=new Cache();let cancelled=false;
+  await assert.rejects(cache.bounded(()=>()=>{cancelled=true;},5), /timed out/);
+  assert.equal(cancelled,true);
+});
 async function fixture() {
   const a = bytes('OggSactual audio A'), b = bytes('OggSactual audio B');
   const entries = await Promise.all([a,b].map(async (data,i) => ({path: 'music/' + (i ? 'b' : 'a') + '.ogg', package:'music', bytes:data.byteLength, sha256:await hash(data), url:'assets/' + i})));

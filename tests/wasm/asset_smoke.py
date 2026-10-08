@@ -179,6 +179,19 @@ async def smoke(args, url):
         await page.wait_for_function('path => engineMusicOpened.some(p=>p.endsWith(path))',arg=b['path'])
         assert not any(b['url'] in path for path in requests)
         record('Previously downloaded world music plays from persistent cache')
+        await page.evaluate('''async () => {
+          const db=await Module.supertuxAssets.cache.db();
+          await new Promise((resolve,reject)=>{
+            const tx=db.transaction('payloads','readwrite');
+            tx.objectStore('payloads').put(new Uint8Array([0]).buffer,Module.supertuxAssets.manifest.packages.startup.sha256);
+            tx.oncomplete=resolve;tx.onabort=tx.onerror=reject;
+          });
+        }''')
+        await page.close()
+        page, requests = await boot(context,'corrupt-startup-cache')
+        assert any('.data' in path for path in requests)
+        assert await page.evaluate("Module.FS.readFile(Module.supertuxStorage.root+'asset-cache-save-marker',{encoding:'utf8'})") == 'saved progress'
+        record('Corrupt persistent startup bytes are rejected and redownloaded without losing saved progress')
         config_before = await page.evaluate("Module.FS.readFile(Module.supertuxStorage.root+'config',{encoding:'utf8'})")
         await page.evaluate("window.dispatchEvent(new Event('blur'))")
         await page.locator('#activation_panel summary').click()
