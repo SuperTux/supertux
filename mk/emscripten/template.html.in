@@ -221,6 +221,9 @@
     <p>Invite Player 2 at the title screen before starting a level. The guest is a controller; only the host shows the game.</p>
     <button id="coop_create" type="button">Create private input room</button>
     <button id="coop_close" type="button">Close room</button>
+    <p>At the title screen, select a packaged proof level:</p>
+    <button id="coop_antarctica" type="button">Start Antarctica proof</button>
+    <button id="coop_forest" type="button">Start forest door proof</button>
     <p id="coop_status" role="status">Networking is off.</p>
     <a id="coop_link" style="overflow-wrap:anywhere;color:#a5c7ed" target="_blank" rel="noreferrer"></a>
   </details>

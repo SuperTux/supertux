@@ -664,6 +664,7 @@ ScreenManager::process_events()
   const auto active_session = GameSession::current();
   bool remote_gameplay = m_input_manager.is_remote(1) && active_session && active_session->is_active() &&
     !active_session->get_savegame().is_title_screen() &&
+    !active_session->get_current_level().m_is_in_cutscene &&
     !m_screen_stack.empty() && m_screen_stack.back().get() == active_session &&
     !m_menu_manager->is_active() && !Console::current()->hasFocus();
 #ifdef __EMSCRIPTEN__

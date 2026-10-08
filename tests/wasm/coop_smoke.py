@@ -100,9 +100,9 @@ async def run(args, url):
             report['samples'][label]=samples[-1];return samples[-1]
         async def p2(control, down):
             if guest:
-                key={'left':'ArrowLeft','right':'ArrowRight','jump':'Space','action':'ControlLeft'}[control]
+                key={'left':'ArrowLeft','right':'ArrowRight','jump':'Space','action':'ControlLeft','up':'ArrowUp'}[control]
                 await (guest.keyboard.down(key) if down else guest.keyboard.up(key))
-            else: await host.evaluate('([button,value])=>pad(1,button,value)',[{'left':14,'right':15,'jump':0,'action':2}[control],int(down)])
+            else: await host.evaluate('([button,value])=>pad(1,button,value)',[{'left':14,'right':15,'jump':0,'action':2,'up':12}[control],int(down)])
 
         start=await sample('spawn',lambda s:all(v['y']<800 for v in s))
         if guest: await guest.wait_for_function('supertuxGuest.state.enabled')
@@ -219,28 +219,68 @@ async def run(args, url):
             await p2('right',False)
         report['checks'].append('Actual packaged bell collision records checkpoint; both players die and restart there; controller ownership/input survive restart')
 
-        # A later, packaged level has actual door/sector mechanics. Host-only
-        # load fixture keeps the same controllers; this is not campaign traversal.
-        await script('load_level("levels/bonus1/area_42.stl");',paused=False)
-        await host.wait_for_timeout(1500);await host.keyboard.press('Enter',delay=150);await host.wait_for_timeout(400)
-        await observer()
-        await script('Level.spawn("sector2","main");')
-        await host.wait_for_timeout(700);await observer()
-        await sample('second-sector',lambda s:all(v['y']<2000 for v in s))
-        if guest:
-            await guest.wait_for_function('supertuxGuest.state.enabled')
-            await p2('left',True);await sample('input-after-sector',lambda s:s[1]['left'] and not s[0]['left']);await p2('left',False)
-        report['checks'].append('Existing load_level/spawn fixtures run packaged area_42 and a second sector; established input source survives level/sector generations')
-
-        # Finish the nested diagnostic level, then complete the campaign level
-        # with its existing sequence. Temporary script controllers borrow safely.
-        await script('Level.finish(false);',paused=False)
-        await host.wait_for_timeout(1000)
+        # Complete the actual campaign level via its existing end sequence.
+        # It temporarily borrows script controllers, then returns to the map.
         await script('sector.Tux.trigger_sequence("endsequence");',paused=False)
-        await host.wait_for_timeout(7500)
-        await host.keyboard.press('Space',delay=150);await host.wait_for_timeout(600)
+        await host.wait_for_timeout(8500)
+        await host.keyboard.press('Space',delay=150);await host.wait_for_timeout(800)
         if guest: assert not await host.evaluate('Module.supertuxCoop.state.enabled')
         report['checks'].append('Existing end sequence temporarily controls players and returns to the world map; guest cannot control host progression')
+        await host.keyboard.press('Escape',delay=150)
+        await host.keyboard.press('ArrowUp',delay=150);await host.keyboard.press('Enter',delay=150)
+        await host.wait_for_timeout(1000)
+
+        # Normal GameManager/Levelset entry from the title screen, rather than
+        # nesting another GameSession inside a live campaign level.
+        await host.locator('#coop_panel').evaluate('(e)=>e.open=true')
+        await host.locator('#coop_forest').click()
+        await host.wait_for_timeout(2000)
+        await host.locator('#coop_panel').evaluate('(e)=>e.open=false')
+        await host.locator('#canvas').focus()
+        await observer()
+        await sample('forest-entry',lambda s:all(v['y']>800 and v['x']<500 for v in s))
+        await script('sector.Tux.set_pos(9760,800);sector.Tux2.set_pos(9760,800);')
+        await sample('at-forest-door',lambda s:all(v['x']>9700 for v in s))
+        old = await host.evaluate('Module.supertuxCoop.state.generation') if guest else 0
+        if guest: await guest.wait_for_function('supertuxGuest.state.enabled')
+        await p2('up',True)
+        await host.wait_for_timeout(2200);await p2('up',False)
+        await observer()
+        await sample('second-sector',lambda s:all(750<v['x']<1000 and v['y']>2500 for v in s))
+        if guest:
+            assert await host.evaluate('Module.supertuxCoop.state.generation')!=old
+            await guest.wait_for_function('supertuxGuest.state.enabled')
+        await p2('left',True);await sample('input-after-sector',lambda s:s[1]['left'] and not s[0]['left']);await p2('left',False)
+        report['checks'].append('Packaged tux_builder: ordinary P2 Up activates a real door and moves both players to mountain; input ownership survives sector generation')
+
+        if guest:
+            await p2('right',True);await sample('before-disconnect',lambda s:s[1]['right'])
+            await guest.evaluate("supertuxGuest.connection.close('Acceptance test disconnect')")
+            await host.wait_for_function('Module.supertuxCoop.state.reserved===-1')
+            await sample('disconnect-neutral',lambda s:not s[1]['right'])
+            await guest.locator('#guest_join').click()
+            await host.wait_for_function('Module.supertuxCoop.state.joinRejected')
+            assert not await guest.evaluate('supertuxGuest.state.enabled')
+            report['checks'].append('Held-button socket disconnect clears P2; in-level rejoin is rejected instead of reclaiming a live player')
+        await script('Level.finish(true);',paused=False)
+        await host.wait_for_timeout(1800)
+        if guest:
+            await guest.locator('#guest_join').click()
+            await host.wait_for_function('Module.supertuxCoop.state.reserved===1')
+            await host.locator('#coop_panel').evaluate('(e)=>e.open=true')
+            await host.locator('#coop_antarctica').click()
+            await host.wait_for_timeout(1800)
+            await host.locator('#coop_panel').evaluate('(e)=>e.open=false')
+            await host.locator('#canvas').focus();await observer()
+            await guest.wait_for_function('supertuxGuest.state.enabled')
+            await sample('rejoin-neutral',lambda s:not s[1]['right'])
+            await p2('right',False);await p2('right',True)
+            await sample('rejoin-fresh-input',lambda s:s[1]['right'] and not s[0]['right'])
+            await guest.evaluate("Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});document.dispatchEvent(new Event('visibilitychange'))")
+            await host.wait_for_function('Module.supertuxCoop.state.reserved===-1')
+            await sample('guest-background-neutral',lambda s:not s[1]['right'])
+            await script('Level.finish(true);',paused=False);await host.wait_for_timeout(1600)
+            report['checks'].append('Return to title, explicit rejoin and new level accept fresh P2 input; guest background closes socket and neutralizes held input')
 
         if guest:
             # Membership is absent from the host's existing save schema.

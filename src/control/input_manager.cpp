@@ -22,11 +22,14 @@
 #include "control/joystick_manager.hpp"
 #include "control/keyboard_manager.hpp"
 #include "control/remote_controller.hpp"
+#include "gui/menu_manager.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/title_screen.hpp"
+#include "supertux/world.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -285,6 +288,19 @@ InputManager::update_remote(bool gameplay)
       if (m_remote) m_remote->set_enabled(false);
     }
     else if (fields[0] == 4) reset_remote();
+    else if (fields[0] == 5 && fields[1] < 2) // host-only diagnostic level selection
+    {
+      const auto screen = ScreenManager::current();
+      if (screen && !screen->get_screen_stack().empty() &&
+          dynamic_cast<TitleScreen*>(screen->get_screen_stack().back().get()))
+      {
+        const bool forest = fields[1] == 1;
+        const auto world = World::from_directory(forest ? "levels/world2" : "levels/world1");
+        MenuManager::instance().clear_menu_stack();
+        GameManager::current()->start_level(*world,
+          forest ? "tux_builder.stl" : "welcome_antarctica.stl", std::nullopt, true);
+      }
+    }
   }
 #endif
   // Apply after every Controller has captured its previous state, before the
