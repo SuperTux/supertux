@@ -57,8 +57,11 @@ class PackagingTests(unittest.TestCase):
             packaging.assemble(preview,preview,cloudflare=True)
             verify(preview,sha)
             bad=reused/manifest['packages']['startup']['encodings']['gzip']['url']
+            complete=bad.read_bytes()
             bad.write_bytes(b'partial')
             with self.assertRaises(AssertionError): verify(reused,sha)
+            bad.write_bytes(complete)
+            verify(reused,sha)
             art=reused/scene['tileImage'];art.write_bytes(b'partial')
             with self.assertRaises(AssertionError): verify(reused,sha)
             packaging.assemble(build,build)
