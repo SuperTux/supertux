@@ -15,6 +15,9 @@ def objects(directory, manifest):
     for category, suffix, mime in [('startup', 'data', 'application/octet-stream'), ('wasm', 'wasm', 'application/wasm')]:
         entry = manifest['packages'][category]
         result[f'{suffix}/{entry["sha256"]}/supertux2.{suffix}'] = (directory / ('supertux2.' + suffix), mime)
+    for entry in manifest['packages'].values():
+        for variant in entry.get('encodings', {}).values():
+            result[variant['url'].removeprefix('game-assets/')] = (directory / variant['url'], 'application/gzip')
     for entry in manifest['assets']:
         if entry['package'] == 'music':
             result[entry['url'].removeprefix('game-assets/')] = (directory / entry['url'], 'audio/ogg' if entry['url'].endswith('.ogg') else 'audio/wav')

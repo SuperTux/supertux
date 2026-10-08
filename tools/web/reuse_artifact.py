@@ -20,6 +20,8 @@ assert run['head_sha'] == args.source_commit, 'Run source SHA mismatch'
 assert run['head_repository']['full_name'] == args.repository, 'Foreign source repository'
 if args.deployment:
     assert run['event'] != 'pull_request', 'PR artifacts cannot enter privileged deployment'
-subprocess.run(['gh','run','download',str(args.run_id),'--repo',args.repository,'--name','wasm32-emscripten-Release-html','--dir',str(args.output)], check=True)
+download = subprocess.run(['gh','run','download',str(args.run_id),'--repo',args.repository,'--name','wasm32-emscripten-Release-html','--dir',str(args.output)], capture_output=True)
+if download.returncode:
+    raise RuntimeError('Requested Release artifact could not be downloaded; refusing to rebuild or select another run')
 verify(args.output, args.source_commit)
 print('Reusing exact verified Release artifact from run', args.run_id)

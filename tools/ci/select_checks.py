@@ -18,7 +18,7 @@ def select(paths, full=False):
         result['tests'] = True
         if path.startswith(('worker/', 'tests/worker/')) or path == 'wrangler.toml':
             continue
-        if path.startswith(('mk/emscripten/', 'tests/wasm/', 'tools/web/')) or path.endswith(('mobile-web-preview.yml', 'mobile-web-deploy.yml', 'wasm.yml')):
+        if path.startswith(('mk/emscripten/', 'tests/wasm/', 'tests/web/', 'tools/web/')) or path.endswith(('mobile-web-preview.yml', 'mobile-web-deploy.yml', 'wasm.yml')):
             result['web'] = True
             # Audio/cache and packaging changes must receive Debug before merge.
             if path.startswith('tools/web/') or path.endswith(('assets.js', 'assets_boot.js')):

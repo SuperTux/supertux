@@ -34,7 +34,8 @@ async def smoke(args, url):
         log.append(line)
         with (args.output/'console.log').open('a') as stream: stream.write(line + '\n')
     async with async_playwright() as p:
-        browser = await p.chromium.launch(executable_path=args.chromium or p.chromium.executable_path, args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader'])
+        launch = dict(executable_path=args.chromium or p.chromium.executable_path, args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']) if args.browser == 'chromium' else ({'executable_path':args.webkit_executable} if args.webkit_executable else {})
+        browser = await getattr(p,args.browser).launch(**launch)
         context = await browser.new_context(viewport={'width':844,'height':390},has_touch=True)
 
         async def boot(context, label, body=html):
@@ -51,9 +52,10 @@ async def smoke(args, url):
                   const create=this.createBufferSource.bind(this);
                   this.createBufferSource=()=>{const source=create(),start=source.start.bind(source);source.start=(...args)=>{++this.starts;return start(...args);};return source;};}
               };''')
-            cdp = await context.new_cdp_session(page)
-            await cdp.send('Network.enable')
-            await cdp.send('Network.setCacheDisabled', {'cacheDisabled':True})
+            if args.browser == 'chromium':
+                cdp = await context.new_cdp_session(page)
+                await cdp.send('Network.enable')
+                await cdp.send('Network.setCacheDisabled', {'cacheDisabled':True})
             body = body.replace('var Module = {', 'var Module = {\narguments: ["--verbose", "--developer"],', 1)
             await page.route('**/supertux2.html', lambda route: route.fulfill(body=body,content_type='text/html'))
             await page.goto(url)
@@ -164,11 +166,13 @@ async def smoke(args, url):
           await Module.supertuxAssets.cache.pending;
         }''')
         await page.close()
+        # Existing cache reads must also survive quota errors in LRU accounting.
+        await context.add_init_script("const put=IDBObjectStore.prototype.put;IDBObjectStore.prototype.put=function(...args){if(this.name==='metadata')throw new DOMException('Quota','QuotaExceededError');return put.apply(this,args)}")
         page, requests = await boot(context,'warm')
         await page.wait_for_function('engineMusicOpened.length > 0')
-        assert not any(path.endswith('.data') or '/game-assets/music/' in path for path in requests), requests
+        assert not any('.data' in path or '/game-assets/music/' in path for path in requests), requests
         assert await page.evaluate("Module.FS.readFile(Module.supertuxStorage.root+'asset-cache-save-marker',{encoding:'utf8'})") == 'saved progress'
-        record('New page reuses startup and title music from validated IndexedDB with HTTP cache disabled')
+        record('New page reuses startup and title music with HTTP cache disabled even when cache accounting exceeds quota')
         await command(page, f'play_music("/{b["path"]}");')
         await page.wait_for_function('path => engineMusicOpened.some(p=>p.endsWith(path))',arg=b['path'])
         assert not any(b['url'] in path for path in requests)
@@ -180,7 +184,7 @@ async def smoke(args, url):
         await page.wait_for_function("document.querySelector('#music_status').textContent.includes('Downloaded assets cleared')")
         await page.close()
         page, requests = await boot(context,'cleared')
-        assert any(path.endswith('.data') for path in requests)
+        assert any('.data' in path for path in requests)
         assert await page.evaluate("Module.FS.readFile(Module.supertuxStorage.root+'asset-cache-save-marker',{encoding:'utf8'})") == 'saved progress'
         assert await page.evaluate("Module.FS.readFile(Module.supertuxStorage.root+'config',{encoding:'utf8'})") == config_before
         record('Clearing only downloads redownloads startup and preserves persisted save marker/settings')
@@ -219,6 +223,8 @@ def main():
     parser.add_argument('build',type=Path)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--chromium')
+    parser.add_argument('--browser',choices=['chromium','webkit'],default='chromium')
+    parser.add_argument('--webkit-executable')
     args=parser.parse_args()
     args.output.mkdir(parents=True,exist_ok=True)
     server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(args.build)))

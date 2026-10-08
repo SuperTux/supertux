@@ -192,6 +192,10 @@ jobs:
         import hashlib
         if config.get("manifestSha256") != hashlib.sha256(Path("dist/asset-manifest.json").read_bytes()).hexdigest():
             raise SystemExit("Deployed frontend manifest identity mismatch")
+        sys.path.insert(0, 'tools/web')
+        from upload_assets import objects
+        payloads = objects(Path('build'), manifest)
+        (probes / 'payloads.tsv').write_text(''.join(f"{key}\t{path.stat().st_size}\t{mime}\n" for key, (path, mime) in payloads.items()))
         print(f"Verified deployed source commit: {manifest['sourceCommit']}")
         PY
 
@@ -202,6 +206,21 @@ jobs:
           echo "Checking R2 WASM gateway"
           fetch_probe --head --output "$probe_dir/wasm.headers" "$DEPLOY_URL/game-assets/wasm/$WASM_SHA/supertux2.wasm" || return $?
           grep -qi "content-type: application/wasm" "$probe_dir/wasm.headers" || return $?
+
+          # Probe every deferred/compressed payload, not just the startup pair.
+          while IFS=$'\t' read -r key bytes mime; do
+            fetch_probe --head --output "$probe_dir/payload.headers" "$DEPLOY_URL/game-assets/$key" || return $?
+            python - "$probe_dir/payload.headers" "$bytes" "$mime" <<'PY' || return $?
+        import re, sys
+        from pathlib import Path
+        headers = Path(sys.argv[1]).read_text().lower()
+        lengths = re.findall(r"^content-length:\s*(\d+)", headers, re.M)
+        types = re.findall(r"^content-type:\s*([^\r\n;]+)", headers, re.M)
+        assert lengths and lengths[-1] == sys.argv[2], 'Incomplete deployed payload'
+        assert types and types[-1].strip() == sys.argv[3], 'Incorrect deployed MIME'
+        assert 'immutable' in headers, 'Missing immutable caching'
+        PY
+          done < "$probe_dir/payloads.tsv"
         }
         last_error=1
         while (( SECONDS < deadline )); do

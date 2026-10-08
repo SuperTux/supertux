@@ -11,7 +11,7 @@ export default {
       }
 
       const key = url.pathname.slice("/game-assets/".length);
-      const allowed = /^(?:data\/[a-f0-9]{64}\/supertux2\.data|wasm\/[a-f0-9]{64}\/supertux2\.wasm|music\/[a-f0-9]{64}\/track\.(?:ogg|wav)|manifest\/[a-f0-9]{64}\/asset-manifest\.json)$/;
+      const allowed = /^(?:data\/[a-f0-9]{64}\/supertux2\.data|wasm\/[a-f0-9]{64}\/supertux2\.wasm|data-gzip\/[a-f0-9]{64}\/supertux2\.data\.gz|wasm-gzip\/[a-f0-9]{64}\/supertux2\.wasm\.gz|js-gzip\/[a-f0-9]{64}\/supertux2\.js\.gz|music\/[a-f0-9]{64}\/track\.(?:ogg|wav)|manifest\/[a-f0-9]{64}\/asset-manifest\.json)$/;
       if (!allowed.test(key)) return new Response("Not found", { status: 404 });
 
       const object = request.method === "HEAD"
@@ -27,7 +27,7 @@ export default {
       headers.set("Cache-Control", "public, max-age=31536000, immutable");
       headers.set(
         "Content-Type",
-        key.endsWith(".wasm") ? "application/wasm" : key.endsWith(".ogg") ? "audio/ogg" : key.endsWith(".wav") ? "audio/wav" : key.endsWith(".json") ? "application/json" : "application/octet-stream",
+        key.endsWith(".gz") ? "application/gzip" : key.endsWith(".wasm") ? "application/wasm" : key.endsWith(".ogg") ? "audio/ogg" : key.endsWith(".wav") ? "audio/wav" : key.endsWith(".json") ? "application/json" : "application/octet-stream",
       );
 
       if (request.headers.get("If-None-Match") === object.httpEtag)

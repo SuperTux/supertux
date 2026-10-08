@@ -3,6 +3,10 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import gzip
+import sys
+sys.path.insert(0, str(Path(__file__).parents[2] / 'tools/web'))
+from verify_artifact import verify
 
 spec = importlib.util.spec_from_file_location('packaging', Path(__file__).parents[2] / 'tools/web/package_assets.py')
 packaging = importlib.util.module_from_spec(spec)
@@ -10,6 +14,45 @@ spec.loader.exec_module(packaging)
 
 
 class PackagingTests(unittest.TestCase):
+    def test_complete_compressed_preview_reuse_and_cloudflare(self):
+        with tempfile.TemporaryDirectory() as directory:
+            build = Path(directory) / 'build'
+            source = Path(directory) / 'data'
+            source.mkdir()
+            (source/'font').write_bytes(b'font data' * 20)
+            (source/'music').mkdir()
+            (source/'music/track.ogg').write_bytes(b'OggSaudio')
+            sha = 'a' * 40
+            packaging.prepare(source,build/'web-assets',source_commit=sha)
+            for suffix, data in [('data',(source/'font').read_bytes()),('js',b'code'*100),('wasm',b'wasm'*100)]:
+                (build/('supertux2.'+suffix)).write_bytes(data)
+            (build/'template.html').write_text('<script src="assets.js"></script><!-- SUPERTUX_DEPLOY_CONFIG -->')
+            for name in ('supertux2.png','supertux2.ico','supertux2_bkg.png'):
+                (build/name).write_bytes(b'icon')
+            preview=Path(directory)/'preview'
+            manifest=packaging.assemble(build,preview)
+            verify(preview,sha)
+            for category,suffix in [('startup','data'),('wasm','wasm'),('javascript','js')]:
+                variant=manifest['packages'][category]['encodings']['gzip']
+                self.assertEqual(gzip.decompress((preview/variant['url']).read_bytes()),(build/('supertux2.'+suffix)).read_bytes())
+            reused=Path(directory)/'reuse'
+            self.assertEqual(manifest,packaging.assemble(preview,reused))
+            verify(reused,sha)
+            cloud=Path(directory)/'cloud'
+            cf=packaging.assemble(preview,cloud,cloudflare=True)
+            self.assertFalse((cloud/'supertux2.data').exists())
+            self.assertFalse((cloud/'game-assets').exists())
+            self.assertTrue(cf['packages']['startup']['url'].startswith('/game-assets/data/'))
+            packaging.assemble(preview,preview,cloudflare=True)
+            verify(preview,sha)
+            bad=reused/manifest['packages']['startup']['encodings']['gzip']['url']
+            bad.write_bytes(b'partial')
+            with self.assertRaises(AssertionError): verify(reused,sha)
+            packaging.assemble(build,build)
+            packaging.assemble(build,build,compression=False)
+            self.assertFalse(list((build/'game-assets').rglob('*.gz')))
+            verify(build,sha)
+
     def test_signatures_metadata_rollback_and_obsolete_inputs(self):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / 'data'

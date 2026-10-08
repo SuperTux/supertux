@@ -39,7 +39,7 @@
       try {
         const tx = db.transaction('metadata', 'readwrite');
         const store = tx.objectStore('metadata'), request = store.get(entry.sha256);
-        request.onsuccess = () => { if (request.result && epoch === this.epoch) store.put({...request.result, used:Date.now()}); };
+        request.onsuccess = () => { try { if (request.result && epoch === this.epoch) store.put({...request.result, used:Date.now()}); } catch (_) { tx.abort(); } };
         tx.onerror = tx.onabort = () => {};
       } catch (_) { /* Cache accounting is best effort. */ }
     }
@@ -129,12 +129,14 @@
       const epoch = this.cache.epoch;
       const cached = await this.cache.read(entry);
       if (cached && await valid(cached, entry)) { this.stats.cacheBytes += entry.bytes; if (this.cache.touch) this.cache.touch(entry, epoch); return cached; }
-      const url = new URL(entry.url, root.location.href);
+      const gzip = typeof root.DecompressionStream === 'function' && entry.encodings?.gzip;
+      const url = new URL(gzip ? gzip.url : entry.url, root.location.href);
       if (url.origin !== root.location.origin) throw new Error('Asset URL must use the game origin');
       const response = await root.fetch(url.href, {cache: 'no-store'});
       if (response.status !== 200) throw new Error('Asset download failed (HTTP ' + response.status + ')');
       const bytes = new Uint8Array(entry.bytes);
-      const reader = response.body.getReader();
+      const stream = gzip ? response.body.pipeThrough(new root.DecompressionStream('gzip')) : response.body;
+      const reader = stream.getReader();
       let offset = 0;
       for (;;) {
         const {done, value} = await reader.read();

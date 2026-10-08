@@ -87,3 +87,27 @@ test('bounded queue does not fetch every obsolete request', async () => {
   assert.equal(f.requests.length, 3);
   f.requests[2].reject(new Error('network unavailable')); await tick();
 });
+
+test('gzip delivery validates decoded bytes; older browsers retain raw fallback', async () => {
+  const {gzipSync} = require('node:zlib');
+  const f = await fixture(), raw = f.entries[0];
+  const entry = {...raw, encodings:{gzip:{url:'assets/compressed',bytes:30,sha256:'a'.repeat(64)}}};
+  const load = f.loader.obtain(entry); await tick();
+  assert.match(f.requests[0].url, /assets\/compressed$/);
+  f.requests[0].resolve(new Response(gzipSync(Buffer.from(f.a))));
+  assert.equal(await valid(await load,raw), true);
+  f.stored.clear();
+  const decompression = global.DecompressionStream;
+  global.DecompressionStream = undefined;
+  try {
+    const fallback = f.loader.obtain(entry); await tick();
+    assert.match(f.requests[1].url, /assets\/0$/);
+    f.requests[1].resolve(new Response(f.a));
+    assert.equal(await valid(await fallback,raw),true);
+  } finally { global.DecompressionStream = decompression; }
+  f.stored.clear();
+  const damaged = f.loader.obtain(entry); await tick();
+  f.requests[2].resolve(new Response(gzipSync(Buffer.from('wrong decoded bytes'))));
+  await assert.rejects(damaged, /wrong size|incomplete or damaged/);
+  assert.equal(f.stored.size,0);
+});

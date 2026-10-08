@@ -12,6 +12,8 @@ def verify(directory, source_commit, configuration='Release'):
     assert manifest['sourceCommit'] == source_commit, 'Artifact source SHA mismatch'
     assert manifest['configuration'] == configuration, 'Artifact configuration mismatch'
     assert manifest['toolchain'] == 'emscripten-6.0.11', 'Artifact toolchain mismatch'
+    build_info = json.loads((directory / 'BUILD_INFO.json').read_text())
+    assert build_info == {k: manifest[k] for k in ('sourceCommit', 'configuration', 'toolchain', 'mode', 'inventorySha256')}, 'Build configuration identity mismatch'
     inventory = {k: manifest[k] for k in ('schema', 'sourceCommit', 'configuration', 'toolchain', 'mode', 'runtimeRoot', 'assets')}
     assert hashlib.sha256(encoded(inventory)).hexdigest() == manifest['inventorySha256'], 'Inventory identity mismatch'
     paths = set()
@@ -31,6 +33,11 @@ def verify(directory, source_commit, configuration='Release'):
         path = directory / ('supertux2.' + suffix)
         entry = manifest['packages'][category]
         assert path.stat().st_size == entry['bytes'] and digest(path) == entry['sha256'], 'Package hash mismatch: ' + category
+        for encoding, variant in entry.get('encodings', {}).items():
+            assert encoding == 'gzip', 'Unknown package encoding'
+            assert variant['url'] == f'game-assets/{suffix}-gzip/{variant["sha256"]}/supertux2.{suffix}.gz', 'Noncanonical compressed URL'
+            payload = directory / variant['url']
+            assert payload.stat().st_size == variant['bytes'] and digest(payload) == variant['sha256'], 'Compressed package mismatch'
     assert digest(directory / 'assets.js') == manifest['bootstrapSha256'], 'Bootstrap hash mismatch'
     return manifest
 

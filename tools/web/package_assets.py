@@ -3,11 +3,12 @@
 import argparse
 import base64
 import hashlib
+import gzip
 import json
 import re
 import shutil
-import subprocess
 from pathlib import Path, PurePosixPath
+import zlib
 
 
 def digest(path):
@@ -86,11 +87,34 @@ def prepare(source, output, full=False, source_commit='unknown', configuration='
     return inventory
 
 
-def assemble(build, output, cloudflare=False):
+def compressed_package(build, path, category):
+    """Reuse derived gzip by raw identity; addresses always hash encoded bytes."""
+    derived = build / 'web-assets/compressed'
+    index = derived / (category + '.json')
+    identity = dict(rawSha256=digest(path), zlib=zlib.ZLIB_VERSION, level=6)
+    if index.exists():
+        previous = json.loads(index.read_text())
+        payload = derived / previous['file']
+        if previous['identity'] == identity and payload.exists() and digest(payload) == previous['sha256']:
+            return payload
+    derived.mkdir(parents=True, exist_ok=True)
+    temporary = derived / (category + '.tmp')
+    with path.open('rb') as source, temporary.open('wb') as target:
+        with gzip.GzipFile(fileobj=target, mode='wb', filename='', mtime=0, compresslevel=6) as archive:
+            shutil.copyfileobj(source, archive)
+    sha = digest(temporary)
+    payload = derived / (sha + '.gz')
+    temporary.replace(payload)
+    write(index, encoded(dict(identity=identity, file=payload.name, sha256=sha)))
+    return payload
+
+
+def assemble(build, output, cloudflare=False, compression=True):
     inventory_path = build / 'web-assets/inventory.json'
     manifest = json.loads((inventory_path if inventory_path.exists() else build / 'asset-manifest.json').read_text())
     if inventory_path.exists():
         manifest['inventorySha256'] = digest(inventory_path)
+    previous_packages = manifest.get('packages', {})
     manifest['packages'] = {}
     output.mkdir(parents=True, exist_ok=True)
     for category, suffix in [('startup', 'data'), ('wasm', 'wasm'), ('javascript', 'js')]:
@@ -98,6 +122,24 @@ def assemble(build, output, cloudflare=False):
         sha = digest(path)
         url = f'/game-assets/{suffix}/{sha}/supertux2.{suffix}' if cloudflare and suffix in ('data', 'wasm') else 'supertux2.' + suffix
         manifest['packages'][category] = dict(bytes=path.stat().st_size, sha256=sha, url=url)
+        if compression:
+            existing = previous_packages.get(category, {}).get('encodings', {}).get('gzip')
+            if not inventory_path.exists() and existing:
+                compressed = build / existing['url'].lstrip('/')
+                if digest(compressed) != existing['sha256']:
+                    raise ValueError('Reused compressed package is damaged')
+            else:
+                compressed = compressed_package(build, path, category)
+            compressed_sha = digest(compressed)
+            compressed_url = f'game-assets/{suffix}-gzip/{compressed_sha}/supertux2.{suffix}.gz'
+            manifest['packages'][category]['encodings'] = dict(gzip=dict(
+                bytes=compressed.stat().st_size, sha256=compressed_sha, url=compressed_url))
+            # Explicit gzip archives work with ordinary HTTP servers as well as R2.
+            target = output / compressed_url
+            if not cloudflare or output.resolve() == build.resolve():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                if compressed.resolve() != target.resolve():
+                    shutil.copyfile(compressed, target)
         # Compatibility with deployment identity probes.
         if suffix in ('data', 'wasm'):
             manifest[suffix + 'Sha256'] = sha
@@ -107,6 +149,19 @@ def assemble(build, output, cloudflare=False):
     payloads = build / 'web-assets/delivery'
     if payloads.exists() and not cloudflare:
         shutil.copytree(payloads, output, dirs_exist_ok=True)
+    elif not cloudflare:
+        for entry in manifest['assets']:
+            if entry['package'] == 'music':
+                source, target = build / entry['url'], output / entry['url']
+                if source.resolve() != target.resolve():
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(source, target)
+    if not cloudflare and (output / 'game-assets').exists():
+        wanted = {e['url'] for e in manifest['assets'] if e['package'] == 'music'}
+        wanted.update(e['encodings']['gzip']['url'] for e in manifest['packages'].values() if 'encodings' in e)
+        for old in (output / 'game-assets').rglob('*'):
+            if old.is_file() and old.relative_to(output).as_posix() not in wanted:
+                old.unlink()
     bootstrap = build / 'assets.js' if not inventory_path.exists() else Path(__file__).parents[2] / 'mk/emscripten/assets.js'
     manifest['bootstrapSha256'] = digest(bootstrap)
     # The manifest binds code, configuration, inventory, and every payload.
@@ -147,11 +202,12 @@ def main():
     assemble_parser.add_argument('--build', type=Path, required=True)
     assemble_parser.add_argument('--output', type=Path, required=True)
     assemble_parser.add_argument('--cloudflare', action='store_true')
+    assemble_parser.add_argument('--no-compression', action='store_true')
     args = parser.parse_args()
     if args.command == 'prepare':
         result = prepare(args.source, args.output, args.full_preload, args.source_commit, args.configuration, args.runtime_root)
     else:
-        result = assemble(args.build, args.output, args.cloudflare)
+        result = assemble(args.build, args.output, args.cloudflare, not args.no_compression)
     print(json.dumps(dict(mode=result['mode'], startupBytes=sum(a['bytes'] for a in result['assets'] if a['package']=='startup'), deferredBytes=sum(a['bytes'] for a in result['assets'] if a['package']=='music'))))
 
 

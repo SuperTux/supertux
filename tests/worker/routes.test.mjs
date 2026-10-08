@@ -27,6 +27,15 @@ test('HEAD uses R2 metadata; invalid paths and verbs never query the bucket', as
   const blocked=env();response=await worker.fetch(new Request('https://game.example/game-assets/music/'+sha+'/track.ogg',{method:'POST'}),blocked);
   assert.equal(response.status,405);assert.equal(blocked.calls.length,0);
 });
+test('gzip archives stream without HTTP decoding; encoded URLs cannot mix categories', async () => {
+  for (const suffix of ['data','wasm','js']) {
+    const response=await worker.fetch(new Request(`https://game.example/game-assets/${suffix}-gzip/${sha}/supertux2.${suffix}.gz`),env());
+    assert.equal(response.status,200);assert.equal(response.headers.get('content-type'),'application/gzip');
+    assert.equal(response.headers.get('content-encoding'),null);
+    assert.equal((await response.arrayBuffer()).byteLength,3);
+  }
+  assert.equal((await worker.fetch(new Request(`https://game.example/game-assets/data-gzip/${sha}/supertux2.wasm.gz`),env())).status,404);
+});
 test('missing object stays 404 and conditional reads return 304', async () => {
   const missing=env();missing.GAME_ASSETS.get=async()=>null;
   assert.equal((await worker.fetch(new Request('https://game.example/game-assets/music/'+sha+'/track.ogg'),missing)).status,404);

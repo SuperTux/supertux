@@ -5,6 +5,7 @@ set(SSQ_BUILD_INSTALL NO)
 
 set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0 -fPIC")
 option(WEB_FULL_PRELOAD "Preload the complete soundtrack (rollback/comparison)" OFF)
+option(WEB_COMPRESS_ASSETS "Publish gzip startup packages with raw fallback" ON)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 execute_process(COMMAND git rev-parse HEAD WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
   OUTPUT_VARIABLE WEB_SOURCE_COMMIT OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
@@ -62,7 +63,11 @@ function(supertux_finalize_web_assets)
   add_dependencies(supertux2 web_assets)
   set_property(TARGET supertux2 APPEND PROPERTY LINK_DEPENDS "${WEB_ASSETS_DIR}/inventory.json" "${WEB_ASSETS_DIR}/identity.js"
     "${PROJECT_SOURCE_DIR}/mk/emscripten/assets.js" "${PROJECT_SOURCE_DIR}/mk/emscripten/template.html.in")
+  set(WEB_ASSEMBLY_ARGS assemble --build "${CMAKE_BINARY_DIR}" --output "${CMAKE_BINARY_DIR}")
+  if(NOT WEB_COMPRESS_ASSETS)
+    list(APPEND WEB_ASSEMBLY_ARGS --no-compression)
+  endif()
   add_custom_command(TARGET supertux2 POST_BUILD
-    COMMAND "${Python3_EXECUTABLE}" "${WEB_PACKAGER}" assemble --build "${CMAKE_BINARY_DIR}" --output "${CMAKE_BINARY_DIR}" VERBATIM)
+    COMMAND "${Python3_EXECUTABLE}" "${WEB_PACKAGER}" ${WEB_ASSEMBLY_ARGS} VERBATIM)
 endfunction()
 cmake_language(DEFER CALL supertux_finalize_web_assets)
