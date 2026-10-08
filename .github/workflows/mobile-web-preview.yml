@@ -11,9 +11,13 @@ name: Mobile Web Preview
         description: Optional exact successful validation run for this source SHA
         type: string
         default: ''
+      publish_coop:
+        description: Publish the verified build to the separate private co-op staging Worker
+        type: boolean
+        default: false
 concurrency:
-  group: ${{ github.workflow }}-${{ inputs.ref || github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ inputs.publish_coop && 'coop-staging' || inputs.ref || github.ref }}
+  cancel-in-progress: ${{ !inputs.publish_coop }}
 permissions:
   contents: read
   actions: read
@@ -29,6 +33,14 @@ jobs:
     name: Build playable mobile web preview
     runs-on: ubuntu-latest
     steps:
+    - name: Require an exact tested source for staging
+      if: inputs.publish_coop
+      env:
+        RUNTIME_REF: ${{ inputs.ref }}
+        VALIDATION_RUN_ID: ${{ inputs.validation_run_id }}
+      run: |
+        [[ "$RUNTIME_REF" =~ ^[0-9a-f]{40}$ ]] || { echo '::error::Staging requires a complete source commit SHA.'; exit 1; }
+        [[ "$VALIDATION_RUN_ID" =~ ^[0-9]+$ ]] || { echo '::error::Staging requires an explicit successful validation run.'; exit 1; }
     - name: Check out requested SuperTux ref
       uses: actions/checkout@v4
       with:
@@ -40,8 +52,11 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
         VALIDATION_RUN_ID: ${{ inputs.validation_run_id }}
-      run: python3 tools/web/reuse_artifact.py --run-id "$VALIDATION_RUN_ID" --repository "$GITHUB_REPOSITORY" --source-commit "$(git
-        rev-parse HEAD)" --output build
+        PUBLISH_COOP: ${{ inputs.publish_coop }}
+      run: |
+        reuse_options=()
+        if [ "$PUBLISH_COOP" = true ]; then reuse_options+=(--deployment); fi
+        python3 tools/web/reuse_artifact.py --run-id "$VALIDATION_RUN_ID" --repository "$GITHUB_REPOSITORY" --source-commit "$(git rev-parse HEAD)" --output build "${reuse_options[@]}"
     - name: Install Emscripten and pinned vcpkg
       run: |
         sudo apt-get update
@@ -99,14 +114,113 @@ jobs:
         compression-level: 0
         retention-days: 7
     - name: Preview instructions
+      env:
+        RUNTIME_REF: ${{ inputs.ref }}
       run: |
         {
           echo "## Mobile Web Preview"
           echo
-          echo "Built ref: \`${{ inputs.ref }}\`"
+          echo "Built ref: \`$RUNTIME_REF\`"
           echo
           echo "Download the \`supertux-mobile-web-preview\` artifact from this run."
           echo "Serve the extracted folder over HTTP/HTTPS; open \`index.html\` through the server."
           echo
           echo "For iPhone testing, use a reachable HTTPS host or a forwarded Codespaces port."
         } >> "$GITHUB_STEP_SUMMARY"
+  coop-staging:
+    name: Publish and validate separate HTTPS co-op staging
+    needs: build-preview
+    if: inputs.publish_coop
+    runs-on: ubuntu-latest
+    environment: tux
+    steps:
+    - name: Check out the exact tested runtime
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+    - name: Check out this workflow's deployment tools
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        path: staging-tools
+    - uses: actions/download-artifact@v4
+      with:
+        name: supertux-mobile-web-preview
+        path: build
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+    - name: Verify and assemble the complete staging artifact
+      env:
+        RUNTIME_REF: ${{ inputs.ref }}
+      run: |
+        test "$(git rev-parse HEAD)" = "$RUNTIME_REF"
+        python3 tools/web/verify_artifact.py build --source-commit "$RUNTIME_REF" --configuration Release
+        python3 tools/web/package_assets.py assemble --build build --output dist --cloudflare
+        python3 tools/web/package_assets.py assemble --build build --output build --cloudflare
+        python3 staging-tools/tools/web/verify_coop_deployment.py --check-config wrangler.coop.toml
+    - name: Install publication and browser tools
+      run: |
+        python -m pip install --disable-pip-version-check awscli playwright==1.62.0 Pillow==11.3.0
+        python -m playwright install --with-deps chromium webkit
+    - name: Publish only missing immutable private R2 objects
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: auto
+        CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        RUNTIME_REF: ${{ inputs.ref }}
+      run: |
+        : "${AWS_ACCESS_KEY_ID:?Configure R2_ACCESS_KEY_ID in the tux environment}"
+        : "${AWS_SECRET_ACCESS_KEY:?Configure R2_SECRET_ACCESS_KEY in the tux environment}"
+        : "${CLOUDFLARE_ACCOUNT_ID:?Configure CLOUDFLARE_ACCOUNT_ID in the tux environment}"
+        python3 tools/web/upload_assets.py build --source-commit "$RUNTIME_REF" --bucket supertux-assets
+    - name: Publish the separate co-op Worker
+      id: publish
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      run: |
+        : "${CLOUDFLARE_API_TOKEN:?Configure CLOUDFLARE_API_TOKEN in the tux environment}"
+        : "${CLOUDFLARE_ACCOUNT_ID:?Configure CLOUDFLARE_ACCOUNT_ID in the tux environment}"
+        npx --yes wrangler@4 deploy --config wrangler.coop.toml 2>&1 | tee coop-staging-publish.log
+        python3 staging-tools/tools/web/verify_coop_deployment.py --deployment-log coop-staging-publish.log >> "$GITHUB_OUTPUT"
+    - name: Verify the exact hosted build and complete delivery
+      env:
+        STAGING_URL: ${{ steps.publish.outputs.url }}
+      run: python3 staging-tools/tools/web/verify_coop_deployment.py --url "$STAGING_URL" --directory build --frontend dist
+    - name: Hosted Chromium and WebKit two-browser display proof
+      env:
+        STAGING_URL: ${{ steps.publish.outputs.url }}
+      run: |
+        python tests/wasm/coop_view_smoke.py build --url "$STAGING_URL" --output staging-evidence/chromium
+        python tests/wasm/coop_view_smoke.py build --url "$STAGING_URL" --browser webkit --output staging-evidence/webkit
+    - name: Phone acceptance instructions
+      env:
+        STAGING_URL: ${{ steps.publish.outputs.url }}
+        RUNTIME_REF: ${{ inputs.ref }}
+      run: |
+        {
+          echo '## Private co-op HTTPS staging'
+          echo
+          echo "Host: $STAGING_URL/index.html?coop=1"
+          echo "Tested runtime: $RUNTIME_REF"
+          echo
+          echo 'Phone A: tap Start, expand Private co-op, and create a room.'
+          echo 'Phone B: open the Guest shared view invitation. Keep that invitation private.'
+          echo 'Phone A: select Start shared view proof after Player 2 joins.'
+          echo 'Check movement, Jump, shared camera, Action respawn, pause/resume, rotation, backgrounding/rejoin, and host saves.'
+          echo 'Hosted Chromium/WebKit results are browser emulation; physical iPhone Safari and two-network testing still need people with devices.'
+        } >> "$GITHUB_STEP_SUMMARY"
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: private-coop-staging-evidence
+        path: |-
+          staging-evidence/
+          coop-staging-publish.log
+        if-no-files-found: warn
+        retention-days: 7
