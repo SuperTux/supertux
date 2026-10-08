@@ -5,6 +5,15 @@ Phase 7A is merged into `mobile-web-audit` at
 controlled static scene, not a campaign level. The existing production Worker
 still has no `COOP_ROOMS` binding.
 
+The [HTTPS host preview](https://supertux-private-input-proof.jshbjnr.workers.dev/index.html?coop=1)
+is published. [Integration validation](https://github.com/jbbejena/supertux/actions/runs/37843161404)
+passed Release/Debug WASM and representative Linux for that exact runtime.
+[Hosted staging validation](https://github.com/jbbejena/supertux/actions/runs/37847833680)
+verified 116 frontend files and 79 immutable payloads, reused all 79 R2 objects
+without uploading replacements, and passed all nine display checks in each of
+Chromium 151 and Linux WebKit 26.5. Both reports contain no errors. These are
+emulated browsers, not physical phones or separate-network acceptance.
+
 ## Publish a separate tested preview
 
 The existing **Mobile Web Preview** workflow now has an explicit `publish_coop`
@@ -15,12 +24,13 @@ rejects PR artifacts, foreign repositories, mismatched source/toolchain/build
 identities, incomplete assets and missing artifacts. It never selects “latest.”
 
 The workflow runs from the staging tooling branch while checking out the runtime
-at the requested tested SHA. Its deployment and browser validation tools are checked out separately;
+at the requested tested SHA. Its deployment and browser validation tools are
+checked out separately;
 the Worker, browser code and complete game artifact use the tested runtime. This
 allows publication tooling to be reviewed without rebuilding or changing that
 runtime. The build job contains no deployment secrets.
 
-For the merged Phase 7A runtime, once integration validation succeeds:
+For the validated merged Phase 7A runtime:
 
 ```sh
 gh workflow run mobile-web-preview.yml --repo jbbejena/supertux \
@@ -62,9 +72,18 @@ HTTP probes identify themselves as `SuperTux-Coop-Validation`. The hosted edge
 rejects Python's default `Python-urllib` user-agent with HTTP 403; validation
 uses an explicit descriptive user-agent rather than disabling edge protection.
 
+Touch regression automation observes a native input update after dispatching
+each menu touch edge. Sampling before dispatch can mistake an earlier frame
+for consumption of the new event. Setup resets use a direct touch on Restart
+Level, independent of menu hover/selection; the required neutral controls and
+real spawn position remain asserted. A failed reset captures a screenshot.
+
 ## Two physical phones
 
 Use the host HTTPS URL from the successful run summary, including `?coop=1`.
+Staging is a separate origin, with its own browser saves/settings and asset
+cache. Production saves are not imported. Private room invitations expire after
+15 minutes; create a new room and invitation for a longer testing session.
 
 1. Phone A: use Start, expand **Private co-op**, then **Create room**.
 2. Share **Guest shared view** with Phone B. That invitation contains a temporary
