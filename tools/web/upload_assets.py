@@ -5,6 +5,7 @@ import concurrent.futures
 import json
 import os
 import subprocess
+import tempfile
 from pathlib import Path
 from package_assets import digest
 from verify_artifact import verify
@@ -31,8 +32,17 @@ def upload(key, payload, endpoint, bucket):
     head = subprocess.run(['aws','s3api','head-object','--endpoint-url',endpoint,'--bucket',bucket,'--key',key], capture_output=True, text=True)
     if head.returncode == 0:
         metadata = json.loads(head.stdout)
-        if metadata['ContentLength'] != path.stat().st_size or metadata.get('Metadata', {}).get('sha256', digest(path)) != digest(path):
+        sha = digest(path)
+        if metadata['ContentLength'] != path.stat().st_size or metadata.get('Metadata', {}).get('sha256', sha) != sha:
             raise RuntimeError('Existing immutable object has incompatible metadata: ' + key)
+        if not metadata.get('Metadata', {}).get('sha256'):
+            # Older deployments did not attach hash metadata. Verify their
+            # actual bytes without overwriting an immutable object blindly.
+            with tempfile.TemporaryDirectory(prefix='supertux-r2-verify-') as temporary:
+                existing = Path(temporary) / 'object'
+                download = subprocess.run(['aws','s3','cp',f's3://{bucket}/{key}',str(existing),'--endpoint-url',endpoint,'--only-show-errors'],capture_output=True)
+                if download.returncode or digest(existing) != sha:
+                    raise RuntimeError('Existing immutable object could not be verified: ' + key)
         return 'present: ' + key
     if '(404)' not in head.stderr and 'Not Found' not in head.stderr and 'NoSuchKey' not in head.stderr:
         raise RuntimeError('Cannot check R2 object; refusing an unverified upload: ' + key)

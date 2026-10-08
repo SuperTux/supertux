@@ -199,6 +199,17 @@ jobs:
         print(f"Verified deployed source commit: {manifest['sourceCommit']}")
         PY
 
+          fetch_probe --location --output "$probe_dir/bootstrap.js" "$DEPLOY_URL/assets.js" || return $?
+          fetch_probe --location --output "$probe_dir/game.js" "$DEPLOY_URL/supertux2.js" || return $?
+          python - "$probe_dir" <<'PY' || return $?
+        import hashlib, json, sys
+        from pathlib import Path
+        probes = Path(sys.argv[1])
+        manifest = json.loads(Path('dist/asset-manifest.json').read_text())
+        assert hashlib.sha256((probes/'bootstrap.js').read_bytes()).hexdigest() == manifest['bootstrapSha256'], 'Stale deployed bootstrap'
+        assert hashlib.sha256((probes/'game.js').read_bytes()).hexdigest() == manifest['packages']['javascript']['sha256'], 'Stale deployed game JS'
+        PY
+
           echo "Checking R2 data gateway"
           fetch_probe --head --output "$probe_dir/data.headers" "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data" || return $?
           grep -qi "content-type: application/octet-stream" "$probe_dir/data.headers" || return $?
