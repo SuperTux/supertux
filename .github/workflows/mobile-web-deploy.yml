@@ -52,8 +52,8 @@ jobs:
     - name: Cache WASM dependencies
       uses: actions/cache@v4
       with:
-        path: ${{ github.workspace }}/vcpkg_installed
-        key: wasm-${{ runner.os }}-${{ env.EMSDK_VERSION }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
+        path: ${{ github.workspace }}/build/vcpkg_installed
+        key: wasm-v2-${{ runner.os }}-${{ env.EMSDK_VERSION }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
       if: inputs.validation_run_id == ''
     - name: Configure Release build
       run: |
@@ -189,9 +189,13 @@ jobs:
         expected_manifest = json.loads(Path("dist/asset-manifest.json").read_text())
         if manifest != expected_manifest:
             raise SystemExit("Deployed complete asset manifest does not match the selected build")
-        import hashlib
-        if config.get("manifestSha256") != hashlib.sha256(Path("dist/asset-manifest.json").read_bytes()).hexdigest():
-            raise SystemExit("Deployed frontend manifest identity mismatch")
+        import hashlib, base64
+        manifest_sha = hashlib.sha256(Path("dist/asset-manifest.json").read_bytes()).hexdigest()
+        if config.get("manifestSha256") != manifest_sha or config.get("manifestUrl") != f"/game-assets/manifest/{manifest_sha}/asset-manifest.json":
+            raise SystemExit("Deployed frontend manifest identity/URL mismatch")
+        integrity = base64.b64encode(bytes.fromhex(manifest['bootstrapSha256'])).decode()
+        if f'<script src="assets.js" integrity="sha256-{integrity}">' not in (probes / 'frontend.html').read_text():
+            raise SystemExit("Deployed bootstrap integrity mismatch")
         sys.path.insert(0, 'tools/web')
         from upload_assets import objects
         payloads = objects(Path('build'), manifest)

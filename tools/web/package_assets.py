@@ -19,7 +19,9 @@ def digest(path):
 def write(path, content):
     path.parent.mkdir(parents=True, exist_ok=True)
     if not path.exists() or path.read_bytes() != content:
-        path.write_bytes(content)
+        temporary = path.with_name(path.name + '.tmp')
+        temporary.write_bytes(content)
+        temporary.replace(path)
 
 
 def encoded(value):
@@ -93,10 +95,13 @@ def compressed_package(build, path, category):
     index = derived / (category + '.json')
     identity = dict(rawSha256=digest(path), zlib=zlib.ZLIB_VERSION, level=6)
     if index.exists():
-        previous = json.loads(index.read_text())
-        payload = derived / previous['file']
-        if previous['identity'] == identity and payload.exists() and digest(payload) == previous['sha256']:
-            return payload
+        try:
+            previous = json.loads(index.read_text())
+            payload = derived / previous['file']
+            if previous['identity'] == identity and payload.exists() and digest(payload) == previous['sha256']:
+                return payload
+        except (ValueError, KeyError):
+            pass # Interrupted derived metadata is regenerated from originals.
     derived.mkdir(parents=True, exist_ok=True)
     temporary = derived / (category + '.tmp')
     with path.open('rb') as source, temporary.open('wb') as target:
@@ -146,6 +151,12 @@ def assemble(build, output, cloudflare=False, compression=True):
             manifest[suffix + 'Url'] = url
         if (suffix == 'js' or not cloudflare) and path.resolve() != (output / path.name).resolve():
             shutil.copyfile(path, output / path.name)
+    derived = build / 'web-assets/compressed'
+    if derived.exists():
+        retained = {json.loads(p.read_text())['file'] for p in derived.glob('*.json')}
+        for old in derived.glob('*.gz'):
+            if old.name not in retained:
+                old.unlink()
     payloads = build / 'web-assets/delivery'
     if payloads.exists() and not cloudflare:
         shutil.copytree(payloads, output, dirs_exist_ok=True)

@@ -1,5 +1,7 @@
 # SuperTux mobile web, Safari, and multiplayer feasibility audit
 
+> Current browser packaging and CI are described in [MOBILE_WEB_STARTUP_OPTIMIZATION.md](MOBILE_WEB_STARTUP_OPTIMIZATION.md). The soundtrack is now downloaded track by track; only small music descriptors remain mandatory. Use its complete preview assembly, cache-clearing, deployment and focused-CI instructions. The full-package sizes and workflow behavior below describe the historical revision of this handoff.
+
 Audit date: 2026-10-02 (UTC). Repository: `jbbejena/supertux`. Branch: `mobile-web-audit`. Audited source: [00673d1dfefeedf39aaf502ac0cfb1fd005174d6](https://github.com/jbbejena/supertux/tree/00673d1dfefeedf39aaf502ac0cfb1fd005174d6). Upstream `SuperTux/supertux:master` resolved to the same commit during the audit.
 
 This is an architecture audit and implementation plan. The only repository change is this document. No gameplay, networking, build configuration, assets, or upstream files were changed. No merge was performed.

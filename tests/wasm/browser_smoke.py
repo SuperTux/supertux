@@ -105,13 +105,17 @@ async def smoke(args, url, data_dir):
             mode = await page.evaluate("Module.supertuxStorage.state")
             assert mode == ("memory" if memory else "indexeddb"), (name, mode)
             assert not await page.evaluate('Module.supertuxShell.active')
-            await page.wait_for_function("phase2AudioContexts.length === 1 && phase2AudioContexts[0].state === 'suspended'")
+            # WebKit can report interrupted before the first gesture, including
+            # when no physical audio device is present. Both states prohibit
+            # audible playback; a running context still fails this gate.
+            await page.wait_for_function("phase2AudioContexts.length === 1 && ['suspended','interrupted'].includes(phase2AudioContexts[0].state)")
+            initial_audio = await page.evaluate('phase2AudioContexts[0].state')
             await page.locator('#start_button').click()
             await page.wait_for_function('Module.supertuxShell.active')
             await page.wait_for_function("phase2AudioContexts[0].state === 'running' && phase2AudioContexts[0].phase2StartedBuffers > 0")
             assert await page.locator("#overlay").evaluate("element => getComputedStyle(element).display") == "none"
             await page.locator("#canvas").focus()
-            report["checks"].append(name + ": boot and storage " + mode)
+            report["checks"].append(name + ": boot and storage " + mode + "; blocked initial audio " + initial_audio)
             return page
 
         async def capture(page, filename, uncovered=False):
