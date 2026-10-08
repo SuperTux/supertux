@@ -203,6 +203,10 @@ async def run(args, url):
             restored = await state(label, dict(left=False,right=False,jump=False,action=False), 400)
             assert abs(restored['x'] - 96) < 1 and abs(restored['y'] - 673.196) < 1, restored
 
+        # Console installation takes longer in instrumented/software-rendered
+        # builds. Reset enemies through the ordinary touch menu before starting
+        # the control checks, so setup time is not mistaken for input failure.
+        await restart('observer-ready-restart')
         # Move near the safe starting boundary before lengthy release checks.
         await fingers.down(1, g['left'])
         await page.wait_for_timeout(700)

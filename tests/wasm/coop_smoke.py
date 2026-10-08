@@ -13,14 +13,16 @@ import http.server
 import json
 from pathlib import Path
 import re
+import selectors
 import subprocess
 import threading
+import time
 from urllib.request import urlopen
 from playwright.async_api import async_playwright
 from browser_smoke import Handler, KNOWN_UPSTREAM_UB
 from touch_smoke import Fingers, controls
 
-PAD_SCRIPT = '''window.pads=[0,1].map(index=>({index,id:'Xbox 360 Controller',mapping:'standard',connected:true,timestamp:1,axes:[0,0,0,0],buttons:Array.from({length:17},()=>({pressed:false,touched:false,value:0}))}));navigator.getGamepads=()=>pads.map(p=>p.connected?p:null);window.pad=(i,j,v)=>{pads[i].buttons[j]={pressed:!!v,touched:!!v,value:v};pads[i].timestamp=performance.now();};'''
+PAD_SCRIPT = '''window.pads=[0,1].map(index=>({index,id:'Xbox 360 Controller',mapping:'standard',connected:true,timestamp:1,axes:[0,0,0,0],buttons:Array.from({length:17},()=>({pressed:false,touched:false,value:0}))}));navigator.getGamepads=()=>pads.map(p=>p.connected?p:null);window.pad=(i,j,v)=>{pads[i].buttons[j]={pressed:!!v,touched:!!v,value:v};pads[i].timestamp=performance.now();};void 0;'''
 
 
 async def run(args, url):
@@ -60,6 +62,7 @@ async def run(args, url):
             link=await host.locator('#coop_link').get_attribute('href')
             gc=await guest_browser.new_context(viewport={'width':844,'height':390},has_touch=True)
             guest=await gc.new_page();guest.set_default_timeout(60000)
+            guest.on('pageerror',lambda e:errors.append('Guest: '+str(e)))
             guest_requests=[];guest.on('request',lambda r:guest_requests.append(r.url.split('#')[0]))
             await guest.goto(link)
             await guest.wait_for_function('window.supertuxGuest && supertuxGuest.state.connected')
@@ -87,7 +90,7 @@ async def run(args, url):
             if paused: await host.keyboard.press('Escape',delay=150)
 
         async def observer():
-            await script('sector.Tux.set_is_intentionally_safe(true);sector.Tux2.set_is_intentionally_safe(true);function cp(p){return p.get_x()+","+p.get_y()+","+p.get_input_held("left")+","+p.get_input_held("right")+","+p.get_input_held("jump")+","+p.get_input_held("action");}coObserver <- newthread(function(){for(local i=0;i<6000;i++){print("COOP="+cp(sector.Tux)+"|"+cp(sector.Tux2));wait(0.05);}});coObserver.call();')
+            await script('sector.Tux.set_is_intentionally_safe(true);sector.Tux2.set_is_intentionally_safe(true);function cp(p){return p.get_x()+","+p.get_y()+","+p.get_input_held("left")+","+p.get_input_held("right")+","+p.get_input_held("jump")+","+p.get_input_held("action");}coObserver <- newthread(function(){for(local i=0;i<6000;i++){try{print("COOP="+cp(sector.Tux)+"|"+cp(sector.Tux2));}catch(e){return;}wait(0.05);}});coObserver.call();')
         await observer()
         async def sample(label, predicate=lambda s:True, timeout=10000):
             start=len(samples);deadline=asyncio.get_running_loop().time()+timeout/1000
@@ -125,11 +128,29 @@ async def run(args, url):
         await sample('touch-released',lambda s:not s[0]['right'] and not s[1]['left'])
         report['checks'].append('Existing host SDL touch input plus independent P2 input; releasing one source leaves the other owner isolated')
         if guest:
+            button=guest.locator('[data-control="2"]')
+            await button.scroll_into_view_if_needed()
+            await button.evaluate("e=>e.addEventListener('pointerdown',v=>window.guestPointer=v.pointerId)")
+            box=await button.bounding_box()
+            await guest.mouse.move(box['x']+box['width']/2,box['y']+box['height']/2)
+            await guest.mouse.down();await sample('guest-button-held',lambda s:s[1]['right'] and not s[0]['right'])
+            await button.evaluate("e=>e.dispatchEvent(new PointerEvent('pointercancel',{pointerId:guestPointer,bubbles:true}))")
+            await sample('guest-button-cancelled',lambda s:not s[1]['right']);await guest.mouse.up()
+            await guest.mouse.down();await sample('guest-capture-held',lambda s:s[1]['right'])
+            assert await button.evaluate('e=>e.hasPointerCapture(guestPointer)'),await guest.evaluate('supertuxGuest.state')
+            await button.evaluate("e=>e.dispatchEvent(new PointerEvent('lostpointercapture',{pointerId:guestPointer,bubbles:true}))")
+            await guest.mouse.move(box['x']-20,box['y']-20)
+            await sample('guest-capture-released',lambda s:not s[1]['right']);await guest.mouse.up()
+            report['checks'].append('Diagnostic guest buttons use real Pointer Events/capture; injected cancellation and lost capture release P2 without affecting P1')
             await host.evaluate(PAD_SCRIPT)
             await host.evaluate("for(const pad of pads){const event=new Event('gamepadconnected');event.gamepad=pad;window.dispatchEvent(event);}")
             await p2('left',True);await sample('hotplug-isolation',lambda s:s[1]['left'] and not s[1]['right'])
             await host.evaluate("for(const pad of pads){pad.connected=false;const event=new Event('gamepaddisconnected');event.gamepad=pad;window.dispatchEvent(event);}")
-            await p2('left',False);await sample('hot-unplug-isolation',lambda s:not s[1]['left'])
+            await host.wait_for_function('!Module.supertuxCoop.state.enabled')
+            await p2('left',False)
+            await host.keyboard.press('Escape',delay=150)
+            await guest.wait_for_function('supertuxGuest.state.enabled')
+            await sample('hot-unplug-isolation',lambda s:not s[1]['left'])
             report['checks'].append('Actual SDL gamepad connect/disconnect events cannot claim or remove the remote slot')
             # The actual room refuses a third socket before gameplay messages.
             third = await guest.evaluate('''() => new Promise(resolve => {
@@ -221,14 +242,23 @@ async def run(args, url):
 
         # Complete the actual campaign level via its existing end sequence.
         # It temporarily borrows script controllers, then returns to the map.
+        end_start=len(logs)
         await script('sector.Tux.trigger_sequence("endsequence");',paused=False)
-        await host.wait_for_timeout(8500)
-        await host.keyboard.press('Space',delay=150);await host.wait_for_timeout(800)
+        for _ in range(600):
+            if any('Setting status: In worldmap' in line for line in logs[end_start:]): break
+            await host.wait_for_timeout(100)
+        assert any('Setting status: In worldmap' in line for line in logs[end_start:]),logs[-6:]
+        await host.wait_for_timeout(500)
         if guest: assert not await host.evaluate('Module.supertuxCoop.state.enabled')
         report['checks'].append('Existing end sequence temporarily controls players and returns to the world map; guest cannot control host progression')
-        await host.keyboard.press('Escape',delay=150)
-        await host.keyboard.press('ArrowUp',delay=150);await host.keyboard.press('Enter',delay=150)
-        await host.wait_for_timeout(1000)
+        title_start=len(logs)
+        await host.keyboard.press('Escape',delay=150);await host.wait_for_timeout(500)
+        await host.keyboard.press('ArrowUp',delay=150);await host.wait_for_timeout(250)
+        await host.keyboard.press('Enter',delay=150)
+        for _ in range(100):
+            if any('Setting status: In main menu' in line for line in logs[title_start:]): break
+            await host.wait_for_timeout(100)
+        assert any('Setting status: In main menu' in line for line in logs[title_start:]),logs[-6:]
 
         # Normal GameManager/Levelset entry from the title screen, rather than
         # nesting another GameSession inside a live campaign level.
@@ -282,16 +312,26 @@ async def run(args, url):
             await script('Level.finish(true);',paused=False);await host.wait_for_timeout(1600)
             report['checks'].append('Return to title, explicit rejoin and new level accept fresh P2 input; guest background closes socket and neutralizes held input')
 
+        # Verify the existing persistence path for both ordinary local co-op
+        # and transient remote membership, including a real page reload.
+        await host.evaluate("Module.ccall('save_config',null,[],[])")
+        snapshot='''() => {const fs=Module.FS,root=Module.supertuxStorage.root;
+          const saves=Object.fromEntries(fs.readdir(root+'profile1').filter(n=>n.endsWith('.stsg')).map(n=>[n,fs.readFile(root+'profile1/'+n,{encoding:'utf8'})]));
+          return {saves,config:fs.readFile(root+'config',{encoding:'utf8'})};}'''
+        saved=await host.evaluate(snapshot)
+        players=1 if guest else 2
+        assert saved['saves'] and all(f'(num_players {players})' in value and 'coop/rooms' not in value for value in saved['saves'].values()),saved
+        assert await host.evaluate('Module.supertuxStorage.flush()')
         if guest:
-            # Membership is absent from the host's existing save schema.
-            saved=await host.evaluate('''() => {Module.ccall('save_config',null,[],[]);const fs=Module.FS,root=Module.supertuxStorage.root;
-              const files=fs.readdir(root+'profile1').filter(n=>n.endsWith('.stsg'));return files.map(n=>fs.readFile(root+'profile1/'+n,{encoding:'utf8'}));}''')
-            assert saved and all('(num_players 1)' in value and 'coop/rooms' not in value for value in saved),saved
             await guest.evaluate("supertuxGuest.connection.close('Acceptance test disconnect')")
             await host.wait_for_function('Module.supertuxCoop.state.reserved===-1')
             report['checks'].append('Host progression save retains existing schema with one persistent local player; real socket disconnect clears remote source')
         else:
             report['checks'].append('Two independently mapped browser gamepads and keyboard P1 remain local sources')
+        await host.reload();await host.wait_for_function('Module.supertuxReady===true',timeout=180000)
+        assert await host.evaluate(snapshot)==saved
+        assert await host.evaluate('Module.supertuxCoop.state.reserved')==0
+        report['checks'].append('Existing IndexedDB hydration restores exact host config and progression saves after reload; network membership is absent')
         for line in logs:
             if 'runtime error:' in line or 'Aborted(' in line or 'ERROR:' in line:
                 if args.record_known_ub and any(re.search(pattern,line) for pattern in KNOWN_UPSTREAM_UB): continue
@@ -315,10 +355,18 @@ def main():
     else:
         root=Path(__file__).parents[2]
         relay=subprocess.Popen(['node',str(root/'tools/web/coop/preview.mjs'),str(args.build.resolve()),'0'],stdout=subprocess.PIPE,stderr=(args.output/'relay.log').open('w'),text=True)
-        while True:
-            line=relay.stdout.readline()
-            if line.startswith('INPUT_PROOF_READY '):url=line.split()[1].split('index.html')[0];break
-            if relay.poll() is not None:raise RuntimeError('Local relay failed; see relay.log')
+        deadline=time.monotonic()+180
+        selector=selectors.DefaultSelector();selector.register(relay.stdout,selectors.EVENT_READ)
+        try:
+            while True:
+                if time.monotonic()>deadline:raise RuntimeError('Local relay startup timed out; see relay.log')
+                if not selector.select(1):continue
+                line=relay.stdout.readline()
+                if line.startswith('INPUT_PROOF_READY '):url=line.split()[1].split('index.html')[0];break
+                if relay.poll() is not None:raise RuntimeError('Local relay failed; see relay.log')
+        except BaseException:
+            relay.terminate();relay.wait(timeout=20);raise
+        finally:selector.close()
     try:asyncio.run(run(args,url))
     finally:
         if relay:relay.terminate();relay.wait(timeout=20)

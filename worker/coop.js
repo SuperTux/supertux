@@ -32,7 +32,9 @@ export async function coopFetch(request, env) {
     const body = new TextDecoder().decode(data);
     let value;
     try { value = JSON.parse(body); } catch { return json({error: 'Invalid request'}, 400); }
-    if (value.protocol !== PROTOCOL || !BUILD.test(value.build)) return json({error: 'Unsupported build/protocol'}, 400);
+    if (!value || typeof value !== 'object' || Array.isArray(value) ||
+        Object.keys(value).some(key => !['protocol', 'build'].includes(key)) ||
+        value.protocol !== PROTOCOL || !BUILD.test(value.build)) return json({error: 'Unsupported build/protocol'}, 400);
     const room = crypto.randomUUID().replaceAll('-', ''), host = secret(), guest = secret();
     const stub = env.COOP_ROOMS.get(env.COOP_ROOMS.idFromName(room));
     const response = await stub.fetch('https://room.internal/create', {

@@ -18,8 +18,10 @@ export async function startPreview(directory, port = 8787) {
   const frontend = await mkdtemp(join(tmpdir(), 'supertux-input-proof-'));
   const assembled = spawnSync('python3', [join(root, 'tools/web/package_assets.py'), 'assemble', '--build', directory, '--output', frontend, '--cloudflare'], {encoding: 'utf8'});
   if (assembled.status) {await rm(frontend, {recursive:true}); throw Error(assembled.stderr);}
+  let mf;
+  try {
   const result = await bundle({entryPoints: [join(root, 'worker/index.js')], bundle: true, write: false, format: 'esm', platform: 'browser', target: 'es2022'});
-  const mf = new Miniflare(convertV4MiniflareOptions({
+  mf = new Miniflare(convertV4MiniflareOptions({
     host: '127.0.0.1', port, name: 'supertux-input-proof', modules: true,
     script: result.outputFiles[0].text, compatibilityDate: '2026-10-06',
     durableObjects: {COOP_ROOMS: {className: 'CoopRoom', useSQLite: true}},
@@ -43,12 +45,16 @@ export async function startPreview(directory, port = 8787) {
   await bucket.put(`manifest/${createHash('sha256').update(published).digest('hex')}/asset-manifest.json`, published);
   const url = String(await mf.ready);
   return {mf, url, manifest, async dispose() {await mf.dispose(); await rm(frontend,{recursive:true,force:true});}};
+  } catch (error) {
+    await mf?.dispose(); await rm(frontend,{recursive:true,force:true}); throw error;
+  }
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const directory = process.argv[2];
   if (!directory) throw Error('Usage: node tools/web/coop/preview.mjs COMPLETE_PREVIEW [PORT]');
-  const preview = await startPreview(directory, Number(process.argv[3] || 8787));
+  const starting = startPreview(directory, Number(process.argv[3] || 8787));
+  for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, async () => {await (await starting).dispose(); process.exit(0);});
+  const preview = await starting;
   console.log(`INPUT_PROOF_READY ${preview.url}index.html?coop=1`);
-  for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, async () => {await preview.dispose(); process.exit(0);});
 }

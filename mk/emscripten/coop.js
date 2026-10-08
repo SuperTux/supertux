@@ -32,7 +32,8 @@
     send(message) {
       if (this.closed || this.socket.readyState !== WebSocket.OPEN) return false;
       if (this.socket.bufferedAmount > 16384) { this.close('Connection is too slow. Rejoin before starting a level.'); return false; }
-      this.socket.send(JSON.stringify(message)); return true;
+      try { this.socket.send(JSON.stringify(message)); return true; }
+      catch { this.close('Connection lost. Rejoin before starting a level.'); return false; }
     }
     finish(reason) {
       if (this.closed) return;

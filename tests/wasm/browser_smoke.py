@@ -21,7 +21,6 @@ from playwright.async_api import async_playwright
 # stays enabled. This opt-in records these exact sites; new diagnostics still fail.
 KNOWN_UPSTREAM_UB = [
     r"/__utility/swap\.h:43:11: runtime error: load of value \d+, which is not a valid value for type '__libcpp_remove_reference_t<bool &>' \(aka 'bool'\)",
-    r"/src/object/player\.cpp:325:17: runtime error: reference binding to null pointer of type 'Climbable'",
     r"/src/object/player\.cpp:2264:13: runtime error: load of value \d+, which is not a valid value for type 'bool'",
     r"/(?:external/obstack/obstack\.c:(?:143:35|236:5|263:7)|src/util/obstackpp\.hpp:24:10): runtime error: subtraction of unsigned offset from 0x00000000 overflowed to 0x[0-9a-f]+",
 ]

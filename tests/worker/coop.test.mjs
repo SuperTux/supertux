@@ -23,7 +23,7 @@ async function ready(f, socket) {await send(f.object, socket, {type: 'hello', pr
 test('routing is opt-in, origin-bound, bounded and build-validated', async () => {
   assert.equal((await coopFetch(new Request('http://localhost/coop/rooms'), {})).status, 404);
   assert.equal((await coopFetch(new Request('http://localhost/coop/rooms'), {COOP_ROOMS: {}})).status, 403);
-  for (const body of ['invalid', JSON.stringify({protocol: 2, build}), 'x'.repeat(513)]) {
+  for (const body of ['invalid', 'null', '[]', JSON.stringify({protocol: 2, build}), JSON.stringify({protocol: 1, build, role:'host'}), 'x'.repeat(513)]) {
     const response = await coopFetch(new Request('http://localhost/coop/rooms', {method: 'POST', headers: {Origin: 'http://localhost'}, body}), {COOP_ROOMS: {}});
     assert.ok([400,413].includes(response.status));
   }
