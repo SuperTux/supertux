@@ -229,7 +229,7 @@
         <button id="start_button" type="button" hidden disabled>Start</button>
         <button id="play_muted" type="button" hidden>Play without sound</button>
         <button id="fullscreen_button" type="button" hidden>Fullscreen</button>
-        <details><summary>Downloaded assets</summary><button id="clear_assets_cache" type="button">Clear downloaded assets</button><p>Saved games and settings are kept.</p></details>
+        <details><summary>Downloaded assets</summary><button id="clear_assets_cache" type="button" disabled>Clear downloaded assets</button><p>Saved games and settings are kept.</p></details>
       </div>
     </div>
     <div class="bottom_stuff">

@@ -1,5 +1,7 @@
 # Mobile Web Phase 3: reusable touch controls
 
+> Current browser packaging and CI are described in [MOBILE_WEB_STARTUP_OPTIMIZATION.md](MOBILE_WEB_STARTUP_OPTIMIZATION.md). The soundtrack is now downloaded track by track; only small music descriptors remain mandatory. Use its complete preview assembly, cache-clearing, deployment and focused-CI instructions. The full-package sizes and workflow behavior below describe the historical revision of this handoff.
+
 Implementation date: 2026-10-03. Repository: `jbbejena/supertux`.
 Branch: `mobile-web-phase3-touch-controls`. No merge or upstream changes.
 

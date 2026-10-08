@@ -173,15 +173,23 @@
     requestTrack(path) {
       path = path.replace(/^\/+/, '');
       this.wanted = path;
+      const entry = this.entries.get(path);
+      // Cancel obsolete queued work before resuming the pump. Otherwise an
+      // old paused selection could consume a slot ahead of the current track.
+      const retained = [];
+      for (const item of this.queue) {
+        if (entry?.package === 'music' && item.entry.sha256 === entry.sha256) { retained.push(item); continue; }
+        this.inflight.delete(item.entry.sha256);
+        const error = new Error('Music request superseded'); error.superseded = true; item.reject(error);
+      }
+      this.queue = retained;
       if (!this.allowed()) return 1;
       this.pump();
-      const entry = this.entries.get(path);
       if (!entry || entry.package === 'startup') { this.status(''); return 0; }
       const track = this.tracks.get(path);
       if (track) { this.status(track.state === 1 ? 'Downloading music…' : track.state === 2 ? 'Music could not download. You can keep playing.' : '', track.state === 2); return track.state; }
       // A burst of track changes never queues an entire soundtrack. Active
       // downloads may finish/cache, but queued obsolete requests are dropped.
-      for (const item of this.queue.splice(0)) { this.inflight.delete(item.entry.sha256); const error = new Error('Music request superseded'); error.superseded = true; item.reject(error); }
       const state = {state: 1}; this.tracks.set(path, state); this.status('Downloading music…');
       this.download(entry).then(buffer => {
         const fs = this.Module.FS;
@@ -212,6 +220,7 @@
 
   async function boot(Module) {
     try {
+      if (!root.crypto?.subtle) throw new Error('Open the game over HTTPS, or use localhost for a local preview.');
       const config = root.SUPERTUX_DEPLOY_CONFIG;
       if (!config || !/^[a-f0-9]{64}$/.test(config.manifestSha256 || '')) throw new Error('Missing asset build identity');
       const response = await root.fetch(config.manifestUrl, {cache: 'no-store'});
@@ -244,6 +253,7 @@
       const retry = root.document.getElementById('retry_music');
       if (retry) retry.addEventListener('click', () => loader.retry());
       const clear = root.document.getElementById('clear_assets_cache');
+      if (clear) clear.disabled = false;
       if (clear) clear.addEventListener('click', async () => {
         clear.disabled = true;
         const cleared = await loader.cache.clear();

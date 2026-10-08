@@ -62,8 +62,8 @@ jobs:
     - name: Cache WASM dependencies
       uses: actions/cache@v4
       with:
-        path: ${{ github.workspace }}/vcpkg_installed
-        key: wasm-${{ runner.os }}-${{ env.EMSDK_VERSION }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
+        path: ${{ github.workspace }}/build/vcpkg_installed
+        key: wasm-v2-${{ runner.os }}-${{ env.EMSDK_VERSION }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
       if: inputs.validation_run_id == ''
     - name: Configure Release build
       run: |

@@ -116,3 +116,14 @@ test('gzip delivery validates decoded bytes; older browsers retain raw fallback'
   await assert.rejects(damaged, /wrong size|incomplete or damaged/);
   assert.equal(f.stored.size,0);
 });
+test('resuming a newer selection never starts an obsolete paused queue item', async () => {
+  const f=await fixture(), c=bytes('OggSqueued C');
+  f.loader.entries.set('music/c.ogg',{...f.entries[0],path:'music/c.ogg',bytes:c.byteLength,sha256:await hash(c),url:'assets/c'});
+  f.loader.requestTrack('music/a.ogg');f.loader.requestTrack('music/b.ogg');f.loader.requestTrack('music/c.ogg');
+  await tick();assert.equal(f.requests.length,2);
+  f.Module.supertuxShell.active=false;f.loader.requestTrack('music/b.ogg');
+  f.requests[0].resolve(new Response(f.a));f.requests[1].resolve(new Response(f.b));
+  await until(()=>f.loader.active===0);
+  f.Module.supertuxShell.active=true;f.loader.requestTrack('music/b.ogg');await tick();
+  assert.equal(f.requests.length,2);assert.equal(f.loader.queue.length,0);
+});

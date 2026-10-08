@@ -1,0 +1,125 @@
+{
+  "baselineSource": "d8e5abbf17946ada56b66aef47f033040e1d7845",
+  "baselineRun": 37693784930,
+  "optimizedSource": "bb916c12ab3d2308ca393d885c5a4669b7a77ca6",
+  "packages": {
+    "javascript": {
+      "bytes": 913750,
+      "encodings": {
+        "gzip": {
+          "bytes": 135381,
+          "sha256": "ce2a6c5b252ae9b831fa54d177be88e8b19588f702c614ab07de6bf581fb9fe1",
+          "url": "game-assets/js-gzip/ce2a6c5b252ae9b831fa54d177be88e8b19588f702c614ab07de6bf581fb9fe1/supertux2.js.gz"
+        }
+      },
+      "sha256": "a2ce364ddcd4009444be8688b3a21eea45b6feb081c3b9533e4dab34bde3b69e",
+      "url": "supertux2.js"
+    },
+    "startup": {
+      "bytes": 176664571,
+      "encodings": {
+        "gzip": {
+          "bytes": 134721216,
+          "sha256": "93f9f84b5a5fda0b411bc8c16d6882f2660d5027ea48d5818eb87aa072dd5eff",
+          "url": "game-assets/data-gzip/93f9f84b5a5fda0b411bc8c16d6882f2660d5027ea48d5818eb87aa072dd5eff/supertux2.data.gz"
+        }
+      },
+      "sha256": "fb61ead2422f5a968b2d52b526c1d87a16dcab69e130c8b6c02d7e863b4e8a30",
+      "url": "supertux2.data"
+    },
+    "wasm": {
+      "bytes": 9199243,
+      "encodings": {
+        "gzip": {
+          "bytes": 2770049,
+          "sha256": "aaaf435f23e029c1842a013e63980a1457eb20c99154c7a30db5c0afba32a6df",
+          "url": "game-assets/wasm-gzip/aaaf435f23e029c1842a013e63980a1457eb20c99154c7a30db5c0afba32a6df/supertux2.wasm.gz"
+        }
+      },
+      "sha256": "9302ebdc9e6475526231a02192b533f608d7c7d05a59c8e410d74bd1096b3ac1",
+      "url": "supertux2.wasm"
+    }
+  },
+  "conditions": {
+    "browser": "151.0.7922.34",
+    "viewport": "844x390 mobile emulation (not physical Safari)",
+    "network": "50 Mbit/s down, 40 ms latency; HTTP cache disabled for both visits",
+    "cpu": "2x slowdown",
+    "persistent_profile": "Browser process restarted between visits",
+    "dpr": 1
+  },
+  "results": {
+    "baseline-menu-final": [
+      {
+        "condition": "cold",
+        "ready_seconds": 73.099,
+        "usable_seconds": 73.535,
+        "mandatory_http_bytes": 337023544,
+        "post_download_seconds": 5.604,
+        "errors": []
+      },
+      {
+        "condition": "warm-persistent",
+        "ready_seconds": 75.645,
+        "usable_seconds": 75.873,
+        "mandatory_http_bytes": 337023544,
+        "post_download_seconds": 5.476,
+        "errors": []
+      }
+    ],
+    "optimized-menu-verified": [
+      {
+        "condition": "cold",
+        "ready_seconds": 41.905,
+        "usable_seconds": 42.299,
+        "mandatory_http_bytes": 138648194,
+        "post_download_seconds": 6.777,
+        "errors": []
+      },
+      {
+        "condition": "warm-persistent",
+        "ready_seconds": 5.182,
+        "usable_seconds": 5.427,
+        "mandatory_http_bytes": 1020953,
+        "post_download_seconds": 4.793,
+        "errors": []
+      }
+    ],
+    "baseline-gameplay": [
+      {
+        "condition": "cold",
+        "ready_seconds": 76.099,
+        "usable_seconds": 76.886,
+        "mandatory_http_bytes": 337023631,
+        "post_download_seconds": 5.494,
+        "errors": []
+      },
+      {
+        "condition": "warm-persistent",
+        "ready_seconds": 75.553,
+        "usable_seconds": 76.68,
+        "mandatory_http_bytes": 337023631,
+        "post_download_seconds": 5.652,
+        "errors": []
+      }
+    ],
+    "optimized-gameplay": [
+      {
+        "condition": "cold",
+        "ready_seconds": 43.008,
+        "usable_seconds": 43.76,
+        "mandatory_http_bytes": 138648271,
+        "post_download_seconds": 6.369,
+        "errors": []
+      },
+      {
+        "condition": "warm-persistent",
+        "ready_seconds": 5.759,
+        "usable_seconds": 6.536,
+        "mandatory_http_bytes": 1021030,
+        "post_download_seconds": 5.395,
+        "errors": []
+      }
+    ]
+  }
+}

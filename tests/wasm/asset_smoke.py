@@ -39,7 +39,7 @@ async def smoke(args, url):
         browser = await getattr(p,args.browser).launch(**launch)
         context = await browser.new_context(viewport={'width':844,'height':390},has_touch=True)
 
-        async def boot(context, label, body=html):
+        async def boot(context, label, body=html, extra_arguments=()):
             page = await context.new_page()
             page.set_default_timeout(60000)
             page.on('pageerror', lambda error: errors.append(label + ': ' + str(error)))
@@ -57,7 +57,7 @@ async def smoke(args, url):
                 cdp = await context.new_cdp_session(page)
                 await cdp.send('Network.enable')
                 await cdp.send('Network.setCacheDisabled', {'cacheDisabled':True})
-            body = body.replace('var Module = {', 'var Module = {\narguments: ["--verbose", "--developer"],', 1)
+            body = body.replace('var Module = {', 'var Module = {\narguments: ' + json.dumps(['--verbose','--developer',*extra_arguments]) + ',', 1)
             await page.route('**/supertux2.html', lambda route: route.fulfill(body=body,content_type='text/html'))
             await page.goto(url)
             await page.wait_for_function('window.Module && Module.supertuxReady === true',timeout=180000)
@@ -204,6 +204,15 @@ async def smoke(args, url):
         assert await page.evaluate("Module.FS.readFile(Module.supertuxStorage.root+'config',{encoding:'utf8'})") == config_before
         record('Clearing only downloads redownloads startup and preserves persisted save marker/settings')
         await page.close()
+        await context.close()
+
+        context = await browser.new_context(viewport={'width':844,'height':390},has_touch=True)
+        page, requests = await boot(context,'music-disabled',extra_arguments=['--disable-music'])
+        await command(page,'play_sound("/sounds/coin.wav");')
+        await page.wait_for_function('assetAudio[0].starts > 0')
+        assert not any('/game-assets/music/' in path for path in requests)
+        assert not await page.evaluate('engineMusicOpened.length > 0')
+        record('Native music-disabled setting downloads no soundtrack while an immediate sound effect plays')
         await context.close()
 
         # Independent fresh profiles exercise fallback without existing cache hits.

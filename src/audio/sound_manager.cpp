@@ -329,6 +329,11 @@ SoundManager::play_music(const std::string& filename, float fadetime)
   if (filename != m_current_music) m_music_source.reset();
   m_browser_music_pending = !filename.empty();
   m_browser_music_fadetime = fadetime;
+  if (!m_music_enabled || m_music_volume == 0) {
+    m_browser_music_pending = !filename.empty() && (!m_music_source || m_music_source->paused());
+    m_current_music = filename;
+    return;
+  }
 #endif
   if (filename == m_current_music && m_music_source != nullptr)
   {
@@ -452,6 +457,9 @@ SoundManager::resume_music(float fadetime)
 #endif
   if (m_music_source == nullptr)
     return;
+#ifdef __EMSCRIPTEN__
+  m_browser_music_pending = false; // Resuming an existing decoder needs no later play/restart.
+#endif
 
   if (fadetime > 0 && m_music_source->get_fade_state() == StreamSoundSource::FadingResume)
     return;

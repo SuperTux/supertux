@@ -1,5 +1,7 @@
 # Mobile Web Phase 4A — Cloudflare deployment
 
+> Current browser packaging and CI are described in [MOBILE_WEB_STARTUP_OPTIMIZATION.md](MOBILE_WEB_STARTUP_OPTIMIZATION.md). The soundtrack is now downloaded track by track; only small music descriptors remain mandatory. Use its complete preview assembly, cache-clearing, deployment and focused-CI instructions. The full-package sizes and workflow behavior below describe the historical revision of this handoff.
+
 ## Goal
 
 Phase 4A externalizes the large browser runtime files and makes a repeatable Cloudflare deployment without changing SuperTux gameplay or asset contents.

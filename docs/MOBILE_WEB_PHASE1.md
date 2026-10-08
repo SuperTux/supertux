@@ -1,5 +1,7 @@
 # Mobile web Phase 1: modern WASM boot and runtime reliability
 
+> Current browser packaging and CI are described in [MOBILE_WEB_STARTUP_OPTIMIZATION.md](MOBILE_WEB_STARTUP_OPTIMIZATION.md). The soundtrack is now downloaded track by track; only small music descriptors remain mandatory. Use its complete preview assembly, cache-clearing, deployment and focused-CI instructions. The full-package sizes and workflow behavior below describe the historical revision of this handoff.
+
 Implementation/validation date: 2026-10-03. Repository: `jbbejena/supertux`. Branch: `mobile-web-phase1-wasm-reliability`, based on audit commit `a3703205d7f8bead1335da887c95f62c545b14f8`. The [architecture audit](MOBILE_WEB_AUDIT.md) remains the planning baseline.
 
 The current game now links strictly with real SDL3 image/font libraries, hydrates browser saves before C++ startup, boots its menu, and plays Welcome to Antarctica with keyboard input in desktop Chromium. A persisted music-volume setting was read by C++ after reload and serialized again as 37. A save-format progression fixture also survived reload byte-for-byte.

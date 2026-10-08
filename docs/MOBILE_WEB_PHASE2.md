@@ -1,5 +1,7 @@
 # Mobile web Phase 2: Safari shell and lifecycle handoff
 
+> Current browser packaging and CI are described in [MOBILE_WEB_STARTUP_OPTIMIZATION.md](MOBILE_WEB_STARTUP_OPTIMIZATION.md). The soundtrack is now downloaded track by track; only small music descriptors remain mandatory. Use its complete preview assembly, cache-clearing, deployment and focused-CI instructions. The full-package sizes and workflow behavior below describe the historical revision of this handoff.
+
 ## Base and scope
 
 Phase 1 [PR #1](https://github.com/jbbejena/supertux/pull/1) was merged into `mobile-web-audit`. This phase starts from merge commit `9807fb370`, containing completed Phase 1 tip `8c973fe0a180ef1c1215aee8f034c3fcfdfe288f`, on `mobile-web-phase2-safari-shell`. Read [MOBILE_WEB_AUDIT.md](MOBILE_WEB_AUDIT.md) and [MOBILE_WEB_PHASE1.md](MOBILE_WEB_PHASE1.md) for the foundation and existing limitations.
