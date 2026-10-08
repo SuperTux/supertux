@@ -3,9 +3,12 @@
 Updated: 2026-10-08 UTC (2026-10-07 in Denver).
 
 Status: phases 5, 6A and the contained 6B remote-input proof are implemented.
-The guest remains a diagnostic controller; synchronized guest gameplay is not
-implemented and Phase 7 has not started. Evidence, supported scenarios and
+Phase 7A adds a controlled guest display of static terrain, both players and the
+host's shared camera. Phase 7B gameplay/object replication remains pending.
+Evidence, supported scenarios and
 device/network limits are in [PRIVATE_COOP_INPUT_PROOF.md](PRIVATE_COOP_INPUT_PROOF.md).
+The separate display architecture and acceptance scope are in
+[PRIVATE_COOP_GUEST_VIEW.md](PRIVATE_COOP_GUEST_VIEW.md).
 
 ## Goal and first playable scope
 
@@ -33,7 +36,8 @@ independent input owners, touch plus Player 2, device rejoin, death/respawn,
 checkpoint restart, door/sector transition, completion and host persistence.
 An explicit transient remote slot and opt-in private Worker/Durable Object
 relay provide the two-browser input proof. There is no runtime world replication
-or guest world display. Coverage is contained to the documented interactions;
+for campaign objects. The controlled Phase 7A scene now has a guest world display.
+Coverage is contained to the documented interactions;
 it does not certify a full campaign or physical phones.
 
 The separate, unmerged `fix/stalled-music-downloads` branch addresses stalled optional music requests. It was inspected and is not duplicated by the input proof. Refresh its merge status before subsequent integration.

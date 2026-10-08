@@ -100,7 +100,7 @@ runs:
       BUILD_TYPE: ${{ inputs.build_type }}
     run: |-
       smoke_options=()
-      # Existing player/library UB is outside this phase's gameplay boundary.
+      # Remaining existing library UB is outside this phase's gameplay boundary.
       # These exact sites are annotated and archived; every new site fails.
       if [ "$BUILD_TYPE" = Debug ]; then smoke_options+=(--record-known-ub); fi
       python tests/wasm/browser_smoke.py build --output build/browser-evidence "${smoke_options[@]}" 2>&1 | tee build/browser-smoke.log
@@ -136,9 +136,11 @@ runs:
       if [ "$BUILD_TYPE" = Debug ]; then coop_options+=(--record-known-ub); fi
       python tests/wasm/coop_smoke.py build/upload --local-only --output build/coop-local-evidence "${coop_options[@]}"
       python tests/wasm/coop_smoke.py build/upload --output build/coop-remote-evidence "${coop_options[@]}"
+      python tests/wasm/coop_view_smoke.py build/upload --output build/coop-view-evidence "${coop_options[@]}"
       if [ "$BUILD_TYPE" = Release ]; then
         python tests/wasm/coop_smoke.py build/upload --local-only --browser webkit --output build/webkit-coop-local-evidence
         python tests/wasm/coop_smoke.py build/upload --browser webkit --output build/webkit-coop-remote-evidence
+        python tests/wasm/coop_view_smoke.py build/upload --browser webkit --output build/webkit-coop-view-evidence
       fi
     shell: bash
   - uses: actions/upload-artifact@v4
@@ -164,6 +166,8 @@ runs:
         build/coop-remote-evidence/
         build/webkit-coop-local-evidence/
         build/webkit-coop-remote-evidence/
+        build/coop-view-evidence/
+        build/webkit-coop-view-evidence/
       if-no-files-found: error
   - uses: actions/upload-artifact@v4
     with:

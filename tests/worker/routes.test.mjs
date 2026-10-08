@@ -2,6 +2,16 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import worker from '../../worker/index.js';
 const sha = 'a'.repeat(64);
+test('content addressed guest PNGs use frontend streaming and immutable MIME without R2',async()=>{
+  const bindings=env();const response=await worker.fetch(new Request(`https://game.example/coop-art/${sha}.png`),bindings);
+  assert.equal(response.headers.get('content-type'),'image/png');assert.match(response.headers.get('cache-control'),/immutable/);
+  assert.deepEqual(bindings.calls,[]);assert.match(await response.text(),/coop-art/);
+  const missing=env();missing.ASSETS.fetch=()=>new Response('missing',{status:404});
+  assert.equal((await worker.fetch(new Request(`https://game.example/coop-art/${sha}.png`),missing)).status,404);
+  const cached=env();cached.ASSETS.fetch=()=>new Response(null,{status:304});
+  const unchanged=await worker.fetch(new Request(`https://game.example/coop-art/${sha}.png`),cached);
+  assert.equal(unchanged.status,304);assert.match(unchanged.headers.get('cache-control'),/immutable/);
+});
 function env() {
   const calls = [];
   const object = {body: new ReadableStream({start(c){c.enqueue(new Uint8Array([1,2,3]));c.close();}}),size:3,httpEtag:'"hash"',writeHttpMetadata(){}};

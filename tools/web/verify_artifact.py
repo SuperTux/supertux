@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path, PurePosixPath
 from package_assets import digest, encoded
 
@@ -39,10 +40,19 @@ def verify(directory, source_commit, configuration='Release'):
             payload = directory / variant['url']
             assert payload.stat().st_size == variant['bytes'] and digest(payload) == variant['sha256'], 'Compressed package mismatch'
     assert digest(directory / 'assets.js') == manifest['bootstrapSha256'], 'Bootstrap hash mismatch'
-    assert set(manifest['frontend']) == {'coop.js', 'coop-controller.html'}, 'Incomplete diagnostic frontend'
+    required = {'coop.js', 'coop-controller.html', 'coop-view.js', 'coop-view.html', 'coop-scene.json'}
+    assert required <= set(manifest['frontend']), 'Incomplete co-op frontend'
+    for name in manifest['frontend']:
+        assert name in required or re.fullmatch(r'coop-art/[a-f0-9]{64}\.png', name), 'Noncanonical presentation URL'
     for name, entry in manifest['frontend'].items():
         payload = directory / name
         assert payload.stat().st_size == entry['bytes'] and digest(payload) == entry['sha256'], 'Diagnostic frontend mismatch: ' + name
+        if name.startswith('coop-art/'):
+            assert name == 'coop-art/' + entry['sha256'] + '.png', 'Presentation asset identity mismatch'
+    scene = json.loads((directory / 'coop-scene.json').read_text())
+    assert scene['schema'] == 1 and scene['id'] == 'coop-view-v1', 'Presentation scene identity mismatch'
+    urls = {scene['tileImage']} | {url for action in scene['actions'].values() for url in action['frames']}
+    assert urls == {name for name in manifest['frontend'] if name.startswith('coop-art/')}, 'Incomplete presentation assets'
     return manifest
 
 

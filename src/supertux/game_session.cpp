@@ -58,6 +58,29 @@
 
 static const float SAFE_TIME = 1.0f;
 static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+static uint32_t next_coop_session = 0;
+EM_JS(int, browser_coop_wants_view, (), {
+  return Module.supertuxCoop && Module.supertuxCoop.wantsView() ? 1 : 0;
+});
+EM_JS(void, browser_coop_view, (uint32_t session, uint32_t epoch, uint32_t sequence, int supported,
+                               const float* fields, const char* action1, const char* action2), {
+  var f = Array.from(HEAPF32.subarray(fields >>> 2, (fields >>> 2) + 21));
+  var actions = [UTF8ToString(action1), UTF8ToString(action2)];
+  var players = [];
+  if (supported) for (var i = 0; i < 2; ++i) {
+    var offset = 5 + i * 8;
+    players.push({id: f[offset], x: f[offset + 1], y: f[offset + 2], frame: f[offset + 3],
+                  angle: f[offset + 4], alpha: f[offset + 5], dead: f[offset + 6],
+                  visible: !!f[offset + 7], action: actions[i]});
+  }
+  if (Module.supertuxCoop) Module.supertuxCoop.view({type: 'view', session: session,
+    epoch: epoch, sequence: sequence, time: performance.now(),
+    scene: supported ? 'coop-view-v1' : 'unsupported', camera: f.slice(0,5), players: players});
+});
+#endif
 static const float TELEPORT_FADE_TIME = 1.0f;
 static const float TELEPORT_FADE_TIME_CIRCLE = 1.43f;
 static const float TELEPORT_SPEEDUP = 3.18f;
@@ -98,6 +121,9 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   m_endsequence_timer()
 {
   set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
+#ifdef __EMSCRIPTEN__
+  m_coop_session = ++next_coop_session;
+#endif
 
   m_boni_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
   m_pockets_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
@@ -123,6 +149,16 @@ GameSession::GameSession(std::istream& istream_, Savegame* savegame, Statistics*
 {
   m_levelstream = &istream_;
 }
+
+#ifdef __EMSCRIPTEN__
+GameSession::GameSession(const std::string& levelfile, std::unique_ptr<Savegame> savegame) :
+  GameSession{levelfile, *savegame}
+{
+  // The controlled display fixture needs ordinary player status but owns no
+  // campaign progression. Keep its in-memory savegame alive for this screen.
+  m_coop_savegame = std::move(savegame);
+}
+#endif
 
 void
 GameSession::reset_level()
@@ -209,6 +245,10 @@ GameSession::on_player_removed(int id)
 void
 GameSession::restart_level(bool after_death, bool preserve_music)
 {
+#ifdef __EMSCRIPTEN__
+  ++m_coop_epoch;
+  m_coop_sequence = 0;
+#endif
   if (m_savegame)
   {
     const PlayerStatus& currentStatus = m_savegame->get_player_status();
@@ -543,6 +583,44 @@ GameSession::draw(Compositor& compositor)
   }
 
   m_currentsector->draw(context);
+#ifdef __EMSCRIPTEN__
+  if (browser_coop_wants_view())
+  {
+    const auto transform = m_currentsector->get_camera().get_predicted_transform(context.get_time_offset());
+    float fields[21] = {transform.first.x, transform.first.y, transform.second,
+                        static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)};
+    const auto& players = m_currentsector->get_players();
+    bool supported = m_levelfile == "levels/web/coop-view.stl" && players.size() == 2;
+    if (supported)
+    {
+      for (const auto* player : players)
+      {
+        const auto& action = player->get_sprite()->get_action();
+        supported = supported && (action.compare(0, 6, "small-") == 0 || action == "gameover");
+      }
+    }
+    const char* actions[2] = {"", ""};
+    if (supported)
+    {
+      for (size_t i = 0; i < 2; ++i)
+      {
+        const Player& player = *players[i];
+        const Sprite& sprite = *player.get_sprite();
+        const size_t offset = 5 + i * 8;
+        fields[offset] = static_cast<float>(player.get_id() + 1);
+        fields[offset + 1] = player.get_coop_draw_position().x;
+        fields[offset + 2] = player.get_coop_draw_position().y;
+        fields[offset + 3] = static_cast<float>(sprite.get_current_frame());
+        fields[offset + 4] = sprite.get_angle();
+        fields[offset + 5] = sprite.get_alpha();
+        fields[offset + 6] = player.is_dead() ? 2.0f : (player.is_dying() ? 1.0f : 0.0f);
+        fields[offset + 7] = player.is_coop_draw_visible() ? 1.0f : 0.0f;
+        actions[i] = sprite.get_action().c_str();
+      }
+    }
+    browser_coop_view(m_coop_session, m_coop_epoch, ++m_coop_sequence, supported, fields, actions[0], actions[1]);
+  }
+#endif
   drawstatus(context);
 
   if (m_game_pause)

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <title>SuperTux — shared display proof</title>
+  <style>
+    body {margin:0;background:#142333;color:white;font:16px system-ui;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);}
+    #guest_canvas {display:block;width:100%;height:55dvh;object-fit:contain;background:#070e17;}
+    p {margin:8px 12px;} button {font:inherit;min-width:56px;min-height:56px;margin:3px;border:2px solid #a5c7ed;border-radius:12px;background:#234362;color:white;touch-action:none;user-select:none;}
+    button:active {background:#406c94;} .controls {display:flex;flex-wrap:wrap;justify-content:space-between;padding:0 8px;} .pad {display:grid;grid-template-columns:repeat(3,62px);} .up {grid-column:2;} .left {grid-column:1;grid-row:2;} .down {grid-column:2;grid-row:2;} .right {grid-column:3;grid-row:2;}
+    @media (orientation:landscape) {#guest_canvas {height:55dvh;} .controls {align-items:center;}}
+  </style>
+</head>
+<body>
+  <p id="view_status" role="status">Shared display proof · static scene and both players</p>
+  <canvas id="guest_canvas" width="844" height="390" aria-label="Host-authoritative shared view of both players"></canvas>
+  <p id="guest_status" role="status">Waiting for a private room link.</p>
+  <div class="controls"><div class="pad"><button class="up" data-control="4" aria-label="Up">↑</button><button class="left" data-control="1" aria-label="Left">←</button><button class="down" data-control="8" aria-label="Down">↓</button><button class="right" data-control="2" aria-label="Right">→</button></div><div><button data-control="16">Jump</button><button data-control="32">Action</button><button data-control="64">Item</button></div></div>
+  <p>The host selects levels, pauses and saves progress. Only the display proof scene is supported here. Keyboard: arrows/WASD, Space to jump, Ctrl for action.</p>
+  <p id="guest_ack"></p><button id="guest_join">Rejoin</button>
+  <p>Keep this invitation private. After disconnection, return the host to the title screen, rejoin, then restart the scene.</p>
+  <script src="coop-view.js"></script><script src="coop.js"></script>
+</body></html>

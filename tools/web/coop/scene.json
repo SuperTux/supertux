@@ -1,0 +1,10 @@
+{
+  "id": "coop-view-v1",
+  "name": "Private co-op display proof",
+  "width": 80,
+  "height": 25,
+  "spawn": [160, 540],
+  "ground": [0, 19, 80, 6],
+  "platforms": [[13, 16, 5, 1], [23, 13, 5, 1], [35, 16, 6, 1], [52, 15, 6, 1]],
+  "sky": [0.12, 0.25, 0.40]
+}

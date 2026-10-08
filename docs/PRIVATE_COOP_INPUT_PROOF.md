@@ -4,7 +4,10 @@ This implements roadmap phases 5, 6A and the contained 6B input proof. The host
 runs the complete game and shows both players. The guest is a diagnostic
 keyboard/button controller: it downloads no game world, WASM, DATA or soundtrack,
 does not simulate gameplay, and does not show a synchronized world. Phase 7 has
-not started. The production Worker has no room binding; networking stays off
+not started in that original run. The subsequent controlled guest display is
+documented in [PRIVATE_COOP_GUEST_VIEW.md](PRIVATE_COOP_GUEST_VIEW.md); its shared
+view invitation is separate from this diagnostic controller. The production
+Worker has no room binding; networking stays off
 unless the separate proof configuration is used and a host explicitly creates
 a room.
 
@@ -70,11 +73,13 @@ existing streaming private-R2 and same-origin asset routes. The production
 its URL fragment; socket credentials use WebSocket subprotocols, not URL paths.
 Keep the invitation private: it grants the guest input role.
 
-Exactly one host and one guest may connect. A `hello` must match protocol 1 and
+Exactly one host and one guest may connect. A `hello` must match protocol 2 and
 the complete frontend/asset manifest hash before input is accepted. `session`
 (generation/enabled) and `ack` are host-only; `input`
-(generation/sequence/mask) is guest-only. The Worker never runs physics or
-receives world snapshots. Origins must match; messages are text JSON with known
+(generation/sequence/mask) is guest-only. The Worker never runs physics.
+Phase 7A now relays bounded host-only presentation
+updates to a view-capable guest, as detailed in the guest-view handoff. Origins
+must match; input messages are text JSON with known
 fields, at most 512 bytes and 60 client commands/second per socket. Valid `seen`
 credits acknowledge existing server output and do not consume the command
 budget again; unsolicited credits close the connection. Counting both commands

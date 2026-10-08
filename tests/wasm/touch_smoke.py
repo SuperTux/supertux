@@ -54,10 +54,16 @@ class Fingers:
     async def move(self, finger, pos): await self.change('move', finger, pos)
     async def up(self, finger): await self.change('up', finger)
     async def tap(self, pos, duration=120):
+        frame = await self.page.evaluate('window.phase3InputFrames ?? null')
         await self.down(9, pos)
         await self.page.wait_for_timeout(duration)
+        if frame is not None:
+            await self.page.wait_for_function('(frame)=>phase3InputFrames>frame',arg=frame)
+        release_frame = await self.page.evaluate('window.phase3InputFrames ?? null')
         await self.up(9)
         await self.page.wait_for_timeout(120)
+        if release_frame is not None:
+            await self.page.wait_for_function('(frame)=>phase3InputFrames>frame',arg=release_frame)
 
     async def release(self):
         for finger in list(self.points): await self.up(finger)
@@ -121,6 +127,15 @@ async def run(args, url):
         await page.wait_for_function('Module.supertuxReady === true', timeout=180000)
         await page.locator('#start_button').tap()
         await page.wait_for_function('Module.supertuxShell.active')
+        # Wait for actual native input updates between menu gestures. Short
+        # wall-clock taps can otherwise collapse DOWN/JUMP into one slow frame
+        # on CI, leaving the menu paused instead of selecting Restart Level.
+        # This observes the existing per-frame bridge; it injects no controls.
+        await page.evaluate('''() => {
+          window.phase3InputFrames=0;
+          const original=Module.supertuxCoop.engineStatus;
+          Module.supertuxCoop.engineStatus=(...args)=>{++phase3InputFrames;original(...args);};
+        }''')
         await page.wait_for_timeout(400)
         await page.screenshot(path=str(args.output / 'touch-main-menu.png'))
         cdp = await context.new_cdp_session(page) if args.browser == 'chromium' else None
@@ -162,7 +177,9 @@ async def run(args, url):
         await page.keyboard.press('Backquote', delay=100)
         getters = ' + "," + '.join(['sector.Tux.get_x()', 'sector.Tux.get_y()'] +
             [f'sector.Tux.get_input_held("{key}")' for key in ['right','jump','action','left','up','down','item']])
-        await page.keyboard.type('function phase3Snapshot(){print("PHASE3=" + ' + getters + ');}phase3Observer <- newthread(function(){for(local i=0;i<6000;i++){phase3Snapshot();wait(0.1);}});phase3Observer.call();', delay=1)
+        # Restart temporarily removes sector/player bindings. The read-only
+        # observer must skip that gap, rather than die and report stale state.
+        await page.keyboard.type('function phase3Snapshot(){try{print("PHASE3=" + ' + getters + ');}catch(e){if(e != "the index \'sector\' does not exist" && e != "the index \'Tux\' does not exist") throw e;}}phase3Observer <- newthread(function(){for(local i=0;i<6000;i++){phase3Snapshot();wait(0.1);}});phase3Observer.call();', delay=1)
         await page.keyboard.press('Enter', delay=100)
         await page.keyboard.press('Backquote', delay=100)
         await page.wait_for_function("document.querySelector('#output').textContent.includes('[SCRIPTING] PHASE3=')")
@@ -200,8 +217,11 @@ async def run(args, url):
             await fingers.tap(g['pause'])
             await fingers.tap(g['down']) # Continue → Restart Level.
             await fingers.tap(g['jump'])
-            restored = await state(label, dict(left=False,right=False,jump=False,action=False), 400)
-            assert abs(restored['x'] - 96) < 1 and abs(restored['y'] - 673.196) < 1, restored
+            # Packaged spawn lane is x=96, above flat ground at y=704. Small
+            # Tux lands at y=672 or the 673.196 settled collision contact.
+            restored = await state(label, dict(left=False,right=False,jump=False,action=False), 400,
+                                   lambda sample: abs(sample['x'] - 96) < 1 and 672 <= sample['y'] <= 674)
+            assert abs(restored['x'] - 96) < 1 and 672 <= restored['y'] <= 674, restored
 
         # Console installation takes longer in instrumented/software-rendered
         # builds. Reset enemies through the ordinary touch menu before starting
@@ -221,13 +241,16 @@ async def run(args, url):
         assert jumped['y'] < baseline['y'] - 10, (baseline, jumped)
         await fingers.down(3, g['action'])
         await state('three-fingers', dict(right=True, jump=True, action=True), 120)
-        await page.screenshot(path=str(args.output / 'three-fingers.png'))
+        # Screenshot capture can take seconds with software rendering. Finish
+        # the independent release assertions before capturing, so holding RUN
+        # for diagnostic I/O cannot drive Tux into the first enemy or pit.
         await fingers.up(2)
         await state('jump-released', dict(right=True, jump=False, action=True), 100)
         await fingers.up(1)
         await state('direction-released', dict(right=False, jump=False, action=True), 100)
         await fingers.up(3)
         await state('all-released', dict(right=False, jump=False, action=False))
+        await page.screenshot(path=str(args.output / 'multitouch-released.png'))
         report['checks'].append('Real Tux moves RIGHT and jumps while moving; three simultaneous actions; individual native finger releases leave remaining actions held')
 
         await restart('restart-before-slides')

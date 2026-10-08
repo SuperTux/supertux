@@ -4,6 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 import gzip
+import shutil
 import sys
 sys.path.insert(0, str(Path(__file__).parents[2] / 'tools/web'))
 from verify_artifact import verify
@@ -22,9 +23,13 @@ class PackagingTests(unittest.TestCase):
             (source/'font').write_bytes(b'font data' * 20)
             (source/'music').mkdir()
             (source/'music/track.ogg').write_bytes(b'OggSaudio')
+            original = Path(__file__).parents[2] / 'data/images'
+            shutil.copytree(original/'creatures/tux',source/'images/creatures/tux')
+            (source/'images/tiles/snow').mkdir(parents=True)
+            shutil.copyfile(original/'tiles/snow/convex.png',source/'images/tiles/snow/convex.png')
             sha = 'a' * 40
-            packaging.prepare(source,build/'web-assets',source_commit=sha)
-            for suffix, data in [('data',(source/'font').read_bytes()),('js',b'code'*100),('wasm',b'wasm'*100)]:
+            inventory = packaging.prepare(source,build/'web-assets',source_commit=sha,presentation=True)
+            for suffix, data in [('data',b'0'*sum(e['bytes'] for e in inventory['assets'] if e['package']=='startup')),('js',b'code'*100),('wasm',b'wasm'*100)]:
                 (build/('supertux2.'+suffix)).write_bytes(data)
             (build/'template.html').write_text('<script src="assets.js"></script><!-- SUPERTUX_DEPLOY_CONFIG -->')
             for name in ('supertux2.png','supertux2.ico','supertux2_bkg.png'):
@@ -38,6 +43,12 @@ class PackagingTests(unittest.TestCase):
             reused=Path(directory)/'reuse'
             self.assertEqual(manifest,packaging.assemble(preview,reused))
             verify(reused,sha)
+            scene=json.loads((reused/'coop-scene.json').read_text())
+            self.assertEqual(scene['actions']['small-stand-left']['frames'],scene['actions']['small-stand-right']['frames'])
+            self.assertTrue(scene['actions']['small-stand-left']['flipX'])
+            self.assertEqual(len(scene['tiles']),scene['width']*scene['height'])
+            self.assertEqual(scene['tiles'][19*scene['width']],14)
+            self.assertEqual(scene['tiles'][20*scene['width']],11)
             cloud=Path(directory)/'cloud'
             cf=packaging.assemble(preview,cloud,cloudflare=True)
             self.assertFalse((cloud/'supertux2.data').exists())
@@ -46,7 +57,12 @@ class PackagingTests(unittest.TestCase):
             packaging.assemble(preview,preview,cloudflare=True)
             verify(preview,sha)
             bad=reused/manifest['packages']['startup']['encodings']['gzip']['url']
+            complete=bad.read_bytes()
             bad.write_bytes(b'partial')
+            with self.assertRaises(AssertionError): verify(reused,sha)
+            bad.write_bytes(complete)
+            verify(reused,sha)
+            art=reused/scene['tileImage'];art.write_bytes(b'partial')
             with self.assertRaises(AssertionError): verify(reused,sha)
             packaging.assemble(build,build)
             packaging.assemble(build,build,compression=False)

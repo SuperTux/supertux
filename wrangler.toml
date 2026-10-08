@@ -6,6 +6,7 @@ workers_dev = true
 [assets]
 directory = "./dist"
 binding = "ASSETS"
+run_worker_first = ["/game-assets/*", "/coop-art/*"]
 
 [[r2_buckets]]
 binding = "GAME_ASSETS"

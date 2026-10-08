@@ -1,5 +1,6 @@
-// Private input relay. No game simulation or world snapshots live here.
-export const PROTOCOL = 1;
+// Private input/presentation relay. Game simulation stays on the host.
+import {validView} from './view.js';
+export const PROTOCOL = 2;
 export const ROOM_MS = 15 * 60 * 1000;
 const TOKEN = /^[a-f0-9]{64}$/;
 const BUILD = /^[a-f0-9]{64}$/;
@@ -8,7 +9,7 @@ const UINT = value => Number.isInteger(value) && value > 0 && value < 0x80000000
 // Only an already neutral host session gets loading grace; active play and
 // guests retain the short watchdog, independently of the C++ 750 ms watchdog.
 const idleLimit = info => info.role === 'host' && info.session?.enabled === false ? 15000 : 2500;
-const FIELDS = {hello: ['type','protocol','build'], ping: ['type'], seen: ['type'], session: ['type','generation','enabled'], ack: ['type','sequence'], input: ['type','generation','sequence','mask']};
+const FIELDS = {hello: ['type','protocol','build','view'], ping: ['type'], seen: ['type'], session: ['type','generation','enabled'], ack: ['type','sequence'], input: ['type','generation','sequence','mask'], view: ['type','session','epoch','sequence','generation','time','scene','camera','players']};
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
 });
@@ -69,7 +70,7 @@ export class CoopRoom {
     if (request.headers.get('Origin') !== room.origin) return json({error: 'Origin rejected'}, 403);
     const protocols = (request.headers.get('Sec-WebSocket-Protocol') || '').split(',').map(x => x.trim());
     const credential = /^(host|guest)\.([a-f0-9]{64})$/.exec(protocols[1] || '');
-    if (protocols.length !== 2 || protocols[0] !== 'supertux-coop-v1' || !credential ||
+    if (protocols.length !== 2 || protocols[0] !== 'supertux-coop-v2' || !credential ||
         !TOKEN.test(credential[2]) || room[credential[1]] !== credential[2])
       return json({error: 'Credentials rejected'}, 403);
     const role = credential[1];
@@ -79,7 +80,7 @@ export class CoopRoom {
     this.state.acceptWebSocket(server, [role]);
     server.serializeAttachment({role, hello: false, last: Date.now(), opened: Date.now(), rateStart: Date.now(), count: 0, generation: 0, sequence: 0, inFlight: 0});
     await this.arm(room);
-    return new Response(null, {status: 101, webSocket: client, headers: {'Sec-WebSocket-Protocol': 'supertux-coop-v1'}});
+    return new Response(null, {status: 101, webSocket: client, headers: {'Sec-WebSocket-Protocol': 'supertux-coop-v2'}});
   }
 
   send(socket, value) {
@@ -87,7 +88,7 @@ export class CoopRoom {
     if ((info.inFlight || 0) >= 32) {
       // These are latest-state notifications, never gameplay edges. Keep one
       // value per type while the receiver returns credit, not an event backlog.
-      if (['session', 'ack', 'pong'].includes(value.type)) {
+      if (['session', 'ack', 'pong', 'view'].includes(value.type)) {
         info.pending ||= {};
         info.pending[value.type] = value;
         socket.serializeAttachment(info);
@@ -101,7 +102,7 @@ export class CoopRoom {
     catch { try { socket.close(1011, 'Relay send failed'); } catch {} return false; }
   }
   flush_status(socket) {
-    for (const type of ['session', 'ack', 'pong']) {
+    for (const type of ['session', 'ack', 'pong', 'view']) {
       const info = socket.deserializeAttachment();
       if ((info.inFlight || 0) >= 32) break;
       const value = info.pending?.[type];
@@ -118,11 +119,12 @@ export class CoopRoom {
     const room = await this.state.storage.get('room');
     const info = socket.deserializeAttachment();
     if (!room || Date.now() >= room.expires) { this.close(socket, 1008, 'Room expired'); return; }
-    if (typeof raw !== 'string' || new TextEncoder().encode(raw).length > 512) { this.close(socket, 1009, 'Message too large'); return; }
+    if (typeof raw !== 'string' || new TextEncoder().encode(raw).length > 2048) { this.close(socket, 1009, 'Message too large'); return; }
     const now = Date.now();
     if (now - info.rateStart >= 1000) { info.rateStart = now; info.count = 0; }
     let message;
     try { message = JSON.parse(raw); } catch { this.close(socket, 1008, 'Malformed message'); return; }
+    if (message?.type !== 'view' && new TextEncoder().encode(raw).length > 512) {this.close(socket,1009,'Message too large'); return;}
     if (!message || typeof message !== 'object' || Array.isArray(message)) { this.close(socket, 1008, 'Malformed message'); return; }
     if (typeof message.type !== 'string' || !Object.hasOwn(FIELDS, message.type) ||
         Object.keys(message).some(key => !FIELDS[message.type].includes(key))) {
@@ -135,10 +137,12 @@ export class CoopRoom {
       this.close(socket, 1008, 'Input rate exceeded'); return;
     }
     if (!info.hello) {
-      if (message.type !== 'hello' || message.protocol !== PROTOCOL || message.build !== room.build) {
+      if (message.type !== 'hello' || message.protocol !== PROTOCOL || message.build !== room.build ||
+          (message.view !== undefined && (info.role !== 'guest' || typeof message.view !== 'boolean'))) {
         this.close(socket, 1008, 'Build or protocol mismatch'); return;
       }
       info.hello = true;
+      info.view = message.view === true;
       this.send(socket, {type: 'ready', role: info.role, protocol: PROTOCOL});
     } else if (message.type === 'ping') {
       this.send(socket, {type: 'pong'});
@@ -150,6 +154,17 @@ export class CoopRoom {
       current.inFlight -= 1;
       socket.serializeAttachment(current);
       this.flush_status(socket);
+    } else if (info.role === 'host' && message.type === 'view' && validView(message)) {
+      const previous = info.viewOrder;
+      // Host session IDs increase within the room. Restarts have a new epoch;
+      // every update is a complete baseline, so coalescing loses no entities.
+      if (message.generation === info.session?.generation && (!previous || message.session > previous.session ||
+          (message.session === previous.session && (message.epoch > previous.epoch ||
+          (message.epoch === previous.epoch && message.sequence > previous.sequence && message.time >= previous.time))))) {
+        info.viewOrder = {session:message.session,epoch:message.epoch,sequence:message.sequence,time:message.time};
+        const peer = this.peer('guest');
+        if (peer?.deserializeAttachment().hello && peer.deserializeAttachment().view) this.send(peer,message);
+      }
     } else if (info.role === 'host' && message.type === 'session' && UINT(message.generation) && typeof message.enabled === 'boolean') {
       info.session = {type: 'session', generation: message.generation, enabled: message.enabled};
       const peer = this.peer('guest');
@@ -173,8 +188,9 @@ export class CoopRoom {
     if (message.type === 'hello') {
       const other = this.peer(info.role === 'host' ? 'guest' : 'host');
       if (other?.deserializeAttachment().hello) {
-        this.send(socket, {type: 'peer', connected: true});
-        this.send(other, {type: 'peer', connected: true});
+        const guestView = this.peer('guest')?.deserializeAttachment().view;
+        this.send(socket, {type: 'peer', connected: true, ...(guestView ? {view:true} : {})});
+        this.send(other, {type: 'peer', connected: true, ...(guestView ? {view:true} : {})});
         const session = this.peer('host')?.deserializeAttachment().session;
         if (session) this.send(this.peer('guest'), session);
       }
