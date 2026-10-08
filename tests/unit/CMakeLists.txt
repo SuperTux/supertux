@@ -34,6 +34,10 @@ make_unit_test(CollisionTest SOURCE collision_test.cpp
   EXTERNAL math/rectf.cpp
   LIBRARIES SDL3 glm DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 
+make_unit_test(RemoteControllerTest SOURCE remote_controller_test.cpp
+  EXTERNAL control/controller.cpp control/remote_controller.cpp
+  INCLUDES ${CMAKE_BINARY_DIR})
+
 message("ALL TESTS: ${all_test_targets}")
 
 add_custom_target(supertux-unit-tests

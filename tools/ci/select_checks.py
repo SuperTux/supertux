@@ -16,7 +16,7 @@ def select(paths, full=False):
         if path.startswith(('docs/', '.github/ISSUE_TEMPLATE/')) or path.endswith(('.md', '.rst')):
             continue
         result['tests'] = True
-        if path.startswith(('worker/', 'tests/worker/')) or path == 'wrangler.toml':
+        if path.startswith(('worker/', 'tests/worker/')) or path in ('wrangler.toml', 'wrangler.coop.toml'):
             continue
         if path.startswith(('mk/emscripten/', 'tests/wasm/', 'tests/web/', 'tools/web/')) or path.endswith(('mobile-web-preview.yml', 'mobile-web-deploy.yml', 'wasm.yml')):
             result['web'] = True
@@ -39,7 +39,7 @@ def select(paths, full=False):
             continue
         if path.startswith(('src/', 'tests/')):
             result['lint'] = result['web'] = result['linux'] = True
-            if path.startswith('src/audio/'):
+            if path.startswith(('src/audio/', 'src/control/')) or path in ('src/supertux/game_session.cpp', 'src/supertux/screen_manager.cpp'):
                 result['debug'] = True
             continue
         if path.startswith(('.github/actions/', '.github/workflows/', 'tools/ci/')):

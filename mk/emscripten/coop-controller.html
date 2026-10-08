@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <title>SuperTux — diagnostic Player 2 controller</title>
+  <style>
+    body { background:#142333; color:#fff; font:18px system-ui; max-width:760px; margin:auto; padding:24px env(safe-area-inset-right,24px) 24px env(safe-area-inset-left,24px); }
+    button { font:inherit; min-width:72px; min-height:72px; margin:8px; border:2px solid #a5c7ed; border-radius:12px; background:#234362; color:white; touch-action:none; user-select:none; }
+    button:active { background:#406c94; } .controls {display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between;} .pad {display:grid; grid-template-columns:repeat(3,88px);}
+    .up {grid-column:2;} .left {grid-column:1;grid-row:2;} .down {grid-column:2;grid-row:2;} .right {grid-column:3;grid-row:2;} p {line-height:1.5;}
+  </style>
+</head>
+<body>
+  <h1>Player 2 diagnostic controller</h1>
+  <p>This is a remote-input proof. Watch and play the game on the host screen. This page does not show or simulate the world.</p>
+  <p id="guest_status" role="status">Waiting for a private room link.</p>
+  <div class="controls">
+    <div class="pad"><button class="up" data-control="4" aria-label="Up">↑</button><button class="left" data-control="1" aria-label="Left">←</button><button class="down" data-control="8" aria-label="Down">↓</button><button class="right" data-control="2" aria-label="Right">→</button></div>
+    <div><button data-control="16">Jump</button><button data-control="32">Action</button><button data-control="64">Item</button></div>
+  </div>
+  <p>Keyboard: arrows or WASD, Space/J to jump, Ctrl/K for action, Shift for item. The host controls menus and progress.</p>
+  <p id="guest_ack"></p><button id="guest_join">Rejoin</button>
+  <p>After a lost connection, return the host to its title screen, rejoin, then start the level again. Rooms expire after 15 minutes. Keep the controller link private.</p>
+  <script src="coop.js"></script>
+</body></html>

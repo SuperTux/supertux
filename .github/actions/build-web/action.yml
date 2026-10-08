@@ -60,6 +60,10 @@ runs:
       node build/controller-test.js
       g++ -std=c++17 -I build -I src tests/wasm/controller.test.cpp src/control/controller.cpp -o build/controller-native-test
       build/controller-native-test
+      em++ -std=c++17 -I build -I src tests/unit/remote_controller_test.cpp src/control/controller.cpp src/control/remote_controller.cpp -o build/remote-controller-test.js
+      node build/remote-controller-test.js
+      g++ -std=c++17 -I build -I src tests/unit/remote_controller_test.cpp src/control/controller.cpp src/control/remote_controller.cpp -o build/remote-controller-native-test
+      build/remote-controller-native-test
     shell: bash
   - name: Sync data folder
     working-directory: build
@@ -123,6 +127,20 @@ runs:
     run: |
       python tests/wasm/touch_smoke.py build --browser webkit --output build/webkit-touch-evidence 2>&1 | tee build/webkit-touch-smoke.log
     shell: bash
+  - name: Compiled local co-op and two-browser private input proof
+    env:
+      BUILD_TYPE: ${{ inputs.build_type }}
+    run: |
+      npm ci --prefix tools/web/coop --ignore-scripts
+      coop_options=()
+      if [ "$BUILD_TYPE" = Debug ]; then coop_options+=(--record-known-ub); fi
+      python tests/wasm/coop_smoke.py build/upload --local-only --output build/coop-local-evidence "${coop_options[@]}"
+      python tests/wasm/coop_smoke.py build/upload --output build/coop-remote-evidence "${coop_options[@]}"
+      if [ "$BUILD_TYPE" = Release ]; then
+        python tests/wasm/coop_smoke.py build/upload --local-only --browser webkit --output build/webkit-coop-local-evidence
+        python tests/wasm/coop_smoke.py build/upload --browser webkit --output build/webkit-coop-remote-evidence
+      fi
+    shell: bash
   - uses: actions/upload-artifact@v4
     if: always()
     with:
@@ -142,6 +160,10 @@ runs:
         build/asset-evidence/
         build/webkit-asset-evidence/
         build/forest-evidence/
+        build/coop-local-evidence/
+        build/coop-remote-evidence/
+        build/webkit-coop-local-evidence/
+        build/webkit-coop-remote-evidence/
       if-no-files-found: error
   - uses: actions/upload-artifact@v4
     with:

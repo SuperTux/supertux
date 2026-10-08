@@ -2,7 +2,10 @@
 
 Updated: 2026-10-08 UTC (2026-10-07 in Denver).
 
-Status: agreed direction and implementation roadmap; online multiplayer is not implemented. This document records the plan, not a Codex implementation handoff.
+Status: phases 5, 6A and the contained 6B remote-input proof are implemented.
+The guest remains a diagnostic controller; synchronized guest gameplay is not
+implemented and Phase 7 has not started. Evidence, supported scenarios and
+device/network limits are in [PRIVATE_COOP_INPUT_PROOF.md](PRIVATE_COOP_INPUT_PROOF.md).
 
 ## Goal and first playable scope
 
@@ -21,13 +24,19 @@ Expand campaign coverage only after this slice works on separate devices and net
 
 ## Current foundation and remaining work
 
-The browser integration baseline inspected for this plan is `mobile-web-audit` at `08dc0f54063b7f2d15e799267f05816c6dd74163`, including merged PRs #8 and #9. Refresh branch and PR state before implementation; repository default `master` is not the complete browser integration baseline.
+The input-proof baseline is `mobile-web-audit` at `c49c8a97cfc64403c3bba9c37637ba9083142de7`, including merged startup PRs #8/#9 and roadmap PR #10. Repository default `master` is not the complete browser integration baseline.
 
 The user reports that mobile browser play now works. Browser boot, touch controls, viewport/lifecycle/audio integration, save hydration, Cloudflare Worker/R2 delivery, and startup download optimization provide the foundation. Existing automated browser evidence and device limits are recorded in [MOBILE_WEB_STARTUP_OPTIMIZATION.md](MOBILE_WEB_STARTUP_OPTIMIZATION.md); this report of playability does not certify every mobile device or a full campaign.
 
-The engine already has multiple local players and independent controllers. Browser local co-op still needs focused validation. There is no complete online room service, remote input ownership model, or runtime world replication layer in this baseline.
+The engine's existing local co-op now has compiled-browser coverage for two
+independent input owners, touch plus Player 2, device rejoin, death/respawn,
+checkpoint restart, door/sector transition, completion and host persistence.
+An explicit transient remote slot and opt-in private Worker/Durable Object
+relay provide the two-browser input proof. There is no runtime world replication
+or guest world display. Coverage is contained to the documented interactions;
+it does not certify a full campaign or physical phones.
 
-The separate `fix/stalled-music-downloads` branch addresses stalled optional music requests. Check its merge status and preserve that fix when reconciling future branches; it is not included as a code change in this documentation task.
+The separate, unmerged `fix/stalled-music-downloads` branch addresses stalled optional music requests. It was inspected and is not duplicated by the input proof. Refresh its merge status before subsequent integration.
 
 ## Architecture: host simulation, guest input, WebSocket relay
 

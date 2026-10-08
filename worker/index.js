@@ -1,6 +1,11 @@
+import {coopFetch} from './coop.js';
+export {CoopRoom} from './coop.js';
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    if (url.pathname.startsWith('/coop/')) return coopFetch(request, env);
 
     if (url.pathname.startsWith("/game-assets/")) {
       if (request.method !== "GET" && request.method !== "HEAD") {

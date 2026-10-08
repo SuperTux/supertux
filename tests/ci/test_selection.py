@@ -32,6 +32,11 @@ class SelectionTests(unittest.TestCase):
             with self.subTest(path=path):
                 self.assertEqual({k for k, v in selection.select([path]).items() if v}, wanted)
 
+    def test_input_proof_stays_focused_and_validates_debug(self):
+        result = selection.select(['src/control/remote_controller.cpp', 'wrangler.coop.toml', 'tools/web/coop/package-lock.json'])
+        self.assertEqual({key for key, value in result.items() if value}, {'tests', 'lint', 'web', 'debug', 'linux'})
+        self.assertEqual({key for key, value in selection.select(['wrangler.coop.toml']).items() if value}, {'tests'})
+
     def test_union_and_full(self):
         result = selection.select(['worker/index.js', 'src/object/player.cpp', 'mk/windows/foo'])
         self.assertTrue(result['linux'] and result['windows'] and result['web'])

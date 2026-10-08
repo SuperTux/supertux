@@ -34,6 +34,7 @@ class KeyboardManager;
 class KeyboardMenu;
 class KeyboardConfig;
 class JoystickConfig;
+class RemoteController;
 
 class InputManager final : public Currenton<InputManager>
 {
@@ -66,8 +67,17 @@ public:
 
   bool has_corresponsing_controller(int player_id) const;
 
+  bool is_local(int player_id) const;
+  bool is_remote(int player_id) const;
+  bool reserve_remote();
+  void update_remote(bool gameplay);
+  void reset_remote();
+  int persistent_users() const;
+
 private:
   std::vector<std::unique_ptr<Controller>> m_controllers;
+  RemoteController* m_remote = nullptr; // owned by m_controllers, never removed mid-session
+  bool m_remote_connected = false;
 
 public:
   bool& m_use_game_controller;

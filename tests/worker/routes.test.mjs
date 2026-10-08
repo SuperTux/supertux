@@ -1,7 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-const {default: worker} = await import('data:text/javascript;base64,' + Buffer.from(fs.readFileSync(new URL('../../worker/index.js', import.meta.url))).toString('base64'));
+import worker from '../../worker/index.js';
 const sha = 'a'.repeat(64);
 function env() {
   const calls = [];

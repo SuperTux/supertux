@@ -28,6 +28,7 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "control/input_manager.hpp"
 #include "worldmap/level_tile.hpp"
 #include "worldmap/worldmap.hpp"
 
@@ -178,9 +179,13 @@ PlayerStatus::add_coins(int count, bool play_sound)
 void
 PlayerStatus::write(Writer& writer)
 {
-  writer.write("num_players", m_num_players);
+  // A room is transient. Preserve the existing save schema and local players,
+  // without serializing remote membership/bonus slots into a later solo game.
+  const int persisted = InputManager::current() && InputManager::current()->is_remote(1)
+    ? std::min(m_num_players, InputManager::current()->persistent_users()) : m_num_players;
+  writer.write("num_players", persisted);
 
-  for (int i = 0; i < m_num_players; i++)
+  for (int i = 0; i < persisted; i++)
   {
     if (i != 0)
     {

@@ -2,6 +2,8 @@
 
 > The current private two-player co-op plan is [PRIVATE_COOP_ROADMAP.md](PRIVATE_COOP_ROADMAP.md). It continues phases 5–8 with a WebSocket relay first, host-owned simulation and saves, and one supported level before campaign expansion. Its transport choice supersedes the conditional WebRTC-first recommendation in this historical audit.
 
+> Phases 5/6A and the contained 6B diagnostic input proof are documented in [PRIVATE_COOP_INPUT_PROOF.md](PRIVATE_COOP_INPUT_PROOF.md). It records the reproduced gamepad rejoin fix, explicit remote input ownership and actual two-browser local relay validation. The guest still has no synchronized world display; Phase 7 has not started.
+
 > Current browser packaging and CI are described in [MOBILE_WEB_STARTUP_OPTIMIZATION.md](MOBILE_WEB_STARTUP_OPTIMIZATION.md). The soundtrack is now downloaded track by track; only small music descriptors remain mandatory. Use its complete preview assembly, cache-clearing, deployment and focused-CI instructions. The full-package sizes and workflow behavior below describe the historical revision of this handoff.
 
 Audit date: 2026-10-02 (UTC). Repository: `jbbejena/supertux`. Branch: `mobile-web-audit`. Audited source: [00673d1dfefeedf39aaf502ac0cfb1fd005174d6](https://github.com/jbbejena/supertux/tree/00673d1dfefeedf39aaf502ac0cfb1fd005174d6). Upstream `SuperTux/supertux:master` resolved to the same commit during the audit.

@@ -39,6 +39,10 @@ def verify(directory, source_commit, configuration='Release'):
             payload = directory / variant['url']
             assert payload.stat().st_size == variant['bytes'] and digest(payload) == variant['sha256'], 'Compressed package mismatch'
     assert digest(directory / 'assets.js') == manifest['bootstrapSha256'], 'Bootstrap hash mismatch'
+    assert set(manifest['frontend']) == {'coop.js', 'coop-controller.html'}, 'Incomplete diagnostic frontend'
+    for name, entry in manifest['frontend'].items():
+        payload = directory / name
+        assert payload.stat().st_size == entry['bytes'] and digest(payload) == entry['sha256'], 'Diagnostic frontend mismatch: ' + name
     return manifest
 
 

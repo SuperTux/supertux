@@ -159,6 +159,9 @@ GameSession::reset_level()
 void
 GameSession::on_player_added(int id)
 {
+  if (!m_currentsector || id <= 0 || !InputManager::current()->is_local(id)) return;
+  for (const auto* player : m_currentsector->get_players())
+    if (player->get_id() == id) return;
   PlayerStatus* player_status;
   if (m_savegame)
   {
@@ -169,7 +172,7 @@ GameSession::on_player_added(int id)
   	player_status = &m_tmp_playerstatus;
   }
 
-  if (player_status->m_num_players <= id)
+  while (player_status->m_num_players <= id)
     player_status->add_player();
 
 
@@ -177,6 +180,7 @@ GameSession::on_player_added(int id)
   auto& player = m_currentsector->add<Player>(*player_status, "Tux" + std::to_string(id + 1), id);
 
   player.multiplayer_prepare_spawn();
+  m_currentsector->flush_game_objects(); // visible before a following hot-unplug event
 }
 
 bool
@@ -186,15 +190,20 @@ GameSession::on_player_removed(int id)
   if (!m_currentsector)
     return false;
 
+  bool removed = false;
   for (Player* player : m_currentsector->get_players())
   {
     if (player->get_id() == id)
     {
       player->remove_me();
-      return true;
+      removed = true;
+      break;
     }
   }
-  return false;
+  // Include already marked players, which get_players() intentionally hides.
+  // Destroy their borrowed references before InputManager can pop a slot.
+  for (const auto& sector : m_level->get_sectors()) sector->flush_game_objects();
+  return removed;
 }
 
 void
@@ -651,6 +660,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
 
     m_currentsector = sector;
+    InputManager::current()->reset_remote();
     m_currentsector->play_looping_sounds();
 
     switch (m_spawn_fade_type)
