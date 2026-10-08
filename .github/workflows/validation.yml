@@ -154,20 +154,7 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v4
     - env:
         RESULTS: ${{ toJSON(needs) }}
-      run: |-
-        python3 - <<'PY'
-        import json, os
-        jobs = json.loads(os.environ['RESULTS'])
-        assert jobs['changes']['result'] == 'success', jobs
-        selection = jobs['changes']['outputs']
-        expected = {'focused_tests': 'tests', 'lint_cppcheck': 'lint', 'wasm_release': 'web', 'wasm_debug': 'debug'}
-        expected.update({'native_' + p: p for p in ('linux','windows','macos','android','freebsd')})
-        for job, key in expected.items():
-            result = jobs[job]['result']
-            needed = selection[key] == 'true'
-            if job == 'focused_tests': needed = needed and selection['lint'] != 'true'
-            assert result == 'success' if needed else result in ('success', 'skipped'), (job, needed, result)
-        print('All needed checks passed; unnecessary work intentionally skipped.')
-        PY
+      run: python3 tools/ci/check_gate.py

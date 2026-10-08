@@ -1,5 +1,8 @@
 set(CMAKE_EXECUTABLE_SUFFIX .html)
 set(IS_EMSCRIPTEN_BUILD ON)
+if(NOT EMSCRIPTEN_VERSION VERSION_EQUAL "6.0.11")
+  message(FATAL_ERROR "Browser artifact identity requires the pinned Emscripten 6.0.11 toolchain")
+endif()
 set(SQ_DISABLE_INSTALLER YES)
 set(SSQ_BUILD_INSTALL NO)
 
