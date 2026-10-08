@@ -19,6 +19,8 @@ class DeploymentTests(unittest.TestCase):
             config = Path(directory) / 'wrangler.toml'
             config.write_text(original); check_config(config)
             for invalid in [original.replace('supertux-private-input-proof', 'supertux-mobile'),
+                            original.replace('worker/index.js', 'worker/other.js'),
+                            original.replace('html_handling = "none"', 'html_handling = "force-trailing-slash"'),
                             'routes = []\n' + original,
                             original.replace('COOP_ROOMS', 'OTHER_ROOMS'),
                             original.replace('"/coop-art/*"', '"/other/*"')]:

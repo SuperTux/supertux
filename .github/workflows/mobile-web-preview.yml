@@ -16,7 +16,7 @@ name: Mobile Web Preview
         type: boolean
         default: false
 concurrency:
-  group: ${{ github.workflow }}-${{ inputs.publish_coop && 'coop-staging' || inputs.ref || github.ref }}
+  group: ${{ github.workflow }}-${{ inputs.publish_coop && 'coop-staging' || format('preview-{0}', inputs.ref || github.ref) }}
   cancel-in-progress: ${{ !inputs.publish_coop }}
 permissions:
   contents: read

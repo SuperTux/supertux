@@ -24,10 +24,12 @@ def require(condition, message):
 def check_config(path):
     config = tomllib.loads(path.read_text())
     require(config.get('name') == WORKER, 'Staging must use the separate co-op Worker name')
+    require(config.get('main') == 'worker/index.js', 'Staging must publish the tested Worker entrypoint')
     require(not any(key in config for key in ('route', 'routes', 'env', 'services', 'dispatch_namespaces', 'unsafe')),
             'Staging must not change routes, environments, services or dispatch namespaces')
     assets = config.get('assets', {})
     require(assets.get('binding') == 'ASSETS' and assets.get('directory') == './dist', 'Unexpected staging frontend binding')
+    require(assets.get('html_handling') == 'none', 'Staging must preserve canonical frontend paths')
     require(set(assets.get('run_worker_first', [])) == {'/coop/*', '/game-assets/*', '/coop-art/*'}, 'Incomplete staging routing')
     require(config.get('r2_buckets') == [{'binding': 'GAME_ASSETS', 'bucket_name': 'supertux-assets'}], 'Unexpected private R2 binding')
     require(config.get('durable_objects', {}).get('bindings') == [{'name': 'COOP_ROOMS', 'class_name': 'CoopRoom'}], 'Missing co-op room binding')
