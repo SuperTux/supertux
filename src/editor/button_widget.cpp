@@ -32,9 +32,17 @@ ButtonWidget::ButtonWidget(SpritePtr sprite, const Vector& pos,
   m_sig_click(std::move(sig_click)),
   m_mouse_pos(),
   m_help_text(),
+  m_menu_list(std::make_unique<MenuListWidget>()),
   m_flat(false),
   m_disabled(false)
 {
+  set_position(pos);
+
+  // for (int i = 0; i < 4; i++)
+  // {
+  //   auto item = std::make_unique<MenuListItem>("Item " + std::to_string(i));
+  //   add_menu_item(std::move(item));
+  // }
 }
 
 void
@@ -47,6 +55,8 @@ ButtonWidget::set_position(const Vector& pos)
   m_rect.set_width(w);
   m_rect.set_top(pos.y);
   m_rect.set_height(h);
+
+  m_menu_list->set_position(pos + Vector(0, m_rect.get_height()));
 }
 
 void

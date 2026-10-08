@@ -20,9 +20,14 @@
 
 #include <functional>
 
+#include "editor/editor.hpp"
+#include "editor/editor_event_handling.hpp"
+#include "editor/toolbar_widget.hpp"
+#include "editor/menu_list_widget.hpp"
 #include "math/rectf.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/resources.hpp"
 
 class ButtonWidget : public Widget
 {
@@ -34,7 +39,7 @@ public:
   }
 
 
-  virtual void draw(DrawingContext& context) override;
+  virtual void draw(DrawingContext &context) override;
   virtual void update(float dt_sec) override;
 
   virtual void setup() override;
@@ -56,6 +61,20 @@ public:
   inline void set_flat(bool flat) { m_flat = flat; }
   inline bool is_flat() const { return m_flat; }
 
+  inline bool is_hovered() const { return m_hover; }
+
+  inline void set_menu_list_widget(std::unique_ptr<MenuListWidget> menu_list_widget)
+  {
+    m_menu_list = std::move(menu_list_widget);
+  }
+
+  void add_menu_item(std::unique_ptr<MenuListItem> item)
+  {
+    m_menu_list->add_item(std::move(item));
+  }
+
+  bool get_show_menu() const { return m_show_menu; }
+
 protected:
   SpritePtr m_sprite;
   Rectf m_rect;
@@ -66,6 +85,8 @@ protected:
   std::function<void()> m_sig_click;
   Vector m_mouse_pos;
   std::string m_help_text;
+  std::unique_ptr<MenuListWidget> m_menu_list;
+  bool m_show_menu;
 
 private:
   ButtonWidget(const ButtonWidget&) = delete;
@@ -106,12 +127,22 @@ public:
       return;
     
     ButtonWidget::draw(context);
+
+    if (get_show_menu())
+    {
+      m_menu_list->draw(context);
+    }
   }
 
   virtual void update(float dt_sec) override
   {
     if (!get_visible())
       return;
+
+    if (get_show_menu())
+    {
+      m_menu_list->update(dt_sec);
+    }
 
     ButtonWidget::update(dt_sec);
   }
@@ -120,7 +151,12 @@ public:
   {
     if (!get_visible())
       return false;
-    
+
+    if (get_show_menu())
+    {
+      m_menu_list->on_mouse_button_up(button);
+    }
+
     return ButtonWidget::on_mouse_button_up(button);
   }
 
@@ -128,7 +164,12 @@ public:
   {
     if (!get_visible())
       return false;
-    
+
+    if (get_show_menu())
+    {
+      m_menu_list->on_mouse_button_down(button);
+    }
+
     return ButtonWidget::on_mouse_button_down(button);
   }
 
@@ -136,7 +177,16 @@ public:
   {
     if (!get_visible())
       return false;
-    
+
+    if (m_hover)
+    {
+      m_show_menu = m_menu_list != nullptr && m_menu_list->get_item_count() > 0;
+    }
+    else if (!m_menu_list->has_mouse_focus())
+    {
+      m_show_menu = false;
+    }
+
     return ButtonWidget::on_mouse_motion(motion);
   }
 
