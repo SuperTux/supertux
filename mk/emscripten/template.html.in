@@ -229,6 +229,7 @@
         <button id="start_button" type="button" hidden disabled>Start</button>
         <button id="play_muted" type="button" hidden>Play without sound</button>
         <button id="fullscreen_button" type="button" hidden>Fullscreen</button>
+        <details><summary>Downloaded assets</summary><button id="clear_assets_cache" type="button">Clear downloaded assets</button><p>Saved games and settings are kept.</p></details>
       </div>
     </div>
     <div class="bottom_stuff">
@@ -239,6 +240,10 @@
   </div>
   <canvas class="emscripten" id="canvas" tabindex="0"></canvas>
   <p id="storage_warning" hidden role="status"></p>
+  <aside id="asset_controls" style="position:absolute;top:4px;left:8px;max-width:40%;font-size:12px;z-index:4;color:white;background:rgba(0,0,0,.65)">
+    <span id="music_status" role="status" aria-live="polite"></span>
+    <button id="retry_music" type="button" hidden>Retry music</button>
+  </aside>
   </div>
   </main>
   <p id="output"></p>
@@ -575,7 +580,9 @@
     }
 
   </script>
-  <script async src="supertux2.js"></script>
+  <!-- SUPERTUX_DEPLOY_CONFIG -->
+  <script src="assets.js"></script>
+  <script>SupertuxAssets.boot(Module);</script>
 </body>
 
 </html>

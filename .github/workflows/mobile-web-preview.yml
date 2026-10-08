@@ -1,129 +1,112 @@
 name: Mobile Web Preview
-
-on:
+'on':
   workflow_dispatch:
     inputs:
       ref:
-        description: "Branch, tag, or commit to build"
+        description: Branch, tag, or commit to build
         required: true
-        default: "mobile-web-audit"
+        default: mobile-web-audit
         type: string
-
+      validation_run_id:
+        description: Optional exact successful validation run for this source SHA
+        type: string
+        default: ''
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.ref || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
-
+  actions: read
 defaults:
   run:
     shell: bash
-
 env:
-  EMSDK_VERSION: "6.0.11"
-  VCPKG_COMMIT: "c748cb44f2a435fcf015c35225c9d5545fe0021c"
-  VCPKG_MAX_CONCURRENCY: "4"
-
+  EMSDK_VERSION: 6.0.11
+  VCPKG_COMMIT: c748cb44f2a435fcf015c35225c9d5545fe0021c
+  VCPKG_MAX_CONCURRENCY: '4'
 jobs:
   build-preview:
     name: Build playable mobile web preview
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out requested SuperTux ref
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.ref }}
-          fetch-depth: 0
-          submodules: recursive
+    - name: Check out requested SuperTux ref
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+        fetch-depth: 0
+        submodules: recursive
+    - name: Reuse explicit validated Release artifact
+      if: inputs.validation_run_id != ''
+      env:
+        GH_TOKEN: ${{ github.token }}
+        VALIDATION_RUN_ID: ${{ inputs.validation_run_id }}
+      run: python3 tools/web/reuse_artifact.py --run-id "$VALIDATION_RUN_ID" --repository "$GITHUB_REPOSITORY" --source-commit "$(git
+        rev-parse HEAD)" --output build
+    - name: Install Emscripten and pinned vcpkg
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git cmake ninja-build pkg-config build-essential curl zip rsync
 
-      - name: Install Emscripten and pinned vcpkg
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y git cmake ninja-build pkg-config build-essential curl zip rsync
+        git clone --branch "$EMSDK_VERSION" --depth 1 https://github.com/emscripten-core/emsdk.git "$HOME/emsdk"
+        "$HOME/emsdk/emsdk" install "$EMSDK_VERSION"
+        "$HOME/emsdk/emsdk" activate "$EMSDK_VERSION"
 
-          git clone --branch "$EMSDK_VERSION" --depth 1 https://github.com/emscripten-core/emsdk.git "$HOME/emsdk"
-          "$HOME/emsdk/emsdk" install "$EMSDK_VERSION"
-          "$HOME/emsdk/emsdk" activate "$EMSDK_VERSION"
+        git clone https://github.com/microsoft/vcpkg.git "$HOME/wasm-vcpkg"
+        git -C "$HOME/wasm-vcpkg" checkout "$VCPKG_COMMIT"
+        "$HOME/wasm-vcpkg/bootstrap-vcpkg.sh" -disableMetrics
 
-          git clone https://github.com/microsoft/vcpkg.git "$HOME/wasm-vcpkg"
-          git -C "$HOME/wasm-vcpkg" checkout "$VCPKG_COMMIT"
-          "$HOME/wasm-vcpkg/bootstrap-vcpkg.sh" -disableMetrics
-
-          source "$HOME/emsdk/emsdk_env.sh"
-          emcc --version
-          git -C "$HOME/wasm-vcpkg" rev-parse HEAD
-
-      - name: Cache WASM dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ github.workspace }}/vcpkg_installed
-          key: mobile-preview-${{ runner.os }}-${{ env.EMSDK_VERSION }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
-
-      - name: Configure Release build
-        run: |
-          source "$HOME/emsdk/emsdk_env.sh"
-          emcmake cmake -S . -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DWARNINGS=ON \
-            -DCMAKE_TOOLCHAIN_FILE="$HOME/wasm-vcpkg/scripts/buildsystems/vcpkg.cmake" \
-            -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="$HOME/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" \
-            -DVCPKG_TARGET_TRIPLET=wasm32-emscripten \
-            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-            -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON
-
-      - name: Sync game data
-        run: |
-          rsync -a data/ build/data/
-
-      - name: Build Release WebAssembly
-        run: |
-          source "$HOME/emsdk/emsdk_env.sh"
-          cmake --build build --parallel 4
-
-      - name: Assemble playable preview
-        run: |
-          rm -rf preview
-          mkdir preview
-
-          cp build/template.html preview/index.html
-          cp build/template.html preview/supertux2.html
-
-          for suffix in js wasm data png ico; do
-            test -s "build/supertux2.$suffix"
-            cp "build/supertux2.$suffix" preview/
-          done
-
-          test -s build/supertux2_bkg.png
-          cp build/supertux2_bkg.png preview/
-
-          cat > preview/BUILD_INFO.txt <<EOF
-          Requested ref: ${{ inputs.ref }}
-          Resolved commit: ${{ github.sha }}
-          Emscripten: $EMSDK_VERSION
-          vcpkg: $VCPKG_COMMIT
-          Built: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          EOF
-
-          du -sh preview
-          du -h preview/supertux2.data
-          sha256sum preview/index.html preview/supertux2.js preview/supertux2.wasm preview/supertux2.data > preview/SHA256SUMS.txt
-
-      - name: Upload playable preview
-        uses: actions/upload-artifact@v4
-        with:
-          name: supertux-mobile-web-preview
-          path: preview/
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-
-      - name: Preview instructions
-        run: |
-          {
-            echo "## Mobile Web Preview"
-            echo
-            echo "Built ref: \`${{ inputs.ref }}\`"
-            echo
-            echo "Download the \`supertux-mobile-web-preview\` artifact from this run."
-            echo "Serve the extracted folder over HTTP/HTTPS; open \`index.html\` through the server."
-            echo
-            echo "For iPhone testing, use a reachable HTTPS host or a forwarded Codespaces port."
-          } >> "$GITHUB_STEP_SUMMARY"
+        source "$HOME/emsdk/emsdk_env.sh"
+        emcc --version
+        git -C "$HOME/wasm-vcpkg" rev-parse HEAD
+      if: inputs.validation_run_id == ''
+    - name: Cache WASM dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ github.workspace }}/vcpkg_installed
+        key: wasm-${{ runner.os }}-${{ env.EMSDK_VERSION }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
+      if: inputs.validation_run_id == ''
+    - name: Configure Release build
+      run: |
+        source "$HOME/emsdk/emsdk_env.sh"
+        emcmake cmake -S . -B build -G Ninja \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DWARNINGS=ON \
+          -DCMAKE_TOOLCHAIN_FILE="$HOME/wasm-vcpkg/scripts/buildsystems/vcpkg.cmake" \
+          -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="$HOME/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" \
+          -DVCPKG_TARGET_TRIPLET=wasm32-emscripten \
+          -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+          -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON
+      if: inputs.validation_run_id == ''
+    - name: Sync game data
+      run: |
+        rsync -a data/ build/data/
+      if: inputs.validation_run_id == ''
+    - name: Build Release WebAssembly
+      run: |
+        source "$HOME/emsdk/emsdk_env.sh"
+        cmake --build build --parallel 4
+      if: inputs.validation_run_id == ''
+    - name: Assemble playable preview
+      run: |-
+        python3 tools/web/package_assets.py assemble --build build --output preview
+        python3 tools/web/verify_artifact.py preview --source-commit "$(git rev-parse HEAD)" --configuration Release
+    - name: Upload playable preview
+      uses: actions/upload-artifact@v4
+      with:
+        name: supertux-mobile-web-preview
+        path: preview/
+        if-no-files-found: error
+        compression-level: 0
+        retention-days: 7
+    - name: Preview instructions
+      run: |
+        {
+          echo "## Mobile Web Preview"
+          echo
+          echo "Built ref: \`${{ inputs.ref }}\`"
+          echo
+          echo "Download the \`supertux-mobile-web-preview\` artifact from this run."
+          echo "Serve the extracted folder over HTTP/HTTPS; open \`index.html\` through the server."
+          echo
+          echo "For iPhone testing, use a reachable HTTPS host or a forwarded Codespaces port."
+        } >> "$GITHUB_STEP_SUMMARY"

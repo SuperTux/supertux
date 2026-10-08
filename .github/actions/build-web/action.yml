@@ -1,0 +1,144 @@
+name: Build and validate pinned web artifact
+description: Release or Debug with all existing browser, audio, touch and save checks
+inputs:
+  build_type:
+    required: true
+    description: Release or Debug
+runs:
+  using: composite
+  steps:
+  - name: Install emscripten tools
+    run: |
+      cd ~
+
+      sudo apt-get update
+      sudo apt-get install -y git cmake ninja-build pkg-config build-essential curl zip rsync
+
+      git clone --branch "$EMSDK_VERSION" --depth 1 https://github.com/emscripten-core/emsdk.git
+      cd emsdk
+      ./emsdk install "$EMSDK_VERSION"
+      ./emsdk activate "$EMSDK_VERSION"
+
+      git clone https://github.com/microsoft/vcpkg.git ~/wasm-vcpkg
+      git -C ~/wasm-vcpkg checkout "$VCPKG_COMMIT"
+      ~/wasm-vcpkg/bootstrap-vcpkg.sh -disableMetrics
+      source ~/emsdk/emsdk_env.sh
+      emcc --version
+      git -C ~/wasm-vcpkg rev-parse HEAD
+    shell: bash
+  - uses: actions/setup-node@v4
+    with:
+      node-version: '24'
+  - name: Storage and browser shell failure checks
+    run: |-
+      node --test tests/wasm/*.test.cjs tests/worker/*.test.mjs
+      python3 -m unittest discover -s tests/web
+    shell: bash
+  - name: Use cached dependencies
+    id: cache-dependencies
+    uses: actions/cache@v4
+    with:
+      path: ${{ github.workspace }}/vcpkg_installed
+      key: wasm-${{ runner.os }}-${{ env.EMSDK_VERSION }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
+  - name: Configure build
+    env:
+      BUILD_TYPE: ${{ inputs.build_type }}
+    run: |
+      source ~/emsdk/emsdk_env.sh
+      # TODO: Re-add -DWERROR=ON when warnings will be fixed
+      emcmake cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON \
+                       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+                       -DCMAKE_TOOLCHAIN_FILE="$HOME/wasm-vcpkg/scripts/buildsystems/vcpkg.cmake" \
+                       -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="$HOME/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" \
+                       -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+                       -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON
+    shell: bash
+  - name: Controller source ownership checks
+    run: |
+      source ~/emsdk/emsdk_env.sh
+      em++ -std=c++17 -I build -I src tests/wasm/controller.test.cpp src/control/controller.cpp -o build/controller-test.js
+      node build/controller-test.js
+      g++ -std=c++17 -I build -I src tests/wasm/controller.test.cpp src/control/controller.cpp -o build/controller-native-test
+      build/controller-native-test
+    shell: bash
+  - name: Sync data folder
+    working-directory: build
+    run: |
+      rsync -a ../data/ data/
+    shell: bash
+  - name: Build
+    working-directory: build
+    run: |
+      source ~/emsdk/emsdk_env.sh
+      cmake --build . --parallel 4 2>&1 | tee build.log
+    shell: bash
+  - name: Setup files for upload
+    working-directory: build
+    env:
+      BUILD_TYPE: ${{ inputs.build_type }}
+    run: python3 ../tools/web/package_assets.py assemble --build . --output upload
+    shell: bash
+  - uses: actions/setup-python@v5
+    with:
+      python-version: '3.12'
+  - name: Install browser validation tools
+    env:
+      BUILD_TYPE: ${{ inputs.build_type }}
+    run: |
+      python -m pip install playwright==1.62.0 Pillow==11.3.0
+      python -m playwright install --with-deps chromium
+      if [ "$BUILD_TYPE" = Release ]; then python -m playwright install --with-deps webkit; fi
+    shell: bash
+  - name: Real browser boot, input, and persistence smoke
+    env:
+      BUILD_TYPE: ${{ inputs.build_type }}
+    run: |-
+      smoke_options=()
+      # Existing player/library UB is outside this phase's gameplay boundary.
+      # These exact sites are annotated and archived; every new site fails.
+      if [ "$BUILD_TYPE" = Debug ]; then smoke_options+=(--record-known-ub); fi
+      python tests/wasm/browser_smoke.py build --output build/browser-evidence "${smoke_options[@]}" 2>&1 | tee build/browser-smoke.log
+
+      if [ "$BUILD_TYPE" = Release ]; then python tests/wasm/asset_smoke.py build --output build/asset-evidence; fi
+    shell: bash
+  - name: WebKit Release boot, shell, audio, and viewport smoke
+    if: inputs.build_type == 'Release'
+    run: |
+      python tests/wasm/browser_smoke.py build --browser webkit --output build/webkit-evidence 2>&1 | tee build/webkit-smoke.log
+    shell: bash
+  - name: Touch-only normal entry and multitouch checks
+    env:
+      BUILD_TYPE: ${{ inputs.build_type }}
+    run: |
+      touch_options=()
+      if [ "$BUILD_TYPE" = Debug ]; then touch_options+=(--record-known-ub); fi
+      python tests/wasm/touch_smoke.py build --output build/touch-evidence "${touch_options[@]}" 2>&1 | tee build/touch-smoke.log
+    shell: bash
+  - name: WebKit Release touch routing checks
+    if: inputs.build_type == 'Release'
+    run: |
+      python tests/wasm/touch_smoke.py build --browser webkit --output build/webkit-touch-evidence 2>&1 | tee build/webkit-touch-smoke.log
+    shell: bash
+  - uses: actions/upload-artifact@v4
+    if: always()
+    with:
+      name: wasm-${{ inputs.build_type }}-validation
+      path: |-
+        build/browser-evidence/
+        build/webkit-evidence/
+        build/touch-evidence/
+        build/webkit-touch-evidence/
+        build/build.log
+        build/browser-smoke.log
+        build/webkit-smoke.log
+        build/touch-smoke.log
+        build/webkit-touch-smoke.log
+        build/compile_commands.json
+
+        build/asset-evidence/
+      if-no-files-found: error
+  - uses: actions/upload-artifact@v4
+    with:
+      name: wasm32-emscripten-${{ inputs.build_type }}-html
+      path: build/upload/*
+      if-no-files-found: error

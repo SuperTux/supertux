@@ -124,6 +124,11 @@ private:
   bool m_music_enabled;
   int m_music_volume;
   std::string m_current_music;
+#ifdef __EMSCRIPTEN__
+  bool m_browser_music_pending;
+  bool m_browser_music_paused;
+  float m_browser_music_fadetime;
+#endif
 
 private:
   SoundManager(const SoundManager&) = delete;

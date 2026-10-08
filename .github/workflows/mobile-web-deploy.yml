@@ -1,335 +1,271 @@
 name: Mobile Web Deploy
-
-on:
-  workflow_dispatch:
-    inputs:
-      ref:
-        description: "Branch, tag, or commit to build and deploy"
-        required: true
-        default: "mobile-web-audit"
-        type: string
-  push:
-    branches:
-      - mobile-web-audit
-
 permissions:
   contents: read
-
+  actions: read
 concurrency:
   group: supertux-mobile-web-deploy
   cancel-in-progress: false
-
 defaults:
   run:
     shell: bash
-
 env:
-  EMSDK_VERSION: "6.0.11"
-  VCPKG_COMMIT: "c748cb44f2a435fcf015c35225c9d5545fe0021c"
-  VCPKG_MAX_CONCURRENCY: "4"
-  R2_BUCKET: "supertux-assets"
-
+  EMSDK_VERSION: 6.0.11
+  VCPKG_COMMIT: c748cb44f2a435fcf015c35225c9d5545fe0021c
+  VCPKG_MAX_CONCURRENCY: '4'
+  R2_BUCKET: supertux-assets
 jobs:
   deploy:
     name: Build and deploy playable browser version
     environment: tux
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out requested SuperTux ref
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.ref_name }}
-          fetch-depth: 0
-          submodules: recursive
+    - name: Check out requested SuperTux ref
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.sha }}
+        fetch-depth: 0
+        submodules: recursive
+    - name: Reuse an explicitly selected verified Release artifact
+      if: inputs.validation_run_id != ''
+      env:
+        GH_TOKEN: ${{ github.token }}
+        VALIDATION_RUN_ID: ${{ inputs.validation_run_id }}
+      run: python3 tools/web/reuse_artifact.py --run-id "$VALIDATION_RUN_ID" --repository "$GITHUB_REPOSITORY" --source-commit "$(git
+        rev-parse HEAD)" --output build --deployment
+    - name: Install Emscripten and pinned vcpkg
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git cmake ninja-build pkg-config build-essential curl zip rsync
 
-      - name: Install Emscripten and pinned vcpkg
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y git cmake ninja-build pkg-config build-essential curl zip rsync
+        git clone --branch "$EMSDK_VERSION" --depth 1 https://github.com/emscripten-core/emsdk.git "$HOME/emsdk"
+        "$HOME/emsdk/emsdk" install "$EMSDK_VERSION"
+        "$HOME/emsdk/emsdk" activate "$EMSDK_VERSION"
 
-          git clone --branch "$EMSDK_VERSION" --depth 1 https://github.com/emscripten-core/emsdk.git "$HOME/emsdk"
-          "$HOME/emsdk/emsdk" install "$EMSDK_VERSION"
-          "$HOME/emsdk/emsdk" activate "$EMSDK_VERSION"
+        git clone https://github.com/microsoft/vcpkg.git "$HOME/wasm-vcpkg"
+        git -C "$HOME/wasm-vcpkg" checkout "$VCPKG_COMMIT"
+        "$HOME/wasm-vcpkg/bootstrap-vcpkg.sh" -disableMetrics
 
-          git clone https://github.com/microsoft/vcpkg.git "$HOME/wasm-vcpkg"
-          git -C "$HOME/wasm-vcpkg" checkout "$VCPKG_COMMIT"
-          "$HOME/wasm-vcpkg/bootstrap-vcpkg.sh" -disableMetrics
-
-          source "$HOME/emsdk/emsdk_env.sh"
-          emcc --version
-          git -C "$HOME/wasm-vcpkg" rev-parse HEAD
-
-      - name: Cache WASM dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ github.workspace }}/vcpkg_installed
-          key: mobile-deploy-${{ runner.os }}-${{ env.EMSDK_VERSION }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
-
-      - name: Configure Release build
-        run: |
-          source "$HOME/emsdk/emsdk_env.sh"
-          emcmake cmake -S . -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DWARNINGS=ON \
-            -DCMAKE_TOOLCHAIN_FILE="$HOME/wasm-vcpkg/scripts/buildsystems/vcpkg.cmake" \
-            -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="$HOME/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" \
-            -DVCPKG_TARGET_TRIPLET=wasm32-emscripten \
-            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-            -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON
-
-      - name: Sync game data
-        run: rsync -a data/ build/data/
-
-      - name: Build Release WebAssembly
-        run: |
-          source "$HOME/emsdk/emsdk_env.sh"
-          cmake --build build --parallel 4
-
-      - name: Hash remotely hosted assets
-        id: remote
-        run: |
-          test -s build/supertux2.data
-          test -s build/supertux2.wasm
-          DATA_SHA="$(sha256sum build/supertux2.data | awk '{print $1}')"
-          WASM_SHA="$(sha256sum build/supertux2.wasm | awk '{print $1}')"
-          RESOLVED_SHA="$(git rev-parse HEAD)"
-          echo "data_sha=$DATA_SHA" >> "$GITHUB_OUTPUT"
-          echo "wasm_sha=$WASM_SHA" >> "$GITHUB_OUTPUT"
-          echo "resolved_sha=$RESOLVED_SHA" >> "$GITHUB_OUTPUT"
-          echo "data_key=data/$DATA_SHA/supertux2.data" >> "$GITHUB_OUTPUT"
-          echo "wasm_key=wasm/$WASM_SHA/supertux2.wasm" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install R2 upload client
-        run: python -m pip install --disable-pip-version-check awscli
-
-      - name: Upload hashed WASM/data to R2 when missing
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: auto
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          DATA_KEY: ${{ steps.remote.outputs.data_key }}
-          WASM_KEY: ${{ steps.remote.outputs.wasm_key }}
-        run: |
-          test -n "$AWS_ACCESS_KEY_ID"
-          test -n "$AWS_SECRET_ACCESS_KEY"
-          test -n "$CLOUDFLARE_ACCOUNT_ID"
-
-          ENDPOINT="https://$CLOUDFLARE_ACCOUNT_ID.r2.cloudflarestorage.com"
-
-          if aws s3api head-object --endpoint-url "$ENDPOINT" --bucket "$R2_BUCKET" --key "$DATA_KEY" >/dev/null 2>&1; then
-            echo "R2 already has $DATA_KEY; skipping the 311 MiB upload."
-          else
-            aws s3 cp build/supertux2.data "s3://$R2_BUCKET/$DATA_KEY" \
-              --endpoint-url "$ENDPOINT" \
-              --only-show-errors \
-              --content-type application/octet-stream \
-              --cache-control "public,max-age=31536000,immutable"
+        source "$HOME/emsdk/emsdk_env.sh"
+        emcc --version
+        git -C "$HOME/wasm-vcpkg" rev-parse HEAD
+      if: inputs.validation_run_id == ''
+    - name: Cache WASM dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ github.workspace }}/vcpkg_installed
+        key: wasm-${{ runner.os }}-${{ env.EMSDK_VERSION }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
+      if: inputs.validation_run_id == ''
+    - name: Configure Release build
+      run: |
+        source "$HOME/emsdk/emsdk_env.sh"
+        emcmake cmake -S . -B build -G Ninja \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DWARNINGS=ON \
+          -DCMAKE_TOOLCHAIN_FILE="$HOME/wasm-vcpkg/scripts/buildsystems/vcpkg.cmake" \
+          -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="$HOME/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" \
+          -DVCPKG_TARGET_TRIPLET=wasm32-emscripten \
+          -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+          -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON
+      if: inputs.validation_run_id == ''
+    - name: Sync game data
+      run: rsync -a data/ build/data/
+      if: inputs.validation_run_id == ''
+    - name: Build Release WebAssembly
+      run: |
+        source "$HOME/emsdk/emsdk_env.sh"
+        cmake --build build --parallel 4
+      if: inputs.validation_run_id == ''
+    - name: Hash remotely hosted assets
+      id: remote
+      run: |
+        test -s build/supertux2.data
+        test -s build/supertux2.wasm
+        DATA_SHA="$(sha256sum build/supertux2.data | awk '{print $1}')"
+        WASM_SHA="$(sha256sum build/supertux2.wasm | awk '{print $1}')"
+        RESOLVED_SHA="$(git rev-parse HEAD)"
+        echo "data_sha=$DATA_SHA" >> "$GITHUB_OUTPUT"
+        echo "wasm_sha=$WASM_SHA" >> "$GITHUB_OUTPUT"
+        echo "resolved_sha=$RESOLVED_SHA" >> "$GITHUB_OUTPUT"
+        echo "data_key=data/$DATA_SHA/supertux2.data" >> "$GITHUB_OUTPUT"
+        echo "wasm_key=wasm/$WASM_SHA/supertux2.wasm" >> "$GITHUB_OUTPUT"
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install R2 upload client
+      run: python -m pip install --disable-pip-version-check awscli
+    - name: Assemble small Worker frontend
+      env:
+        DATA_SHA: ${{ steps.remote.outputs.data_sha }}
+        WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
+        RESOLVED_SHA: ${{ steps.remote.outputs.resolved_sha }}
+      run: |-
+        python3 tools/web/package_assets.py assemble --build build --output dist --cloudflare
+        python3 tools/web/package_assets.py assemble --build build --output build --cloudflare
+        test ! -e dist/supertux2.data
+        test ! -e dist/supertux2.wasm
+    - name: Upload startup, deferred music and immutable manifest when missing
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: auto
+        CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        DATA_KEY: ${{ steps.remote.outputs.data_key }}
+        WASM_KEY: ${{ steps.remote.outputs.wasm_key }}
+      run: python3 tools/web/upload_assets.py build --source-commit "$(git rev-parse HEAD)" --bucket "$R2_BUCKET"
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+    - name: Deploy Worker + static frontend
+      id: deploy
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      run: |
+        if [ "$GITHUB_EVENT_NAME" = push ]; then
+          current_sha="$(git ls-remote origin refs/heads/mobile-web-audit | cut -f1)"
+          if [ "$current_sha" != "$(git rev-parse HEAD)" ]; then
+            echo "::notice::A newer integration commit superseded this deployment; leaving production unchanged."
+            exit 0
           fi
+        fi
+        test -n "$CLOUDFLARE_API_TOKEN"
+        test -n "$CLOUDFLARE_ACCOUNT_ID"
 
-          if aws s3api head-object --endpoint-url "$ENDPOINT" --bucket "$R2_BUCKET" --key "$WASM_KEY" >/dev/null 2>&1; then
-            echo "R2 already has $WASM_KEY; skipping WASM upload."
+        npx --yes wrangler@4 deploy --config wrangler.toml 2>&1 | tee worker-deploy.log
+        DEPLOY_URL="$(grep -Eo 'https://[^[:space:]]+\.workers\.dev' worker-deploy.log | tail -1 || true)"
+        test -n "$DEPLOY_URL" || { echo "::error::Wrangler did not report a workers.dev URL"; exit 1; }
+        echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+    - name: Smoke deployed frontend and R2 gateway
+      if: steps.deploy.outputs.url != ''
+      env:
+        DEPLOY_URL: ${{ steps.deploy.outputs.url }}
+        DATA_SHA: ${{ steps.remote.outputs.data_sha }}
+        WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
+        RESOLVED_SHA: ${{ steps.remote.outputs.resolved_sha }}
+      run: |
+        curl_options=(--fail-with-body --silent --show-error --connect-timeout 10
+                      --write-out 'HTTP %{http_code}: %{url_effective}\n')
+        probe_dir="$RUNNER_TEMP/supertux-mobile-probes"
+        mkdir -p "$probe_dir"
+
+        # Both HTTP errors and an older HTTP-200 frontend can be visible
+        # during rollout. Require the selected build within one global budget.
+        deadline=$((SECONDS + ${DEPLOY_CHECK_TIMEOUT_SECONDS:-300}))
+        fetch_probe() {
+          local remaining=$((deadline - SECONDS))
+          if (( remaining <= 0 )); then return 1; fi
+          local request_timeout=$((remaining < 30 ? remaining : 30))
+          curl "${curl_options[@]}" --max-time "$request_timeout" "$@"
+        }
+        verify_deployment() {
+          echo "Checking frontend: $DEPLOY_URL/"
+          fetch_probe --location --dump-header "$probe_dir/frontend.headers" --output "$probe_dir/frontend.html" "$DEPLOY_URL/" || return $?
+          grep -q "SUPERTUX_DEPLOY_CONFIG" "$probe_dir/frontend.html" || return $?
+
+          echo "Checking deployed build manifest"
+          fetch_probe --location --dump-header "$probe_dir/manifest.headers" --output "$probe_dir/manifest.json" "$DEPLOY_URL/asset-manifest.json" || return $?
+          python - "$probe_dir" <<'PY' || return $?
+        import json
+        import os
+        import re
+        import sys
+        from pathlib import Path
+
+        probes = Path(sys.argv[1])
+        expected = {
+            "sourceCommit": os.environ["RESOLVED_SHA"],
+            "dataSha256": os.environ["DATA_SHA"],
+            "wasmSha256": os.environ["WASM_SHA"],
+            "dataUrl": f"/game-assets/data/{os.environ['DATA_SHA']}/supertux2.data",
+            "wasmUrl": f"/game-assets/wasm/{os.environ['WASM_SHA']}/supertux2.wasm",
+        }
+        manifest = json.loads((probes / "manifest.json").read_text())
+        if any(manifest.get(key) != value for key, value in expected.items()):
+            raise SystemExit("Deployed manifest does not match the selected build")
+        match = re.search(r"window\.SUPERTUX_DEPLOY_CONFIG\s*=\s*(\{[^;]+\});", (probes / "frontend.html").read_text())
+        config = json.loads(match.group(1)) if match else {}
+        if any(config.get(key) != expected[key] for key in ("dataUrl", "wasmUrl")):
+            raise SystemExit("Deployed frontend does not reference the selected build's assets")
+        expected_manifest = json.loads(Path("dist/asset-manifest.json").read_text())
+        if manifest != expected_manifest:
+            raise SystemExit("Deployed complete asset manifest does not match the selected build")
+        import hashlib
+        if config.get("manifestSha256") != hashlib.sha256(Path("dist/asset-manifest.json").read_bytes()).hexdigest():
+            raise SystemExit("Deployed frontend manifest identity mismatch")
+        print(f"Verified deployed source commit: {manifest['sourceCommit']}")
+        PY
+
+          echo "Checking R2 data gateway"
+          fetch_probe --head --output "$probe_dir/data.headers" "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data" || return $?
+          grep -qi "content-type: application/octet-stream" "$probe_dir/data.headers" || return $?
+
+          echo "Checking R2 WASM gateway"
+          fetch_probe --head --output "$probe_dir/wasm.headers" "$DEPLOY_URL/game-assets/wasm/$WASM_SHA/supertux2.wasm" || return $?
+          grep -qi "content-type: application/wasm" "$probe_dir/wasm.headers" || return $?
+        }
+        last_error=1
+        while (( SECONDS < deadline )); do
+          if verify_deployment; then
+            echo "Deployment is ready with the selected frontend and assets"
+            exit 0
           else
-            aws s3 cp build/supertux2.wasm "s3://$R2_BUCKET/$WASM_KEY" \
-              --endpoint-url "$ENDPOINT" \
-              --only-show-errors \
-              --content-type application/wasm \
-              --cache-control "public,max-age=31536000,immutable"
+            last_error=$?
           fi
-
-      - name: Assemble small Worker frontend
-        env:
-          DATA_SHA: ${{ steps.remote.outputs.data_sha }}
-          WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
-          RESOLVED_SHA: ${{ steps.remote.outputs.resolved_sha }}
-        run: |
-          rm -rf dist
-          mkdir dist
-
-          cp build/template.html dist/index.html
-          cp build/template.html dist/supertux2.html
-          cp build/supertux2.js dist/
-          cp build/supertux2.png dist/
-          cp build/supertux2.ico dist/
-          cp build/supertux2_bkg.png dist/
-
-          export DATA_URL="/game-assets/data/$DATA_SHA/supertux2.data"
-          export WASM_URL="/game-assets/wasm/$WASM_SHA/supertux2.wasm"
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-
-          config = {
-              "dataUrl": os.environ["DATA_URL"],
-              "wasmUrl": os.environ["WASM_URL"],
-          }
-          marker = '<script async src="supertux2.js"></script>'
-          snippet = '<script>window.SUPERTUX_DEPLOY_CONFIG = ' + json.dumps(config, separators=(",", ":")) + ';</script>'
-
-          for name in ("index.html", "supertux2.html"):
-              path = Path("dist") / name
-              text = path.read_text()
-              if marker not in text:
-                  raise SystemExit(f"{name}: generated-script marker not found")
-              path.write_text(text.replace(marker, snippet + "\n  " + marker, 1))
-          PY
-
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-
-          manifest = {
-              "sourceCommit": os.environ["RESOLVED_SHA"],
-              "dataSha256": os.environ["DATA_SHA"],
-              "wasmSha256": os.environ["WASM_SHA"],
-              "dataUrl": f"/game-assets/data/{os.environ['DATA_SHA']}/supertux2.data",
-              "wasmUrl": f"/game-assets/wasm/{os.environ['WASM_SHA']}/supertux2.wasm",
-          }
-          Path("dist/asset-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-          PY
-
-          test ! -e dist/supertux2.data
-          test ! -e dist/supertux2.wasm
-          grep -q "SUPERTUX_DEPLOY_CONFIG" dist/index.html
-          du -sh dist
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-
-      - name: Deploy Worker + static frontend
-        id: deploy
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          test -n "$CLOUDFLARE_API_TOKEN"
-          test -n "$CLOUDFLARE_ACCOUNT_ID"
-
-          npx --yes wrangler@4 deploy --config wrangler.toml 2>&1 | tee worker-deploy.log
-          DEPLOY_URL="$(grep -Eo 'https://[^[:space:]]+\.workers\.dev' worker-deploy.log | tail -1 || true)"
-          test -n "$DEPLOY_URL" || { echo "::error::Wrangler did not report a workers.dev URL"; exit 1; }
-          echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
-
-      - name: Smoke deployed frontend and R2 gateway
-        if: steps.deploy.outputs.url != ''
-        env:
-          DEPLOY_URL: ${{ steps.deploy.outputs.url }}
-          DATA_SHA: ${{ steps.remote.outputs.data_sha }}
-          WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
-          RESOLVED_SHA: ${{ steps.remote.outputs.resolved_sha }}
-        run: |
-          curl_options=(--fail-with-body --silent --show-error --connect-timeout 10
-                        --write-out 'HTTP %{http_code}: %{url_effective}\n')
-          probe_dir="$RUNNER_TEMP/supertux-mobile-probes"
-          mkdir -p "$probe_dir"
-
-          # Both HTTP errors and an older HTTP-200 frontend can be visible
-          # during rollout. Require the selected build within one global budget.
-          deadline=$((SECONDS + ${DEPLOY_CHECK_TIMEOUT_SECONDS:-300}))
-          fetch_probe() {
-            local remaining=$((deadline - SECONDS))
-            if (( remaining <= 0 )); then return 1; fi
-            local request_timeout=$((remaining < 30 ? remaining : 30))
-            curl "${curl_options[@]}" --max-time "$request_timeout" "$@"
-          }
-          verify_deployment() {
-            echo "Checking frontend: $DEPLOY_URL/"
-            fetch_probe --location --dump-header "$probe_dir/frontend.headers" --output "$probe_dir/frontend.html" "$DEPLOY_URL/" || return $?
-            grep -q "SUPERTUX_DEPLOY_CONFIG" "$probe_dir/frontend.html" || return $?
-
-            echo "Checking deployed build manifest"
-            fetch_probe --location --dump-header "$probe_dir/manifest.headers" --output "$probe_dir/manifest.json" "$DEPLOY_URL/asset-manifest.json" || return $?
-            python - "$probe_dir" <<'PY' || return $?
-          import json
-          import os
-          import re
-          import sys
-          from pathlib import Path
-
-          probes = Path(sys.argv[1])
-          expected = {
-              "sourceCommit": os.environ["RESOLVED_SHA"],
-              "dataSha256": os.environ["DATA_SHA"],
-              "wasmSha256": os.environ["WASM_SHA"],
-              "dataUrl": f"/game-assets/data/{os.environ['DATA_SHA']}/supertux2.data",
-              "wasmUrl": f"/game-assets/wasm/{os.environ['WASM_SHA']}/supertux2.wasm",
-          }
-          manifest = json.loads((probes / "manifest.json").read_text())
-          if any(manifest.get(key) != value for key, value in expected.items()):
-              raise SystemExit("Deployed manifest does not match the selected build")
-          match = re.search(r"window\.SUPERTUX_DEPLOY_CONFIG\s*=\s*(\{[^;]+\});", (probes / "frontend.html").read_text())
-          config = json.loads(match.group(1)) if match else {}
-          if any(config.get(key) != expected[key] for key in ("dataUrl", "wasmUrl")):
-              raise SystemExit("Deployed frontend does not reference the selected build's assets")
-          print(f"Verified deployed source commit: {manifest['sourceCommit']}")
-          PY
-
-            echo "Checking R2 data gateway"
-            fetch_probe --head --output "$probe_dir/data.headers" "$DEPLOY_URL/game-assets/data/$DATA_SHA/supertux2.data" || return $?
-            grep -qi "content-type: application/octet-stream" "$probe_dir/data.headers" || return $?
-
-            echo "Checking R2 WASM gateway"
-            fetch_probe --head --output "$probe_dir/wasm.headers" "$DEPLOY_URL/game-assets/wasm/$WASM_SHA/supertux2.wasm" || return $?
-            grep -qi "content-type: application/wasm" "$probe_dir/wasm.headers" || return $?
-          }
-          last_error=1
-          while (( SECONDS < deadline )); do
-            if verify_deployment; then
-              echo "Deployment is ready with the selected frontend and assets"
-              exit 0
-            else
-              last_error=$?
-            fi
-            remaining=$((deadline - SECONDS))
-            if (( remaining <= 0 )); then break; fi
-            echo "Waiting for the selected deployment to become consistent"
-            retry_delay="${DEPLOY_CHECK_RETRY_DELAY_SECONDS:-5}"
-            if (( remaining < 5 )); then retry_delay="$remaining"; fi
-            sleep "$retry_delay"
-          done
-          echo "::error::Deployment did not become ready before the deadline; inspect the probe evidence"
-          exit "$last_error"
-
-      - name: Upload deployment evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: supertux-mobile-web-deploy-evidence
-          path: |
-            dist/asset-manifest.json
-            worker-deploy.log
-            ${{ runner.temp }}/supertux-mobile-probes/
-          if-no-files-found: warn
-          retention-days: 7
-
-      - name: Deployment summary
-        if: always()
-        env:
-          DEPLOY_URL: ${{ steps.deploy.outputs.url }}
-          BUILD_REF: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.ref_name }}
-          RESOLVED_SHA: ${{ steps.remote.outputs.resolved_sha }}
-          DATA_SHA: ${{ steps.remote.outputs.data_sha }}
-          WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
-        run: |
-          {
-            echo "## SuperTux Mobile Web Deploy"
-            echo
-            echo "Built ref: \`$BUILD_REF\`"
-            echo "Resolved commit: \`$RESOLVED_SHA\`"
-            echo "R2 data SHA: \`$DATA_SHA\`"
-            echo "R2 WASM SHA: \`$WASM_SHA\`"
-            echo
-            if [ -n "$DEPLOY_URL" ]; then
-              echo "Playable URL: $DEPLOY_URL"
-            else
-              echo "Wrangler did not expose a workers.dev URL in its output. Open the Cloudflare Workers dashboard and select \`supertux-mobile\`."
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
+          remaining=$((deadline - SECONDS))
+          if (( remaining <= 0 )); then break; fi
+          echo "Waiting for the selected deployment to become consistent"
+          retry_delay="${DEPLOY_CHECK_RETRY_DELAY_SECONDS:-5}"
+          if (( remaining < 5 )); then retry_delay="$remaining"; fi
+          sleep "$retry_delay"
+        done
+        echo "::error::Deployment did not become ready before the deadline; inspect the probe evidence"
+        exit "$last_error"
+    - name: Upload deployment evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: supertux-mobile-web-deploy-evidence
+        path: |
+          dist/asset-manifest.json
+          worker-deploy.log
+          ${{ runner.temp }}/supertux-mobile-probes/
+        if-no-files-found: warn
+        retention-days: 7
+    - name: Deployment summary
+      if: always()
+      env:
+        DEPLOY_URL: ${{ steps.deploy.outputs.url }}
+        BUILD_REF: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.sha }}
+        RESOLVED_SHA: ${{ steps.remote.outputs.resolved_sha }}
+        DATA_SHA: ${{ steps.remote.outputs.data_sha }}
+        WASM_SHA: ${{ steps.remote.outputs.wasm_sha }}
+      run: |
+        {
+          echo "## SuperTux Mobile Web Deploy"
+          echo
+          echo "Built ref: \`$BUILD_REF\`"
+          echo "Resolved commit: \`$RESOLVED_SHA\`"
+          echo "R2 data SHA: \`$DATA_SHA\`"
+          echo "R2 WASM SHA: \`$WASM_SHA\`"
+          echo
+          if [ -n "$DEPLOY_URL" ]; then
+            echo "Playable URL: $DEPLOY_URL"
+          else
+            echo "Wrangler did not expose a workers.dev URL in its output. Open the Cloudflare Workers dashboard and select \`supertux-mobile\`."
+          fi
+        } >> "$GITHUB_STEP_SUMMARY"
+'on':
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag, or commit to build and deploy
+        required: true
+        default: mobile-web-audit
+        type: string
+      validation_run_id:
+        description: Optional exact successful validation run for this source SHA
+        type: string
+        default: ''
+  push:
+    branches:
+    - mobile-web-audit

@@ -103,6 +103,22 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename_original)
 
 } // namespace
 
+std::string resolve_sound_file_path(const std::string& filename_original)
+{
+  if (StringUtil::has_suffix(filename_original, ".music")) {
+    std::string filename = filename_original;
+    auto doc = doc_from_file_fallback(filename);
+    auto root = doc.get_root();
+    if (root.get_name() != "supertux-music")
+      throw SoundError("file is not a supertux-music file.");
+    std::string raw;
+    root.get_mapping().get("file", raw);
+    if (raw.empty()) throw SoundError("music descriptor has no audio file");
+    return FileSystem::normalize(FileSystem::dirname(filename) + raw);
+  }
+  return PHYSFS_exists(filename_original.c_str()) ? filename_original : get_fallback_path(filename_original);
+}
+
 std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
 {
   if (StringUtil::has_suffix(filename, ".music")) {

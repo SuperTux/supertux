@@ -1,0 +1,171 @@
+name: Focused validation
+'on':
+  pull_request: {}
+  push:
+    branches:
+    - master
+    - mobile-web-audit
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+env:
+  EMSDK_VERSION: 6.0.11
+  VCPKG_COMMIT: c748cb44f2a435fcf015c35225c9d5545fe0021c
+  VCPKG_MAX_CONCURRENCY: '4'
+  CPPCHECK_VERSION: 2.22.0
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      tests: ${{ steps.select.outputs.tests }}
+      web: ${{ steps.select.outputs.web }}
+      debug: ${{ steps.select.outputs.debug }}
+      lint: ${{ steps.select.outputs.lint }}
+      linux: ${{ steps.select.outputs.linux }}
+      windows: ${{ steps.select.outputs.windows }}
+      macos: ${{ steps.select.outputs.macos }}
+      android: ${{ steps.select.outputs.android }}
+      freebsd: ${{ steps.select.outputs.freebsd }}
+      full_native: ${{ steps.select.outputs.full_native }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - id: select
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        HEAD_SHA: ${{ github.sha }}
+        FULL: ${{ github.event_name == 'workflow_dispatch' }}
+      run: |-
+        if [ "$FULL" = true ] || [ -z "$BASE_SHA" ] || ! git cat-file -e "$BASE_SHA^{commit}"; then
+          python3 tools/ci/select_checks.py --full
+        else
+          python3 tools/ci/select_checks.py --base "$BASE_SHA" --head "$HEAD_SHA"
+        fi
+  focused_tests:
+    name: Focused loader and workflow tests
+    needs: changes
+    if: needs.changes.outputs.tests == 'true' && needs.changes.outputs.lint != 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/focused-tests
+  wasm_release:
+    name: wasm (Release)
+    needs: changes
+    if: needs.changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - uses: ./.github/actions/build-web
+      with:
+        build_type: Release
+  wasm_debug:
+    name: wasm (Debug)
+    needs: changes
+    if: needs.changes.outputs.debug == 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - uses: ./.github/actions/build-web
+      with:
+        build_type: Debug
+  lint_cppcheck:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/focused-tests
+    - name: Install Cppcheck
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++ make
+        TARBALL_URL="$(gh api "repos/cppcheck-opensource/cppcheck/releases/tags/$CPPCHECK_VERSION" --jq .tarball_url)"
+        test -n "$TARBALL_URL" && test "$TARBALL_URL" != null
+        curl --fail --show-error --location --retry 3 --output cppcheck.tar.gz "$TARBALL_URL"
+        mkdir cppcheck
+        tar --extract --gzip --file=cppcheck.tar.gz --strip-components=1 --directory=cppcheck
+        make -C cppcheck -j"$(nproc)" CXXFLAGS="-O1 -DNDEBUG"
+        ./cppcheck/cppcheck --version
+    - name: Lint code with Cppcheck
+      run: |
+        ./cppcheck/cppcheck \
+          --check-level=exhaustive --include=mk/cppcheck/include/SDL.h \
+          --quiet --inline-suppr --language=c++ --error-exitcode=10 \
+          -j"$(nproc)" --std=c++17 --enable=warning,style \
+          --suppress=useStlAlgorithm -U__EMSCRIPTEN__ -UDOXYGEN_SCRIPTING src/
+    needs: changes
+    if: needs.changes.outputs.lint == 'true'
+  native_linux:
+    needs: changes
+    if: needs.changes.outputs.linux == 'true'
+    uses: ./.github/workflows/gnulinux.yml
+    with:
+      full_matrix: ${{ needs.changes.outputs.full_native == 'true' }}
+  native_windows:
+    needs: changes
+    if: needs.changes.outputs.windows == 'true'
+    uses: ./.github/workflows/windows.yml
+    with:
+      full_matrix: ${{ needs.changes.outputs.full_native == 'true' }}
+  native_macos:
+    needs: changes
+    if: needs.changes.outputs.macos == 'true'
+    uses: ./.github/workflows/macos.yml
+    with:
+      full_matrix: ${{ needs.changes.outputs.full_native == 'true' }}
+  native_android:
+    needs: changes
+    if: needs.changes.outputs.android == 'true'
+    uses: ./.github/workflows/android.yml
+    with:
+      full_matrix: ${{ needs.changes.outputs.full_native == 'true' }}
+  native_freebsd:
+    needs: changes
+    if: needs.changes.outputs.freebsd == 'true'
+    uses: ./.github/workflows/freebsd.yml
+    with:
+      full_matrix: ${{ needs.changes.outputs.full_native == 'true' }}
+  required:
+    name: Required validation
+    needs:
+    - changes
+    - focused_tests
+    - wasm_release
+    - wasm_debug
+    - lint_cppcheck
+    - native_linux
+    - native_windows
+    - native_macos
+    - native_android
+    - native_freebsd
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - env:
+        RESULTS: ${{ toJSON(needs) }}
+      run: |-
+        python3 - <<'PY'
+        import json, os
+        jobs = json.loads(os.environ['RESULTS'])
+        assert jobs['changes']['result'] == 'success', jobs
+        selection = jobs['changes']['outputs']
+        expected = {'focused_tests': 'tests', 'lint_cppcheck': 'lint', 'wasm_release': 'web', 'wasm_debug': 'debug'}
+        expected.update({'native_' + p: p for p in ('linux','windows','macos','android','freebsd')})
+        for job, key in expected.items():
+            result = jobs[job]['result']
+            needed = selection[key] == 'true'
+            if job == 'focused_tests': needed = needed and selection['lint'] != 'true'
+            assert result == 'success' if needed else result in ('success', 'skipped'), (job, needed, result)
+        print('All needed checks passed; unnecessary work intentionally skipped.')
+        PY

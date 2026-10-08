@@ -43,6 +43,11 @@ SoundManager::SoundManager() :
   m_music_enabled(false),
   m_music_volume(0),
   m_current_music()
+#ifdef __EMSCRIPTEN__
+  , m_browser_music_pending(false)
+  , m_browser_music_paused(false)
+  , m_browser_music_fadetime(0)
+#endif
 {
   try {
     if (m_device == nullptr) {
@@ -275,6 +280,9 @@ SoundManager::enable_music(bool enable)
     return;
 
   m_music_enabled = enable;
+#ifdef __EMSCRIPTEN__
+  if (!enable) EM_ASM({ if (Module['supertuxAssets']) Module['supertuxAssets'].stop(); });
+#endif
   if (m_music_enabled) {
     play_music(m_current_music);
   } else {
@@ -287,6 +295,11 @@ SoundManager::enable_music(bool enable)
 void
 SoundManager::stop_music(float fadetime)
 {
+#ifdef __EMSCRIPTEN__
+  m_browser_music_pending = false;
+  m_browser_music_paused = false;
+  EM_ASM({ if (Module['supertuxAssets']) Module['supertuxAssets'].stop(); });
+#endif
   if (fadetime > 0) {
     if (m_music_source
        && m_music_source->get_fade_state() != StreamSoundSource::FadingOff)
@@ -301,12 +314,22 @@ void
 SoundManager::set_music_volume(int volume)
 {
   m_music_volume = volume;
+#ifdef __EMSCRIPTEN__
+  if (volume == 0) EM_ASM({ if (Module['supertuxAssets']) Module['supertuxAssets'].stop(); });
+#endif
   if (m_music_source != nullptr) m_music_source->set_volume(static_cast<float>(volume) / 100.0f);
 }
 
 void
 SoundManager::play_music(const std::string& filename, float fadetime)
 {
+#ifdef __EMSCRIPTEN__
+  // Discard the old source when changing tracks. A completed download is only
+  // polled for the current filename; no callback captures this object's lifetime.
+  if (filename != m_current_music) m_music_source.reset();
+  m_browser_music_pending = !filename.empty();
+  m_browser_music_fadetime = fadetime;
+#endif
   if (filename == m_current_music && m_music_source != nullptr)
   {
     if (m_music_source->paused())
@@ -317,6 +340,9 @@ SoundManager::play_music(const std::string& filename, float fadetime)
     {
       m_music_source->play();
     }
+#ifdef __EMSCRIPTEN__
+    m_browser_music_pending = false;
+#endif
     return;
   }
   m_current_music = filename;
@@ -329,6 +355,17 @@ SoundManager::play_music(const std::string& filename, float fadetime)
   }
 
   try {
+#ifdef __EMSCRIPTEN__
+    if (m_browser_music_paused || m_music_volume == 0) return;
+    const auto raw = resolve_sound_file_path(filename);
+    const int status = EM_ASM_INT({
+      return Module['supertuxAssets'].requestTrack(UTF8ToString($0));
+    }, raw.c_str());
+    // Pending and failed downloads leave gameplay usable. Explicit retry in
+    // the shell resets failed state; disabled/paused/background music waits.
+    if (status != 0) return;
+    m_browser_music_pending = false;
+#endif
     auto newmusic = std::make_unique<StreamSoundSource>();
     newmusic->set_sound_file(load_sound_file(filename));
     newmusic->set_looping(true);
@@ -355,6 +392,9 @@ SoundManager::play_music(const std::string& filename, bool fade)
 void
 SoundManager::pause_music(float fadetime)
 {
+#ifdef __EMSCRIPTEN__
+  m_browser_music_paused = true;
+#endif
   if (m_music_source == nullptr)
     return;
 
@@ -406,6 +446,10 @@ SoundManager::set_sound_volume(int volume)
 void
 SoundManager::resume_music(float fadetime)
 {
+#ifdef __EMSCRIPTEN__
+  m_browser_music_paused = false;
+  if (m_browser_music_pending && fadetime > 0) m_browser_music_fadetime = fadetime;
+#endif
   if (m_music_source == nullptr)
     return;
 
@@ -455,6 +499,10 @@ SoundManager::update()
     return;
   lasttime = now;
 
+#ifdef __EMSCRIPTEN__
+  if (m_browser_music_pending && !m_browser_music_paused && m_music_enabled && m_music_volume > 0)
+    play_music(m_current_music, m_browser_music_fadetime);
+#endif
   // update and check for finished sound sources
   for (auto it = m_sources.begin(); it != m_sources.end(); ) {
     auto& source = *it;

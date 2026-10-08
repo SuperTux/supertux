@@ -65,3 +65,5 @@ private:
 };
 
 std::unique_ptr<SoundFile> load_sound_file(const std::string& filename);
+/** Resolve descriptor companions and legacy paths without opening the audio. */
+std::string resolve_sound_file_path(const std::string& filename);

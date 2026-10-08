@@ -18,28 +18,26 @@
 name: Windows
 on:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      full_matrix:
+        type: boolean
+        default: true
+  schedule:
+    - cron: '20 5 * * 2'
   push:
-    branches:
-      - master
-    tags:
-      - '*'
-  pull_request: {}
+    tags: ['*']
+
+concurrency:
+  group: windows-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 jobs:
   windows:
 
     strategy:
       fail-fast: false
-      matrix:
-        arch: [x64, x86]
-        build_type: [Debug, RelWithDebInfo]
-        include:
-          - build_type: RelWithDebInfo
-            arch: x64
-            release: ON
-          - build_type: RelWithDebInfo
-            arch: x86
-            release: ON
+      matrix: ${{ fromJSON(toJSON(inputs.full_matrix) == 'false' && '{"include":[{"arch":"x64","build_type":"RelWithDebInfo"}]}' || '{"arch":["x64","x86"],"build_type":["Debug","RelWithDebInfo"],"include":[{"build_type":"RelWithDebInfo","arch":"x64","release":true},{"build_type":"RelWithDebInfo","arch":"x86","release":true}]}') }}
 
     runs-on: windows-latest
     steps:
@@ -214,7 +212,7 @@ jobs:
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             build/upload/*.msi

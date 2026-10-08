@@ -1,0 +1,19 @@
+name: Focused tests
+description: Loader, save, shell, packaging, Worker and workflow selection checks
+runs:
+  using: composite
+  steps:
+  - uses: actions/setup-node@v4
+    with:
+      node-version: '24'
+  - run: |-
+      python3 -m unittest discover -s tests/ci
+      python3 -m unittest discover -s tests/web
+      node --test tests/wasm/*.test.cjs tests/worker/*.test.mjs
+    shell: bash
+  - name: Validate all workflow syntax
+    run: |-
+      curl --fail --location --retry 3 -o /tmp/actionlint.tar.gz https://github.com/rhysd/actionlint/releases/download/v1.7.7/actionlint_1.7.7_linux_amd64.tar.gz
+      tar -xzf /tmp/actionlint.tar.gz -C /tmp actionlint
+      /tmp/actionlint -shellcheck=""
+    shell: bash
