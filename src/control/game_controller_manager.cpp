@@ -56,7 +56,7 @@ GameControllerManager::process_button_event(const SDL_GamepadButtonEvent& ev)
     player_id = it->second;
   }
 
-  //log_info << "button event: " << static_cast<int>(ev.button) << " " << static_cast<int>(ev.down) << std::endl;
+  if (!m_parent->is_local(player_id)) return;
   Controller& controller = m_parent->get_controller(player_id);
   auto set_control = [this, &controller](Control control, Uint8 value)
   {
@@ -144,6 +144,8 @@ GameControllerManager::process_axis_event(const SDL_GamepadAxisEvent& ev)
 
     player_id = it->second;
   }
+
+  if (!m_parent->is_local(player_id)) return;
 
   // FIXME: Buttons and axis are fighting for control ownership, need jump slightly if we encounter a suitable totem.
 
@@ -233,7 +235,7 @@ GameControllerManager::on_controller_added(int joystick_index)
         int id = m_parent->get_num_users();
         for (int i = 0; i < m_parent->get_num_users(); i++)
         {
-          if (!m_parent->has_corresponsing_controller(i) && !m_parent->m_uses_keyboard[i])
+          if (m_parent->is_local(i) && !m_parent->has_corresponsing_controller(i) && !m_parent->m_uses_keyboard[i])
           {
             id = i;
             break;
@@ -245,7 +247,7 @@ GameControllerManager::on_controller_added(int joystick_index)
 
         m_game_controllers[game_controller] = id;
 
-        if (GameSession::current() && (savegame && savegame->is_title_screen()) && id != 0)
+        if (GameSession::current() && (savegame && !savegame->is_title_screen()) && id != 0)
         {
           GameSession::current()->on_player_added(id);
         }
@@ -270,7 +272,7 @@ GameControllerManager::on_controller_removed(int instance_id)
     m_game_controllers.erase(it);
 
     if (m_parent->m_use_game_controller && g_config->multiplayer_auto_manage_players
-        && deleted_player_id != 0 && !m_parent->m_uses_keyboard[deleted_player_id] &&
+        && deleted_player_id > 0 && m_parent->is_local(deleted_player_id) && !m_parent->m_uses_keyboard[deleted_player_id] &&
         GameSession::current())
     {
       GameSession::current()->on_player_removed(deleted_player_id);
@@ -330,6 +332,7 @@ GameControllerManager::rumble(SDL_Gamepad* controller) const
 void
 GameControllerManager::bind_controller(SDL_Gamepad* controller, int player_id)
 {
+  if (player_id != -1 && !m_parent->is_local(player_id)) return;
   m_game_controllers[controller] = player_id;
 
   if (!g_config->multiplayer_multibind)
@@ -346,6 +349,9 @@ GameControllerManager::rebind_controllers()
   {
     assert(controller.first != nullptr);
     if (controller.second == -1)
-      bind_controller(controller.first, i++);
+    {
+      while (i < m_parent->get_num_users() && !m_parent->is_local(i)) ++i;
+      if (i < m_parent->get_num_users()) bind_controller(controller.first, i++);
+    }
   }
 }

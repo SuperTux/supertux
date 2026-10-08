@@ -1,0 +1,7 @@
+{
+  "name": "supertux-private-input-proof",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=24"},
+  "dependencies": {"miniflare": "5.20261006.0-alpha", "esbuild": "0.28.1"}
+}

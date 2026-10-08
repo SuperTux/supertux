@@ -68,7 +68,8 @@ function(supertux_finalize_web_assets)
   add_custom_target(web_assets DEPENDS "${WEB_ASSETS_DIR}/inventory.json" "${WEB_ASSETS_DIR}/identity.js")
   add_dependencies(supertux2 web_assets)
   set_property(TARGET supertux2 APPEND PROPERTY LINK_DEPENDS "${WEB_ASSETS_DIR}/inventory.json" "${WEB_ASSETS_DIR}/identity.js"
-    "${PROJECT_SOURCE_DIR}/mk/emscripten/assets.js" "${PROJECT_SOURCE_DIR}/mk/emscripten/template.html.in")
+    "${PROJECT_SOURCE_DIR}/mk/emscripten/assets.js" "${PROJECT_SOURCE_DIR}/mk/emscripten/template.html.in"
+    "${PROJECT_SOURCE_DIR}/mk/emscripten/coop.js" "${PROJECT_SOURCE_DIR}/mk/emscripten/coop-controller.html")
   set(WEB_ASSEMBLY_ARGS assemble --build "${CMAKE_BINARY_DIR}" --output "${CMAKE_BINARY_DIR}")
   if(NOT WEB_COMPRESS_ASSETS)
     list(APPEND WEB_ASSEMBLY_ARGS --no-compression)

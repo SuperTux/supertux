@@ -21,6 +21,12 @@
 #include "control/joystick_config.hpp"
 #include "control/joystick_manager.hpp"
 #include "control/keyboard_manager.hpp"
+#include "control/remote_controller.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/savegame.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/screen_manager.hpp"
+#include "supertux/title_screen.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -58,7 +64,7 @@ InputManager::get_controller(int player_id)
 bool
 InputManager::can_add_user() const
 {
-  return get_num_users() < MAX_PLAYERS || g_config->multiplayer_no_limit;
+  return !m_remote && (get_num_users() < MAX_PLAYERS || g_config->multiplayer_no_limit);
 }
 
 void
@@ -79,7 +85,7 @@ void
 InputManager::update()
 {
   for (auto& controller : m_controllers)
-    controller->update();
+    if (controller.get() != m_remote) controller->update();
 }
 
 void
@@ -169,7 +175,13 @@ InputManager::pop_user()
   if (m_controllers.size() <= 1)
     throw std::runtime_error("Attempt to pop the first player's controller");
 
-  on_player_removed(static_cast<int>(m_controllers.size()) - 1);
+  const int id = get_num_users() - 1;
+  if (is_remote(id)) return;
+  // Destroy Players (including their temporary script-controller pointers)
+  // before destroying the controller they borrow. Menu removal is deferred.
+  if (GameSession::current())
+    GameSession::current()->on_player_removed(id);
+  on_player_removed(id);
 
   m_controllers.pop_back();
 }
@@ -184,6 +196,7 @@ InputManager::on_player_removed(int player_id)
 bool
 InputManager::has_corresponsing_controller(int player_id) const
 {
+  if (is_remote(player_id)) return true;
   if (m_use_game_controller)
   {
     return game_controller_manager->has_corresponding_game_controller(player_id);
@@ -192,4 +205,93 @@ InputManager::has_corresponsing_controller(int player_id) const
   {
     return joystick_manager->has_corresponding_joystick(player_id);
   }
+}
+
+bool
+InputManager::is_local(int player_id) const
+{
+  return player_id >= 0 && player_id < get_num_users() && !is_remote(player_id);
+}
+
+bool
+InputManager::is_remote(int player_id) const
+{
+  return m_remote && player_id == 1;
+}
+
+int
+InputManager::persistent_users() const
+{
+  return get_num_users() - (m_remote ? 1 : 0);
+}
+
+bool
+InputManager::reserve_remote()
+{
+  if (m_remote) return true;
+  if (get_num_users() != 1) return false; // proof is exactly one local + one remote
+  auto remote = std::make_unique<RemoteController>();
+  m_remote = remote.get();
+  m_controllers.push_back(std::move(remote));
+  return true;
+}
+
+void
+InputManager::reset_remote()
+{
+  if (m_remote) m_remote->reset();
+}
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+// Callbacks only write bounded JS queues. All ownership/state changes happen
+// here, on the game thread; JavaScript never retains C++ object pointers.
+EM_JS(int, browser_coop_poll, (uint32_t* fields), {
+  var item = Module.supertuxCoop && Module.supertuxCoop.poll();
+  if (!item) return 0;
+  HEAPU32.set(item, fields >>> 2);
+  return 1;
+});
+EM_JS(void, browser_coop_status, (int reserved, int enabled, uint32_t generation, uint32_t sequence), {
+  if (Module.supertuxCoop) Module.supertuxCoop.engineStatus(reserved, enabled, generation, sequence);
+});
+#endif
+
+void
+InputManager::update_remote(bool gameplay)
+{
+  if (m_remote) m_remote->set_enabled(gameplay && m_remote_connected);
+#ifdef __EMSCRIPTEN__
+  uint32_t fields[4];
+  bool rejected = false;
+  for (size_t i = 0; i < RemoteController::QUEUE_LIMIT + 1 && browser_coop_poll(fields); ++i)
+  {
+    if (fields[0] == 1) // attach only before a playable level
+    {
+      const auto screen = ScreenManager::current();
+      if (screen && !screen->get_screen_stack().empty() &&
+          dynamic_cast<TitleScreen*>(screen->get_screen_stack().back().get()))
+        m_remote_connected = reserve_remote();
+      else
+        m_remote_connected = false;
+      rejected = !m_remote_connected;
+      if (m_remote) m_remote->set_enabled(gameplay && m_remote_connected);
+    }
+    else if (fields[0] == 2 && m_remote)
+      m_remote->submit(fields[1], fields[2], fields[3]);
+    else if (fields[0] == 3)
+    {
+      m_remote_connected = false;
+      if (m_remote) m_remote->set_enabled(false);
+    }
+    else if (fields[0] == 4) reset_remote();
+  }
+#endif
+  // Apply after every Controller has captured its previous state, before the
+  // screen/sector simulation. RemoteController alone advances its own state.
+  if (m_remote) m_remote->update();
+#ifdef __EMSCRIPTEN__
+  browser_coop_status(rejected ? -2 : (m_remote_connected ? 1 : (m_remote ? -1 : 0)), m_remote && m_remote->enabled(),
+                      m_remote ? m_remote->generation() : 0, m_remote ? m_remote->sequence() : 0);
+#endif
 }

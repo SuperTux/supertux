@@ -322,7 +322,7 @@ Player::do_scripting_controller(const std::string& control_text, bool pressed)
 void
 Player::move_to_sector(Sector& other)
 {
-  stop_climbing(*m_climbing);
+  if (m_climbing) stop_climbing(*m_climbing);
   if (m_grabbed_object)
   {
     auto grabbed_game_object = dynamic_cast<GameObject*>(m_grabbed_object);

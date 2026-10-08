@@ -105,7 +105,8 @@ Level::initialize()
           && !InputManager::current()->m_uses_keyboard[id])
         continue;
 
-      s_dummy_player_status.add_player();
+      while (player_status.m_num_players <= id)
+        player_status.add_player();
 
       sector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
     }

@@ -61,7 +61,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     auto control = key_mapping->second;
     bool value = (event.type == SDL_EVENT_KEY_DOWN);
 
-    if (control.player >= m_parent->get_num_users())
+    if (!m_parent->is_local(control.player))
       return;
 
     m_parent->get_controller(control.player).set_control(control.control, value);

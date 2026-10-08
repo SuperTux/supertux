@@ -69,7 +69,8 @@ MultiplayerPlayersMenu::MultiplayerPlayersMenu()
     });
   }
 
-  if (InputManager::current()->get_num_users() > 1)
+  if (InputManager::current()->get_num_users() > 1 &&
+      !InputManager::current()->is_remote(InputManager::current()->get_num_users() - 1))
   {
     add_entry(_("Remove Last Player"), [] {
       if (Sector::current() && Sector::current()->get_object_count<Player>() >= InputManager::current()->get_num_users())

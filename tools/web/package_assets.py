@@ -175,6 +175,15 @@ def assemble(build, output, cloudflare=False, compression=True):
                 old.unlink()
     bootstrap = build / 'assets.js' if not inventory_path.exists() else Path(__file__).parents[2] / 'mk/emscripten/assets.js'
     manifest['bootstrapSha256'] = digest(bootstrap)
+    # The optional input proof is shipped with previews and verified artifact
+    # reuse. It never changes the soundtrack inventory or production bindings.
+    frontend = build if not inventory_path.exists() else Path(__file__).parents[2] / 'mk/emscripten'
+    manifest['frontend'] = {}
+    for name in ('coop.js', 'coop-controller.html'):
+        source = frontend / name
+        manifest['frontend'][name] = dict(bytes=source.stat().st_size, sha256=digest(source))
+        if source.resolve() != (output / name).resolve():
+            shutil.copyfile(source, output / name)
     # The manifest binds code, configuration, inventory, and every payload.
     manifest_bytes = encoded(manifest)
     write(output / 'asset-manifest.json', manifest_bytes)
@@ -188,6 +197,7 @@ def assemble(build, output, cloudflare=False, compression=True):
         if count != 1: raise ValueError('Asset bootstrap marker missing from generated HTML')
     html = html.replace(marker, '<script>window.SUPERTUX_DEPLOY_CONFIG = ' + json.dumps(config, separators=(',', ':')) + ';</script>')
     html = re.sub(r'<script src="assets.js"[^>]*>', '<script src="assets.js" integrity="sha256-' + base64.b64encode(bytes.fromhex(manifest['bootstrapSha256'])).decode() + '">', html)
+    html = re.sub(r'<script src="coop.js"[^>]*>', '<script src="coop.js" integrity="sha256-' + base64.b64encode(bytes.fromhex(manifest['frontend']['coop.js']['sha256'])).decode() + '">', html)
     for name in ('index.html', 'supertux2.html'):
         write(output / name, html.encode())
     for name in ('supertux2.png', 'supertux2.ico', 'supertux2_bkg.png'):
