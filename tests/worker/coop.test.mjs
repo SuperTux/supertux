@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {CoopRoom, coopFetch, PROTOCOL} from '../../worker/coop.js';
+import {validView} from '../../worker/view.js';
 
 const build = 'b'.repeat(64), token = 'a'.repeat(64);
 function fixture() {
@@ -18,12 +19,49 @@ function fixture() {
   return {object, state, add, room};
 }
 const send = (object, socket, message) => object.webSocketMessage(socket, JSON.stringify(message));
+function view(sequence=1,extra={}) {
+  return {type:'view',session:1,epoch:1,sequence,generation:1,time:sequence*100,scene:'coop-view-v1',camera:[0,0,1,844,390],
+    players:[1,2].map(id=>({id,x:id*100,y:100,action:'small-stand-right',frame:0,angle:0,alpha:1,dead:0,visible:true})),...extra};
+}
+
+test('presentation schema rejects arbitrary entities, asset paths and nonfinite or oversized state',()=>{
+  assert.equal(validView(view()),true);
+  assert.equal(validView(view(1,{scene:'unsupported',players:[]})),true);
+  for (const invalid of [view(1,{scene:'campaign'}),view(1,{players:[]}),view(1,{camera:[0,0,0,844,390]}),view(1,{generation:0}),view(1,{script:'run'}),view(1,{players:[view().players[0],view().players[0]]})]) assert.equal(validView(invalid),false);
+  for (const patch of [{x:Infinity},{action:'../sprite.png'},{frame:256},{visible:1},{dead:3},{extra:true}]) {
+    const invalid=view();Object.assign(invalid.players[0],patch);assert.equal(validView(invalid),false);
+  }
+});
+
+test('only the host may publish snapshots; only a view-capable guest receives ordered current-generation state',async()=>{
+  const f=fixture(),host=f.add('host'),guest=f.add('guest');
+  await ready(f,host);
+  await send(f.object,guest,{type:'hello',protocol:PROTOCOL,build,view:true});
+  await send(f.object,host,{type:'session',generation:1,enabled:true});
+  for(const packet of [view(),view(),view(2,{generation:2}),view(2),view(3,{epoch:2}),view(4,{epoch:1}),view(1,{session:2}),view(9)]) await send(f.object,host,packet);
+  assert.deepEqual(guest.messages.filter(x=>x.type==='view').map(x=>[x.session,x.epoch,x.sequence]),[[1,1,1],[1,1,2],[1,2,3],[2,1,1]]);
+  await send(f.object,guest,view());assert.equal(guest.closed.code,1008);
+  const legacy=fixture(),h=legacy.add('host'),g=legacy.add('guest');await ready(legacy,h);await ready(legacy,g);
+  await send(legacy.object,h,{type:'session',generation:1,enabled:true});await send(legacy.object,h,view());
+  assert.equal(g.messages.filter(x=>x.type==='view').length,0);
+});
+
+test('slow viewer coalesces one complete latest snapshot instead of a state backlog',async()=>{
+  const f=fixture(),host=f.add('host'),guest=f.add('guest');await ready(f,host);
+  await send(f.object,guest,{type:'hello',protocol:PROTOCOL,build,view:true});
+  await send(f.object,host,{type:'session',generation:1,enabled:true});
+  for(let i=1;i<=45;i++) await send(f.object,host,view(i));
+  assert.equal(guest.info.inFlight,32);assert.equal(guest.info.pending.view.sequence,45);
+  assert.equal(guest.closed,undefined);assert.equal(Object.keys(guest.info.pending).length,1);
+  await send(f.object,guest,{type:'seen'});assert.equal(guest.messages.at(-1).sequence,45);
+  assert.equal(guest.info.pending.view,undefined);
+});
 async function ready(f, socket) {await send(f.object, socket, {type: 'hello', protocol: PROTOCOL, build});}
 
 test('routing is opt-in, origin-bound, bounded and build-validated', async () => {
   assert.equal((await coopFetch(new Request('http://localhost/coop/rooms'), {})).status, 404);
   assert.equal((await coopFetch(new Request('http://localhost/coop/rooms'), {COOP_ROOMS: {}})).status, 403);
-  for (const body of ['invalid', 'null', '[]', JSON.stringify({protocol: 2, build}), JSON.stringify({protocol: 1, build:[build]}), JSON.stringify({protocol: 1, build, role:'host'}), 'x'.repeat(513)]) {
+  for (const body of ['invalid', 'null', '[]', JSON.stringify({protocol: 3, build}), JSON.stringify({protocol: 1, build:[build]}), JSON.stringify({protocol: 1, build, role:'host'}), 'x'.repeat(513)]) {
     const response = await coopFetch(new Request('http://localhost/coop/rooms', {method: 'POST', headers: {Origin: 'http://localhost'}, body}), {COOP_ROOMS: {}});
     assert.ok([400,413].includes(response.status));
   }
@@ -32,10 +70,10 @@ test('routing is opt-in, origin-bound, bounded and build-validated', async () =>
 test('role-bound credentials, occupied role and origin reject before upgrade', async () => {
   const f = fixture(); f.add('host');
   const request = protocols => new Request('http://localhost:8787/coop/rooms/' + '1'.repeat(32) + '/socket', {headers: {Origin: f.room.origin, 'Sec-WebSocket-Protocol': protocols}});
-  assert.equal((await f.object.fetch(request(`supertux-coop-v1, host.${token}`))).status, 409);
-  assert.equal((await f.object.fetch(request(`supertux-coop-v1, guest.${token}`))).status, 403);
+  assert.equal((await f.object.fetch(request(`supertux-coop-v2, host.${token}`))).status, 409);
+  assert.equal((await f.object.fetch(request(`supertux-coop-v2, guest.${token}`))).status, 403);
   f.room.expires = Date.now() - 1;
-  assert.equal((await f.object.fetch(request(`supertux-coop-v1, host.${token}`))).status, 410);
+  assert.equal((await f.object.fetch(request(`supertux-coop-v2, host.${token}`))).status, 410);
 });
 
 test('validated input belongs to the current host session; ordering never reverses', async () => {

@@ -54,10 +54,16 @@ class Fingers:
     async def move(self, finger, pos): await self.change('move', finger, pos)
     async def up(self, finger): await self.change('up', finger)
     async def tap(self, pos, duration=120):
+        frame = await self.page.evaluate('window.phase3InputFrames ?? null')
         await self.down(9, pos)
         await self.page.wait_for_timeout(duration)
+        if frame is not None:
+            await self.page.wait_for_function('(frame)=>phase3InputFrames>frame+1',arg=frame)
+        release_frame = await self.page.evaluate('window.phase3InputFrames ?? null')
         await self.up(9)
         await self.page.wait_for_timeout(120)
+        if release_frame is not None:
+            await self.page.wait_for_function('(frame)=>phase3InputFrames>frame+1',arg=release_frame)
 
     async def release(self):
         for finger in list(self.points): await self.up(finger)
@@ -121,6 +127,15 @@ async def run(args, url):
         await page.wait_for_function('Module.supertuxReady === true', timeout=180000)
         await page.locator('#start_button').tap()
         await page.wait_for_function('Module.supertuxShell.active')
+        # Wait for actual native input updates between menu gestures. Short
+        # wall-clock taps can otherwise collapse DOWN/JUMP into one slow frame
+        # on CI, leaving the menu paused instead of selecting Restart Level.
+        # This observes the existing per-frame bridge; it injects no controls.
+        await page.evaluate('''() => {
+          window.phase3InputFrames=0;
+          const original=Module.supertuxCoop.engineStatus;
+          Module.supertuxCoop.engineStatus=(...args)=>{++phase3InputFrames;original(...args);};
+        }''')
         await page.wait_for_timeout(400)
         await page.screenshot(path=str(args.output / 'touch-main-menu.png'))
         cdp = await context.new_cdp_session(page) if args.browser == 'chromium' else None

@@ -28,7 +28,7 @@ def encoded(value):
     return (json.dumps(value, sort_keys=True, separators=(',', ':')) + '\n').encode()
 
 
-def prepare(source, output, full=False, source_commit='unknown', configuration='Release', runtime_root='/supertux/data'):
+def prepare(source, output, full=False, source_commit='unknown', configuration='Release', runtime_root='/supertux/data', presentation=False):
     if output.resolve().is_relative_to(source.resolve()):
         raise ValueError('Derived packaging must be outside the source data tree')
     files = sorted(p for p in source.rglob('*') if p.is_file())
@@ -70,6 +70,14 @@ def prepare(source, output, full=False, source_commit='unknown', configuration='
         if not target.exists() or digest(target) != sha:
             shutil.copyfile(path, target)
         entries.append(entry)
+    if presentation:
+        from coop_presentation import derive
+        levels, _ = derive(source, output, write, encoded)
+        for level in levels:
+            relative = level.relative_to(startup).as_posix()
+            wanted.add(relative)
+            entries.append(dict(path=relative, bytes=level.stat().st_size, sha256=digest(level), package='startup'))
+        entries.sort(key=lambda entry: entry['path'])
     for old in startup.rglob('*'):
         if old.is_file() and old.relative_to(startup).as_posix() not in wanted:
             old.unlink()
@@ -179,11 +187,23 @@ def assemble(build, output, cloudflare=False, compression=True):
     # reuse. It never changes the soundtrack inventory or production bindings.
     frontend = build if not inventory_path.exists() else Path(__file__).parents[2] / 'mk/emscripten'
     manifest['frontend'] = {}
-    for name in ('coop.js', 'coop-controller.html'):
-        source = frontend / name
+    names = ['coop.js', 'coop-controller.html', 'coop-view.js', 'coop-view.html']
+    presentation = build / 'web-assets/presentation' if inventory_path.exists() else build
+    names += ['coop-scene.json'] + [path.relative_to(presentation).as_posix() for path in sorted((presentation / 'coop-art').glob('*.png'))]
+    for name in names:
+        source = (presentation if name == 'coop-scene.json' or name.startswith('coop-art/') else frontend) / name
         manifest['frontend'][name] = dict(bytes=source.stat().st_size, sha256=digest(source))
         if source.resolve() != (output / name).resolve():
+            (output / name).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, output / name)
+    for old in (output / 'coop-art').glob('*.png'):
+        if old.relative_to(output).as_posix() not in names: old.unlink()
+    for name in ('coop-controller.html', 'coop-view.html'):
+        page = (output / name).read_text()
+        for script in ('coop.js', 'coop-view.js'):
+            page = re.sub(r'<script src="' + re.escape(script) + r'"[^>]*>', '<script src="' + script + '" integrity="sha256-' + base64.b64encode(bytes.fromhex(manifest['frontend'][script]['sha256'])).decode() + '">', page)
+        write(output / name, page.encode())
+        manifest['frontend'][name] = dict(bytes=(output / name).stat().st_size, sha256=digest(output / name))
     # The manifest binds code, configuration, inventory, and every payload.
     manifest_bytes = encoded(manifest)
     write(output / 'asset-manifest.json', manifest_bytes)
@@ -219,6 +239,7 @@ def main():
     prepare_parser.add_argument('--source-commit', required=True)
     prepare_parser.add_argument('--configuration', required=True)
     prepare_parser.add_argument('--runtime-root', required=True)
+    prepare_parser.add_argument('--presentation', action='store_true')
     assemble_parser = sub.add_parser('assemble')
     assemble_parser.add_argument('--build', type=Path, required=True)
     assemble_parser.add_argument('--output', type=Path, required=True)
@@ -226,7 +247,7 @@ def main():
     assemble_parser.add_argument('--no-compression', action='store_true')
     args = parser.parse_args()
     if args.command == 'prepare':
-        result = prepare(args.source, args.output, args.full_preload, args.source_commit, args.configuration, args.runtime_root)
+        result = prepare(args.source, args.output, args.full_preload, args.source_commit, args.configuration, args.runtime_root, args.presentation)
     else:
         result = assemble(args.build, args.output, args.cloudflare, not args.no_compression)
     print(json.dumps(dict(mode=result['mode'], startupBytes=sum(a['bytes'] for a in result['assets'] if a['package']=='startup'), deferredBytes=sum(a['bytes'] for a in result['assets'] if a['package']=='music'))))

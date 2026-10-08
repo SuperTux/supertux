@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
@@ -83,6 +85,9 @@ public:
   GameSession(Level* level, Savegame* savegame = nullptr, Statistics* statistics = nullptr);
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
   GameSession(std::istream& istream, Savegame* savegame = nullptr, Statistics* statistics = nullptr);
+#ifdef __EMSCRIPTEN__
+  GameSession(const std::string& levelfile, std::unique_ptr<Savegame> savegame);
+#endif
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -170,6 +175,12 @@ public:
 
 private:
   Level* m_level;
+#ifdef __EMSCRIPTEN__
+  std::unique_ptr<Savegame> m_coop_savegame;
+  uint32_t m_coop_session = 0;
+  uint32_t m_coop_epoch = 0;
+  uint32_t m_coop_sequence = 0;
+#endif
   std::unique_ptr<Level> m_level_storage;
   SurfacePtr m_statistics_backdrop;
 

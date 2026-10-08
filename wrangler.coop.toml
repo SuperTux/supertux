@@ -7,7 +7,7 @@ compatibility_date = "2026-10-06"
 directory = "./dist"
 binding = "ASSETS"
 html_handling = "none"
-run_worker_first = ["/coop/*", "/game-assets/*"]
+run_worker_first = ["/coop/*", "/game-assets/*", "/coop-art/*"]
 
 [[r2_buckets]]
 binding = "GAME_ASSETS"

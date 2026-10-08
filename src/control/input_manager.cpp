@@ -26,6 +26,7 @@
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/savegame.hpp"
+#include "supertux/profile_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/title_screen.hpp"
@@ -288,12 +289,23 @@ InputManager::update_remote(bool gameplay)
       if (m_remote) m_remote->set_enabled(false);
     }
     else if (fields[0] == 4) reset_remote();
-    else if (fields[0] == 5 && fields[1] < 2) // host-only diagnostic level selection
+    else if (fields[0] == 5 && fields[1] < 3) // host-only proof level selection
     {
       const auto screen = ScreenManager::current();
       if (screen && !screen->get_screen_stack().empty() &&
           dynamic_cast<TitleScreen*>(screen->get_screen_stack().back().get()))
       {
+        if (fields[1] == 2)
+        {
+          if (!m_remote_connected) continue;
+          MenuManager::instance().clear_menu_stack();
+          auto savegame = std::make_unique<Savegame>(ProfileManager::current()->get_current_profile(), "web-display-proof");
+          auto session = std::make_unique<GameSession>("levels/web/coop-view.stl", std::move(savegame));
+          session->restart_level();
+          session->skip_intro();
+          ScreenManager::current()->push_screen(std::move(session));
+          continue;
+        }
         const bool forest = fields[1] == 1;
         const auto world = World::from_directory(forest ? "levels/world2" : "levels/world1");
         MenuManager::instance().clear_menu_stack();

@@ -1,7 +1,7 @@
-/* Private input proof: the guest has no game simulation or world renderer. */
+/* Private host-authoritative input and opt-in presentation transport. */
 (function () {
   'use strict';
-  const protocol = 1, limit = 32, buttons = {ArrowLeft: 1, KeyA: 1, ArrowRight: 2, KeyD: 2,
+  const protocol = 2, limit = 32, buttons = {ArrowLeft: 1, KeyA: 1, ArrowRight: 2, KeyD: 2,
     ArrowUp: 4, KeyW: 4, ArrowDown: 8, KeyS: 8, Space: 16, KeyJ: 16, ControlLeft: 32, KeyK: 32, ShiftLeft: 64};
 
   class Connection {
@@ -9,11 +9,11 @@
       this.events = events; this.ready = false; this.last = Date.now(); this.closed = false;
       const url = new URL(`/coop/rooms/${room}/socket`, location.href);
       url.protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-      this.socket = new WebSocket(url, ['supertux-coop-v1', `${role}.${token}`]);
-      this.socket.addEventListener('open', () => {if (!this.closed) this.send({type: 'hello', protocol, build});});
+      this.socket = new WebSocket(url, ['supertux-coop-v2', `${role}.${token}`]);
+      this.socket.addEventListener('open', () => {if (!this.closed) this.send({type: 'hello', protocol, build, ...(events.view ? {view:true} : {})});});
       this.socket.addEventListener('message', event => {
         if (this.closed) return; // buffered events from a retired room own no input
-        if (typeof event.data !== 'string' || event.data.length > 512) { this.close('Invalid relay message'); return; }
+        if (typeof event.data !== 'string' || event.data.length > 2048) { this.close('Invalid relay message'); return; }
         let value;
         try { value = JSON.parse(event.data); } catch { this.close('Invalid relay message'); return; }
         if (!value || typeof value !== 'object' || Array.isArray(value)) {this.close('Invalid relay message'); return;}
@@ -45,7 +45,7 @@
 
   function host(module) {
     const queue = [], status = document.getElementById('coop_status');
-    let connection, creating = false, createEpoch = 0, joinRejected = false, state = {reserved: 0, enabled: false, generation: 0, sequence: 0}, lastSent = '';
+    let connection, creating = false, createEpoch = 0, joinRejected = false, guestView = false, lastView = 0, state = {reserved: 0, enabled: false, generation: 0, sequence: 0}, lastSent = '';
     const say = text => { if (status) status.textContent = text; };
     const enqueue = value => {
       if (value[0] !== 2) queue.length = 0;
@@ -71,6 +71,8 @@
       },
       get state() { return {...state, queued: queue.length, joinRejected}; },
       get connection() { return connection; },
+      wantsView() {return !!(connection?.ready && guestView && state.enabled && state.generation && Date.now() - lastView >= 67);},
+      view(snapshot) {lastView = Date.now(); if (connection?.ready && guestView) connection.send({...snapshot,generation:state.generation});},
     };
     const panel = document.getElementById('coop_panel');
     if (panel) panel.hidden = !new URLSearchParams(location.search).has('coop');
@@ -87,14 +89,16 @@
         const join = new URL('coop-controller.html', location.href);
         join.hash = new URLSearchParams({room: room.room, token: room.guest, build: room.build});
         const link = document.getElementById('coop_link'); link.href = join.href; link.textContent = join.href;
+        const viewLink = document.getElementById('coop_view_link');
+        if (viewLink) {join.pathname = new URL('coop-view.html', location.href).pathname; viewLink.href = join.href; viewLink.textContent = join.href;}
         connection = new Connection(room.room, 'host', room.host, build, {
           ready: () => { say('Room ready. Invite Player 2 before starting a level.'); session(); },
           message: value => {
-            if (value.type === 'peer') {joinRejected = false; enqueue([value.connected ? 1 : 3, 0, 0, 0]);}
+            if (value.type === 'peer') {guestView = !!(value.connected && value.view); joinRejected = false; enqueue([value.connected ? 1 : 3, 0, 0, 0]);}
             if (value.type === 'input') enqueue([2, value.generation, value.sequence, value.mask]);
           },
           refresh: session,
-          closed: reason => { enqueue([3, 0, 0, 0]); say(reason); },
+          closed: reason => { guestView = false; enqueue([3, 0, 0, 0]); say(reason); },
         });
       } catch (error) { if (epoch === createEpoch) say(error.message); }
       finally { creating = false; }
@@ -102,6 +106,10 @@
     document.getElementById('coop_close')?.addEventListener('click', () => {++createEpoch; connection?.close();});
     document.getElementById('coop_antarctica')?.addEventListener('click', () => enqueue([5, 0, 0, 0]));
     document.getElementById('coop_forest')?.addEventListener('click', () => enqueue([5, 1, 0, 0]));
+    document.getElementById('coop_view_start')?.addEventListener('click', () => {
+      if (guestView && state.reserved === 1) enqueue([5, 2, 0, 0]);
+      else say('Invite a guest with the shared view link before starting this scene.');
+    });
     // The trusted Start/Resume shell already pauses the engine. Clear the JS
     // backlog too, so an old browser event cannot reassert held movement.
     for (const event of ['blur', 'pagehide']) window.addEventListener(event, () => {++createEpoch; enqueue([4, 0, 0, 0]);});
@@ -111,16 +119,19 @@
   function guest() {
     const params = new URLSearchParams(location.hash.slice(1)), keys = new Map(), fingers = new Map();
     const status = document.getElementById('guest_status');
+    const view = window.SupertuxView;
     let connection, generation = 0, sequence = 0, enabled = false, joining = false, joinEpoch = 0;
     const mask = () => [...keys.values(), ...fingers.values()].reduce((a, b) => a | b, 0);
     const send = () => {
-      if (enabled && connection?.ready) connection.send({type: 'input', generation, sequence: ++sequence, mask: mask()});
+      if (enabled && connection?.ready) connection.send({type: 'input', generation, sequence: ++sequence, mask: view && !view.playable ? 0 : mask()});
     };
     const clear = () => { keys.clear(); fingers.clear(); send(); };
+    if (view) view.onFreeze = clear;
     const join = async () => {
       if (joining) return;
       const epoch = ++joinEpoch;
       connection?.close(); enabled = false; clear(); generation = sequence = 0;
+      view?.reset();
       joining = true;
       if (connection && connection.socket.readyState !== WebSocket.CLOSED) {
         await new Promise(resolve => {
@@ -136,9 +147,11 @@
         const html = await (await fetch('index.html', {cache: 'no-store', signal: AbortSignal.timeout(10000)})).text();
         const config = /window\.SUPERTUX_DEPLOY_CONFIG = (.*?);<\/script>/.exec(html);
         if (!config || JSON.parse(config[1]).manifestSha256 !== params.get('build')) throw Error('The host and controller builds differ. Ask the host for a new room link.');
+        if (view) await view.prepare(JSON.parse(config[1]));
       } catch (error) { joining = false; status.textContent = error.message; return; }
       if (epoch !== joinEpoch || document.hidden) {joining = false; return;}
       connection = new Connection(params.get('room'), 'guest', params.get('token'), params.get('build'), {
+        view: !!view,
         ready: () => { joining = false; status.textContent = 'Joined. Wait for the host to start a level.'; },
         message: value => {
           if (value.type === 'session' && Number.isInteger(value.generation) && typeof value.enabled === 'boolean') {
@@ -146,21 +159,23 @@
               enabled = false; keys.clear(); fingers.clear(); generation = value.generation; sequence = 0;
               enabled = value.enabled; send(); // fresh neutral state, never held-key replay
             }
-            status.textContent = enabled ? 'Player 2 input active. The game is visible on the host only.' : 'Host is paused or in menus. Release controls before continuing.';
+            view?.setEnabled(enabled,generation);
+            status.textContent = enabled ? (view ? 'Player 2 input active. Shared view supports the proof scene.' : 'Player 2 input active. The game is visible on the host only.') : 'Host is paused or in menus. Release controls before continuing.';
           }
+          if (value.type === 'view' && view) view.accept(value);
           if (value.type === 'ack') document.getElementById('guest_ack').textContent = `Host accepted input ${value.sequence}.`;
         },
         refresh: send,
-        closed: reason => { joining = false; enabled = false; clear(); status.textContent = reason; },
+        closed: reason => { joining = false; enabled = false; clear(); view?.reset(); status.textContent = reason; },
       });
     };
     window.addEventListener('keydown', event => {
-      if (buttons[event.code]) { event.preventDefault(); if (enabled && !event.repeat) { keys.set(event.code, buttons[event.code]); send(); } }
+      if (buttons[event.code]) { event.preventDefault(); if (enabled && (!view || view.playable) && !event.repeat) { keys.set(event.code, buttons[event.code]); send(); } }
     });
     window.addEventListener('keyup', event => { if (buttons[event.code]) { event.preventDefault(); keys.delete(event.code); send(); } });
     for (const button of document.querySelectorAll('[data-control]')) {
       button.addEventListener('pointerdown', event => {
-        event.preventDefault(); if (!enabled) return;
+        event.preventDefault(); if (!enabled || (view && !view.playable)) return;
         button.setPointerCapture(event.pointerId); fingers.set(event.pointerId, Number(button.dataset.control)); send();
       });
       for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) button.addEventListener(type, event => { fingers.delete(event.pointerId); send(); });

@@ -203,15 +203,15 @@ async def run(args, url):
             report['checks'].append('Actual SDL gamepad connect/disconnect events cannot claim or remove the remote slot')
             # The actual room refuses a third socket before gameplay messages.
             third = await guest.evaluate('''() => new Promise(resolve => {
-                const q=new URLSearchParams(location.hash.slice(1)), s=new WebSocket(supertuxGuest.connection.socket.url,['supertux-coop-v1','guest.'+q.get('token')]);
+                const q=new URLSearchParams(location.hash.slice(1)), s=new WebSocket(supertuxGuest.connection.socket.url,['supertux-coop-v2','guest.'+q.get('token')]);
                 s.onopen=()=>{s.close();resolve(false)};s.onerror=()=>resolve(true);
             })''')
             assert third
             mismatch = await guest.evaluate('''async () => {
-                const r=await (await fetch('/coop/rooms',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({protocol:1,build:'a'.repeat(64)})})).json();
+                const r=await (await fetch('/coop/rooms',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({protocol:2,build:'a'.repeat(64)})})).json();
                 return await new Promise(resolve=>{const u=new URL('/coop/rooms/'+r.room+'/socket',location.href);u.protocol='ws:';
-                    const s=new WebSocket(u,['supertux-coop-v1','host.'+r.host]);
-                    s.onopen=()=>s.send(JSON.stringify({type:'hello',protocol:1,build:'b'.repeat(64)}));s.onclose=e=>resolve(e.code);});
+                    const s=new WebSocket(u,['supertux-coop-v2','host.'+r.host]);
+                    s.onopen=()=>s.send(JSON.stringify({type:'hello',protocol:2,build:'b'.repeat(64)}));s.onclose=e=>resolve(e.code);});
             }''')
             assert mismatch==1008,mismatch
             report['checks'].append('Actual Durable Object rejects third client and closes a mismatched build before accepting input')

@@ -52,6 +52,13 @@ class Player final : public MovingSprite
 public:
   static void register_class(ssq::VM& vm);
 
+#ifdef __EMSCRIPTEN__
+  // Values from the actual draw pass, copied synchronously by the web bridge.
+  // No network callback owns a Player, Sprite or native pointer.
+  const Vector& get_coop_draw_position() const { return m_coop_draw_position; }
+  bool is_coop_draw_visible() const { return m_coop_draw_visible; }
+#endif
+
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
@@ -659,4 +666,8 @@ private:
 private:
   Player(const Player&) = delete;
   Player& operator=(const Player&) = delete;
+#ifdef __EMSCRIPTEN__
+  Vector m_coop_draw_position;
+  bool m_coop_draw_visible = false;
+#endif
 };

@@ -2070,6 +2070,10 @@ Player::get_action() const
 void
 Player::draw(DrawingContext& context)
 {
+#ifdef __EMSCRIPTEN__
+  m_coop_draw_position = get_pos();
+  m_coop_draw_visible = false;
+#endif
   if(Editor::is_active())
     return;
 
@@ -2079,6 +2083,11 @@ Player::draw(DrawingContext& context)
     if (target)
     {
       Vector pos(target->get_bbox().get_middle().x, target->get_bbox().get_top() - static_cast<float>(m_multiplayer_arrow->get_height()) * 1.5f);
+#ifdef __EMSCRIPTEN__
+      // The native dead-player label follows the surviving respawn target.
+      // Export that presentation anchor, not the corpse's off-screen position.
+      m_coop_draw_position = pos - Vector(16.f, -8.f);
+#endif
       Vector pos_surf(pos - Vector(static_cast<float>(m_multiplayer_arrow->get_width()) / 2.f, 0.f));
       m_multiplayer_arrow->draw(context.color(), pos_surf, LAYER_LIGHTMAP + 1);
       context.color().draw_text(Resources::normal_font, std::to_string(get_id() + 1), pos,
@@ -2329,6 +2338,10 @@ Player::draw(DrawingContext& context)
   // (While this could be done for all objects, it is most important here as the camera often
   // tracks Tux.) Note `context.get_time_offset()` is only nonzero if frame prediction is on.
   Vector draw_pos = get_pos() + context.get_time_offset() * m_physic.get_velocity();
+#ifdef __EMSCRIPTEN__
+  m_coop_draw_position = draw_pos;
+  m_coop_draw_visible = m_visible && !(m_post_damage_safety_timer.started() && size_t(g_game_time * 40) % 2);
+#endif
 
   /* Draw Tux */
   if (!m_visible || (m_post_damage_safety_timer.started() && size_t(g_game_time * 40) % 2))
