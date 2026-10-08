@@ -84,11 +84,32 @@ export class CoopRoom {
 
   send(socket, value) {
     const info = socket.deserializeAttachment();
-    if ((info.inFlight || 0) >= 32) {this.close(socket, 1013, 'Receiver fell behind'); return false;}
+    if ((info.inFlight || 0) >= 32) {
+      // These are latest-state notifications, never gameplay edges. Keep one
+      // value per type while the receiver returns credit, not an event backlog.
+      if (['session', 'ack', 'pong'].includes(value.type)) {
+        info.pending ||= {};
+        info.pending[value.type] = value;
+        socket.serializeAttachment(info);
+        return true;
+      }
+      this.close(socket, 1013, 'Receiver fell behind'); return false;
+    }
     info.inFlight = (info.inFlight || 0) + 1;
     socket.serializeAttachment(info);
     try { socket.send(JSON.stringify(value)); return true; }
     catch { try { socket.close(1011, 'Relay send failed'); } catch {} return false; }
+  }
+  flush_status(socket) {
+    for (const type of ['session', 'ack', 'pong']) {
+      const info = socket.deserializeAttachment();
+      if ((info.inFlight || 0) >= 32) break;
+      const value = info.pending?.[type];
+      if (!value) continue;
+      delete info.pending[type];
+      socket.serializeAttachment(info);
+      if (!this.send(socket, value)) break;
+    }
   }
   peer(role) { return this.state.getWebSockets(role)[0]; }
   close(socket, code, reason) { try { socket.close(code, reason); } catch {} }
@@ -128,6 +149,7 @@ export class CoopRoom {
       if (!(current.inFlight > 0)) {this.close(socket, 1008, 'Unexpected receive credit'); return;}
       current.inFlight -= 1;
       socket.serializeAttachment(current);
+      this.flush_status(socket);
     } else if (info.role === 'host' && message.type === 'session' && UINT(message.generation) && typeof message.enabled === 'boolean') {
       info.session = {type: 'session', generation: message.generation, enabled: message.enabled};
       const peer = this.peer('guest');
@@ -146,6 +168,7 @@ export class CoopRoom {
     } else { this.close(socket, 1008, 'Message not allowed for role'); return; }
     info.last = now;
     info.inFlight = socket.deserializeAttachment().inFlight;
+    info.pending = socket.deserializeAttachment().pending;
     socket.serializeAttachment(info);
     if (message.type === 'hello') {
       const other = this.peer(info.role === 'host' ? 'guest' : 'host');

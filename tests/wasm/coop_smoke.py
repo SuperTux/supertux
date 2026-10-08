@@ -88,6 +88,20 @@ async def run(args, url):
             await guest.evaluate("window.proofCloses=[];supertuxGuest.connection.socket.addEventListener('close',e=>proofCloses.push({code:e.code,reason:e.reason,time:Date.now()}))")
             assert not await host.evaluate('Module.supertuxCoop.state.enabled')
             report['checks'].append('Two independent browsers join actual Worker/Durable Object before level; remote slot reserved without a local device; menus reject guest gameplay')
+            # A briefly stalled receiver must coalesce diagnostic status, not
+            # disconnect or accumulate an unbounded history. Input edges keep
+            # their separate strict receive window.
+            await guest.evaluate('''() => {const socket=supertuxGuest.connection.socket,send=socket.send.bind(socket);
+                window.heldCredits=[];window.creditSend=send;socket.send=value=>{
+                    if(JSON.parse(value).type==='seen')heldCredits.push(value);else send(value);};}''')
+            await host.evaluate("for(let i=0;i<40;i++)Module.supertuxCoop.connection.send({type:'ack',sequence:0})")
+            await guest.wait_for_function('heldCredits.length===32',timeout=5000)
+            assert await guest.evaluate('supertuxGuest.state.connected')
+            await guest.evaluate('''() => {const socket=supertuxGuest.connection.socket;socket.send=creditSend;
+                for(const value of heldCredits)creditSend(value);window.heldCredits=[];}''')
+            await guest.wait_for_timeout(200)
+            assert await guest.evaluate('supertuxGuest.state.connected')
+            report['checks'].append('Actual relay fills its 32-message receive window; latest diagnostic status drains after delayed credits without disconnecting or queuing history')
             await host.locator('#coop_panel summary').click()
         async def guest_active():
             try:await guest.wait_for_function('supertuxGuest.state.enabled',timeout=15000)

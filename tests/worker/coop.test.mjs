@@ -86,12 +86,33 @@ test('rate, idle/auth timeout, disconnect and expiry clean up without buffering'
 test('unacknowledged receiver has a fixed message window; role fields are rejected', async () => {
   const f = fixture(), host = f.add('host'), guest = f.add('guest');
   await ready(f,host);await ready(f,guest);
-  for(let i=0;i<33 && !guest.closed;i++) await send(f.object,guest,{type:'ping'});
-  assert.equal(guest.closed.code,1013);
-  assert.ok(guest.messages.length <= 32);
+  await send(f.object,host,{type:'session',generation:1,enabled:true});
+  for(let i=0;i<33 && !host.closed;i++) await send(f.object,guest,{type:'input',generation:1,sequence:i+1,mask:i%2});
+  assert.equal(host.closed.code,1013);
+  assert.ok(host.messages.length <= 32);
   const other=fixture(), client=other.add('guest');await ready(other,client);
   await send(other.object,client,{type:'input',generation:1,sequence:1,mask:2,role:'host'});
   assert.equal(client.closed.code,1008);
+});
+
+test('slow status receiver retains only three latest values and drains on credit', async () => {
+  const f=fixture(), host=f.add('host'), guest=f.add('guest');
+  await ready(f,host);await ready(f,guest);
+  for(let i=1;i<=29;i++) {
+    await send(f.object,host,{type:'session',generation:i,enabled:false});
+    await send(f.object,host,{type:'ack',sequence:i});
+  }
+  await send(f.object,guest,{type:'ping'});
+  assert.equal(guest.closed,undefined);
+  assert.equal(guest.info.inFlight,32);
+  assert.deepEqual(Object.keys(guest.info.pending).sort(),['ack','pong','session']);
+  for(let i=0;i<3;i++) await send(f.object,guest,{type:'seen'});
+  assert.deepEqual(guest.messages.slice(-3),[
+    {type:'session',generation:29,enabled:false}, {type:'ack',sequence:29}, {type:'pong'},
+  ]);
+  assert.deepEqual(guest.info.pending,{});
+  assert.equal(guest.info.inFlight,32);
+  assert.equal(guest.closed,undefined);
 });
 
 test('only a neutral host gets bounded loading grace, not active play or guests', async () => {

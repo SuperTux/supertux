@@ -79,9 +79,15 @@ fields, at most 512 bytes and 60 client commands/second per socket. Valid `seen`
 credits acknowledge existing server output and do not consume the command
 budget again; unsolicited credits close the connection. Counting both commands
 and their response credits reproduced a healthy WebKit guest disconnect during
-checkpoint restart. A receiver has at
-most 32 unacknowledged outbound messages (`seen` receive credit); slow clients
-close instead of accumulating an application backlog. Browser output also caps
+checkpoint restart. A receiver has at most 32 unacknowledged outbound messages
+(`seen` receive credit). When that window fills, session status, input
+acknowledgment and heartbeat reply each retain only their latest value, up to
+three pending notifications; credits flush them in that order. A Chromium
+checkpoint restart exposed the previous status-history overflow (close 1013).
+Gameplay edges, connection events and authentication never enter this
+coalescer: exceeding their window still closes instead of buffering history.
+The actual two-browser proof deliberately withholds 32 credits, then releases
+them and checks that the connection remains usable. Browser output also caps
 at 16 KiB. Input refresh runs every 125 ms; host status every 500 ms. Relay
 inactivity closes at 2.5 seconds during active play and for guests. A host
 whose session is already input-disabled gets a bounded 15-second loading grace
@@ -181,7 +187,7 @@ remain focused; the required aggregate gate and cancellation policy are retained
 | Debug Chromium: relay, including synchronous loading grace and all lifecycle cases | 17 checks passed; no new sanitizer sites | `04d36983372192f5663056775a25c616de3caab7` |
 | Native Linux Debug build and CTest | Build passed; 4/4 tests passed | `c22db06ea4c959caf0b8d966d2e2ca7fa2bd8054` (shared C++ unchanged afterward) |
 | Remote/controller replay units | Native and Emscripten/Node passed | Pinned SDK 6.0.11 |
-| Focused JS/Worker tests; packaging; CI selection; actionlint | 47/47; 6/6; 6/6; passed | Receive-credit budget revision |
+| Focused JS/Worker tests; packaging; CI selection; actionlint | 48/48; 6/6; 6/6; passed | Bounded latest-status delivery revision |
 | Existing boot/audio/viewport/input/save, touch, asset/cache and forest checks | Release Chromium/WebKit and Debug Chromium passed in CI | [run 37730249613](https://github.com/jbbejena/supertux/actions/runs/37730249613) |
 | Representative Linux Release and Cppcheck 2.22 | Passed in CI | Same run; repeated on loading-grace revision |
 
