@@ -102,7 +102,11 @@ node tools/web/coop/preview.mjs preview 8787
 
 The helper verifies the exact complete artifact, seeds a local private R2 bucket
 and runs the actual Miniflare/workerd Worker and SQLite Durable Object. It needs
-no Cloudflare credentials. Keep all deferred music and manifest files. A plain
+no Cloudflare credentials. A private local seeding Worker streams files into R2
+with known lengths and checks stored sizes; it is not exposed on the preview
+listener. This avoids serializing the large DATA file through Miniflare's JSON
+RPC, which reproduced `EPIPE` during Release/Debug setup. Keep all deferred music
+and manifest files. A plain
 `python3 -m http.server --directory preview` still serves normal single-player
 and local co-op; it does not provide rooms.
 
@@ -187,6 +191,10 @@ the wrong menu. Entry now taps **Start Game** directly through the existing
 touch path. Subsequent transition keys remain down until the expected native
 status is observed, then release even on timeout. Failed transitions also
 archive the canvas and shell/focus state. No gameplay check was removed.
+Death fixtures wait through the existing simulation-clock `wait` API before
+pressing Action or observing checkpoint restart. A fixed wall-clock sleep could
+send the only respawn edge before the three-second dying timer finished in a
+slow Debug frame; the native respawn rule is unchanged.
 Further Debug testing reproduced and fixed the relay load-timeout separately.
 The existing touch check also restarts through its ordinary menu after slow
 console setup, preserving its getter-only observation and all control checks.

@@ -240,8 +240,10 @@ async def run(args, url):
             report['checks'].append('Host menu Pause and shell blur/trusted Resume clear remote controls; held keys do not replay')
 
         # The existing engine's co-op death/respawn (action), not a new rule.
-        await script('sector.Tux2.kill(true);')
-        await host.wait_for_timeout(3300)
+        # Death uses g_game_time, which can lag wall time in Debug/software
+        # rendering. Wait on the same simulation clock before pressing Action.
+        await script('sector.Tux2.kill(true);coopDeathWait <- newthread(function(){wait(3.1,true);print("COOP_DEATH_READY");});coopDeathWait.call();')
+        await host.wait_for_function("document.querySelector('#output').textContent.includes('[SCRIPTING] COOP_DEATH_READY')",timeout=30000)
         await p2('action',True)
         await sample('coop-respawn',lambda s:abs(s[1]['x']-s[0]['x'])<100 and s[1]['y']<800,timeout=15000)
         await p2('action',False)
@@ -264,8 +266,8 @@ async def run(args, url):
         await sample('checkpoint-bell',lambda s:all(v['x']>5300 and v['y']<800 for v in s))
         await host.wait_for_timeout(600)
         old = await host.evaluate('Module.supertuxCoop.state.generation') if guest else 0
-        await script('sector.Tux.kill(true);sector.Tux2.kill(true);')
-        await host.wait_for_timeout(4300)
+        await script('sector.Tux.kill(true);sector.Tux2.kill(true);coopRestartWait <- newthread(function(){wait(3.4,true);print("COOP_RESTART_READY");});coopRestartWait.call();')
+        await host.wait_for_function("document.querySelector('#output').textContent.includes('[SCRIPTING] COOP_RESTART_READY')",timeout=30000)
         await observer()
         checkpoint=await sample('all-dead-checkpoint-restart',lambda s:all(abs(v['x']-5360)<5 and v['y']<800 for v in s))
         if guest:

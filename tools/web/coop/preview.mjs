@@ -1,7 +1,9 @@
 // Actual local Cloudflare runtime, assets and private R2; no credentials needed.
 import {Miniflare, convertV4MiniflareOptions} from 'miniflare';
 import {build as bundle} from 'esbuild';
-import {readFile, readdir, mkdtemp, rm} from 'node:fs/promises';
+import {readFile, readdir, mkdtemp, rm, stat} from 'node:fs/promises';
+import {createReadStream} from 'node:fs';
+import {Readable} from 'node:stream';
 import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
 import {resolve, dirname, join} from 'node:path';
@@ -21,28 +23,49 @@ export async function startPreview(directory, port = 8787) {
   let mf;
   try {
   const result = await bundle({entryPoints: [join(root, 'worker/index.js')], bundle: true, write: false, format: 'esm', platform: 'browser', target: 'es2022'});
-  mf = new Miniflare(convertV4MiniflareOptions({
-    host: '127.0.0.1', port, name: 'supertux-input-proof', modules: true,
+  const r2Buckets = {GAME_ASSETS: 'supertux-input-proof-assets'};
+  mf = new Miniflare(convertV4MiniflareOptions({host: '127.0.0.1', port, workers: [{
+    name: 'supertux-input-proof', modules: true,
     script: result.outputFiles[0].text, compatibilityDate: '2026-10-06',
     durableObjects: {COOP_ROOMS: {className: 'CoopRoom', useSQLite: true}},
-    r2Buckets: ['GAME_ASSETS'],
+    r2Buckets,
     assets: {directory: frontend, binding: 'ASSETS', assetConfig: {html_handling: 'none'}, routerConfig: {has_user_worker: true, invoke_user_worker_ahead_of_assets: true}},
-  }));
-  const bucket = await mf.getR2Bucket('GAME_ASSETS');
-  // Seed local R2 one file at a time (the setup process needs at most the
-  // largest file). Serving remains a streaming R2 response in the Worker.
+  }, {
+    // Only available through Miniflare#getWorker, never the public listener.
+    name: 'supertux-input-proof-seed', modules: true, r2Buckets,
+    compatibilityDate: '2026-10-06',
+    script: `export default {async fetch(request, env) {
+      if (request.method !== 'PUT') return new Response(null, {status: 405});
+      const object = await env.GAME_ASSETS.put(decodeURIComponent(new URL(request.url).pathname.slice(1)), request.body || new Uint8Array());
+      return Response.json({size: object.size}, {status: 201});
+    }};`,
+  }]}));
+  const seeder = await mf.getWorker('supertux-input-proof-seed');
+  // Buffer arguments to getR2Bucket().put() are serialized as large JSON RPC
+  // messages. Stream the actual files over HTTP with a known length instead.
+  async function uploadFile(key, path) {
+    const size = (await stat(path)).size, file = createReadStream(path);
+    try {
+      const response = await seeder.fetch(`http://seed.invalid/${encodeURIComponent(key)}`, {
+        method: 'PUT', headers: {'Content-Length': String(size)},
+        body: size === 0 ? null : Readable.toWeb(file), duplex: 'half',
+      });
+      if (response.status !== 201 || (await response.json()).size !== size)
+        throw Error(`Local R2 upload did not complete: ${key}`);
+    } finally {file.destroy();}
+  }
   async function upload(dir, prefix = '') {
     for (const entry of await readdir(dir, {withFileTypes: true})) {
       const key = prefix + entry.name, path = join(dir, entry.name);
       if (entry.isDirectory()) await upload(path, key + '/');
-      else await bucket.put(key, await readFile(path));
+      else await uploadFile(key, path);
     }
   }
   await upload(join(directory, 'game-assets'));
   for (const [category, suffix] of [['startup','data'], ['wasm','wasm']])
-    await bucket.put(`${suffix}/${manifest.packages[category].sha256}/supertux2.${suffix}`, await readFile(join(directory, `supertux2.${suffix}`)));
+    await uploadFile(`${suffix}/${manifest.packages[category].sha256}/supertux2.${suffix}`, join(directory, `supertux2.${suffix}`));
   const published = await readFile(join(frontend, 'asset-manifest.json'));
-  await bucket.put(`manifest/${createHash('sha256').update(published).digest('hex')}/asset-manifest.json`, published);
+  await uploadFile(`manifest/${createHash('sha256').update(published).digest('hex')}/asset-manifest.json`, join(frontend, 'asset-manifest.json'));
   const url = String(await mf.ready);
   return {mf, url, manifest, async dispose() {await mf.dispose(); await rm(frontend,{recursive:true,force:true});}};
   } catch (error) {
