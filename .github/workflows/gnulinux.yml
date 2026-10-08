@@ -143,6 +143,7 @@ jobs:
         & cmake .. -DCMAKE_BUILD_TYPE="$Env:BUILD_TYPE" -DENABLE_DISCORD=ON `
                    -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
                    -DCMAKE_POLICY_VERSION_MINIMUM="3.5" `
+                   -DRAPIDJSON_BUILD_TESTS=OFF -DRAPIDJSON_BUILD_EXAMPLES=OFF -DRAPIDJSON_BUILD_DOC=OFF `
                    -DGIT_HASH="$Env:GIT_HASH" `
                    -DGIT_BRANCH="$Env:GIT_BRANCH" `
                    $(if ($Env:32BIT -eq "true") {

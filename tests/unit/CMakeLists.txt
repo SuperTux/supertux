@@ -36,7 +36,10 @@ make_unit_test(CollisionTest SOURCE collision_test.cpp
 
 message("ALL TESTS: ${all_test_targets}")
 
-add_custom_target(tests
+add_custom_target(supertux-unit-tests
   COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIG> --output-on-failure
   DEPENDS ${all_test_targets}
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+if(NOT TARGET tests)
+  add_custom_target(tests DEPENDS supertux-unit-tests)
+endif()

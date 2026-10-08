@@ -15,6 +15,7 @@ class SelectionTests(unittest.TestCase):
             ('worker/index.js', {'tests'}),
             ('wrangler.toml', {'tests'}),
             ('tools/web/package_assets.py', {'tests', 'web', 'debug'}),
+            ('tests/web/test_packaging.py', {'tests', 'web'}),
             ('src/audio/sound_manager.cpp', {'tests', 'lint', 'linux', 'web', 'debug'}),
             ('src/object/player.cpp', {'tests', 'lint', 'linux', 'web'}),
             ('vcpkg.json', set(selection.select([], True))),

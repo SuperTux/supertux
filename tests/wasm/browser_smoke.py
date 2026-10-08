@@ -97,7 +97,7 @@ async def smoke(args, url, data_dir):
                 # Use existing read-only scripting access to measure keyboard
                 # movement. No test-only exports are compiled into the game.
                 arguments.append("--developer")
-                arguments.append(data_dir + "/levels/world1/welcome_antarctica.stl")
+                arguments.append(data_dir + "/" + args.level)
             body = html.replace("var Module = {", "var Module = {\narguments: " + json.dumps(arguments) + ",", 1)
             await page.route("**/supertux2.html", lambda route: route.fulfill(body=body, content_type="text/html"))
             await page.goto(url)
@@ -285,7 +285,7 @@ async def smoke(args, url, data_dir):
         assert ImageChops.difference(before, after).getbbox() is not None
         await page.keyboard.press("Escape", delay=150)
         await capture(page, "level-paused.png")
-        report["checks"].append("Welcome to Antarctica entered; keyboard movement/jump measured through existing read-only console methods; pause screenshot captured")
+        report["checks"].append("Real level entered; keyboard movement/jump measured through existing read-only console methods; pause screenshot captured")
         await page.close()
         await context.close()
 
@@ -359,6 +359,7 @@ def main():
     parser.add_argument("--chromium", help="Installed executable; omit to use Playwright Chromium")
     parser.add_argument('--browser', choices=['chromium', 'webkit'], default='chromium')
     parser.add_argument('--webkit-executable', help='Optional local WebKit launcher')
+    parser.add_argument("--level", default="levels/world1/welcome_antarctica.stl", help="Real level for the gameplay checks")
     parser.add_argument("--data-dir", help="Compiled virtual data directory; otherwise read build/config.h")
     parser.add_argument("--record-known-ub", action="store_true", help="Record the exact documented upstream Debug UBSan sites; fail any new site. Does not disable instrumentation.")
     args = parser.parse_args()

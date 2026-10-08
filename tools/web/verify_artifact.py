@@ -24,7 +24,7 @@ def verify(directory, source_commit, configuration='Release'):
         paths.add(entry['path'])
         if entry['package'] == 'music':
             payload = directory / entry['url']
-            assert entry['url'].startswith('game-assets/music/' + entry['sha256'] + '/'), 'Incorrect deferred URL'
+            assert entry['url'] in (f'game-assets/music/{entry["sha256"]}/track.ogg', f'game-assets/music/{entry["sha256"]}/track.wav'), 'Incorrect deferred URL'
             assert payload.stat().st_size == entry['bytes'] and digest(payload) == entry['sha256'], 'Deferred asset mismatch'
         else:
             assert entry['package'] == 'startup', 'Unknown package membership'
