@@ -18,31 +18,26 @@
 name: MacOS
 on:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      full_matrix:
+        type: boolean
+        default: true
+  schedule:
+    - cron: '20 5 * * 2'
   push:
-    branches:
-      - master
-    tags:
-      - '*'
-  pull_request: {}
+    tags: ['*']
+
+concurrency:
+  group: macos-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 jobs:
   macos:
 
     strategy:
       fail-fast: false
-      matrix:
-        os: [macos-15]
-        build_type: [Debug, Release]
-        arch: [arm64, x86_64]
-        include:
-          - os: macos-15
-            build_type: Release
-            arch: arm64
-            release: ON
-          - os: macos-15
-            build_type: Release
-            arch: x86_64
-            release: ON
+      matrix: ${{ fromJSON(toJSON(inputs.full_matrix) == 'false' && '{"include":[{"os":"macos-15","build_type":"Release","arch":"arm64"}]}' || '{"os":["macos-15"],"build_type":["Debug","Release"],"arch":["arm64","x86_64"],"include":[{"os":"macos-15","build_type":"Release","arch":"arm64","release":true},{"os":"macos-15","build_type":"Release","arch":"x86_64","release":true}]}') }}
 
     runs-on: ${{ matrix.os }}
     env:
@@ -218,7 +213,7 @@ jobs:
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

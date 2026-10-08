@@ -1,5 +1,6 @@
 # Will eventually handle game tests here too
 include(CTest)
+set(all_test_targets "")
 
 function(make_unit_test test_name)
   cmake_parse_arguments(PARSE_ARGV 1 mtargs
@@ -17,7 +18,7 @@ function(make_unit_test test_name)
   if (mtargs_LIBRARIES)
     target_link_libraries(${test_name} PUBLIC ${mtargs_LIBRARIES})
   endif()
-  set(all_test_targets "${all_test_targets};${test_name}" CACHE INTERNAL "")
+  set(all_test_targets "${all_test_targets};${test_name}" PARENT_SCOPE)
   add_test(NAME ${test_name}
     COMMAND ${test_name})
 endfunction(make_unit_test)
@@ -35,5 +36,10 @@ make_unit_test(CollisionTest SOURCE collision_test.cpp
 
 message("ALL TESTS: ${all_test_targets}")
 
-add_custom_target(tests DEPENDS ${all_test_targets})
-add_custom_command(TARGET tests POST_BUILD COMMAND ctest -C $<CONFIGURATION> --output-on-failure)
+add_custom_target(supertux-unit-tests
+  COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIG> --output-on-failure
+  DEPENDS ${all_test_targets}
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+if(NOT TARGET tests)
+  add_custom_target(tests DEPENDS supertux-unit-tests)
+endif()

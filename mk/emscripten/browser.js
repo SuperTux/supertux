@@ -161,6 +161,7 @@
     resize,
     resetInput,
     get active() { return active; },
+    get muted() { return muted; },
     get audioState() { return audio ? audio.state : 'unavailable'; },
     setAudioContext(context) {
       audio = context;
@@ -208,7 +209,7 @@
   // listeners. Real buttons/links remain operable, including keyboard access.
   for (const type of ['keydown', 'keyup', 'mousedown', 'mouseup', 'touchstart', 'touchend', 'pointerdown', 'pointermove', 'pointerup']) {
     window.addEventListener(type, event => {
-      if (!active && !event.target.closest('button, a, input')) {
+      if (!active && !event.target.closest('button, a, input, summary')) {
         event.preventDefault();
         event.stopImmediatePropagation();
       }

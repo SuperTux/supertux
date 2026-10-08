@@ -19,15 +19,11 @@ name: Code Linting
 on:
   workflow_dispatch:
   push:
-    branches:
-      - master
-    tags:
-      - '*'
-    paths:
-      - 'src/**'
-  pull_request:
-    paths:
-      - 'src/**'
+    tags: ['*']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 permissions:
   contents: read
