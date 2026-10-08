@@ -89,3 +89,15 @@ test('unacknowledged receiver has a fixed message window; role fields are reject
   await send(other.object,client,{type:'input',generation:1,sequence:1,mask:2,role:'host'});
   assert.equal(client.closed.code,1008);
 });
+
+test('only a neutral host gets bounded loading grace, not active play or guests', async () => {
+  for (const [role, enabled, idle, closes] of [
+    ['host',false,4000,false], ['host',false,16000,true],
+    ['host',true,3000,true], ['guest',false,3000,true],
+  ]) {
+    const f=fixture(), socket=f.add(role);await ready(f,socket);
+    if (role==='host') await send(f.object,socket,{type:'session',generation:1,enabled});
+    socket.info.last=Date.now()-idle;
+    await f.object.alarm();assert.equal(!!socket.closed,closes);
+  }
+});

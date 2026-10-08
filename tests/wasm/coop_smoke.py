@@ -55,6 +55,12 @@ async def run(args, url):
         await host.goto(url+'index.html?coop=1')
         await host.wait_for_function('Module.supertuxReady===true',timeout=180000)
         await host.locator('#start_button').click();await host.wait_for_function('Module.supertuxShell.active')
+        async def status_after(text, start=0):
+            for _ in range(600):
+                if any('Setting status: '+text in line for line in logs[start:]):return
+                await host.wait_for_timeout(100)
+            raise AssertionError(('Screen transition',text,logs[-8:]))
+        await status_after('In main menu');await host.wait_for_timeout(500)
         guest = None
         if not args.local_only:
             await host.locator('#coop_panel summary').click();await host.locator('#coop_create').click()
@@ -67,17 +73,32 @@ async def run(args, url):
             await guest.goto(link)
             await guest.wait_for_function('window.supertuxGuest && supertuxGuest.state.connected')
             await host.wait_for_function('Module.supertuxCoop.state.reserved===1')
+            await host.evaluate("window.proofCloses=[];Module.supertuxCoop.connection.socket.addEventListener('close',e=>proofCloses.push({code:e.code,reason:e.reason,time:Date.now()}))")
+            await guest.evaluate("window.proofCloses=[];supertuxGuest.connection.socket.addEventListener('close',e=>proofCloses.push({code:e.code,reason:e.reason,time:Date.now()}))")
             assert not await host.evaluate('Module.supertuxCoop.state.enabled')
             report['checks'].append('Two independent browsers join actual Worker/Durable Object before level; remote slot reserved without a local device; menus reject guest gameplay')
             await host.locator('#coop_panel summary').click()
+        async def guest_active():
+            try:await guest.wait_for_function('supertuxGuest.state.enabled',timeout=15000)
+            except Exception:
+                diagnostic={'host':await host.evaluate('({state:Module.supertuxCoop.state,status:document.querySelector("#coop_status").textContent,closes:proofCloses})'),
+                            'guest':await guest.evaluate('({state:supertuxGuest.state,status:document.querySelector("#guest_status").textContent,closes:proofCloses})')}
+                (args.output/'timeout-state.json').write_text(json.dumps(diagnostic,indent=2))
+                raise AssertionError(diagnostic)
         await host.locator('#canvas').focus()
         # The standard packaged campaign path, including story and world map.
-        await host.keyboard.press('Enter',delay=150);await host.wait_for_timeout(1800)
-        await host.keyboard.press('Escape',delay=150);await host.wait_for_timeout(1500)
-        await host.keyboard.down('ArrowDown');await host.wait_for_timeout(700);await host.keyboard.up('ArrowDown')
-        await host.keyboard.press('Space',delay=150);await host.wait_for_timeout(1500)
-        await host.keyboard.press('Space',delay=150);await host.wait_for_timeout(600)
-        await host.wait_for_function("document.querySelector('#output').textContent.includes('Setting status: Playing')")
+        entry_start=len(logs);await host.keyboard.press('Enter',delay=150)
+        # Story is a GameSession ("Playing"); "Watching a cutscene" is the
+        # separate LevelIntro screen, which appears only after map entry.
+        await status_after('Playing',entry_start);await host.wait_for_timeout(500)
+        map_start=len(logs);await host.keyboard.press('Escape',delay=150)
+        await status_after('In worldmap',map_start);await host.wait_for_timeout(500)
+        await host.keyboard.down('ArrowDown');await host.wait_for_timeout(1000);await host.keyboard.up('ArrowDown')
+        await host.wait_for_timeout(500)
+        intro_start=len(logs);await host.keyboard.press('Space',delay=150)
+        await status_after('Watching a cutscene',intro_start);await host.wait_for_timeout(500)
+        level_start=len(logs);await host.keyboard.press('Space',delay=150)
+        await status_after('Playing',level_start);await host.wait_for_timeout(400)
 
         async def script(command, paused=True):
             await host.locator('#canvas').focus()
@@ -108,7 +129,7 @@ async def run(args, url):
             else: await host.evaluate('([button,value])=>pad(1,button,value)',[{'left':14,'right':15,'jump':0,'action':2,'up':12}[control],int(down)])
 
         start=await sample('spawn',lambda s:all(v['y']<800 for v in s))
-        if guest: await guest.wait_for_function('supertuxGuest.state.enabled')
+        if guest: await guest_active()
         await host.keyboard.down('ArrowRight');await p2('left',True)
         moved=await sample('independent-movement',lambda s:s[0]['right'] and not s[0]['left'] and s[1]['left'] and not s[1]['right'] and s[0]['x']>start[0]['x']+5 and s[1]['x']<start[1]['x']-5)
         await host.keyboard.up('ArrowRight');await p2('left',False)
@@ -149,7 +170,7 @@ async def run(args, url):
             await host.wait_for_function('!Module.supertuxCoop.state.enabled')
             await p2('left',False)
             await host.keyboard.press('Escape',delay=150)
-            await guest.wait_for_function('supertuxGuest.state.enabled')
+            await guest_active()
             await sample('hot-unplug-isolation',lambda s:not s[1]['left'])
             report['checks'].append('Actual SDL gamepad connect/disconnect events cannot claim or remove the remote slot')
             # The actual room refuses a third socket before gameplay messages.
@@ -191,7 +212,7 @@ async def run(args, url):
             await host.keyboard.press('Escape',delay=150)
             await host.wait_for_function('!Module.supertuxCoop.state.enabled')
             await host.keyboard.press('Escape',delay=150)
-            await guest.wait_for_function('supertuxGuest.state.enabled')
+            await guest_active()
             await sample('pause-neutral',lambda s:not s[1]['right'])
             assert await host.evaluate('Module.supertuxCoop.state.generation')!=old
             await p2('right',False)
@@ -199,7 +220,7 @@ async def run(args, url):
             await host.evaluate("window.dispatchEvent(new Event('blur'))")
             await host.wait_for_function('!Module.supertuxShell.active && !Module.supertuxCoop.state.enabled')
             await host.evaluate("window.dispatchEvent(new Event('focus'))")
-            await host.locator('#start_button').click();await guest.wait_for_function('supertuxGuest.state.enabled')
+            await host.locator('#start_button').click();await guest_active()
             await sample('shell-resume-neutral',lambda s:not s[1]['right'])
             await p2('right',False)
             report['checks'].append('Host menu Pause and shell blur/trusted Resume clear remote controls; held keys do not replay')
@@ -235,7 +256,7 @@ async def run(args, url):
         checkpoint=await sample('all-dead-checkpoint-restart',lambda s:all(abs(v['x']-5360)<5 and v['y']<800 for v in s))
         if guest:
             assert await host.evaluate('Module.supertuxCoop.state.generation')!=old
-            await guest.wait_for_function('supertuxGuest.state.enabled')
+            await guest_active()
             await p2('right',True);await sample('input-after-restart',lambda s:s[1]['right'] and not s[0]['right'])
             await p2('right',False)
         report['checks'].append('Actual packaged bell collision records checkpoint; both players die and restart there; controller ownership/input survive restart')
@@ -272,16 +293,42 @@ async def run(args, url):
         await script('sector.Tux.set_pos(9760,800);sector.Tux2.set_pos(9760,800);')
         await sample('at-forest-door',lambda s:all(v['x']>9700 for v in s))
         old = await host.evaluate('Module.supertuxCoop.state.generation') if guest else 0
-        if guest: await guest.wait_for_function('supertuxGuest.state.enabled')
+        if guest: await guest_active()
         await p2('up',True)
         await host.wait_for_timeout(2200);await p2('up',False)
         await observer()
         await sample('second-sector',lambda s:all(750<v['x']<1000 and v['y']>2500 for v in s))
         if guest:
             assert await host.evaluate('Module.supertuxCoop.state.generation')!=old
-            await guest.wait_for_function('supertuxGuest.state.enabled')
+            await guest_active()
         await p2('left',True);await sample('input-after-sector',lambda s:s[1]['left'] and not s[0]['left']);await p2('left',False)
         report['checks'].append('Packaged tux_builder: ordinary P2 Up activates a real door and moves both players to mountain; input ownership survives sector generation')
+
+        if not guest:
+            # Existing host menus really pop the controller, beyond the hotplug
+            # path which only despawns its Player. Flush-before-pop is exercised
+            # while a compiled level and its script observer still exist.
+            async def menu_key(key):
+                await host.keyboard.press(key,delay=150);await host.wait_for_timeout(400)
+            await menu_key('Escape')
+            await menu_key('ArrowUp');await menu_key('ArrowUp');await menu_key('Enter') # Options
+            for _ in range(3):await menu_key('ArrowRight') # Video -> Extras
+            await menu_key('Enter');await menu_key('Enter') # Extras -> Multiplayer
+            for _ in range(3):await menu_key('ArrowDown')
+            await menu_key('Enter') # Manage Players
+            await menu_key('ArrowUp');await menu_key('ArrowUp');await menu_key('Enter') # Remove last
+            await menu_key('Enter') # existing confirmation, default Yes
+            await host.locator('#canvas').screenshot(path=str(args.output/'controller-removed.png'))
+            await menu_key('ArrowDown');await menu_key('ArrowDown');await menu_key('Enter') # Add controller
+            await menu_key('Escape');await menu_key('Escape') # menu exit, then Resume
+            await host.evaluate("pads[1].connected=false;const event=new Event('gamepaddisconnected');event.gamepad=pads[1];window.dispatchEvent(event)")
+            await host.wait_for_timeout(400);await menu_key('Escape') # existing unplug pause
+            await host.evaluate("pads[1].connected=true;pads[1].timestamp=performance.now();const event=new Event('gamepadconnected');event.gamepad=pads[1];window.dispatchEvent(event)")
+            await host.wait_for_timeout(500);await observer()
+            await p2('action',True);await sample('controller-recreated-respawn',lambda s:abs(s[1]['x']-s[0]['x'])<100 and 2500<s[1]['y']<3400);await p2('action',False)
+            before=await sample('controller-recreated-neutral')
+            await p2('right',True);await sample('controller-recreated',lambda s:s[1]['right'] and not s[0]['right'] and s[1]['x']>before[1]['x']+5);await p2('right',False)
+            report['checks'].append('Existing Remove Last Player confirmation destroys P2 before controller pop; Add Controller and real device rebind recreate independent P2')
 
         if guest:
             await p2('right',True);await sample('before-disconnect',lambda s:s[1]['right'])
@@ -302,7 +349,7 @@ async def run(args, url):
             await host.wait_for_timeout(1800)
             await host.locator('#coop_panel').evaluate('(e)=>e.open=false')
             await host.locator('#canvas').focus();await observer()
-            await guest.wait_for_function('supertuxGuest.state.enabled')
+            await guest_active()
             await sample('rejoin-neutral',lambda s:not s[1]['right'])
             await p2('right',False);await p2('right',True)
             await sample('rejoin-fresh-input',lambda s:s[1]['right'] and not s[0]['right'])
@@ -332,9 +379,11 @@ async def run(args, url):
         assert await host.evaluate(snapshot)==saved
         assert await host.evaluate('Module.supertuxCoop.state.reserved')==0
         report['checks'].append('Existing IndexedDB hydration restores exact host config and progression saves after reload; network membership is absent')
+        known=[line for line in logs if 'runtime error:' in line and args.record_known_ub and
+               any(re.search(pattern,line) for pattern in KNOWN_UPSTREAM_UB)]
+        report['known_upstream_sanitizer_diagnostics']=known
         for line in logs:
-            if 'runtime error:' in line or 'Aborted(' in line or 'ERROR:' in line:
-                if args.record_known_ub and any(re.search(pattern,line) for pattern in KNOWN_UPSTREAM_UB): continue
+            if re.search(r'undefined symbol|Aborted\(|\[FATAL\]|runtime error:|missing function|AN ERROR HAS OCCURRED|Error waking VM|Squirrel exception:',line) and line not in known:
                 errors.append(line)
         assert not errors,errors[:10]
         await context.close();await browser.close()

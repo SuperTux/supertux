@@ -4,6 +4,10 @@ export const ROOM_MS = 15 * 60 * 1000;
 const TOKEN = /^[a-f0-9]{64}$/;
 const BUILD = /^[a-f0-9]{64}$/;
 const UINT = value => Number.isInteger(value) && value > 0 && value < 0x80000000;
+// Synchronous WASM level loading can block the host's browser event loop.
+// Only an already neutral host session gets loading grace; active play and
+// guests retain the short watchdog, independently of the C++ 750 ms watchdog.
+const idleLimit = info => info.role === 'host' && info.session?.enabled === false ? 15000 : 2500;
 const FIELDS = {hello: ['type','protocol','build'], ping: ['type'], seen: ['type'], session: ['type','generation','enabled'], ack: ['type','sequence'], input: ['type','generation','sequence','mask']};
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
@@ -166,7 +170,7 @@ export class CoopRoom {
     let next = room.expires;
     for (const socket of this.state.getWebSockets()) {
       const info = socket.deserializeAttachment();
-      next = Math.min(next, info.hello ? info.last + 2500 : info.opened + 5000);
+      next = Math.min(next, info.hello ? info.last + idleLimit(info) : info.opened + 5000);
     }
     await this.state.storage.setAlarm(Math.max(Date.now() + 100, next));
   }
@@ -179,7 +183,7 @@ export class CoopRoom {
     }
     for (const socket of this.state.getWebSockets()) {
       const info = socket.deserializeAttachment();
-      if ((!info.hello && Date.now() - info.opened >= 5000) || (info.hello && Date.now() - info.last >= 2500)) {
+      if ((!info.hello && Date.now() - info.opened >= 5000) || (info.hello && Date.now() - info.last >= idleLimit(info))) {
         await this.webSocketClose(socket, 1001, 'Connection timed out');
       }
     }

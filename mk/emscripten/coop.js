@@ -25,7 +25,7 @@
       this.socket.addEventListener('close', event => this.finish(event.reason || 'Connection closed. Rejoin before starting a level.'));
       this.socket.addEventListener('error', () => this.finish('Connection rejected or unavailable. Check the room link and build.'));
       this.timer = setInterval(() => {
-        if (Date.now() - this.last > 4000) this.close('Relay timed out. Rejoin before starting a level.');
+        if (Date.now() - this.last > (role === 'host' ? 20000 : 4000)) this.close('Relay timed out. Rejoin before starting a level.');
         else if (this.ready) { this.send({type: 'ping'}); events.refresh?.(); }
       }, role === 'guest' ? 125 : 500);
     }
