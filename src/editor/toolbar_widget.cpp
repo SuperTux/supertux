@@ -237,6 +237,8 @@ EditorToolbarWidget::create_grid_button() const
 
   int grid_size_idx = 0;
 
+  auto menu_list = grid_button->get_menu_list();
+
   for (const auto &grid_size : snap_grid_sizes)
   {
     auto on_click = [grid_size_idx]
@@ -260,7 +262,6 @@ EditorToolbarWidget::create_grid_button() const
     auto menu_item = std::make_unique<MenuListItem>(grid_size, on_click);
     menu_item->set_is_selected_handler(is_selected);
 
-    auto menu_list = grid_button->get_menu_list();
     menu_list->add_item(std::move(menu_item));
     grid_size_idx++;
   }
