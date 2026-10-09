@@ -24,6 +24,7 @@ class SelectionTests(unittest.TestCase):
             ('external/SDL_ttf', set(selection.select([], True))),
             ('mk/android/build.gradle', {'tests', 'android'}),
             ('.github/workflows/windows.yml', {'tests', 'windows'}),
+            ('.github/workflows/gnulinux.yml', {'tests', 'linux'}),
             ('.github/workflows/wasm.yml', {'tests', 'web'}),
             ('.github/workflows/validation.yml', {'tests', 'lint', 'linux', 'web'}),
             ('unclassified-file', set(selection.select([], True))),

@@ -1,5 +1,10 @@
 # Private browser co-op: Phase 7B supported level
 
+This runtime is merged through PR #14 at
+`c385d97aba1476a984e497a33c1bd24183c55293`. Its original validation below is
+retained with exact source identities. Follow-on baseline measurements and the
+phone usability plan are in [PRIVATE_COOP_PHASE8.md](PRIVATE_COOP_PHASE8.md).
+
 Implementation baseline: `mobile-web-audit` at
 `314e62e20b3f5703bb00683ad59f5ff47beb5661` (merged PR #13).
 
@@ -26,7 +31,8 @@ private-room binding; this PR does not enable multiplayer production delivery.
    All-player death restarts at the activated checkpoint, when applicable.
 6. Completion releases guest controls and reports the outcome. To change rooms
    or recover a disconnect, host returns to the title screen before rejoining.
-   Room invitations retain the existing 15-minute lifetime.
+   The entire room currently has a 15-minute lifetime, including active play.
+   Phase 8's lifecycle work will address that limitation.
 
 ## Architecture and content inventory
 

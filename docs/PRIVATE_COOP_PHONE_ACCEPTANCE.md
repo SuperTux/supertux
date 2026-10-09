@@ -1,6 +1,7 @@
 # Private co-op: HTTPS staging and phone acceptance
 
-Phase 7B is implemented for review in [PR #14](https://github.com/jbbejena/supertux/pull/14).
+Phase 7B is merged through [PR #14](https://github.com/jbbejena/supertux/pull/14),
+at `c385d97aba1476a984e497a33c1bd24183c55293` on `mobile-web-audit`.
 Its [supported-level handoff](PRIVATE_COOP_SUPPORTED_LEVEL.md) covers the original
 Welcome to Antarctica level. **The published URL below still serves Phase 7A**;
 merging code alone does not update that separately published staging Worker.
@@ -8,14 +9,21 @@ On 2026-10-09, GitHub rejected workflow dispatch with HTTP 422,
 “Actions has been disabled for this repository.” CI and a new HTTPS publication
 require Actions to be re-enabled. No production deployment is part of Phase 7B.
 
+Phase 8A retried dispatch after that merge and received the same HTTP 422.
+The existing preview therefore remains Phase 7A. Local performance measurements
+and the next staged implementation steps are in
+[PRIVATE_COOP_PHASE8.md](PRIVATE_COOP_PHASE8.md). Workflow listings reporting
+`active` do not establish repository-wide Actions availability; the integration
+cannot inspect those permissions (HTTP 403).
+
 For the new runtime, first run the WebAssembly workflow on the reviewed branch,
 then publish only its exact successful, non-PR validation artifact:
 
 ```sh
-gh workflow run wasm.yml --repo jbbejena/supertux --ref codex/private-coop-level-7b
+gh workflow run wasm.yml --repo jbbejena/supertux --ref mobile-web-audit
 # Wait for both Release and Debug, then use their exact source and run identity:
 gh workflow run mobile-web-preview.yml --repo jbbejena/supertux \
-  --ref codex/private-coop-level-7b \
+  --ref mobile-web-audit \
   -f ref=FULL_TESTED_RUNTIME_SHA -f validation_run_id=SUCCESSFUL_RUN_ID \
   -f publish_coop=true
 ```
@@ -109,14 +117,16 @@ real spawn position remain asserted. A failed reset captures a screenshot.
 
 Use the host HTTPS URL from the successful run summary, including `?coop=1`.
 Staging is a separate origin, with its own browser saves/settings and asset
-cache. Production saves are not imported. Private room invitations expire after
-15 minutes; create a new room and invitation for a longer testing session.
+cache. Production saves are not imported. The entire room currently expires after
+15 minutes, including active play; create a new room for a longer testing session.
 
 1. Phone A: use Start, expand **Private co-op**, then **Create room**.
 2. Share **Guest shared view** with Phone B. That invitation contains a temporary
    guest credential; keep it private. Wait for Player 2 to join.
-3. Phone A: choose **Start shared view proof**. Both screens should show the arena
-   and both numbered players. Phone A controls Player 1; Phone B controls Player 2.
+3. On the newly published Phase 7B runtime, Phone A chooses **Play Welcome to
+   Antarctica**. Both screens should show the original level and both players.
+   Phone A controls Player 1; Phone B controls Player 2. The older Phase 7A URL
+   only offers **Start shared view proof**, a static diagnostic arena.
 4. Try movement, Jump and independent finger releases. Move apart and confirm
    both living players remain visible through the native shared camera.
 5. Pause/resume on the host, rotate each phone, and inspect safe areas and control

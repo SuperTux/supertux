@@ -1,0 +1,1019 @@
+{
+  "schema": 1,
+  "measurement_date": "2026-10-09",
+  "host": "Linux managed cloud environment, four-CPU quota; suites/builds sequential",
+  "browser_automation": "Playwright 1.62",
+  "purpose": "Before-change Phase 7B baseline; no runtime performance changes in Phase 8A",
+  "profiles": {
+    "chromium": {
+      "engine": "chromium",
+      "profile": {
+        "name": "loopback",
+        "rtt_ms": 0,
+        "jitter_ms": 0,
+        "mbps": 0,
+        "scope": "ordered local WebSocket byte stream; HTTP assets unshaped"
+      },
+      "requested_runs": 3,
+      "samples_per_run": 10,
+      "complete": true,
+      "summary": {
+        "input_to_first_draw_ms": {
+          "count": 30,
+          "median": 228.1,
+          "p95": 410.2,
+          "max": 781.6
+        },
+        "input_to_first_frame_ms": {
+          "count": 30,
+          "median": 124.15,
+          "p95": 309.5,
+          "max": 678.2
+        },
+        "arrival_interval_ms": {
+          "count": 185,
+          "median": 118.3,
+          "p95": 161.1,
+          "max": 1046.4
+        },
+        "draw_interval_ms": {
+          "count": 185,
+          "median": 117.4,
+          "p95": 153.7,
+          "max": 1052.9
+        },
+        "receive_to_draw_ms": {
+          "count": 186,
+          "median": 100.65,
+          "p95": 111.5,
+          "max": 331.6
+        },
+        "draw_callback_ms": {
+          "count": 188,
+          "median": 1.8,
+          "p95": 9.2,
+          "max": 29.6
+        },
+        "host_raf_interval_ms": {
+          "count": 119,
+          "median": 41.4,
+          "p95": 1064.9,
+          "max": 2727.8
+        },
+        "host_native_input_update_interval_ms": {
+          "count": 1495,
+          "median": 15.1,
+          "p95": 32,
+          "max": 999.6
+        },
+        "host_cold_ready_ms": {
+          "count": 3,
+          "median": 4197.83,
+          "p95": 4318.54,
+          "max": 4318.54
+        },
+        "host_warm_ready_ms": {
+          "count": 3,
+          "median": 9210.25,
+          "p95": 13626.59,
+          "max": 13626.59
+        },
+        "guest_cold_ready_ms": {
+          "count": 3,
+          "median": 8680.53,
+          "p95": 9757.43,
+          "max": 9757.43
+        },
+        "guest_warm_ready_ms": {
+          "count": 3,
+          "median": 6225.94,
+          "p95": 6700.31,
+          "max": 6700.31
+        },
+        "selection_to_ready_ms": {
+          "count": 3,
+          "median": 1002.18,
+          "p95": 1588.14,
+          "max": 1588.14
+        },
+        "presentation_updates_per_second": 7.53,
+        "view_json_bytes_per_second": 201876,
+        "largest_view_json_bytes": 27273,
+        "max_host_buffered_bytes": 27273,
+        "max_guest_buffered_bytes": 84,
+        "input_samples": 30
+      },
+      "physical_device_tested": false,
+      "trials": [
+        {
+          "run": 1,
+          "browser": "151.0.7922.34",
+          "loading": {
+            "host_cold_ready_ms": 4318.54,
+            "guest_cold_ready_ms": 9757.43,
+            "host_warm_ready_ms": 9210.25,
+            "guest_warm_ready_ms": 6057.02,
+            "selection_to_ready_ms": 976.33
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        },
+        {
+          "run": 2,
+          "browser": "151.0.7922.34",
+          "loading": {
+            "host_cold_ready_ms": 4197.83,
+            "guest_cold_ready_ms": 8680.53,
+            "host_warm_ready_ms": 13626.59,
+            "guest_warm_ready_ms": 6700.31,
+            "selection_to_ready_ms": 1588.14
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        },
+        {
+          "run": 3,
+          "browser": "151.0.7922.34",
+          "loading": {
+            "host_cold_ready_ms": 3551.44,
+            "guest_cold_ready_ms": 8584.13,
+            "host_warm_ready_ms": 6038.62,
+            "guest_warm_ready_ms": 6225.94,
+            "selection_to_ready_ms": 1002.18
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        }
+      ]
+    },
+    "chromium-constrained": {
+      "engine": "chromium",
+      "profile": {
+        "name": "constrained",
+        "rtt_ms": 150,
+        "jitter_ms": 30,
+        "mbps": 5,
+        "scope": "ordered local WebSocket byte stream; HTTP assets unshaped"
+      },
+      "requested_runs": 3,
+      "samples_per_run": 10,
+      "complete": true,
+      "summary": {
+        "input_to_first_draw_ms": {
+          "count": 30,
+          "median": 494.4,
+          "p95": 1495.1,
+          "max": 2539
+        },
+        "input_to_first_frame_ms": {
+          "count": 30,
+          "median": 395.9,
+          "p95": 1398.6,
+          "max": 2439.3
+        },
+        "arrival_interval_ms": {
+          "count": 370,
+          "median": 114.4,
+          "p95": 179.1,
+          "max": 2472
+        },
+        "draw_interval_ms": {
+          "count": 370,
+          "median": 114.75,
+          "p95": 184.2,
+          "max": 2469.1
+        },
+        "receive_to_draw_ms": {
+          "count": 371,
+          "median": 99.7,
+          "p95": 110.9,
+          "max": 145.6
+        },
+        "draw_callback_ms": {
+          "count": 373,
+          "median": 1.7,
+          "p95": 5.6,
+          "max": 23.1
+        },
+        "host_raf_interval_ms": {
+          "count": 235,
+          "median": 46.4,
+          "p95": 1238.6,
+          "max": 4498
+        },
+        "host_native_input_update_interval_ms": {
+          "count": 2961,
+          "median": 15,
+          "p95": 32.7,
+          "max": 2359.3
+        },
+        "host_cold_ready_ms": {
+          "count": 3,
+          "median": 3690.93,
+          "p95": 4953.98,
+          "max": 4953.98
+        },
+        "host_warm_ready_ms": {
+          "count": 3,
+          "median": 9967.91,
+          "p95": 11424.22,
+          "max": 11424.22
+        },
+        "guest_cold_ready_ms": {
+          "count": 3,
+          "median": 9161.11,
+          "p95": 10999.23,
+          "max": 10999.23
+        },
+        "guest_warm_ready_ms": {
+          "count": 3,
+          "median": 6970.23,
+          "p95": 7757.03,
+          "max": 7757.03
+        },
+        "selection_to_ready_ms": {
+          "count": 3,
+          "median": 1232.92,
+          "p95": 1378.43,
+          "max": 1378.43
+        },
+        "presentation_updates_per_second": 7.3,
+        "view_json_bytes_per_second": 195776,
+        "largest_view_json_bytes": 27276,
+        "max_host_buffered_bytes": 27287,
+        "max_guest_buffered_bytes": 125,
+        "input_samples": 30
+      },
+      "physical_device_tested": false,
+      "trials": [
+        {
+          "run": 1,
+          "browser": "151.0.7922.34",
+          "loading": {
+            "host_cold_ready_ms": 4953.98,
+            "guest_cold_ready_ms": 9161.11,
+            "host_warm_ready_ms": 9774.75,
+            "guest_warm_ready_ms": 6970.23,
+            "selection_to_ready_ms": 1101.29
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        },
+        {
+          "run": 2,
+          "browser": "151.0.7922.34",
+          "loading": {
+            "host_cold_ready_ms": 3586.82,
+            "guest_cold_ready_ms": 8881.68,
+            "host_warm_ready_ms": 9967.91,
+            "guest_warm_ready_ms": 7757.03,
+            "selection_to_ready_ms": 1378.43
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        },
+        {
+          "run": 3,
+          "browser": "151.0.7922.34",
+          "loading": {
+            "host_cold_ready_ms": 3690.93,
+            "guest_cold_ready_ms": 10999.23,
+            "host_warm_ready_ms": 11424.22,
+            "guest_warm_ready_ms": 6673.17,
+            "selection_to_ready_ms": 1232.92
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        }
+      ]
+    },
+    "webkit": {
+      "engine": "webkit",
+      "profile": {
+        "name": "loopback",
+        "rtt_ms": 0,
+        "jitter_ms": 0,
+        "mbps": 0,
+        "scope": "ordered local WebSocket byte stream; HTTP assets unshaped"
+      },
+      "requested_runs": 3,
+      "samples_per_run": 10,
+      "complete": true,
+      "summary": {
+        "input_to_first_draw_ms": {
+          "count": 30,
+          "median": 223.5,
+          "p95": 252,
+          "max": 256
+        },
+        "input_to_first_frame_ms": {
+          "count": 30,
+          "median": 121.5,
+          "p95": 148,
+          "max": 157
+        },
+        "arrival_interval_ms": {
+          "count": 200,
+          "median": 121.0,
+          "p95": 152,
+          "max": 245
+        },
+        "draw_interval_ms": {
+          "count": 200,
+          "median": 119.0,
+          "p95": 150,
+          "max": 215
+        },
+        "receive_to_draw_ms": {
+          "count": 201,
+          "median": 100,
+          "p95": 111,
+          "max": 219
+        },
+        "draw_callback_ms": {
+          "count": 203,
+          "median": 2,
+          "p95": 7,
+          "max": 19
+        },
+        "host_raf_interval_ms": {
+          "count": 1361,
+          "median": 16,
+          "p95": 28,
+          "max": 169
+        },
+        "host_native_input_update_interval_ms": {
+          "count": 1630,
+          "median": 16.0,
+          "p95": 24,
+          "max": 133
+        },
+        "host_cold_ready_ms": {
+          "count": 3,
+          "median": 7150.25,
+          "p95": 7191.93,
+          "max": 7191.93
+        },
+        "host_warm_ready_ms": {
+          "count": 3,
+          "median": 3337.69,
+          "p95": 3362.04,
+          "max": 3362.04
+        },
+        "guest_cold_ready_ms": {
+          "count": 3,
+          "median": 14338.07,
+          "p95": 16461.03,
+          "max": 16461.03
+        },
+        "guest_warm_ready_ms": {
+          "count": 3,
+          "median": 11094.29,
+          "p95": 12242.88,
+          "max": 12242.88
+        },
+        "selection_to_ready_ms": {
+          "count": 3,
+          "median": 888.01,
+          "p95": 948.62,
+          "max": 948.62
+        },
+        "presentation_updates_per_second": 8.19,
+        "view_json_bytes_per_second": 219294,
+        "largest_view_json_bytes": 27177,
+        "max_host_buffered_bytes": 27192,
+        "max_guest_buffered_bytes": 153,
+        "input_samples": 30
+      },
+      "physical_device_tested": false,
+      "trials": [
+        {
+          "run": 1,
+          "browser": "26.5",
+          "loading": {
+            "host_cold_ready_ms": 7111.5,
+            "guest_cold_ready_ms": 16461.03,
+            "host_warm_ready_ms": 3337.69,
+            "guest_warm_ready_ms": 12242.88,
+            "selection_to_ready_ms": 948.62
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        },
+        {
+          "run": 2,
+          "browser": "26.5",
+          "loading": {
+            "host_cold_ready_ms": 7150.25,
+            "guest_cold_ready_ms": 13784.02,
+            "host_warm_ready_ms": 3362.04,
+            "guest_warm_ready_ms": 11045.33,
+            "selection_to_ready_ms": 864.84
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        },
+        {
+          "run": 3,
+          "browser": "26.5",
+          "loading": {
+            "host_cold_ready_ms": 7191.93,
+            "guest_cold_ready_ms": 14338.07,
+            "host_warm_ready_ms": 3003.45,
+            "guest_warm_ready_ms": 11094.29,
+            "selection_to_ready_ms": 888.01
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        }
+      ]
+    },
+    "webkit-constrained": {
+      "engine": "webkit",
+      "profile": {
+        "name": "constrained",
+        "rtt_ms": 150,
+        "jitter_ms": 30,
+        "mbps": 5,
+        "scope": "ordered local WebSocket byte stream; HTTP assets unshaped"
+      },
+      "requested_runs": 3,
+      "samples_per_run": 10,
+      "complete": true,
+      "summary": {
+        "input_to_first_draw_ms": {
+          "count": 30,
+          "median": 482.5,
+          "p95": 594,
+          "max": 636
+        },
+        "input_to_first_frame_ms": {
+          "count": 30,
+          "median": 371.0,
+          "p95": 490,
+          "max": 499
+        },
+        "arrival_interval_ms": {
+          "count": 380,
+          "median": 123.0,
+          "p95": 166,
+          "max": 471
+        },
+        "draw_interval_ms": {
+          "count": 379,
+          "median": 120,
+          "p95": 165,
+          "max": 507
+        },
+        "receive_to_draw_ms": {
+          "count": 381,
+          "median": 100,
+          "p95": 112,
+          "max": 465
+        },
+        "draw_callback_ms": {
+          "count": 382,
+          "median": 2.0,
+          "p95": 8,
+          "max": 128
+        },
+        "host_raf_interval_ms": {
+          "count": 2469,
+          "median": 16,
+          "p95": 33,
+          "max": 408
+        },
+        "host_native_input_update_interval_ms": {
+          "count": 3067,
+          "median": 16,
+          "p95": 24,
+          "max": 253
+        },
+        "host_cold_ready_ms": {
+          "count": 3,
+          "median": 7250.51,
+          "p95": 7751.52,
+          "max": 7751.52
+        },
+        "host_warm_ready_ms": {
+          "count": 3,
+          "median": 3228.96,
+          "p95": 3467.53,
+          "max": 3467.53
+        },
+        "guest_cold_ready_ms": {
+          "count": 3,
+          "median": 21035.48,
+          "p95": 25686.21,
+          "max": 25686.21
+        },
+        "guest_warm_ready_ms": {
+          "count": 3,
+          "median": 16496.54,
+          "p95": 17385.15,
+          "max": 17385.15
+        },
+        "selection_to_ready_ms": {
+          "count": 3,
+          "median": 1038.03,
+          "p95": 1135.71,
+          "max": 1135.71
+        },
+        "presentation_updates_per_second": 8.08,
+        "view_json_bytes_per_second": 216392,
+        "largest_view_json_bytes": 27266,
+        "max_host_buffered_bytes": 27266,
+        "max_guest_buffered_bytes": 140,
+        "input_samples": 30
+      },
+      "physical_device_tested": false,
+      "trials": [
+        {
+          "run": 1,
+          "browser": "26.5",
+          "loading": {
+            "host_cold_ready_ms": 7218.49,
+            "guest_cold_ready_ms": 25686.21,
+            "host_warm_ready_ms": 3467.53,
+            "guest_warm_ready_ms": 17385.15,
+            "selection_to_ready_ms": 1135.71
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        },
+        {
+          "run": 2,
+          "browser": "26.5",
+          "loading": {
+            "host_cold_ready_ms": 7751.52,
+            "guest_cold_ready_ms": 17613.29,
+            "host_warm_ready_ms": 3178.84,
+            "guest_warm_ready_ms": 10514.66,
+            "selection_to_ready_ms": 961.04
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        },
+        {
+          "run": 3,
+          "browser": "26.5",
+          "loading": {
+            "host_cold_ready_ms": 7250.51,
+            "guest_cold_ready_ms": 21035.48,
+            "host_warm_ready_ms": 3228.96,
+            "guest_warm_ready_ms": 16496.54,
+            "selection_to_ready_ms": 1038.03
+          },
+          "guest_loaded_images": 1049,
+          "errors": [],
+          "known_upstream_ub": [],
+          "network": {
+            "host_cold": {
+              "backend_observed": true,
+              "requests": 2,
+              "response_body_bytes": 137499108
+            },
+            "guest_cold": {
+              "backend_observed": true,
+              "requests": 1049,
+              "response_body_bytes": 18637169
+            },
+            "host_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            },
+            "guest_warm": {
+              "backend_observed": true,
+              "requests": 0,
+              "response_body_bytes": 0
+            }
+          }
+        }
+      ]
+    }
+  },
+  "validation": {
+    "compiled_browser": {
+      "release-chromium": {
+        "configuration": {
+          "configuration": "Release",
+          "inventorySha256": "60acd956e19c043bb01f777dffe6448cafa6097822037ff6f71695b30a6e15c5",
+          "mode": "deferred-music",
+          "sourceCommit": "c385d97aba1476a984e497a33c1bd24183c55293",
+          "toolchain": "emscripten-6.0.11"
+        },
+        "browser": "151.0.7922.34",
+        "physical_device_tested": false,
+        "checks": [
+          "Actual compiled host starts the derived static proof; guest displays both stable player IDs with original art",
+          "Guest keyboard RIGHT/JUMP and trusted touch Jump animate only Player 2; touch release clears input; both canvases show the authoritative scene",
+          "Shared camera comes from the native group camera and keeps both living players visible; host input remains independent",
+          "Host Pause freezes presentation and releases guest input; Resume requires neutral state with a fresh generation",
+          "Host death snapshot is discrete; ordinary guest Action triggers native co-op respawn and the new visual state",
+          "All-player death restarts the native level; a fresh epoch discards previous visual state and interpolation history",
+          "Injected 20/180ms presentation delivery jitter cannot reverse snapshots; interpolation history remains at most eight complete states",
+          "Guest downloads no game WASM/DATA/music, runs no native game and creates no save/settings database; presentation payloads are content-hash validated",
+          "Untouched Welcome to Antarctica starts only after a matching guest baseline acknowledgment; real native terrain, backgrounds and stable object identities are presented",
+          "A real coin collision increases authoritative shared coins; the collected UID and all its draw commands disappear together",
+          "Host-authoritative contact stomps a real moving snowball; its stable UID is removed from both object and visual baselines",
+          "Ordinary guest Jump hits the real growup block; the used block, spawned egg, collection and big-player pose agree in the guest presentation",
+          "Ordinary guest Jump opens the real information block; native wrapped text, image and rounded message panels remain present on both screens",
+          "Big Player 2 breaks a real wooden brick with ordinary Jump; removal and native debris are visible without replaying a guest collision",
+          "Host fixture grants a fire bonus; ordinary guest Action creates a native fireball and original fire-player/projectile artwork is rendered",
+          "The same real projectile melts a native ice weak block; its animation and eventual removal are authoritative",
+          "Native secret-area contact shows its message and fades the exact covering tilemap; the guest retains no stale opaque tiles",
+          "Real checkpoint bell state is replicated; all-player death rebuilds both players at the checkpoint with a new acknowledged epoch",
+          "Native end sequence completes the campaign level; the guest receives authoritative completion and releases controls; the host owns progression",
+          "Guest background/disconnect clears controls, image history and authority; host retains its game and requires title-screen rejoin"
+        ],
+        "errors": [],
+        "known_upstream_ub": []
+      },
+      "release-webkit": {
+        "configuration": {
+          "configuration": "Release",
+          "inventorySha256": "60acd956e19c043bb01f777dffe6448cafa6097822037ff6f71695b30a6e15c5",
+          "mode": "deferred-music",
+          "sourceCommit": "c385d97aba1476a984e497a33c1bd24183c55293",
+          "toolchain": "emscripten-6.0.11"
+        },
+        "browser": "26.5",
+        "physical_device_tested": false,
+        "checks": [
+          "Actual compiled host starts the derived static proof; guest displays both stable player IDs with original art",
+          "Guest keyboard RIGHT/JUMP and trusted touch Jump animate only Player 2; touch release clears input; both canvases show the authoritative scene",
+          "Shared camera comes from the native group camera and keeps both living players visible; host input remains independent",
+          "Host Pause freezes presentation and releases guest input; Resume requires neutral state with a fresh generation",
+          "Host death snapshot is discrete; ordinary guest Action triggers native co-op respawn and the new visual state",
+          "All-player death restarts the native level; a fresh epoch discards previous visual state and interpolation history",
+          "Injected 20/180ms presentation delivery jitter cannot reverse snapshots; interpolation history remains at most eight complete states",
+          "Guest downloads no game WASM/DATA/music, runs no native game and creates no save/settings database; presentation payloads are content-hash validated",
+          "Untouched Welcome to Antarctica starts only after a matching guest baseline acknowledgment; real native terrain, backgrounds and stable object identities are presented",
+          "A real coin collision increases authoritative shared coins; the collected UID and all its draw commands disappear together",
+          "Host-authoritative contact stomps a real moving snowball; its stable UID is removed from both object and visual baselines",
+          "Ordinary guest Jump hits the real growup block; the used block, spawned egg, collection and big-player pose agree in the guest presentation",
+          "Ordinary guest Jump opens the real information block; native wrapped text, image and rounded message panels remain present on both screens",
+          "Big Player 2 breaks a real wooden brick with ordinary Jump; removal and native debris are visible without replaying a guest collision",
+          "Host fixture grants a fire bonus; ordinary guest Action creates a native fireball and original fire-player/projectile artwork is rendered",
+          "The same real projectile melts a native ice weak block; its animation and eventual removal are authoritative",
+          "Native secret-area contact shows its message and fades the exact covering tilemap; the guest retains no stale opaque tiles",
+          "Real checkpoint bell state is replicated; all-player death rebuilds both players at the checkpoint with a new acknowledged epoch",
+          "Native end sequence completes the campaign level; the guest receives authoritative completion and releases controls; the host owns progression",
+          "Guest background/disconnect clears controls, image history and authority; host retains its game and requires title-screen rejoin"
+        ],
+        "errors": [],
+        "known_upstream_ub": []
+      },
+      "debug-chromium": {
+        "configuration": {
+          "configuration": "Debug",
+          "inventorySha256": "59793ddaeaf4a7df8231f9831c6ef4afb7fe1e81b29dcccb59c3e0cdd69146a3",
+          "mode": "deferred-music",
+          "sourceCommit": "c385d97aba1476a984e497a33c1bd24183c55293",
+          "toolchain": "emscripten-6.0.11"
+        },
+        "browser": "151.0.7922.34",
+        "physical_device_tested": false,
+        "checks": [
+          "Actual compiled host starts the derived static proof; guest displays both stable player IDs with original art",
+          "Guest keyboard RIGHT/JUMP and trusted touch Jump animate only Player 2; touch release clears input; both canvases show the authoritative scene",
+          "Shared camera comes from the native group camera and keeps both living players visible; host input remains independent",
+          "Host Pause freezes presentation and releases guest input; Resume requires neutral state with a fresh generation",
+          "Host death snapshot is discrete; ordinary guest Action triggers native co-op respawn and the new visual state",
+          "All-player death restarts the native level; a fresh epoch discards previous visual state and interpolation history",
+          "Injected 20/180ms presentation delivery jitter cannot reverse snapshots; interpolation history remains at most eight complete states",
+          "Guest downloads no game WASM/DATA/music, runs no native game and creates no save/settings database; presentation payloads are content-hash validated",
+          "Untouched Welcome to Antarctica starts only after a matching guest baseline acknowledgment; real native terrain, backgrounds and stable object identities are presented",
+          "A real coin collision increases authoritative shared coins; the collected UID and all its draw commands disappear together",
+          "Host-authoritative contact stomps a real moving snowball; its stable UID is removed from both object and visual baselines",
+          "Ordinary guest Jump hits the real growup block; the used block, spawned egg, collection and big-player pose agree in the guest presentation",
+          "Ordinary guest Jump opens the real information block; native wrapped text, image and rounded message panels remain present on both screens",
+          "Big Player 2 breaks a real wooden brick with ordinary Jump; removal and native debris are visible without replaying a guest collision",
+          "Host fixture grants a fire bonus; ordinary guest Action creates a native fireball and original fire-player/projectile artwork is rendered",
+          "The same real projectile melts a native ice weak block; its animation and eventual removal are authoritative",
+          "Native secret-area contact shows its message and fades the exact covering tilemap; the guest retains no stale opaque tiles",
+          "Real checkpoint bell state is replicated; all-player death rebuilds both players at the checkpoint with a new acknowledged epoch",
+          "Native end sequence completes the campaign level; the guest receives authoritative completion and releases controls; the host owns progression",
+          "Guest background/disconnect clears controls, image history and authority; host retains its game and requires title-screen rejoin"
+        ],
+        "errors": [],
+        "known_upstream_ub": [
+          "/workspace/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__utility/swap.h:43:11: runtime error: load of value 200, which is not a valid value for type '__libcpp_remove_reference_t<bool &>' (aka 'bool')",
+          "/workspace/supertux/external/obstack/obstack.c:143:35: runtime error: subtraction of unsigned offset from 0x00000000 overflowed to 0x00d7ceb0",
+          "/workspace/supertux/src/util/obstackpp.hpp:24:10: runtime error: subtraction of unsigned offset from 0x00000000 overflowed to 0x00d7cf20",
+          "/workspace/supertux/external/obstack/obstack.c:236:5: runtime error: subtraction of unsigned offset from 0x00000000 overflowed to 0x00d87d68",
+          "/workspace/supertux/external/obstack/obstack.c:263:7: runtime error: subtraction of unsigned offset from 0x00000000 overflowed to 0x00d7ceb0"
+        ]
+      }
+    },
+    "native_build": "GCC 14 Debug, successful; all 4 CTest cases passed",
+    "release_wasm_build": "Successful, Emscripten 6.0.11; complete preview verified",
+    "debug_wasm_build": "Successful, UBSan and SAFE_HEAP retained; complete preview verified",
+    "javascript_tests": 66,
+    "web_tool_tests": 16,
+    "ci_tests": 6,
+    "actionlint": "passed",
+    "cppcheck": "2.22, repository workflow flags, exit 0, no diagnostics"
+  },
+  "hosted": {
+    "workflow_dispatch": "HTTP 422: Actions has been disabled for this repository.",
+    "publication": "blocked; staging still Phase 7A",
+    "published_source_commit": "e5cfbe08ea4bb4959ad8b84cd3763366dd8eeba1",
+    "rulesets": [],
+    "integration_branch_protected": false,
+    "classic_branch_protection": "HTTP 403, unavailable",
+    "production_deployed": false
+  },
+  "limitations": [
+    "Synthetic ordered WebSocket shaping only; ordinary HTTP unshaped on loopback",
+    "Host startup ends at runtime ready before trusted Start/menu; guest ready before campaign selection",
+    "Warm navigation/new-tab reuse in the same live browser profiles; browser-process restart not measured",
+    "Authoritative drawn-state observation, not hardware display photon timing",
+    "Host placement/safety fixtures near spawn; not uninterrupted level completion or worst-case whole-level bandwidth",
+    "No physical iPhone/Android or separate-network acceptance",
+    "Five documented upstream Debug sanitizer sites retained; no new sites",
+    "Earlier dedicated audio/touch/save browser evidence retained; no fresh rerun in this measurement-only change"
+  ],
+  "raw_evidence_location": "/workspace/supertux-env/phase8a-evidence/",
+  "runtime": {
+    "configuration": "Release",
+    "inventorySha256": "60acd956e19c043bb01f777dffe6448cafa6097822037ff6f71695b30a6e15c5",
+    "mode": "deferred-music",
+    "sourceCommit": "c385d97aba1476a984e497a33c1bd24183c55293",
+    "toolchain": "emscripten-6.0.11"
+  },
+  "conditions": {
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "device_scale_factor": 1,
+    "has_touch": true,
+    "separate_browser_processes": true,
+    "fresh_profiles_per_run": true,
+    "browser_profile": "persistent temporary profiles",
+    "host_http_cache": "disabled by developer HTML route; warm persistent asset store retained",
+    "guest_http_cache": "enabled, cold fresh context then warm page in same context",
+    "render_endpoint": "authoritative drawn-state change observed after Canvas2D callback; not hardware photon timing",
+    "statistics": "median and nearest-rank p95; raw samples retained"
+  },
+  "measurement_tool_sha256": {
+    "tests/wasm/coop_benchmark.py": "303a8740139fe123de20f6d695eea3c4f6707cf585ba607563e72c51b26a27f3",
+    "tools/web/coop_metrics.py": "58f4424e28c014013372cb15578c19f741744d1ca76e6ef3d35c215f6a8be2c5",
+    "tools/web/coop/relay_proxy.mjs": "17f2e735ed3fcc2b83e4a948fb80562d3d6534d178901c53dddf8a138caad028"
+  }
+}
