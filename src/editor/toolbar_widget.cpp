@@ -51,8 +51,9 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_widgets_width_offset(0.f)
 {
   auto grid_button = create_grid_button();
+  auto show_button = create_show_button();
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 9> general_widgets = {
       // Undo button
       std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
                                                   std::bind(&EditorHistoryManager::undo, Editor::current()->get_history_manager()),
@@ -66,6 +67,9 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
       // Grid button,
       std::move(grid_button),
+
+      // Button for toggling visibility of things
+      std::move(show_button),
 
       // Play button
       std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
@@ -84,7 +88,8 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
       // Rubber button
       std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [this]()
-                                                  { Editor::current()->get_toolbox_widget()->set_rubber_tool(); }, _("Delete the tile or object under the mouse"))};
+                                                  { Editor::current()->get_toolbox_widget()->set_rubber_tool(); }, _("Delete the tile or object under the mouse"))
+  };
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets = {
     // Select mode mouse
@@ -267,6 +272,33 @@ EditorToolbarWidget::create_grid_button() const
   }
 
   return grid_button;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_show_button() const
+{
+  auto show_hide_button =
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/eye_button.png", []{},
+      _("Show / hide objects"));
+
+  auto menu_list = show_hide_button->get_menu_list();
+
+  auto toggle_background = [] { g_config->editor_render_background = !g_config->editor_render_background; };
+  auto show_background_item = std::make_unique<MenuListItem>(_("Draw Background"), toggle_background);
+  show_background_item->set_is_selected_handler([] { return g_config->editor_render_background; });
+  menu_list->add_item(std::move(show_background_item));
+
+  auto toggle_animations = [] { g_config->editor_render_animations = !g_config->editor_render_animations; };
+  auto show_animations_item = std::make_unique<MenuListItem>(_("Draw Animations"), toggle_animations);
+  show_animations_item->set_is_selected_handler([] { return g_config->editor_render_animations; });
+  menu_list->add_item(std::move(show_animations_item));
+
+  auto toggle_lighting = [] { g_config->editor_render_lighting = !g_config->editor_render_lighting; };
+  auto show_lighting_item = std::make_unique<MenuListItem>(_("Draw Lighting"), toggle_lighting);
+  show_lighting_item->set_is_selected_handler([] { return g_config->editor_render_lighting; });
+  menu_list->add_item(std::move(show_lighting_item));
+
+  return show_hide_button;
 }
 
 void
