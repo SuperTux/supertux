@@ -594,12 +594,13 @@ GameSession::draw(Compositor& compositor)
   }
 
 #ifdef __EMSCRIPTEN__
-  const bool campaign_view = m_levelfile == "levels/world1/welcome_antarctica.stl" && browser_coop_wants_view();
+  const bool publish_view = browser_coop_wants_view();
+  const bool campaign_view = m_levelfile == "levels/world1/welcome_antarctica.stl" && publish_view;
   if (campaign_view) context.color().begin_presentation();
 #endif
   m_currentsector->draw(context);
 #ifdef __EMSCRIPTEN__
-  if (browser_coop_wants_view())
+  if (publish_view)
   {
     const auto transform = m_currentsector->get_camera().get_predicted_transform(context.get_time_offset());
     float fields[21] = {transform.first.x, transform.first.y, transform.second,
