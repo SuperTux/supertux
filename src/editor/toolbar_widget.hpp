@@ -45,6 +45,9 @@ public:
   void set_redo_disabled(bool state);
 
 private:
+  std::unique_ptr<EditorToolbarButtonWidget> create_grid_button() const;
+
+private:
   Editor& m_editor;
   EditorToolbarButtonWidget* m_undo_widget;
   EditorToolbarButtonWidget* m_redo_widget;
