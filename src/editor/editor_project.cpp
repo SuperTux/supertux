@@ -655,10 +655,15 @@ EditorProject::check_unsaved_changes(const std::function<void ()>& action)
   editor->set_enabled(false);
   auto dialog = std::make_unique<Dialog>();
   if (m_temp_level)
-    dialog->set_text(_("This level hasn't been saved yet. Do you want to save it instead?"));
+    dialog->set_text( is_worldmap() ?
+      _("This worldmap hasn't been saved yet. Do you want to save it instead?") :
+      _("This level hasn't been saved yet. Do you want to save it instead?"));
   else
-    dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
-                                                    _("This level may contain unsaved changes, do you want to save?"));
+    dialog->set_text(g_config->editor_undo_tracking ?
+      is_worldmap() ? _("This worldmap contains unsaved changes, do you want to save?") : 
+                      _("This level contains unsaved changes, do you want to save?") :
+      is_worldmap() ? _("This worldmap may contain unsaved changes, do you want to save?") : 
+                      _("This level may contain unsaved changes, do you want to save?"));
     dialog->add_default_button(_("Yes"), [this, action, editor] {
       check_save_prerequisites([this, action, editor] {
         save_level("", false, action, m_temp_level);
