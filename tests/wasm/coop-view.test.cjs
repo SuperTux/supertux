@@ -66,11 +66,13 @@ test('native screen geometry and moving owners interpolate once; animation and a
   const a=campaignFrame(1,100,0,[texture(2,100,20)],[[2,'moving-sprite',100,20,'small-walk-right',0]]);
   const b=campaignFrame(2,200,20,[texture(2,140,20,{camera:20,art:'images/next-frame.png'})],[[2,'moving-sprite',140,20,'small-walk-right',1]]);
   b.players[1].x=140;
+  b.world.draw[0][3]=4;
   const originals=structuredClone([a,b]);buffer.accept(a,1000);buffer.accept(b,1100);
   const sample=buffer.sample(1100);
   assert.equal(sample.players[1].x,120);assert.equal(sample.camera[0],10);
   assert.equal(sample.world.draw[0][7][3][0][4],110); // Screen-space 100 → 120, without a second camera transform.
   assert.equal(sample.world.draw[0][7][0],'images/tile.png');assert.equal(sample.world.entities[0][2],100);
+  assert.equal(sample.world.draw[0][3],0); // Facing switches at the discrete native pose, movement still smooths.
   assert.equal(sample.presentation.matchedCommands,1);
   assert.strictEqual(buffer.sample(1100),sample);assert.deepEqual([a,b],originals);
   assert.strictEqual(buffer.sample(1150),b);assert.strictEqual(buffer.sample(1600),b);

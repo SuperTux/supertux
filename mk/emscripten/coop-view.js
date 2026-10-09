@@ -25,7 +25,7 @@
         // Sprite animation/art remains discrete. Moving owners can keep their
         // anchor across animation frames; static tiles must keep exact artwork.
         const art=c[0]===4 ? [p[0],p[4]] : entity ? q.slice(2,4) : [p[0],p[1],p[2],...q.slice(0,4)];
-        const key=JSON.stringify([c[0],c[1],c[2],c[3],c[5],c[6],entity?.[1],art,Math.round(w),Math.round(h)]);
+        const key=JSON.stringify([c[0],c[1],c[2],entity ? null : c[3],c[5],c[6],entity?.[1],art,Math.round(w),Math.round(h)]);
         entries.push({command,quad,key,x,y,w,h,c,q,entity,radius:Math.min(32,Math.max(.1,Math.min(w,h)/4))});
       });
     });
