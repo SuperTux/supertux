@@ -43,7 +43,7 @@ MenuListWidget::draw(DrawingContext& context)
     //   auto sprite_rect = Rectf(pos + m_sprite_offset, sprite->get_size());
     //   sprite->draw(context.color(), sprite_rect.p1(), LAYER_GUI);
     // }
-    context.color().draw_text(Resources::small_font, item->get_label(), item->get_rect().p1() + m_label_offset, FontAlignment::ALIGN_LEFT, LAYER_GUI);
+    context.color().draw_text(Resources::editor_menu_font, item->get_label(), item->get_rect().p1() + m_label_offset, FontAlignment::ALIGN_LEFT, LAYER_GUI);
   }
 }
 
