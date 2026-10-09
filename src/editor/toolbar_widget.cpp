@@ -55,42 +55,42 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   auto show_button = create_show_button();
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 9> general_widgets = {
-      // Undo button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
-                                                  std::bind(&EditorHistoryManager::undo, Editor::current()->get_history_manager()),
-                                                  _("Undo"),
-                                                  Sizef(32.f, 32.f)),
+    // Undo button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
+                                                std::bind(&EditorHistoryManager::undo, Editor::current()->get_history_manager()),
+                                                _("Undo"),
+                                                Sizef(32.f, 32.f)),
 
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
-                                                  std::bind(&EditorHistoryManager::redo, Editor::current()->get_history_manager()),
-                                                  _("Redo"),
-                                                  Sizef(32.f, 32.f)),
-      
-      // Save button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png", [this]
-                                                  { Editor::current()->get_project()->save_level(); }, _("Save level")),
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
+                                                std::bind(&EditorHistoryManager::redo, Editor::current()->get_history_manager()),
+                                                _("Redo"),
+                                                Sizef(32.f, 32.f)),
+    
+    // Save button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png", [this]
+                                                { Editor::current()->get_project()->save_level(); }, _("Save level")),
 
 
-      // Play button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
-                                                  { Editor::current()->test_level(); }, _("Test level")),
+    // Play button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
+                                                { Editor::current()->test_level(); }, _("Test level")),
 
-      // Mode button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png", std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this), _("Toggle between object and tile mode")),
+    // Mode button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png", std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this), _("Toggle between object and tile mode")),
 
-      // Grid button,
-      std::move(grid_button),
+    // Grid button,
+    std::move(grid_button),
 
-      // Button for toggling visibility of things
-      std::move(show_button),
+    // Button for toggling visibility of things
+    std::move(show_button),
 
-      // Mouse select button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [this]()
-                                                  { Editor::current()->get_toolbox_widget()->set_mouse_tool(); }, _("Select or move the object under the mouse")),
+    // Mouse select button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [this]()
+                                                { Editor::current()->get_toolbox_widget()->set_mouse_tool(); }, _("Select or move the object under the mouse")),
 
-      // Rubber button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [this]()
-                                                  { Editor::current()->get_toolbox_widget()->set_rubber_tool(); }, _("Delete the tile or object under the mouse"))
+    // Rubber button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [this]()
+                                                { Editor::current()->get_toolbox_widget()->set_rubber_tool(); }, _("Delete the tile or object under the mouse"))
   };
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets = {
@@ -148,7 +148,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     Vector pos(32 * i, 0);
     widget->set_position(pos);
     widget->set_flat(true);
-    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    m_widgets.push_back(std::move(widget));
     ++i;
   }
 
@@ -159,7 +159,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     widget->set_flat(true);
     widget->set_visible_in_object_mode(false);
     widget->set_visible(false);
-    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    m_widgets.push_back(std::move(widget));
     ++i;
   }
 
@@ -170,7 +170,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     widget->set_flat(true);
     widget->set_visible_in_tile_mode(false);
     widget->set_visible(false);
-    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    m_widgets.push_back(std::move(widget));
     ++i;
   }
   m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
