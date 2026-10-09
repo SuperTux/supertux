@@ -59,14 +59,14 @@ public:
 
   const std::string &get_label() const { return m_label; }
   
-  const std::function<void()> get_onclick_handler() const { return m_onclick_handler; }
-  void set_onclick_handler(const std::function<void()> onclick_handler)
+  const std::function<void()>& get_onclick_handler() const { return m_onclick_handler; }
+  void set_onclick_handler(const std::function<void()>& onclick_handler)
   {
     m_onclick_handler = onclick_handler;
   }
 
-  const std::function<bool()> get_is_selected_handler() const { return m_is_selected_handler; }
-  void set_is_selected_handler(const std::function<bool()> is_selected_handler)
+  const std::function<bool()>& get_is_selected_handler() const { return m_is_selected_handler; }
+  void set_is_selected_handler(const std::function<bool()>& is_selected_handler)
   {
     m_is_selected_handler = is_selected_handler;
   }
