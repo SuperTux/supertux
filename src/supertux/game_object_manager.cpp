@@ -276,8 +276,14 @@ GameObjectManager::draw(DrawingContext& context)
     if (!object->is_valid())
       continue;
 
+#ifdef __EMSCRIPTEN__
+    context.color().set_presentation_owner(object->get_uid().get_value());
+#endif
     object->draw(context);
   }
+#ifdef __EMSCRIPTEN__
+  context.color().set_presentation_owner(0);
+#endif
 }
 
 void

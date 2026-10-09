@@ -52,6 +52,11 @@ def verify(directory, source_commit, configuration='Release'):
     scene = json.loads((directory / 'coop-scene.json').read_text())
     assert scene['schema'] == 1 and scene['id'] == 'coop-view-v1', 'Presentation scene identity mismatch'
     urls = {scene['tileImage']} | {url for action in scene['actions'].values() for url in action['frames']}
+    campaign = scene['campaign']
+    assert campaign['id'] == 'antarctica-v1' and campaign['path'] == 'levels/world1/welcome_antarctica.stl', 'Campaign scene identity mismatch'
+    assert campaign['sourceSha256'] == next(e['sha256'] for e in manifest['assets'] if e['path'] == campaign['path']), 'Campaign level differs from packaged native level'
+    assert all(re.fullmatch(r'images/[a-zA-Z0-9_./ -]+\.png', path) and '..' not in path for path in campaign['textures']), 'Invalid campaign texture path'
+    urls.update(campaign['textures'].values())
     assert urls == {name for name in manifest['frontend'] if name.startswith('coop-art/')}, 'Incomplete presentation assets'
     return manifest
 

@@ -9,7 +9,7 @@ const UINT = value => Number.isInteger(value) && value > 0 && value < 0x80000000
 // Only an already neutral host session gets loading grace; active play and
 // guests retain the short watchdog, independently of the C++ 750 ms watchdog.
 const idleLimit = info => info.role === 'host' && info.session?.enabled === false ? 15000 : 2500;
-const FIELDS = {hello: ['type','protocol','build','view'], ping: ['type'], seen: ['type'], session: ['type','generation','enabled'], ack: ['type','sequence'], input: ['type','generation','sequence','mask'], view: ['type','session','epoch','sequence','generation','time','scene','camera','players']};
+const FIELDS = {hello: ['type','protocol','build','view'], ping: ['type'], seen: ['type'], session: ['type','generation','enabled'], ack: ['type','sequence'], input: ['type','generation','sequence','mask'], 'view-ready':['type','session','epoch'], result:['type','session','epoch','generation','win'], view: ['type','session','epoch','sequence','generation','time','scene','camera','players','world']};
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
 });
@@ -55,7 +55,7 @@ export async function coopFetch(request, env) {
 }
 
 export class CoopRoom {
-  constructor(state) { this.state = state; }
+  constructor(state) { this.state = state; this.pendingViews = new Map(); }
 
   async fetch(request) {
     if (new URL(request.url).pathname === '/create') {
@@ -88,9 +88,15 @@ export class CoopRoom {
     if ((info.inFlight || 0) >= 32) {
       // These are latest-state notifications, never gameplay edges. Keep one
       // value per type while the receiver returns credit, not an event backlog.
-      if (['session', 'ack', 'pong', 'view'].includes(value.type)) {
+      if (['session', 'ack', 'pong', 'view', 'result'].includes(value.type)) {
         info.pending ||= {};
-        info.pending[value.type] = value;
+        if (value.type === 'view') {
+          // Cloudflare limits WebSocket attachments to 2 KiB. Large complete
+          // baselines stay in a single bounded in-memory slot. If hibernation
+          // drops it, the next host frame supplies a fresh complete baseline.
+          this.pendingViews.set(socket,value);
+          info.pending.view = {session:value.session,epoch:value.epoch,sequence:value.sequence};
+        } else info.pending[value.type] = value;
         socket.serializeAttachment(info);
         return true;
       }
@@ -102,24 +108,26 @@ export class CoopRoom {
     catch { try { socket.close(1011, 'Relay send failed'); } catch {} return false; }
   }
   flush_status(socket) {
-    for (const type of ['session', 'ack', 'pong', 'view']) {
+    for (const type of ['session', 'ack', 'pong', 'view', 'result']) {
       const info = socket.deserializeAttachment();
       if ((info.inFlight || 0) >= 32) break;
-      const value = info.pending?.[type];
-      if (!value) continue;
+      const marker = info.pending?.[type];
+      if (!marker) continue;
+      const value = type === 'view' ? this.pendingViews.get(socket) : marker;
+      if (type === 'view') this.pendingViews.delete(socket);
       delete info.pending[type];
       socket.serializeAttachment(info);
-      if (!this.send(socket, value)) break;
+      if (value && !this.send(socket, value)) break;
     }
   }
   peer(role) { return this.state.getWebSockets(role)[0]; }
-  close(socket, code, reason) { try { socket.close(code, reason); } catch {} }
+  close(socket, code, reason) { this.pendingViews.delete(socket); try { socket.close(code, reason); } catch {} }
 
   async webSocketMessage(socket, raw) {
     const room = await this.state.storage.get('room');
     const info = socket.deserializeAttachment();
     if (!room || Date.now() >= room.expires) { this.close(socket, 1008, 'Room expired'); return; }
-    if (typeof raw !== 'string' || new TextEncoder().encode(raw).length > 2048) { this.close(socket, 1009, 'Message too large'); return; }
+    if (typeof raw !== 'string' || new TextEncoder().encode(raw).length > 65536) { this.close(socket, 1009, 'Message too large'); return; }
     const now = Date.now();
     if (now - info.rateStart >= 1000) { info.rateStart = now; info.count = 0; }
     let message;
@@ -165,6 +173,13 @@ export class CoopRoom {
         const peer = this.peer('guest');
         if (peer?.deserializeAttachment().hello && peer.deserializeAttachment().view) this.send(peer,message);
       }
+    } else if (info.role === 'guest' && info.view && message.type === 'view-ready' && UINT(message.session) && UINT(message.epoch)) {
+      const host = this.peer('host'), order = host?.deserializeAttachment().viewOrder;
+      if (order && order.session === message.session && order.epoch === message.epoch) this.send(host,message);
+    } else if (info.role === 'host' && message.type === 'result' && UINT(message.session) && UINT(message.epoch) &&
+               message.generation === info.session?.generation && typeof message.win === 'boolean') {
+      const order = info.viewOrder, peer = this.peer('guest');
+      if (order && order.session === message.session && order.epoch === message.epoch && peer?.deserializeAttachment().view) this.send(peer,message);
     } else if (info.role === 'host' && message.type === 'session' && UINT(message.generation) && typeof message.enabled === 'boolean') {
       info.session = {type: 'session', generation: message.generation, enabled: message.enabled};
       const peer = this.peer('guest');

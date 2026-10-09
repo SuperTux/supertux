@@ -12,7 +12,7 @@ function fixture() {
   const object = new CoopRoom(state);
   function add(role) {
     const socket = {info: {role, hello: false, last: Date.now(), opened: Date.now(), rateStart: Date.now(), count: 0, generation: 0, sequence: 0}, messages: [],
-      deserializeAttachment() {return structuredClone(this.info);}, serializeAttachment(info) {this.info = structuredClone(info);},
+      deserializeAttachment() {return structuredClone(this.info);}, serializeAttachment(info) {assert.ok(new TextEncoder().encode(JSON.stringify(info)).length<=2048,'Cloudflare WebSocket attachment exceeds 2 KiB');this.info = structuredClone(info);},
       send(value) {this.messages.push(JSON.parse(value));}, close(code, reason) {this.closed ||= {code, reason};}};
     sockets.push(socket); return socket;
   }
@@ -186,4 +186,54 @@ test('unsolicited receive credits cannot bypass rate or backpressure limits', as
   await send(f.object,host,{type:'seen'});assert.equal(host.info.inFlight,0);
   await send(f.object,host,{type:'seen'});
   assert.equal(host.closed.reason,'Unexpected receive credit');
+});
+
+function campaign(sequence=1,extra={}) {
+  return view(sequence,{scene:'antarctica-v1',world:{draw:[
+    [0,123,50,0,1,0,[0,0,844,390],['images/objects/coin/coin-0.png',0,0,[[0,0,32,32,10,20,32,32,0]],[1,1,1,1]]]
+  ],entities:[[123,'coin',10,20,'normal',0]],coins:42,checkpoint:null,phase:'playing'},...extra});
+}
+test('campaign complete state has bounded geometry, stable unique IDs and no executable or remote resource fields',()=>{
+  assert.equal(validView(campaign()),true);
+  const mirrored=campaign();mirrored.world.draw[0][3]=4;assert.equal(validView(mirrored),true);
+  const large=campaign();large.world.draw[0][7][3]=Array.from({length:2048},()=>[0,0,32,32,0,0,32,32,0]);
+  assert.equal(validView(large),true);large.world.draw[0][7][3].push([0,0,32,32,0,0,32,32,0]);assert.equal(validView(large),false);
+  for (const mutate of [
+    f=>f.world.entities.push(f.world.entities[0]),f=>f.world.draw[0][7][0]='images/../secret.png',
+    f=>f.world.draw[0][7][0]='https://other.invalid/a.png',f=>f.world.draw[0][7][3][0][4]=NaN,
+    f=>f.world.draw[0][7][4][0]=2,f=>f.world.phase='arbitrary',f=>f.world.checkpoint=[NaN,0],
+    f=>f.world.entities[0][4]='run(script)',f=>f.world.script='execute',
+  ]) {const frame=campaign();mutate(frame);assert.equal(validView(frame),false);}
+  const bonus=campaign();bonus.players[0].action='big-walk-right';assert.equal(validView(bonus),true);
+});
+test('only matching guest baselines acknowledge readiness; authoritative completion survives receiver backpressure',async()=>{
+  const f=fixture(),host=f.add('host'),guest=f.add('guest');await ready(f,host);
+  await send(f.object,guest,{type:'hello',protocol:PROTOCOL,build,view:true});
+  await send(f.object,host,{type:'session',generation:1,enabled:false});await send(f.object,host,campaign());
+  await send(f.object,guest,{type:'view-ready',session:1,epoch:2});
+  assert.equal(host.messages.some(p=>p.type==='view-ready'),false);
+  await send(f.object,guest,{type:'view-ready',session:1,epoch:1});
+  assert.equal(host.messages.at(-1).type,'view-ready');
+  // Exercise the actual full receive window: completion must remain separate
+  // from a coalesced visual frame and survive a hibernation reconstruction.
+  guest.serializeAttachment({...guest.info,inFlight:32});
+  await send(f.object,host,{type:'result',session:1,epoch:1,generation:1,win:true});
+  assert.equal(guest.info.pending.result.win,true);
+  await send(new CoopRoom(f.state),guest,{type:'seen'});
+  assert.equal(guest.messages.at(-1).win,true);
+  await send(f.object,guest,{type:'result',session:1,epoch:1,generation:1,win:true});assert.equal(guest.closed.code,1008);
+});
+
+test('large visual baseline never enters the 2 KiB WebSocket attachment; hibernation safely requests the next full frame',async()=>{
+  const f=fixture(),h=f.add('host'),g=f.add('guest');await ready(f,h);await send(f.object,g,{type:'hello',protocol:PROTOCOL,build,view:true});
+  await send(f.object,h,{type:'session',generation:1,enabled:true});
+  for (let seq=1;seq<=45;seq++) {
+    const packet=campaign(seq);packet.world.draw[0][7][3]=Array.from({length:300},()=>[0,0,32,32,0,0,32,32,0]);
+    await send(f.object,h,packet);
+  }
+  assert.equal(f.object.pendingViews.size,1);assert.equal(g.info.pending.view.sequence,45);
+  const resumed=new CoopRoom(f.state); // reconstruct like a hibernation wake
+  await send(resumed,g,{type:'seen'});
+  assert.equal(g.info.pending.view,undefined);
+  await send(resumed,h,campaign(46));assert.equal(g.messages.at(-1).sequence,46);
 });

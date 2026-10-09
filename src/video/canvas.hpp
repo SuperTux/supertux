@@ -98,6 +98,12 @@ public:
 
   void clear();
   void render(Renderer& renderer, Filter filter);
+#ifdef __EMSCRIPTEN__
+  // Presentation only: copies value data; no guest retains native pointers.
+  void begin_presentation() { m_presentation_capture = true; }
+  void set_presentation_owner(uint32_t owner) { m_presentation_owner = owner; }
+  std::string get_presentation();
+#endif
   
   void set_blur(int blur) { m_blur = blur; }
 
@@ -112,6 +118,11 @@ private:
   obstack& m_obst;
   int m_blur;
   std::vector<DrawingRequest*> m_requests;
+#ifdef __EMSCRIPTEN__
+  bool m_presentation_capture = false;
+  uint32_t m_presentation_owner = 0;
+  std::vector<std::pair<int, std::string>> m_presentation_text;
+#endif
 
 private:
   Canvas(const Canvas&) = delete;

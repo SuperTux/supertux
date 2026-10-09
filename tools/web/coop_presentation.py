@@ -1,7 +1,6 @@
-"""Derived web-only fixture and authentic sprite presentation; no source edits.
+"""Derived web-only artwork for the arena and the supported campaign level.
 
-The controlled scene has static solid snow tiles, two players and a normal
-camera. No scripts, pickups, enemies or progression. Only the host runs it.
+Original source assets are copied unchanged; only the host simulates gameplay.
 """
 import copy
 import hashlib
@@ -20,9 +19,9 @@ def sexp(text):
                 if item == ')': return result
                 result.append(read(item))
             raise ValueError('Unclosed expression')
-        if token.startswith('"'): return json.loads(token)
+        if token.startswith('"'): return json.loads(token, strict=False)
         return token
-    return read(next(tokens))
+    return read(next(token for token in tokens if not token.startswith(';')))
 
 
 def derive(source, output, write, encoded):
@@ -74,6 +73,55 @@ def derive(source, output, write, encoded):
             if 'regions' in fields or 'images' not in fields: raise ValueError('Unsupported presentation sprite')
             action['frames'] = [image(root / path) for path in fields['images']]
         actions[name] = action
+    # Explicit Phase 7B content inventory. Tile artwork comes from the real
+    # tileset entries used by this level, including tiles converted to objects.
+    level_source = source / 'levels/world1/welcome_antarctica.stl'
+    parsed_level = sexp(level_source.read_text())
+    sector = next(item for item in parsed_level[1:] if item[0] == 'sector')
+    objects = {}
+    tile_ids = set()
+    paths = set()
+    def leaves(node):
+        if isinstance(node, list):
+            for item in node: yield from leaves(item)
+        else: yield node
+    for item in sector[1:]:
+        objects[item[0]] = objects.get(item[0], 0) + 1
+        if item[0] == 'tilemap':
+            fields = {field[0]: field[1:] for field in item[1:]}
+            encoded_tiles = iter(map(int, fields['tiles']))
+            count = 0
+            for value in encoded_tiles:
+                run = 1
+                if value < 0: run, value = -value, next(encoded_tiles)
+                if value < 0: raise ValueError('Invalid run-length tile value')
+                tile_ids.add(value)
+                count += run
+            if count != int(fields['width'][0]) * int(fields['height'][0]):
+                raise ValueError('Incomplete campaign tilemap')
+        for value in leaves(item):
+            if value.lstrip('/').startswith('images/') and value.endswith('.png'):
+                paths.add(value.lstrip('/'))
+    for item in sexp((source / 'images/tiles.strf').read_text())[1:]:
+        if not isinstance(item, list) or item[0] not in ('tile', 'tiles'): continue
+        ids = {int(v) for field in item[1:] if isinstance(field,list) and field[0] in ('id','ids') for v in field[1:]}
+        if ids & tile_ids:
+            for value in leaves(item):
+                if value.endswith('.png'): paths.add('images/' + value)
+    # Includes all animations/bonus poses, generated projectiles, block debris,
+    # death/explosion effects and checkpoint particles for the audited families.
+    folders = ['creatures/tux','creatures/snowball','creatures/iceblock',
+               'creatures/mr_bomb','creatures/jumpy','creatures/stalactite',
+               'objects/coin','objects/bonus_block','objects/weak_block',
+               'objects/resetpoints','objects/explosion','objects/bullets',
+               'objects/water_drop','particles','powerups','decal/explanations','engine/hud']
+    for folder in folders:
+        paths.update(path.relative_to(source).as_posix() for path in (source / 'images' / folder).rglob('*.png'))
+    paths.update(path.relative_to(source).as_posix() for path in (source / 'images/tiles/blocks').glob('brick_piece*.png'))
+    textures = {path: image(source / path) for path in sorted(paths)}
+    fixture['campaign'] = dict(id='antarctica-v1', path='levels/world1/welcome_antarctica.stl',
+                              sourceSha256=hashlib.sha256(level_source.read_bytes()).hexdigest(),
+                              objects=objects, tileIds=sorted(tile_ids), textures=textures)
     fixture.update(tiles=tiles, actions=actions, tileImage=image(source / 'images/tiles/snow/convex.png'),
                    tileRegions={'14': [32,32,32,32], '11': [32,64,32,32]}, schema=1)
     write(art / 'coop-scene.json', encoded(fixture))

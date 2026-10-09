@@ -6,6 +6,7 @@
 
   class Connection {
     constructor(room, role, token, build, events) {
+      this.maxBuffered = role === 'host' ? 131072 : 16384;
       this.events = events; this.ready = false; this.last = Date.now(); this.closed = false;
       const url = new URL(`/coop/rooms/${room}/socket`, location.href);
       url.protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -13,7 +14,7 @@
       this.socket.addEventListener('open', () => {if (!this.closed) this.send({type: 'hello', protocol, build, ...(events.view ? {view:true} : {})});});
       this.socket.addEventListener('message', event => {
         if (this.closed) return; // buffered events from a retired room own no input
-        if (typeof event.data !== 'string' || event.data.length > 2048) { this.close('Invalid relay message'); return; }
+        if (typeof event.data !== 'string' || new TextEncoder().encode(event.data).length > 65536) { this.close('Invalid relay message'); return; }
         let value;
         try { value = JSON.parse(event.data); } catch { this.close('Invalid relay message'); return; }
         if (!value || typeof value !== 'object' || Array.isArray(value)) {this.close('Invalid relay message'); return;}
@@ -31,7 +32,7 @@
     }
     send(message) {
       if (this.closed || this.socket.readyState !== WebSocket.OPEN) return false;
-      if (this.socket.bufferedAmount > 16384) { this.close('Connection is too slow. Rejoin before starting a level.'); return false; }
+      if (this.socket.bufferedAmount > this.maxBuffered) { this.close('Connection is too slow. Rejoin before starting a level.'); return false; }
       try { this.socket.send(JSON.stringify(message)); return true; }
       catch { this.close('Connection lost. Rejoin before starting a level.'); return false; }
     }
@@ -45,7 +46,7 @@
 
   function host(module) {
     const queue = [], status = document.getElementById('coop_status');
-    let connection, creating = false, createEpoch = 0, joinRejected = false, guestView = false, lastView = 0, state = {reserved: 0, enabled: false, generation: 0, sequence: 0}, lastSent = '';
+    let sceneDeadline = 0, sceneKey = null, sceneLoaded = null, connection, creating = false, createEpoch = 0, joinRejected = false, guestView = false, lastView = 0, state = {reserved: 0, enabled: false, generation: 0, sequence: 0}, lastSent = '';
     const say = text => { if (status) status.textContent = text; };
     const enqueue = value => {
       if (value[0] !== 2) queue.length = 0;
@@ -71,15 +72,30 @@
       },
       get state() { return {...state, queued: queue.length, joinRejected}; },
       get connection() { return connection; },
-      wantsView() {return !!(connection?.ready && guestView && state.enabled && state.generation && Date.now() - lastView >= 67);},
-      view(snapshot) {lastView = Date.now(); if (connection?.ready && guestView) connection.send({...snapshot,generation:state.generation});},
+      wantsView() {return !!(connection?.ready && guestView && state.reserved === 1 && state.generation && Date.now() - lastView >= 100);},
+      sceneReady(session, epoch) {
+        if (!guestView || state.reserved !== 1) return true;
+        const next=`${session}/${epoch}`;
+        // Only the campaign engine's loading query owns this identity. A
+        // fading title/world-map background can also draw an unsupported view.
+        if (sceneKey!==next) {sceneKey=next;sceneLoaded=null;sceneDeadline=Date.now()+15000;}
+        if (sceneLoaded===next) return true;
+        if (Date.now()>sceneDeadline) {connection?.close('Shared view loading stalled. Return to the title screen and create a new room.');return true;}
+        return false;
+      },
+      view(snapshot) {
+        lastView = Date.now();
+        if (!connection?.ready || !guestView) return;
+        connection.send({...snapshot,generation:state.generation});
+      },
+      finished(session, epoch, win) {if (connection?.ready && guestView) connection.send({type:'result',session,epoch,generation:state.generation,win:!!win});},
     };
     const panel = document.getElementById('coop_panel');
     if (panel) panel.hidden = !new URLSearchParams(location.search).has('coop');
     document.getElementById('coop_create')?.addEventListener('click', async () => {
       if (creating || !module.supertuxReady) return;
       const epoch = ++createEpoch;
-      creating = true; joinRejected = false; connection?.close(); enqueue([3, 0, 0, 0]);
+      creating = true; sceneDeadline=0;sceneKey = sceneLoaded = null; joinRejected = false; connection?.close(); enqueue([3, 0, 0, 0]);
       try {
         const build = window.SUPERTUX_DEPLOY_CONFIG?.manifestSha256;
         const response = await fetch('/coop/rooms', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({protocol, build}), signal: AbortSignal.timeout(10000)});
@@ -95,6 +111,7 @@
           ready: () => { say('Room ready. Invite Player 2 before starting a level.'); session(); },
           message: value => {
             if (value.type === 'peer') {guestView = !!(value.connected && value.view); joinRejected = false; enqueue([value.connected ? 1 : 3, 0, 0, 0]);}
+            if (value.type === 'view-ready' && `${value.session}/${value.epoch}` === sceneKey) sceneLoaded = sceneKey;
             if (value.type === 'input') enqueue([2, value.generation, value.sequence, value.mask]);
           },
           refresh: session,
@@ -104,7 +121,10 @@
       finally { creating = false; }
     });
     document.getElementById('coop_close')?.addEventListener('click', () => {++createEpoch; connection?.close();});
-    document.getElementById('coop_antarctica')?.addEventListener('click', () => enqueue([5, 0, 0, 0]));
+    document.getElementById('coop_antarctica')?.addEventListener('click', () => {
+      if (guestView && state.reserved !== 1) say('Invite Player 2 before starting.');
+      else enqueue([5, 0, 0, 0]);
+    });
     document.getElementById('coop_forest')?.addEventListener('click', () => enqueue([5, 1, 0, 0]));
     document.getElementById('coop_view_start')?.addEventListener('click', () => {
       if (guestView && state.reserved === 1) enqueue([5, 2, 0, 0]);
@@ -126,7 +146,7 @@
       if (enabled && connection?.ready) connection.send({type: 'input', generation, sequence: ++sequence, mask: view && !view.playable ? 0 : mask()});
     };
     const clear = () => { keys.clear(); fingers.clear(); send(); };
-    if (view) view.onFreeze = clear;
+    if (view) {view.onFreeze = clear; view.onReady = frame => connection?.send({type:'view-ready',session:frame.session,epoch:frame.epoch});}
     const join = async () => {
       if (joining) return;
       const epoch = ++joinEpoch;
@@ -160,9 +180,10 @@
               enabled = value.enabled; send(); // fresh neutral state, never held-key replay
             }
             view?.setEnabled(enabled,generation);
-            status.textContent = enabled ? (view ? 'Player 2 input active. Shared view supports the proof scene.' : 'Player 2 input active. The game is visible on the host only.') : 'Host is paused or in menus. Release controls before continuing.';
+            status.textContent = enabled ? (view ? 'Player 2 input active. You control Player 2 in the shared view.' : 'Player 2 input active. The game is visible on the host only.') : 'Host is paused or in menus. Release controls before continuing.';
           }
           if (value.type === 'view' && view) view.accept(value);
+          if (value.type === 'result' && view) view.result(value);
           if (value.type === 'ack') document.getElementById('guest_ack').textContent = `Host accepted input ${value.sequence}.`;
         },
         refresh: send,
