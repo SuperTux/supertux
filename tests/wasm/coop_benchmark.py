@@ -229,6 +229,7 @@ async def measure_trial(args,url,index,html,hc,gc,version):
             await host.locator('#coop_create').click()
             await host.wait_for_function("document.querySelector('#coop_status').textContent.includes('Room ready')")
         async def boot_guest(kind):
+            nonlocal guest
             before=await network_counts(args)
             guest=await gc.new_page();guest.set_default_timeout(60000)
             guest.on('console',console);guest.on('pageerror',lambda error:errors.append('Guest: '+redact(error)))
@@ -362,7 +363,11 @@ async def run(args, url):
             except Exception as error:
                 # Independent fresh profiles allow remaining trials to run.
                 # Never classify a partial/failed trial as a passing sample.
-                report['failed_trials'].append(json.loads((args.output/f'run-{index+1}.json').read_text()))
+                path=args.output/f'run-{index+1}.json'
+                if not path.exists():
+                    path.write_text(json.dumps(dict(run=index+1,failure=redact(error),
+                        failure_stage='browser launch',errors=[]),indent=2)+'\n')
+                report['failed_trials'].append(json.loads(path.read_text()))
                 print(f'Trial {index+1} failed: {redact(error)}',flush=True)
             report['summary']=summarize(report['trials']) if report['trials'] else {}
             report['complete']=len(report['trials'])==args.runs and not report['failed_trials']

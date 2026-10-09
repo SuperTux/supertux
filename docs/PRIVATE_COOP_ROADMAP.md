@@ -7,8 +7,12 @@ Phase 7A adds a controlled guest display of static terrain, both players and the
 host's shared camera. Phase 7B adds the original Welcome to Antarctica level,
 with native object/drawing baselines, a loading acknowledgment and completion
 status, merged through PR #14 at `c385d97aba1476a984e497a33c1bd24183c55293`.
-Phase 8A adds repeatable baseline measurements on a separate branch; the staged
-Phase 8 plan is in [PRIVATE_COOP_PHASE8.md](PRIVATE_COOP_PHASE8.md).
+Phase 8A is merged through PR #15 at `316292b337860a0545f56033ef2a1969d80f47e7`
+and adds repeatable baseline measurements. The staged Phase 8 plan is in
+[PRIVATE_COOP_PHASE8.md](PRIVATE_COOP_PHASE8.md).
+Phase 8B adds bounded interpolation of matched native campaign draw geometry;
+its implementation and acceptance limits are in
+[PRIVATE_COOP_SMOOTHING.md](PRIVATE_COOP_SMOOTHING.md).
 Phase 7B's supported scope and
 validation status are in
 [PRIVATE_COOP_SUPPORTED_LEVEL.md](PRIVATE_COOP_SUPPORTED_LEVEL.md).
