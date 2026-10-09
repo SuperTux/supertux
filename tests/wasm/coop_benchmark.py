@@ -33,7 +33,8 @@ GUEST_OBSERVER = r'''() => {
   performance.setResourceTimingBufferSize(5000);
   const empty = () => ({input_to_first_draw_ms:[], input_to_first_frame_ms:[],
     arrival_interval_ms:[], draw_interval_ms:[], receive_to_draw_ms:[], draw_callback_ms:[],
-    view_count:0, view_bytes:0, largest_view_bytes:0, max_guest_buffered_bytes:0});
+    view_count:0, view_bytes:0, largest_view_bytes:0, max_guest_buffered_bytes:0,
+    presentation_draws:0, interpolated_draws:0});
   const state = window.coopBenchmark = {active:false, pending:null, received:new Map(), data:empty()};
   const clock=()=>performance.now(), raf=requestAnimationFrame;
   window.requestAnimationFrame = callback => raf.call(window, time => {
@@ -42,11 +43,14 @@ GUEST_OBSERVER = r'''() => {
     const frame=window.SupertuxView?.state.drawn, end=clock();
     if (!state.active || callback.name!=='tick' || !frame || frame===previous) return;
     const data=state.data;
+    ++data.presentation_draws;
+    if(frame.presentation)++data.interpolated_draws;
     data.draw_callback_ms.push(end-begin);
     if (state.lastDraw!==undefined) data.draw_interval_ms.push(end-state.lastDraw);
     state.lastDraw=end;
-    const received=state.received.get(frame.sequence);
-    if (received!==undefined) data.receive_to_draw_ms.push(end-received);
+    // For a synthesized frame, age belongs to the newest required endpoint.
+    const newest=state.received.get(frame.presentation?.to ?? frame.sequence);
+    if (newest!==undefined) data.receive_to_draw_ms.push(end-newest);
     const pending=state.pending, player=frame.players.find(p=>p.id===2);
     if (pending && frame.session===pending.session && frame.epoch===pending.epoch &&
         player && (player.x-pending.x)*pending.direction>=1) {

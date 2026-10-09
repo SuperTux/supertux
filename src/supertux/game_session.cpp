@@ -628,8 +628,9 @@ GameSession::draw(Compositor& compositor)
         entities += ']';
         const auto* checkpoint = get_active_checkpoint_spawnpoint();
         const std::string checkpoint_json = checkpoint ? fmt::format("[{:.2f},{:.2f}]", checkpoint->position.x, checkpoint->position.y) : "null";
-        world = fmt::format("{{\"draw\":{},\"entities\":{},\"coins\":{},\"checkpoint\":{},\"phase\":\"{}\"}}",
-          commands, entities, players[0]->get_status().coins, checkpoint_json,
+        world = fmt::format("{{\"draw\":{},\"entities\":{},\"playerUids\":[{},{}],\"coins\":{},\"checkpoint\":{},\"phase\":\"{}\"}}",
+          commands, entities, players[0]->get_uid().get_value(), players[1]->get_uid().get_value(),
+          players[0]->get_status().coins, checkpoint_json,
           m_end_sequence ? "finishing" : "playing");
         // Reserve room for player/camera fields and the transport envelope.
         // A larger view is explicitly unsupported, never a relay disconnect.

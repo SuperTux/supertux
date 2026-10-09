@@ -103,6 +103,8 @@ struct DrawingRequest
   RequestVariant request;
 #ifdef __EMSCRIPTEN__
   uint32_t presentation_owner = 0;
+  Vector presentation_translation;
+  float presentation_scale;
 #endif
 
   DrawingRequest() = delete;
@@ -113,6 +115,10 @@ struct DrawingRequest
     blend(),
     viewport(transform.viewport),
     request()
+#ifdef __EMSCRIPTEN__
+    , presentation_translation(transform.translation)
+    , presentation_scale(transform.scale)
+#endif
   {}
   ~DrawingRequest() {}
 

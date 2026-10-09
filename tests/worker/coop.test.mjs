@@ -206,6 +206,16 @@ test('campaign complete state has bounded geometry, stable unique IDs and no exe
   ]) {const frame=campaign();mutate(frame);assert.equal(validView(frame),false);}
   const bonus=campaign();bonus.players[0].action='big-walk-right';assert.equal(validView(bonus),true);
 });
+test('optional native geometry metadata is bounded and player identities belong to the complete world',()=>{
+  const value=campaign();value.world.draw[0].push([10,20,1]);
+  value.world.entities.push([124,'moving-sprite',40,20,'small-walk-right',0]);value.world.playerUids=[123,124];
+  assert.equal(validView(value),true);
+  for(const mutate of [f=>f.world.draw[0][8][2]=0,f=>f.world.draw[0][8][0]=NaN,
+    f=>f.world.draw[0][8].push(1),f=>f.world.playerUids=[123,123],f=>f.world.playerUids=[123,125],
+    f=>f.world.playerUids.push(124)]) {
+    const bad=structuredClone(value);mutate(bad);assert.equal(validView(bad),false);
+  }
+});
 test('only matching guest baselines acknowledge readiness; authoritative completion survives receiver backpressure',async()=>{
   const f=fixture(),host=f.add('host'),guest=f.add('guest');await ready(f,host);
   await send(f.object,guest,{type:'hello',protocol:PROTOCOL,build,view:true});

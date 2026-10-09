@@ -15,7 +15,8 @@ class MetricsTests(unittest.TestCase):
                     'guest_cold_ready_ms', 'guest_warm_ready_ms', 'selection_to_ready_ms'), 20),
                     observations={**dict.fromkeys(arrays, [10, 30]), 'window_ms': window,
                     'view_count': frames, 'view_bytes': byte_count, 'largest_view_bytes': 50,
-                    'max_host_buffered_bytes': 0, 'max_guest_buffered_bytes': 0})
+                    'max_host_buffered_bytes': 0, 'max_guest_buffered_bytes': 0,
+                    'presentation_draws': frames*4, 'interpolated_draws': frames*3})
 
     def test_nearest_rank_p95_and_even_median(self):
         self.assertEqual(distribution(range(1, 21)), dict(count=20, median=10.5, p95=19, max=20))
@@ -28,6 +29,8 @@ class MetricsTests(unittest.TestCase):
         before = copy.deepcopy(trials)
         result = summarize(trials)
         self.assertEqual(result['presentation_updates_per_second'], 4)
+        self.assertEqual(result['presentation_draws_per_second'], 16)
+        self.assertEqual(result['interpolated_draw_fraction'], .75)
         self.assertEqual(result['view_json_bytes_per_second'], 100)
         self.assertEqual(result['input_samples'], 4)
         self.assertEqual(result['host_cold_ready_ms']['count'], 2)

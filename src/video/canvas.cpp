@@ -271,12 +271,13 @@ Canvas::draw_text(const FontPtr& font, const std::string& text,
   {
     const Vector location = apply_translate(pos) * scale();
     m_presentation_text.emplace_back(layer, fmt::format(
-      "[4,{},{},0,{},0,[{},{},{},{}],[{},{},{},{},{},[{},{},{},{}]]]",
+      "[4,{},{},0,{},0,[{},{},{},{}],[{},{},{},{},{},[{},{},{},{}]],[{},{},{}]]",
       m_presentation_owner, layer, m_context.get_alpha(),
       m_context.get_viewport().left, m_context.get_viewport().top,
       m_context.get_viewport().get_width(), m_context.get_viewport().get_height(),
       presentation_quote(text), location.x, location.y, font->get_height() * scale(),
-      static_cast<int>(alignment), color.red, color.green, color.blue, color.alpha));
+      static_cast<int>(alignment), color.red, color.green, color.blue, color.alpha,
+      m_context.get_translation().x, m_context.get_translation().y, scale()));
   }
 #endif
   return result;
@@ -547,9 +548,10 @@ Canvas::get_presentation()
     }
     if (kind < 0) continue;
     const Rect& clip = request.viewport;
-    commands.emplace_back(request.layer, fmt::format("[{},{},{},{},{:.2f},{},[{},{},{},{}],{}]",
+    commands.emplace_back(request.layer, fmt::format("[{},{},{},{},{:.2f},{},[{},{},{},{}],{},[{:.4f},{:.4f},{:.6f}]]",
       kind, request.presentation_owner, request.layer, static_cast<int>(request.flip), request.alpha,
-      static_cast<int>(request.blend), clip.left, clip.top, clip.get_width(), clip.get_height(), payload.str()));
+      static_cast<int>(request.blend), clip.left, clip.top, clip.get_width(), clip.get_height(), payload.str(),
+      request.presentation_translation.x, request.presentation_translation.y, request.presentation_scale));
     if (commands.size() > 256)
     {
       log_debug << "Co-op presentation exceeded draw request limit" << std::endl;

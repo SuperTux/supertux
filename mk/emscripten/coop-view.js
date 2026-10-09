@@ -1,10 +1,95 @@
 /* Host-authoritative shared view: presentation only. No WASM, simulation, scripting or save storage. */
 (function (root) {
   'use strict';
+  const distance = (x,y) => Math.hypot(x[0]-y[0],x[1]-y[1]);
+  function continuous(a,b) {
+    return a.generation===b.generation && a.camera[3]===b.camera[3] && a.camera[4]===b.camera[4] &&
+      distance(a.camera,b.camera)<=128 && b.camera[2]/a.camera[2]>=.8 && b.camera[2]/a.camera[2]<=1.25 &&
+      b.time-a.time<=500 && a.world?.phase===b.world?.phase && a.players.length===b.players.length &&
+      a.players.every(p=>b.players.some(q=>p.id===q.id && p.dead===q.dead && p.visible===q.visible &&
+        p.action?.split('-')[0]===q.action?.split('-')[0] && distance([p.x,p.y],[q.x,q.y])<=128));
+  }
+  // Match individual quads, not command indices: tile batches/culling reorder
+  // requests, and a UID can draw several sprites. Native transform metadata
+  // recovers local anchors; screen destinations are interpolated exactly once.
+  function geometry(frame) {
+    const entities=new Map(frame.world.entities.map(e=>[e[0],e])), entries=[];
+    frame.world.draw.forEach((c,command)=>{
+      if (![0,4].includes(c[0]) || !c[1] || !Array.isArray(c[8]) || c[8].length!==3 ||
+          !c[8].every(Number.isFinite) || c[8][2]<=0) return;
+      const entity=entities.get(c[1]), [tx,ty,scale]=c[8], p=c[7];
+      const quads=c[0]===0 ? p[3] : [[0,0,0,0,p[1],p[2],p[3],p[3]]];
+      quads.forEach((q,quad)=>{
+        const x=q[4]/scale+tx-c[6][0]-(entity?.[2] || 0), y=q[5]/scale+ty-c[6][1]-(entity?.[3] || 0);
+        const w=q[6]/scale,h=q[7]/scale;
+        // Sprite animation/art remains discrete. Moving owners can keep their
+        // anchor across animation frames; static tiles must keep exact artwork.
+        const art=c[0]===4 ? [p[0],p[4]] : entity ? q.slice(2,4) : [p[0],p[1],p[2],...q.slice(0,4)];
+        const key=JSON.stringify([c[0],c[1],c[2],c[3],c[5],c[6],entity?.[1],art,Math.round(w),Math.round(h)]);
+        entries.push({command,quad,key,x,y,w,h,c,q,entity,radius:Math.min(32,Math.max(.1,Math.min(w,h)/4))});
+      });
+    });
+    return entries;
+  }
+  function indexGeometry(entries) {
+    const index=new Map();
+    for (const e of entries) {
+      const key=e.key+'/'+Math.floor(e.x/32)+'/'+Math.floor(e.y/32);
+      if (!index.has(key)) index.set(key,[]);
+      index.get(key).push(e);
+    }
+    return index;
+  }
+  function uniqueMatch(e,index) {
+    let match=null;
+    for (let x=-1;x<=1;++x) for (let y=-1;y<=1;++y) {
+      for (const candidate of index.get(e.key+'/'+(Math.floor(e.x/32)+x)+'/'+(Math.floor(e.y/32)+y)) || []) {
+        if (Math.abs(e.w-candidate.w)>.1 || Math.abs(e.h-candidate.h)>.1 ||
+            distance([e.x,e.y],[candidate.x,candidate.y])>Math.min(e.radius,candidate.radius)) continue;
+        if (match) return null; // Ambiguous overlapping geometry stays discrete.
+        match=candidate;
+      }
+    }
+    return match;
+  }
+  function campaignPlan(a,b) {
+    const start=geometry(a),end=geometry(b),ia=indexGeometry(start),ib=indexGeometry(end),draw=new Map(),owners=new Set();
+    for (const e of start) {
+      const target=uniqueMatch(e,ib);
+      if (!target || uniqueMatch(target,ia)!==e || (e.entity && (!target.entity ||
+          distance(e.entity.slice(2,4),target.entity.slice(2,4))>128))) continue;
+      if (!draw.has(e.command)) draw.set(e.command,new Map());
+      draw.get(e.command).set(e.quad,target);
+      if (e.c[0]===0 && e.entity) owners.add(e.c[1]);
+    }
+    return {draw,owners};
+  }
+  function campaignSample(a,b,weight,plan) {
+    if (!plan.draw.size) return a; // Older snapshots without metadata remain usable.
+    const mix=(x,y)=>x+(y-x)*weight;
+    const draw=a.world.draw.map((c,index)=>{
+      const matched=plan.draw.get(index);
+      if (!matched) return c;
+      const p=c[7].slice();
+      if (c[0]===0) p[3]=p[3].map((q,i)=>{
+        const target=matched.get(i);
+        return target ? q.map((v,j)=>j>=4 && j<=7 ? mix(v,target.q[j]) : v) : q;
+      });
+      else {const target=matched.get(0);for(let j=1;j<=3;++j)p[j]=mix(p[j],target.c[7][j]);}
+      return [...c.slice(0,7),p,c[8]];
+    });
+    return {...a,camera:a.camera.map((v,i)=>i<3?mix(v,b.camera[i]):v),
+      players:a.players.map(p=>{
+        const q=b.players.find(q=>q.id===p.id),uid=a.world.playerUids?.[p.id-1];
+        return q && uid && uid===b.world.playerUids?.[p.id-1] && plan.owners.has(uid) ?
+          {...p,x:mix(p.x,q.x),y:mix(p.y,q.y)} : p;
+      }),world:{...a.world,draw},
+      presentation:{from:a.sequence,to:b.sequence,weight,matchedCommands:plan.draw.size}};
+  }
   class SnapshotBuffer {
     constructor(delay = 90) {this.delay = delay; this.reset();}
-    reset() {this.frames = []; this.order = null; this.lastArrival = 0;}
-    clear() {this.frames = []; this.lastArrival = 0;}
+    reset() {this.clear(); this.order = null;}
+    clear() {this.frames = []; this.lastArrival = 0; this.lastTarget=null; this.pair=null;}
     accept(frame, arrival) {
       const previous = this.order;
       if (!frame || !['session','epoch','sequence'].every(key => Number.isInteger(frame[key]) && frame[key] > 0) ||
@@ -13,7 +98,8 @@
           !Array.isArray(frame.players) || frame.players.length > 2 || !frame.players.every(p => Number.isFinite(p.x) && Number.isFinite(p.y))) return false;
       if (previous && (frame.session < previous.session || (frame.session === previous.session &&
           (frame.epoch < previous.epoch || (frame.epoch === previous.epoch && (frame.sequence <= previous.sequence || frame.time < previous.time)))))) return false;
-      if (!previous || frame.session !== previous.session || frame.epoch !== previous.epoch || frame.scene !== previous.scene) this.clear();
+      if (!previous || frame.session !== previous.session || frame.epoch !== previous.epoch || frame.scene !== previous.scene ||
+          arrival-this.lastArrival>1200 || !continuous(previous,frame)) this.clear();
       this.order = frame; this.lastArrival = arrival;
       this.frames.push({frame, arrival});
       if (this.frames.length > 8) this.frames.shift();
@@ -23,7 +109,9 @@
       if (!this.frames.length || now - this.lastArrival > 1200) return null;
       // Render behind the latest host time; never extrapolate or simulate.
       const latest = this.frames.at(-1);
-      const target = latest.frame.time + Math.min(now - latest.arrival, this.delay) - this.delay;
+      const target = Math.min(latest.frame.time,Math.max(this.lastTarget ?? -Infinity,
+        latest.frame.time + Math.min(Math.max(0,now - latest.arrival), this.delay) - this.delay));
+      this.lastTarget=target; // Jitter/new arrivals never move the picture backwards.
       let a = this.frames[0].frame, b = a;
       for (const item of this.frames) {
         b = item.frame;
@@ -33,7 +121,14 @@
       const weight = b.time > a.time ? Math.max(0, Math.min(1, (target - a.time) / (b.time - a.time))) : 0;
       const mix = (x,y) => x + (y-x)*weight;
       const discrete = weight >= 1 ? b : a;
-      if (discrete.world) return discrete;
+      if (discrete.world) {
+        if (a===b || weight<=0 || weight>=1 || !a.world || !b.world) return discrete;
+        if (this.pair?.a!==a || this.pair?.b!==b) this.pair={a,b,plan:campaignPlan(a,b)};
+        if (this.pair.weight!==weight) {
+          this.pair.weight=weight;this.pair.sample=campaignSample(a,b,weight,this.pair.plan);
+        }
+        return this.pair.sample;
+      }
       return {...discrete, camera:a.camera.map((x,i) => i < 3 ? mix(x,b.camera[i]) : discrete.camera[i]),
         players:discrete.players.map(player => {
           const start = a.players.find(p => p.id === player.id), end = b.players.find(p => p.id === player.id);
@@ -146,7 +241,7 @@
   }
   function paint(frame) {
     if (frame.scene==='antarctica-v1') {
-      if (drawn && drawn.session===frame.session && drawn.epoch===frame.epoch && drawn.sequence===frame.sequence && playable===enabled) return;
+      if (drawn===frame && playable===enabled) return;
       if (!paintWorld(frame)) return;
       playable=enabled;
       const p2=frame.players.find(p=>p.id===2);

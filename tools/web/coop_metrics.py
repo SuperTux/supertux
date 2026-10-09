@@ -29,6 +29,9 @@ def summarize(trials):
         raise ValueError('Traffic needs a positive measured window')
     frames = sum(trial['observations']['view_count'] for trial in trials)
     result['presentation_updates_per_second'] = round(frames / elapsed, 2)
+    draws = sum(trial['observations'].get('presentation_draws', 0) for trial in trials)
+    result['presentation_draws_per_second'] = round(draws / elapsed, 2)
+    result['interpolated_draw_fraction'] = round(sum(trial['observations'].get('interpolated_draws', 0) for trial in trials) / draws, 3) if draws else None
     result['view_json_bytes_per_second'] = round(sum(trial['observations']['view_bytes'] for trial in trials) / elapsed)
     result['largest_view_json_bytes'] = max(trial['observations']['largest_view_bytes'] for trial in trials)
     result['max_host_buffered_bytes'] = max(trial['observations']['max_host_buffered_bytes'] for trial in trials)
