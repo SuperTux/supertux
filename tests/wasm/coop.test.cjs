@@ -21,7 +21,7 @@ function fixture(guest = false, fetch = async () => {throw Error('Unexpected fet
     close() {this.readyState = 3;}
   }
   const document = target({hidden: false, getElementById: id => elements.get(id), querySelectorAll: () => []});
-  const window = target({document, URL, URLSearchParams, WebSocket: Socket, AbortSignal, fetch,
+  const window = target({document, TextEncoder, URL, URLSearchParams, WebSocket: Socket, AbortSignal, fetch,
     location: {href: 'http://localhost/index.html', protocol: 'http:', search: '?coop=1',
       hash: '#'+new URLSearchParams({room:'a'.repeat(32),token:'b'.repeat(64),build:'c'.repeat(64)}).toString()},
     SUPERTUX_DEPLOY_CONFIG: {manifestSha256: 'c'.repeat(64)},
@@ -44,7 +44,7 @@ test('host queue preserves taps and fails neutral on overflow', () => {
 test('retired sockets ignore late callbacks and outgoing backpressure closes', async () => {
   const f = fixture(); let received = 0;
   const connection = new f.window.SupertuxCoop.Connection('room','host','token','build',{message:()=>received++});
-  connection.socket.bufferedAmount = 16385;
+  connection.socket.bufferedAmount = 131073;
   assert.equal(connection.send({type:'ping'}), false); assert.equal(connection.closed, true);
   await connection.socket.fire('message',{data:JSON.stringify({type:'input',mask:2})});
   assert.equal(received,0);
@@ -71,4 +71,26 @@ test('guest background prevents a pending identity fetch opening a late socket',
   complete({text:async()=>'<script>window.SUPERTUX_DEPLOY_CONFIG = '+JSON.stringify({manifestSha256:'c'.repeat(64)})+';</script>'});
   await new Promise(resolve=>setImmediate(resolve));
   assert.equal(f.sockets.length,0); assert.equal(f.window.supertuxGuest.state.enabled,false);
+});
+
+test('one normal large host baseline does not cancel control/status traffic; guest inputs retain their small buffer bound',()=>{
+  const f=fixture();
+  const host=new f.window.SupertuxCoop.Connection('room','host','token','build',{});
+  host.socket.bufferedAmount=65536;assert.equal(host.send({type:'ping'}),true);
+  host.socket.bufferedAmount=131073;assert.equal(host.send({type:'ping'}),false);
+  const guest=new f.window.SupertuxCoop.Connection('room','guest','token','build',{});
+  guest.socket.bufferedAmount=16385;assert.equal(guest.send({type:'input'}),false);
+});
+
+test('native campaign load identity survives old title/background draws; restart requires a fresh matching acknowledgment',async()=>{
+  const f=fixture(false,async()=>({ok:true,json:async()=>({room:'a'.repeat(32),guest:'b'.repeat(64),host:'d'.repeat(64),build:'c'.repeat(64)})}));
+  await f.elements.get('coop_create').fire('click');const socket=f.sockets[0],engine=f.window.Module.supertuxCoop;
+  await socket.fire('message',{data:JSON.stringify({type:'ready'})});
+  await socket.fire('message',{data:JSON.stringify({type:'peer',connected:true,view:true})});
+  engine.engineStatus(1,false,1,0);assert.equal(engine.sceneReady(3,1),false);
+  await socket.fire('message',{data:JSON.stringify({type:'view-ready',session:3,epoch:1})});assert.equal(engine.sceneReady(3,1),true);
+  engine.view({session:1,epoch:1,scene:'unsupported'});assert.equal(engine.sceneReady(3,1),true);
+  assert.equal(engine.sceneReady(3,2),false);
+  await socket.fire('message',{data:JSON.stringify({type:'view-ready',session:3,epoch:1})});assert.equal(engine.sceneReady(3,2),false);
+  await socket.fire('message',{data:JSON.stringify({type:'view-ready',session:3,epoch:2})});assert.equal(engine.sceneReady(3,2),true);
 });

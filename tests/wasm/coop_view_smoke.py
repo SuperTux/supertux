@@ -133,14 +133,17 @@ async def run(args, url):
         await guest.keyboard.up('ArrowRight')
         report['checks'].append('Host Pause freezes presentation and releases guest input; Resume requires neutral state with a fresh generation')
 
-        async def script(command):
-            await host.locator('#canvas').focus();await host_key('Escape')
-            await host.wait_for_function('!Module.supertuxCoop.state.enabled')
+        async def script(command, active=True, paused=True):
+            await host.locator('#canvas').focus()
+            if paused:
+                await host_key('Escape')
+                await host.wait_for_function('!Module.supertuxCoop.state.enabled')
             await host_key('Backquote')
             await host.keyboard.type(command,delay=4);await host_key('Enter')
             assert any('> '+command in line for line in logs[-30:]),logs[-10:]
-            await host_key('Backquote');await host_key('Escape')
-            await host.wait_for_function('Module.supertuxCoop.state.enabled')
+            await host_key('Backquote')
+            if active and paused: await host_key('Escape')
+            if active: await host.wait_for_function('Module.supertuxCoop.state.enabled')
         await script('sector.Tux2.kill(true);')
         await sample('death',"SupertuxView.state.drawn.players[1].dead>0")
         # Press Action only after native death is complete. A held Action first
@@ -178,6 +181,94 @@ async def run(args, url):
         assert not await guest.evaluate("typeof Module !== 'undefined'")
         assert await guest.evaluate("indexedDB.databases().then(d=>d.length)")==0
         report['checks'].append('Guest downloads no game WASM/DATA/music, runs no native game and creates no save/settings database; presentation payloads are content-hash validated')
+
+        # Phase 7B uses the untouched packaged campaign level. Host-only
+        # position/bonus fixtures select real collisions; never guest simulation.
+        await script('Level.finish(true);',active=False)
+        await host.wait_for_timeout(1200)
+        await host.locator('#coop_panel').evaluate('(e)=>e.open=true')
+        await host.locator('#coop_antarctica').click()
+        await host.locator('#coop_panel').evaluate('(e)=>e.open=false')
+        await host.locator('#canvas').focus()
+        campaign=await sample('campaign-baseline',"SupertuxView.state.drawn.scene==='antarctica-v1'",timeout=60000)
+        assert campaign['world']['draw'] and campaign['world']['entities']
+        assert {'coin','bonusblock','brick','firefly','snowball','weak_block'} <= {e[1] for e in campaign['world']['entities']}
+        report['checks'].append('Untouched Welcome to Antarctica starts only after a matching guest baseline acknowledgment; real native terrain, backgrounds and stable object identities are presented')
+        x=campaign['players'][1]['x']
+        await guest.keyboard.down('ArrowRight')
+        await sample('campaign-remote-move',f'SupertuxView.state.drawn.players[1].x>{x+30}')
+        await guest.keyboard.up('ArrowRight')
+        await script('sector.Tux.set_is_intentionally_safe(true);sector.Tux2.set_is_intentionally_safe(true);')
+        state=await sample('campaign-objects')
+        coin=next(e for e in state['world']['entities'] if e[1]=='coin')
+        coins=state['world']['coins']
+        await script(f'sector.Tux.set_pos({coin[2]+48},{coin[3]});sector.Tux2.set_pos({coin[2]},{coin[3]});')
+        collected=await sample('native-coin-collected',f'SupertuxView.state.drawn.world.coins>{coins} && !SupertuxView.state.drawn.world.entities.some(e=>e[0]==={coin[0]})')
+        assert not any(c[1]==coin[0] for c in collected['world']['draw'])
+        report['checks'].append('A real coin collision increases authoritative shared coins; the collected UID and all its draw commands disappear together')
+        await host.locator('#canvas').screenshot(path=str(args.output/'campaign-host.png'))
+        await guest.locator('#guest_canvas').screenshot(path=str(args.output/'campaign-guest.png'))
+        state=await sample('before-enemy-contact')
+        enemy=min((e for e in state['world']['entities'] if e[1]=='snowball'),key=lambda e:abs(e[2]-state['players'][1]['x']))
+        await script(f'sector.Tux.set_pos({enemy[2]-96},{enemy[3]});sector.Tux2.set_pos({enemy[2]-64},{enemy[3]});sector.Tux.set_velocity(0,0);sector.Tux2.set_velocity(0,0);')
+        active=await sample('near-active-enemy',f'SupertuxView.state.drawn.world.entities.some(e=>e[0]==={enemy[0]} && ["left","right"].includes(e[4]))')
+        enemy=next(e for e in active['world']['entities'] if e[0]==enemy[0])
+        # Account for the moving enemy's actual direction and presentation
+        # delay when positioning a falling player. Collision itself is native.
+        direction=1 if 'right' in enemy[4] else -1
+        await script(f'sector.Tux2.set_pos({enemy[2]+direction*24},{enemy[3]-48});sector.Tux2.set_velocity(0,0);')
+        defeated=await sample('native-enemy-stomp',f'!SupertuxView.state.drawn.world.entities.some(e=>e[0]==={enemy[0]})',timeout=12000)
+        await host_key('ControlLeft')
+        await sample('host-action-rejoin',"SupertuxView.state.drawn.players.every(p=>p.dead===0)",timeout=15000)
+        assert not any(c[1]==enemy[0] for c in defeated['world']['draw'])
+        report['checks'].append('Host-authoritative contact stomps a real moving snowball; its stable UID is removed from both object and visual baselines')
+        state=await sample('before-block-hit')
+        block=next(e for e in state['world']['entities'] if e[1]=='bonusblock' and e[2]==1280)
+        await script('sector.Tux.set_pos(1200,672);sector.Tux2.set_pos(1280,672);sector.Tux2.set_velocity(0,0);')
+        await sample('under-growth-block',"SupertuxView.state.drawn.players[1].y>=671")
+        await guest.keyboard.down('Space')
+        await sample('bonus-block-used',f'SupertuxView.state.drawn.world.entities.some(e=>e[0]==={block[0]} && e[4]==="empty")')
+        await guest.keyboard.up('Space')
+        power=await sample('egg-spawn',"SupertuxView.state.drawn.world.entities.some(e=>e[1]==='powerup')")
+        egg=next(e for e in power['world']['entities'] if e[1]=='powerup')
+        await script(f'sector.Tux.set_pos({egg[2]-96},{egg[3]});sector.Tux2.set_pos({egg[2]},{egg[3]});')
+        await sample('egg-collected',"SupertuxView.state.drawn.players[1].action.startsWith('big-')")
+        report['checks'].append('Ordinary guest Jump hits the real growup block; the used block, spawned egg, collection and big-player pose agree in the guest presentation')
+        brick=next(e for e in (await sample('before-brick'))['world']['entities'] if e[1]=='brick' and e[2]==416)
+        await script('sector.Tux.set_pos(320,672);sector.Tux2.set_pos(416,640);sector.Tux2.set_velocity(0,0);')
+        await sample('under-brick',"SupertuxView.state.drawn.players[1].y>=639")
+        await guest.keyboard.down('Space')
+        broken=await sample('native-brick-broken',f'!SupertuxView.state.drawn.world.entities.some(e=>e[0]==={brick[0]})')
+        await guest.keyboard.up('Space')
+        assert not any(c[1]==brick[0] for c in broken['world']['draw'])
+        report['checks'].append('Big Player 2 breaks a real wooden brick with ordinary Jump; removal and native debris are visible without replaying a guest collision')
+        await script('sector.Tux.set_pos(3960,512);sector.Tux2.set_pos(4032,400);sector.Tux2.set_bonus("fireflower");sector.Tux2.set_velocity(0,0);')
+        await sample('fire-player',"SupertuxView.state.drawn.players[1].action.startsWith('fire-')")
+        await guest.keyboard.down('ArrowRight');await guest.wait_for_timeout(120);await guest.keyboard.up('ArrowRight')
+        await guest.keyboard.down('ControlLeft')
+        await sample('native-fireball',"SupertuxView.state.drawn.world.draw.some(c=>c[0]===0 && c[7][0].includes('bullets/fire'))")
+        await guest.keyboard.up('ControlLeft')
+        report['checks'].append('Host fixture grants a fire bonus; ordinary guest Action creates a native fireball and original fire-player/projectile artwork is rendered')
+
+        await script('sector.Tux.set_pos(5360,512);sector.Tux2.set_pos(5360,512);')
+        bell=await sample('native-checkpoint',"SupertuxView.state.drawn.world.checkpoint!==null")
+        epoch=bell['epoch']
+        await script('sector.Tux.kill(true);sector.Tux2.kill(true);')
+        restarted=await sample('campaign-checkpoint-restart',f'SupertuxView.state.drawn.epoch>{epoch} && SupertuxView.state.drawn.players.every(p=>p.dead===0 && Math.abs(p.x-5360)<5)',timeout=45000)
+        report['checks'].append('Real checkpoint bell state is replicated; all-player death rebuilds both players at the checkpoint with a new acknowledged epoch')
+        # Enter the actual endsequence trigger, then follow native scripted
+        # walking to the real stoptux trigger. Do not call Level.finish here.
+        await script('sector.Tux.set_pos(8960,600);sector.Tux2.set_pos(8960,600);',active=False,paused=False)
+        await guest.wait_for_function("SupertuxView.state.latest.world.phase==='finishing'",timeout=20000)
+        await guest.wait_for_function('SupertuxView.state.outcome?.win===true',timeout=90000)
+        assert not await guest.evaluate('SupertuxView.playable')
+        assert await guest.evaluate("indexedDB.databases().then(d=>d.length)")==0
+        await host.wait_for_timeout(1500)
+        assert await host.evaluate("Module.FS.readdir(Module.supertuxStorage.root+'profile1').includes('world1.stsg')")
+        report['checks'].append('Native end sequence completes the campaign level; the guest receives authoritative completion and releases controls; the host owns progression')
+        campaign_packets=[p for p in await guest.evaluate('viewPackets') if p['frame']['scene']=='antarctica-v1']
+        report['metrics']['campaign_snapshot_bytes_max']=max(p['bytes'] for p in campaign_packets)
+        assert report['metrics']['campaign_snapshot_bytes_max']<=65536
 
         await guest.keyboard.down('ArrowRight')
         await guest.evaluate("Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'))")

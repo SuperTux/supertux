@@ -38,3 +38,16 @@ test('death is discrete, incomplete state never invents an entity, history is bo
   assert.equal(buffer.accept(frame(1,100,0),10000),false); // clear retains ordering watermark
   buffer.reset();assert.equal(buffer.accept(frame(1,100,0),10000),true);
 });
+
+test('campaign removal and tile changes are complete discrete baselines; no mixed geometry or resurrected old-epoch objects',()=>{
+  const buffer=new SnapshotBuffer(50);
+  const before=frame(1,100,0,{scene:'antarctica-v1',world:{draw:[[0,17]],entities:[[17,'coin']],coins:0}});
+  const after=frame(2,200,100,{scene:'antarctica-v1',world:{draw:[],entities:[],coins:1}});
+  assert.equal(buffer.accept(before,1000),true);assert.equal(buffer.accept(after,1100),true);
+  assert.equal(buffer.sample(1100).world.coins,0);
+  assert.equal(buffer.sample(1150).world.coins,1);assert.equal(buffer.sample(1150).world.entities.length,0);
+  assert.deepEqual(buffer.sample(1150).camera,after.camera);
+  const restart=frame(1,300,0,{scene:'antarctica-v1',epoch:2,world:before.world});
+  buffer.accept(restart,1200);assert.equal(buffer.sample(1200).world.entities[0][0],17);
+  assert.equal(buffer.accept(after,1300),false);
+});

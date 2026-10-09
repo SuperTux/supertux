@@ -27,6 +27,9 @@ class PackagingTests(unittest.TestCase):
             shutil.copytree(original/'creatures/tux',source/'images/creatures/tux')
             (source/'images/tiles/snow').mkdir(parents=True)
             shutil.copyfile(original/'tiles/snow/convex.png',source/'images/tiles/snow/convex.png')
+            (source/'levels/world1').mkdir(parents=True)
+            (source/'levels/world1/welcome_antarctica.stl').write_text('(supertux-level (sector (name "main") (tilemap (width 1) (height 1) (tiles 14))))')
+            (source/'images/tiles.strf').write_text('; tileset header comment\n(supertux-tiles (tiles (ids 14) (images "tiles/snow/convex.png")))')
             sha = 'a' * 40
             inventory = packaging.prepare(source,build/'web-assets',source_commit=sha,presentation=True)
             for suffix, data in [('data',b'0'*sum(e['bytes'] for e in inventory['assets'] if e['package']=='startup')),('js',b'code'*100),('wasm',b'wasm'*100)]:
@@ -46,6 +49,8 @@ class PackagingTests(unittest.TestCase):
             scene=json.loads((reused/'coop-scene.json').read_text())
             self.assertEqual(scene['actions']['small-stand-left']['frames'],scene['actions']['small-stand-right']['frames'])
             self.assertTrue(scene['actions']['small-stand-left']['flipX'])
+            self.assertEqual(scene['campaign']['objects']['tilemap'],1)
+            self.assertIn('images/tiles/snow/convex.png',scene['campaign']['textures'])
             self.assertEqual(len(scene['tiles']),scene['width']*scene['height'])
             self.assertEqual(scene['tiles'][19*scene['width']],14)
             self.assertEqual(scene['tiles'][20*scene['width']],11)
@@ -68,6 +73,21 @@ class PackagingTests(unittest.TestCase):
             packaging.assemble(build,build,compression=False)
             self.assertFalse(list((build/'game-assets').rglob('*.gz')))
             verify(build,sha)
+
+    def test_real_campaign_inventory_includes_tiles_and_runtime_defaults(self):
+        from coop_presentation import derive
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(__file__).parents[2]
+            derive(root/'data',Path(directory),packaging.write,packaging.encoded)
+            scene=json.loads((Path(directory)/'presentation/coop-scene.json').read_text())
+            textures=scene['campaign']['textures']
+            for required in ('images/tiles/snow/convex.png','images/tiles/snow/variants2.png',
+                             'images/tiles/blocks/brick1.png','images/decal/explanations/billboard-bigtux.png',
+                             'images/engine/hud/coins-0.png','images/engine/hud/item_pocket.png'):
+                self.assertIn(required,textures)
+            self.assertTrue(all(tile>=0 for tile in scene['campaign']['tileIds']))
+            self.assertEqual(scene['campaign']['objects']['weak_block'],24)
+            self.assertEqual(scene['campaign']['objects']['snowball'],7)
 
     def test_signatures_metadata_rollback_and_obsolete_inputs(self):
         with tempfile.TemporaryDirectory() as directory:

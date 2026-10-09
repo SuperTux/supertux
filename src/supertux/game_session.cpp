@@ -32,6 +32,7 @@
 #include "object/level_time.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
+#include "object/moving_sprite.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/textscroller.hpp"
 #include "sdk/integration.hpp"
@@ -66,7 +67,7 @@ EM_JS(int, browser_coop_wants_view, (), {
   return Module.supertuxCoop && Module.supertuxCoop.wantsView() ? 1 : 0;
 });
 EM_JS(void, browser_coop_view, (uint32_t session, uint32_t epoch, uint32_t sequence, int supported,
-                               const float* fields, const char* action1, const char* action2), {
+                               const float* fields, const char* action1, const char* action2, const char* world), {
   var f = Array.from(HEAPF32.subarray(fields >>> 2, (fields >>> 2) + 21));
   var actions = [UTF8ToString(action1), UTF8ToString(action2)];
   var players = [];
@@ -78,7 +79,14 @@ EM_JS(void, browser_coop_view, (uint32_t session, uint32_t epoch, uint32_t seque
   }
   if (Module.supertuxCoop) Module.supertuxCoop.view({type: 'view', session: session,
     epoch: epoch, sequence: sequence, time: performance.now(),
-    scene: supported ? 'coop-view-v1' : 'unsupported', camera: f.slice(0,5), players: players});
+    scene: supported === 2 ? 'antarctica-v1' : (supported ? 'coop-view-v1' : 'unsupported'),
+    camera: f.slice(0,5), players: players, ...(supported === 2 ? {world: JSON.parse(UTF8ToString(world))} : {})});
+});
+EM_JS(int, browser_coop_scene_ready, (uint32_t session, uint32_t epoch), {
+  return !Module.supertuxCoop || Module.supertuxCoop.sceneReady(session, epoch) ? 1 : 0;
+});
+EM_JS(void, browser_coop_finished, (uint32_t session, uint32_t epoch, int win), {
+  if (Module.supertuxCoop) Module.supertuxCoop.finished(session, epoch, win);
 });
 #endif
 static const float TELEPORT_FADE_TIME = 1.0f;
@@ -542,6 +550,9 @@ GameSession::abort_level()
 bool
 GameSession::is_active() const
 {
+#ifdef __EMSCRIPTEN__
+  if (m_levelfile == "levels/world1/welcome_antarctica.stl" && !browser_coop_scene_ready(m_coop_session, m_coop_epoch)) return false;
+#endif
   return !m_game_pause && m_active && !(m_end_sequence && m_end_sequence->is_running());
 }
 
@@ -582,6 +593,10 @@ GameSession::draw(Compositor& compositor)
     context.set_time_offset(0.0f);
   }
 
+#ifdef __EMSCRIPTEN__
+  const bool campaign_view = m_levelfile == "levels/world1/welcome_antarctica.stl" && browser_coop_wants_view();
+  if (campaign_view) context.color().begin_presentation();
+#endif
   m_currentsector->draw(context);
 #ifdef __EMSCRIPTEN__
   if (browser_coop_wants_view())
@@ -590,13 +605,38 @@ GameSession::draw(Compositor& compositor)
     float fields[21] = {transform.first.x, transform.first.y, transform.second,
                         static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)};
     const auto& players = m_currentsector->get_players();
-    bool supported = m_levelfile == "levels/web/coop-view.stl" && players.size() == 2;
-    if (supported)
+    int supported = players.size() == 2 ? (campaign_view ? 2 : (m_levelfile == "levels/web/coop-view.stl" ? 1 : 0)) : 0;
+    std::string world;
+    if (supported == 2)
+    {
+      const std::string commands = context.color().get_presentation();
+      if (commands == "null") supported = 0;
+      else
+      {
+        std::string entities = "[";
+        for (const auto& object : m_currentsector->get_objects())
+        {
+          const auto* moving = dynamic_cast<const MovingSprite*>(object.get());
+          if (!object->is_valid() || !moving) continue;
+          if (entities.size() > 1) entities += ',';
+          entities += fmt::format("[{},\"{}\",{:.2f},{:.2f},\"{}\",{}]",
+            object->get_uid().get_value(), object->get_class_name(), moving->get_pos().x, moving->get_pos().y,
+            moving->get_sprite()->get_action(), moving->get_sprite()->get_current_frame());
+        }
+        entities += ']';
+        const auto* checkpoint = get_active_checkpoint_spawnpoint();
+        const std::string checkpoint_json = checkpoint ? fmt::format("[{:.2f},{:.2f}]", checkpoint->position.x, checkpoint->position.y) : "null";
+        world = fmt::format("{{\"draw\":{},\"entities\":{},\"coins\":{},\"checkpoint\":{},\"phase\":\"{}\"}}",
+          commands, entities, players[0]->get_status().coins, checkpoint_json,
+          m_end_sequence ? "finishing" : "playing");
+      }
+    }
+    if (supported == 1)
     {
       for (const auto* player : players)
       {
         const auto& action = player->get_sprite()->get_action();
-        supported = supported && (action.compare(0, 6, "small-") == 0 || action == "gameover");
+        if (!(action.compare(0, 6, "small-") == 0 || action == "gameover")) supported = 0;
       }
     }
     const char* actions[2] = {"", ""};
@@ -618,7 +658,7 @@ GameSession::draw(Compositor& compositor)
         actions[i] = sprite.get_action().c_str();
       }
     }
-    browser_coop_view(m_coop_session, m_coop_epoch, ++m_coop_sequence, supported, fields, actions[0], actions[1]);
+    browser_coop_view(m_coop_session, m_coop_epoch, ++m_coop_sequence, supported, fields, actions[0], actions[1], world.c_str());
   }
 #endif
   drawstatus(context);
@@ -712,6 +752,11 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
   }
 
+#ifdef __EMSCRIPTEN__
+  // Joining/restarting never advances campaign physics before the guest has
+  // acknowledged an exact complete scene. Single-player has no relay gate.
+  if (m_levelfile == "levels/world1/welcome_antarctica.stl" && !browser_coop_scene_ready(m_coop_session, m_coop_epoch)) return;
+#endif
   // Animate the full-completion stats stuff - do this even when the game isn't paused (that's a
   // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`).
   m_level->m_stats.update_timers(dt_sec);
@@ -896,6 +941,9 @@ GameSession::finish(bool win)
   if (m_end_seq_started)
     return;
   m_end_seq_started = true;
+#ifdef __EMSCRIPTEN__
+  if (m_levelfile == "levels/world1/welcome_antarctica.stl") browser_coop_finished(m_coop_session, m_coop_epoch, win);
+#endif
 
   using namespace worldmap;
 

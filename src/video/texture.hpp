@@ -53,6 +53,9 @@ public:
   virtual int get_image_height() const = 0;
 
   inline const Sampler& get_sampler() const { return m_sampler; }
+#ifdef __EMSCRIPTEN__
+  const std::optional<Key>& get_presentation_key() const { return m_cache_key; }
+#endif
 
 protected:
   Sampler m_sampler;

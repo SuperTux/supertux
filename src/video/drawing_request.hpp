@@ -101,6 +101,9 @@ struct DrawingRequest
   Blend blend;
   const Rect viewport;
   RequestVariant request;
+#ifdef __EMSCRIPTEN__
+  uint32_t presentation_owner = 0;
+#endif
 
   DrawingRequest() = delete;
   DrawingRequest(const DrawingTransform& transform) :

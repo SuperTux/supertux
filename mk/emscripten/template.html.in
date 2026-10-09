@@ -217,13 +217,13 @@
 
 <body>
   <details id="coop_panel" hidden style="position:relative;z-index:6;background:#142333;color:white;padding:8px">
-    <summary>Private co-op — development proof</summary>
-    <p>Invite Player 2 at the title screen. Shared view supports the display proof scene only. The host controls menus and saves.</p>
+    <summary>Private co-op — one playable level</summary>
+    <p>Invite Player 2 at the title screen. Shared view supports Welcome to Antarctica and the display test arena. The host controls menus and saves.</p>
     <button id="coop_create" type="button">Create private input room</button>
     <button id="coop_close" type="button">Close room</button>
-    <p>At the title screen, select a packaged proof level:</p>
-    <button id="coop_antarctica" type="button">Start Antarctica proof</button>
-    <button id="coop_forest" type="button">Start forest door proof</button>
+    <p>At the title screen, choose a level:</p>
+    <button id="coop_antarctica" type="button">Play Welcome to Antarctica</button>
+    <button id="coop_forest" type="button">Forest test (host screen only)</button>
     <button id="coop_view_start" type="button">Start shared view proof</button>
     <p id="coop_status" role="status">Networking is off.</p>
     <a id="coop_link" style="overflow-wrap:anywhere;color:#a5c7ed" target="_blank" rel="noreferrer"></a>

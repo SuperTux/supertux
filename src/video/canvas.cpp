@@ -30,6 +30,26 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <sstream>
+#include <iomanip>
+#include <fmt/format.h>
+
+namespace {
+std::string presentation_quote(const std::string& value)
+{
+  std::string result = "\"";
+  for (unsigned char c : value)
+  {
+    if (c == '"' || c == '\\') { result += '\\'; result += c; }
+    else if (c < 32) result += fmt::format("\\u{:04x}", c);
+    else result += c;
+  }
+  return result + "\"";
+}
+}
+#endif
+
 Canvas::Canvas(DrawingContext& context, obstack& obst) :
   m_context(context),
   m_obst(obst),
@@ -52,6 +72,10 @@ Canvas::clear()
     request->~DrawingRequest();
   }
   m_requests.clear();
+#ifdef __EMSCRIPTEN__
+  m_presentation_capture = false;
+  m_presentation_text.clear();
+#endif
 }
 
 void
@@ -134,6 +158,9 @@ Canvas::draw_surface(const SurfacePtr& surface,
   req_var.displacement_texture = surface->get_displacement_texture().get();
   req_var.color = color;
 
+#ifdef __EMSCRIPTEN__
+  req->presentation_owner = m_presentation_owner;
+#endif
   m_requests.push_back(req);
 }
 
@@ -173,6 +200,9 @@ Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const
   req_var.displacement_texture = surface->get_displacement_texture().get();
   req_var.color = style.get_color();
 
+#ifdef __EMSCRIPTEN__
+  req->presentation_owner = m_presentation_owner;
+#endif
   m_requests.push_back(req);
 }
 
@@ -222,6 +252,9 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
   req_var.texture = surface->get_texture().get();
   req_var.displacement_texture = surface->get_displacement_texture().get();
 
+#ifdef __EMSCRIPTEN__
+  req->presentation_owner = m_presentation_owner;
+#endif
   m_requests.push_back(req);
 }
 
@@ -230,7 +263,21 @@ Canvas::draw_text(const FontPtr& font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
   // FIXME: Font viewport.
-  return font->draw_text(*this, text, pos, alignment, layer, color);
+  const Rectf result = font->draw_text(*this, text, pos, alignment, layer, color);
+#ifdef __EMSCRIPTEN__
+  if (m_presentation_capture)
+  {
+    const Vector location = apply_translate(pos) * scale();
+    m_presentation_text.emplace_back(layer, fmt::format(
+      "[4,{},{},0,{},0,[{},{},{},{}],[{},{},{},{},{},[{},{},{},{}]]]",
+      m_presentation_owner, layer, m_context.get_alpha(),
+      m_context.get_viewport().left, m_context.get_viewport().top,
+      m_context.get_viewport().get_width(), m_context.get_viewport().get_height(),
+      presentation_quote(text), location.x, location.y, font->get_height() * scale(),
+      static_cast<int>(alignment), color.red, color.green, color.blue, color.alpha));
+  }
+#endif
+  return result;
 }
 
 Rectf
@@ -259,6 +306,9 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
   req_var.region = Rectf(apply_translate(region.p1())*scale(),
                          apply_translate(region.p2())*scale());
 
+#ifdef __EMSCRIPTEN__
+  req->presentation_owner = m_presentation_owner;
+#endif
   m_requests.push_back(req);
 }
 
@@ -293,6 +343,9 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   req_var.radius = radius;
   req_var.blur = g_config->fancy_gfx ? m_blur : 0;
 
+#ifdef __EMSCRIPTEN__
+  req->presentation_owner = m_presentation_owner;
+#endif
   m_requests.push_back(req);
 }
 
@@ -310,6 +363,9 @@ Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color&
   req_var.color.alpha  = color.alpha * m_context.transform().alpha;
   req_var.size         = size*scale();
 
+#ifdef __EMSCRIPTEN__
+  req->presentation_owner = m_presentation_owner;
+#endif
   m_requests.push_back(req);
 }
 
@@ -327,6 +383,9 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
   req_var.color.alpha  = color.alpha * m_context.transform().alpha;
   req_var.dest_pos     = apply_translate(pos2)*scale();
 
+#ifdef __EMSCRIPTEN__
+  req->presentation_owner = m_presentation_owner;
+#endif
   m_requests.push_back(req);
 }
 
@@ -345,6 +404,9 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
   req_var.color = color;
   req_var.color.alpha = color.alpha * m_context.transform().alpha;
 
+#ifdef __EMSCRIPTEN__
+  req->presentation_owner = m_presentation_owner;
+#endif
   m_requests.push_back(req);
 }
 
@@ -393,6 +455,9 @@ Canvas::get_pixel(const Vector& position, const std::shared_ptr<Color>& color_ou
   req_var.pos = pos;
   req_var.color_ptr = color_out;
 
+#ifdef __EMSCRIPTEN__
+  req->presentation_owner = m_presentation_owner;
+#endif
   m_requests.push_back(req);
 }
 
@@ -409,3 +474,81 @@ Canvas::scale() const
 {
   return m_context.transform().scale;
 }
+
+#ifdef __EMSCRIPTEN__
+std::string
+Canvas::get_presentation()
+{
+  // Complete visible baseline, sorted exactly like the native renderer. Removal
+  // needs no reliable event: an absent UID/quad disappears in the next frame.
+  std::vector<std::pair<int, std::string>> commands = m_presentation_text;
+  size_t quads = 0;
+  for (const auto* ptr : m_requests)
+  {
+    const DrawingRequest& request = *ptr;
+    std::ostringstream payload;
+    payload << std::setprecision(8);
+    const auto rect = [&payload](const Rectf& r) {
+      payload << std::round(r.get_left()*100.0f)/100.0f << ',' << std::round(r.get_top()*100.0f)/100.0f << ','
+              << std::round(r.get_width()*100.0f)/100.0f << ',' << std::round(r.get_height()*100.0f)/100.0f;
+    };
+    const auto color = [&payload](const Color& c) {
+      payload << '[' << c.red << ',' << c.green << ',' << c.blue << ',' << c.alpha << ']';
+    };
+    int kind = -1;
+    bool valid = true;
+    std::visit([&](auto&& arg) {
+      using T = std::decay_t<decltype(arg)>;
+      if constexpr (std::is_same_v<T, TextureRequest>)
+      {
+        const auto& key = arg.texture->get_presentation_key();
+        if (!key) return; // Native TTF surfaces are represented by text commands.
+        if (arg.displacement_texture) { valid = false; return; }
+        kind = 0;
+        const Rect& region = std::get<1>(*key);
+        payload << '[' << presentation_quote(std::get<0>(*key)) << ',' << region.left << ',' << region.top << ",[";
+        for (size_t i = 0; i < arg.srcrects.size(); ++i)
+        {
+          if (i) payload << ',';
+          payload << '['; rect(arg.srcrects[i]); payload << ',';
+          rect(arg.dstrects[i]); payload << ',' << arg.angles[i] << ']';
+          if (++quads > 2048) { valid = false; break; }
+        }
+        payload << "],"; color(arg.color); payload << ']';
+      }
+      else if constexpr (std::is_same_v<T, GradientRequest>)
+      {
+        kind = 1; payload << '['; rect(arg.region); payload << ',';
+        color(arg.top); payload << ','; color(arg.bottom); payload << ',' << static_cast<int>(arg.direction) << ']';
+      }
+      else if constexpr (std::is_same_v<T, FillRectRequest>)
+      {
+        kind = 2; payload << '['; rect(arg.rect); payload << ',';
+        color(arg.color); payload << ',' << arg.radius << ']';
+      }
+      else if constexpr (std::is_same_v<T, LineRequest>)
+      {
+        kind = 3; payload << '[' << arg.pos.x << ',' << arg.pos.y << ',' << arg.dest_pos.x << ',' << arg.dest_pos.y << ',';
+        color(arg.color); payload << ']';
+      }
+      else if constexpr (!std::is_same_v<T, GetPixelRequest>) valid = false;
+    }, request.request);
+    if (!valid) return "null";
+    if (kind < 0) continue;
+    const Rect& clip = request.viewport;
+    commands.emplace_back(request.layer, fmt::format("[{},{},{},{},{:.2f},{},[{},{},{},{}],{}]",
+      kind, request.presentation_owner, request.layer, static_cast<int>(request.flip), request.alpha,
+      static_cast<int>(request.blend), clip.left, clip.top, clip.get_width(), clip.get_height(), payload.str()));
+    if (commands.size() > 256) return "null";
+  }
+  std::stable_sort(commands.begin(), commands.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
+  std::string result = "[";
+  for (const auto& command : commands)
+  {
+    if (result.size() > 52000) return "null";
+    if (result.size() > 1) result += ',';
+    result += command.second;
+  }
+  return result + ']';
+}
+#endif
