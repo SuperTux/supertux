@@ -16,7 +16,7 @@ export function validView(value) {
   for (const player of value.players) {
     if (!exact(player,['id','x','y','action','frame','angle','alpha','dead','visible']) || ![1,2].includes(player.id) || ids.has(player.id) ||
         !finite(player.x,-100000,100000) || !finite(player.y,-100000,100000) ||
-        typeof player.action !== 'string' || !(value.scene === 'antarctica-v1' ? /^[a-z-]{1,64}$/ : /^(?:small-[a-z-]{1,48}|gameover)$/).test(player.action) ||
+        typeof player.action !== 'string' || !(value.scene === 'coop-view-v1' ? /^(?:small-[a-z-]{1,48}|gameover)$/ : /^[a-z-]{1,64}$/).test(player.action) ||
         !Number.isInteger(player.frame) || player.frame < 0 || player.frame > 255 ||
         !finite(player.angle,-3600,3600) || !finite(player.alpha,0,1) || ![0,1,2].includes(player.dead) || typeof player.visible !== 'boolean') return false;
     ids.add(player.id);

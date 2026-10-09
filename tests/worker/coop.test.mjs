@@ -205,6 +205,9 @@ test('campaign complete state has bounded geometry, stable unique IDs and no exe
     f=>f.world.entities[0][4]='run(script)',f=>f.world.script='execute',
   ]) {const frame=campaign();mutate(frame);assert.equal(validView(frame),false);}
   const bonus=campaign();bonus.players[0].action='big-walk-right';assert.equal(validView(bonus),true);
+  const unsupported=view(1,{scene:'unsupported'});unsupported.players[0].action='big-walk-right';
+  assert.equal(validView(unsupported),true); // freeze the picture, retain the room
+  unsupported.scene='coop-view-v1';assert.equal(validView(unsupported),false);
 });
 test('only matching guest baselines acknowledge readiness; authoritative completion survives receiver backpressure',async()=>{
   const f=fixture(),host=f.add('host'),guest=f.add('guest');await ready(f,host);
