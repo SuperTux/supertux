@@ -50,47 +50,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_widgets_width(0.f),
   m_widgets_width_offset(0.f)
 {
-  auto grid_button =
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png", []{},
-      _("Change grid size"));
-
-  auto snap_grid_sizes = {
-    _("No Grid"),
-    _("Tiny Grid (4px)"),
-    _("Small Grid (8px)"),
-    _("Medium Grid (16px)"),
-    _("Large Grid (32px)")
-  };
-
-  int grid_size_idx = 0;
-
-  for (const auto &grid_size : snap_grid_sizes)
-  {
-    auto on_click = [grid_size_idx]
-    {
-      if (grid_size_idx == 0)
-      {
-        g_config->editor_render_grid = false;
-        return;
-      }
-      g_config->editor_render_grid = true;
-      g_config->editor_selected_snap_grid_size = grid_size_idx - 1;
-    };
-
-    auto is_selected = [grid_size_idx]
-    {
-      auto show_grid = g_config->editor_render_grid;
-      return (grid_size_idx == 0 && !show_grid) ||
-             (show_grid && g_config->editor_selected_snap_grid_size == grid_size_idx - 1);
-    };
-
-    auto menu_item = std::make_unique<MenuListItem>(grid_size, on_click);
-    menu_item->set_is_selected_handler(is_selected);
-
-    auto menu_list = grid_button->get_menu_list();
-    menu_list->add_item(std::move(menu_item));
-    grid_size_idx++;
-  }
+  auto grid_button = create_grid_button();
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
       // Undo button
@@ -258,6 +218,54 @@ EditorToolbarWidget::set_mode(const InputMode& input_mode)
 	}
 
   m_widgets_width = i * 32.f;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_grid_button() const
+{
+  auto grid_button =
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png", []{},
+      _("Change grid size"));
+
+  auto snap_grid_sizes = {
+    _("No Grid"),
+    _("Tiny Grid (4px)"),
+    _("Small Grid (8px)"),
+    _("Medium Grid (16px)"),
+    _("Large Grid (32px)")
+  };
+
+  int grid_size_idx = 0;
+
+  for (const auto &grid_size : snap_grid_sizes)
+  {
+    auto on_click = [grid_size_idx]
+    {
+      if (grid_size_idx == 0)
+      {
+        g_config->editor_render_grid = false;
+        return;
+      }
+      g_config->editor_render_grid = true;
+      g_config->editor_selected_snap_grid_size = grid_size_idx - 1;
+    };
+
+    auto is_selected = [grid_size_idx]
+    {
+      auto show_grid = g_config->editor_render_grid;
+      return (grid_size_idx == 0 && !show_grid) ||
+             (show_grid && g_config->editor_selected_snap_grid_size == grid_size_idx - 1);
+    };
+
+    auto menu_item = std::make_unique<MenuListItem>(grid_size, on_click);
+    menu_item->set_is_selected_handler(is_selected);
+
+    auto menu_list = grid_button->get_menu_list();
+    menu_list->add_item(std::move(menu_item));
+    grid_size_idx++;
+  }
+
+  return grid_button;
 }
 
 void
