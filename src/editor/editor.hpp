@@ -111,7 +111,7 @@ public:
   void set_input_mode(const InputMode &input_mode);
 
   inline int get_tileselect_select_mode() const { return m_toolbox_widget->get_tileselect_select_mode(); }
-  inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
+  inline int get_object_select_mode() const { return m_toolbox_widget->get_object_select_mode(); }
 
   void on_level_set();
 
