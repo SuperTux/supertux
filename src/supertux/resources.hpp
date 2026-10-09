@@ -51,6 +51,8 @@ public:
   /** Small font for statistics, FPS, etc. */
   static FontPtr small_font;
 
+  static FontPtr editor_menu_font;
+
   /** Big font for menu titles and headers in text scrolls */
   static FontPtr big_font;
 
