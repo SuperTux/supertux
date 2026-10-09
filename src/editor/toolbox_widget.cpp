@@ -447,7 +447,7 @@ EditorToolboxWidget::set_tileselect_select_mode(int mode)
 }
 
 int
-EditorToolboxWidget::get_tileselect_move_mode() const
+EditorToolboxWidget::get_object_select_mode() const
 {
   return m_move_mode->get_mode();
 }
