@@ -985,7 +985,7 @@ EditorOverlayWidget::process_left_click()
       if (m_hovered_object)
         m_editor.set_selected_object(m_hovered_object.get());
 
-      switch (m_editor.get_tileselect_move_mode())
+      switch (m_editor.get_object_select_mode())
       {
         case 0:
           grab_object();
