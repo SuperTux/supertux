@@ -33,6 +33,7 @@ public:
                const std::string& sprite_path, const Rectf& rect) :
     m_label(label),
     m_onclick_handler(onclick_handler),
+    m_is_selected_handler(nullptr),
     m_sprite(SpriteManager::current()->create(sprite_path)),
     m_rect(rect)
   {
@@ -41,6 +42,7 @@ public:
   MenuListItem(const std::string& label) :
     m_label(label),
     m_onclick_handler([]{}),
+    m_is_selected_handler(nullptr),
     m_sprite(nullptr),
     m_rect(Rectf(0, 0, 0, 0))
   {
@@ -49,6 +51,7 @@ public:
   MenuListItem(const std::string& label, const std::function<void()> onclick_handler) :
     m_label(label),
     m_onclick_handler(onclick_handler),
+    m_is_selected_handler(nullptr),
     m_sprite(nullptr),
     m_rect(Rectf(0, 0, 0, 0))
   {
@@ -60,6 +63,12 @@ public:
   void set_onclick_handler(const std::function<void()> onclick_handler)
   {
     m_onclick_handler = onclick_handler;
+  }
+
+  const std::function<bool()> get_is_selected_handler() const { return m_is_selected_handler; }
+  void set_is_selected_handler(const std::function<bool()> is_selected_handler)
+  {
+    m_is_selected_handler = is_selected_handler;
   }
 
   Sprite* get_sprite() const { return m_sprite.get(); }
@@ -76,6 +85,7 @@ public:
 private:
   std::string m_label;
   std::function<void()> m_onclick_handler;
+  std::function<bool()> m_is_selected_handler;
   SpritePtr m_sprite;
   Rectf m_rect;
 };
