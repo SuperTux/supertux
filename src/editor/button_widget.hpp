@@ -63,14 +63,14 @@ public:
 
   inline bool is_hovered() const { return m_hover; }
 
-  inline void set_menu_list_widget(std::unique_ptr<MenuListWidget> menu_list_widget)
+  inline void set_menu_list(std::unique_ptr<MenuListWidget> menu_list_widget)
   {
     m_menu_list = std::move(menu_list_widget);
   }
 
-  void add_menu_item(std::unique_ptr<MenuListItem> item)
+  MenuListWidget* get_menu_list() const
   {
-    m_menu_list->add_item(std::move(item));
+    return m_menu_list.get();
   }
 
   bool get_show_menu() const { return m_show_menu; }

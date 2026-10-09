@@ -77,8 +77,18 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
       g_config->editor_selected_snap_grid_size = grid_size_idx - 1;
     };
 
+    auto is_selected = [grid_size_idx]
+    {
+      auto show_grid = g_config->editor_render_grid;
+      return (grid_size_idx == 0 && !show_grid) ||
+             (show_grid && g_config->editor_selected_snap_grid_size == grid_size_idx - 1);
+    };
+
     auto menu_item = std::make_unique<MenuListItem>(grid_size, on_click);
-    grid_button->add_menu_item(std::move(menu_item));
+    menu_item->set_is_selected_handler(is_selected);
+
+    auto menu_list = grid_button->get_menu_list();
+    menu_list->add_item(std::move(menu_item));
     grid_size_idx++;
   }
 
