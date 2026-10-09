@@ -32,6 +32,7 @@ public:
   MenuListItem(const std::string& label, const std::function<void()> onclick_handler,
                const std::string& sprite_path, const Rectf& rect) :
     m_label(label),
+    m_keyboard_shortcut(""),
     m_onclick_handler(onclick_handler),
     m_is_selected_handler(nullptr),
     m_sprite(SpriteManager::current()->create(sprite_path)),
@@ -41,6 +42,7 @@ public:
 
   MenuListItem(const std::string& label) :
     m_label(label),
+    m_keyboard_shortcut(""),
     m_onclick_handler([]{}),
     m_is_selected_handler(nullptr),
     m_sprite(nullptr),
@@ -50,6 +52,7 @@ public:
 
   MenuListItem(const std::string& label, const std::function<void()> onclick_handler) :
     m_label(label),
+    m_keyboard_shortcut(""),
     m_onclick_handler(onclick_handler),
     m_is_selected_handler(nullptr),
     m_sprite(nullptr),
@@ -58,7 +61,10 @@ public:
   }
 
   const std::string &get_label() const { return m_label; }
-  
+
+  const std::string &get_keyboard_shortcut() const { return m_keyboard_shortcut; }
+  void set_keyboard_shortcut(const std::string &shortcut) { m_keyboard_shortcut = shortcut; }
+
   const std::function<void()>& get_onclick_handler() const { return m_onclick_handler; }
   void set_onclick_handler(const std::function<void()>& onclick_handler)
   {
@@ -72,6 +78,7 @@ public:
   }
 
   Sprite* get_sprite() const { return m_sprite.get(); }
+
   const Rectf &get_rect() const { return m_rect; }
   inline void set_rect(const Rectf &rect) { m_rect = rect; }
 
@@ -84,6 +91,7 @@ public:
 
 private:
   std::string m_label;
+  std::string m_keyboard_shortcut;
   std::function<void()> m_onclick_handler;
   std::function<bool()> m_is_selected_handler;
   SpritePtr m_sprite;
