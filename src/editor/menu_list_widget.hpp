@@ -102,8 +102,8 @@ public:
     m_visible(),
     m_item_size(Sizef(200.f, 25.f)),
     m_menu_offset(),
-    m_sprite_offset({2, 2}),
-    m_label_offset({25, 5}),
+    m_sprite_offset({2.f, 2.f}),
+    m_label_offset({25.f, 7.5f}),
     m_selected_item_idx()
   {
   }
