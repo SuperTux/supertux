@@ -16,6 +16,8 @@
 
 #include "object/bouncy_coin.hpp"
 
+#include <algorithm>
+
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
@@ -54,7 +56,9 @@ BouncyCoin::draw(DrawingContext& context)
   float time_left = timer.get_timeleft();
   bool fading = time_left < FADE_TIME;
   if (fading) {
-    float alpha = time_left/FADE_TIME;
+    // Rendering may predict past expiry before the next update removes the
+    // object. Alpha must remain valid for SDL and the shared presentation.
+    float alpha = std::clamp(time_left / FADE_TIME, 0.f, 1.f);
     context.push_transform();
     context.set_alpha(alpha);
   }

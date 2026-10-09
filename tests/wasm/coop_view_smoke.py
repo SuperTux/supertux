@@ -155,6 +155,10 @@ async def run(args, url):
             if active:
                 try:
                     await host.wait_for_function('Module.supertuxCoop.state.enabled')
+                    # Resume reaches the host before its session/baseline can
+                    # reach the guest. An input sent in that gap is correctly
+                    # ignored; drive the next fixture only after presentation.
+                    await guest.wait_for_function('SupertuxView.playable && supertuxGuest.state.mask===0')
                 except Exception:
                     print('VIEW_SCRIPT_FAILED',command,await guest.evaluate('({guest:supertuxGuest.state,view:SupertuxView.state,status:document.querySelector("#guest_status").textContent,viewStatus:document.querySelector("#view_status").textContent})'),await host.evaluate('({state:Module.supertuxCoop.state,status:document.querySelector("#coop_status").textContent,packet:window.lastViewPacket})'),flush=True)
                     await host.locator('#canvas').screenshot(path=str(args.output/'script-host-failure.png'))
