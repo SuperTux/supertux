@@ -92,9 +92,11 @@ has a bounded timeout with a title-screen/rejoin recovery message.
 - At most two players, 512 moving-sprite descriptions, 256 draw requests and
   2,048 visible texture quads per snapshot; maximum encoded message is 64 KiB.
 - At most ten host presentation updates per second. The selected level uses
-  complete discrete native frames; it does not interpolate tile changes or
-  independently move enemies. The older static arena retains player/camera
-  interpolation. Smoother supported-level presentation is a follow-up.
+  complete native frames; it does not interpolate tile changes or independently
+  simulate enemies. Phase 8B adds safe interpolation of matched native drawing
+  geometry between those frames; see
+  [the smoothing handoff](PRIVATE_COOP_SMOOTHING.md). The older static arena
+  retains player/camera interpolation.
 - Guest history retains at most eight frames and rejects older session, epoch,
   sequence or host time. Restart never mixes old geometry with a new baseline.
 - Host WebSocket output applies a 128 KiB backpressure threshold, plus at most

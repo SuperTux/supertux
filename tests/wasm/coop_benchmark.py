@@ -33,7 +33,8 @@ GUEST_OBSERVER = r'''() => {
   performance.setResourceTimingBufferSize(5000);
   const empty = () => ({input_to_first_draw_ms:[], input_to_first_frame_ms:[],
     arrival_interval_ms:[], draw_interval_ms:[], receive_to_draw_ms:[], draw_callback_ms:[],
-    view_count:0, view_bytes:0, largest_view_bytes:0, max_guest_buffered_bytes:0});
+    view_count:0, view_bytes:0, largest_view_bytes:0, max_guest_buffered_bytes:0,
+    presentation_draws:0, interpolated_draws:0});
   const state = window.coopBenchmark = {active:false, pending:null, received:new Map(), data:empty()};
   const clock=()=>performance.now(), raf=requestAnimationFrame;
   window.requestAnimationFrame = callback => raf.call(window, time => {
@@ -42,11 +43,14 @@ GUEST_OBSERVER = r'''() => {
     const frame=window.SupertuxView?.state.drawn, end=clock();
     if (!state.active || callback.name!=='tick' || !frame || frame===previous) return;
     const data=state.data;
+    ++data.presentation_draws;
+    if(frame.presentation)++data.interpolated_draws;
     data.draw_callback_ms.push(end-begin);
     if (state.lastDraw!==undefined) data.draw_interval_ms.push(end-state.lastDraw);
     state.lastDraw=end;
-    const received=state.received.get(frame.sequence);
-    if (received!==undefined) data.receive_to_draw_ms.push(end-received);
+    // For a synthesized frame, age belongs to the newest required endpoint.
+    const newest=state.received.get(frame.presentation?.to ?? frame.sequence);
+    if (newest!==undefined) data.receive_to_draw_ms.push(end-newest);
     const pending=state.pending, player=frame.players.find(p=>p.id===2);
     if (pending && frame.session===pending.session && frame.epoch===pending.epoch &&
         player && (player.x-pending.x)*pending.direction>=1) {
@@ -194,6 +198,8 @@ def network_delta(before, after, category):
 async def measure_trial(args,url,index,html,hc,gc,version):
     errors, logs = [], []
     result = dict(run=index+1, browser=version, loading={}, http={}, observations={}, errors=errors)
+    host=guest=None
+    stage='boot'
     def console(message):
         line=redact(message.text); logs.append(line)
         if re.search(r'undefined symbol|Aborted\(|\[FATAL\]|runtime error:|missing function|AN ERROR HAS OCCURRED|Error waking VM|Squirrel exception:|Shared view artwork missing:|Co-op presentation rejected|Co-op presentation exceeded',line):
@@ -223,6 +229,7 @@ async def measure_trial(args,url,index,html,hc,gc,version):
             await host.locator('#coop_create').click()
             await host.wait_for_function("document.querySelector('#coop_status').textContent.includes('Room ready')")
         async def boot_guest(kind):
+            nonlocal guest
             before=await network_counts(args)
             guest=await gc.new_page();guest.set_default_timeout(60000)
             guest.on('console',console);guest.on('pageerror',lambda error:errors.append('Guest: '+redact(error)))
@@ -252,6 +259,7 @@ async def measure_trial(args,url,index,html,hc,gc,version):
             for action in (host.keyboard.down,host.keyboard.up):
                 await action(key);frame=await host.evaluate('benchmarkInputFrames')
                 await host.wait_for_function('(frame)=>benchmarkInputFrames>frame',arg=frame)
+        stage='campaign selection'
         start=time.monotonic()
         await host.locator('#coop_antarctica').click()
         await host.locator('#coop_panel').evaluate('(e)=>e.open=false')
@@ -260,6 +268,7 @@ async def measure_trial(args,url,index,html,hc,gc,version):
         result['loading']['selection_to_ready_ms']=round((time.monotonic()-start)*1000,2)
         # Safe, repeatable terrain near spawn. This is a measurement fixture,
         # not evidence that someone completed the level on a physical phone.
+        stage='measurement fixture'
         await key('Escape');await host.wait_for_function('!Module.supertuxCoop.state.enabled')
         await key('Backquote')
         command='sector.Tux.set_is_intentionally_safe(true);sector.Tux2.set_is_intentionally_safe(true);sector.Tux.set_pos(128,672);sector.Tux2.set_pos(240,672);sector.Tux2.set_velocity(0,0);'
@@ -275,11 +284,14 @@ async def measure_trial(args,url,index,html,hc,gc,version):
               s.count=s.x!==null && Math.abs(p.x-s.x)<.1?s.count+1:0;s.x=p.x;s.sequence=frame.sequence;
               return SupertuxView.playable && s.count>=2;
             }''',timeout=15000)
+        stage='initial settling'
         await settled();await host.evaluate(HOST_OBSERVER)
         await host.evaluate('hostBenchmark.active=true');await guest.evaluate('coopBenchmark.start()')
         for sample in range(args.samples):
+            stage=f'sample {sample+1} settling'
             key_name='ArrowRight' if sample%2==0 else 'ArrowLeft'
             await settled()
+            stage=f'sample {sample+1} first draw'
             await guest.keyboard.down(key_name)
             try:
                 await guest.wait_for_function('(count)=>coopBenchmark.data.input_to_first_draw_ms.length>count',arg=sample,timeout=10000)
@@ -297,6 +309,28 @@ async def measure_trial(args,url,index,html,hc,gc,version):
         return result
     except Exception as error:
         result['failure']=redact(error)
+        result['failure_stage']=stage
+        for role,page in (('host',host),('guest',guest)):
+            if page is None:continue
+            try:
+                result[role+'_failure_state']=await page.evaluate(r'''() => {
+                  const view=window.SupertuxView?.state, frame=view?.drawn;
+                  const coop=window.Module?.supertuxCoop ?? window.supertuxGuest;
+                  return {visibility:document.visibilityState,focus:document.activeElement?.id,
+                    input:coop?.state, connected:coop?.connection?.ready,
+                    status:document.querySelector('#coop_status,#status')?.textContent,
+                    packet_age_ms:Date.now()-(coop?.connection?.last ?? Date.now()),
+                    view:view && {playable:view.playable,enabled:view.enabled,buffered:view.buffered,
+                      latest_sequence:view.latest?.sequence, sequence:frame?.sequence,
+                      session:frame?.session,epoch:frame?.epoch,players:frame?.players,camera:frame?.camera},
+                    settled:window.benchmarkSettled,measurements:window.coopBenchmark?.data,
+                    host_intervals:window.hostBenchmark && {
+                      raf_max_ms:Math.max(0,...hostBenchmark.intervals),
+                      native_max_ms:Math.max(0,...hostBenchmark.nativeIntervals)}};
+                }''')
+                await page.screenshot(path=str(args.output/f'run-{index+1}-{role}-failure.png'))
+            except Exception as diagnostic_error:
+                result[role+'_diagnostic_error']=redact(diagnostic_error)
         raise
     finally:
         (args.output/f'run-{index+1}.json').write_text(json.dumps(result,indent=2)+'\n')
@@ -320,15 +354,27 @@ async def run(args, url):
           host_http_cache='disabled by developer HTML route; warm persistent asset store retained',
           guest_http_cache='enabled, cold fresh context then warm page in same context',
           render_endpoint='authoritative drawn-state change observed after Canvas2D callback; not hardware photon timing',
-          statistics='median and nearest-rank p95; raw samples retained'),trials=[])
+          statistics='median and nearest-rank p95 of completed trials; failed trials retained separately'),trials=[],failed_trials=[])
     async with async_playwright() as playwright:
         for index in range(args.runs):
             print(f'Benchmark {args.browser} {args.profile}: run {index+1}/{args.runs}',flush=True)
-            report['trials'].append(await trial(args,url,playwright,index,html))
-            report['summary']=summarize(report['trials'])
-            report['complete']=len(report['trials'])==args.runs
+            try:
+                report['trials'].append(await trial(args,url,playwright,index,html))
+            except Exception as error:
+                # Independent fresh profiles allow remaining trials to run.
+                # Never classify a partial/failed trial as a passing sample.
+                path=args.output/f'run-{index+1}.json'
+                if not path.exists():
+                    path.write_text(json.dumps(dict(run=index+1,failure=redact(error),
+                        failure_stage='browser launch',errors=[]),indent=2)+'\n')
+                report['failed_trials'].append(json.loads(path.read_text()))
+                print(f'Trial {index+1} failed: {redact(error)}',flush=True)
+            report['summary']=summarize(report['trials']) if report['trials'] else {}
+            report['complete']=len(report['trials'])==args.runs and not report['failed_trials']
             (args.output/'report.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report['summary'],indent=2),flush=True)
+    if not report['complete']:
+        raise RuntimeError(f'Incomplete benchmark: {len(report["failed_trials"])} of {args.runs} trials failed; inspect retained reports')
 
 
 def main():

@@ -16,6 +16,11 @@ and the next staged implementation steps are in
 `active` do not establish repository-wide Actions availability; the integration
 cannot inspect those permissions (HTTP 403).
 
+Phase 8B implements smoother guest movement/camera locally. Its exact runtime,
+equivalent comparisons and remaining acceptance gates are recorded in
+[PRIVATE_COOP_SMOOTHING.md](PRIVATE_COOP_SMOOTHING.md). It has not been published
+to the URL below.
+
 For the new runtime, first run the WebAssembly workflow on the reviewed branch,
 then publish only its exact successful, non-PR validation artifact:
 

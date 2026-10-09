@@ -27,7 +27,7 @@ export function validView(value) {
 const numbers = (a,n,lo=-100000,hi=100000) => Array.isArray(a) && a.length===n && a.every(x=>finite(x,lo,hi));
 const rgba = a => numbers(a,4,0,1);
 function validWorld(world) {
-  if (!exact(world,['draw','entities','coins','checkpoint','phase']) ||
+  if (!exact(world,['draw','entities','coins','checkpoint','phase',...(world?.playerUids ? ['playerUids'] : [])]) ||
       !Number.isInteger(world.coins) || world.coins<0 || world.coins>1000000 ||
       !(world.checkpoint===null || numbers(world.checkpoint,2)) ||
       !['playing','finishing'].includes(world.phase) || !Array.isArray(world.entities) || world.entities.length>512 ||
@@ -39,11 +39,14 @@ function validWorld(world) {
         typeof e[4]!=='string' || !/^[a-z0-9-]{1,64}$/.test(e[4]) || !Number.isInteger(e[5]) || e[5]<0 || e[5]>255) return false;
     ids.add(e[0]);
   }
+  if (world.playerUids && (!Array.isArray(world.playerUids) || world.playerUids.length!==2 ||
+      world.playerUids[0]===world.playerUids[1] || !world.playerUids.every(id=>uid(id) && ids.has(id)))) return false;
   let quads=0;
   for (const c of world.draw) {
-    if (!Array.isArray(c) || c.length!==8 || ![0,1,2,3,4].includes(c[0]) || !Number.isInteger(c[1]) || c[1]<0 || c[1]>0xffffffff ||
+    if (!Array.isArray(c) || ![8,9].includes(c.length) || ![0,1,2,3,4].includes(c[0]) || !Number.isInteger(c[1]) || c[1]<0 || c[1]>0xffffffff ||
         !Number.isInteger(c[2]) || Math.abs(c[2])>100000 || ![0,2,4,6].includes(c[3]) || !finite(c[4],0,1) ||
         ![0,1,2,3].includes(c[5]) || !numbers(c[6],4) || c[6][2]<0 || c[6][3]<0 || !Array.isArray(c[7])) return false;
+    if (c.length===9 && (!numbers(c[8],3,-1000000,1000000) || !finite(c[8][2],.0001,100))) return false;
     const p=c[7];
     if (c[0]===0) {
       if (p.length!==5 || typeof p[0]!=='string' || p[0].length>180 || !/^\/?images\/[a-zA-Z0-9_./ -]+\.png$/.test(p[0]) || p[0].includes('..') ||

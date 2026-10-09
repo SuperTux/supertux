@@ -229,6 +229,10 @@ credentials stay in GitHub secrets. Production is not part of this procedure.
 
 ## Follow-on implementation boundaries
 
+Phase 8B implementation and validation are recorded in
+[PRIVATE_COOP_SMOOTHING.md](PRIVATE_COOP_SMOOTHING.md). The 8A tables above remain
+the historical before-change baseline.
+
 For 8B, establish the native draw coordinate contract before camera smoothing:
 commands already contain camera-transformed positions. Handle parallax, clip
 rectangles and screen-space panels without applying a second camera transform.

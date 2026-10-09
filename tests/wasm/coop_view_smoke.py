@@ -216,13 +216,31 @@ async def run(args, url):
         report['metrics']['campaign_selection_to_ready_ms']=round((time.monotonic()-selection)*1000)
         assert campaign['world']['draw'] and campaign['world']['entities']
         assert {'coin','bonusblock','brick','firefly','snowball','weak_block'} <= {e[1] for e in campaign['world']['entities']}
+        assert len(campaign['world']['playerUids'])==2
+        assert all(len(c)==9 and len(c[8])==3 and c[8][2]>0 for c in campaign['world']['draw'])
         report['checks'].append('Untouched Welcome to Antarctica starts only after a matching guest baseline acknowledgment; real native terrain, backgrounds and stable object identities are presented')
         x=campaign['players'][1]['x']
+        await guest.evaluate('''() => {
+          window.smoothFrames=[];window.observeSmooth=true;
+          requestAnimationFrame(function observe(){
+            const f=SupertuxView.state.drawn;
+            if(observeSmooth && f?.presentation) smoothFrames.push({from:f.presentation.from,to:f.presentation.to,
+              weight:f.presentation.weight,x:f.players[1].x,
+              quads:f.world.draw.filter(c=>c[0]===0 && c[1]===f.world.playerUids[1]).flatMap(c=>c[7][3].map(q=>q[4]))});
+            if(observeSmooth)requestAnimationFrame(observe);
+          });
+        }''')
         movement=time.monotonic()
         await guest.keyboard.down('ArrowRight')
         await sample('campaign-remote-move',f'SupertuxView.state.drawn.players[1].x>{x+30}')
         report['metrics']['campaign_input_to_30_world_px_ms']=round((time.monotonic()-movement)*1000)
         await guest.keyboard.up('ArrowRight')
+        smooth=await guest.evaluate('() => {observeSmooth=false;return smoothFrames}')
+        assert smooth and any(s['quads'] for s in smooth), 'Compiled campaign did not render interpolated native player geometry'
+        assert all(0<s['weight']<1 for s in smooth)
+        assert any(a['from']==b['from'] and a['to']==b['to'] and a['weight']<b['weight'] and a['quads']!=b['quads'] for a,b in zip(smooth,smooth[1:])), 'Same snapshot interval did not produce intermediate canvas geometry'
+        report['metrics']['campaign_interpolated_draws']=len(smooth)
+        report['checks'].append('Compiled native campaign geometry renders changing intermediate player quads between the same complete snapshots; animation stays host-authoritative')
         await script('sector.Tux.set_is_intentionally_safe(true);sector.Tux2.set_is_intentionally_safe(true);')
         state=await sample('campaign-objects')
         coin=next(e for e in state['world']['entities'] if e[1]=='coin')
