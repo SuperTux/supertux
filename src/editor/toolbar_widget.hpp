@@ -44,6 +44,8 @@ public:
   void set_undo_disabled(bool state);
   void set_redo_disabled(bool state);
 
+  const Rectf get_area() { return Rectf(0, 0, m_widgets_width, 32); }
+
 private:
   std::unique_ptr<EditorToolbarButtonWidget> create_grid_button() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_show_button() const;
