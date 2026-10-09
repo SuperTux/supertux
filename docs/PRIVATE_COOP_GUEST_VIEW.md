@@ -193,7 +193,8 @@ for native input updates and verify pause/resume state before proceeding. This
 changes automation timing, not production input or lifecycle handling.
 
 No physical iPhone Safari or hosted separate-network play has been verified in
-this environment.
+this environment. The separate HTTPS publication workflow and physical-device
+checklist are in [PRIVATE_COOP_PHONE_ACCEPTANCE.md](PRIVATE_COOP_PHONE_ACCEPTANCE.md).
 
 For device acceptance, use isolated HTTPS staging and two physical phones on
 different networks. Try both host-on-phone and guest-on-phone roles; verify

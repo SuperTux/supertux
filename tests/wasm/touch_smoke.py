@@ -54,13 +54,15 @@ class Fingers:
     async def move(self, finger, pos): await self.change('move', finger, pos)
     async def up(self, finger): await self.change('up', finger)
     async def tap(self, pos, duration=120):
-        frame = await self.page.evaluate('window.phase3InputFrames ?? null')
         await self.down(9, pos)
+        # Sample after dispatch: a frame between the old pre-dispatch read and
+        # the event does not prove that native input consumed this touch edge.
+        frame = await self.page.evaluate('window.phase3InputFrames ?? null')
         await self.page.wait_for_timeout(duration)
         if frame is not None:
             await self.page.wait_for_function('(frame)=>phase3InputFrames>frame',arg=frame)
-        release_frame = await self.page.evaluate('window.phase3InputFrames ?? null')
         await self.up(9)
+        release_frame = await self.page.evaluate('window.phase3InputFrames ?? null')
         await self.page.wait_for_timeout(120)
         if release_frame is not None:
             await self.page.wait_for_function('(frame)=>phase3InputFrames>frame',arg=release_frame)
@@ -215,12 +217,20 @@ async def run(args, url):
             # groups, rather than changing player state or granting immunity.
             await fingers.release()
             await fingers.tap(g['pause'])
-            await fingers.tap(g['down']) # Continue → Restart Level.
-            await fingers.tap(g['jump'])
+            # Tap Restart Level directly, independent of menu hover/selection.
+            # This fresh level has no checkpoint; developer mode gives eight
+            # 24px rows, with Restart 12 logical pixels above the midpoint.
+            vp = g['viewport']
+            await fingers.tap([vp['x'] + vp['width'] / 2,
+                               vp['y'] + (480 / 2 - 12) * vp['height'] / 480])
             # Packaged spawn lane is x=96, above flat ground at y=704. Small
             # Tux lands at y=672 or the 673.196 settled collision contact.
-            restored = await state(label, dict(left=False,right=False,jump=False,action=False), 400,
-                                   lambda sample: abs(sample['x'] - 96) < 1 and 672 <= sample['y'] <= 674)
+            try:
+                restored = await state(label, dict(left=False,right=False,jump=False,action=False), 400,
+                                       lambda sample: abs(sample['x'] - 96) < 1 and 672 <= sample['y'] <= 674)
+            except AssertionError:
+                await page.screenshot(path=str(args.output / (label + '-failure.png')))
+                raise
             assert abs(restored['x'] - 96) < 1 and 672 <= restored['y'] <= 674, restored
 
         # Console installation takes longer in instrumented/software-rendered

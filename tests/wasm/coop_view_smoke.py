@@ -8,7 +8,7 @@ import asyncio
 import json
 import re
 import time
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 from playwright.async_api import async_playwright
 from browser_smoke import KNOWN_UPSTREAM_UB
 import coop_smoke
@@ -18,7 +18,8 @@ async def run(args, url):
     logs, errors, requests, snapshots = [], [], [], []
     report = dict(engine=args.browser, configuration=json.loads((args.build/'BUILD_INFO.json').read_text()),
                   physical_device_tested=False, checks=[], metrics={})
-    html = urlopen(url+'index.html').read().decode().replace('var Module = {','var Module = {\narguments:["--verbose","--developer"],',1)
+    request = Request(url+'index.html', headers={'User-Agent': 'SuperTux-Coop-Validation/1.0 (+https://github.com/jbbejena/supertux)'})
+    html = urlopen(request, timeout=30).read().decode().replace('var Module = {','var Module = {\narguments:["--verbose","--developer"],',1)
     async with async_playwright() as p:
         launch = dict(args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']) if args.browser=='chromium' else {}
         if args.webkit_executable: launch['executable_path']=args.webkit_executable
