@@ -46,6 +46,7 @@ public:
 
 private:
   std::unique_ptr<EditorToolbarButtonWidget> create_grid_button() const;
+  std::unique_ptr<EditorToolbarButtonWidget> create_show_button() const;
 
 private:
   Editor& m_editor;
