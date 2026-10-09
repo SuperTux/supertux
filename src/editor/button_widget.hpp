@@ -152,12 +152,15 @@ public:
     if (!get_visible())
       return false;
 
+    auto event_handled = false;
     if (get_show_menu())
     {
-      m_menu_list->on_mouse_button_up(button);
+      event_handled |= m_menu_list->on_mouse_button_up(button);
     }
 
-    return ButtonWidget::on_mouse_button_up(button);
+    event_handled |= ButtonWidget::on_mouse_button_up(button);
+
+    return event_handled;
   }
 
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override
@@ -165,12 +168,14 @@ public:
     if (!get_visible())
       return false;
 
+    auto event_handled = false;
     if (get_show_menu())
     {
-      m_menu_list->on_mouse_button_down(button);
+      event_handled |= m_menu_list->on_mouse_button_down(button);
     }
 
-    return ButtonWidget::on_mouse_button_down(button);
+    event_handled |= ButtonWidget::on_mouse_button_down(button);
+    return event_handled;
   }
 
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override
