@@ -36,6 +36,7 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -295,9 +296,9 @@ EditorToolbarWidget::create_show_button() const
   show_animations_item->set_is_selected_handler([] { return g_config->editor_render_animations; });
   menu_list->add_item(std::move(show_animations_item));
 
-  auto toggle_lighting = [] { g_config->editor_render_lighting = !g_config->editor_render_lighting; };
+  auto toggle_lighting = [] { Compositor::s_render_lighting = !Compositor::s_render_lighting; };
   auto show_lighting_item = std::make_unique<MenuListItem>(_("Draw Lighting"), toggle_lighting);
-  show_lighting_item->set_is_selected_handler([] { return g_config->editor_render_lighting; });
+  show_lighting_item->set_is_selected_handler([] { return Compositor::s_render_lighting; });
   menu_list->add_item(std::move(show_lighting_item));
 
   auto toggle_draggables = [editor]
