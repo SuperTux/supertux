@@ -211,8 +211,8 @@ jobs:
           echo
           echo 'Phone A: tap Start, expand Private co-op, and create a room.'
           echo 'Phone B: open the Guest shared view invitation. Keep that invitation private.'
-          echo 'Phone A: select Start shared view proof after Player 2 joins.'
-          echo 'Check movement, Jump, shared camera, Action respawn, pause/resume, rotation, backgrounding/rejoin, and host saves.'
+          echo 'Phone A: select Play Welcome to Antarctica after Player 2 joins. The static display arena remains a diagnostic test.'
+          echo 'Check independent touch movement/Jump, both players in the shared camera, pickups, enemy contact, checkpoint restart, level completion, pause/resume, rotation, backgrounding/rejoin, and host saves.'
           echo 'Hosted Chromium/WebKit results are browser emulation; physical iPhone Safari and two-network testing still need people with devices.'
         } >> "$GITHUB_STEP_SUMMARY"
     - uses: actions/upload-artifact@v4

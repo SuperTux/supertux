@@ -254,7 +254,12 @@ jobs:
         files: build/upload/SuperTux-*
         draft: true
 'on':
-  workflow_dispatch: null
+  workflow_dispatch:
+    inputs:
+      full_matrix:
+        description: Run the full native matrix; disable for one representative Linux Release build
+        type: boolean
+        default: true
   workflow_call:
     inputs:
       full_matrix:

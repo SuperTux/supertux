@@ -6,7 +6,10 @@ Status: phases 5, 6A and the contained 6B remote-input proof are implemented.
 Phase 7A adds a controlled guest display of static terrain, both players and the
 host's shared camera. Phase 7B adds the original Welcome to Antarctica level,
 with native object/drawing baselines, a loading acknowledgment and completion
-status, on `codex/private-coop-level-7b` (PR #14). Its supported scope and
+status, merged through PR #14 at `c385d97aba1476a984e497a33c1bd24183c55293`.
+Phase 8A adds repeatable baseline measurements on a separate branch; the staged
+Phase 8 plan is in [PRIVATE_COOP_PHASE8.md](PRIVATE_COOP_PHASE8.md).
+Phase 7B's supported scope and
 validation status are in
 [PRIVATE_COOP_SUPPORTED_LEVEL.md](PRIVATE_COOP_SUPPORTED_LEVEL.md).
 Evidence, supported scenarios and
