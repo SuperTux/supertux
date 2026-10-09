@@ -32,7 +32,8 @@ MenuListWidget::draw(DrawingContext& context)
   
   for(const auto& item : m_menu_items)
   {
-    if (item->has_mouse_focus())
+    if (item->has_mouse_focus() ||
+      item->get_is_selected_handler() != nullptr && item->get_is_selected_handler()())
     {
       context.color().draw_filled_rect(item->get_rect(), Color::BLACK, LAYER_GUI);
     }
