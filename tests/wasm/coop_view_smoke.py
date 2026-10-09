@@ -279,10 +279,10 @@ async def run(args, url):
         await sample('native-ice-melt',"!SupertuxView.state.drawn.world.entities.some(e=>e[1]==='weak_block' && e[2]===4384 && e[3]===352)",timeout=20000)
         report['checks'].append('The same real projectile melts a native ice weak block; its animation and eventual removal are authoritative')
 
-        await script('sector.Tux.set_pos(8448,672);sector.Tux2.set_pos(8480,640);sector.Tux2.set_velocity(0,0);')
+        await script('sector.Tux.set_pos(8416,544);sector.Tux2.set_pos(8448,480);sector.Tux2.set_velocity(0,0);')
         cover=await sample('secret-cover',"SupertuxView.state.drawn.world.draw.some(c=>c[0]===0 && c[2]===110)")
         cover_ids={c[1] for c in cover['world']['draw'] if c[0]==0 and c[2]==110}
-        await script('sector.Tux2.set_pos(8544,600);sector.Tux2.set_velocity(0,0);')
+        await script('sector.Tux2.set_pos(8576,576);sector.Tux2.set_velocity(0,0);')
         await sample('native-secret-message',"SupertuxView.state.drawn.world.draw.some(c=>c[0]===4 && c[7][0].includes('secret area'))")
         await sample('native-secret-fade',f'SupertuxView.state.drawn.world.draw.every(c=>!{json.dumps(sorted(cover_ids))}.includes(c[1]) || c[4]<=0.01)',timeout=15000)
         report['checks'].append('Native secret-area contact shows its message and fades the exact covering tilemap; the guest retains no stale opaque tiles')

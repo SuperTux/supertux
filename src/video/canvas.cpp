@@ -491,8 +491,9 @@ Canvas::get_presentation()
     std::ostringstream payload;
     payload << std::setprecision(8);
     const auto rect = [&payload](const Rectf& r) {
-      payload << std::round(r.get_left()*100.0f)/100.0 << ',' << std::round(r.get_top()*100.0f)/100.0 << ','
-              << std::round(r.get_width()*100.0f)/100.0 << ',' << std::round(r.get_height()*100.0f)/100.0;
+      const auto coordinate = [](float value) { return static_cast<double>(std::round(value * 100.0f)) / 100.0; };
+      payload << coordinate(r.get_left()) << ',' << coordinate(r.get_top()) << ','
+              << coordinate(r.get_width()) << ',' << coordinate(r.get_height());
     };
     const auto color = [&payload](const Color& c) {
       payload << '[' << c.red << ',' << c.green << ',' << c.blue << ',' << c.alpha << ']';
