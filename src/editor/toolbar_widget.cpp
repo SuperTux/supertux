@@ -64,23 +64,24 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
                                                   std::bind(&EditorHistoryManager::redo, Editor::current()->get_history_manager()),
                                                   _("Redo"),
                                                   Sizef(32.f, 32.f)),
+      
+      // Save button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png", [this]
+                                                  { Editor::current()->get_project()->save_level(); }, _("Save level")),
+
+
+      // Play button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
+                                                  { Editor::current()->test_level(); }, _("Test level")),
+
+      // Mode button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png", std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this), _("Toggle between object and tile mode")),
 
       // Grid button,
       std::move(grid_button),
 
       // Button for toggling visibility of things
       std::move(show_button),
-
-      // Play button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
-                                                  { Editor::current()->test_level(); }, _("Test level")),
-
-      // Save button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png", [this]
-                                                  { Editor::current()->get_project()->save_level(); }, _("Save level")),
-
-      // Mode button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png", std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this), _("Toggle between object and tile mode")),
 
       // Mouse select button
       std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [this]()
