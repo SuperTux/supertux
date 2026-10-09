@@ -110,7 +110,11 @@
     context.setTransform(1,0,0,1,0,0); context.globalAlpha=1; context.globalCompositeOperation='source-over';
     context.clearRect(0,0,width,height);
     for (const [kind,owner,layer,flip,alpha,blend,clip,p] of frame.world.draw) {
-      context.save(); context.beginPath();context.rect(...clip);context.clip();context.globalAlpha=alpha;
+      context.save(); context.beginPath();context.rect(...clip);context.clip();
+      // SDL texture/text requests apply transform alpha separately. Filled
+      // rectangles/lines already bake it into their color; gradients use the
+      // supplied colors directly. Applying it twice changes native fades.
+      context.globalAlpha=kind===0 || kind===4 ? alpha : 1;
       context.globalCompositeOperation=['source-over','lighter','multiply','source-over'][blend];
       if (kind===0) {
         const url=scene.campaign.textures[p[0].replace(/^\//,'')], raw=images.get(url);
