@@ -60,7 +60,7 @@ public:
   void switch_current_group(int dir);
 
   int get_tileselect_select_mode() const;
-  int get_tileselect_move_mode() const;
+  int get_object_select_mode() const;
 
   void update_mouse_icon();
   void set_tileselect_move_mode(int mode);
