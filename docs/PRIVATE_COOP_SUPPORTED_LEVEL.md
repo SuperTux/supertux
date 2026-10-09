@@ -66,6 +66,15 @@ arbitrary scenes and other drawing primitives remain unsupported. Rotation is
 normalized modulo one turn, preserving rolling egg animations without exceeding
 relay bounds. The chosen level has white ambient lighting.
 
+Debug validation also exposed a native fading-coin defect: predicted rendering
+could run just past the coin's lifetime and send negative opacity to SDL and
+the relay. The coin now clamps its fade to the valid opacity range before
+drawing. This preserves the animation and avoids an invalid presentation frame.
+The guest also matches SDL's primitive opacity rules: textures/text apply
+transform opacity separately, while filled panels and lines already contain it
+in their colors. A canvas-renderer regression verifies that fades are applied
+once rather than twice.
+
 A new session/restart epoch waits for an exact matching guest baseline
 acknowledgment before campaign physics advances. Pause and background lifecycle
 continue using the existing input generations. Only the matching guest can
@@ -82,14 +91,17 @@ has a bounded timeout with a title-screen/rejoin recovery message.
   interpolation. Smoother supported-level presentation is a follow-up.
 - Guest history retains at most eight frames and rejects older session, epoch,
   sequence or host time. Restart never mixes old geometry with a new baseline.
-- Host WebSocket buffered output is bounded to 128 KiB; the guest input bound
-  remains 16 KiB. The existing 32-message receive-credit window remains.
+- Host WebSocket output applies a 128 KiB backpressure threshold, plus at most
+  one bounded message being sent; the guest retains its 16 KiB threshold. The
+  existing 32-message receive-credit window remains.
 - A slow receiver coalesces one latest complete visual baseline. Cloudflare's
   2 KiB WebSocket attachment limit is respected: attachment metadata stores
   only ordering markers, and the single large pending baseline lives in memory.
   If hibernation drops it, the next complete host frame recovers the picture.
 - Completion is a host-only critical status, retained separately from visual
   coalescing and scoped to the exact session/epoch. Guest controls are cleared.
+  The relay test fills the receive window and reconstructs the Durable Object
+  before returning credit, verifying that pending completion survives.
 
 All assets use the existing same-origin, content-addressed frontend routes and
 manifest verification. No Worker/R2 credentials are needed for a local preview.
@@ -98,17 +110,18 @@ existing immutable HTTP cache. This does not touch saves or origin-wide storage.
 
 ## Building and trying the local preview
 
-Use pinned Emscripten 6.0.11 and the repository's web CMake/vcpkg configuration,
-as documented in the startup optimization handoff. Release and Debug validation
+Use pinned Emscripten 6.0.11 and the repository's
+[web CMake/vcpkg configuration](MOBILE_WEB_STARTUP_OPTIMIZATION.md#build-and-preview)
+to configure `build-web`. Release and Debug validation
 also run the supported-level scenarios through `coop_view_smoke.py`, retaining
 the earlier arena, input, pause, restart and lifecycle scenarios.
 
 ```sh
-cmake --build build --parallel 4
-python3 tools/web/package_assets.py assemble --build build --output build/upload
-python3 tools/web/verify_artifact.py build/upload --source-commit "$(git rev-parse HEAD)" --configuration Release
+cmake --build build-web --parallel 4
+python3 tools/web/package_assets.py assemble --build build-web --output build-web/upload
+python3 tools/web/verify_artifact.py build-web/upload --source-commit "$(git rev-parse HEAD)" --configuration Release
 npm ci --prefix tools/web/coop --ignore-scripts
-node tools/web/coop/preview.mjs build/upload 8787
+node tools/web/coop/preview.mjs build-web/upload 8787
 ```
 
 For internal local checks, open the server's `index.html?coop=1` on the same
@@ -120,9 +133,74 @@ part of testing this branch.
 
 ## Validation and device status
 
-Validation results and measured presentation sizes will be recorded after the
-compiled browser checks finish. Physical iPhone Safari, real Android browsers
-and two separate networks are **unverified**. Use the existing
+The tested runtime is `9f8143297d9046f3c19ac5e963ee38bec1b597c0`, built with
+Emscripten 6.0.11 and vcpkg
+`c748cb44f2a435fcf015c35225c9d5545fe0021c` on 2026-10-09. Subsequent handoff and
+unit-test edits do not change that tested runtime. Both assembled Release and Debug
+artifacts pass complete source/configuration/toolchain/manifest verification.
+
+| Compiled two-browser suite | Scenarios | Errors | Campaign selection to guest ready | Input to 30 world pixels | Campaign updates/s | JSON payload bytes/s | Largest snapshot |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Release Chromium 151.0.7922.34 | 20 | 0 | 1,134 ms | 718 ms | 5.8 | 180,996 | 45,522 bytes |
+| Release Linux WebKit 26.5 | 20 | 0 | 869 ms | 478 ms | 8.1 | 256,587 | 46,801 bytes |
+| Debug Chromium 151.0.7922.34 | 20 | 0 new | 2,578 ms | 1,000 ms | 5.6 | 176,075 | 47,333 bytes |
+
+These are separate desktop browser processes at an 844 × 390 touch-emulated
+viewport, DPR 1, on a four-CPU managed Linux environment, using the real local
+Miniflare Worker, private R2 and SQLite Durable Object. Chromium uses SwiftShader.
+Profiles are fresh; the guest verifies and preloads its artwork before joining.
+There is no network throttling. **Selection-to-ready excludes that artwork
+download and host WASM startup.** Movement timing includes actual movement to
+30 pixels and the presentation delay, rather than measuring network round-trip
+latency. Payload rates count JSON bytes, excluding transport/TLS overhead. These
+numbers are not WAN or phone performance estimates. Screenshots intentionally
+Pause/Resume around software-renderer readback; the dim guest screenshot is the
+expected paused display, and the host menu is not replicated.
+Each table row is one observed run, rather than a percentile benchmark.
+
+The retained arena checks cover independent host/guest input, trusted guest
+touch release, the shared group camera, Pause/Resume, death/respawn, all-player
+restart, injected 20/180 ms delivery jitter, ordering/history bounds, background
+and disconnect. The campaign checks cover the acknowledged initial scene, real
+coin collection, snowball stomp, growth block/egg/pickup, information panels,
+brick destruction/debris, fireballs, ice melting, secret-cover fading, checkpoint
+restart and the actual native end sequence/progression save. Host-only Squirrel
+fixtures place players or grant the fire bonus to reach individual scenarios;
+guest movement, Jump and Action traverse the ordinary input relay. This is
+interaction coverage, not an uninterrupted physical-device playthrough.
+
+Debug instrumentation remains enabled. Its report records the five already
+documented diagnostics in libc++ `swap.h`, external obstack and `obstackpp.hpp`
+through the existing explicit `--record-known-ub` option. No new site is accepted;
+the fading-coin SDL diagnostic is fixed rather than added to that list.
+
+The representative Linux native build and all four CTest cases pass. The
+62 JavaScript shell/storage/loader/relay/renderer tests, 14 Python
+packaging/deployment tests, six CI change-selection fixtures, actionlint and Cppcheck pass
+locally. The existing single-player browser suite passes 12 checks per engine
+and touch-only normal entry/multitouch passes ten per engine, in Chromium and
+Linux WebKit. These legacy browser/touch and native checks used
+`c2ed22efa65130e358471f0ab7467910053d38ce`; the subsequent renderer-only fix
+leaves their C++/single-player shell unchanged. Existing compilation and
+browser/audio/touch/save CI steps are retained.
+
+The guest inventory contains 1,056 canonical image mappings to 1,049 unique,
+unchanged PNGs: **18,637,169 bytes**. The scene is 167,419 bytes, the shared-view
+HTML/JS and common co-op JS total 32,061 bytes, and the local complete manifest is
+1,014,505 bytes. These are file sizes, not a measured compressed HTTP transfer.
+The host's startup DATA (176,669,514 bytes) and deferred soundtrack
+(150,011,881 bytes) retain the earlier startup optimization. The guest requests
+none of those packages and creates no IndexedDB save/settings database.
+
+GitHub Actions is disabled for this repository. Dispatch returns HTTP 422,
+“Actions has been disabled for this repository”; this PR therefore has no
+hosted validation results or newly published HTTPS build. Enabling Actions and
+publishing the exact successful non-PR artifact are documented in the
+[staging handoff](PRIVATE_COOP_PHONE_ACCEPTANCE.md). Repository settings and
+production deployment were not changed.
+
+Physical iPhone Safari, real Android browsers and two separate networks are
+**unverified**. Use the existing
 [phone acceptance checklist](PRIVATE_COOP_PHONE_ACCEPTANCE.md), replacing the
 arena selection with Play Welcome to Antarctica and additionally checking coin
 collection, powerups, enemy contact, checkpoint restart and level completion.

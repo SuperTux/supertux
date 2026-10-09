@@ -214,7 +214,12 @@ test('only matching guest baselines acknowledge readiness; authoritative complet
   assert.equal(host.messages.some(p=>p.type==='view-ready'),false);
   await send(f.object,guest,{type:'view-ready',session:1,epoch:1});
   assert.equal(host.messages.at(-1).type,'view-ready');
+  // Exercise the actual full receive window: completion must remain separate
+  // from a coalesced visual frame and survive a hibernation reconstruction.
+  guest.serializeAttachment({...guest.info,inFlight:32});
   await send(f.object,host,{type:'result',session:1,epoch:1,generation:1,win:true});
+  assert.equal(guest.info.pending.result.win,true);
+  await send(new CoopRoom(f.state),guest,{type:'seen'});
   assert.equal(guest.messages.at(-1).win,true);
   await send(f.object,guest,{type:'result',session:1,epoch:1,generation:1,win:true});assert.equal(guest.closed.code,1008);
 });
