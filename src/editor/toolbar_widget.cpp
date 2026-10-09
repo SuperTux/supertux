@@ -333,6 +333,14 @@ EditorToolbarWidget::event(const SDL_Event& ev)
     if (widget->event(ev))
       return true;
   }
+
+  auto event_handling = Editor::current()->get_event_handling();
+  if ((ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN || ev.type == SDL_EVENT_MOUSE_BUTTON_UP) &&
+      get_area().contains(event_handling->get_mouse_pos()))
+  {
+    return true;
+  }
+
   return false;
 }
 
