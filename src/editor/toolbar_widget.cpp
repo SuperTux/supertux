@@ -308,6 +308,7 @@ EditorToolbarWidget::create_show_button() const
   };
   auto show_draggables_item = std::make_unique<MenuListItem>(_("Draw Draggables"), toggle_draggables);
   show_draggables_item->set_is_selected_handler([editor] { return editor->get_draggables_visible(); });
+  show_draggables_item->set_keyboard_shortcut(_("Ctrl+H"));
   menu_list->add_item(std::move(show_draggables_item));
 
   auto toggle_deprecated = [] { g_config->editor_show_deprecated_tiles = !g_config->editor_show_deprecated_tiles; };
