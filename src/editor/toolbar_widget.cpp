@@ -282,6 +282,7 @@ EditorToolbarWidget::create_show_button() const
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/eye_button.png", []{},
       _("Show / hide objects"));
 
+  auto editor = Editor::current();
   auto menu_list = show_hide_button->get_menu_list();
 
   auto toggle_background = [] { g_config->editor_render_background = !g_config->editor_render_background; };
@@ -298,6 +299,20 @@ EditorToolbarWidget::create_show_button() const
   auto show_lighting_item = std::make_unique<MenuListItem>(_("Draw Lighting"), toggle_lighting);
   show_lighting_item->set_is_selected_handler([] { return g_config->editor_render_lighting; });
   menu_list->add_item(std::move(show_lighting_item));
+
+  auto toggle_draggables = [editor]
+  {
+    auto draggables_visible = editor->get_draggables_visible();
+    editor->set_draggables_visible(!draggables_visible);
+  };
+  auto show_draggables_item = std::make_unique<MenuListItem>(_("Draw Draggables"), toggle_draggables);
+  show_draggables_item->set_is_selected_handler([editor] { return editor->get_draggables_visible(); });
+  menu_list->add_item(std::move(show_draggables_item));
+
+  auto toggle_deprecated = [] { g_config->editor_show_deprecated_tiles = !g_config->editor_show_deprecated_tiles; };
+  auto show_deprecated_item = std::make_unique<MenuListItem>(_("Draw Deprecated Tiles"), toggle_deprecated);
+  show_deprecated_item->set_is_selected_handler([] { return g_config->editor_show_deprecated_tiles; });
+  menu_list->add_item(std::move(show_deprecated_item));
 
   return show_hide_button;
 }
