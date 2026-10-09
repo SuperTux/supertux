@@ -184,7 +184,7 @@
     if (!outcome && !document.hidden && scene) {
       const frame = buffer.sample(performance.now());
       if (!frame) freeze('Waiting for the host’s next update. Controls are released.');
-      else if (frame.scene !== scene.id && frame.scene !== scene.campaign.id) freeze('This level has no shared view yet. Ask the host to start the display proof.');
+      else if (frame.scene !== scene.id && frame.scene !== scene.campaign.id) freeze('This level has no shared view yet. Ask the host to start Welcome to Antarctica.');
       else if (enabled || frame.world?.phase==='finishing') paint(frame);
     }
     requestAnimationFrame(tick);

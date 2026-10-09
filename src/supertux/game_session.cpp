@@ -17,6 +17,7 @@
 #include "supertux/game_session.hpp"
 
 #include <cfloat>
+#include <cmath>
 #include <fmt/format.h>
 #include <stdexcept>
 
@@ -652,7 +653,7 @@ GameSession::draw(Compositor& compositor)
         fields[offset + 1] = player.get_coop_draw_position().x;
         fields[offset + 2] = player.get_coop_draw_position().y;
         fields[offset + 3] = static_cast<float>(sprite.get_current_frame());
-        fields[offset + 4] = sprite.get_angle();
+        fields[offset + 4] = std::remainder(sprite.get_angle(), 360.0f);
         fields[offset + 5] = sprite.get_alpha();
         fields[offset + 6] = player.is_dead() ? 2.0f : (player.is_dying() ? 1.0f : 0.0f);
         fields[offset + 7] = player.is_coop_draw_visible() ? 1.0f : 0.0f;

@@ -1,5 +1,32 @@
 # Private co-op: HTTPS staging and phone acceptance
 
+Phase 7B is implemented for review in [PR #14](https://github.com/jbbejena/supertux/pull/14).
+Its [supported-level handoff](PRIVATE_COOP_SUPPORTED_LEVEL.md) covers the original
+Welcome to Antarctica level. **The published URL below still serves Phase 7A**;
+merging code alone does not update that separately published staging Worker.
+On 2026-10-09, GitHub rejected workflow dispatch with HTTP 422,
+“Actions has been disabled for this repository.” CI and a new HTTPS publication
+require Actions to be re-enabled. No production deployment is part of Phase 7B.
+
+For the new runtime, first run the WebAssembly workflow on the reviewed branch,
+then publish only its exact successful, non-PR validation artifact:
+
+```sh
+gh workflow run wasm.yml --repo jbbejena/supertux --ref codex/private-coop-level-7b
+# Wait for both Release and Debug, then use their exact source and run identity:
+gh workflow run mobile-web-preview.yml --repo jbbejena/supertux \
+  --ref codex/private-coop-level-7b \
+  -f ref=FULL_TESTED_RUNTIME_SHA -f validation_run_id=SUCCESSFUL_RUN_ID \
+  -f publish_coop=true
+```
+
+For Phase 7B phone acceptance, choose **Play Welcome to Antarctica** in step 3.
+Additionally verify coin pickup, enemy contact, growth, information panels,
+brick breaking, fireballs/ice melting, secret-area tile fading, checkpoint
+restart and actual level completion. Repeat with both host and guest roles.
+
+## Previously published Phase 7A evidence
+
 Phase 7A is merged into `mobile-web-audit` at
 `e5cfbe08ea4bb4959ad8b84cd3763366dd8eeba1`. The shared display supports the
 controlled static scene, not a campaign level. The existing production Worker
@@ -106,6 +133,6 @@ host and guest. Record device model, OS/browser, network, orientation, observed
 delay, any disconnect, and screenshots for failures. Hosted Linux browser tests
 are emulation, not physical Safari or a two-network acceptance result.
 
-After this acceptance, Phase 7B should inventory one existing campaign level and
-replicate its enemies, pickups, spawning/removal, changed tiles/objects,
-checkpoints and completion. The host continues owning simulation and saves.
+The Phase 7B handoff records the subsequent supported-level implementation and
+local evidence. Phase 8 still requires physical-phone and separate-network
+acceptance before expanding content or describing mobile co-op as supported.

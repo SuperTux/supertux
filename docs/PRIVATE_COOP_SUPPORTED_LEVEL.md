@@ -59,9 +59,12 @@ blocks, one checkpoint bell, a secret area, two sequence triggers, seven
 snowballs, three smartballs, an ice block, a bomb, a jumpy, a stalactite and
 24 weak blocks. The runtime also creates coins, bonus/wooden blocks, powerups,
 projectiles and effect sprites. The supported color-canvas primitives are
-textures, gradients, rounded rectangles, lines and text. Arbitrary scenes,
-lighting/displacement shaders and other drawing primitives are rejected rather
-than inferred by the guest. The chosen level has white ambient lighting.
+textures, gradients, rounded rectangles, lines and text. The browser's SDL
+renderer ignores attached displacement maps, including the one on a used
+bonus block; the guest uses the same diffuse image. GL displacement effects,
+arbitrary scenes and other drawing primitives remain unsupported. Rotation is
+normalized modulo one turn, preserving rolling egg animations without exceeding
+relay bounds. The chosen level has white ambient lighting.
 
 A new session/restart epoch waits for an exact matching guest baseline
 acknowledgment before campaign physics advances. Pause and background lifecycle

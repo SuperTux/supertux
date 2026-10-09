@@ -1,7 +1,6 @@
-"""Derived web-only fixture and authentic sprite presentation; no source edits.
+"""Derived web-only artwork for the arena and the supported campaign level.
 
-The controlled scene has static solid snow tiles, two players and a normal
-camera. No scripts, pickups, enemies or progression. Only the host runs it.
+Original source assets are copied unchanged; only the host simulates gameplay.
 """
 import copy
 import hashlib
@@ -115,9 +114,10 @@ def derive(source, output, write, encoded):
                'creatures/mr_bomb','creatures/jumpy','creatures/stalactite',
                'objects/coin','objects/bonus_block','objects/weak_block',
                'objects/resetpoints','objects/explosion','objects/bullets',
-               'particles','powerups','decal/explanations','engine/hud']
+               'objects/water_drop','particles','powerups','decal/explanations','engine/hud']
     for folder in folders:
         paths.update(path.relative_to(source).as_posix() for path in (source / 'images' / folder).rglob('*.png'))
+    paths.update(path.relative_to(source).as_posix() for path in (source / 'images/tiles/blocks').glob('brick_piece*.png'))
     textures = {path: image(source / path) for path in sorted(paths)}
     fixture['campaign'] = dict(id='antarctica-v1', path='levels/world1/welcome_antarctica.stl',
                               sourceSha256=hashlib.sha256(level_source.read_bytes()).hexdigest(),

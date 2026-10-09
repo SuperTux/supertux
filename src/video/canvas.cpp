@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 
 #include "supertux/globals.hpp"
 #include "supertux/gameconfig.hpp"
@@ -34,6 +35,7 @@
 #include <sstream>
 #include <iomanip>
 #include <fmt/format.h>
+#include "video/sdl/sdl_texture.hpp"
 
 namespace {
 std::string presentation_quote(const std::string& value)
@@ -489,8 +491,8 @@ Canvas::get_presentation()
     std::ostringstream payload;
     payload << std::setprecision(8);
     const auto rect = [&payload](const Rectf& r) {
-      payload << std::round(r.get_left()*100.0f)/100.0f << ',' << std::round(r.get_top()*100.0f)/100.0f << ','
-              << std::round(r.get_width()*100.0f)/100.0f << ',' << std::round(r.get_height()*100.0f)/100.0f;
+      payload << std::round(r.get_left()*100.0f)/100.0 << ',' << std::round(r.get_top()*100.0f)/100.0 << ','
+              << std::round(r.get_width()*100.0f)/100.0 << ',' << std::round(r.get_height()*100.0f)/100.0;
     };
     const auto color = [&payload](const Color& c) {
       payload << '[' << c.red << ',' << c.green << ',' << c.blue << ',' << c.alpha << ']';
@@ -503,7 +505,10 @@ Canvas::get_presentation()
       {
         const auto& key = arg.texture->get_presentation_key();
         if (!key) return; // Native TTF surfaces are represented by text commands.
-        if (arg.displacement_texture) { valid = false; return; }
+        // SDL draws only the diffuse texture, even when an optional shader
+        // map is attached (for example a used bonus block). Match that host
+        // renderer; a GL displacement effect still needs explicit support.
+        if (arg.displacement_texture && !dynamic_cast<const SDLTexture*>(arg.texture)) { valid = false; return; }
         kind = 0;
         const Rect& region = std::get<1>(*key);
         payload << '[' << presentation_quote(std::get<0>(*key)) << ',' << region.left << ',' << region.top << ",[";
@@ -511,7 +516,7 @@ Canvas::get_presentation()
         {
           if (i) payload << ',';
           payload << '['; rect(arg.srcrects[i]); payload << ',';
-          rect(arg.dstrects[i]); payload << ',' << arg.angles[i] << ']';
+          rect(arg.dstrects[i]); payload << ',' << std::remainder(arg.angles[i], 360.0f) << ']';
           if (++quads > 2048) { valid = false; break; }
         }
         payload << "],"; color(arg.color); payload << ']';
@@ -533,19 +538,32 @@ Canvas::get_presentation()
       }
       else if constexpr (!std::is_same_v<T, GetPixelRequest>) valid = false;
     }, request.request);
-    if (!valid) return "null";
+    if (!valid)
+    {
+      log_debug << "Co-op presentation rejected draw variant " << request.request.index()
+                << ", quads " << quads << std::endl;
+      return "null";
+    }
     if (kind < 0) continue;
     const Rect& clip = request.viewport;
     commands.emplace_back(request.layer, fmt::format("[{},{},{},{},{:.2f},{},[{},{},{},{}],{}]",
       kind, request.presentation_owner, request.layer, static_cast<int>(request.flip), request.alpha,
       static_cast<int>(request.blend), clip.left, clip.top, clip.get_width(), clip.get_height(), payload.str()));
-    if (commands.size() > 256) return "null";
+    if (commands.size() > 256)
+    {
+      log_debug << "Co-op presentation exceeded draw request limit" << std::endl;
+      return "null";
+    }
   }
   std::stable_sort(commands.begin(), commands.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
   std::string result = "[";
   for (const auto& command : commands)
   {
-    if (result.size() > 52000) return "null";
+    if (result.size() > 52000)
+    {
+      log_debug << "Co-op presentation exceeded encoded draw limit" << std::endl;
+      return "null";
+    }
     if (result.size() > 1) result += ',';
     result += command.second;
   }

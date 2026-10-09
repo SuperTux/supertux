@@ -83,7 +83,8 @@ class PackagingTests(unittest.TestCase):
             textures=scene['campaign']['textures']
             for required in ('images/tiles/snow/convex.png','images/tiles/snow/variants2.png',
                              'images/tiles/blocks/brick1.png','images/decal/explanations/billboard-bigtux.png',
-                             'images/engine/hud/coins-0.png','images/engine/hud/item_pocket.png'):
+                             'images/engine/hud/coins-0.png','images/engine/hud/item_pocket.png',
+                             'images/tiles/blocks/brick_piece1.png','images/objects/water_drop/water-splash-0.png'):
                 self.assertIn(required,textures)
             self.assertTrue(all(tile>=0 for tile in scene['campaign']['tileIds']))
             self.assertEqual(scene['campaign']['objects']['weak_block'],24)

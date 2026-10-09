@@ -1,10 +1,14 @@
 # SuperTux private browser co-op roadmap
 
-Updated: 2026-10-08 UTC (2026-10-07 in Denver).
+Updated: 2026-10-09 UTC.
 
 Status: phases 5, 6A and the contained 6B remote-input proof are implemented.
 Phase 7A adds a controlled guest display of static terrain, both players and the
-host's shared camera. Phase 7B gameplay/object replication remains pending.
+host's shared camera. Phase 7B adds the original Welcome to Antarctica level,
+with native object/drawing baselines, a loading acknowledgment and completion
+status, on `codex/private-coop-level-7b` (PR #14). Its supported scope and
+validation status are in
+[PRIVATE_COOP_SUPPORTED_LEVEL.md](PRIVATE_COOP_SUPPORTED_LEVEL.md).
 Evidence, supported scenarios and
 device/network limits are in [PRIVATE_COOP_INPUT_PROOF.md](PRIVATE_COOP_INPUT_PROOF.md).
 The separate display architecture and acceptance scope are in
@@ -35,8 +39,9 @@ The engine's existing local co-op now has compiled-browser coverage for two
 independent input owners, touch plus Player 2, device rejoin, death/respawn,
 checkpoint restart, door/sector transition, completion and host persistence.
 An explicit transient remote slot and opt-in private Worker/Durable Object
-relay provide the two-browser input proof. There is no runtime world replication
-for campaign objects. The controlled Phase 7A scene now has a guest world display.
+relay provide the two-browser input proof. The controlled Phase 7A scene has a
+guest world display; Phase 7B extends presentation to one original campaign
+level. The host still owns every collision, script and progression change.
 Coverage is contained to the documented interactions;
 it does not certify a full campaign or physical phones.
 
