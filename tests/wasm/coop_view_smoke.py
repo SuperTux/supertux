@@ -267,14 +267,16 @@ async def run(args, url):
         await guest.keyboard.up('Space')
         assert not any(c[1]==brick[0] for c in broken['world']['draw'])
         report['checks'].append('Big Player 2 breaks a real wooden brick with ordinary Jump; removal and native debris are visible without replaying a guest collision')
-        await script('sector.Tux.set_pos(3960,512);sector.Tux2.set_pos(4032,400);sector.Tux2.set_bonus("fireflower");sector.Tux2.set_velocity(0,0);')
+        # Stand on the actual ice-box floor. A mid-air position can fall below
+        # the wall before the remote Action arrives, testing a missed shot.
+        await script('sector.Tux.set_pos(4200,384);sector.Tux2.set_pos(4256,352);sector.Tux2.set_bonus("fireflower");sector.Tux2.set_velocity(0,0);')
         await sample('fire-player',"SupertuxView.state.drawn.players[1].action.startsWith('fire-')")
         await guest.keyboard.down('ArrowRight');await guest.wait_for_timeout(120);await guest.keyboard.up('ArrowRight')
         await guest.keyboard.down('ControlLeft')
         await sample('native-fireball',"SupertuxView.state.drawn.world.draw.some(c=>c[0]===0 && c[7][0].includes('bullets/fire'))")
         await guest.keyboard.up('ControlLeft')
         report['checks'].append('Host fixture grants a fire bonus; ordinary guest Action creates a native fireball and original fire-player/projectile artwork is rendered')
-        await sample('native-ice-melt',"!SupertuxView.state.drawn.world.entities.some(e=>e[1]==='weak_block' && e[2]===4128 && e[3]===416)",timeout=20000)
+        await sample('native-ice-melt',"!SupertuxView.state.drawn.world.entities.some(e=>e[1]==='weak_block' && e[2]===4384 && e[3]===352)",timeout=20000)
         report['checks'].append('The same real projectile melts a native ice weak block; its animation and eventual removal are authoritative')
 
         await script('sector.Tux.set_pos(8448,672);sector.Tux2.set_pos(8480,640);sector.Tux2.set_velocity(0,0);')

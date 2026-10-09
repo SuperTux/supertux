@@ -631,6 +631,14 @@ GameSession::draw(Compositor& compositor)
         world = fmt::format("{{\"draw\":{},\"entities\":{},\"coins\":{},\"checkpoint\":{},\"phase\":\"{}\"}}",
           commands, entities, players[0]->get_status().coins, checkpoint_json,
           m_end_sequence ? "finishing" : "playing");
+        // Reserve room for player/camera fields and the transport envelope.
+        // A larger view is explicitly unsupported, never a relay disconnect.
+        if (world.size() > 60000)
+        {
+          log_debug << "Co-op presentation exceeded complete world limit" << std::endl;
+          supported = 0;
+          world.clear();
+        }
       }
     }
     if (supported == 1)

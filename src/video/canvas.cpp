@@ -559,13 +559,13 @@ Canvas::get_presentation()
   std::string result = "[";
   for (const auto& command : commands)
   {
+    if (result.size() > 1) result += ',';
+    result += command.second;
     if (result.size() > 52000)
     {
       log_debug << "Co-op presentation exceeded encoded draw limit" << std::endl;
       return "null";
     }
-    if (result.size() > 1) result += ',';
-    result += command.second;
   }
   return result + ']';
 }
