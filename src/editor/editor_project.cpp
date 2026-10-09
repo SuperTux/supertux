@@ -291,7 +291,7 @@ EditorProject::save_level(const std::string& filename, bool set_as_current_filen
   remove_autosave_file();
 
   auto notif = std::make_unique<Notification>("save_level_notif", 3.f);
-  notif->set_text(_("Level saved!"));
+  notif->set_text(is_worldmap() ? _("Worldmap saved!") : ("Level saved!"));
   MenuManager::instance().set_notification(std::move(notif));
 
   trigger_post_save_callback();
