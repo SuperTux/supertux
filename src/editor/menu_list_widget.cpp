@@ -32,11 +32,25 @@ MenuListWidget::draw(DrawingContext& context)
   
   for(const auto& item : m_menu_items)
   {
-    if (item->has_mouse_focus() ||
-      item->get_is_selected_handler() != nullptr && item->get_is_selected_handler()())
+    if (item->has_mouse_focus())
     {
       context.color().draw_filled_rect(item->get_rect(), Color::BLACK, LAYER_GUI);
     }
+
+    auto item_selected_Handler = item->get_is_selected_handler();
+    if (item_selected_Handler != nullptr)
+    {
+      auto target_rect = Rectf(item->get_rect().p1() + Vector(5, 5), item->get_rect().p1() + Vector(20, 20));
+      if (item_selected_Handler())
+      {
+        context.color().draw_surface_scaled(Resources::checkbox_checked, target_rect, LAYER_GUI);
+      }
+      else
+      {
+        context.color().draw_surface_scaled(Resources::checkbox, target_rect, LAYER_GUI);
+      }
+    }
+
     // auto sprite = item->get_sprite();
     // if (sprite != nullptr)
     // {
