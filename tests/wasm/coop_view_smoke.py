@@ -147,6 +147,7 @@ async def run(args, url):
             if paused:
                 await host_key('Escape')
                 await host.wait_for_function('!Module.supertuxCoop.state.enabled')
+            if callable(command): command=await command()
             await host_key('Backquote')
             await host.keyboard.type(command,delay=4);await host_key('Enter')
             assert any('> '+command in line for line in logs[-30:]),logs[-10:]
@@ -247,14 +248,21 @@ async def run(args, url):
         report['checks'].append('Host-authoritative contact stomps a real moving snowball; its stable UID is removed from both object and visual baselines')
         state=await sample('before-block-hit')
         block=next(e for e in state['world']['entities'] if e[1]=='bonusblock' and e[2]==1280)
-        await script('sector.Tux.set_pos(1200,672);sector.Tux2.set_pos(1280,672);sector.Tux2.set_velocity(0,0);')
+        await script('sector.Tux.set_pos(960,672);sector.Tux2.set_pos(1280,672);sector.Tux2.set_velocity(0,0);')
         await sample('under-growth-block',"SupertuxView.state.drawn.players[1].y>=671")
         await guest.keyboard.down('Space')
         await sample('bonus-block-used',f'SupertuxView.state.drawn.world.entities.some(e=>e[0]==={block[0]} && e[4]==="empty")')
         await guest.keyboard.up('Space')
         power=await sample('egg-spawn',"SupertuxView.state.drawn.world.entities.some(e=>SupertuxView.state.drawn.world.draw.some(c=>c[0]===0 && c[1]===e[0] && c[7][0].includes('powerups/egg/egg')))")
         egg=next(e for e in power['world']['entities'] if any(c[0]==0 and c[1]==e[0] and 'powerups/egg/egg' in c[7][0] for c in power['world']['draw']))
-        await script(f'sector.Tux.set_pos({egg[2]-96},{egg[3]});sector.Tux2.set_pos({egg[2]},{egg[3]});')
+        async def egg_contact():
+            # Read the authoritative position after Pause, not the guest's
+            # delayed frame before typing. Keep Player 1 outside the pickup:
+            # slow WebKit frames otherwise let the rolling egg grow the host.
+            current=await host.evaluate('(uid)=>lastViewPacket.world.entities.find(e=>e[0]===uid)',arg=egg[0])
+            assert current is not None, 'Spawned egg disappeared before the paused pickup fixture'
+            return f'sector.Tux.set_pos(960,672);sector.Tux2.set_pos({current[2]},{current[3]});'
+        await script(egg_contact)
         await sample('egg-collected',"SupertuxView.state.drawn.players[1].action.startsWith('big-')")
         report['checks'].append('Ordinary guest Jump hits the real growup block; the used block, spawned egg, collection and big-player pose agree in the guest presentation')
         await script('sector.Tux.set_pos(1264,672);sector.Tux2.set_pos(1344,640);sector.Tux2.set_velocity(0,0);')
