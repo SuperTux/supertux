@@ -91,13 +91,12 @@ Editor::Editor() :
   m_test_icon(SpriteManager::current()->create("images/engine/editor/spawnpoint.png"))
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
-  auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
-  auto overlay_widget = std::make_unique<EditorOverlayWidget>(*this);
-  auto toolbar_widget = std::make_unique<EditorToolbarWidget>(*this);
-
   m_toolbox_widget = toolbox_widget.get();
+  auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
   m_layers_widget = layers_widget.get();
+  auto overlay_widget = std::make_unique<EditorOverlayWidget>(*this);
   m_overlay_widget = overlay_widget.get();
+  auto toolbar_widget = std::make_unique<EditorToolbarWidget>(*this);
   m_toolbar_widget = toolbar_widget.get();
 
   m_widgets.push_back(std::move(toolbox_widget));
