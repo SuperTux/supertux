@@ -35,6 +35,7 @@ public:
     m_keyboard_shortcut(""),
     m_onclick_handler(onclick_handler),
     m_is_selected_handler(nullptr),
+    m_is_enabled_handler(nullptr),
     m_sprite(SpriteManager::current()->create(sprite_path)),
     m_rect(rect)
   {
@@ -45,6 +46,7 @@ public:
     m_keyboard_shortcut(""),
     m_onclick_handler([]{}),
     m_is_selected_handler(nullptr),
+    m_is_enabled_handler(nullptr),
     m_sprite(nullptr),
     m_rect(Rectf(0, 0, 0, 0))
   {
@@ -55,6 +57,7 @@ public:
     m_keyboard_shortcut(""),
     m_onclick_handler(onclick_handler),
     m_is_selected_handler(nullptr),
+    m_is_enabled_handler(nullptr),
     m_sprite(nullptr),
     m_rect(Rectf(0, 0, 0, 0))
   {
@@ -77,6 +80,22 @@ public:
     m_is_selected_handler = is_selected_handler;
   }
 
+  const std::function<bool()>& get_is_enabled_handler() const { return m_is_enabled_handler; }
+  void set_is_enabled_handler(const std::function<bool()>& is_enabled_handler)
+  {
+    m_is_enabled_handler = is_enabled_handler;
+  }
+
+  bool is_enabled() const
+  {
+    if (m_is_enabled_handler == nullptr)
+    {
+      return true;
+    }
+
+    return m_is_enabled_handler();
+  }
+
   Sprite* get_sprite() const { return m_sprite.get(); }
 
   const Rectf &get_rect() const { return m_rect; }
@@ -94,6 +113,7 @@ private:
   std::string m_keyboard_shortcut;
   std::function<void()> m_onclick_handler;
   std::function<bool()> m_is_selected_handler;
+  std::function<bool()> m_is_enabled_handler;
   SpritePtr m_sprite;
   Rectf m_rect;
 };
@@ -131,7 +151,7 @@ public:
   {
     for(const auto& item : m_menu_items)
     {
-      if (item->has_mouse_focus())
+      if (item->is_enabled() && item->has_mouse_focus())
       {
         auto item_handler = item->get_onclick_handler();
         if (item_handler != nullptr)

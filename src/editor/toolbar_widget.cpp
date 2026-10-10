@@ -24,9 +24,9 @@
 #include "editor/node_marker.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/tool_icon.hpp"
+#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
-#include "gui/menu.hpp"
 #include "gui/notification.hpp"
 #include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
@@ -34,6 +34,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/editor_save_as.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
@@ -52,6 +53,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_widgets_width_offset(0.f)
 {
   auto toolbox_widget = Editor::current()->get_toolbox_widget();
+  auto save_button = create_save_button();
   auto grid_button = create_grid_button();
   auto show_button = create_show_button();
 
@@ -69,8 +71,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
                                                 Sizef(32.f, 32.f)),
     
     // Save button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png", [this]
-                                                { Editor::current()->get_project()->save_level(); }, _("Save level")),
+    std::move(save_button),
 
 
     // Play button
@@ -223,6 +224,56 @@ EditorToolbarWidget::set_mode(const InputMode& input_mode)
 	}
 
   m_widgets_width = i * 32.f;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_save_button() const
+{
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+
+  auto save_level = [editor_project] { 
+    editor_project->check_save_prerequisites([editor_project]() {
+      MenuManager::instance().clear_menu_stack();
+      editor_project->save_level();
+    });
+  };
+
+  auto save_button =
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png", save_level, _("Save level"));
+  auto menu_list = save_button->get_menu_list();
+  
+  auto save_level_item = std::make_unique<MenuListItem>(
+    editor_project->is_worldmap() ? _("Save Worldmap") : _("Save Level"), save_level);
+  save_level_item->set_keyboard_shortcut(_("Ctrl+S"));
+
+  menu_list->add_item(std::move(save_level_item));
+
+  auto save_level_as = [editor_project]
+  { 
+    editor_project->check_save_prerequisites([] {
+      MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(true));
+    });
+  };
+  auto save_level_as_item = std::make_unique<MenuListItem>(_("Save Level as..."), save_level_as);
+  save_level_as_item->set_is_enabled_handler([editor_project]() { 
+    return !editor_project->is_worldmap();
+  });
+  menu_list->add_item(std::move(save_level_as_item));
+
+  auto save_copy = [editor_project]
+  {
+    editor_project->check_save_prerequisites([] {
+      MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(false));
+    });
+  };
+  auto save_copy_item = std::make_unique<MenuListItem>(_("Save Copy..."), save_copy);
+  save_copy_item->set_is_enabled_handler([editor_project]() { 
+    return !editor_project->is_worldmap() && !editor_project->is_temp_level();
+  });
+  menu_list->add_item(std::move(save_copy_item));
+
+  return save_button;
 }
 
 std::unique_ptr<EditorToolbarButtonWidget>
