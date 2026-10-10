@@ -1,10 +1,10 @@
 (supertux-sprite
   (action
     (name "right")
-    (fps 1)
-    (images "earthtux-hardhat.png"))
+    (hitbox 5 5 32 63)
+    (images "larry.png"))
   (action
     (name "left")
-    (fps 1)
+    (hitbox 5 5 32 63)
     (mirror-action "right"))
 )

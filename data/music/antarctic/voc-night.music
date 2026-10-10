@@ -2,6 +2,6 @@
   (file "voc-night.ogg")
   (authors "Marek \"Wansti\" Moeckel")
   (license "CC-BY-SA / GPL 2+")
-  (loop-begin 4.648)
-  (loop-at    73.231)
+  (loop-begin 4.65)
+  (loop-at 73.23)
 )

@@ -1,9 +1,6 @@
 (supertux-sprite
- (action
-  (name "default")
-  (fps 1.0)
-  (images 
-    "leaf.png"
-  )
- )
+  (action
+    (name "default")
+    (fps 1)
+    (images "leaf.png"))
 )
