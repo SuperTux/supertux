@@ -162,4 +162,36 @@ bool enumerate_files_recurse(const std::string& pathname, std::function<bool(con
   return result;
 }
 
+std::string get_first_nonexisting_filename(const std::string& basedir, const std::string& file_pattern, 
+                                           const std::string& extension, bool allow_unnumbered, int* file_number)
+{
+  std::string file_extension = extension[0] == '.' ? extension : "." + extension;
+  std::string filename = file_pattern + file_extension;
+
+  int num = 1;
+
+  // Base dir doesn't exist yet. It'll (hopefully) be created by the time the level is saved
+  if (basedir.empty())
+    return allow_unnumbered ? filename : file_pattern + std::to_string(num) + file_extension;
+
+  std::string filepath = FileSystem::join(basedir, filename);
+
+  if (allow_unnumbered && !PHYSFS_exists(filepath.c_str()))
+    return filename;
+
+  while(PHYSFS_exists(filepath.c_str()))
+  {
+    filename = file_pattern + std::to_string(num) + file_extension;
+    filepath = FileSystem::join(basedir, filename);
+    num++;
+  }
+
+  if (file_number != nullptr)
+  {
+    *file_number = num;
+  }
+
+  return filename;
+}
+
 } // namespace physfsutil

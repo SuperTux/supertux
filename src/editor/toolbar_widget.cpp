@@ -20,11 +20,13 @@
 
 #include "editor/button_widget.hpp"
 #include "editor/editor.hpp"
+#include "editor/editor_history_manager.hpp"
+#include "editor/node_marker.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/tool_icon.hpp"
+#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
-#include "gui/menu.hpp"
 #include "gui/notification.hpp"
 #include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
@@ -32,13 +34,15 @@
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/editor_save_as.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-using InputType = EditorTilebox::InputType;
+using InputMode = Editor::InputMode;
 
 EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_editor(editor),
@@ -48,118 +52,98 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_widgets_width(0.f),
   m_widgets_width_offset(0.f)
 {
-    std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
+  auto toolbox_widget = Editor::current()->get_toolbox_widget();
+
+  auto open_button = create_open_button();
+  auto save_button = create_save_button();
+  auto grid_button = create_grid_button();
+  auto show_button = create_show_button();
+
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 10> general_widgets =
+  {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
-        std::bind(&Editor::undo, Editor::current()),
-        _("Undo"),
-        Sizef(32.f, 32.f)),
+                                                std::bind(&EditorHistoryManager::undo, Editor::current()->get_history_manager()),
+                                                _("Undo"),
+                                                Sizef(32.f, 32.f)),
 
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
-        std::bind(&Editor::redo, Editor::current()),
-        _("Redo"),
-        Sizef(32.f, 32.f)),
-
-    // Grid button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png",
-      [this] {
-        auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
-        if (snap_grid_size == 0)
-        {
-          if(!g_config->editor_render_grid)
-          {
-            snap_grid_size = 3;
-          }
-          g_config->editor_render_grid = !g_config->editor_render_grid;
-        }
-        else
-          snap_grid_size--;
-      },
-      _("Change / Toggle grid size")),
-
-    // Play button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
-      [this] { Editor::current()->m_test_request = true; },
-      _("Test level")),
+                                                std::bind(&EditorHistoryManager::redo, Editor::current()->get_history_manager()),
+                                                _("Redo"),
+                                                Sizef(32.f, 32.f)),
+    
+    // Open button
+    std::move(open_button),
 
     // Save button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
-      [this] {
-        Editor::current()->save_level();
-      },
-      _("Save level")),
+    std::move(save_button),
+
+
+    // Play button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
+                                                { Editor::current()->test_level(); }, _("Test level")),
 
     // Mode button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
-      std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this),
-      _("Toggle between object and tile mode")),
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png", std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this), _("Toggle between object and tile mode")),
+
+    // Grid button,
+    std::move(grid_button),
+
+    // Button for toggling visibility of things
+    std::move(show_button),
 
     // Mouse select button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png",
-      [this]() {
-        Editor::current()->get_toolbox_widget()->set_mouse_tool();
-      },
-      _("Select or move the object under the mouse")),
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [toolbox_widget]()
+                                                { toolbox_widget->set_mouse_tool(); }, 
+                                                _("Select or move the object under the mouse")),
 
     // Rubber button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png",
-      [this]() {
-        Editor::current()->get_toolbox_widget()->set_rubber_tool();
-      },
-      _("Delete the tile or object under the mouse"))
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [toolbox_widget]()
+                                                { toolbox_widget->set_rubber_tool(); },
+                                                _("Delete the tile or object under the mouse"))
   };
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets = {
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets =
+  {
     // Select mode mouse
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode0.png",
-    [this] {
-      Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(0);
-    },
-    _("Draw mode")),
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode0.png", [toolbox_widget]
+                                                { toolbox_widget->set_tileselect_select_mode(0); },
+                                                _("Draw mode")),
 
     // Select mode area
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode1.png",
-      [this] {
-        Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(1);
-      },
-      _("Box draw mode")),
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode1.png", [toolbox_widget]
+                                                { toolbox_widget->set_tileselect_select_mode(1); },
+                                                _("Box draw mode")),
 
     // Select mode fill button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode2.png",
-      [this] {
-        Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(2);
-      },
-      _("Fill mode")),
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode2.png", [toolbox_widget]
+                                                { toolbox_widget->set_tileselect_select_mode(2); },
+                                                _("Fill mode")),
 
     // Select mode same button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode3.png",
-      [this] {
-        Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(3);
-      },
-      _("Replace mode")),
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode3.png", [toolbox_widget]
+                                                { toolbox_widget->set_tileselect_select_mode(3); },
+                                                _("Replace mode")),
   };
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 3> object_mode_widgets = {
-    // Path edit mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png",
-      [this] {
-        Editor::current()->get_tilebox().set_object("#node");
-      },
-      _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 3> object_mode_widgets =
+  {
+      // Path edit mode
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png", [this]
+      {
+        const auto& node_marker_class = NodeMarker::class_name();
+        Editor::current()->get_tilebox().set_selected_object_class_name(node_marker_class);
+      }, _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
 
-    // Select mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png",
-      [this] {
-        Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(0);
-      },
-      _("Select mode (Clicking selects the object under the mouse)")),
+      // Select mode
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png", [toolbox_widget]
+                                                  { toolbox_widget->set_tileselect_move_mode(0); }, 
+                                                  _("Select mode (Clicking selects the object under the mouse)")),
 
-    // Duplicate mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png",
-      [this] {
-        Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(1);
-      },
-      _("Duplicate mode (Clicking duplicates the object under the mouse)")),
+      // Duplicate mode
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png", [toolbox_widget]
+                                                  { toolbox_widget->set_tileselect_move_mode(1); },
+                                                  _("Duplicate mode (Clicking duplicates the object under the mouse)")),
   };
 
   size_t i = 0;
@@ -168,7 +152,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     Vector pos(32 * i, 0);
     widget->set_position(pos);
     widget->set_flat(true);
-    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    m_widgets.push_back(std::move(widget));
     ++i;
   }
 
@@ -179,7 +163,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     widget->set_flat(true);
     widget->set_visible_in_object_mode(false);
     widget->set_visible(false);
-    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    m_widgets.push_back(std::move(widget));
     ++i;
   }
 
@@ -190,7 +174,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     widget->set_flat(true);
     widget->set_visible_in_tile_mode(false);
     widget->set_visible(false);
-    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    m_widgets.push_back(std::move(widget));
     ++i;
   }
   m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
@@ -213,29 +197,29 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 }
 
 void
-EditorToolbarWidget::toggle_tile_object_mode()
+EditorToolbarWidget::set_mode(const InputMode& input_mode)
 {
   int i = 0;
-  auto& tilebox = Editor::current()->get_toolbox_widget()->get_tilebox();
-  const auto& input_type = tilebox.get_input_type();
+  auto editor = Editor::current();
+  auto toolbox_widget = editor->get_toolbox_widget();
 
-  if (input_type == InputType::OBJECT) // Object mode -> Tile mode
+  if (input_mode == InputMode::OBJECT)
   {
-    Editor::current()->select_last_tilegroup();
-    for(const auto& toolbar_button : m_widgets)
-    {
-      toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
-    }
-    Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(0);
-  }
-  else // Tile mode -> Object mode
-  {
-    Editor::current()->select_last_objectgroup();
+    toolbox_widget->select_last_objectgroup();
     for(const auto& toolbar_button : m_widgets)
     {
       toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
   	}
-    Editor::current()->get_toolbox_widget()->set_tileselect_move_mode(0);
+    toolbox_widget->set_tileselect_move_mode(0);
+  }
+  else
+  {
+    toolbox_widget->select_last_tilegroup();
+    for(const auto& toolbar_button : m_widgets)
+    {
+      toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
+    }
+    toolbox_widget->set_tileselect_select_mode(0);
   }
 
   for (const auto& toolbar_button : m_widgets)
@@ -247,6 +231,197 @@ EditorToolbarWidget::toggle_tile_object_mode()
   m_widgets_width = i * 32.f;
 }
 
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_open_button() const
+{
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+
+  auto open_level_enabled = [editor_project] {
+    return editor_project->get_world() != nullptr && !editor_project->is_temp_level();
+  };
+
+  auto open_level = [editor_project, open_level_enabled] {
+    if (!open_level_enabled())
+      return;
+
+    editor_project->check_unsaved_changes([]
+    {
+      MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
+    });
+  };
+  auto open_button =
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/open_level.png", open_level, _("Open level"));
+  auto menu_list = open_button->get_menu_list();
+
+  auto open_level_item = std::make_unique<MenuListItem>(_("Open level..."), open_level);
+  open_level_item->set_is_enabled_handler(open_level_enabled);
+
+  menu_list->add_item(std::move(open_level_item));
+
+  auto open_world = [editor_project]
+  {
+    editor_project->check_unsaved_changes([] {
+      MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+    });
+  };
+  auto open_world_item = std::make_unique<MenuListItem>(_("Open world..."), open_world);
+  open_world_item->set_is_enabled_handler([editor_project]() { 
+    return !editor_project->is_worldmap();
+  });
+  menu_list->add_item(std::move(open_world_item));
+
+  return open_button;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_save_button() const
+{
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+
+  auto save_level = [editor_project] { 
+    editor_project->check_save_prerequisites([editor_project]() {
+      MenuManager::instance().clear_menu_stack();
+      editor_project->save_level();
+    });
+  };
+
+  auto save_button =
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png", save_level, _("Save level"));
+  auto menu_list = save_button->get_menu_list();
+  
+  auto save_level_item = std::make_unique<MenuListItem>(
+    editor_project->is_worldmap() ? _("Save Worldmap") : _("Save Level"), save_level);
+  save_level_item->set_keyboard_shortcut(_("Ctrl+S"));
+
+  menu_list->add_item(std::move(save_level_item));
+
+  auto save_level_as = [editor_project]
+  { 
+    editor_project->check_save_prerequisites([] {
+      MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(true));
+    });
+  };
+  auto save_level_as_item = std::make_unique<MenuListItem>(_("Save Level as..."), save_level_as);
+  save_level_as_item->set_is_enabled_handler([editor_project]() { 
+    return !editor_project->is_worldmap();
+  });
+  menu_list->add_item(std::move(save_level_as_item));
+
+  auto save_copy = [editor_project]
+  {
+    editor_project->check_save_prerequisites([] {
+      MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(false));
+    });
+  };
+  auto save_copy_item = std::make_unique<MenuListItem>(_("Save Copy..."), save_copy);
+  save_copy_item->set_is_enabled_handler([editor_project]() { 
+    return !editor_project->is_worldmap() && !editor_project->is_temp_level();
+  });
+  menu_list->add_item(std::move(save_copy_item));
+
+  return save_button;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_grid_button() const
+{
+  auto grid_button =
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png", []{},
+      _("Change grid size"));
+
+  auto snap_grid_sizes = {
+    _("No Grid"),
+    _("Tiny Grid (4px)"),
+    _("Small Grid (8px)"),
+    _("Medium Grid (16px)"),
+    _("Large Grid (32px)")
+  };
+
+  int grid_size_idx = 0;
+
+  auto menu_list = grid_button->get_menu_list();
+
+  for (const auto &grid_size : snap_grid_sizes)
+  {
+    auto on_click = [grid_size_idx]
+    {
+      if (grid_size_idx == 0)
+      {
+        g_config->editor_render_grid = false;
+        return;
+      }
+      g_config->editor_render_grid = true;
+      g_config->editor_selected_snap_grid_size = grid_size_idx - 1;
+    };
+
+    auto is_selected = [grid_size_idx]
+    {
+      auto show_grid = g_config->editor_render_grid;
+      return (grid_size_idx == 0 && !show_grid) ||
+             (show_grid && g_config->editor_selected_snap_grid_size == grid_size_idx - 1);
+    };
+
+    auto menu_item = std::make_unique<MenuListItem>(grid_size, on_click);
+    menu_item->set_is_selected_handler(is_selected);
+
+    menu_list->add_item(std::move(menu_item));
+    grid_size_idx++;
+  }
+
+  return grid_button;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_show_button() const
+{
+  auto show_hide_button =
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/eye_button.png", []{},
+      _("Show / hide objects"));
+
+  auto editor = Editor::current();
+  auto menu_list = show_hide_button->get_menu_list();
+
+  auto toggle_background = [] { g_config->editor_render_background = !g_config->editor_render_background; };
+  auto show_background_item = std::make_unique<MenuListItem>(_("Draw Background"), toggle_background);
+  show_background_item->set_is_selected_handler([] { return g_config->editor_render_background; });
+  menu_list->add_item(std::move(show_background_item));
+
+  auto toggle_animations = [] { g_config->editor_render_animations = !g_config->editor_render_animations; };
+  auto show_animations_item = std::make_unique<MenuListItem>(_("Draw Animations"), toggle_animations);
+  show_animations_item->set_is_selected_handler([] { return g_config->editor_render_animations; });
+  menu_list->add_item(std::move(show_animations_item));
+
+  auto toggle_lighting = [] { Compositor::s_render_lighting = !Compositor::s_render_lighting; };
+  auto show_lighting_item = std::make_unique<MenuListItem>(_("Draw Lighting"), toggle_lighting);
+  show_lighting_item->set_is_selected_handler([] { return Compositor::s_render_lighting; });
+  menu_list->add_item(std::move(show_lighting_item));
+
+  auto toggle_draggables = [editor]
+  {
+    auto draggables_visible = editor->get_draggables_visible();
+    editor->set_draggables_visible(!draggables_visible);
+  };
+  auto show_draggables_item = std::make_unique<MenuListItem>(_("Draw Draggables"), toggle_draggables);
+  show_draggables_item->set_is_selected_handler([editor] { return editor->get_draggables_visible(); });
+  show_draggables_item->set_keyboard_shortcut(_("Ctrl+H"));
+  menu_list->add_item(std::move(show_draggables_item));
+
+  auto toggle_deprecated = [] { g_config->editor_show_deprecated_tiles = !g_config->editor_show_deprecated_tiles; };
+  auto show_deprecated_item = std::make_unique<MenuListItem>(_("Draw Deprecated Tiles"), toggle_deprecated);
+  show_deprecated_item->set_is_selected_handler([] { return g_config->editor_show_deprecated_tiles; });
+  menu_list->add_item(std::move(show_deprecated_item));
+
+  return show_hide_button;
+}
+
+void
+EditorToolbarWidget::toggle_tile_object_mode()
+{
+  set_mode(m_editor.get_input_mode() == InputMode::OBJECT ? InputMode::TILE : InputMode::OBJECT);
+}
+
 bool
 EditorToolbarWidget::event(const SDL_Event& ev)
 {
@@ -255,6 +430,14 @@ EditorToolbarWidget::event(const SDL_Event& ev)
     if (widget->event(ev))
       return true;
   }
+
+  auto event_handling = Editor::current()->get_event_handling();
+  if ((ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN || ev.type == SDL_EVENT_MOUSE_BUTTON_UP) &&
+      get_area().contains(event_handling->get_mouse_pos()))
+  {
+    return true;
+  }
+
   return false;
 }
 

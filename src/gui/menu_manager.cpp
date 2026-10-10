@@ -221,6 +221,7 @@ MenuManager::set_menu(int id, bool skip_transition)
 void
 MenuManager::set_menu(std::unique_ptr<Menu> menu, bool skip_transition)
 {
+  auto editor = Editor::current();
   if (menu)
   {
     if (!skip_transition)
@@ -228,7 +229,10 @@ MenuManager::set_menu(std::unique_ptr<Menu> menu, bool skip_transition)
     m_menu_stack.clear();
     m_menu_stack.push_back(std::move(menu));
 
-    Editor::may_deactivate();
+    if (editor != nullptr)
+    {
+      editor->deactivate();
+    }
   }
   else
   {
@@ -236,7 +240,10 @@ MenuManager::set_menu(std::unique_ptr<Menu> menu, bool skip_transition)
       transition<Menu, Menu>(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(), nullptr);
     m_menu_stack.clear();
 
-    Editor::may_reactivate();
+    if (editor != nullptr)
+    {
+      editor->reactivate_after_menu_close();
+    }
   }
 
   // just to be sure...
@@ -257,7 +264,11 @@ MenuManager::push_menu(std::unique_ptr<Menu> menu, bool skip_transition)
     transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(), menu.get());
   m_menu_stack.push_back(std::move(menu));
 
-  Editor::may_deactivate();
+  auto editor = Editor::current();
+  if (editor != nullptr)
+  {
+    editor->deactivate();
+  }
 }
 
 void
@@ -275,7 +286,13 @@ MenuManager::pop_menu(bool skip_transition)
   m_menu_stack.pop_back();
 
   if (m_menu_stack.empty())
-    Editor::may_reactivate();
+  {
+    auto editor = Editor::current();
+    if (editor != nullptr)
+    {
+      editor->reactivate_after_menu_close();
+    }
+  }
 }
 
 void
@@ -285,7 +302,11 @@ MenuManager::clear_menu_stack(bool skip_transition)
     transition<Menu, Menu>(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(), nullptr);
   m_menu_stack.clear();
 
-  Editor::may_reactivate();
+  auto editor = Editor::current();
+  if (editor != nullptr)
+  {
+    editor->reactivate_after_menu_close();
+  }
 }
 
 

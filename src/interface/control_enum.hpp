@@ -34,6 +34,9 @@ public:
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
+  virtual void on_blur() override;
+
+  virtual bool prevents_event_propagation() const override { return m_open_list; }
 
   inline T get_value() const { return *m_value; }
   inline void set_value(T value) { *m_value = value; }
@@ -153,17 +156,22 @@ ControlEnum<T>::on_mouse_button_up(const SDL_MouseButtonEvent& button)
     return false;
 
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  if (m_rect.contains(mouse_pos)) {
+  if (m_rect.contains(mouse_pos))
+  {
     m_open_list = !m_open_list;
-    m_has_focus = true;
+    set_has_focus(true);
     if (m_open_list)
       call_on_activate_callbacks();
+
     return true;
-  } else if (get_list_rect().contains(mouse_pos) && m_open_list) {
-    return true;
-  } else {
-    return false;
   }
+
+  if (get_list_rect().contains(mouse_pos) && m_open_list)
+  {
+    return true;
+  }
+
+  return false;
 }
 
 template<class T>
@@ -173,7 +181,7 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
   if (m_open_list) {
     if (!get_list_rect().contains(mouse_pos)) {
-      m_has_focus = false;
+      set_has_focus(false);
       m_open_list = false;
     } else {
       int pos = int(floor((mouse_pos.y - m_rect.get_bottom()) / m_rect.get_height()));
@@ -190,7 +198,7 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
             break;
           }
-          m_has_focus = false;
+          set_has_focus(false);
           m_open_list = false;
         } else {
           log_warning << "Clicked on control enum inside dropdown but at invalid position ("
@@ -200,8 +208,9 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
       return true;
     }
   } else {
-    if (!m_rect.contains(mouse_pos)) {
-      m_has_focus = false;
+    set_has_focus(m_rect.contains(mouse_pos));
+    if (!m_has_focus)
+    {
       m_open_list = false;
     }
   }
@@ -287,4 +296,11 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
   }
 
   return false;
+}
+
+template<class T>
+void
+ControlEnum<T>::on_blur()
+{
+  m_open_list = false;
 }

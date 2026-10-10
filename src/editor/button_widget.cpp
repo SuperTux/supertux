@@ -26,17 +26,17 @@
 ButtonWidget::ButtonWidget(SpritePtr sprite, const Vector& pos,
                            std::function<void()> sig_click, std::optional<Sizef> sprite_size) :
   m_sprite(std::move(sprite)),
-  m_rect(pos, sprite_size ? *sprite_size :
-    Sizef(static_cast<float>(m_sprite->get_width()),
-          static_cast<float>(m_sprite->get_height()))),
+  m_rect(pos, sprite_size ? *sprite_size : m_sprite->get_size()),
   m_grab(false),
   m_hover(false),
   m_sig_click(std::move(sig_click)),
   m_mouse_pos(),
   m_help_text(),
+  m_menu_list(std::make_unique<MenuListWidget>()),
   m_flat(false),
   m_disabled(false)
 {
+  set_position(pos);
 }
 
 void
@@ -49,6 +49,8 @@ ButtonWidget::set_position(const Vector& pos)
   m_rect.set_width(w);
   m_rect.set_top(pos.y);
   m_rect.set_height(h);
+
+  m_menu_list->set_position(pos + Vector(0, m_rect.get_height()));
 }
 
 void

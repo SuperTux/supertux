@@ -69,14 +69,15 @@ public:
   void update_node_iterators();
   void on_level_change();
 
-  void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
+  /**
+   * Edits the path of an object
+   * @note The path must inherit from the `PathObject` class in order for it to work 
+   * @param object The object whose path to edit
+   */
+  void edit_object_path(GameObject* object = nullptr);
   //void reset_action_press();
 
   inline Vector get_sector_pos() const { return m_sector_pos; }
-
-private:
-  static bool action_pressed;
-  static bool alt_pressed;
 
 private:
   void input_tile(const Vector& pos, uint32_t tile);
@@ -105,10 +106,23 @@ private:
   AutotileSet* get_current_autotileset() const;
   std::string get_autotileset_key_range() const;
 
+  /**
+   * Draws the zoom percentage in the top right corner when it's not 100%
+   * and applies the current zoom percentage
+   * @param DrawingContext Current DrawingContext instance
+   */
+  void draw_zoom_indicator(DrawingContext &);
+
+  /**
+   * Draws help text for autotiling, including the necessary key presses
+   * @param DrawingContext Current DrawingContext instance
+   */
+  void draw_autotile_help(DrawingContext &);
   void draw_tilemap_outer_shading(DrawingContext&);
   void draw_tilemap_border(DrawingContext&);
   void draw_tile_tip(DrawingContext&);
-  void draw_tile_grid(DrawingContext&, int tile_size, bool draw_shadow) const;
+  void draw_tile_grid(DrawingContext &) const;
+  void draw_tile_grid(DrawingContext &, int tile_size) const;
   void draw_path(DrawingContext&);
   void draw_rectangle_preview(DrawingContext& context);
 
