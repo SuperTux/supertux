@@ -96,6 +96,14 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
 #else
   if (auto_opengl_version)
   {
+    // Check if renderer is llvmpipe, which is slower than SDL in this case,
+    // see https://github.com/SuperTux/supertux/issues/3876
+    const char* vendor_string = reinterpret_cast<const char*>(glGetString(GL_RENDERER));
+    if (std::string(vendor_string).find("llvmpipe") != std::string::npos)
+    {
+      throw std::runtime_error("llvmpipe has low render performance, switching to SDL renderer.");
+    }
+
     // Get OpenGL version reported by OS.
     const char* version_string = reinterpret_cast<const char*>(glGetString(GL_VERSION));
     int major = 0;
