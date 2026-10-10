@@ -1,5 +1,5 @@
 (supertux-sprite
-  (action
+  (action (test)
     (name "gameover")
     (fps 30.0)
     (hitbox 18 6 32 32)
