@@ -99,17 +99,25 @@ EditorProject::load_initial_level()
 {
   const auto& last_edited_level = get_last_edited_level();
 
-  if (g_config->editor_remember_last_level &&
-    !last_edited_level.empty() && PHYSFS_exists(last_edited_level.c_str()))
+  try
   {
-    auto last_level_directory = FileSystem::dirname(last_edited_level);
-    auto last_level_filename = FileSystem::basename(last_edited_level);
+    if (g_config->editor_remember_last_level &&
+        !last_edited_level.empty() && PHYSFS_exists(last_edited_level.c_str()))
+    {
+      auto last_level_directory = FileSystem::dirname(last_edited_level);
+      auto last_level_filename = FileSystem::basename(last_edited_level);
 
-    auto world = World::from_directory(last_level_directory);
+      auto world = World::from_directory(last_level_directory);
 
-    set_world(std::move(world));
-    set_level_file(last_level_filename);
-    return;
+      set_world(std::move(world));
+      set_level_file(last_level_filename);
+      return;
+    }
+  }
+  catch(const std::exception& e)
+  {
+    set_level(nullptr);
+    set_last_edited_level("");
   }
 
   set_level(nullptr);
