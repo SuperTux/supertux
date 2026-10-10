@@ -47,6 +47,7 @@ public:
   const Rectf get_area() { return Rectf(0, 0, m_widgets_width, 32); }
 
 private:
+  std::unique_ptr<EditorToolbarButtonWidget> create_save_button() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_grid_button() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_show_button() const;
 

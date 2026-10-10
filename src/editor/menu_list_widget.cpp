@@ -32,13 +32,13 @@ MenuListWidget::draw(DrawingContext& context)
   
   for(const auto& item : m_menu_items)
   {
-    if (item->has_mouse_focus())
+    if (item->is_enabled() && item->has_mouse_focus())
     {
       context.color().draw_filled_rect(item->get_rect(), Color::BLACK, LAYER_GUI);
     }
 
     auto item_selected_Handler = item->get_is_selected_handler();
-    if (item_selected_Handler != nullptr)
+    if (item->is_enabled() && item_selected_Handler != nullptr)
     {
       auto target_rect = Rectf(item->get_rect().p1() + Vector(5, 5), item->get_rect().p1() + Vector(20, 20));
       if (item_selected_Handler())
@@ -58,7 +58,8 @@ MenuListWidget::draw(DrawingContext& context)
     //   sprite->draw(context.color(), sprite_rect.p1(), LAYER_GUI);
     // }
     auto label_position = item->get_rect().p1() + m_label_offset;
-    context.color().draw_text(Resources::editor_menu_font, item->get_label(), label_position, FontAlignment::ALIGN_LEFT, LAYER_GUI);
+    auto text_color = item->is_enabled() ? Color::WHITE : Color(0.5, 0.5, 0.5);
+    context.color().draw_text(Resources::editor_menu_font, item->get_label(), label_position, FontAlignment::ALIGN_LEFT, LAYER_GUI, text_color);
 
     if (item->get_keyboard_shortcut().size())
     {
