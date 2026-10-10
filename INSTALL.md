@@ -9,7 +9,8 @@ Categories:
 - [Compiling](#compiling)
   - [Requirements](#requirements)
   - [Unix and Unix-like (Linux/MacOS/\*BSD)](#linuxunix-using-cmake)
-  - [Windows](#windows-using-cmake-and-visual-studio)
+  - [Windows using Visual Studio](#windows-using-cmake-and-visual-studio)
+  - [Windows using MSYS2](#windows-using-msys2)
 
 Binaries
 --------
@@ -175,6 +176,31 @@ For more CMake options, look at end of the Linux/UNIX build section.
 7. You can now run the game by going to that SuperTux folder and
    running `run_supertux2.bat`. You can also use `run_supertux2_portable.bat`
    instead to store configuration files inside of the SuperTux installation.
+
+### Windows using MSYS2
+
+For this guide, we will be using the CLANG64 environment, which can be found in your start menu. Other environments can be used.
+
+Install the dependencies with these commands. Pactoy is used to make packages universal between environments.
+```
+pacman -S pactoys
+```
+```
+pacboy -S --needed cmake libogg libvorbis openal sdl3 sdl3-image sdl3-ttf freetype libraqm curl openssl glew harfbuzz fribidi glm zlib fmt physfs ninja
+```
+Once dependencies are installed:
+
+1. Unpack the SuperTux source pack or get the source with git (`git clone --recurse-submodules https://github.com/SuperTux/supertux.git`).
+
+2. Create a new, empty `build` folder.
+
+3. Navigate to the build folder (`cd build`)
+
+4. Run `cmake .. -DCMAKE_BUILD_TYPE=Release`
+
+5. Run `ninja`
+
+6. You may now run the game by invoking  `./supertux` in the build folder.
 
 ### Other platforms
 
