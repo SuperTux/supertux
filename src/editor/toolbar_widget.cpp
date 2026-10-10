@@ -53,11 +53,13 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_widgets_width_offset(0.f)
 {
   auto toolbox_widget = Editor::current()->get_toolbox_widget();
+
+  auto open_button = create_open_button();
   auto save_button = create_save_button();
   auto grid_button = create_grid_button();
   auto show_button = create_show_button();
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 9> general_widgets =
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 10> general_widgets =
   {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
@@ -70,6 +72,9 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
                                                 _("Redo"),
                                                 Sizef(32.f, 32.f)),
     
+    // Open button
+    std::move(open_button),
+
     // Save button
     std::move(save_button),
 
@@ -224,6 +229,49 @@ EditorToolbarWidget::set_mode(const InputMode& input_mode)
 	}
 
   m_widgets_width = i * 32.f;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_open_button() const
+{
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+
+  auto open_level_enabled = [editor_project] {
+    return editor_project->get_world() != nullptr && !editor_project->is_temp_level();
+  };
+
+  auto open_level = [editor_project, open_level_enabled] {
+    if (!open_level_enabled())
+      return;
+
+    editor_project->check_unsaved_changes([]
+    {
+      MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
+    });
+  };
+  auto open_button =
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/open_level.png", open_level, _("Open level"));
+  auto menu_list = open_button->get_menu_list();
+
+  auto open_level_item = std::make_unique<MenuListItem>(_("Open level..."), open_level);
+  open_level_item->set_is_enabled_handler(open_level_enabled);
+
+  menu_list->add_item(std::move(open_level_item));
+
+  auto open_world = [editor_project]
+  {
+    editor_project->check_unsaved_changes([] {
+      MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+    });
+  };
+  auto open_world_item = std::make_unique<MenuListItem>(_("Open world..."), open_world);
+  open_world_item->set_is_enabled_handler([editor_project]() { 
+    return !editor_project->is_worldmap();
+  });
+  menu_list->add_item(std::move(open_world_item));
+
+  return open_button;
 }
 
 std::unique_ptr<EditorToolbarButtonWidget>
