@@ -179,28 +179,26 @@ For more CMake options, look at end of the Linux/UNIX build section.
 
 ### Windows using MSYS2
 
-For this guide, we will be using the CLANG64 environment, which can be found in your start menu. Other environments can be used.
+**Note:** So far, SuperTux has only been tested with the MSYS2 CLANG64 environment.
 
-Install the dependencies with these commands. Pactoy is used to make packages universal between environments.
+Install the dependencies using these commands. Pacboy is used to make packages universal across MSYS2 environments.
 ```
 pacman -S pactoys
-```
-```
 pacboy -S --needed cmake libogg libvorbis openal sdl3 sdl3-image sdl3-ttf freetype libraqm curl openssl glew harfbuzz fribidi glm zlib fmt physfs ninja
 ```
 Once dependencies are installed:
 
 1. Unpack the SuperTux source pack or get the source with git (`git clone --recurse-submodules https://github.com/SuperTux/supertux.git`).
 
-2. Create a new, empty `build` folder.
+2. Create a new `build` directory in the root of the SuperTux source code directory.
 
-3. Navigate to the build folder (`cd build`)
+3. Open an MSYS2 terminal window and navigate to the newly created build directory.
 
-4. Run `cmake .. -DCMAKE_BUILD_TYPE=Release`
+4. Run `cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja`
 
 5. Run `ninja`
 
-6. You may now run the game by invoking  `./supertux` in the build folder.
+6. You may now run the game by invoking  `./supertux` in the `build` directory.
 
 ### Other platforms
 
