@@ -2,16 +2,16 @@
   (action
     (name "quiet")
     (hitbox 6 19 70 43)
-    (images "radio_inactive.png"))
+    (images "radio_off.png"))
+
   (action
     (name "loud")
     (hitbox 6 19 70 43)
     (fps 18)
-    (images "radio0.png"
-            "radio1.png"
-            "radio2.png"
-		    "radio3.png"
-		    "radio4.png"
-		    "radio5.png")
-  )
+    (images "radio-0.png"
+            "radio-1.png"
+            "radio-2.png"
+            "radio-3.png"
+            "radio-4.png"
+            "radio-5.png"))
 )
