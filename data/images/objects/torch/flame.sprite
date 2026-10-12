@@ -6,9 +6,8 @@
     (images "flame1.png"
             "flame2.png"
             "flame3.png"
-            "flame4.png"
-            )
-  )
+            "flame4.png"))
+
   (action
     (name "greyscale")
     (fps 16)
@@ -16,7 +15,5 @@
     (images "greyscale/flame1.png"
             "greyscale/flame2.png"
             "greyscale/flame3.png"
-            "greyscale/flame4.png"
-            )
-  )
+            "greyscale/flame4.png"))
 )
