@@ -21,6 +21,7 @@
 #include "editor/button_widget.hpp"
 #include "editor/editor.hpp"
 #include "editor/editor_history_manager.hpp"
+#include "editor/menu_list_item.hpp"
 #include "editor/node_marker.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/tool_icon.hpp"
