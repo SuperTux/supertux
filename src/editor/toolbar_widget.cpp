@@ -371,6 +371,8 @@ EditorToolbarWidget::create_grid_button() const
     grid_size_idx++;
   }
 
+  menu_list->add_item(std::make_unique<MenuListSeparator>());
+
   auto snap_to_grid = []() { g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid; };
   auto menu_item = std::make_unique<MenuListItem>(_("Snap To Grid"), snap_to_grid);
   menu_item->set_is_selected_handler([]{ return g_config->editor_snap_to_grid; });
