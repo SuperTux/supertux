@@ -24,6 +24,73 @@
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
+MenuListItem::MenuListItem(const std::string& label, const std::function<void()> onclick_handler,
+  const std::string& sprite_path, const Rectf& rect) :
+    MenuListBaseItem(rect),
+    m_label(label),
+    m_keyboard_shortcut(""),
+    m_onclick_handler(onclick_handler),
+    m_is_selected_handler(nullptr),
+    m_is_enabled_handler(nullptr),
+    m_sprite(SpriteManager::current()->create(sprite_path))
+  {
+  }
+
+MenuListItem::MenuListItem(const std::string& label) :
+  MenuListBaseItem(),
+  m_label(label),
+  m_keyboard_shortcut(""),
+  m_onclick_handler([]{}),
+  m_is_selected_handler(nullptr),
+  m_is_enabled_handler(nullptr),
+  m_sprite(nullptr)
+{
+}
+
+MenuListItem::MenuListItem(const std::string& label, const std::function<void()> onclick_handler) :
+  MenuListBaseItem(),
+  m_label(label),
+  m_keyboard_shortcut(""),
+  m_onclick_handler(onclick_handler),
+  m_is_selected_handler(nullptr),
+  m_is_enabled_handler(nullptr),
+  m_sprite(nullptr)
+{
+}
+
+void
+MenuListItem::draw(DrawingContext& context)
+{
+  if (is_enabled() && has_mouse_focus())
+  {
+    context.color().draw_filled_rect(get_rect(), Color::BLACK, LAYER_GUI);
+  }
+
+  auto item_selected_Handler = get_is_selected_handler();
+  if (is_enabled() && item_selected_Handler != nullptr)
+  {
+    auto checkbox_graphics = item_selected_Handler() ? Resources::checkbox_checked : Resources::checkbox;
+    auto target_rect = Rectf(get_rect().p1() + Vector(5, 5), get_rect().p1() + Vector(20, 20));
+    context.color().draw_surface_scaled(checkbox_graphics, target_rect, LAYER_GUI);
+  }
+
+  // auto sprite = item->get_sprite();
+  // if (sprite != nullptr)
+  // {
+  //   auto sprite_rect = Rectf(pos + m_sprite_offset, sprite->get_size());
+  //   sprite->draw(context.color(), sprite_rect.p1(), LAYER_GUI);
+  // }
+  auto label_position = get_rect().p1() + m_label_offset;
+  auto text_color = is_enabled() ? Color::WHITE : Color(0.5, 0.5, 0.5);
+  context.color().draw_text(Resources::editor_menu_font, get_label(), label_position, FontAlignment::ALIGN_LEFT, LAYER_GUI, text_color);
+
+  if (get_keyboard_shortcut().size())
+  {
+    label_position += Vector(get_rect().get_width() - 30.f, 0);
+    context.color().draw_text(Resources::editor_menu_font, get_keyboard_shortcut(), label_position, FontAlignment::ALIGN_RIGHT, LAYER_GUI);
+  }
+}
+
 void
 MenuListWidget::draw(DrawingContext& context)
 {
@@ -32,40 +99,7 @@ MenuListWidget::draw(DrawingContext& context)
   
   for(const auto& item : m_menu_items)
   {
-    if (item->is_enabled() && item->has_mouse_focus())
-    {
-      context.color().draw_filled_rect(item->get_rect(), Color::BLACK, LAYER_GUI);
-    }
-
-    auto item_selected_Handler = item->get_is_selected_handler();
-    if (item->is_enabled() && item_selected_Handler != nullptr)
-    {
-      auto target_rect = Rectf(item->get_rect().p1() + Vector(5, 5), item->get_rect().p1() + Vector(20, 20));
-      if (item_selected_Handler())
-      {
-        context.color().draw_surface_scaled(Resources::checkbox_checked, target_rect, LAYER_GUI);
-      }
-      else
-      {
-        context.color().draw_surface_scaled(Resources::checkbox, target_rect, LAYER_GUI);
-      }
-    }
-
-    // auto sprite = item->get_sprite();
-    // if (sprite != nullptr)
-    // {
-    //   auto sprite_rect = Rectf(pos + m_sprite_offset, sprite->get_size());
-    //   sprite->draw(context.color(), sprite_rect.p1(), LAYER_GUI);
-    // }
-    auto label_position = item->get_rect().p1() + m_label_offset;
-    auto text_color = item->is_enabled() ? Color::WHITE : Color(0.5, 0.5, 0.5);
-    context.color().draw_text(Resources::editor_menu_font, item->get_label(), label_position, FontAlignment::ALIGN_LEFT, LAYER_GUI, text_color);
-
-    if (item->get_keyboard_shortcut().size())
-    {
-      label_position += Vector(item->get_rect().get_width() - 30.f, 0);
-      context.color().draw_text(Resources::editor_menu_font, item->get_keyboard_shortcut(), label_position, FontAlignment::ALIGN_RIGHT, LAYER_GUI);
-    }
+    item->draw(context);
   }
 }
 
