@@ -586,7 +586,7 @@ EditorOverlayWidget::hover_object()
           else
           {
             cache_is_marker = true;
-            cache_layer = 2147483647;
+            cache_layer = INT_MAX;
             m_hovered_object = &moving_object;
           }
         }
