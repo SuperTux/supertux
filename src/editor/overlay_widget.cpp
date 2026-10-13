@@ -63,8 +63,8 @@ constexpr float PAN_SCROLLING_SCALE = 2.5f;
 bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos)
 {
   return pos.x >= 0 && pos.y >= 0 &&
-         pos.x < static_cast<float>(tilemap->get_width()) &&
-         pos.y < static_cast<float>(tilemap->get_height());
+         pos.x < tilemap->get_width() * 1.f &&
+         pos.y < tilemap->get_height() * 1.f;
 }
 
 } // namespace
