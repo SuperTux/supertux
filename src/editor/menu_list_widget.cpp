@@ -24,80 +24,20 @@
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
-MenuListItem::MenuListItem(const std::string& label, const std::function<void()> onclick_handler,
-  const std::string& sprite_path, const Rectf& rect) :
-    MenuListBaseItem(rect),
-    m_label(label),
-    m_keyboard_shortcut(""),
-    m_onclick_handler(onclick_handler),
-    m_is_selected_handler(nullptr),
-    m_is_enabled_handler(nullptr),
-    m_sprite(SpriteManager::current()->create(sprite_path))
-  {
-  }
-
-MenuListItem::MenuListItem(const std::string& label) :
-  MenuListBaseItem(),
-  m_label(label),
-  m_keyboard_shortcut(""),
-  m_onclick_handler([]{}),
-  m_is_selected_handler(nullptr),
-  m_is_enabled_handler(nullptr),
-  m_sprite(nullptr)
+MenuListWidget::MenuListWidget() :
+  Widget(),
+  m_menu_area(),
+  m_menu_items(),
+  m_menu_background_color(Color(0.15, 0.15, 0.15)),
+  m_menu_border_color(Color(0.25, 0.25, 0.25)),
+  m_visible(),
+  m_menu_offset(),
+  m_selected_item_idx()
 {
 }
 
-MenuListItem::MenuListItem(const std::string& label, const std::function<void()> onclick_handler) :
-  MenuListBaseItem(),
-  m_label(label),
-  m_keyboard_shortcut(""),
-  m_onclick_handler(onclick_handler),
-  m_is_selected_handler(nullptr),
-  m_is_enabled_handler(nullptr),
-  m_sprite(nullptr)
+MenuListWidget::~MenuListWidget()
 {
-}
-
-void
-MenuListItem::draw(DrawingContext& context)
-{
-  if (is_enabled() && has_mouse_focus())
-  {
-    context.color().draw_filled_rect(get_rect(), Color::BLACK, LAYER_GUI);
-  }
-
-  auto item_selected_Handler = get_is_selected_handler();
-  if (is_enabled() && item_selected_Handler != nullptr)
-  {
-    auto checkbox_graphics = item_selected_Handler() ? Resources::checkbox_checked : Resources::checkbox;
-    auto target_rect = Rectf(get_rect().p1() + Vector(5, 5), get_rect().p1() + Vector(20, 20));
-    context.color().draw_surface_scaled(checkbox_graphics, target_rect, LAYER_GUI);
-  }
-
-  // auto sprite = item->get_sprite();
-  // if (sprite != nullptr)
-  // {
-  //   auto sprite_rect = Rectf(pos + m_sprite_offset, sprite->get_size());
-  //   sprite->draw(context.color(), sprite_rect.p1(), LAYER_GUI);
-  // }
-  auto label_position = get_rect().p1() + m_label_offset;
-  auto text_color = is_enabled() ? Color::WHITE : Color(0.5, 0.5, 0.5);
-  context.color().draw_text(Resources::editor_menu_font, get_label(), label_position, FontAlignment::ALIGN_LEFT, LAYER_GUI, text_color);
-
-  if (get_keyboard_shortcut().size())
-  {
-    label_position += Vector(get_rect().get_width() - 30.f, 0);
-    context.color().draw_text(Resources::editor_menu_font, get_keyboard_shortcut(), label_position, FontAlignment::ALIGN_RIGHT, LAYER_GUI);
-  }
-}
-
-void
-MenuListSeparator::draw(DrawingContext& context)
-{
-  auto line_color = Color(0.5f, 0.5f, 0.5f);
-  auto line_start = get_rect().p1() + Vector(0, get_rect().get_height() / 2.f);
-  auto line_end = Vector(get_rect().p2().x, line_start.y);
-  context.color().draw_line(line_start, line_end, line_color, LAYER_GUI);
 }
 
 void
@@ -116,4 +56,61 @@ void
 MenuListWidget::update(float /* dt_sec */)
 {
   const auto& mouse_pos = Editor::current()->get_event_handling()->get_mouse_pos();
+}
+
+bool
+MenuListWidget::on_mouse_button_up(const SDL_MouseButtonEvent &button)
+{
+  return false;
+}
+
+bool
+MenuListWidget::on_mouse_button_down(const SDL_MouseButtonEvent &button) 
+{
+  bool event_handled = false;
+  for (const auto &item : m_menu_items)
+  {
+    event_handled |= item->on_mouse_button_down(button);
+  }
+  return event_handled;
+}
+
+bool
+MenuListWidget::on_mouse_motion(const SDL_MouseMotionEvent &motion)
+{
+  return has_mouse_focus();
+}
+
+void
+MenuListWidget::set_position(const Vector& position)
+{
+  int i = 0;
+  float max_item_width;
+  float total_menu_height;
+
+  for (const auto &item : m_menu_items)
+  {
+    auto item_pos = position + Vector(0, total_menu_height);
+    auto item_size = item->get_size();
+
+    if (item_size.width > max_item_width)
+      max_item_width = item_size.width;
+
+    total_menu_height += item_size.height;
+    auto rect = Rectf(item_pos, item_size);
+    item->set_rect(rect);
+
+    i++;
+  }
+
+  auto menu_size = Vector(max_item_width, total_menu_height) + m_menu_offset;
+  m_menu_area = Rectf(position, position + menu_size);
+}
+
+bool
+MenuListWidget::has_mouse_focus() const
+{
+  auto editor = Editor::current();
+  auto mouse_pos = editor->get_event_handling()->get_mouse_pos();
+  return m_menu_area.contains(mouse_pos);
 }
