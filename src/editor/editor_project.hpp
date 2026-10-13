@@ -163,7 +163,7 @@ public:
   /**
    * Returns ""true"" if a level is currently loaded, otherwise false
    */
-  inline bool is_level_loaded() const { return m_level_loaded; }
+  inline bool is_level_loaded() const { return m_is_level_loaded; }
 
   /**
    * Creates an empty world for temporary levels
@@ -180,7 +180,7 @@ public:
    * Returns ""true"" when the current level is a temporary level
    * that hasn't been saved yet.
    */
-  inline bool is_temp_level() const { return m_temp_level; }
+  inline bool is_temp_level() const { return m_is_temp_level; }
 
   /**
    * Returns ""true"", when the current project is a worldmap
@@ -399,10 +399,10 @@ private:
   TileSet* m_tileset;
   Sector* m_sector;
 
-  bool m_temp_level;
+  bool m_is_temp_level;
   std::string m_level_filename;
   std::string m_autosave_filename;
-  bool m_level_loaded;
+  bool m_is_level_loaded;
   float m_time_since_last_save;
 
   std::function<void ()> m_post_save_callback;
