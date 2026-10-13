@@ -50,11 +50,11 @@ EditorProject::EditorProject() :
   m_autosave_filename(),
   m_is_level_loaded(),
   m_time_since_last_save(),
-  m_post_save_callback(nullptr),
-  m_on_level_set_callback(nullptr),
-  m_on_level_file_set_callback(nullptr),
-  m_on_sector_set_callback(nullptr),
-  m_on_tileset_reloaded_callback(nullptr),
+  m_post_save_callbacks(),
+  m_on_level_set_callbacks(),
+  m_on_level_file_set_callbacks(),
+  m_on_sector_set_callbacks(),
+  m_on_tileset_reloaded_callbacks(),
   m_particle_editor_filepath(nullptr)
 {
 }
@@ -254,9 +254,9 @@ EditorProject::set_level(std::unique_ptr<Level> level)
 
   m_is_level_loaded = true;
 
-  if (m_on_level_set_callback != nullptr)
+  for(const auto& callback : m_on_level_set_callbacks)
   {
-    m_on_level_set_callback();
+    callback();
   }
 
   load_sector(DEFAULT_SECTOR_NAME);
@@ -266,7 +266,7 @@ bool
 EditorProject::save_level(const std::string& filename, bool set_as_current_filename,
                           const std::function<void ()>& post_save_callback, bool save_temp_level)
 {
-  m_post_save_callback = post_save_callback;
+  m_post_save_callbacks.push_back(post_save_callback);
 
   if (m_is_temp_level && !save_temp_level)
   {
@@ -321,11 +321,12 @@ EditorProject::get_default_save_filename(const std::string &suggested_filename)
 void
 EditorProject::trigger_post_save_callback()
 {
-  if (m_post_save_callback)
+  for (const auto& callback : m_post_save_callbacks)
   {
-    m_post_save_callback();
-    m_post_save_callback = nullptr;
+    callback();
   }
+
+  m_post_save_callbacks.clear();
 }
 
 void
@@ -457,9 +458,9 @@ EditorProject::set_sector(Sector* sector)
     }
   }
 
-  if (m_on_sector_set_callback != nullptr)
+  for(const auto& callback : m_on_sector_set_callbacks)
   {
-    m_on_sector_set_callback();
+    callback();
   }
 }
 
@@ -528,9 +529,9 @@ EditorProject::reload_tileset_from_level()
 
   set_tileset(tileset);
 
-  if (m_on_tileset_reloaded_callback != nullptr)
+  for(const auto& callback : m_on_tileset_reloaded_callbacks)
   {
-    m_on_tileset_reloaded_callback();
+    callback();
   }
 }
 

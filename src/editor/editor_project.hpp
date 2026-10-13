@@ -110,9 +110,9 @@ public:
   { 
     m_level_filename = levelfile;
 
-    if (m_on_level_file_set_callback != nullptr)
+    for(const auto& callback : m_on_level_file_set_callbacks)
     {
-      m_on_level_file_set_callback();
+      callback();
     }
   }
 
@@ -122,7 +122,7 @@ public:
    */
   void set_on_level_file_set_callback(std::function<void()> callback)
   {
-    m_on_level_file_set_callback = callback;
+    m_on_level_file_set_callbacks.push_back(callback);
   }
 
   /**
@@ -152,7 +152,7 @@ public:
    */
   void set_on_level_set_callback(std::function<void()> callback)
   {
-    m_on_level_set_callback = callback;
+    m_on_level_set_callbacks.push_back(callback);
   }
 
   /**
@@ -214,7 +214,7 @@ public:
    */
   void set_on_sector_set_callback(std::function<void()> callback)
   {
-    m_on_sector_set_callback = callback;
+    m_on_sector_set_callbacks.push_back(callback);
   }
 
   /**
@@ -254,7 +254,7 @@ public:
 
   void set_on_tileset_reloaded_callback(std::function<void()> callback)
   {
-    m_on_tileset_reloaded_callback = callback;
+    m_on_tileset_reloaded_callbacks.push_back(callback);
   }
 
   /**
@@ -405,12 +405,11 @@ private:
   bool m_is_level_loaded;
   float m_time_since_last_save;
 
-  std::function<void ()> m_post_save_callback;
-
-  std::function<void()> m_on_level_set_callback;
-  std::function<void()> m_on_level_file_set_callback;
-  std::function<void()> m_on_sector_set_callback;
-  std::function<void()> m_on_tileset_reloaded_callback;
+  std::vector<std::function<void()>> m_post_save_callbacks;
+  std::vector<std::function<void()>> m_on_level_set_callbacks;
+  std::vector<std::function<void()>> m_on_level_file_set_callbacks;
+  std::vector<std::function<void()>> m_on_sector_set_callbacks;
+  std::vector<std::function<void()>> m_on_tileset_reloaded_callbacks;
 
   std::string* m_particle_editor_filepath;
 };
