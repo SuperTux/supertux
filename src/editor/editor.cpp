@@ -79,6 +79,7 @@ Editor::Editor() :
   m_tile_converter(new EditorTileConverter),
   m_event_handling(new EditorEventHandling),
   m_selected_object(),
+  m_selected_object_class_name(),
   m_testing_disabled(false),
   m_enabled(false),
   m_input_mode(InputMode::NONE),

@@ -208,7 +208,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
               case InputMode::NONE:
               case InputMode::OBJECT:
               {
-                m_tilebox->set_selected_object_class_name(NodeMarker::class_name());
+                m_editor.set_selected_object_class_name(NodeMarker::class_name());
               }
               break;
               default:
@@ -246,7 +246,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 void
 EditorToolboxWidget::set_rubber_tool()
 {
-  m_tilebox->set_selected_object_class_name("");
+  m_editor.set_selected_object_class_name("");
   m_tilebox->get_tiles()->set_tile(0);
   m_editor.get_overlay_widget()->update_autotileset();
   update_mouse_icon();
@@ -255,7 +255,7 @@ EditorToolboxWidget::set_rubber_tool()
 void
 EditorToolboxWidget::set_mouse_tool()
 {
-  m_tilebox->set_selected_object_class_name("#move");
+  m_editor.set_selected_object_class_name("#move");
   update_mouse_icon();
 }
 
@@ -532,7 +532,7 @@ EditorToolboxWidget::get_mouse_icon() const
     case InputMode::NONE:
     case InputMode::OBJECT:
     {
-      const std::string& object_class_name = m_tilebox->get_selected_object_class_name();
+      const std::string& object_class_name = m_editor.get_selected_object_class_name();
       const auto &node_marker_class_name = NodeMarker::class_name();
       if (object_class_name.empty())
         return m_rubber.get();

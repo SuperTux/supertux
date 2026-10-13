@@ -132,7 +132,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
       std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png", [this]
       {
         const auto& node_marker_class = NodeMarker::class_name();
-        Editor::current()->get_tilebox().set_selected_object_class_name(node_marker_class);
+        Editor::current()->set_selected_object_class_name(node_marker_class);
       }, _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
 
       // Select mode
