@@ -81,7 +81,7 @@ ControlTextbox::draw(DrawingContext& context)
   context.color().draw_filled_rect(m_rect,
                                    m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f)
                                                : Color(0.5f, 0.5f, 0.5f, 1.f),
-                                   LAYER_GUI);
+                                   2.f, LAYER_GUI);
 
   if (m_caret_pos != m_secondary_caret_pos) {
     float lgt1 = Resources::small_font
