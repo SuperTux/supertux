@@ -66,9 +66,11 @@ public:
   MenuListSeparator() :
     MenuListBaseItem()
   {
+    set_size(Sizef(DEFAULT_SIZE.width, DEFAULT_SIZE.height / 4.f));
   }
 
 public:
+  virtual void draw(DrawingContext &context) override;
   virtual bool is_separator() override { return true; }
 };
 class MenuListItem : public MenuListBaseItem
@@ -86,6 +88,21 @@ public:
   MenuListItem(const std::string &label, const std::function<void()> onclick_handler);
 
   virtual void draw(DrawingContext& context) override;
+
+  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent &button) override
+  {
+    if (is_enabled() && has_mouse_focus())
+    {
+      auto item_handler = get_onclick_handler();
+      if (item_handler != nullptr)
+      {
+        item_handler();
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   const std::string &get_label() const { return m_label; }
 
@@ -166,23 +183,16 @@ public:
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent &button) override { return false; }
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent &button) override 
   {
-    for(const auto& item : m_menu_items)
+    bool event_handled = false;
+    for (const auto &item : m_menu_items)
     {
-      if (item->is_enabled() && item->has_mouse_focus())
-      {
-        auto item_handler = item->get_onclick_handler();
-        if (item_handler != nullptr)
-        {
-          item_handler();
-          return true;
-        }
-      }
+      event_handled |= item->on_mouse_button_down(button);
     }
-    return false;
+    return event_handled;
   }
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent &motion) override { return has_mouse_focus(); }
 
-  void add_item(std::unique_ptr<MenuListItem> item)
+  void add_item(std::unique_ptr<MenuListBaseItem> item)
   {
     m_menu_items.push_back(std::move(item));
   }
@@ -197,14 +207,13 @@ public:
 
     for (const auto &item : m_menu_items)
     {
+      auto item_pos = position + Vector(0, total_menu_height);
       auto item_size = item->get_size();
 
       if (item_size.width > max_item_width)
         max_item_width = item_size.width;
 
       total_menu_height += item_size.height;
-
-      auto item_pos = position + Vector(0, i * item_size.height);
       auto rect = Rectf(item_pos, item_size);
       item->set_rect(rect);
 
@@ -226,7 +235,7 @@ public:
 
 private:
   Rectf m_menu_area;
-  std::vector<std::unique_ptr<MenuListItem>> m_menu_items;
+  std::vector<std::unique_ptr<MenuListBaseItem>> m_menu_items;
   Color m_menu_background_color;
   Color m_menu_border_color;
   bool m_visible;
