@@ -331,6 +331,8 @@ EditorToolbarWidget::create_grid_button() const
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png", []{},
       _("Change grid size"));
 
+  auto menu_list = grid_button->get_menu_list();
+
   auto snap_grid_sizes = {
     _("No Grid"),
     _("Tiny Grid (4px)"),
@@ -340,8 +342,6 @@ EditorToolbarWidget::create_grid_button() const
   };
 
   int grid_size_idx = 0;
-
-  auto menu_list = grid_button->get_menu_list();
 
   for (const auto &grid_size : snap_grid_sizes)
   {
@@ -369,6 +369,12 @@ EditorToolbarWidget::create_grid_button() const
     menu_list->add_item(std::move(menu_item));
     grid_size_idx++;
   }
+
+  auto snap_to_grid = []() { g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid; };
+  auto menu_item = std::make_unique<MenuListItem>(_("Snap To Grid"), snap_to_grid);
+  menu_item->set_is_selected_handler([]{ return g_config->editor_snap_to_grid; });
+
+  menu_list->add_item(std::move(menu_item));
 
   return grid_button;
 }
