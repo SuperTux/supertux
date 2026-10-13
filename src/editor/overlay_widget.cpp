@@ -773,41 +773,44 @@ EditorOverlayWidget::show_object_menu(GameObject& object)
 void
 EditorOverlayWidget::move_object()
 {
-  if (m_dragged_object)
+  if (!m_dragged_object)
   {
-    if (!m_dragged_object->is_valid())
-    {
-      m_dragged_object = nullptr;
-      return;
-    }
-    Vector new_pos = m_sector_pos - m_obj_mouse_desync;
-    if (g_config->editor_snap_to_grid)
-    {
-      auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-      new_pos = glm::round(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
-
-      auto pm = dynamic_cast<MarkerObject*>(m_dragged_object.get());
-      if (pm)
-        new_pos -= pm->get_offset();
-    }
-
-    // TODO: Temporarily disabled during ongoing discussion
-    // Special case: Bezier markers should influence each other when holding shift
-    // auto editor_events = m_editor.get_event_handling();
-    // if (editor_events->get_alt_pressed()) {
-    //  auto bm = dynamic_cast<BezierMarker*>(m_dragged_object);
-    //  if (bm) {
-    //    auto nm = bm->get_parent();
-    //    if (nm) {
-    //      nm->move_other_marker(bm->get_uid(), nm->get_pos() * 2.f - new_pos);
-    //    } else {
-    //      log_warning << "Moving bezier handles without parent NodeMarker" << std::endl;
-    //    }
-    //  }
-    //}
-
-    m_dragged_object->move_to(new_pos);
+    return;
   }
+
+  if (!m_dragged_object->is_valid())
+  {
+    m_dragged_object = nullptr;
+    return;
+  }
+
+  Vector new_pos = m_sector_pos - m_obj_mouse_desync;
+  if (g_config->editor_snap_to_grid)
+  {
+    auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
+    new_pos = glm::round(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
+
+    auto pm = dynamic_cast<MarkerObject*>(m_dragged_object.get());
+    if (pm)
+      new_pos -= pm->get_offset();
+  }
+
+  // TODO: Temporarily disabled during ongoing discussion
+  // Special case: Bezier markers should influence each other when holding shift
+  // auto editor_events = m_editor.get_event_handling();
+  // if (editor_events->get_alt_pressed()) {
+  //  auto bm = dynamic_cast<BezierMarker*>(m_dragged_object);
+  //  if (bm) {
+  //    auto nm = bm->get_parent();
+  //    if (nm) {
+  //      nm->move_other_marker(bm->get_uid(), nm->get_pos() * 2.f - new_pos);
+  //    } else {
+  //      log_warning << "Moving bezier handles without parent NodeMarker" << std::endl;
+  //    }
+  //  }
+  //}
+
+  m_dragged_object->move_to(new_pos);
 }
 
 void
