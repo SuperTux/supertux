@@ -55,7 +55,6 @@ MenuListWidget::draw(DrawingContext& context)
 void
 MenuListWidget::update(float /* dt_sec */)
 {
-  const auto& mouse_pos = Editor::current()->get_event_handling()->get_mouse_pos();
 }
 
 bool
