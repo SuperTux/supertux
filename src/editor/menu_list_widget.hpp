@@ -197,6 +197,11 @@ public:
     m_menu_items.push_back(std::move(item));
   }
 
+  void add_separator()
+  {
+    add_item(std::make_unique<MenuListSeparator>());
+  }
+
   size_t get_item_count() const { return m_menu_items.size(); }
 
   inline void set_position(const Vector& position)
