@@ -41,7 +41,6 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_editor(editor),
   m_rect(rect),
   m_tiles(new TileSelection()),
-  m_selected_object_class_name(),
   m_tilegroup_id(0),
   m_objectgroup_id(0),
   m_object_tip(new Tip()),
@@ -272,7 +271,7 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             int size = static_cast<int>(icons.size());
             if (m_hovered_tile < size && m_hovered_tile >= 0)
             {
-              m_selected_object_class_name = icons[m_hovered_tile].get_object_class_name();
+              m_editor.set_selected_object_class_name(icons[m_hovered_tile].get_object_class_name());
               m_on_select_callback(*this);
             }
           }
