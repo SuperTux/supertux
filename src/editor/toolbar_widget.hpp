@@ -26,6 +26,7 @@
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 
+class EditorToolbarBaseWidget;
 class EditorToolbarButtonWidget;
 
 /** The toolbar is at the top of the screen and offers easy access to the most commonly used functions of the editor. */
@@ -56,7 +57,7 @@ private:
   Editor& m_editor;
   EditorToolbarButtonWidget* m_undo_widget;
   EditorToolbarButtonWidget* m_redo_widget;
-  std::vector<std::unique_ptr<EditorToolbarButtonWidget> > m_widgets;
+  std::vector<std::unique_ptr<EditorToolbarBaseWidget> > m_widgets;
 
   float m_widgets_width;
   float m_widgets_width_offset;
