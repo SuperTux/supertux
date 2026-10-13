@@ -45,10 +45,10 @@ EditorProject::EditorProject() :
   m_level(),
   m_tileset(),
   m_sector(),
-  m_temp_level(true),
+  m_is_temp_level(true),
   m_level_filename(),
   m_autosave_filename(),
-  m_level_loaded(),
+  m_is_level_loaded(),
   m_time_since_last_save(),
   m_post_save_callback(nullptr),
   m_on_level_set_callback(nullptr),
@@ -127,7 +127,7 @@ EditorProject::load_initial_level()
 void
 EditorProject::reactivate()
 {
-  m_level_loaded = true;
+  m_is_level_loaded = true;
   m_level->reactivate();
   m_sector->activate(Vector(0, 0));
 }
@@ -135,7 +135,7 @@ EditorProject::reactivate()
 void
 EditorProject::reset()
 {
-  m_level_loaded = false;
+  m_is_level_loaded = false;
   m_level.reset();
   m_world.reset();
   m_level_filename.clear();
@@ -193,9 +193,9 @@ EditorProject::create_empty_project()
       physfsutil::get_first_nonexisting_filename(m_world->get_basedir(), "level", ".stl", false, &level_number);
 
   m_level->m_name = "Level " + std::to_string(level_number);
-  m_level_loaded = true;
+  m_is_level_loaded = true;
 
-  m_temp_level = true;
+  m_is_temp_level = true;
 
   // Editor::current()->reload_level();
   g_config->editor_last_edited_level = "";
@@ -243,7 +243,7 @@ EditorProject::set_level(std::unique_ptr<Level> level)
   if (level)
   {
     m_level = std::move(level);
-    m_temp_level = false;
+    m_is_temp_level = false;
   }
   else
   {
@@ -252,7 +252,7 @@ EditorProject::set_level(std::unique_ptr<Level> level)
 
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
 
-  m_level_loaded = true;
+  m_is_level_loaded = true;
 
   if (m_on_level_set_callback != nullptr)
   {
@@ -268,15 +268,15 @@ EditorProject::save_level(const std::string& filename, bool set_as_current_filen
 {
   m_post_save_callback = post_save_callback;
 
-  if (m_temp_level && !save_temp_level)
+  if (m_is_temp_level && !save_temp_level)
   {
     MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
     return false;
   }
 
-  if (m_temp_level)
+  if (m_is_temp_level)
   {
-    m_temp_level = false;
+    m_is_temp_level = false;
     // Implied
     set_as_current_filename = true;
   }
@@ -341,7 +341,7 @@ EditorProject::reload_level()
 void
 EditorProject::check_autosave(float dt_sec)
 {
-  if (!m_level || m_temp_level)
+  if (!m_level || m_is_temp_level)
   {
     m_time_since_last_save = 0.f;
     return;
@@ -384,7 +384,7 @@ EditorProject::autosave()
 void
 EditorProject::remove_autosave_file()
 {
-  if (m_temp_level)
+  if (m_is_temp_level)
     return;
 
   // Clear the auto-save file.
@@ -436,7 +436,7 @@ EditorProject::get_world_levelset(World* world, bool parse_level_names)
 void
 EditorProject::open_level_directory()
 {
-  if (m_temp_level)
+  if (m_is_temp_level)
     return;
 
   m_level->save(FileSystem::join(get_level_directory(), m_level_filename));
@@ -653,7 +653,7 @@ EditorProject::has_unsaved_changes() const
 void
 EditorProject::check_unsaved_changes(const std::function<void ()>& action)
 {
-  if (!m_level_loaded || !has_unsaved_changes())
+  if (!m_is_level_loaded || !has_unsaved_changes())
   {
     action();
     return;
@@ -662,7 +662,7 @@ EditorProject::check_unsaved_changes(const std::function<void ()>& action)
   auto editor = Editor::current();
   editor->set_enabled(false);
   auto dialog = std::make_unique<Dialog>();
-  if (m_temp_level)
+  if (m_is_temp_level)
     dialog->set_text( is_worldmap() ?
       _("This worldmap hasn't been saved yet. Do you want to save it instead?") :
       _("This level hasn't been saved yet. Do you want to save it instead?"));
@@ -674,7 +674,7 @@ EditorProject::check_unsaved_changes(const std::function<void ()>& action)
                       _("This level may contain unsaved changes, do you want to save?"));
     dialog->add_default_button(_("Yes"), [this, action, editor] {
       check_save_prerequisites([this, action, editor] {
-        save_level("", false, action, m_temp_level);
+        save_level("", false, action, m_is_temp_level);
         editor->set_enabled(true);
       });
   });
