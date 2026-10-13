@@ -26,42 +26,66 @@
 #include <functional>
 #include <vector>
 
-class MenuListItem
+class MenuListBaseItem : public Widget
 {
 public:
-  MenuListItem(const std::string& label, const std::function<void()> onclick_handler,
-               const std::string& sprite_path, const Rectf& rect) :
-    m_label(label),
-    m_keyboard_shortcut(""),
-    m_onclick_handler(onclick_handler),
-    m_is_selected_handler(nullptr),
-    m_is_enabled_handler(nullptr),
-    m_sprite(SpriteManager::current()->create(sprite_path)),
-    m_rect(rect)
+  inline static Sizef DEFAULT_SIZE = Sizef(200.f, 25.f);
+
+public:
+  MenuListBaseItem() :
+    m_rect(Rectf(0, 0, 0, 0)),
+    m_size(DEFAULT_SIZE)
   {
   }
 
-  MenuListItem(const std::string& label) :
-    m_label(label),
-    m_keyboard_shortcut(""),
-    m_onclick_handler([]{}),
-    m_is_selected_handler(nullptr),
-    m_is_enabled_handler(nullptr),
-    m_sprite(nullptr),
-    m_rect(Rectf(0, 0, 0, 0))
+  MenuListBaseItem(const Rectf& rect) :
+    m_rect(rect),
+    m_size(DEFAULT_SIZE)
   {
   }
 
-  MenuListItem(const std::string& label, const std::function<void()> onclick_handler) :
-    m_label(label),
-    m_keyboard_shortcut(""),
-    m_onclick_handler(onclick_handler),
-    m_is_selected_handler(nullptr),
-    m_is_enabled_handler(nullptr),
-    m_sprite(nullptr),
-    m_rect(Rectf(0, 0, 0, 0))
+  virtual bool is_separator() { return false; }
+
+public:
+  const Rectf &get_rect() const { return m_rect; }
+  inline void set_rect(const Rectf &rect) { m_rect = rect; }
+
+  Sizef get_size() const { return m_size; }
+  inline void set_size(const Sizef &size) {
+    m_size = size;
+  }
+
+protected:
+  Rectf m_rect;
+  Sizef m_size;
+};
+
+class MenuListSeparator: public MenuListBaseItem
+{
+public:
+  MenuListSeparator() :
+    MenuListBaseItem()
   {
   }
+
+public:
+  virtual bool is_separator() override { return true; }
+};
+class MenuListItem : public MenuListBaseItem
+{
+private:
+  static constexpr Vector m_sprite_offset = {2.f, 2.f};
+  static constexpr Vector m_label_offset  = {25.f, 7.5f};
+
+public:
+  MenuListItem(const std::string &label, const std::function<void()> onclick_handler,
+               const std::string &sprite_path, const Rectf &rect);
+
+  MenuListItem(const std::string &label);
+
+  MenuListItem(const std::string &label, const std::function<void()> onclick_handler);
+
+  virtual void draw(DrawingContext& context) override;
 
   const std::string &get_label() const { return m_label; }
 
@@ -98,9 +122,6 @@ public:
 
   Sprite* get_sprite() const { return m_sprite.get(); }
 
-  const Rectf &get_rect() const { return m_rect; }
-  inline void set_rect(const Rectf &rect) { m_rect = rect; }
-
   inline bool has_mouse_focus() const
   {
     auto editor = Editor::current();
@@ -115,7 +136,6 @@ private:
   std::function<bool()> m_is_selected_handler;
   std::function<bool()> m_is_enabled_handler;
   SpritePtr m_sprite;
-  Rectf m_rect;
 };
 
 class MenuListWidget : Widget
@@ -128,10 +148,7 @@ public:
     m_menu_background_color(Color(0.15, 0.15, 0.15)),
     m_menu_border_color(Color(0.25, 0.25, 0.25)),
     m_visible(),
-    m_item_size(Sizef(200.f, 25.f)),
     m_menu_offset(),
-    m_sprite_offset({2.f, 2.f}),
-    m_label_offset({25.f, 7.5f}),
     m_selected_item_idx()
   {
   }
@@ -175,16 +192,26 @@ public:
   inline void set_position(const Vector& position)
   {
     int i = 0;
+    float max_item_width;
+    float total_menu_height;
+
     for (const auto &item : m_menu_items)
     {
-      auto item_pos = position + Vector(0, i * m_item_size.height);
-      auto rect = Rectf(item_pos, m_item_size);
+      auto item_size = item->get_size();
+
+      if (item_size.width > max_item_width)
+        max_item_width = item_size.width;
+
+      total_menu_height += item_size.height;
+
+      auto item_pos = position + Vector(0, i * item_size.height);
+      auto rect = Rectf(item_pos, item_size);
       item->set_rect(rect);
 
       i++;
     }
 
-    auto menu_size = Vector(m_item_size.width, m_item_size.height * m_menu_items.size()) + m_menu_offset;
+    auto menu_size = Vector(max_item_width, total_menu_height) + m_menu_offset;
     m_menu_area = Rectf(position, position + menu_size);
   }
 
@@ -203,9 +230,6 @@ private:
   Color m_menu_background_color;
   Color m_menu_border_color;
   bool m_visible;
-  Sizef m_item_size;
   Vector m_menu_offset;
-  Vector m_sprite_offset;
-  Vector m_label_offset;
   int m_selected_item_idx;
 };
