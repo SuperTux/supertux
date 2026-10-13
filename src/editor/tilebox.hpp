@@ -84,20 +84,6 @@ public:
 
   inline TileSelection* get_tiles() const { return m_tiles.get(); }
 
-  /**
-   * Returns the class name of the current selected object
-   * @return class name of the currently selected object
-   * @see \code{GameObject::get_class();} and child classes
-   */
-  inline const std::string& get_selected_object_class_name() const { return m_selected_object_class_name; }
-
-  /**
-   * Sets the "class" of the current selected object
-   * @param object_class_name The class name of the current selected object
-   * @see \code{GameObject::get_class();} and child classes
-   */
-  inline void set_selected_object_class_name(const std::string& object_class_name) { m_selected_object_class_name = object_class_name; }
-
   float get_tiles_height() const;
 
   inline bool has_active_object_tip() const { return m_object_tip->get_visible(); }
@@ -130,7 +116,6 @@ private:
 
   std::unique_ptr<TileSelection> m_tiles;
 
-  std::string m_selected_object_class_name;
   std::unique_ptr<Tip> m_object_tip;
 
   ObjectGroup* m_active_objectgroup;
