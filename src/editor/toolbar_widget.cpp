@@ -146,6 +146,13 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
                                                   _("Duplicate mode (Clicking duplicates the object under the mouse)")),
   };
 
+  m_undo_widget = general_widgets[0].get();
+  m_redo_widget = general_widgets[1].get();
+
+  m_undo_widget->set_disabled(true);
+  m_redo_widget->set_disabled(true);
+
+
   size_t i = 0;
   for (auto &widget : general_widgets)
   {
@@ -178,12 +185,6 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     ++i;
   }
   m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
-
-  m_undo_widget = m_widgets[0].get();
-  m_redo_widget = m_widgets[1].get();
-  m_undo_widget->set_disabled(true);
-  m_redo_widget->set_disabled(true);
-
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
   //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
   //     std::ostringstream level_ostream;
