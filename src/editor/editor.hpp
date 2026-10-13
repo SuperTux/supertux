@@ -105,13 +105,25 @@ public:
   inline TileSelection* get_selected_tiles() const { return get_tilebox().get_tiles(); }
 
   inline EditorPropertiesPanel* get_properties_panel() const { return m_properties_panel; }
-  inline const std::string& get_selected_object_class_name() const { return get_tilebox().get_selected_object_class_name(); }
-
   inline InputMode get_input_mode() const { return m_input_mode; }
   void set_input_mode(const InputMode &input_mode);
 
   inline int get_tileselect_select_mode() const { return m_toolbox_widget->get_tileselect_select_mode(); }
   inline int get_object_select_mode() const { return m_toolbox_widget->get_object_select_mode(); }
+
+  /**
+   * Returns the class name of the current selected object
+   * @return class name of the currently selected object
+   * @see \code{GameObject::get_class();} and child classes
+   */
+  inline const std::string& get_selected_object_class_name() const { return m_selected_object_class_name; }
+
+  /**
+   * Sets the "class" of the current selected object
+   * @param object_class_name The class name of the current selected object
+   * @see \code{GameObject::get_class();} and child classes
+   */
+  inline void set_selected_object_class_name(const std::string& object_class_name) { m_selected_object_class_name = object_class_name; }
 
   void on_level_set();
 
@@ -250,6 +262,7 @@ private:
   std::unique_ptr<EditorEventHandling> m_event_handling;
 
   TypedUID<GameObject> m_selected_object;
+  std::string m_selected_object_class_name;
 
   bool m_enabled;
   InputMode m_input_mode;

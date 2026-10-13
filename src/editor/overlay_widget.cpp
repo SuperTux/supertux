@@ -705,7 +705,7 @@ EditorOverlayWidget::grab_object()
   {
     m_dragged_object = nullptr;
 
-    const auto& selected_object_class_name = m_editor.get_tilebox().get_selected_object_class_name();
+    const auto& selected_object_class_name = m_editor.get_selected_object_class_name();
     const auto& node_marker_class = NodeMarker::class_name();
 
     if (m_edited_path && m_edited_path->is_valid() &&
