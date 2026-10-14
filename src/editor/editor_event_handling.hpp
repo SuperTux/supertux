@@ -40,10 +40,10 @@ public:
   void on_event(const SDL_Event& ev);
 
   /**
-   * Resets the internal state of the input
-   * variables to default values
+   * Resets the internal state of the input variables
+   * to default values
    */
-  void reset_state();
+  void reset_internal_state();
 
   /**
    * Class that gets called when a controller key press occurred
