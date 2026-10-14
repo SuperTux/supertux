@@ -81,7 +81,7 @@ public:
 
   Rectf get_rect() const;
 
-  float *get_scale_ptr();
+  inline float * const get_scale_ptr() { return &m_scale; }
 
   /** \addtogroup CameraAPI
       @{ */
