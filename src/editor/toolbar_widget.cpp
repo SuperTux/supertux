@@ -50,6 +50,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_editor(editor),
   m_undo_widget(),
   m_redo_widget(),
+  m_zoom_widget(),
   m_widgets(),
   m_widgets_width(0.f),
   m_widgets_width_offset(0.f)
@@ -192,6 +193,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   zoom_widget->set_position(pos);
 
   m_widgets.push_back(std::move(zoom_widget));
+  m_zoom_widget = (EditorToolbarZoomWidget*)(m_widgets.back().get());
 
   m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
@@ -467,6 +469,12 @@ EditorToolbarWidget::update(float dt_sec)
   {
     widget->update(dt_sec);
   }
+}
+
+bool
+EditorToolbarWidget::has_focus() const
+{
+  return m_zoom_widget->has_focus();
 }
 
 void
