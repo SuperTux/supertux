@@ -102,7 +102,7 @@ function textbox_outro()
 
   wait(1);
 
-  Text.set_text(_("They offered to show Tux the way. It was the least they could do to show their gratitute."));
+  Text.set_text(_("They offered to show Tux the way. It was the least they could do to show their gratitude."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
