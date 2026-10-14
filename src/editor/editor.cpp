@@ -470,7 +470,7 @@ Editor::reactivate_after_menu_close()
 
   Tile::draw_editor_images = true;
 
-  m_event_handling->reset_state();
+  m_event_handling->reset_internal_state();
 }
 
 void
