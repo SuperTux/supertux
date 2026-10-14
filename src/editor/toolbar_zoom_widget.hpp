@@ -42,42 +42,19 @@ public:
   virtual void draw(DrawingContext &context) override;
   virtual bool event(const SDL_Event &ev) override
   {
+    EditorToolbarBaseWidget::event(ev);
     return m_control_textbox->event(ev);
   }
-  virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override 
-  {
-    return m_control_textbox->on_mouse_button_up(button);
-  }
-  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override
-  {
-    return m_control_textbox->on_mouse_button_down(button);
-  }
-  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override
-  {
-    return m_control_textbox->on_mouse_motion(motion);
-  }
-  virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override
-  { 
-    return m_control_textbox->on_mouse_wheel(wheel);
-  }
-  virtual bool on_key_up(const SDL_KeyboardEvent& key) override
-  {
-    return m_control_textbox->on_key_up(key);
-  }
-  virtual bool on_key_down(const SDL_KeyboardEvent& key) override
-  { 
-    return m_control_textbox->on_key_down(key);
-  }
 
-  bool has_focus() const
-  {
-    return m_control_textbox->has_focus();
-  }
+  bool has_focus() const { return m_control_textbox->has_focus() || m_menu_list->has_mouse_focus(); }
+
+  inline float* const get_scale_ptr() { return m_scale_ptr; }
 
   virtual void set_position(const Vector &position) override;
 
 protected:
   std::unique_ptr<ControlTextboxFloat> m_control_textbox;
+  float* m_scale_ptr;
 
 private:
   EditorToolbarZoomWidget(const EditorToolbarZoomWidget&) = delete;
