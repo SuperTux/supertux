@@ -54,6 +54,11 @@ ControlTextboxInt::on_key_down(const SDL_KeyboardEvent& key)
     if (key.key == SDLK_UP)
       *m_value += step_size;
 
+    if (m_validate_int != nullptr)
+    {
+      m_validate_int(this, *m_value);
+    }
+
     revert_value();
 
     return true;

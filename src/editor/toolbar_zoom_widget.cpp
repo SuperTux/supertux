@@ -25,13 +25,19 @@ EditorToolbarZoomWidget::EditorToolbarZoomWidget() :
 {
   m_control_textbox->set_step_size(0.1f);
   m_control_textbox->set_large_step_size(1.f);
-  m_control_textbox->m_validate_float = [](ControlTextboxFloat* _, float value)
+  m_control_textbox->m_validate_float = [](ControlTextboxFloat* textbox, float value)
   {
     if (value > CAMERA_MAX_ZOOM)
+    {
+      textbox->set_value(CAMERA_MAX_ZOOM);
       return false;
+    }
 
     if (value < CAMERA_MIN_ZOOM)
+    {
+      textbox->set_value(CAMERA_MIN_ZOOM);
       return false;
+    }
 
     return true;
   };
