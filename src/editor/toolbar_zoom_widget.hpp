@@ -48,7 +48,8 @@ public:
 
   bool has_focus() const { return m_control_textbox->has_focus() || m_menu_list->has_mouse_focus(); }
 
-  inline float* const get_scale_ptr() { return m_scale_ptr; }
+  float get_scale_value() const { return m_control_textbox->get_value(); }
+  inline void set_scale_value(float value) { m_control_textbox->set_value(value); }
 
   virtual void set_position(const Vector &position) override;
 

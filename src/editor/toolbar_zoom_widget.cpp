@@ -24,6 +24,10 @@ EditorToolbarZoomWidget::EditorToolbarZoomWidget() :
   m_control_textbox(std::make_unique<ControlTextboxFloat>()),
   m_scale_ptr(nullptr)
 {
+  auto editor = Editor::current();
+  auto editor_camera = editor->get_camera();
+  auto editor_project = editor->get_project();
+
   m_control_textbox->set_step_size(0.1f);
   m_control_textbox->set_large_step_size(1.f);
   m_control_textbox->m_validate_float = [](ControlTextboxFloat* textbox, float value)
@@ -43,8 +47,12 @@ EditorToolbarZoomWidget::EditorToolbarZoomWidget() :
     return true;
   };
 
-  auto editor = Editor::current();
-  auto editor_project = editor->get_project();
+  auto on_change = [editor_camera]
+  {
+    editor_camera->keep_in_bounds();
+  };
+  m_control_textbox->m_on_change_callbacks.push_back(on_change);
+
   auto on_sector_set = [this, editor_project]
   {
     auto sector = editor_project->get_sector();
