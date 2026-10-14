@@ -17,12 +17,26 @@
 #include "editor/toolbar_zoom_widget.hpp"
 
 #include "editor/editor_camera.hpp"
+#include "editor/menu_list_item.hpp"
 #include "object/camera.hpp"
 
 EditorToolbarZoomWidget::EditorToolbarZoomWidget() :
   EditorToolbarBaseWidget(),
   m_control_textbox(std::make_unique<ControlTextboxFloat>()),
   m_scale_ptr(nullptr)
+{
+  setup();
+}
+
+void
+EditorToolbarZoomWidget::setup()
+{
+  set_control_callbacks();
+  set_dropdown_values();
+}
+
+void
+EditorToolbarZoomWidget::set_control_callbacks()
 {
   auto editor = Editor::current();
   auto editor_camera = editor->get_camera();
@@ -64,6 +78,33 @@ EditorToolbarZoomWidget::EditorToolbarZoomWidget() :
     }
   };
   editor_project->set_on_sector_set_callback(on_sector_set);
+}
+
+void
+EditorToolbarZoomWidget::set_dropdown_values()
+{
+  auto editor_camera = Editor::current()->get_camera();
+  auto menu_list = get_menu_list();
+  float zoom_factors[] = { 0.4f, 0.5f, 0.66f, 0.75f, 1.f, 1.25f, 1.5f, 2.f, 2.5f, 3.f };
+
+  for(const auto& zoom_factor : zoom_factors)
+  {
+    auto item_label = std::to_string((int)(zoom_factor * 100)) + "%";
+    auto callback = [this, editor_camera, zoom_factor] {
+      set_scale_value(zoom_factor);
+      editor_camera->keep_in_bounds();
+    };
+
+    auto is_selected_handler = [this, zoom_factor]
+    {
+      auto scale_value = get_scale_value();
+      return scale_value == zoom_factor;
+    };
+
+    auto zoom_item = std::make_unique<MenuListItem>(item_label, callback);
+    zoom_item->set_is_selected_handler(is_selected_handler);
+    menu_list->add_item(std::move(zoom_item));
+  }
 }
 
 void
