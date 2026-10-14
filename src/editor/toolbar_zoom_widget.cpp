@@ -76,8 +76,9 @@ EditorToolbarZoomWidget::draw(DrawingContext& context)
 void
 EditorToolbarZoomWidget::set_position(const Vector& position)
 {
+  m_rect = Rectf(position, position + Vector(64, 32));
   EditorToolbarBaseWidget::set_position(position);
 
-  m_rect = Rectf(position + Vector(4, 5), position + Vector(60, 25));
-  m_control_textbox->set_rect(m_rect);
+  auto control_rect = Rectf(position + Vector(4, 5), position + Vector(60, 25));
+  m_control_textbox->set_rect(control_rect);
 }
