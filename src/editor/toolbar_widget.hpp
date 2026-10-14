@@ -28,6 +28,7 @@
 
 class EditorToolbarBaseWidget;
 class EditorToolbarButtonWidget;
+class EditorToolbarZoomWidget;
 
 /** The toolbar is at the top of the screen and offers easy access to the most commonly used functions of the editor. */
 class EditorToolbarWidget final : public Widget
@@ -38,6 +39,8 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
   virtual bool event(const SDL_Event& ev) override;
+
+  bool has_focus() const;
 
   void set_mode(const Editor::InputMode& input_mode);
   void toggle_tile_object_mode();
@@ -57,7 +60,8 @@ private:
   Editor& m_editor;
   EditorToolbarButtonWidget* m_undo_widget;
   EditorToolbarButtonWidget* m_redo_widget;
-  std::vector<std::unique_ptr<EditorToolbarBaseWidget> > m_widgets;
+  EditorToolbarZoomWidget* m_zoom_widget;
+  std::vector<std::unique_ptr<EditorToolbarBaseWidget>> m_widgets;
 
   float m_widgets_width;
   float m_widgets_width_offset;
