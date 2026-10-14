@@ -55,7 +55,7 @@ ControlTextboxFloat::on_key_down(const SDL_KeyboardEvent& key)
 
     bool shift_pressed = SDL_GetModState() & SDL_KMOD_SHIFT;
 
-    int step_size = shift_pressed ? m_large_step_size : m_step_size;
+    float step_size = shift_pressed ? m_large_step_size : m_step_size;
 
     if (key.key == SDLK_DOWN)
       *m_value -= step_size;
