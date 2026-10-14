@@ -188,7 +188,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     ++i;
   }
 
-  auto zoom_widget = std::make_unique<EditorToolbarZoomWidget>();
+  auto zoom_widget = create_zoom_widget();
   Vector pos(32 * (i - tile_mode_widgets.size() + 1), 0);
   zoom_widget->set_position(pos);
 
@@ -435,6 +435,42 @@ EditorToolbarWidget::create_show_button() const
   menu_list->add_item(std::move(show_deprecated_item));
 
   return show_hide_button;
+}
+
+std::unique_ptr<EditorToolbarZoomWidget>
+EditorToolbarWidget::create_zoom_widget() const
+{
+  auto zoom_widget = std::make_unique<EditorToolbarZoomWidget>();
+  auto menu_list = zoom_widget->get_menu_list();
+  float zoom_factors[] = { 0.1f, 0.25f, 0.5f, 1.f, 1.25f, 1.5f, 2.f, 3.f };
+
+  for(const auto& zoom_factor : zoom_factors)
+  {
+    auto item_label = std::to_string((int)(zoom_factor * 100)) + "%";
+    auto callback = [this, zoom_factor]
+    {
+      auto scale_ptr = m_zoom_widget->get_scale_ptr();
+      if (scale_ptr != nullptr)
+      {
+        *scale_ptr = zoom_factor;
+      }
+    };
+
+    auto is_selected_handler = [this, zoom_factor]
+    {
+      auto scale_ptr = m_zoom_widget->get_scale_ptr();
+      if (scale_ptr == nullptr)
+        return false;
+
+      return *scale_ptr == zoom_factor;
+    };
+
+    auto zoom_item = std::make_unique<MenuListItem>(item_label, callback);
+    zoom_item->set_is_selected_handler(is_selected_handler);
+    menu_list->add_item(std::move(zoom_item));
+  }
+
+  return zoom_widget;
 }
 
 void

@@ -21,7 +21,8 @@
 
 EditorToolbarZoomWidget::EditorToolbarZoomWidget() :
   EditorToolbarBaseWidget(),
-  m_control_textbox(std::make_unique<ControlTextboxFloat>())
+  m_control_textbox(std::make_unique<ControlTextboxFloat>()),
+  m_scale_ptr(nullptr)
 {
   m_control_textbox->set_step_size(0.1f);
   m_control_textbox->set_large_step_size(1.f);
@@ -50,7 +51,8 @@ EditorToolbarZoomWidget::EditorToolbarZoomWidget() :
     if (sector != nullptr)
     {
       auto& camera = sector->get_camera();
-      m_control_textbox->bind_value(camera.get_scale_ptr());
+      m_scale_ptr = camera.get_scale_ptr();
+      m_control_textbox->bind_value(m_scale_ptr);
     }
   };
   editor_project->set_on_sector_set_callback(on_sector_set);
@@ -76,6 +78,6 @@ EditorToolbarZoomWidget::set_position(const Vector& position)
 {
   EditorToolbarBaseWidget::set_position(position);
 
-  auto control_rect = Rectf(position + Vector(4, 5), position + Vector(60, 25));
-  m_control_textbox->set_rect(control_rect);
+  m_rect = Rectf(position + Vector(4, 5), position + Vector(60, 25));
+  m_control_textbox->set_rect(m_rect);
 }
