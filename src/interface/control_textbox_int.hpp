@@ -35,6 +35,12 @@ public:
    */
   inline void bind_value(int* value) { m_value = value; revert_value(); }
 
+  int get_step_size() const { return m_step_size; }
+  void set_step_size(float value) { m_step_size = value; }
+
+  int get_large_step_size() const { return m_large_step_size; }
+  void set_large_step_size(float value) { m_large_step_size = value; }
+
 protected:
   virtual bool parse_value(bool call_on_change = true) override;
   virtual void revert_value() override;
@@ -55,6 +61,8 @@ public:
 
 private:
   int* m_value;
+  int m_step_size;
+  int m_large_step_size;
 
 private:
   ControlTextboxInt(const ControlTextboxInt&) = delete;
