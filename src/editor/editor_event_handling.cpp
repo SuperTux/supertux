@@ -317,7 +317,7 @@ EditorEventHandling::handle_internal_state(const SDL_Event& ev)
 }
 
 void
-EditorEventHandling::reset_state()
+EditorEventHandling::reset_internal_state()
 {
   m_ctrl_pressed = false;
   m_alt_pressed = false;
