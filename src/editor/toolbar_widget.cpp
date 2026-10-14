@@ -442,7 +442,7 @@ EditorToolbarWidget::create_zoom_widget() const
 {
   auto zoom_widget = std::make_unique<EditorToolbarZoomWidget>();
   auto menu_list = zoom_widget->get_menu_list();
-  float zoom_factors[] = { 0.1f, 0.25f, 0.5f, 1.f, 1.25f, 1.5f, 2.f, 3.f };
+  float zoom_factors[] = { 0.4f, 0.5f, 0.66f, 0.75f, 1.f, 1.25f, 1.5f, 2.f, 2.5f, 3.f };
 
   for(const auto& zoom_factor : zoom_factors)
   {
