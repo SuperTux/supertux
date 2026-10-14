@@ -24,7 +24,9 @@
 ControlTextboxInt::ControlTextboxInt() :
   ControlTextbox(),
   m_validate_int(),
-  m_value(nullptr)
+  m_value(nullptr),
+  m_step_size(1),
+  m_large_step_size(10)
 {
   revert_value();
 }
@@ -44,7 +46,7 @@ ControlTextboxInt::on_key_down(const SDL_KeyboardEvent& key)
     }
 
     bool shift_pressed = SDL_GetModState() & SDL_KMOD_SHIFT;
-    int step_size = shift_pressed ? 10 : 1;
+    int step_size = shift_pressed ? m_large_step_size : m_step_size;
 
     if (key.key == SDLK_DOWN)
       *m_value -= step_size;
