@@ -766,12 +766,6 @@ Camera::get_current_scale() const
   return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale;
 }
 
-float*
-Camera::get_scale_ptr()
-{
-  return &m_scale;
-}
-
 /** Get target scale position from the anchor point (m_scale_anchor). */
 Vector
 Camera::get_scale_anchor_target() const
