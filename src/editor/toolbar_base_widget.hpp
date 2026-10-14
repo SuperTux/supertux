@@ -62,7 +62,7 @@ public:
 
   virtual void update(float dt_sec) override;
 
-  void set_position(const Vector& pos);
+  virtual void set_position(const Vector& pos);
 
   void set_visible_in_tile_mode(bool visible) { m_tile_mode_visible = visible; }
   bool get_visible_in_tile_mode() const { return m_tile_mode_visible; }
