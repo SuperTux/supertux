@@ -69,6 +69,11 @@ public:
     return m_control_textbox->on_key_down(key);
   }
 
+  bool has_focus() const
+  {
+    return m_control_textbox->has_focus();
+  }
+
   virtual void set_position(const Vector &position) override;
 
 protected:
