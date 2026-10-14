@@ -23,6 +23,7 @@
 #include "editor/editor_history_manager.hpp"
 #include "editor/menu_list_item.hpp"
 #include "editor/node_marker.hpp"
+#include "editor/toolbar_zoom_widget.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu.hpp"
@@ -185,6 +186,13 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     m_widgets.push_back(std::move(widget));
     ++i;
   }
+
+  auto zoom_widget = std::make_unique<EditorToolbarZoomWidget>();
+  Vector pos(32 * (i - tile_mode_widgets.size() + 1), 0);
+  zoom_widget->set_position(pos);
+
+  m_widgets.push_back(std::move(zoom_widget));
+
   m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
   //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
@@ -231,6 +239,7 @@ EditorToolbarWidget::set_mode(const InputMode& input_mode)
 	}
 
   m_widgets_width = i * 32.f;
+  m_widgets_width += 32.f; // Zoom widget (TODO: width calculation needs to be improved)
 }
 
 std::unique_ptr<EditorToolbarButtonWidget>
