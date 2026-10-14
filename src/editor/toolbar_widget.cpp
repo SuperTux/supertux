@@ -20,6 +20,7 @@
 
 #include "editor/button_widget.hpp"
 #include "editor/editor.hpp"
+#include "editor/editor_camera.hpp"
 #include "editor/editor_history_manager.hpp"
 #include "editor/menu_list_item.hpp"
 #include "editor/node_marker.hpp"
@@ -440,6 +441,7 @@ EditorToolbarWidget::create_show_button() const
 std::unique_ptr<EditorToolbarZoomWidget>
 EditorToolbarWidget::create_zoom_widget() const
 {
+  auto editor_camera = Editor::current()->get_camera();
   auto zoom_widget = std::make_unique<EditorToolbarZoomWidget>();
   auto menu_list = zoom_widget->get_menu_list();
   float zoom_factors[] = { 0.4f, 0.5f, 0.66f, 0.75f, 1.f, 1.25f, 1.5f, 2.f, 2.5f, 3.f };
@@ -447,22 +449,15 @@ EditorToolbarWidget::create_zoom_widget() const
   for(const auto& zoom_factor : zoom_factors)
   {
     auto item_label = std::to_string((int)(zoom_factor * 100)) + "%";
-    auto callback = [this, zoom_factor]
-    {
-      auto scale_ptr = m_zoom_widget->get_scale_ptr();
-      if (scale_ptr != nullptr)
-      {
-        *scale_ptr = zoom_factor;
-      }
+    auto callback = [this, editor_camera, zoom_factor] {
+      m_zoom_widget->set_scale_value(zoom_factor);
+      editor_camera->keep_in_bounds();
     };
 
     auto is_selected_handler = [this, zoom_factor]
     {
-      auto scale_ptr = m_zoom_widget->get_scale_ptr();
-      if (scale_ptr == nullptr)
-        return false;
-
-      return *scale_ptr == zoom_factor;
+      auto scale_value = m_zoom_widget->get_scale_value();
+      return scale_value == zoom_factor;
     };
 
     auto zoom_item = std::make_unique<MenuListItem>(item_label, callback);
