@@ -57,10 +57,13 @@ public:
 private:
   void set_dropdown_values();
   void set_control_callbacks();
+  void on_scale_control_value_changed();
+  void synchronize_scale_percentage();
 
 protected:
   std::unique_ptr<ControlTextboxFloat> m_control_textbox;
-  float* m_scale_ptr;
+  float *m_scale_ptr;
+  float m_scale_percentage;
 
 private:
   EditorToolbarZoomWidget(const EditorToolbarZoomWidget&) = delete;
