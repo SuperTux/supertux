@@ -39,6 +39,7 @@ public:
 
   //virtual bool on_mouse_button_up(const SDL_MouseButtonEvent &button) override;
   virtual void update(float dt_sec) override;
+  virtual void setup() override;
   virtual void draw(DrawingContext &context) override;
   virtual bool event(const SDL_Event &ev) override
   {
@@ -52,6 +53,10 @@ public:
   inline void set_scale_value(float value) { m_control_textbox->set_value(value); }
 
   virtual void set_position(const Vector &position) override;
+
+private:
+  void set_dropdown_values();
+  void set_control_callbacks();
 
 protected:
   std::unique_ptr<ControlTextboxFloat> m_control_textbox;
