@@ -138,10 +138,10 @@ public:
   void set_level(std::unique_ptr<Level> level);
 
   /**
-   * Set the callback function that gets executed once a level was set
-   * @param callback Callback function to set.
+   * Adds a callback function that gets executed once a level was set
+   * @param callback Callback function to add.
    */
-  void set_on_level_set_callback(std::function<void()> callback)
+  void add_level_set_callback(std::function<void()> callback)
   {
     m_on_level_set_callbacks.push_back(callback);
   }
@@ -203,10 +203,10 @@ public:
   void set_sector(Sector* sector);
 
   /**
-   * Set the callback function that gets executed once a sector was set
-   * @param callback Callback function to set.
+   * Adds a callback function that gets executed once a sector was set
+   * @param callback Callback function to add.
    */
-  void set_on_sector_set_callback(std::function<void()> callback)
+  void add_sector_set_callback(std::function<void()> callback)
   {
     m_on_sector_set_callbacks.push_back(callback);
   }
@@ -246,7 +246,11 @@ public:
    */
   void reload_tileset_from_level();
 
-  void set_on_tileset_reloaded_callback(std::function<void()> callback)
+  /**
+   * Adds a callback function that gets executed when the tileset was reloaded
+   * @param callback Callback function to add.
+   */
+  void add_tileset_reloaded_callback(std::function<void()> callback)
   {
     m_on_tileset_reloaded_callbacks.push_back(callback);
   }
