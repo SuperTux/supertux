@@ -110,7 +110,7 @@ EditorProject::load_initial_level()
       auto world = World::from_directory(last_level_directory);
 
       set_world(std::move(world));
-      set_level_filename(last_level_filename);
+      load_level_from_filename(last_level_filename);
       return;
     }
   }
@@ -263,7 +263,7 @@ EditorProject::set_level(std::unique_ptr<Level> level)
 }
 
 void
-EditorProject::set_level_filename(const std::string& level_filename)
+EditorProject::load_level_from_filename(const std::string& level_filename)
 { 
   m_level_filename = level_filename;
 
