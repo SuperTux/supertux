@@ -27,7 +27,7 @@
 #include "video/compositor.hpp"
 
 EditorSaveAs::EditorSaveAs(bool set_as_current_filename) :
-  m_filename(Editor::current()->get_project()->get_level_file()),
+  m_filename(Editor::current()->get_project()->get_level_filename()),
   m_set_as_current_filename(set_as_current_filename)
 {
   add_label(set_as_current_filename ? _("Save Level as") : _("Save Copy"));
