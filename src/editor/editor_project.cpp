@@ -52,7 +52,6 @@ EditorProject::EditorProject() :
   m_time_since_last_save(),
   m_post_save_callbacks(),
   m_on_level_set_callbacks(),
-  m_on_level_file_set_callbacks(),
   m_on_sector_set_callbacks(),
   m_on_tileset_reloaded_callbacks(),
   m_particle_editor_filepath(nullptr)
@@ -216,7 +215,7 @@ EditorProject::get_level_path() const
 }
 
 std::unique_ptr<Level>
-EditorProject::get_editable_level()
+EditorProject::get_level_from_current_level_filename()
 {
   std::unique_ptr<Level> level;
   ReaderMapping::s_translations_enabled = false;
@@ -267,9 +266,16 @@ EditorProject::load_level_from_filename(const std::string& level_filename)
 { 
   m_level_filename = level_filename;
 
-  for(const auto& callback : m_on_level_file_set_callbacks)
+  try
   {
-    callback();
+    auto level = get_level_from_current_level_filename();
+    set_level(std::move(level));
+    reload_level();
+  }
+  catch(const std::exception& e)
+  {
+    reset();
+    set_level(nullptr);
   }
 }
 
