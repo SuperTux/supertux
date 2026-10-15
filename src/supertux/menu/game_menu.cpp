@@ -142,7 +142,7 @@ GameMenu::menu_action(MenuItem& item)
           auto level = FileSystem::basename(level_file);
 
           editor_project->set_world(std::move(world));
-          editor_project->set_level_file(level);
+          editor_project->set_level_filename(level);
           editor->update(0, Controller());
           editor->set_on_exit_callback([return_to]() {
             // Same as last comment... This restarts the previous level

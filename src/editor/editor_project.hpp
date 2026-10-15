@@ -101,20 +101,12 @@ public:
   /**
    * Returns the filename of the current level
    */
-  inline const std::string& get_level_file() const { return m_level_filename; }
+  inline const std::string& get_level_filename() const { return m_level_filename; }
 
   /**
    * Sets the filename of the current level
    */
-  inline void set_level_file(const std::string& levelfile)
-  { 
-    m_level_filename = levelfile;
-
-    for(const auto& callback : m_on_level_file_set_callbacks)
-    {
-      callback();
-    }
-  }
+  void set_level_filename(const std::string &level_filename);
 
   /**
    * Sets the callback function that gets executed once a level file was set
@@ -185,7 +177,10 @@ public:
   /**
    * Returns ""true"", when the current project is a worldmap
    */
-  inline bool is_worldmap() const { return StringUtil::has_suffix(get_level_file(), ".stwm"); }
+  inline bool is_worldmap() const
+  {
+    return StringUtil::has_suffix(get_level_filename(), ".stwm");
+  }
 
   const std::string& get_last_edited_level() const
   {
