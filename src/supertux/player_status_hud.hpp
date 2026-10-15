@@ -29,6 +29,13 @@
 
 class DrawingContext;
 
+struct CounterDraw {
+  SpritePtr center_sprite;
+  SpritePtr counter_sprite;
+  std::vector<SurfacePtr> counter_parts;
+  SpritePtr effect_sprite;
+};
+
 class PlayerStatusHUD : public GameObject
 {
 private:
@@ -60,6 +67,7 @@ private:
   std::unordered_map<BonusType, SpritePtr> m_bonus_sprites;
   SurfacePtr m_item_pocket_border;
   Timer m_item_pocket_fade;
+  std::vector<CounterDraw> m_counters;
 
 private:
   PlayerStatusHUD(const PlayerStatusHUD&) = delete;
