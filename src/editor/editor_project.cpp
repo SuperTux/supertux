@@ -110,7 +110,7 @@ EditorProject::load_initial_level()
       auto world = World::from_directory(last_level_directory);
 
       set_world(std::move(world));
-      set_level_file(last_level_filename);
+      set_level_filename(last_level_filename);
       return;
     }
   }
@@ -147,9 +147,9 @@ EditorProject::close()
 {
   remove_autosave_file();
 
-  if (m_world && !get_level_file().empty() && g_config->editor_remember_last_level)
+  if (m_world && !get_level_filename().empty() && g_config->editor_remember_last_level)
   {
-    auto level_path = FileSystem::join(get_level_directory(), get_level_file());
+    auto level_path = FileSystem::join(get_level_directory(), get_level_filename());
     g_config->editor_last_edited_level = level_path;
   }
 
@@ -205,7 +205,7 @@ std::string
 EditorProject::get_level_path() const
 {
   auto world = get_world();
-  auto level_file = get_level_file();
+  auto level_file = get_level_filename();
 
   if (world == nullptr)
   {
@@ -260,6 +260,17 @@ EditorProject::set_level(std::unique_ptr<Level> level)
   }
 
   load_sector(DEFAULT_SECTOR_NAME);
+}
+
+void
+EditorProject::set_level_filename(const std::string& level_filename)
+{ 
+  m_level_filename = level_filename;
+
+  for(const auto& callback : m_on_level_file_set_callbacks)
+  {
+    callback();
+  }
 }
 
 bool
