@@ -106,7 +106,6 @@ Editor::Editor() :
   m_widgets.push_back(std::move(toolbar_widget));
 
   m_project->set_on_level_set_callback(std::bind(&Editor::on_level_set, this));
-  m_project->set_on_level_file_set_callback(std::bind(&Editor::on_level_file_set, this));
 
   m_project->set_on_sector_set_callback([this]()
   {
@@ -330,7 +329,6 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 void
 Editor::on_level_set()
 {
-  m_is_reloading = false;
   m_enabled = true;
 
   auto& tilebox = m_toolbox_widget->get_tilebox();
@@ -341,37 +339,16 @@ Editor::on_level_set()
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
 
+  m_history_manager->retoggle_undo_tracking();
+  m_history_manager->undo_stack_cleanup();
+
   // Warn the user if any deprecated tiles are used throughout the level
   m_tile_converter->check_deprecated_tiles(/* initial_check = */ true);
 }
 
 void
-Editor::on_level_file_set()
-{
-  m_is_reloading = true;
-
-  auto level = m_project->get_editable_level();
-  m_project->set_level(std::move(level));
-
-  try
-  {
-    m_project->reload_level();
-  }
-  catch(const std::exception& e)
-  {
-    reset_level();
-  }
-
-  m_history_manager->retoggle_undo_tracking();
-  m_history_manager->undo_stack_cleanup();
-}
-
-void
 Editor::reset_level()
 {
-  m_project->reset();
-  m_project->set_level(nullptr);
-
   MouseCursor::current()->set_icon(nullptr);
 }
 
