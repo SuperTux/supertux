@@ -157,6 +157,9 @@ Editor::draw(Compositor& compositor)
   draw_sector(context);
 
   draw_mouse_pointer(context);
+
+  // TODO: The shortcut Ctrl+H is mentioned in the top menu,
+  // so evaluate if the draggables hint is still needed.
   draw_draggables_hint(context);
 }
 
