@@ -18,7 +18,6 @@
 
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
-#include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
