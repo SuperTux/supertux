@@ -32,6 +32,7 @@ EditorToolbarZoomWidget::EditorToolbarZoomWidget() :
 void
 EditorToolbarZoomWidget::setup()
 {
+  m_size = Sizef(64.f, 32.f);
   set_control_callbacks();
   set_dropdown_values();
 }
