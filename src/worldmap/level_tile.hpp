@@ -20,6 +20,10 @@
 
 #include "worldmap/worldmap_object.hpp"
 
+#include <string>
+#include <vector>
+
+#include "math/vector.hpp"
 #include "supertux/statistics.hpp"
 
 namespace worldmap {
@@ -27,6 +31,14 @@ namespace worldmap {
 class LevelTile final : public WorldMapObject
 {
 public:
+  /** One sampled frame of a recorded run, stored to drive the speedrun ghost. */
+  struct GhostRunPoint
+  {
+    float time;          /**< seconds since start */
+    Vector position;     /**< player position */
+    std::string action;  /**< sprite action */
+  };
+
   LevelTile(const ReaderMapping& mapping);
   ~LevelTile() override;
 
@@ -46,6 +58,12 @@ public:
 
   inline Statistics& get_statistics() { return m_statistics; }
   inline const Statistics& get_statistics() const { return m_statistics; }
+
+  inline const std::vector<GhostRunPoint>& get_best_ghost_run() const { return m_best_ghost_run; }
+  inline bool has_best_ghost_run() const { return !m_best_ghost_run.empty(); }
+  void set_best_ghost_run(const std::vector<GhostRunPoint>& best_ghost_run);
+  void serialize_best_ghost_run(ssq::Table& table) const;
+  void unserialize_best_ghost_run(const ssq::Table& table);
 
   void update_sprite_action();
 
@@ -78,6 +96,7 @@ private:
   bool m_perfect;
 
   Statistics m_statistics;
+  std::vector<GhostRunPoint> m_best_ghost_run;
 
   Color m_title_color;
 
