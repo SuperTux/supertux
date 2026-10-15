@@ -57,6 +57,12 @@ private:
   std::unique_ptr<EditorToolbarButtonWidget> create_show_button() const;
   std::unique_ptr<EditorToolbarZoomWidget> create_zoom_widget() const;
 
+  /**
+   * Calculates the width of the toolbar from the width
+   * of all visible toolbar elements
+   */
+  void calculate_toolbar_width();
+
 private:
   Editor& m_editor;
   EditorToolbarButtonWidget* m_undo_widget;
