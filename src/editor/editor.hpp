@@ -115,14 +115,20 @@ public:
    * @return class name of the currently selected object
    * @see \code{GameObject::get_class();} and child classes
    */
-  inline const std::string& get_selected_object_class_name() const { return m_selected_object_class_name; }
+  inline const std::string& get_selected_object_class_name() const
+  {
+    return m_selected_object_class_name;
+  }
 
   /**
    * Sets the "class" of the current selected object
    * @param object_class_name The class name of the current selected object
    * @see \code{GameObject::get_class();} and child classes
    */
-  inline void set_selected_object_class_name(const std::string& object_class_name) { m_selected_object_class_name = object_class_name; }
+  inline void set_selected_object_class_name(const std::string& object_class_name)
+  {
+    m_selected_object_class_name = object_class_name;
+  }
 
   void on_level_set();
 
