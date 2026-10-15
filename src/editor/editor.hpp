@@ -20,7 +20,6 @@
 #include <vector>
 #include <string>
 
-#include <physfs.h>
 #include "editor/editor_project.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/toolbox_widget.hpp"
