@@ -130,6 +130,9 @@ public:
     m_selected_object_class_name = object_class_name;
   }
 
+  /**
+   * Callback function that gets called after a level has been set
+   */
   void on_level_set();
 
   inline bool is_testing_level() const { return m_testing_level; }
@@ -173,11 +176,6 @@ public:
    * any keyboard or mouse events (e.g. when a menu is shown)
    */
   void deactivate();
-
-  /**
-   * Callback function that gets called after a level file has been set
-   */
-  void on_level_file_set();
 
   /**
    * Method that gets called after the editor was reactivated
