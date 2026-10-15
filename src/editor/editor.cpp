@@ -331,6 +331,8 @@ Editor::on_level_set()
 {
   m_enabled = true;
 
+  MouseCursor::current()->set_icon(nullptr);
+
   auto& tilebox = m_toolbox_widget->get_tilebox();
   tilebox.select_tilegroup(0);
   set_input_mode(InputMode::TILE);
@@ -344,12 +346,6 @@ Editor::on_level_set()
 
   // Warn the user if any deprecated tiles are used throughout the level
   m_tile_converter->check_deprecated_tiles(/* initial_check = */ true);
-}
-
-void
-Editor::reset_level()
-{
-  MouseCursor::current()->set_icon(nullptr);
 }
 
 void

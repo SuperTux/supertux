@@ -228,9 +228,6 @@ private:
    */
   void draw_selection_border(DrawingContext& context);
 
-private:
-  void reset_level();
-
 public:
   bool m_testing_disabled;
 
