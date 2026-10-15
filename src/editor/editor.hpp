@@ -127,7 +127,6 @@ public:
 
   void on_level_set();
 
-  inline bool is_reloading() const { return m_is_reloading; }
   inline bool is_testing_level() const { return m_testing_level; }
   inline void disable_testing() { m_testing_disabled = true; }
 
@@ -242,7 +241,6 @@ public:
   bool m_tilebox_something_selected;
 
 private:
-  bool m_is_reloading;
   bool m_testing_level;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
