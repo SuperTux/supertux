@@ -37,6 +37,8 @@ public:
     m_object_mode_visible(true),
     m_visible(true),
     m_disabled(false),
+    m_rect(),
+    m_size(Sizef(32.f, 32.f)),
     m_grab(false),
     m_hover(false),
     m_mouse_pos(),
@@ -92,6 +94,8 @@ public:
 
   bool get_show_menu() const { return m_show_menu; }
 
+  const Sizef& get_size() const { return m_size; }
+
 protected:
   bool m_tile_mode_visible;
   bool m_object_mode_visible;
@@ -103,6 +107,7 @@ protected:
   Vector m_mouse_pos;
 
   Rectf m_rect;
+  Sizef m_size;
   bool m_grab;
   bool m_hover;
   bool m_disabled;

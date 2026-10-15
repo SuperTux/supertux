@@ -44,6 +44,8 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+#include <numeric>
+
 using InputMode = Editor::InputMode;
 
 EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
@@ -195,7 +197,9 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_widgets.push_back(std::move(zoom_widget));
   m_zoom_widget = (EditorToolbarZoomWidget*)(m_widgets.back().get());
 
-  m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
+  calculate_toolbar_width();
+
+  // m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
   //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
   //     std::ostringstream level_ostream;
@@ -234,14 +238,23 @@ EditorToolbarWidget::set_mode(const InputMode& input_mode)
     toolbox_widget->set_tileselect_select_mode(0);
   }
 
-  for (const auto& toolbar_button : m_widgets)
-  {
-    if (toolbar_button->get_visible())
-      ++i;
-	}
+  calculate_toolbar_width();
+}
 
-  m_widgets_width = i * 32.f;
-  m_widgets_width += 32.f; // Zoom widget (TODO: width calculation needs to be improved)
+void
+EditorToolbarWidget::calculate_toolbar_width()
+{
+  auto accumulate_width = [](float accumulator, const std::unique_ptr<EditorToolbarBaseWidget>& widget)
+  {
+    if (!widget->get_visible())
+    {
+      return accumulator;
+    }
+
+    return accumulator + widget->get_size().width;
+  };
+
+  m_widgets_width = std::accumulate(m_widgets.begin(), m_widgets.end(), 0.f, accumulate_width);
 }
 
 std::unique_ptr<EditorToolbarButtonWidget>
