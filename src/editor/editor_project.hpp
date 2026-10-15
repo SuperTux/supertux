@@ -105,8 +105,15 @@ public:
 
   /**
    * Sets the filename of the current level
+   * @param filename The filename to set
    */
-  void set_level_filename(const std::string &level_filename);
+  inline void set_level_filename(const std::string& filename) { m_level_filename = filename; }
+
+  /**
+   * Loads a level from the specified filename
+   * @param level_filename Filename to load the level from
+   */
+  void load_level_from_filename(const std::string &level_filename);
 
   /**
    * Sets the callback function that gets executed once a level file was set
