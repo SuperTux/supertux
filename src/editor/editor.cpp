@@ -105,15 +105,15 @@ Editor::Editor() :
   m_widgets.push_back(std::move(overlay_widget));
   m_widgets.push_back(std::move(toolbar_widget));
 
-  m_project->set_on_level_set_callback(std::bind(&Editor::on_level_set, this));
+  m_project->add_level_set_callback(std::bind(&Editor::on_level_set, this));
 
-  m_project->set_on_sector_set_callback([this]()
+  m_project->add_sector_set_callback([this]()
   {
     m_layers_widget->refresh();
     set_selected_object(nullptr);
   });
 
-  m_project->set_on_tileset_reloaded_callback([this]()
+  m_project->add_tileset_reloaded_callback([this]()
   {
     set_input_mode(InputMode::TILE);
     m_toolbox_widget->get_tilebox().select_tilegroup(0);

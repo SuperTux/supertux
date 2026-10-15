@@ -76,7 +76,7 @@ EditorToolbarZoomWidget::set_control_callbacks()
       m_control_textbox->bind_value(&m_scale_percentage);
     }
   };
-  editor_project->set_on_sector_set_callback(on_sector_set);
+  editor_project->add_sector_set_callback(on_sector_set);
 }
 
 void
