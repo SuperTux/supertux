@@ -116,15 +116,6 @@ public:
   void load_level_from_filename(const std::string &level_filename);
 
   /**
-   * Sets the callback function that gets executed once a level file was set
-   * @param callback Callback function to set.
-   */
-  void set_on_level_file_set_callback(std::function<void()> callback)
-  {
-    m_on_level_file_set_callbacks.push_back(callback);
-  }
-
-  /**
    * Returns the complete path of the current level
    */
   std::string get_level_path() const;
@@ -135,9 +126,10 @@ public:
   inline Level* get_level() const { return m_level.get(); }
 
   /**
-   * Returns the current level as an editable instance
+   * Parses the current level file and returns a Level instance
+   * @return Level instance of the parsed level file.
    */
-  std::unique_ptr<Level> get_editable_level();
+  std::unique_ptr<Level> get_level_from_current_level_filename();
 
   /**
    * Sets the currently edited level
@@ -409,7 +401,6 @@ private:
 
   std::vector<std::function<void()>> m_post_save_callbacks;
   std::vector<std::function<void()>> m_on_level_set_callbacks;
-  std::vector<std::function<void()>> m_on_level_file_set_callbacks;
   std::vector<std::function<void()>> m_on_sector_set_callbacks;
   std::vector<std::function<void()>> m_on_tileset_reloaded_callbacks;
 

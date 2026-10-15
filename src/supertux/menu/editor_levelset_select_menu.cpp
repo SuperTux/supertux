@@ -53,7 +53,8 @@ EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
 
   auto editor_project = editor->get_project();
 
-  if (!editor_project->is_level_loaded() && !editor->is_reloading()) {
+  if (!editor_project->is_level_loaded())
+  {
     editor->exit();
   }
 }
