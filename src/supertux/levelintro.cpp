@@ -19,6 +19,7 @@
 #include "control/input_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/random.hpp"
+#include "object/character_profile.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -231,8 +232,10 @@ LevelIntro::push_player()
     return;
   }
 
-  m_player_sprite.push_back(SpriteManager::current()->create("images/creatures/tux/tux.sprite"));
-  m_santa_sprite.push_back(SpriteManager::current()->create("images/creatures/tux/santahat.sprite"));
+  CharacterType character_type = m_player_status.get_character_id(i);
+  m_player_sprite.push_back(SpriteManager::current()->create(Player::get_sprite_path_for_character(character_type)));
+  if (character_type == CharacterType::TUX)
+    m_santa_sprite.push_back(SpriteManager::current()->create("images/creatures/tux/santahat.sprite"));
   m_player_sprite_py.push_back(0);
   m_player_sprite_vy.push_back(0);
   m_player_sprite_jump_timer.push_back(std::make_unique<Timer>());
