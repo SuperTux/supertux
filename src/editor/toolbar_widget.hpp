@@ -58,10 +58,10 @@ private:
   std::unique_ptr<EditorToolbarZoomWidget> create_zoom_widget() const;
 
   /**
-   * Calculates the width of the toolbar from the width
-   * of all visible toolbar elements
+   * Sets all widget positions and calculates the width of the
+   * toolbar from the width of all visible toolbar elements
    */
-  void calculate_toolbar_width();
+  void set_widget_positions();
 
 private:
   Editor& m_editor;
