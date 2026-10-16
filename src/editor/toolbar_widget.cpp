@@ -55,7 +55,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_widgets_width(0.f),
   m_widgets_width_offset(0.f)
 {
-  auto toolbox_widget = Editor::current()->get_toolbox_widget();
+  auto toolbox_widget = m_editor.get_toolbox_widget();
 
   auto open_button = create_open_button();
   auto save_button = create_save_button();
@@ -66,12 +66,12 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
-                                                std::bind(&EditorHistoryManager::undo, Editor::current()->get_history_manager()),
+                                                std::bind(&EditorHistoryManager::undo, m_editor.get_history_manager()),
                                                 _("Undo"),
                                                 Sizef(32.f, 32.f)),
 
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
-                                                std::bind(&EditorHistoryManager::redo, Editor::current()->get_history_manager()),
+                                                std::bind(&EditorHistoryManager::redo, m_editor.get_history_manager()),
                                                 _("Redo"),
                                                 Sizef(32.f, 32.f)),
     
@@ -84,7 +84,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
     // Play button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
-                                                { Editor::current()->test_level(); }, _("Test level")),
+                                                { m_editor.test_level(); }, _("Test level")),
 
     // Mode button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png", std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this), _("Toggle between object and tile mode")),
@@ -135,7 +135,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
       std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png", [this]
       {
         const auto& node_marker_class = NodeMarker::class_name();
-        Editor::current()->set_selected_object_class_name(node_marker_class);
+        m_editor.set_selected_object_class_name(node_marker_class);
       }, _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
 
       // Select mode
@@ -197,8 +197,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 void
 EditorToolbarWidget::set_mode(const InputMode& input_mode)
 {
-  auto editor = Editor::current();
-  auto toolbox_widget = editor->get_toolbox_widget();
+  auto toolbox_widget = m_editor.get_toolbox_widget();
 
   if (input_mode == InputMode::OBJECT)
   {
@@ -242,8 +241,7 @@ EditorToolbarWidget::set_widget_positions()
 std::unique_ptr<EditorToolbarButtonWidget>
 EditorToolbarWidget::create_open_button() const
 {
-  auto editor = Editor::current();
-  auto editor_project = editor->get_project();
+  auto editor_project = m_editor.get_project();
 
   auto open_level_enabled = [editor_project] {
     return editor_project->get_world() != nullptr && !editor_project->is_temp_level();
@@ -285,8 +283,7 @@ EditorToolbarWidget::create_open_button() const
 std::unique_ptr<EditorToolbarButtonWidget>
 EditorToolbarWidget::create_save_button() const
 {
-  auto editor = Editor::current();
-  auto editor_project = editor->get_project();
+  auto editor_project = m_editor.get_project();
 
   auto save_level = [editor_project] { 
     editor_project->check_save_prerequisites([editor_project]() {
@@ -396,7 +393,6 @@ EditorToolbarWidget::create_show_button() const
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/eye_button.png", []{},
       _("Show / hide objects"));
 
-  auto editor = Editor::current();
   auto menu_list = show_hide_button->get_menu_list();
 
   auto toggle_background = [] { g_config->editor_render_background = !g_config->editor_render_background; };
@@ -414,13 +410,13 @@ EditorToolbarWidget::create_show_button() const
   show_lighting_item->set_is_selected_handler([] { return Compositor::s_render_lighting; });
   menu_list->add_item(std::move(show_lighting_item));
 
-  auto toggle_draggables = [editor]
+  auto toggle_draggables = [this]
   {
-    auto draggables_visible = editor->get_draggables_visible();
-    editor->set_draggables_visible(!draggables_visible);
+    auto draggables_visible = m_editor.get_draggables_visible();
+    m_editor.set_draggables_visible(!draggables_visible);
   };
   auto show_draggables_item = std::make_unique<MenuListItem>(_("Draw Draggables"), toggle_draggables);
-  show_draggables_item->set_is_selected_handler([editor] { return editor->get_draggables_visible(); });
+  show_draggables_item->set_is_selected_handler([this] { return m_editor.get_draggables_visible(); });
   show_draggables_item->set_keyboard_shortcut(_("Ctrl+H"));
   menu_list->add_item(std::move(show_draggables_item));
 
@@ -453,7 +449,7 @@ EditorToolbarWidget::event(const SDL_Event& ev)
       return true;
   }
 
-  auto event_handling = Editor::current()->get_event_handling();
+  auto event_handling = m_editor.get_event_handling();
   if ((ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN || ev.type == SDL_EVENT_MOUSE_BUTTON_UP) &&
       get_area().contains(event_handling->get_mouse_pos()))
   {
