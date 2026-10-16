@@ -65,7 +65,7 @@ public:
   void refresh_sector_text();
   void refresh_layers();
   void sort_layers();
-  void add_layer(GameObject* layer, bool initial = false);
+  void add_layer(GameObject* layer);
 
   void update_current_tip();
 
