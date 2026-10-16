@@ -17,8 +17,8 @@
 #include "editor/editor.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor_layer.hpp"
 #include "editor/particle_editor.hpp"
-#include "editor/layer_icon.hpp"
 #include "editor/tool_icon.hpp"
 #include "editor/button_widget.hpp"
 #include "editor/editor_camera.hpp"
