@@ -544,17 +544,14 @@ EditorLayersWidget::update_current_tip()
 void
 EditorLayersWidget::remove_invalid_layers()
 {
-  auto it = m_editor_layers.begin();
-  while (it != m_editor_layers.end())
+  auto remove_predicate = [](const std::unique_ptr<EditorLayer> &layer)
   {
-    auto editor_layer = (*it).get();
-    if (!editor_layer->is_valid())
-    {
-      it = m_editor_layers.erase(it);
-      continue;
-    }
-    ++it;
-  }
+    return layer && !layer->is_valid();
+  };
+
+  m_editor_layers.erase(std::remove_if(
+      m_editor_layers.begin(), m_editor_layers.end(),
+      remove_predicate), m_editor_layers.end());
 }
 
 TileMap*
