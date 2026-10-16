@@ -65,7 +65,13 @@ public:
   void refresh_sector_text();
   void refresh_layers();
   void sort_layers();
-  void add_layer(GameObject* layer);
+
+  /**
+   * Adds a new layer to the layers widget.
+   * @param GameObject* layer GameObject to add to layers
+   * @param sort_layers_after_adding If true, the layer list will be sorted after each addition
+   */
+  void add_layer(GameObject* layer, bool sort_layers_after_adding = true);
 
   void update_current_tip();
 

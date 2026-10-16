@@ -439,7 +439,7 @@ EditorLayersWidget::refresh()
 
   m_layer_icons.clear();
   for (const auto& obj : sector->get_objects())
-    add_layer(obj.get());
+    add_layer(obj.get(), /* sort_layers_after_adding = */ false);
 
   sort_layers();
   refresh_sector_text();
@@ -488,14 +488,15 @@ EditorLayersWidget::refresh_layers()
 void
 EditorLayersWidget::sort_layers()
 {
-  std::sort(m_layer_icons.begin(), m_layer_icons.end(),
-            [](const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs) {
-              return lhs->get_zpos() < rhs->get_zpos();
-            });
+  auto layers_comparator = [](const std::unique_ptr<LayerIcon> &lhs, const std::unique_ptr<LayerIcon> &rhs)
+  {
+    return lhs->get_zpos() < rhs->get_zpos();
+  };
+  std::sort(m_layer_icons.begin(), m_layer_icons.end(), layers_comparator);
 }
 
 void
-EditorLayersWidget::add_layer(GameObject* object)
+EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
 {
   if (!object->has_settings())
     return;
@@ -505,25 +506,17 @@ EditorLayersWidget::add_layer(GameObject* object)
     return;
 
   auto icon = std::make_unique<LayerIcon>(layer);
-  int z_pos = icon->get_zpos();
 
   // Newly added tilemaps shouldn't be active
   if (auto layer_tilemap = icon->get_layer_tilemap())
     layer_tilemap->m_editor_active = false;
 
-  // The icon is inserted to the correct position.
-  bool inserted = false;
-  for (auto i = m_layer_icons.begin(); i != m_layer_icons.end(); ++i) {
-    const auto& li = i->get();
-    if (li->get_zpos() > z_pos) {
-      m_layer_icons.insert(i, std::move(icon));
-      inserted = true;
-      break;
-    }
+  m_layer_icons.push_back(std::move(icon));
+  
+  if (sort_layers_after_adding)
+  {
+    sort_layers();
   }
-
-  if (!inserted)
-    m_layer_icons.push_back(std::move(icon));
 }
 
 void
