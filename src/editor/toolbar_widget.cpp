@@ -44,8 +44,6 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-#include <numeric>
-
 using InputMode = Editor::InputMode;
 
 EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
@@ -157,47 +155,31 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_undo_widget->set_disabled(true);
   m_redo_widget->set_disabled(true);
 
-
-  size_t i = 0;
   for (auto &widget : general_widgets)
   {
-    Vector pos(32 * i, 0);
-    widget->set_position(pos);
     widget->set_flat(true);
     m_widgets.push_back(std::move(widget));
-    ++i;
   }
 
   for (auto &widget : tile_mode_widgets)
   {
-    Vector pos(32 * i, 0);
-    widget->set_position(pos);
     widget->set_flat(true);
     widget->set_visible_in_object_mode(false);
-    widget->set_visible(false);
     m_widgets.push_back(std::move(widget));
-    ++i;
   }
 
   for (auto &widget : object_mode_widgets)
   {
-    Vector pos(32 * (i - tile_mode_widgets.size()), 0);
-    widget->set_position(pos);
     widget->set_flat(true);
     widget->set_visible_in_tile_mode(false);
-    widget->set_visible(false);
     m_widgets.push_back(std::move(widget));
-    ++i;
   }
 
   auto zoom_widget = create_zoom_widget();
-  Vector pos(32 * (i - tile_mode_widgets.size() + 1), 0);
-  zoom_widget->set_position(pos);
-
   m_widgets.push_back(std::move(zoom_widget));
   m_zoom_widget = (EditorToolbarZoomWidget*)(m_widgets.back().get());
 
-  calculate_toolbar_width();
+  set_widget_positions();
 
   // m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
@@ -215,7 +197,6 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 void
 EditorToolbarWidget::set_mode(const InputMode& input_mode)
 {
-  int i = 0;
   auto editor = Editor::current();
   auto toolbox_widget = editor->get_toolbox_widget();
 
@@ -238,23 +219,24 @@ EditorToolbarWidget::set_mode(const InputMode& input_mode)
     toolbox_widget->set_tileselect_select_mode(0);
   }
 
-  calculate_toolbar_width();
+  set_widget_positions();
 }
 
 void
-EditorToolbarWidget::calculate_toolbar_width()
+EditorToolbarWidget::set_widget_positions()
 {
-  auto accumulate_width = [](float accumulator, const std::unique_ptr<EditorToolbarBaseWidget>& widget)
+  Vector widget_pos(0, 0);
+
+  for(auto& widget : m_widgets)
   {
-    if (!widget->get_visible())
+    if (widget->get_visible())
     {
-      return accumulator;
+      widget->set_position(widget_pos);
+      widget_pos.x += widget->get_size().width;
     }
+  }
 
-    return accumulator + widget->get_size().width;
-  };
-
-  m_widgets_width = std::accumulate(m_widgets.begin(), m_widgets.end(), 0.f, accumulate_width);
+  m_widgets_width = widget_pos.x;
 }
 
 std::unique_ptr<EditorToolbarButtonWidget>
