@@ -44,7 +44,7 @@ EditorLayer::draw(DrawingContext& context, const Vector& pos)
     context.color().draw_text(Resources::small_font, std::to_string(l),
                                 pos + Vector(16,16),
                                 ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
-    if (is_tilemap() && get_tilemap()->m_editor_active)
+    if (is_tilemap() && get_tilemap()->is_selected_in_editor())
       context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
   }
 }
@@ -59,7 +59,7 @@ EditorLayer::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
   if (l != std::numeric_limits<int>::min())
   {
     // Don't draw the text if the icon is not 100% visible
-    if (is_tilemap() && get_tilemap()->m_editor_active)
+    if (is_tilemap() && get_tilemap()->is_selected_in_editor())
       context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
   }
 }
