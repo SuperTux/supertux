@@ -41,7 +41,7 @@ extern "C" {
 #include "addon/downloader.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
-#include "editor/layer_icon.hpp"
+#include "editor/editor_layer.hpp"
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"

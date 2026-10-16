@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/layer_icon.hpp"
+#include "editor/editor_layer.hpp"
 
 #include <limits>
 
@@ -25,7 +25,7 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-LayerIcon::LayerIcon(LayerObject* layer) :
+EditorLayer::EditorLayer(LayerObject* layer) :
   ObjectIcon("", layer->get_icon_path()),
   m_layer(layer),
   m_layer_tilemap(dynamic_cast<TileMap*>(layer)),
@@ -35,7 +35,7 @@ LayerIcon::LayerIcon(LayerObject* layer) :
 }
 
 void
-LayerIcon::draw(DrawingContext& context, const Vector& pos)
+EditorLayer::draw(DrawingContext& context, const Vector& pos)
 {
   if (!is_valid()) return;
 
@@ -52,7 +52,7 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos)
 }
 
 void
-LayerIcon::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
+EditorLayer::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
 {
   if (!is_valid()) return;
 
@@ -67,13 +67,13 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
 }
 
 int
-LayerIcon::get_zpos() const
+EditorLayer::get_zpos() const
 {
   return is_valid() ? m_layer->get_layer() : std::numeric_limits<int>::min();
 }
 
 bool
-LayerIcon::is_valid() const
+EditorLayer::is_valid() const
 {
   return m_layer && m_layer->is_valid();
 }

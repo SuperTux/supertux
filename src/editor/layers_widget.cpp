@@ -18,7 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "editor/editor_event_handling.hpp"
-#include "editor/layer_icon.hpp"
+#include "editor/editor_layer.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/tip.hpp"
@@ -44,7 +44,7 @@
 
 EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_editor(editor),
-  m_layer_icons(),
+  m_editor_layers(),
   m_selected_tilemap(),
   m_add_icon("", "images/engine/editor/add.png"),
   m_add_layer_box(new EditorTilebox(editor, Rectf())),
@@ -149,30 +149,30 @@ EditorLayersWidget::draw(DrawingContext& context)
 #endif
 
   int pos = 0;
-  for (const auto& layer_icon : m_layer_icons)
+  for (const auto& editor_layer : m_editor_layers)
   {
-    if (!layer_icon->is_valid()) continue;
+    if (!editor_layer->is_valid()) continue;
 
     if (pos * 35 >= m_scroll)
-      layer_icon->draw(context, get_layer_coords(pos));
+      editor_layer->draw(context, get_layer_coords(pos));
     else if ((pos + 1) * 35 >= m_scroll)
-      layer_icon->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
+      editor_layer->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
 
 #if 0 // Same reason as above
     if (g_config->editor_show_properties_sidebar)
     {
-      auto layer_icon_position = Vector(0, SCREEN_HEIGHT - 400 + (pos * 30));
+      auto editor_layer_position = Vector(0, SCREEN_HEIGHT - 400 + (pos * 30));
 
-      layer_icon->draw(context, layer_icon_position);
+      editor_layer->draw(context, editor_layer_position);
 
-      auto layer_name = layer_icon->get_layer()->get_name();
+      auto layer_name = editor_layer->get_layer()->get_name();
       if (layer_name.empty())
       {
         layer_name =
-          fmt::format(fmt::runtime(_("Unnamed {}")), layer_icon->get_layer()->get_display_name());
+          fmt::format(fmt::runtime(_("Unnamed {}")), editor_layer->get_layer()->get_display_name());
       }
       context.color().draw_text(Resources::small_font, layer_name,
-                                layer_icon_position + Vector(35, 10), FontAlignment::ALIGN_LEFT,
+                                editor_layer_position + Vector(35, 10), FontAlignment::ALIGN_LEFT,
                                 LAYER_GUI - 9);
     }
 #endif
@@ -200,7 +200,7 @@ EditorLayersWidget::update(float dt_sec)
   {
     m_scroll -= 5;
   }
-  else if (m_scroll_speed > 0 && m_scroll < (static_cast<int>(m_layer_icons.size()) - 1) * 35)
+  else if (m_scroll_speed > 0 && m_scroll < (static_cast<int>(m_editor_layers.size()) - 1) * 35)
   {
     m_scroll += 5;
   }
@@ -247,32 +247,32 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         return true;
 
       case HoveredItem::LAYERS:
-        if (m_hovered_layer == m_layer_icons.size()) // Add layer button
+        if (m_hovered_layer == m_editor_layers.size()) // Add layer button
         {
           m_add_layer_box_visible = !m_add_layer_box_visible;
           if (m_add_layer_box_visible)
           {
             m_add_layer_box->select_layers_objectgroup();
 
-            const Vector coords = get_layer_coords(static_cast<int>(m_layer_icons.size()));
+            const Vector coords = get_layer_coords(static_cast<int>(m_editor_layers.size()));
             m_add_layer_box->set_rect(Rectf(coords - Vector(48.f, std::max(m_add_layer_box->get_tiles_height(), 32.f)),
                                             coords + Vector(80.f, 0.f)));
           }
         }
-        else if (m_hovered_layer > m_layer_icons.size())
+        else if (m_hovered_layer > m_editor_layers.size())
         {
           return false;
         }
         else
         {
           auto overlay_widget = m_editor.get_overlay_widget();
-          TileMap *tilemap = m_layer_icons[m_hovered_layer]->get_layer_tilemap();
+          TileMap *tilemap = m_editor_layers[m_hovered_layer]->get_layer_tilemap();
           if (tilemap) {
             set_selected_tilemap(tilemap);
             overlay_widget->edit_object_path(tilemap);
             m_editor.set_selected_object(tilemap);
           } else {
-            auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->get_layer());
+            auto cam = dynamic_cast<Camera*>(m_editor_layers[m_hovered_layer]->get_layer());
             if (cam) {
               overlay_widget->edit_object_path(cam);
               m_editor.set_selected_object(cam);
@@ -287,9 +287,9 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   }
   else if (button.button == SDL_BUTTON_RIGHT)
   {
-    if (hovered_item == HoveredItem::LAYERS && m_hovered_layer < m_layer_icons.size())
+    if (hovered_item == HoveredItem::LAYERS && m_hovered_layer < m_editor_layers.size())
     {
-      auto layer_object = m_layer_icons[m_hovered_layer]->get_layer();
+      auto layer_object = m_editor_layers[m_hovered_layer]->get_layer();
       MenuManager::instance().push_menu(std::make_unique<ObjectMenu>(layer_object));
       m_editor.set_selected_object(layer_object);
       return true;
@@ -394,7 +394,7 @@ EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
     }
     else if ((wheel.x > 0 || wheel.y > 0) && !(wheel.x < 0 || wheel.y < 0))
     {
-      auto last_item_position = (static_cast<int>(m_layer_icons.size()) - 1) * 35;
+      auto last_item_position = (static_cast<int>(m_editor_layers.size()) - 1) * 35;
       if (m_scroll < last_item_position)
       {
         m_scroll += 16;
@@ -437,7 +437,7 @@ EditorLayersWidget::refresh()
   if (sector == nullptr)
     return;
 
-  m_layer_icons.clear();
+  m_editor_layers.clear();
   for (const auto& obj : sector->get_objects())
     add_layer(obj.get(), /* sort_layers_after_adding = */ false);
 
@@ -458,7 +458,7 @@ EditorLayersWidget::refresh_layers()
 {
   bool tilemap_selected = false;
   TileMap* first_tilemap = nullptr;
-  for (const auto& icon : m_layer_icons)
+  for (const auto& icon : m_editor_layers)
   {
     auto* tm = icon->get_layer_tilemap();
     if (!tm)
@@ -488,11 +488,11 @@ EditorLayersWidget::refresh_layers()
 void
 EditorLayersWidget::sort_layers()
 {
-  auto layers_comparator = [](const std::unique_ptr<LayerIcon> &lhs, const std::unique_ptr<LayerIcon> &rhs)
+  auto layers_comparator = [](const std::unique_ptr<EditorLayer> &lhs, const std::unique_ptr<EditorLayer> &rhs)
   {
     return lhs->get_zpos() < rhs->get_zpos();
   };
-  std::sort(m_layer_icons.begin(), m_layer_icons.end(), layers_comparator);
+  std::sort(m_editor_layers.begin(), m_editor_layers.end(), layers_comparator);
 }
 
 void
@@ -505,13 +505,13 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
   if (!layer)
     return;
 
-  auto icon = std::make_unique<LayerIcon>(layer);
+  auto icon = std::make_unique<EditorLayer>(layer);
 
   // Newly added tilemaps shouldn't be active
   if (auto layer_tilemap = icon->get_layer_tilemap())
     layer_tilemap->m_editor_active = false;
 
-  m_layer_icons.push_back(std::move(icon));
+  m_editor_layers.push_back(std::move(icon));
   
   if (sort_layers_after_adding)
   {
@@ -524,12 +524,12 @@ EditorLayersWidget::update_tip()
 {
   remove_invalid_layers();
 
-  if (m_hovered_layer == m_layer_icons.size())
+  if (m_hovered_layer == m_editor_layers.size())
      m_object_tip->set_info(_("Add Layer"));
-  else if (m_hovered_layer > m_layer_icons.size())
+  else if (m_hovered_layer > m_editor_layers.size())
     m_object_tip->set_visible(false);
   else
-    m_object_tip->set_info_for_object(*m_layer_icons[m_hovered_layer]->get_layer());
+    m_object_tip->set_info_for_object(*m_editor_layers[m_hovered_layer]->get_layer());
 }
 
 void
@@ -544,13 +544,13 @@ EditorLayersWidget::update_current_tip()
 void
 EditorLayersWidget::remove_invalid_layers()
 {
-  auto it = m_layer_icons.begin();
-  while (it != m_layer_icons.end())
+  auto it = m_editor_layers.begin();
+  while (it != m_editor_layers.end())
   {
-    auto layer_icon = (*it).get();
-    if (!layer_icon->is_valid())
+    auto editor_layer = (*it).get();
+    if (!editor_layer->is_valid())
     {
-      it = m_layer_icons.erase(it);
+      it = m_editor_layers.erase(it);
       continue;
     }
     ++it;
