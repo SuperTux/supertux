@@ -56,7 +56,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_sector_text(),
   m_sector_text_width(0),
   m_hovered_item(HoveredItem::NONE),
-  m_hovered_layer_idx(-1),
+  m_hovered_layer_idx(),
   m_object_tip(new Tip()),
   m_has_mouse_focus(false)
 {
