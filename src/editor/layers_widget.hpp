@@ -32,7 +32,7 @@ class DrawingContext;
 class Editor;
 class EditorTilebox;
 class GameObject;
-class LayerIcon;
+class EditorLayer;
 class TileMap;
 class Tip;
 
@@ -89,7 +89,7 @@ private:
 
 private:
   Editor& m_editor;
-  std::vector<std::unique_ptr<LayerIcon>> m_layer_icons;
+  std::vector<std::unique_ptr<EditorLayer>> m_editor_layers;
   UID m_selected_tilemap;
 
   ObjectIcon m_add_icon;
