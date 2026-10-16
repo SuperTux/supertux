@@ -21,11 +21,11 @@
 class LayerObject;
 class TileMap;
 
-class LayerIcon : public ObjectIcon
+class EditorLayer : public ObjectIcon
 {
 public:
-  LayerIcon(LayerObject* layer);
-  ~LayerIcon() override {}
+  EditorLayer(LayerObject* layer);
+  ~EditorLayer() override {}
 
   virtual void draw(DrawingContext& context, const Vector& pos) override;
   virtual void draw(DrawingContext& context, const Vector& pos, int pixels_shown) override;
@@ -43,6 +43,6 @@ private:
   SurfacePtr m_selection;
 
 private:
-  LayerIcon(const LayerIcon&) = delete;
-  LayerIcon& operator=(const LayerIcon&) = delete;
+  EditorLayer(const EditorLayer&) = delete;
+  EditorLayer& operator=(const EditorLayer&) = delete;
 };
