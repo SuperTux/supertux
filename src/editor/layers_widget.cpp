@@ -190,11 +190,12 @@ EditorLayersWidget::update(float dt_sec)
 {
   remove_invalid_layers();
 
-  TileMap* selected_tilemap = get_selected_tilemap();
-  if (selected_tilemap)
-    selected_tilemap->m_editor_active = true;
-  else
-    refresh_layers(); // Ensure a tilemap is always selected
+  auto selected_tilemap = get_selected_tilemap();
+  if (!selected_tilemap)
+  {
+    // Ensure a tilemap is always selected
+    refresh_layers();
+  }
 
   if(m_scroll_speed < 0 && m_scroll > 0)
   {
@@ -472,11 +473,8 @@ EditorLayersWidget::refresh_layers()
     {
       first_tilemap = tm;
     }
-    if (!tm->is_solid() || tilemap_selected)
-    {
-      tm->m_editor_active = false;
-    }
-    else
+
+    if (tm->is_solid() && !tilemap_selected)
     {
       set_selected_tilemap(tm);
       tilemap_selected = true;
@@ -510,14 +508,6 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
     return;
 
   auto editor_layer = std::make_unique<EditorLayer>(layer);
-
-  // Newly added tilemaps shouldn't be active
-  if (editor_layer->is_tilemap())
-  {
-    auto layer_tilemap = editor_layer->get_tilemap();
-    layer_tilemap->m_editor_active = false;
-  }
-
   m_editor_layers.push_back(std::move(editor_layer));
   
   if (sort_layers_after_adding)
@@ -572,12 +562,7 @@ EditorLayersWidget::get_selected_tilemap() const
 void
 EditorLayersWidget::set_selected_tilemap(TileMap* tilemap)
 {
-  TileMap* selected_tilemap = get_selected_tilemap();
-  if (selected_tilemap)
-    selected_tilemap->m_editor_active = false;
-
   m_selected_tilemap = tilemap->get_uid();
-  tilemap->m_editor_active = true;
 }
 
 Vector
