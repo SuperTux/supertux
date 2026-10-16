@@ -248,6 +248,11 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         return true;
 
       case HoveredItem::LAYERS:
+        if (m_hovered_layer_idx > m_editor_layers.size())
+        {
+          return false;
+        }
+
         if (m_hovered_layer_idx == m_editor_layers.size()) // Add layer button
         {
           m_add_layer_box_visible = !m_add_layer_box_visible;
@@ -259,10 +264,6 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             m_add_layer_box->set_rect(Rectf(coords - Vector(48.f, std::max(m_add_layer_box->get_tiles_height(), 32.f)),
                                             coords + Vector(80.f, 0.f)));
           }
-        }
-        else if (m_hovered_layer_idx > m_editor_layers.size())
-        {
-          return false;
         }
         else
         {
