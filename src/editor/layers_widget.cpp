@@ -266,17 +266,18 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         else
         {
           auto overlay_widget = m_editor.get_overlay_widget();
-          TileMap *tilemap = m_editor_layers[m_hovered_layer_idx]->get_layer_tilemap();
-          if (tilemap) {
-            set_selected_tilemap(tilemap);
-            overlay_widget->edit_object_path(tilemap);
-            m_editor.set_selected_object(tilemap);
-          } else {
-            auto cam = dynamic_cast<Camera*>(m_editor_layers[m_hovered_layer_idx]->get_layer());
-            if (cam) {
-              overlay_widget->edit_object_path(cam);
-              m_editor.set_selected_object(cam);
+          auto& hovered_layer = get_hovered_layer();
+          auto hovered_object = hovered_layer->get_game_object();
+
+          if (hovered_object->can_follow_path())
+          {
+            if (auto tilemap = hovered_layer->get_tilemap())
+            {
+              set_selected_tilemap(tilemap);
             }
+            
+            overlay_widget->edit_object_path(hovered_object);
+            m_editor.set_selected_object(hovered_object);
           }
         }
         return true;
@@ -289,7 +290,7 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   {
     if (hovered_item == HoveredItem::LAYERS && m_hovered_layer_idx < m_editor_layers.size())
     {
-      auto layer_object = m_editor_layers[m_hovered_layer_idx]->get_layer();
+      auto layer_object = get_hovered_layer()->get_game_object();
       MenuManager::instance().push_menu(std::make_unique<ObjectMenu>(layer_object));
       m_editor.set_selected_object(layer_object);
       return true;
@@ -458,9 +459,12 @@ EditorLayersWidget::refresh_layers()
 {
   bool tilemap_selected = false;
   TileMap* first_tilemap = nullptr;
-  for (const auto& icon : m_editor_layers)
+  for (const auto& layer : m_editor_layers)
   {
-    auto* tm = icon->get_layer_tilemap();
+    if (!layer->is_tilemap())
+      continue;
+
+    auto tm = layer->get_tilemap();
     if (!tm)
       continue;
 
@@ -505,13 +509,16 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
   if (!layer)
     return;
 
-  auto icon = std::make_unique<EditorLayer>(layer);
+  auto editor_layer = std::make_unique<EditorLayer>(layer);
 
   // Newly added tilemaps shouldn't be active
-  if (auto layer_tilemap = icon->get_layer_tilemap())
+  if (editor_layer->is_tilemap())
+  {
+    auto layer_tilemap = editor_layer->get_tilemap();
     layer_tilemap->m_editor_active = false;
+  }
 
-  m_editor_layers.push_back(std::move(icon));
+  m_editor_layers.push_back(std::move(editor_layer));
   
   if (sort_layers_after_adding)
   {
@@ -529,7 +536,7 @@ EditorLayersWidget::update_tip()
   else if (m_hovered_layer_idx > m_editor_layers.size())
     m_object_tip->set_visible(false);
   else
-    m_object_tip->set_info_for_object(*m_editor_layers[m_hovered_layer_idx]->get_layer());
+    m_object_tip->set_info_for_object(*get_hovered_layer()->get_game_object());
 }
 
 void

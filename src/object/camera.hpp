@@ -89,6 +89,8 @@ public:
   /** reset camera position */
   void reset(const Vector& tuxpos);
 
+  virtual bool can_follow_path() override { return true; }
+
   /** Get the predicted translation and scale of the camera, time_offset seconds from now. */
   std::pair<Vector, float> get_predicted_transform(float time_offset) const;
 

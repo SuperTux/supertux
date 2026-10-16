@@ -77,6 +77,15 @@ public:
 
   bool has_mouse_focus() const;
 
+
+  /**
+   * Returns the layer the mouse is currently hovering over
+   */
+  inline const std::unique_ptr<EditorLayer>& get_hovered_layer() const
+  {
+    return m_editor_layers[m_hovered_layer_idx];
+  }
+
   TileMap* get_selected_tilemap() const;
   void set_selected_tilemap(TileMap* tilemap);
 
