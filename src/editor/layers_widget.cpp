@@ -439,7 +439,7 @@ EditorLayersWidget::refresh()
 
   m_layer_icons.clear();
   for (const auto& obj : sector->get_objects())
-    add_layer(obj.get(), true);
+    add_layer(obj.get());
 
   sort_layers();
   refresh_sector_text();
@@ -495,7 +495,7 @@ EditorLayersWidget::sort_layers()
 }
 
 void
-EditorLayersWidget::add_layer(GameObject* object, bool initial)
+EditorLayersWidget::add_layer(GameObject* object)
 {
   if (!object->has_settings())
     return;
