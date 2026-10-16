@@ -81,8 +81,8 @@ public:
   void set_selected_tilemap(TileMap* tilemap);
 
 private:
-  Vector get_layer_coords(const int pos) const;
-  int get_layer_pos(const Vector& coords) const;
+  Vector get_layer_coords(const int idx) const;
+  int get_layer_idx(const Vector& coords) const;
 
   void update_tip();
   void remove_invalid_layers();
@@ -106,7 +106,7 @@ private:
   int m_sector_text_width;
 
   HoveredItem m_hovered_item;
-  unsigned int m_hovered_layer;
+  unsigned int m_hovered_layer_idx;
 
   std::unique_ptr<Tip> m_object_tip;
 
