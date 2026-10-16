@@ -25,12 +25,10 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-EditorLayer::EditorLayer(LayerObject* layer) :
-  ObjectIcon("", layer->get_icon_path()),
-  m_layer(layer),
-  m_layer_tilemap(dynamic_cast<TileMap*>(layer)),
-  m_selection(m_layer_tilemap ?
-                Surface::from_file("images/engine/editor/selection.png") : nullptr)
+EditorLayer::EditorLayer(LayerObject* layer_object) :
+  ObjectIcon("", layer_object->get_icon_path()),
+  m_layer_object(layer_object),
+  m_selection(is_tilemap() ? Surface::from_file("images/engine/editor/selection.png") : nullptr)
 {
 }
 
@@ -46,7 +44,7 @@ EditorLayer::draw(DrawingContext& context, const Vector& pos)
     context.color().draw_text(Resources::small_font, std::to_string(l),
                                 pos + Vector(16,16),
                                 ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
-    if (m_layer_tilemap && m_layer_tilemap->m_editor_active)
+    if (is_tilemap() && get_tilemap()->m_editor_active)
       context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
   }
 }
@@ -61,7 +59,7 @@ EditorLayer::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
   if (l != std::numeric_limits<int>::min())
   {
     // Don't draw the text if the icon is not 100% visible
-    if (m_layer_tilemap && m_layer_tilemap->m_editor_active)
+    if (is_tilemap() && get_tilemap()->m_editor_active)
       context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
   }
 }
@@ -69,11 +67,11 @@ EditorLayer::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
 int
 EditorLayer::get_zpos() const
 {
-  return is_valid() ? m_layer->get_layer() : std::numeric_limits<int>::min();
+  return is_valid() ? m_layer_object->get_layer() : std::numeric_limits<int>::min();
 }
 
 bool
 EditorLayer::is_valid() const
 {
-  return m_layer && m_layer->is_valid();
+  return m_layer_object && m_layer_object->is_valid();
 }
