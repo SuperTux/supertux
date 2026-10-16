@@ -16,15 +16,16 @@
 
 #pragma once
 
+#include "editor/layer_object.hpp"
 #include "editor/object_icon.hpp"
+#include "object/tilemap.hpp"
 
 class LayerObject;
-class TileMap;
 
 class EditorLayer : public ObjectIcon
 {
 public:
-  EditorLayer(LayerObject* layer);
+  EditorLayer(LayerObject* layer_object);
   ~EditorLayer() override {}
 
   virtual void draw(DrawingContext& context, const Vector& pos) override;
@@ -33,13 +34,27 @@ public:
   int get_zpos() const;
   bool is_valid() const;
 
-  inline LayerObject* get_layer() const { return m_layer; }
-  inline TileMap* get_layer_tilemap() const { return m_layer_tilemap; }
+  /**
+   * Returns the underlying LayerObject instance of this EditorLayer
+   */
+  inline LayerObject* get_game_object() const { return m_layer_object; }
+
+  /**
+   * Returns true if the underlying GameObject instance is a tilemap
+   */
+  inline bool is_tilemap() const { return m_layer_object->get_class_name() == TileMap::class_name(); }
+
+  /**
+   * Returns the underlying TileMap instance of this layer or nullptr
+   * if the layer is not a tilemap
+   */
+  inline TileMap* get_tilemap()
+  {
+    return is_tilemap() ? static_cast<TileMap *>(get_game_object()) : nullptr;
+  }
 
 private:
-  LayerObject* m_layer;
-  TileMap* m_layer_tilemap;
-
+  LayerObject* m_layer_object;
   SurfacePtr m_selection;
 
 private:

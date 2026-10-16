@@ -68,6 +68,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PathObject)).add(typeid(TileMap)); }
 
+  virtual bool can_follow_path() override { return true; }
+
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 

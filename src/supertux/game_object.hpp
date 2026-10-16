@@ -212,6 +212,12 @@ public:
   /** continues all looping sounds */
   virtual void play_looping_sounds() {}
 
+  /**
+   * Return `true` when this object can potentially
+   * have a path that it follows
+   */
+  virtual bool can_follow_path() { return false; }
+
   template<typename T>
   T* get_component() {
     for(auto& component : m_components) {
