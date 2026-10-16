@@ -270,13 +270,13 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           auto& hovered_layer = get_hovered_layer();
           auto hovered_object = hovered_layer->get_game_object();
 
-          if (hovered_object->can_follow_path())
+          if (auto tilemap = hovered_layer->get_tilemap())
           {
-            if (auto tilemap = hovered_layer->get_tilemap())
-            {
-              set_selected_tilemap(tilemap);
-            }
-            
+            set_selected_tilemap(tilemap);
+          }
+
+          if (hovered_object->can_follow_path())
+          { 
             overlay_widget->edit_object_path(hovered_object);
             m_editor.set_selected_object(hovered_object);
           }
