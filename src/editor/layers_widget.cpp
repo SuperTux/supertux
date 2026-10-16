@@ -56,7 +56,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_sector_text(),
   m_sector_text_width(0),
   m_hovered_item(HoveredItem::NONE),
-  m_hovered_layer(-1),
+  m_hovered_layer_idx(-1),
   m_object_tip(new Tip()),
   m_has_mouse_focus(false)
 {
@@ -89,7 +89,7 @@ EditorLayersWidget::draw(DrawingContext& context)
   }
   else if (m_object_tip->get_visible())
   {
-    auto position = get_layer_coords(m_hovered_layer);
+    auto position = get_layer_coords(m_hovered_layer_idx);
     m_object_tip->draw_up(context, position);
   }
 
@@ -118,7 +118,7 @@ EditorLayersWidget::draw(DrawingContext& context)
 
     case HoveredItem::LAYERS:
       {
-        Vector coords = get_layer_coords(m_hovered_layer);
+        Vector coords = get_layer_coords(m_hovered_layer_idx);
         target_rect = Rectf(coords, coords + Vector(32, 32));
       }
       break;
@@ -247,7 +247,7 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         return true;
 
       case HoveredItem::LAYERS:
-        if (m_hovered_layer == m_editor_layers.size()) // Add layer button
+        if (m_hovered_layer_idx == m_editor_layers.size()) // Add layer button
         {
           m_add_layer_box_visible = !m_add_layer_box_visible;
           if (m_add_layer_box_visible)
@@ -259,20 +259,20 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
                                             coords + Vector(80.f, 0.f)));
           }
         }
-        else if (m_hovered_layer > m_editor_layers.size())
+        else if (m_hovered_layer_idx > m_editor_layers.size())
         {
           return false;
         }
         else
         {
           auto overlay_widget = m_editor.get_overlay_widget();
-          TileMap *tilemap = m_editor_layers[m_hovered_layer]->get_layer_tilemap();
+          TileMap *tilemap = m_editor_layers[m_hovered_layer_idx]->get_layer_tilemap();
           if (tilemap) {
             set_selected_tilemap(tilemap);
             overlay_widget->edit_object_path(tilemap);
             m_editor.set_selected_object(tilemap);
           } else {
-            auto cam = dynamic_cast<Camera*>(m_editor_layers[m_hovered_layer]->get_layer());
+            auto cam = dynamic_cast<Camera*>(m_editor_layers[m_hovered_layer_idx]->get_layer());
             if (cam) {
               overlay_widget->edit_object_path(cam);
               m_editor.set_selected_object(cam);
@@ -287,9 +287,9 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   }
   else if (button.button == SDL_BUTTON_RIGHT)
   {
-    if (hovered_item == HoveredItem::LAYERS && m_hovered_layer < m_editor_layers.size())
+    if (hovered_item == HoveredItem::LAYERS && m_hovered_layer_idx < m_editor_layers.size())
     {
-      auto layer_object = m_editor_layers[m_hovered_layer]->get_layer();
+      auto layer_object = m_editor_layers[m_hovered_layer_idx]->get_layer();
       MenuManager::instance().push_menu(std::make_unique<ObjectMenu>(layer_object));
       m_editor.set_selected_object(layer_object);
       return true;
@@ -320,7 +320,7 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     {
       int layer_box_mouse_pos = mouse_pos.y - 400;
       m_hovered_item = HoveredItem::LAYERS;
-      m_hovered_layer = static_cast<int>(layer_box_mouse_pos / 30.0f);
+      m_hovered_layer_idx = static_cast<int>(layer_box_mouse_pos / 30.0f);
       update_tip();
       return true;
     }
@@ -364,9 +364,9 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       m_scroll_speed = 0;
     }
 
-    unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
-    if (m_hovered_layer != new_hovered_layer || m_hovered_item != HoveredItem::LAYERS) {
-      m_hovered_layer = new_hovered_layer;
+    unsigned int new_hovered_layer_idx = get_layer_idx(mouse_pos);
+    if (m_hovered_layer_idx != new_hovered_layer_idx || m_hovered_item != HoveredItem::LAYERS) {
+      m_hovered_layer_idx = new_hovered_layer_idx;
       update_tip();
     }
     m_hovered_item = HoveredItem::LAYERS;
@@ -524,12 +524,12 @@ EditorLayersWidget::update_tip()
 {
   remove_invalid_layers();
 
-  if (m_hovered_layer == m_editor_layers.size())
+  if (m_hovered_layer_idx == m_editor_layers.size())
      m_object_tip->set_info(_("Add Layer"));
-  else if (m_hovered_layer > m_editor_layers.size())
+  else if (m_hovered_layer_idx > m_editor_layers.size())
     m_object_tip->set_visible(false);
   else
-    m_object_tip->set_info_for_object(*m_editor_layers[m_hovered_layer]->get_layer());
+    m_object_tip->set_info_for_object(*m_editor_layers[m_hovered_layer_idx]->get_layer());
 }
 
 void
@@ -577,14 +577,14 @@ EditorLayersWidget::set_selected_tilemap(TileMap* tilemap)
 }
 
 Vector
-EditorLayersWidget::get_layer_coords(const int pos) const
+EditorLayersWidget::get_layer_coords(const int layer_idx) const
 {
-  return Vector(static_cast<float>(pos * 35 + m_Xpos + m_sector_text_width - m_scroll),
+  return Vector(static_cast<float>(layer_idx * 35 + m_Xpos + m_sector_text_width - m_scroll),
                 static_cast<float>(m_Ypos));
 }
 
 int
-EditorLayersWidget::get_layer_pos(const Vector& coords) const
+EditorLayersWidget::get_layer_idx(const Vector& coords) const
 {
   return static_cast<int>((coords.x - static_cast<float>(m_Xpos - m_scroll) - static_cast<float>(m_sector_text_width)) / 35.0f);
 }
