@@ -24,16 +24,19 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
+#include "video/surface.hpp"
 #include "video/color.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
+#include "math/util.hpp"
 #include <cstdlib>
 
 constexpr float DRAG_DEADZONE = 10.f;
 constexpr float DRAG_MAX      = 120.f;
+constexpr float IMAGE_PADDING = 5.f;
 
 Notification::Notification(const std::string& id, float idle_close_time,
                            bool no_auto_close, bool auto_disable) :
@@ -47,6 +50,7 @@ Notification::Notification(const std::string& id, float idle_close_time,
   m_mini_text(),
   m_text_size(),
   m_mini_text_size(),
+  m_image(),
   m_init_mouse_click(0),
   m_pos(),
   m_vel(),
@@ -95,10 +99,23 @@ Notification::set_mini_text(const std::string& text)
 }
 
 void
+Notification::set_image(const std::string& path)
+{
+  if (path.empty())
+  {
+    m_image.reset();
+    return;
+  }
+
+  m_image = Surface::from_file(path);
+}
+
+void
 Notification::calculate_size()
 {
+  float imagewidth = m_image ? m_image->get_width() : 0;
   float mini_text_height = m_mini_text.empty() ? 0.f : m_mini_text_size.height + 24.f;
-  m_size = Sizef(std::max(m_text_size.width, m_mini_text_size.width) + 60.0f,
+  m_size = Sizef(std::max(m_text_size.width, m_mini_text_size.width) + 60.0f + imagewidth,
                  m_text_size.height + mini_text_height + 16.f);
   m_drag.x -= m_size.width + 100.f;
 }
@@ -122,7 +139,7 @@ Notification::draw(DrawingContext& context)
     m_vel -= 0.8;
     m_drag += m_vel;
 
-    if (m_drag.x < -400 || m_drag.x > 0)
+    if (!math::in_bounds(m_drag.x, -400.f, 0.f))
     {
       if (MouseCursor::current() && m_mouse_over)
         MouseCursor::current()->set_state(MouseCursorState::NORMAL);
@@ -139,7 +156,7 @@ Notification::draw(DrawingContext& context)
   context.push_transform();
   context.set_alpha(m_alpha);
 
-  m_pos = Vector(context.get_width() - std::max(m_text_size.width, m_mini_text_size.width) - 90.0f,
+  m_pos = Vector(context.get_width() - m_size.width - 30.0f,
                  static_cast<float>(context.get_height() / 12) - m_text_size.height - m_mini_text_size.height + 10.0f);
   m_pos.x -= m_drag.x;
   float visibility = std::clamp(1.2f - (m_drag.x * 0.01f), 0.0f, 1.0f);
@@ -159,14 +176,22 @@ Notification::draw(DrawingContext& context)
                                        g_config->menuroundness,
                                      LAYER_GUI - 10);
 
+  // Offset from the left edge of the background rectangle.
+  float textoff = 0;
+  if (m_image)
+  {
+    context.color().draw_surface(m_image, bg_rect.p1() + Vector(IMAGE_PADDING, IMAGE_PADDING), LAYER_GUI + 5);
+    textoff = IMAGE_PADDING + m_image->get_width();
+  }
+
   // Draw normal and mini texts.
   context.color().draw_text(Resources::normal_font, m_text,
-                              Vector(bg_rect.get_left() + bg_rect.get_width() / 2.0f,
+                              Vector(bg_rect.get_left() + textoff + (bg_rect.get_width() - textoff) / 2.0f,
                                      bg_rect.get_top() + (bg_rect.get_height() / 2 - bg_rect.get_height() / 3)),
                               ALIGN_CENTER, LAYER_GUI);
 
   context.color().draw_text(Resources::small_font, m_mini_text,
-                              Vector(bg_rect.get_left() + bg_rect.get_width() / 2.0f,
+                              Vector(bg_rect.get_left() + textoff + (bg_rect.get_width() - textoff) / 2.0f,
                                      bg_rect.get_top() + (bg_rect.get_height() / 2 + bg_rect.get_height() / 8)),
                               ALIGN_CENTER, LAYER_GUI);
 
