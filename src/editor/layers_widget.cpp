@@ -296,9 +296,6 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           }
         }
         return true;
-
-      default:
-        return false;
     }
   }
   else if (button.button == SDL_BUTTON_RIGHT)
@@ -310,15 +307,9 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
       m_editor.set_selected_object(layer_object);
       return true;
     }
-    else
-    {
-      return false;
-    }
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 bool
