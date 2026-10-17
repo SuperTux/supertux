@@ -53,6 +53,11 @@ public:
     return is_tilemap() ? static_cast<TileMap *>(get_game_object()) : nullptr;
   }
 
+  /**
+   * Returns the displayed title of this layer object (as shown in the editor layers widget)
+   */
+  std::string get_display_name() const;
+
 private:
   LayerObject* m_layer_object;
   SurfacePtr m_selection;
