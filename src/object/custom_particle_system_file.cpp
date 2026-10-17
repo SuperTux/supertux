@@ -54,7 +54,12 @@ CustomParticleSystemFile::get_settings()
   result.add_particle_editor();
 
   // It is assumed get_settings() is called whenever the menu is opened.
-  Editor::current()->m_particle_editor_filename = &m_filename;
+  auto editor = Editor::current();
+  if (editor != nullptr)
+  {
+    auto editor_project = editor->get_project();
+    editor_project->set_particle_editor_filename(&m_filename);
+  }
 
   result.add_remove();
 

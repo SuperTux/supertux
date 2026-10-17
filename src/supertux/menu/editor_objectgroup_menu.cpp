@@ -17,6 +17,7 @@
 #include "supertux/menu/editor_objectgroup_menu.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/object_info.hpp"
 #include "editor/object_group.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
@@ -25,15 +26,20 @@
 
 EditorObjectgroupMenu::EditorObjectgroupMenu()
 {
-  bool worldmap = Editor::current()->get_level()->is_worldmap();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
+  bool worldmap = level->is_worldmap();
+  auto& object_groups = editor->get_tilebox().get_object_info().m_groups;
 
   add_label(_("Objects"));
   add_hl();
 
   int id = 0;
-  for (auto& og : Editor::current()->get_objectgroups()) {
-    if (worldmap == og.is_worldmap()) {
-      add_entry(id, og.get_name());
+  for (auto &group : object_groups)
+  {
+    if (worldmap == group.is_worldmap()) {
+      add_entry(id, group.get_name());
     }
     id++;
   }
@@ -52,7 +58,9 @@ EditorObjectgroupMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() >= 0)
   {
-    Editor::current()->select_objectgroup(item.get_id());
+    auto editor = Editor::current();
+    auto toolbox_widget = editor->get_toolbox_widget();
+    toolbox_widget->select_objectgroup(item.get_id());
   }
   MenuManager::instance().clear_menu_stack();
 }

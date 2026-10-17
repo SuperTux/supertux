@@ -31,8 +31,9 @@
 class DrawingContext;
 class Editor;
 class EditorTilebox;
+class MenuListWidget;
 class GameObject;
-class LayerIcon;
+class EditorLayer;
 class TileMap;
 class Tip;
 
@@ -65,25 +66,45 @@ public:
   void refresh_sector_text();
   void refresh_layers();
   void sort_layers();
-  void add_layer(GameObject* layer, bool initial = false);
+
+  /**
+   * Adds a new layer to the layers widget.
+   * @param GameObject* layer GameObject to add to layers
+   * @param sort_layers_after_adding If true, the layer list will be sorted after each addition
+   */
+  void add_layer(GameObject* layer, bool sort_layers_after_adding = true);
+
+  /**
+   * Populates the layers menu with all the relevant layers
+   */
+  void populate_layers_list_widget();
 
   void update_current_tip();
 
   bool has_mouse_focus() const;
 
+
+  /**
+   * Returns the layer the mouse is currently hovering over
+   */
+  inline const std::unique_ptr<EditorLayer>& get_hovered_layer() const
+  {
+    return m_editor_layers[m_hovered_layer_idx];
+  }
+
   TileMap* get_selected_tilemap() const;
   void set_selected_tilemap(TileMap* tilemap);
 
 private:
-  Vector get_layer_coords(const int pos) const;
-  int get_layer_pos(const Vector& coords) const;
+  Vector get_layer_coords(const int idx) const;
+  int get_layer_idx(const Vector& coords) const;
 
   void update_tip();
   void remove_invalid_layers();
 
 private:
   Editor& m_editor;
-  std::vector<std::unique_ptr<LayerIcon>> m_layer_icons;
+  std::vector<std::unique_ptr<EditorLayer>> m_editor_layers;
   UID m_selected_tilemap;
 
   ObjectIcon m_add_icon;
@@ -100,9 +121,11 @@ private:
   int m_sector_text_width;
 
   HoveredItem m_hovered_item;
-  unsigned int m_hovered_layer;
+  unsigned int m_hovered_layer_idx;
 
   std::unique_ptr<Tip> m_object_tip;
+  std::unique_ptr<MenuListWidget> m_layer_list_widget;
+  bool m_layer_list_widget_visible;
 
   bool m_has_mouse_focus;
 
