@@ -12,7 +12,7 @@ body:
     attributes:
       label: SuperTux Version
       description: The version of SuperTux, shown at the bottom-left corner on the title screen.
-      placeholder: ex. v0.6.3-1236-g7451121dd
+      placeholder: ex. dev v0.7.0-rev.1 - 9fe2dc7 (master)
     validations:
       required: true
   - type: input

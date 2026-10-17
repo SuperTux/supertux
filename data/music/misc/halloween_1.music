@@ -2,6 +2,6 @@
   (file "halloween_1.ogg")
   (authors "Forty-Two")
   (license "CC-BY-SA 4.0")
-  (loop-begin 37.60)
-  (loop-at    124.95)
+  (loop-begin 37.6)
+  (loop-at 124.95)
 )

@@ -2,6 +2,5 @@
   (action
     (name "default")
     (hitbox 0 0 16 100)
-    (images "torch3.png")
-  )
+    (images "torch3.png"))
 )

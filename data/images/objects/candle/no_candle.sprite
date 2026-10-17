@@ -1,15 +1,8 @@
 (supertux-sprite
   (action
     (name "on")
-    (images 
-      "../bonus_block/invisible.png"
-      )
-    )
+    (images "../bonus_block/invisible.png"))
   (action
     (name "off")
-    (images 
-      "../bonus_block/invisible.png"
-      )
-    )
-  )
-
+    (images "../bonus_block/invisible.png"))
+)

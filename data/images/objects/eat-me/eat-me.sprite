@@ -1,7 +1,6 @@
 (supertux-sprite
-    (action
-      (name "default")
-	  (hitbox 3 5 55 32)
-      (images "platter.png")
-    )
+  (action
+    (name "default")
+    (hitbox 3 5 55 32)
+    (images "platter.png"))
 )
