@@ -19,6 +19,8 @@
 #include "editor/editor.hpp"
 #include "editor/editor_event_handling.hpp"
 #include "editor/editor_layer.hpp"
+#include "editor/menu_list_item.hpp"
+#include "editor/menu_list_widget.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/tip.hpp"
@@ -58,6 +60,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_hovered_item(HoveredItem::NONE),
   m_hovered_layer_idx(),
   m_object_tip(new Tip()),
+  m_layer_list_widget(std::make_unique<MenuListWidget>()),
   m_has_mouse_focus(false)
 {
   m_add_layer_box->on_select([this](EditorTilebox& tilebox)
@@ -91,6 +94,11 @@ EditorLayersWidget::draw(DrawingContext& context)
   {
     auto position = get_layer_coords(m_hovered_layer_idx);
     m_object_tip->draw_up(context, position);
+  }
+
+  if(m_hovered_item == HoveredItem::SECTOR)
+  {
+    m_layer_list_widget->draw(context);
   }
 
   context.color().set_blur(g_config->editor_blur);
@@ -215,18 +223,23 @@ EditorLayersWidget::event(const SDL_Event& ev)
   if (m_add_layer_box_visible)
     result |= m_add_layer_box->event(ev);
 
+  result |= m_layer_list_widget->event(ev);
+
   return result;
 }
 
 bool
 EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  return false;
+  return m_layer_list_widget->on_mouse_button_up(button);
 }
 
 bool
 EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
+  if (m_layer_list_widget->on_mouse_button_down(button))
+    return true;
+
   auto hovered_item = m_hovered_item;
   m_hovered_item = HoveredItem::NONE;
 
@@ -311,6 +324,9 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
+  if (m_layer_list_widget->on_mouse_motion(motion))
+    return true;
+
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   float x = mouse_pos.x - static_cast<float>(m_Xpos);
   float y = mouse_pos.y - static_cast<float>(m_Ypos);
@@ -425,6 +441,8 @@ EditorLayersWidget::on_window_resize()
 {
   m_Ypos = SCREEN_HEIGHT - 32;
   m_Width = SCREEN_WIDTH - 128;
+
+  m_layer_list_widget->set_position(Vector(m_Xpos, m_Ypos), true);
 }
 
 void
@@ -443,10 +461,47 @@ EditorLayersWidget::refresh()
     return;
 
   m_editor_layers.clear();
+  m_layer_list_widget->clear_items();
+
   for (const auto& obj : sector->get_objects())
     add_layer(obj.get(), /* sort_layers_after_adding = */ false);
 
   sort_layers();
+
+  for(const auto& editor_layer : m_editor_layers)
+  {
+    auto object = editor_layer->get_game_object();
+    auto item_label = object->get_name();
+    if (item_label.empty())
+    {
+      item_label = object->get_display_name();
+    }
+
+    if (editor_layer->get_zpos() > std::numeric_limits<int>::min())
+    {
+      item_label += " (" + std::to_string(editor_layer->get_zpos()) + ")";
+    }
+
+    auto select_layer = [this, tilemap = editor_layer->get_tilemap()]
+    {
+      if (tilemap == nullptr)
+        return;
+
+      set_selected_tilemap(tilemap);
+    };
+
+    auto menu_item = std::make_unique<MenuListItem>(item_label, select_layer);
+
+    auto is_selected_layer = [tilemap = editor_layer->get_tilemap()]
+    {
+      return tilemap != nullptr && tilemap->is_selected_in_editor();
+    };
+
+    menu_item->set_is_selected_handler(is_selected_layer);
+
+    m_layer_list_widget->add_item(std::move(menu_item));
+  }
+
   refresh_sector_text();
 }
 
@@ -512,7 +567,7 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
 
   auto editor_layer = std::make_unique<EditorLayer>(layer);
   m_editor_layers.push_back(std::move(editor_layer));
-  
+
   if (sort_layers_after_adding)
   {
     sort_layers();
