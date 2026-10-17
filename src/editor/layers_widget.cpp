@@ -461,7 +461,6 @@ EditorLayersWidget::refresh()
     return;
 
   m_editor_layers.clear();
-  m_layer_list_widget->clear_items();
 
   for (const auto& obj : sector->get_objects())
     add_layer(obj.get(), /* sort_layers_after_adding = */ false);
@@ -476,6 +475,8 @@ EditorLayersWidget::refresh()
 void
 EditorLayersWidget::populate_layers_list_widget()
 {
+  m_layer_list_widget->clear_items();
+
   for(const auto& editor_layer : m_editor_layers)
   {
     auto select_layer = [this, tilemap = editor_layer->get_tilemap()]
@@ -486,7 +487,9 @@ EditorLayersWidget::populate_layers_list_widget()
       set_selected_tilemap(tilemap);
     };
 
-    auto menu_item = std::make_unique<MenuListItem>(editor_layer->get_display_name(), select_layer);
+    auto menu_item =
+      std::make_unique<MenuListItem>(editor_layer->get_display_name(), select_layer, 
+                                     editor_layer->get_game_object()->get_icon_path(), Rectf(0, 0, 16, 16));
 
     auto is_selected_layer = [tilemap = editor_layer->get_tilemap()]
     {
