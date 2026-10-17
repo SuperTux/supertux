@@ -73,6 +73,11 @@ public:
 
   SurfacePtr get_surface() const { return m_surface; }
 
+  /**
+   * Returns the current checkbox surface for the item
+   */
+  SurfacePtr get_checkbox_surface() const;
+
 private:
   std::string m_label;
   std::string m_keyboard_shortcut;

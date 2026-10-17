@@ -67,7 +67,7 @@ MenuListItem::draw(DrawingContext& context)
   }
 
   auto& rect = get_rect();
-  auto origin = get_rect().p1();
+  auto origin = rect.p1();
 
   auto surface = get_surface();
   if (surface != nullptr)
@@ -84,9 +84,8 @@ MenuListItem::draw(DrawingContext& context)
   auto item_selected_Handler = get_is_selected_handler();
   if (is_enabled() && item_selected_Handler != nullptr)
   {
-    auto checkbox_graphics = item_selected_Handler() ? Resources::checkbox_checked : Resources::checkbox;
     auto target_rect = Rectf(origin + Vector(5, 5), origin + Vector(20, 20));
-    context.color().draw_surface_scaled(checkbox_graphics, target_rect, LAYER_GUI);
+    context.color().draw_surface_scaled(get_checkbox_surface(), target_rect, LAYER_GUI);
   }
 
   auto label_position = origin + m_label_offset;
@@ -133,4 +132,14 @@ MenuListItem::has_mouse_focus() const
   auto editor = Editor::current();
   auto mouse_pos = editor->get_event_handling()->get_mouse_pos();
   return m_rect.contains(mouse_pos);
+}
+
+SurfacePtr
+MenuListItem::get_checkbox_surface() const
+{
+  auto selected_handler = get_is_selected_handler();
+  if (selected_handler == nullptr)
+    return nullptr;
+
+  return selected_handler() ? Resources::checkbox_checked : Resources::checkbox;
 }
