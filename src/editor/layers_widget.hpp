@@ -125,6 +125,7 @@ private:
 
   std::unique_ptr<Tip> m_object_tip;
   std::unique_ptr<MenuListWidget> m_layer_list_widget;
+  bool m_layer_list_widget_visible;
 
   bool m_has_mouse_focus;
 
