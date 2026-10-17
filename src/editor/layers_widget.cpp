@@ -468,6 +468,14 @@ EditorLayersWidget::refresh()
 
   sort_layers();
 
+  populate_layers_list_widget();
+
+  refresh_sector_text();
+}
+
+void
+EditorLayersWidget::populate_layers_list_widget()
+{
   for(const auto& editor_layer : m_editor_layers)
   {
     auto object = editor_layer->get_game_object();
@@ -501,8 +509,6 @@ EditorLayersWidget::refresh()
 
     m_layer_list_widget->add_item(std::move(menu_item));
   }
-
-  refresh_sector_text();
 }
 
 void
