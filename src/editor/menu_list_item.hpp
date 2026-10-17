@@ -21,8 +21,7 @@
 #include "editor/menu_list_base_item.hpp"
 #include "editor/widget.hpp"
 #include "math/rectf.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
+#include "video/surface.hpp"
 
 #include <functional>
 #include <vector>
@@ -35,7 +34,7 @@ private:
 
 public:
   MenuListItem(const std::string &label, const std::function<void()> onclick_handler,
-               const std::string &sprite_path, const Rectf &rect);
+               const std::string &surface_path, const Rectf &rect);
 
   MenuListItem(const std::string &label);
 
@@ -72,7 +71,7 @@ public:
 
   bool has_mouse_focus() const;
 
-  Sprite* get_sprite() const { return m_sprite.get(); }
+  SurfacePtr get_surface() const { return m_surface; }
 
 private:
   std::string m_label;
@@ -80,5 +79,5 @@ private:
   std::function<void()> m_onclick_handler;
   std::function<bool()> m_is_selected_handler;
   std::function<bool()> m_is_enabled_handler;
-  SpritePtr m_sprite;
+  SurfacePtr m_surface;
 };

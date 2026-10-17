@@ -25,14 +25,14 @@
 #include "video/drawing_context.hpp"
 
 MenuListItem::MenuListItem(const std::string& label, const std::function<void()> onclick_handler,
-  const std::string& sprite_path, const Rectf& rect) :
+  const std::string& surface_path, const Rectf& rect) :
     MenuListBaseItem(rect),
     m_label(label),
     m_keyboard_shortcut(""),
     m_onclick_handler(onclick_handler),
     m_is_selected_handler(nullptr),
     m_is_enabled_handler(nullptr),
-    m_sprite(SpriteManager::current()->create(sprite_path))
+    m_surface(Surface::from_file(surface_path))
   {
   }
 
@@ -43,7 +43,7 @@ MenuListItem::MenuListItem(const std::string& label) :
   m_onclick_handler([]{}),
   m_is_selected_handler(nullptr),
   m_is_enabled_handler(nullptr),
-  m_sprite(nullptr)
+  m_surface(nullptr)
 {
 }
 
@@ -54,7 +54,7 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
   m_onclick_handler(onclick_handler),
   m_is_selected_handler(nullptr),
   m_is_enabled_handler(nullptr),
-  m_sprite(nullptr)
+  m_surface(nullptr)
 {
 }
 
@@ -66,21 +66,30 @@ MenuListItem::draw(DrawingContext& context)
     context.color().draw_filled_rect(get_rect(), Color::BLACK, LAYER_GUI);
   }
 
+  auto& rect = get_rect();
+  auto origin = get_rect().p1();
+
+  auto surface = get_surface();
+  if (surface != nullptr)
+  {
+    origin += m_sprite_offset;
+
+    auto surface_size = Sizef(rect.get_height(), rect.get_height()).as_vector() - m_sprite_offset;
+    auto surface_rect = Rectf(origin, origin + surface_size);
+    context.color().draw_surface_scaled(surface, surface_rect, LAYER_GUI);
+
+    origin += Vector(surface_size.x, 0);
+  }
+
   auto item_selected_Handler = get_is_selected_handler();
   if (is_enabled() && item_selected_Handler != nullptr)
   {
     auto checkbox_graphics = item_selected_Handler() ? Resources::checkbox_checked : Resources::checkbox;
-    auto target_rect = Rectf(get_rect().p1() + Vector(5, 5), get_rect().p1() + Vector(20, 20));
+    auto target_rect = Rectf(origin + Vector(5, 5), origin + Vector(20, 20));
     context.color().draw_surface_scaled(checkbox_graphics, target_rect, LAYER_GUI);
   }
 
-  // auto sprite = item->get_sprite();
-  // if (sprite != nullptr)
-  // {
-  //   auto sprite_rect = Rectf(pos + m_sprite_offset, sprite->get_size());
-  //   sprite->draw(context.color(), sprite_rect.p1(), LAYER_GUI);
-  // }
-  auto label_position = get_rect().p1() + m_label_offset;
+  auto label_position = origin + m_label_offset;
   auto text_color = is_enabled() ? Color::WHITE : Color(0.5, 0.5, 0.5);
   context.color().draw_text(Resources::editor_menu_font, get_label(), label_position, FontAlignment::ALIGN_LEFT, LAYER_GUI, text_color);
 
