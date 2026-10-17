@@ -75,3 +75,21 @@ EditorLayer::is_valid() const
 {
   return m_layer_object && m_layer_object->is_valid();
 }
+
+std::string
+EditorLayer::get_display_name() const
+{
+  auto object = get_game_object();
+  auto item_label = object->get_name();
+  if (item_label.empty())
+  {
+    item_label = object->get_display_name();
+  }
+
+  if (get_zpos() > std::numeric_limits<int>::min())
+  {
+    item_label += " (" + std::to_string(get_zpos()) + ")";
+  }
+
+  return item_label;
+}

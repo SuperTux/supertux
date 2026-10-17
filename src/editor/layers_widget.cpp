@@ -478,18 +478,6 @@ EditorLayersWidget::populate_layers_list_widget()
 {
   for(const auto& editor_layer : m_editor_layers)
   {
-    auto object = editor_layer->get_game_object();
-    auto item_label = object->get_name();
-    if (item_label.empty())
-    {
-      item_label = object->get_display_name();
-    }
-
-    if (editor_layer->get_zpos() > std::numeric_limits<int>::min())
-    {
-      item_label += " (" + std::to_string(editor_layer->get_zpos()) + ")";
-    }
-
     auto select_layer = [this, tilemap = editor_layer->get_tilemap()]
     {
       if (tilemap == nullptr)
@@ -498,7 +486,7 @@ EditorLayersWidget::populate_layers_list_widget()
       set_selected_tilemap(tilemap);
     };
 
-    auto menu_item = std::make_unique<MenuListItem>(item_label, select_layer);
+    auto menu_item = std::make_unique<MenuListItem>(editor_layer->get_display_name(), select_layer);
 
     auto is_selected_layer = [tilemap = editor_layer->get_tilemap()]
     {
