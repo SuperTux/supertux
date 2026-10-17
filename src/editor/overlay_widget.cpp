@@ -1532,9 +1532,11 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size) cons
 
   Vector line_start(0.0f, 0.0f);
   Vector line_end(0.0f, 0.0f);
-  auto draw_line = [&](const Vector& from, const Vector& to, const Color& col)
+
+  auto foremost_layer = Sector::current()->get_foremost_layer();
+  auto draw_line = [&](const Vector &from, const Vector &to, const Color &col)
   {
-    context.color().draw_line(from, to, col, current_tm->get_layer());
+    context.color().draw_line(from, to, col, foremost_layer + 1);
   };
 
   auto origin = tile_screen_pos(Vector(0, 0));
