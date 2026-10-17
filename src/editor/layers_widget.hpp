@@ -31,6 +31,7 @@
 class DrawingContext;
 class Editor;
 class EditorTilebox;
+class MenuListWidget;
 class GameObject;
 class EditorLayer;
 class TileMap;
@@ -118,6 +119,7 @@ private:
   unsigned int m_hovered_layer_idx;
 
   std::unique_ptr<Tip> m_object_tip;
+  std::unique_ptr<MenuListWidget> m_layer_list_widget;
 
   bool m_has_mouse_focus;
 

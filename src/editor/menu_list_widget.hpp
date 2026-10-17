@@ -42,6 +42,8 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent &button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent &motion) override;
 
+  void clear_items() { m_menu_items.clear(); }
+
   void add_item(std::unique_ptr<MenuListBaseItem> item)
   {
     m_menu_items.push_back(std::move(item));
