@@ -61,6 +61,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_hovered_layer_idx(),
   m_object_tip(new Tip()),
   m_layer_list_widget(std::make_unique<MenuListWidget>()),
+  m_layer_list_widget_visible(),
   m_has_mouse_focus(false)
 {
   m_add_layer_box->on_select([this](EditorTilebox& tilebox)
@@ -96,7 +97,7 @@ EditorLayersWidget::draw(DrawingContext& context)
     m_object_tip->draw_up(context, position);
   }
 
-  if(m_hovered_item == HoveredItem::SECTOR)
+  if(m_layer_list_widget_visible)
   {
     m_layer_list_widget->draw(context);
   }
@@ -223,7 +224,8 @@ EditorLayersWidget::event(const SDL_Event& ev)
   if (m_add_layer_box_visible)
     result |= m_add_layer_box->event(ev);
 
-  result |= m_layer_list_widget->event(ev);
+  if (m_layer_list_widget_visible)
+    result |= m_layer_list_widget->event(ev);
 
   return result;
 }
@@ -237,7 +239,7 @@ EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 bool
 EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
-  if (m_layer_list_widget->on_mouse_button_down(button))
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_button_down(button))
     return true;
 
   auto hovered_item = m_hovered_item;
@@ -296,7 +298,10 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           }
         }
         return true;
-    }
+      
+      default:
+        return false;
+      }
   }
   else if (button.button == SDL_BUTTON_RIGHT)
   {
@@ -315,10 +320,17 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
-  if (m_layer_list_widget->on_mouse_motion(motion))
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_motion(motion))
     return true;
 
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
+
+  if (m_hovered_item != HoveredItem::SECTOR && m_layer_list_widget_visible && !m_layer_list_widget->get_area().contains(mouse_pos))
+  {
+    m_layer_list_widget_visible = false;
+    return true;
+  }
+
   float x = mouse_pos.x - static_cast<float>(m_Xpos);
   float y = mouse_pos.y - static_cast<float>(m_Ypos);
 
@@ -356,6 +368,7 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
   if (x <= static_cast<float>(m_sector_text_width)) {
     m_hovered_item = HoveredItem::SECTOR;
+    m_layer_list_widget_visible = true;
     m_object_tip->set_visible(false);
   } else {
     // Scrolling
