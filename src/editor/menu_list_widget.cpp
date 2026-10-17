@@ -81,15 +81,16 @@ MenuListWidget::on_mouse_motion(const SDL_MouseMotionEvent &motion)
 }
 
 void
-MenuListWidget::set_position(const Vector& position)
+MenuListWidget::set_position(const Vector& position, bool anchor_bottom)
 {
   int i = 0;
   float max_item_width;
   float total_menu_height;
+  auto menu_position = position;
 
   for (const auto &item : m_menu_items)
   {
-    auto item_pos = position + Vector(0, total_menu_height);
+    auto item_pos = menu_position + Vector(0, total_menu_height);
     auto item_size = item->get_size();
 
     if (item_size.width > max_item_width)
@@ -103,7 +104,19 @@ MenuListWidget::set_position(const Vector& position)
   }
 
   auto menu_size = Vector(max_item_width, total_menu_height) + m_menu_offset;
-  m_menu_area = Rectf(position, position + menu_size);
+
+  if (anchor_bottom)
+  {
+    auto offset = Vector(0, -total_menu_height);
+    for (auto &item : m_menu_items)
+    {
+      auto& rect = item->get_rect();
+      item->set_rect(rect.moved(offset));
+    }
+    menu_position += offset;
+  }
+
+  m_menu_area = Rectf(menu_position, menu_position + menu_size);
 }
 
 bool
