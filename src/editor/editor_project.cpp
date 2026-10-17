@@ -283,7 +283,10 @@ bool
 EditorProject::save_level(const std::string& filename, bool set_as_current_filename,
                           const std::function<void ()>& post_save_callback, bool save_temp_level)
 {
-  m_post_save_callbacks.push_back(post_save_callback);
+  if (post_save_callback)
+  {
+    m_post_save_callbacks.push_back(post_save_callback);
+  }
 
   if (m_is_temp_level && !save_temp_level)
   {
