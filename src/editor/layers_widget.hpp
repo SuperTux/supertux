@@ -74,6 +74,11 @@ public:
    */
   void add_layer(GameObject* layer, bool sort_layers_after_adding = true);
 
+  /**
+   * Populates the layers menu with all the relevant layers
+   */
+  void populate_layers_list_widget();
+
   void update_current_tip();
 
   bool has_mouse_focus() const;
