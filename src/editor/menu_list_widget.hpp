@@ -64,6 +64,8 @@ public:
    */
   void set_position(const Vector &position, bool anchor_bottom = false);
 
+  const Vector &get_position() const { return m_menu_area.p1(); }
+
   inline const Rectf &get_area() const { return m_menu_area; }
 
   bool has_mouse_focus() const;
