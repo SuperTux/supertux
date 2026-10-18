@@ -37,7 +37,8 @@ public:
   static void register_class(ssq::VM& vm);
 
 public:
-  Decal(const ReaderMapping& reader);
+  Decal();
+  Decal(const ReaderMapping &reader);
   ~Decal() override;
 
   virtual HitResponse collision(MovingObject& , const CollisionHit& ) override { return FORCE_MOVE; }
