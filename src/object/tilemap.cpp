@@ -497,23 +497,31 @@ TileMap::update(float dt_sec)
 void
 TileMap::editor_update()
 {
-  if (get_walker()) {
-    if (get_path() && get_path()->is_valid()) {
-      m_movement = get_walker()->get_pos(get_size() * 32, m_path_handle) - get_offset();
-      set_offset(get_walker()->get_pos(get_size() * 32, m_path_handle));
+  if (!get_walker())
+    return;
 
-      if (!get_path()) return;
-      if (!get_path()->is_valid()) return;
+  auto start_position = Vector(0, 0);
+  if (get_path() && get_path()->is_valid())
+  {
+    auto new_offset = get_walker()->get_pos(get_size() * 32, m_path_handle);
+    m_movement = new_offset - get_offset();
+    set_offset(new_offset);
 
-      if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
-        m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+    // TODO: Can it happen that these checks will fail here?
+    if (!get_path()) return;
+    if (!get_path()->is_valid()) return;
 
-      m_movement += get_path()->get_nodes()[m_starting_node].position - get_offset();
-      set_offset(m_path_handle.get_pos(get_size() * 32, get_path()->get_nodes()[m_starting_node].position));
-    } else {
-      set_offset(m_path_handle.get_pos(get_size() * 32, Vector(0, 0)));
-    }
+    auto path_nodes = get_path()->get_nodes();
+    int node_count = static_cast<int>(path_nodes.size());
+
+    if (m_starting_node >= node_count)
+      m_starting_node = node_count - 1;
+
+    start_position = path_nodes[m_starting_node].position;
+    m_movement += start_position - get_offset();
   }
+
+  set_offset(m_path_handle.get_pos(get_size() * 32, start_position));
 }
 
 void
@@ -588,7 +596,8 @@ TileMap::draw(DrawingContext& context)
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
-	  if (g_debug.show_collision_rects && m_real_solid) {
+	    if (g_debug.show_collision_rects && m_real_solid)
+      {
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
