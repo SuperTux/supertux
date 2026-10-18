@@ -101,7 +101,7 @@ public:
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
   inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
   inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
-  inline TileSelection* get_selected_tiles() const { return get_tilebox().get_tiles(); }
+  inline TileSelection* get_tile_selection() const { return get_tilebox().get_tiles(); }
 
   inline EditorPropertiesPanel* get_properties_panel() const { return m_properties_panel; }
   inline InputMode get_input_mode() const { return m_input_mode; }

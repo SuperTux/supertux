@@ -38,6 +38,12 @@ public:
   /** Returns true when has no tiles or is full of zeros */
   bool empty() const;
 
+  /**
+   * Returns true if the tile selection is supposed to erase
+   * existing tiles
+   */
+  inline bool erases_tiles() const { return m_tiles.size() > 0 && m_tiles[0] == 0; }
+
 public:
   std::vector<uint32_t> m_tiles;
   int m_width;
