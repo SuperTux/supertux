@@ -555,12 +555,9 @@ TileMap::draw(DrawingContext& context)
 
   if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
-  if (is_selected_in_editor())
+  if (!Editor::is_active() || is_selected_in_editor())
   {
-    if (m_current_alpha != 1.0f)
-    {
-      context.set_alpha(m_current_alpha);
-    }
+    context.set_alpha(m_current_alpha);
   }
   else
   {
