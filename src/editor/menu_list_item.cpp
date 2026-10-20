@@ -93,8 +93,10 @@ MenuListItem::draw(DrawingContext& context)
         context.color().draw_surface_scaled(item_selected_surface, surface_rect, LAYER_GUI);
       }
     }
-
-    origin += Vector(surface_size.x, 0);
+    else
+    {
+      origin += Vector(surface_size.x, 0);
+    }
   }
 
   if (item_selected_surface == nullptr && draw_selected_indicator)
