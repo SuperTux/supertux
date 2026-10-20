@@ -1815,29 +1815,28 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
   {
     AutotileSet* autotileset = get_current_autotileset();
     const auto& autotileset_name = autotileset->get_name();
+    text_color = autotileset ?
+      EditorOverlayWidget::text_autotile_active_color :
+      EditorOverlayWidget::text_autotile_error_color;
 
     if (tile_selection && tile_selection->erases_tiles())
     {
       if (autotileset)
       {
         hint_text = fmt::format(fmt::runtime(_("Autotile erasing mode is on (\"{}\")")), autotileset_name);
-        text_color = EditorOverlayWidget::text_autotile_active_color;
       }
       else
       {
         hint_text = _("Autotile erasing cannot be performed here");
-        text_color = EditorOverlayWidget::text_autotile_error_color;
       }
     }
     else if (autotileset)
     {
       hint_text = fmt::format(fmt::runtime(_("Autotile mode is on (\"{}\")")), autotileset_name);
-      text_color = EditorOverlayWidget::text_autotile_active_color;
     }
     else
     {
       hint_text = _("Selected tile isn't autotileable");
-      text_color = EditorOverlayWidget::text_autotile_error_color;
     }
   }
   else if (tile_selection && tile_selection->erases_tiles())
