@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "editor/editor_event_handling.hpp"
 #include "editor/editor_layer.hpp"
+#include "editor/layers_list_item.hpp"
 #include "editor/menu_list_item.hpp"
 #include "editor/menu_list_widget.hpp"
 #include "editor/object_menu.hpp"
@@ -484,26 +485,8 @@ EditorLayersWidget::populate_layers_list_widget()
   auto layer_icon_rect = Rectf(0, 0, 16, 16);
   for (const auto &editor_layer : m_editor_layers)
   {
-    auto select_layer = [this, tilemap = editor_layer->get_tilemap()]
-    {
-      if (tilemap == nullptr)
-        return;
-
-      set_selected_tilemap(tilemap);
-    };
-
-    auto menu_item =
-      std::make_unique<MenuListItem>(editor_layer->get_display_name(), select_layer, 
-                                     editor_layer->get_game_object()->get_icon_path(), layer_icon_rect);
-
-    auto is_selected_layer = [tilemap = editor_layer->get_tilemap()]
-    {
-      return tilemap != nullptr && tilemap->is_selected_in_editor();
-    };
-
-    menu_item->set_is_selected_handler(is_selected_layer);
-
-    menu_item->set_item_selected_surface(editor_layer->get_selection_surface());
+    std::unique_ptr<MenuListItem> menu_item = 
+      std::make_unique<LayersListItem>(this, editor_layer.get());
 
     m_layer_list_widget->add_item(std::move(menu_item));
   }
