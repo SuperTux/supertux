@@ -503,6 +503,8 @@ EditorLayersWidget::populate_layers_list_widget()
 
     menu_item->set_is_selected_handler(is_selected_layer);
 
+    menu_item->set_item_selected_surface(editor_layer->get_selection_surface());
+
     m_layer_list_widget->add_item(std::move(menu_item));
   }
 }

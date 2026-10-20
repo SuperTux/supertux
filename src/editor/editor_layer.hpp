@@ -58,6 +58,11 @@ public:
    */
   std::string get_display_name() const;
 
+  /**
+   * Returns the selection surface (red box)
+   */
+  const SurfacePtr get_selection_surface() const { return m_selection; }
+
 private:
   LayerObject* m_layer_object;
   SurfacePtr m_selection;

@@ -32,7 +32,8 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
     m_onclick_handler(onclick_handler),
     m_is_selected_handler(nullptr),
     m_is_enabled_handler(nullptr),
-    m_surface(Surface::from_file(surface_path))
+    m_surface(Surface::from_file(surface_path)),
+    m_item_selected_surface(nullptr)
   {
   }
 
@@ -43,7 +44,8 @@ MenuListItem::MenuListItem(const std::string& label) :
   m_onclick_handler([]{}),
   m_is_selected_handler(nullptr),
   m_is_enabled_handler(nullptr),
-  m_surface(nullptr)
+  m_surface(nullptr),
+  m_item_selected_surface(nullptr)
 {
 }
 
@@ -54,7 +56,8 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
   m_onclick_handler(onclick_handler),
   m_is_selected_handler(nullptr),
   m_is_enabled_handler(nullptr),
-  m_surface(nullptr)
+  m_surface(nullptr),
+  m_item_selected_surface(nullptr)
 {
 }
 
@@ -70,6 +73,11 @@ MenuListItem::draw(DrawingContext& context)
   auto origin = rect.p1();
 
   auto surface = get_surface();
+
+  auto item_selected_surface = get_item_selected_surface();
+  auto item_selected_handler = get_is_selected_handler();
+  bool draw_selected_indicator = is_enabled() && item_selected_handler != nullptr;
+
   if (surface != nullptr)
   {
     origin += m_sprite_offset;
@@ -78,11 +86,18 @@ MenuListItem::draw(DrawingContext& context)
     auto surface_rect = Rectf(origin, origin + surface_size);
     context.color().draw_surface_scaled(surface, surface_rect, LAYER_GUI);
 
+    if (item_selected_surface != nullptr && draw_selected_indicator)
+    {
+      if (item_selected_handler())
+      {
+        context.color().draw_surface_scaled(item_selected_surface, surface_rect, LAYER_GUI);
+      }
+    }
+
     origin += Vector(surface_size.x, 0);
   }
 
-  auto item_selected_Handler = get_is_selected_handler();
-  if (is_enabled() && item_selected_Handler != nullptr)
+  if (item_selected_surface == nullptr && draw_selected_indicator)
   {
     auto target_rect = Rectf(origin + Vector(5, 5), origin + Vector(20, 20));
     context.color().draw_surface_scaled(get_checkbox_surface(), target_rect, LAYER_GUI);
