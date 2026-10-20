@@ -63,6 +63,11 @@ public:
    */
   const SurfacePtr get_selection_surface() const { return m_selection; }
 
+  /**
+   * Returns a file path to the icon representing this editor layer
+   */
+  const std::string get_icon_path() const { return get_game_object()->get_icon_path(); }
+
 private:
   LayerObject* m_layer_object;
   SurfacePtr m_selection;
