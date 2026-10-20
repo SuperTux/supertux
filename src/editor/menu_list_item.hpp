@@ -78,6 +78,27 @@ public:
    */
   SurfacePtr get_checkbox_surface() const;
 
+  /**
+   * Returns the custom checked icon overlay (for widgets that 
+   * don't use a checkmark for the currently selected item, e.g. layers widget)
+   * TODO: Use better, more descriptive name
+   */
+  SurfacePtr get_item_selected_surface() const
+  {
+    return m_item_selected_surface;
+  }
+
+  /**
+   * Sets the custom checked surface (for widgets that 
+   * don't use a checkmark, e.g. layers widget)
+   * TODO: Use better, more descriptive name
+   * @param surface SurfacePtr instance for a custom item selected surface
+   */
+  void set_item_selected_surface(SurfacePtr surface)
+  {
+    m_item_selected_surface = surface;
+  }
+
 private:
   std::string m_label;
   std::string m_keyboard_shortcut;
@@ -85,4 +106,5 @@ private:
   std::function<bool()> m_is_selected_handler;
   std::function<bool()> m_is_enabled_handler;
   SurfacePtr m_surface;
+  SurfacePtr m_item_selected_surface;
 };
