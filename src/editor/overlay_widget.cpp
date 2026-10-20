@@ -1806,6 +1806,7 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
   auto tile_selection = m_editor.get_tile_selection();
 
   Color text_color;
+  int layer = Sector::current()->get_foremost_layer() + 1;
   std::string hint_text = "";
   const auto& key_range = get_autotileset_key_range();
   const auto& key_range_hint = fmt::format(fmt::runtime(_("Use the number keys {} to switch between different auto tilesets.")), key_range);
@@ -1872,7 +1873,7 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
     hint_text += "\n" + key_range_hint;
   }
 
-  context.color().draw_text(Resources::normal_font, hint_text, hint_pos, ALIGN_LEFT, LAYER_OBJECTS + 1, text_color);
+  context.color().draw_text(Resources::normal_font, hint_text, hint_pos, ALIGN_LEFT, layer, text_color);
 }
 
 Vector
