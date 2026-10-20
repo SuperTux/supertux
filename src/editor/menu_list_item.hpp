@@ -67,10 +67,20 @@ public:
     m_is_enabled_handler = is_enabled_handler;
   }
 
+  /**
+   * Returns true if the menu list item is enabled and can be selected
+   */
   bool is_enabled() const;
 
+  /**
+   * Returns true if the menu list item currently has mouse focus
+   */
   bool has_mouse_focus() const;
 
+  /**
+   * Returns the current surface that represents the
+   * icon of this menu list item
+   */
   SurfacePtr get_surface() const { return m_surface; }
 
   /**
