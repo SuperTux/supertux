@@ -28,6 +28,9 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
   const std::string& surface_path, const Rectf& rect) :
     MenuListBaseItem(rect),
     m_label(label),
+    m_label_offset(DEFAULT_LABEL_OFFSET),
+    m_sprite_offset(DEFAULT_SPRITE_OFFSET),
+    m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
     m_keyboard_shortcut(""),
     m_onclick_handler(onclick_handler),
     m_is_selected_handler(nullptr),
@@ -40,6 +43,9 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
 MenuListItem::MenuListItem(const std::string& label) :
   MenuListBaseItem(),
   m_label(label),
+  m_label_offset(DEFAULT_LABEL_OFFSET),
+  m_sprite_offset(DEFAULT_SPRITE_OFFSET),
+  m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
   m_keyboard_shortcut(""),
   m_onclick_handler([]{}),
   m_is_selected_handler(nullptr),
@@ -52,6 +58,9 @@ MenuListItem::MenuListItem(const std::string& label) :
 MenuListItem::MenuListItem(const std::string& label, const std::function<void()> onclick_handler) :
   MenuListBaseItem(),
   m_label(label),
+  m_label_offset(DEFAULT_LABEL_OFFSET),
+  m_sprite_offset(DEFAULT_SPRITE_OFFSET),
+  m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
   m_keyboard_shortcut(""),
   m_onclick_handler(onclick_handler),
   m_is_selected_handler(nullptr),
@@ -101,7 +110,8 @@ MenuListItem::draw(DrawingContext& context)
 
   if (item_selected_surface == nullptr && draw_selected_indicator)
   {
-    auto target_rect = Rectf(origin + Vector(5, 5), origin + Vector(20, 20));
+    auto checkbox_origin = origin + m_selected_indicator_offset;
+    auto target_rect = Rectf(checkbox_origin, checkbox_origin + Vector(15, 15));
     context.color().draw_surface_scaled(get_checkbox_surface(), target_rect, LAYER_GUI);
   }
 
