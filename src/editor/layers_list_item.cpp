@@ -33,8 +33,9 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   m_parent(parent),
   m_layer(layer),
   m_eye_offset(Vector(25, 0)),
-  m_eye_surface(Surface::from_file("images/engine/editor/stock-eye-12.png")),
-  m_eye_half_surface(Surface::from_file("images/engine/editor/stock-eye-half-12.png"))
+  m_layer_visible_surface(Surface::from_file("images/engine/editor/shown.png")),
+  m_layer_hidden_surface(Surface::from_file("images/engine/editor/hidden.png")),
+  m_layer_transparent_surface(Surface::from_file("images/engine/editor/transparent.png"))
 {
   auto select_layer = [parent, tilemap = m_layer->get_tilemap(), this]
   {
@@ -120,14 +121,13 @@ LayersListItem::get_state_icon() const
     default:
     case EditorLayer::SINGLE:
     case EditorLayer::VISIBLE:
-      return m_eye_surface;
+      return m_layer_visible_surface;
     
     case EditorLayer::SEMI_TRANSPARENT:
-      return m_eye_half_surface;
+      return m_layer_transparent_surface;
 
     case EditorLayer::HIDDEN:
-      // TODO: Better graphics, maybe
-      return nullptr;
+      return m_layer_hidden_surface;
   }
 }
 
