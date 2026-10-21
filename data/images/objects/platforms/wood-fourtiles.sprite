@@ -1,6 +1,5 @@
 (supertux-sprite
   (action
     (name "default")
-    (images "wood-fourtiles.png")
-  )
+    (images "wood-fourtiles.png"))
 )

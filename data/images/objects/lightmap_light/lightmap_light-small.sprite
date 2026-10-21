@@ -1,7 +1,6 @@
 (supertux-sprite
-    (action
-      (name "default")
-      (images "lightmap_light-small.png")
-      (hitbox 64 64 0 0)
-    )
+  (action
+    (name "default")
+    (images "lightmap_light-small.png")
+    (hitbox 64 64 0 0))
 )

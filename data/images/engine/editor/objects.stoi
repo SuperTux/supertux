@@ -140,13 +140,13 @@
     (icon "images/creatures/mr_candle/mrcandle-editor.png"))
   (object
     (class "livefire")
-    (icon "images/creatures/livefire/f2.png"))
+    (icon "images/creatures/livefire/livefire-1.png"))
   (object
     (class "livefire_asleep")
-    (icon "images/creatures/livefire/waking2.png"))
+    (icon "images/creatures/livefire/wake-1.png"))
   (object
     (class "livefire_dormant")
-    (icon "images/creatures/livefire/sleeping8.png"))
+    (icon "images/creatures/livefire/sleep-0.png"))
   (object
     (class "toad")
     (icon "images/creatures/toad/toad-idle-0.png"))

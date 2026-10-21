@@ -1,9 +1,5 @@
 (supertux-sprite
- (action
-  (name "default")
-  (images 
-    "kracker-1.png"
-
-  )
- )
+  (action
+    (name "default")
+    (images "kracker-1.png"))
 )

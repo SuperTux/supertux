@@ -1,5 +1,5 @@
 (supertux-music
   (file "late_sunset.ogg")
-  (loop-begin 2.790)
-  (loop-at    92.090)
+  (loop-begin 2.8)
+  (loop-at 92.1)
 )

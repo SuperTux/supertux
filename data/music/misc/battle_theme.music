@@ -4,5 +4,5 @@
   (license "CC-BY-SA 3.0 / GPL 2+")
   (title "Battle Theme")
   (loop-begin 30)
-  (loop-at    200)
+  (loop-at 200)
 )
