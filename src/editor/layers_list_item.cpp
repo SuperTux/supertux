@@ -42,10 +42,16 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
     auto eye_origin = get_rect().p1() + m_eye_offset;
     Rectf eye_rect = Rectf(eye_origin, eye_origin + Vector(15, 15));
 
-    if (has_visibility_settings() && eye_rect.contains(mouse_pos))
+    if (has_visibility_settings())
     {
-      toggle_visibility();
-      return;
+      if (eye_rect.contains(mouse_pos))
+      {
+        toggle_visibility();
+        return;
+      }
+
+      // Selected layers become visible by default
+      m_layer->set_layer_visibility(EditorLayer::VISIBLE);
     }
 
     if (tilemap == nullptr)
