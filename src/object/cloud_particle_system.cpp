@@ -20,6 +20,7 @@
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
 
+#include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"
@@ -298,6 +299,15 @@ CloudParticleSystem::fade_amount(int new_amount, float fade_time, float time_bet
 void
 CloudParticleSystem::draw(DrawingContext& context)
 {
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
+
   if (!enabled)
     return;
 
