@@ -259,6 +259,9 @@ public:
       together (e.g. platform on a path) */
   virtual void editor_update() {}
 
+  inline void set_editor_layer_alpha(float value) { m_editor_layer_alpha = value; }
+  inline float get_editor_layer_alpha() { return m_editor_layer_alpha; }
+
   inline GameObjectManager* get_parent() const { return m_parent; }
 
 protected:
@@ -317,6 +320,9 @@ private:
 
   /** this flag indicates if the object should be removed at the end of the frame */
   bool m_scheduled_for_removal;
+
+  /** editor-specific setting specifying the alpha value this layer is drawn with */
+  float m_editor_layer_alpha;
 
   /** The object's settings at the time of the last state save.
       Used to check for changes that may have occurred. */

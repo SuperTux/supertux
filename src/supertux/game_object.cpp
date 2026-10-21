@@ -37,6 +37,7 @@ GameObject::GameObject(const std::string& name) :
   m_version(1),
   m_uid(),
   m_scheduled_for_removal(false),
+  m_editor_layer_alpha(1.f),
   m_last_state(),
   m_components(),
   m_remove_listeners()
