@@ -166,6 +166,12 @@ LayersListItem::toggle_visibility()
     {
       layer->set_layer_visibility(EditorLayer::HIDDEN);
     }
+    
+    if (m_layer->get_tilemap() != nullptr)
+    {
+      m_parent->set_selected_tilemap(m_layer->get_tilemap());
+    }
+
   }
 
   m_layer->set_layer_visibility(next_visibility);
