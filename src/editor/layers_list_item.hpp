@@ -43,6 +43,7 @@ private:
   void toggle_visibility();
 
 private:
+  EditorLayersWidget* m_parent;
   EditorLayer *m_layer;
   Vector m_eye_offset;
   SurfacePtr m_eye_surface;
