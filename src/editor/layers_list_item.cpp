@@ -102,13 +102,6 @@ LayersListItem::draw_visibility_icon(DrawingContext& context)
 
   auto origin = get_rect().p1() + m_eye_offset + Vector(5, 5);
   auto target_rect = Rectf(origin, origin + Vector(15, 15));
-  
-  if (m_layer->get_layer_visibility() == EditorLayer::SINGLE)
-  {
-    context.color().draw_text(Resources::console_font, "S", origin + Vector(7, 2),
-                              FontAlignment::ALIGN_LEFT, LAYER_GUI);
-    return;
-  }
 
   auto icon = get_state_icon();
 
@@ -125,6 +118,7 @@ LayersListItem::get_state_icon() const
   switch(m_layer->get_layer_visibility())
   {
     default:
+    case EditorLayer::SINGLE:
     case EditorLayer::VISIBLE:
       return m_eye_surface;
     
@@ -134,10 +128,6 @@ LayersListItem::get_state_icon() const
     case EditorLayer::HIDDEN:
       // TODO: Better graphics, maybe
       return nullptr;
-
-    case EditorLayer::SINGLE:
-      // TODO: Better graphics
-      return m_eye_surface;
   }
 }
 
@@ -166,6 +156,8 @@ LayersListItem::toggle_visibility()
       break;
   }
 
+  m_parent->restore_layer_visibilities();
+
   if (next_visibility == EditorLayer::SINGLE)
   {
     m_parent->save_layer_visibilities();
@@ -173,10 +165,6 @@ LayersListItem::toggle_visibility()
     {
       layer->set_layer_visibility(EditorLayer::HIDDEN);
     }
-  }
-  else
-  {
-    m_parent->restore_layer_visibilities();
   }
 
   m_layer->set_layer_visibility(next_visibility);
