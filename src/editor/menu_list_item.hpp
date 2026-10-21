@@ -29,7 +29,7 @@
 namespace
 {
   static constexpr Vector DEFAULT_SPRITE_OFFSET = {2.f, 2.f};
-  static constexpr Vector DEFAULT_LABEL_OFFSET  = {25.f, 7.5f};
+  static constexpr Vector DEFAULT_LABEL_OFFSET  = {25.f, 6.5f};
   static constexpr Vector DEFAULT_SELECTED_INDICATOR_OFFSET = {5.f, 5.f};
 }
 
