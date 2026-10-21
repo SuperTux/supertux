@@ -48,6 +48,7 @@
 EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_editor(editor),
   m_editor_layers(),
+  m_layer_visibilities(),
   m_selected_tilemap(),
   m_add_icon("", "images/engine/editor/add.png"),
   m_add_layer_box(new EditorTilebox(editor, Rectf())),
@@ -559,6 +560,27 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
   {
     sort_layers();
   }
+}
+
+void
+EditorLayersWidget::save_layer_visibilities()
+{
+  auto& editor_layers = get_editor_layers();
+  for(const auto& layer : editor_layers)
+  {
+    m_layer_visibilities[layer.get()] = layer->get_layer_visibility();
+  }
+}
+
+void
+EditorLayersWidget::restore_layer_visibilities()
+{
+  for(const auto& layer_visibility : m_layer_visibilities)
+  {
+    layer_visibility.first->set_layer_visibility(layer_visibility.second);
+  }
+  
+  m_layer_visibilities.clear();
 }
 
 void
