@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <map>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -23,6 +24,7 @@
 
 #include "editor/widget.hpp"
 
+#include "editor/editor_layer.hpp"
 #include "editor/object_icon.hpp"
 #include "editor/object_info.hpp"
 #include "math/fwd.hpp"
@@ -97,6 +99,9 @@ public:
     return m_editor_layers[m_hovered_layer_idx];
   }
 
+  void save_layer_visibilities();
+  void restore_layer_visibilities();
+
   TileMap* get_selected_tilemap() const;
   void set_selected_tilemap(TileMap* tilemap);
 
@@ -110,6 +115,7 @@ private:
 private:
   Editor& m_editor;
   std::vector<std::unique_ptr<EditorLayer>> m_editor_layers;
+  std::map<EditorLayer*, EditorLayer::LayerVisibility> m_layer_visibilities;
   UID m_selected_tilemap;
 
   ObjectIcon m_add_icon;
