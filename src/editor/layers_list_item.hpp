@@ -46,6 +46,7 @@ private:
   EditorLayersWidget* m_parent;
   EditorLayer *m_layer;
   Vector m_eye_offset;
-  SurfacePtr m_eye_surface;
-  SurfacePtr m_eye_half_surface;
+  SurfacePtr m_layer_visible_surface;
+  SurfacePtr m_layer_hidden_surface;
+  SurfacePtr m_layer_transparent_surface;
 };
