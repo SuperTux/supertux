@@ -80,7 +80,12 @@ void
 LayersListItem::draw(DrawingContext& context)
 {
   MenuListItem::draw(context);
+  draw_visibility_icon(context);
+}
 
+void
+LayersListItem::draw_visibility_icon(DrawingContext& context)
+{
   if (!has_visibility_settings())
     return;
 

@@ -37,6 +37,8 @@ public:
   SurfacePtr get_state_icon() const;
 
 private:
+  void draw_visibility_icon(DrawingContext& context);
+
   bool has_visibility_settings() const;
   void toggle_visibility();
 
