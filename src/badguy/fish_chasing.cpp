@@ -203,7 +203,11 @@ FishChasing::get_settings()
 {
   ObjectSettings result = FishSwimming::get_settings();
 
+  // l10n: This is a noun (the) tracking distance
   result.add_float(_("Tracking Distance"), &m_track_distance, "track-distance", m_track_distance);
+
+  // TODO: Needs better name
+  // l10n: This is a noun (the) losing distance
   result.add_float(_("Losing Distance"), &m_lost_distance, "lost-distance", m_lost_distance);
   result.add_float(_("Chase Speed"), &m_chase_speed, "chase-speed", m_chase_speed);
 
