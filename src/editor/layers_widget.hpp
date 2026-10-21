@@ -84,6 +84,11 @@ public:
   bool has_mouse_focus() const;
 
 
+  const std::vector<std::unique_ptr<EditorLayer>>& get_editor_layers() const
+  {
+    return m_editor_layers;
+  }
+
   /**
    * Returns the layer the mouse is currently hovering over
    */

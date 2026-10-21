@@ -30,6 +30,7 @@
 
 LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   MenuListItem(layer->get_display_name(), {}, layer->get_icon_path(), Rectf(0, 0, 16, 16)),
+  m_parent(parent),
   m_layer(layer),
   m_eye_offset(Vector(25, 0)),
   m_eye_surface(Surface::from_file("images/engine/editor/stock-eye-12.png")),
@@ -40,7 +41,7 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
     auto editor_event_handling = Editor::current()->get_event_handling();
     auto mouse_pos = editor_event_handling->get_mouse_pos();
     auto eye_origin = get_rect().p1() + m_eye_offset;
-    Rectf eye_rect = Rectf(eye_origin, eye_origin + Vector(15, 15));
+    Rectf eye_rect = Rectf(eye_origin, eye_origin + Vector(get_size().height, get_size().height));
 
     if (has_visibility_settings())
     {
@@ -99,10 +100,22 @@ LayersListItem::draw_visibility_icon(DrawingContext& context)
   if (!has_visibility_settings())
     return;
 
-  auto icon = get_state_icon();
-  auto icon_size = Vector(icon->get_width(), icon->get_height());
   auto origin = get_rect().p1() + m_eye_offset + Vector(5, 5);
   auto target_rect = Rectf(origin, origin + Vector(15, 15));
+  
+  if (m_layer->get_layer_visibility() == EditorLayer::SINGLE)
+  {
+    context.color().draw_text(Resources::console_font, "S", origin + Vector(7, 2),
+                              FontAlignment::ALIGN_LEFT, LAYER_GUI);
+    return;
+  }
+
+  auto icon = get_state_icon();
+
+  if (icon == nullptr)
+    return;
+
+  auto icon_size = Vector(icon->get_width(), icon->get_height());
   context.color().draw_surface_scaled(icon, target_rect, LAYER_GUI);
 }
 
@@ -119,8 +132,8 @@ LayersListItem::get_state_icon() const
       return m_eye_half_surface;
 
     case EditorLayer::HIDDEN:
-      // TODO: Better graphics
-      return m_eye_surface;
+      // TODO: Better graphics, maybe
+      return nullptr;
 
     case EditorLayer::SINGLE:
       // TODO: Better graphics
@@ -151,6 +164,15 @@ LayersListItem::toggle_visibility()
     case EditorLayer::SINGLE:
       next_visibility = EditorLayer::VISIBLE;
       break;
+  }
+
+  if (next_visibility == EditorLayer::SINGLE)
+  {
+    auto& editor_layers = m_parent->get_editor_layers();
+    for(const auto& layer : editor_layers)
+    {
+      layer->set_layer_visibility(EditorLayer::HIDDEN);
+    }
   }
 
   m_layer->set_layer_visibility(next_visibility);
