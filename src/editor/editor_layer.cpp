@@ -28,6 +28,7 @@
 EditorLayer::EditorLayer(LayerObject* layer_object) :
   ObjectIcon("", layer_object->get_icon_path()),
   m_layer_object(layer_object),
+  m_layer_visibility(),
   m_selection(is_tilemap() ? Surface::from_file("images/engine/editor/selection.png") : nullptr)
 {
 }
