@@ -21,6 +21,7 @@
 #include "editor/layers_widget.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
+#include "object/tilemap.hpp"
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
@@ -39,7 +40,7 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
     auto eye_origin = get_rect().p1() + m_eye_offset;
     Rectf eye_rect = Rectf(eye_origin, eye_origin + Vector(15, 15));
 
-    if (eye_rect.contains(mouse_pos))
+    if (has_visibility_settings() && eye_rect.contains(mouse_pos))
     {
       toggle_visibility();
       return;
@@ -67,10 +68,21 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   set_selected_indicator_offset(get_selected_indicator_offset() + m_eye_offset);
 }
 
+bool
+LayersListItem::has_visibility_settings() const
+{
+  const auto &class_name = m_layer->get_game_object()->get_class_name();
+
+  return class_name == TileMap::class_name();
+}
+
 void 
 LayersListItem::draw(DrawingContext& context)
 {
   MenuListItem::draw(context);
+
+  if (!has_visibility_settings())
+    return;
 
   auto icon = get_state_icon();
   auto icon_size = Vector(icon->get_width(), icon->get_height());
