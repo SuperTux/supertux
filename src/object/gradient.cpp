@@ -263,8 +263,14 @@ Gradient::swap_colors()
 void
 Gradient::draw(DrawingContext& context)
 {
-  if (Editor::is_active() && !g_config->editor_render_background)
-    return;
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (!g_config->editor_render_background || editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
 
   Rectf gradient_region;
   if (m_gradient_direction != HORIZONTAL && m_gradient_direction != VERTICAL)
