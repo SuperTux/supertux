@@ -21,6 +21,8 @@
 #include "editor/layers_widget.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
+#include "object/background.hpp"
+#include "object/gradient.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
@@ -73,7 +75,9 @@ LayersListItem::has_visibility_settings() const
 {
   const auto &class_name = m_layer->get_game_object()->get_class_name();
 
-  return class_name == TileMap::class_name();
+  return class_name == TileMap::class_name() ||
+         class_name == Gradient::class_name() ||
+         class_name == Background::class_name();
 }
 
 void 
