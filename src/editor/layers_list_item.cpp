@@ -28,11 +28,23 @@
 LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   MenuListItem(layer->get_display_name(), {}, layer->get_icon_path(), Rectf(0, 0, 16, 16)),
   m_layer(layer),
+  m_eye_offset(Vector(25, 0)),
   m_eye_surface(Surface::from_file("images/engine/editor/stock-eye-12.png")),
   m_eye_half_surface(Surface::from_file("images/engine/editor/stock-eye-half-12.png"))
 {
-  auto select_layer = [parent, tilemap = m_layer->get_tilemap()]
+  auto select_layer = [parent, tilemap = m_layer->get_tilemap(), this]
   {
+    auto editor_event_handling = Editor::current()->get_event_handling();
+    auto mouse_pos = editor_event_handling->get_mouse_pos();
+    auto eye_origin = get_rect().p1() + m_eye_offset;
+    Rectf eye_rect = Rectf(eye_origin, eye_origin + Vector(15, 15));
+
+    if (eye_rect.contains(mouse_pos))
+    {
+      toggle_visibility();
+      return;
+    }
+
     if (tilemap == nullptr)
       return;
 
@@ -50,9 +62,9 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
 
   set_item_selected_surface(layer->get_selection_surface());
 
-  set_label_offset(get_label_offset() + Vector(25, 0));
+  set_label_offset(get_label_offset() + m_eye_offset);
 
-  set_selected_indicator_offset(get_selected_indicator_offset() + Vector(25, 0));
+  set_selected_indicator_offset(get_selected_indicator_offset() + m_eye_offset);
 }
 
 void 
@@ -62,7 +74,7 @@ LayersListItem::draw(DrawingContext& context)
 
   auto icon = get_state_icon();
   auto icon_size = Vector(icon->get_width(), icon->get_height());
-  auto origin = get_rect().p1() + Vector(25, 0) + Vector(5, 5);
+  auto origin = get_rect().p1() + m_eye_offset + Vector(5, 5);
   auto target_rect = Rectf(origin, origin + Vector(15, 15));
   context.color().draw_surface_scaled(icon, target_rect, LAYER_GUI);
 }
@@ -70,5 +82,49 @@ LayersListItem::draw(DrawingContext& context)
 SurfacePtr
 LayersListItem::get_state_icon() const
 {
-  return m_eye_surface;
+  switch(m_layer->get_layer_visibility())
+  {
+    default:
+    case EditorLayer::VISIBLE:
+      return m_eye_surface;
+    
+    case EditorLayer::SEMI_TRANSPARENT:
+      return m_eye_half_surface;
+
+    case EditorLayer::HIDDEN:
+      // TODO: Better graphics
+      return m_eye_surface;
+
+    case EditorLayer::SINGLE:
+      // TODO: Better graphics
+      return m_eye_surface;
+  }
+}
+
+void
+LayersListItem::toggle_visibility()
+{
+  auto current_visibility = m_layer->get_layer_visibility();
+  auto next_visibility = EditorLayer::VISIBLE;
+  switch (current_visibility)
+  {
+    case EditorLayer::VISIBLE:
+      next_visibility = EditorLayer::SEMI_TRANSPARENT;
+      break;
+
+    case EditorLayer::SEMI_TRANSPARENT:
+      next_visibility = EditorLayer::HIDDEN;
+      break;
+
+    case EditorLayer::HIDDEN:
+      next_visibility = EditorLayer::SINGLE;
+      break;
+
+    default:
+    case EditorLayer::SINGLE:
+      next_visibility = EditorLayer::VISIBLE;
+      break;
+  }
+
+  m_layer->set_layer_visibility(next_visibility);
 }
