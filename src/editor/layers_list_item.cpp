@@ -85,7 +85,8 @@ LayersListItem::has_visibility_settings() const
 
   return class_name == TileMap::class_name() ||
          class_name == Gradient::class_name() ||
-         class_name == Background::class_name();
+         class_name == Background::class_name() ||
+         class_name.find("particles-") == 0;
 }
 
 void 
