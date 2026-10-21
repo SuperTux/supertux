@@ -78,6 +78,21 @@ public:
   void set_layer_visibility(const LayerVisibility& visibility)
   {
     m_layer_visibility = visibility;
+    m_layer_object->set_editor_layer_alpha(get_layer_alpha());
+  }
+
+  float get_layer_alpha() const
+  {
+    switch(m_layer_visibility)
+    {
+      case SINGLE:
+      case VISIBLE:
+        return 1.f;
+      case SEMI_TRANSPARENT:
+        return 0.5f;
+      case HIDDEN:
+        return 0.f;
+      }
   }
 
 private:

@@ -548,7 +548,9 @@ void
 TileMap::draw(DrawingContext& context)
 {
   // skip draw if current opacity is 0.0
-  if (m_current_alpha == 0.0f) return;
+  if (m_current_alpha == 0.0f ||
+      Editor::is_active() && get_editor_layer_alpha() == 0.0f)
+    return;
 
   context.push_transform();
 
@@ -563,13 +565,13 @@ TileMap::draw(DrawingContext& context)
 
   if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
-  if (!Editor::is_active() || is_selected_in_editor())
+  if (!Editor::is_active())
   {
     context.set_alpha(m_current_alpha);
   }
   else
   {
-    context.set_alpha(m_current_alpha / 2);
+    context.set_alpha(get_editor_layer_alpha());
   }
 
   const float trans_x = context.get_translation().x;
