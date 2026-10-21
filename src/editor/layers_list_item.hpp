@@ -37,7 +37,11 @@ public:
   SurfacePtr get_state_icon() const;
 
 private:
+  void toggle_visibility();
+
+private:
   EditorLayer *m_layer;
+  Vector m_eye_offset;
   SurfacePtr m_eye_surface;
   SurfacePtr m_eye_half_surface;
 };

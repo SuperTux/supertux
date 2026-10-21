@@ -25,6 +25,11 @@ class LayerObject;
 class EditorLayer : public ObjectIcon
 {
 public:
+  enum LayerVisibility {
+    VISIBLE = 0, SEMI_TRANSPARENT, HIDDEN, SINGLE
+  };
+
+  public:
   EditorLayer(LayerObject* layer_object);
   ~EditorLayer() override {}
 
@@ -68,8 +73,16 @@ public:
    */
   const std::string get_icon_path() const { return get_game_object()->get_icon_path(); }
 
+  const LayerVisibility& get_layer_visibility() const { return m_layer_visibility; }
+
+  void set_layer_visibility(const LayerVisibility& visibility)
+  {
+    m_layer_visibility = visibility;
+  }
+
 private:
   LayerObject* m_layer_object;
+  LayerVisibility m_layer_visibility;
   SurfacePtr m_selection;
 
 private:
