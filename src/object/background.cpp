@@ -484,8 +484,14 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 void
 Background::draw(DrawingContext& context)
 {
-  if (Editor::is_active() && !g_config->editor_render_background)
-    return;
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (!g_config->editor_render_background || editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
 
   if (!m_image)
     return;
