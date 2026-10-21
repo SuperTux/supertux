@@ -20,6 +20,7 @@
 #include <math.h>
 
 #include "collision/collision.hpp"
+#include "editor/editor.hpp"
 #include "editor/particle_editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/aatriangle.hpp"
@@ -851,6 +852,15 @@ CustomParticleSystem::update(float dt_sec)
 void
 CustomParticleSystem::draw(DrawingContext& context)
 {
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
+
   // The "enabled" flag being false only indicates that new particles shouldn't spawn.
   // However, we still need to update the existing particles, if any.
 
