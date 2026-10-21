@@ -37,6 +37,7 @@ public:
   SurfacePtr get_state_icon() const;
 
 private:
+  bool has_visibility_settings() const;
   void toggle_visibility();
 
 private:
