@@ -26,11 +26,15 @@
 #include <functional>
 #include <vector>
 
+namespace
+{
+  static constexpr Vector DEFAULT_SPRITE_OFFSET = {2.f, 2.f};
+  static constexpr Vector DEFAULT_LABEL_OFFSET  = {25.f, 7.5f};
+  static constexpr Vector DEFAULT_SELECTED_INDICATOR_OFFSET = {5.f, 5.f};
+}
+
 class MenuListItem : public MenuListBaseItem
 {
-private:
-  static constexpr Vector m_sprite_offset = {2.f, 2.f};
-  static constexpr Vector m_label_offset  = {25.f, 7.5f};
 
 public:
   MenuListItem(const std::string &label, const std::function<void()> onclick_handler,
@@ -109,9 +113,21 @@ public:
     m_item_selected_surface = surface;
   }
 
+  const Vector &get_sprite_offset() const { return m_sprite_offset; }
+  void set_sprite_offset(const Vector& sprite_offset) { m_sprite_offset = sprite_offset; }
+
+  const Vector &get_label_offset() const { return m_label_offset; }
+  void set_label_offset(const Vector& label_offset) { m_label_offset = label_offset; }
+
+  const Vector &get_selected_indicator_offset() const { return m_selected_indicator_offset; }
+  void set_selected_indicator_offset(const Vector& selected_indicator_offset) { m_selected_indicator_offset = selected_indicator_offset; }
+
 private:
   std::string m_label;
   std::string m_keyboard_shortcut;
+  Vector m_sprite_offset;
+  Vector m_label_offset;
+  Vector m_selected_indicator_offset;
   std::function<void()> m_onclick_handler;
   std::function<bool()> m_is_selected_handler;
   std::function<bool()> m_is_enabled_handler;
