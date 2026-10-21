@@ -168,11 +168,15 @@ LayersListItem::toggle_visibility()
 
   if (next_visibility == EditorLayer::SINGLE)
   {
-    auto& editor_layers = m_parent->get_editor_layers();
-    for(const auto& layer : editor_layers)
+    m_parent->save_layer_visibilities();
+    for(const auto& layer : m_parent->get_editor_layers())
     {
       layer->set_layer_visibility(EditorLayer::HIDDEN);
     }
+  }
+  else
+  {
+    m_parent->restore_layer_visibilities();
   }
 
   m_layer->set_layer_visibility(next_visibility);
