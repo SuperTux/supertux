@@ -26,8 +26,10 @@
 #include "video/drawing_context.hpp"
 
 LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
+  MenuListItem(layer->get_display_name(), {}, layer->get_icon_path(), Rectf(0, 0, 16, 16)),
   m_layer(layer),
-  MenuListItem(layer->get_display_name(), {}, layer->get_icon_path(), Rectf(0, 0, 16, 16))
+  m_eye_surface(Surface::from_file("images/engine/editor/stock-eye-12.png")),
+  m_eye_half_surface(Surface::from_file("images/engine/editor/stock-eye-half-12.png"))
 {
   auto select_layer = [parent, tilemap = m_layer->get_tilemap()]
   {
@@ -47,4 +49,26 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   set_is_selected_handler(is_selected_layer);
 
   set_item_selected_surface(layer->get_selection_surface());
+
+  set_label_offset(get_label_offset() + Vector(25, 0));
+
+  set_selected_indicator_offset(get_selected_indicator_offset() + Vector(25, 0));
+}
+
+void 
+LayersListItem::draw(DrawingContext& context)
+{
+  MenuListItem::draw(context);
+
+  auto icon = get_state_icon();
+  auto icon_size = Vector(icon->get_width(), icon->get_height());
+  auto origin = get_rect().p1() + Vector(25, 0) + Vector(5, 5);
+  auto target_rect = Rectf(origin, origin + Vector(15, 15));
+  context.color().draw_surface_scaled(icon, target_rect, LAYER_GUI);
+}
+
+SurfacePtr
+LayersListItem::get_state_icon() const
+{
+  return m_eye_surface;
 }

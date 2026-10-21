@@ -31,6 +31,13 @@ class LayersListItem : public MenuListItem
 public:
   LayersListItem(EditorLayersWidget* parent, EditorLayer* layer);
 
+  virtual void draw(DrawingContext& context) override;
+
+public:
+  SurfacePtr get_state_icon() const;
+
 private:
   EditorLayer *m_layer;
+  SurfacePtr m_eye_surface;
+  SurfacePtr m_eye_half_surface;
 };
