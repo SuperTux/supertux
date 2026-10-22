@@ -35,7 +35,10 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   m_eye_offset(Vector(25, 0)),
   m_layer_visible_surface(Surface::from_file("images/engine/editor/shown.png")),
   m_layer_hidden_surface(Surface::from_file("images/engine/editor/hidden.png")),
-  m_layer_transparent_surface(Surface::from_file("images/engine/editor/transparent.png"))
+  m_layer_transparent_surface(Surface::from_file("images/engine/editor/transparent.png")),
+  m_layer_name_textbox(std::make_unique<ControlTextbox>()),
+  m_show_layer_name_textbox(),
+  m_current_layer_name()
 {
   auto select_layer = [parent, tilemap = m_layer->get_tilemap(), this]
   {
@@ -76,6 +79,14 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   set_label_offset(get_label_offset() + m_eye_offset);
 
   set_selected_indicator_offset(get_selected_indicator_offset() + m_eye_offset);
+
+  auto layer_name_changed = [this]()
+  {
+    m_layer->get_game_object()->set_name(m_current_layer_name);
+    m_show_layer_name_textbox = false;
+  };
+  m_layer_name_textbox->m_on_change_callbacks.push_back(layer_name_changed);
+  m_layer_name_textbox->bind_string(&m_current_layer_name);
 }
 
 bool
@@ -89,11 +100,50 @@ LayersListItem::has_visibility_settings() const
          class_name.find("particles-") == 0;
 }
 
+bool
+LayersListItem::event(const SDL_Event &ev)
+{
+  if (m_show_layer_name_textbox)
+  {
+    m_layer_name_textbox->event(ev);
+  }
+  return MenuListItem::event(ev);
+}
+
+bool 
+LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+{
+  if (m_show_layer_name_textbox)
+  {
+    m_layer_name_textbox->on_mouse_button_down(button);
+  }
+
+  auto event_handling = Editor::current()->get_event_handling();
+  if (get_rect().contains(event_handling->get_mouse_pos()) && button.clicks == 2)
+  {
+    m_current_layer_name = m_layer->get_game_object()->get_name();
+
+    auto textbox_rect = Rectf(get_rect().p1() + Vector(get_label_offset().x, 0), get_rect().p2());
+    m_layer_name_textbox->set_rect(textbox_rect);
+    m_layer_name_textbox->set_has_focus(true);
+
+    m_show_layer_name_textbox = true;
+    return true;
+  }
+
+  return MenuListItem::on_mouse_button_down(button);
+}
+
 void 
 LayersListItem::draw(DrawingContext& context)
 {
   MenuListItem::draw(context);
   draw_visibility_icon(context);
+
+  if (m_show_layer_name_textbox)
+  {
+    m_layer_name_textbox->draw(context);
+  }
 }
 
 void
@@ -171,7 +221,6 @@ LayersListItem::toggle_visibility()
     {
       m_parent->set_selected_tilemap(m_layer->get_tilemap());
     }
-
   }
 
   m_layer->set_layer_visibility(next_visibility);
