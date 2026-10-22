@@ -21,7 +21,7 @@
 MenuListSeparator::MenuListSeparator() :
   MenuListBaseItem()
 {
-  set_size(Sizef(DEFAULT_SIZE.width, DEFAULT_SIZE.height / 4.f));
+  set_size(Sizef(DEFAULT_SIZE.width, 1.f));
 }
 
 void
