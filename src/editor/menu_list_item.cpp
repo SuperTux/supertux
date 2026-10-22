@@ -101,16 +101,19 @@ MenuListItem::draw(DrawingContext& context)
     auto surface_rect = Rectf(origin, origin + surface_size);
     context.color().draw_surface_scaled(surface, surface_rect, LAYER_GUI);
 
-    if (item_selected_surface != nullptr && draw_selected_indicator)
+    if (draw_selected_indicator)
     {
-      if (item_selected_handler())
+      if (item_selected_surface != nullptr)
       {
-        context.color().draw_surface_scaled(item_selected_surface, surface_rect, LAYER_GUI);
+        if (item_selected_handler())
+        {
+          context.color().draw_surface_scaled(item_selected_surface, surface_rect, LAYER_GUI);
+        }
       }
-    }
-    else
-    {
-      origin += Vector(surface_size.x, 0);
+      else
+      {
+        origin += Vector(surface_size.x, 0);
+      }
     }
   }
 
