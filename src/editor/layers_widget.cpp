@@ -491,6 +491,7 @@ EditorLayersWidget::populate_layers_list_widget()
 
     m_layer_list_widget->add_item(std::move(menu_item));
   }
+  on_window_resize();
 }
 
 void
@@ -560,6 +561,8 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
   {
     sort_layers();
   }
+
+  on_window_resize();
 }
 
 void
