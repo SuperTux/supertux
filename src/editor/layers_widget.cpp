@@ -445,6 +445,12 @@ EditorLayersWidget::has_mouse_focus() const
 void
 EditorLayersWidget::on_window_resize()
 {
+  recalculate_positions();
+}
+
+void
+EditorLayersWidget::recalculate_positions()
+{
   m_Ypos = SCREEN_HEIGHT - 32;
   m_Width = SCREEN_WIDTH - 128;
 
@@ -454,7 +460,7 @@ EditorLayersWidget::on_window_resize()
 void
 EditorLayersWidget::setup()
 {
-  on_window_resize();
+  recalculate_positions();
 }
 
 void
@@ -491,7 +497,7 @@ EditorLayersWidget::populate_layers_list_widget()
 
     m_layer_list_widget->add_item(std::move(menu_item));
   }
-  on_window_resize();
+  recalculate_positions();
 }
 
 void
@@ -562,7 +568,7 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
     sort_layers();
   }
 
-  on_window_resize();
+  recalculate_positions();
 }
 
 void
