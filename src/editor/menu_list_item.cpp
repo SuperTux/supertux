@@ -33,6 +33,7 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
     m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
     m_keyboard_shortcut(""),
     m_onclick_handler(onclick_handler),
+    m_on_right_click_handler(nullptr),
     m_is_selected_handler(nullptr),
     m_is_enabled_handler(nullptr),
     m_surface(Surface::from_file(surface_path)),
@@ -136,15 +137,16 @@ MenuListItem::on_mouse_button_down(const SDL_MouseButtonEvent &button)
 {
   if (is_enabled() && has_mouse_focus())
   {
-    auto item_handler = get_onclick_handler();
+    auto item_handler =
+      button.button == SDL_BUTTON_LEFT ? get_onclick_handler() : get_on_right_click_handler();
+
     if (item_handler != nullptr)
     {
       item_handler();
-      return true;
     }
   }
 
-  return false;
+  return true;
 }
 
 bool
