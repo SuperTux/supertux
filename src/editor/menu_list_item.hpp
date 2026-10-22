@@ -59,6 +59,12 @@ public:
     m_onclick_handler = onclick_handler;
   }
 
+  const std::function<void()>& get_on_right_click_handler() const { return m_on_right_click_handler; }
+  void set_on_right_click_handler(const std::function<void()>& on_right_click_handler)
+  {
+    m_on_right_click_handler = on_right_click_handler;
+  }
+
   const std::function<bool()>& get_is_selected_handler() const { return m_is_selected_handler; }
   void set_is_selected_handler(const std::function<bool()>& is_selected_handler)
   {
@@ -129,6 +135,7 @@ private:
   Vector m_label_offset;
   Vector m_selected_indicator_offset;
   std::function<void()> m_onclick_handler;
+  std::function<void()> m_on_right_click_handler;
   std::function<bool()> m_is_selected_handler;
   std::function<bool()> m_is_enabled_handler;
   SurfacePtr m_surface;

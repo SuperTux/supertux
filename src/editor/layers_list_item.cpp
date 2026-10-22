@@ -19,6 +19,8 @@
 #include "editor/editor.hpp"
 #include "editor/editor_event_handling.hpp"
 #include "editor/layers_widget.hpp"
+#include "editor/object_menu.hpp"
+#include "gui/menu_manager.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "object/background.hpp"
@@ -66,6 +68,12 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   };
 
   set_onclick_handler(select_layer);
+
+  auto right_click_layer = [this]()
+  {
+    MenuManager::instance().push_menu(std::make_unique<ObjectMenu>(m_layer->get_game_object()));
+  };
+  set_on_right_click_handler(right_click_layer);
 
   auto is_selected_layer = [tilemap = m_layer->get_tilemap()]
   {
