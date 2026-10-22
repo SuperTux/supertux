@@ -108,6 +108,7 @@ public:
 private:
   Vector get_layer_coords(const int idx) const;
   int get_layer_idx(const Vector& coords) const;
+  void recalculate_positions();
 
   void update_tip();
   void remove_invalid_layers();
