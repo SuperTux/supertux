@@ -80,7 +80,7 @@ MenuListItem::draw(DrawingContext& context)
     if (has_mouse_focus() || is_selected)
     {
       context.color().draw_filled_rect(get_rect(),
-        is_selected ? Color::BLACK : Color(0.3, 0.3, 0.3), LAYER_GUI);
+        has_mouse_focus() ? Color(0.3, 0.3, 0.3) : Color::BLACK, LAYER_GUI);
     }
   }
 
