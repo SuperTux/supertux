@@ -73,9 +73,15 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
 void
 MenuListItem::draw(DrawingContext& context)
 {
-  if (is_enabled() && has_mouse_focus())
+  auto item_selected_handler = get_is_selected_handler();
+  if (is_enabled())
   {
-    context.color().draw_filled_rect(get_rect(), Color::BLACK, LAYER_GUI);
+    bool is_selected = item_selected_handler != nullptr && item_selected_handler();
+    if (has_mouse_focus() || is_selected)
+    {
+      context.color().draw_filled_rect(get_rect(),
+        is_selected ? Color::BLACK : Color(0.3, 0.3, 0.3), LAYER_GUI);
+    }
   }
 
   auto& rect = get_rect();
@@ -84,7 +90,6 @@ MenuListItem::draw(DrawingContext& context)
   auto surface = get_surface();
 
   auto item_selected_surface = get_item_selected_surface();
-  auto item_selected_handler = get_is_selected_handler();
   bool draw_selected_indicator = is_enabled() && item_selected_handler != nullptr;
 
   if (surface != nullptr)
