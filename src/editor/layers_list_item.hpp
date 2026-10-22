@@ -22,6 +22,7 @@
 #include "editor/menu_list_item.hpp"
 #include "editor/menu_list_separator.hpp"
 #include "editor/widget.hpp"
+#include "interface/control_textbox.hpp"
 #include "math/rectf.hpp"
 
 class LayersWidget;
@@ -30,6 +31,53 @@ class LayersListItem : public MenuListItem
 {
 public:
   LayersListItem(EditorLayersWidget* parent, EditorLayer* layer);
+
+  virtual bool event(const SDL_Event &ev) override;
+
+  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent &button) override;
+
+  virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override
+  {
+    if (m_show_layer_name_textbox)
+    {
+      return m_layer_name_textbox->on_mouse_button_up(button);
+    }
+    return MenuListItem::on_mouse_button_up(button);
+  }
+  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override
+  {
+    if (m_show_layer_name_textbox)
+    {
+      return m_layer_name_textbox->on_mouse_motion(motion);
+    }
+    return MenuListItem::on_mouse_motion(motion);
+  }
+  virtual bool on_key_up(const SDL_KeyboardEvent& key) override
+  {
+    if (m_show_layer_name_textbox)
+    {
+      return m_layer_name_textbox->on_key_up(key);
+    }
+    return MenuListItem::on_key_up(key);
+  }
+  virtual bool on_key_down(const SDL_KeyboardEvent& key) override
+  {
+    if (m_show_layer_name_textbox)
+    {
+      return m_layer_name_textbox->on_key_down(key);
+    }
+    return MenuListItem::on_key_down(key);
+  }
+
+  virtual void update(float dt_sec) override
+  {
+    MenuListItem::update(dt_sec);
+
+    if (m_show_layer_name_textbox)
+    {
+      m_layer_name_textbox->update(dt_sec);
+    }
+  };
 
   virtual void draw(DrawingContext& context) override;
 
@@ -49,4 +97,7 @@ private:
   SurfacePtr m_layer_visible_surface;
   SurfacePtr m_layer_hidden_surface;
   SurfacePtr m_layer_transparent_surface;
+  std::unique_ptr<ControlTextbox> m_layer_name_textbox;
+  bool m_show_layer_name_textbox;
+  std::string m_current_layer_name;
 };
