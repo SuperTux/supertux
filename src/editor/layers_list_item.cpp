@@ -80,7 +80,10 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
     return tilemap != nullptr && tilemap->is_selected_in_editor();
   };
 
-  set_is_selected_handler(is_selected_layer);
+  if (m_layer->get_tilemap())
+  {
+    set_is_selected_handler(is_selected_layer); 
+  }
 
   set_item_selected_surface(layer->get_selection_surface());
 
