@@ -75,12 +75,13 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   };
   set_on_right_click_handler(right_click_layer);
 
-  auto is_selected_layer = [tilemap = m_layer->get_tilemap()]
+  auto tilemap = m_layer->get_tilemap();
+  auto is_selected_layer = [tilemap]
   {
     return tilemap != nullptr && tilemap->is_selected_in_editor();
   };
 
-  if (m_layer->get_tilemap())
+  if (tilemap)
   {
     set_is_selected_handler(is_selected_layer); 
   }
