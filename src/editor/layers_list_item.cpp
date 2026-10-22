@@ -127,7 +127,7 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     m_layer_name_textbox->set_rect(textbox_rect);
     m_layer_name_textbox->set_has_focus(true);
 
-    m_show_layer_name_textbox = true;
+    // m_show_layer_name_textbox = true;
     return true;
   }
 
