@@ -40,7 +40,9 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   m_layer_transparent_surface(Surface::from_file("images/engine/editor/transparent.png")),
   m_layer_name_textbox(std::make_unique<ControlTextbox>()),
   m_show_layer_name_textbox(),
-  m_current_layer_name()
+  m_current_layer_name(),
+  m_dragging(),
+  m_dragging_offset()
 {
   auto select_layer = [parent, tilemap = m_layer->get_tilemap(), this]
   {
@@ -94,11 +96,11 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
 
   auto layer_name_changed = [this]()
   {
-    m_layer->get_game_object()->set_name(m_current_layer_name);
     m_show_layer_name_textbox = false;
+    m_layer->get_game_object()->set_name(m_current_layer_name);
+    set_label(m_layer->get_display_name());
   };
-  m_layer_name_textbox->m_on_change_callbacks.push_back(layer_name_changed);
-  m_layer_name_textbox->bind_string(&m_current_layer_name);
+  m_layer_name_textbox->m_on_change_callbacks.emplace_back(layer_name_changed);
 }
 
 bool
@@ -125,25 +127,45 @@ LayersListItem::event(const SDL_Event &ev)
 bool 
 LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
+  // m_dragging = true;
+
+  auto event_handling = Editor::current()->get_event_handling();
+  m_dragging_offset = event_handling->get_mouse_pos() - get_rect().p1();
+  
   if (m_show_layer_name_textbox)
   {
     m_layer_name_textbox->on_mouse_button_down(button);
   }
 
-  auto event_handling = Editor::current()->get_event_handling();
   if (get_rect().contains(event_handling->get_mouse_pos()) && button.clicks == 2)
   {
+    m_show_layer_name_textbox = true;
     m_current_layer_name = m_layer->get_game_object()->get_name();
 
     auto textbox_rect = Rectf(get_rect().p1() + Vector(get_label_offset().x, 0), get_rect().p2());
     m_layer_name_textbox->set_rect(textbox_rect);
-    m_layer_name_textbox->set_has_focus(true);
-
-    // m_show_layer_name_textbox = true;
+    m_layer_name_textbox->bind_string(&m_current_layer_name);
     return true;
   }
 
   return MenuListItem::on_mouse_button_down(button);
+}
+
+bool
+LayersListItem::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+{
+  if (m_show_layer_name_textbox)
+  {
+    return m_layer_name_textbox->on_mouse_motion(motion);
+  }
+
+  auto mouse_pos = Editor::current()->get_event_handling()->get_mouse_pos();
+  if (m_dragging)
+  {
+    m_rect.set_pos(Vector(m_rect.p1().x, mouse_pos.y));
+  }
+
+  return MenuListItem::on_mouse_motion(motion);
 }
 
 void 
