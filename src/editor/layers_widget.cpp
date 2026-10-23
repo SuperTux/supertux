@@ -235,7 +235,10 @@ EditorLayersWidget::event(const SDL_Event& ev)
 bool
 EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  return m_layer_list_widget->on_mouse_button_up(button);
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_button_up(button))
+    return true;
+
+  return false;
 }
 
 bool
@@ -404,6 +407,9 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_wheel(wheel))
+    return true;
+
   if (!m_has_mouse_focus)
   {
     return false;
