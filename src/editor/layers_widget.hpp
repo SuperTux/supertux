@@ -59,6 +59,8 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
   virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
+  virtual bool on_key_up(const SDL_KeyboardEvent &key) override;
+  virtual bool on_key_down(const SDL_KeyboardEvent &key) override;
 
   virtual void setup() override;
   virtual void on_window_resize() override;

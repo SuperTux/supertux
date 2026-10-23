@@ -443,6 +443,24 @@ EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 }
 
 bool
+EditorLayersWidget::on_key_up(const SDL_KeyboardEvent &key)
+{
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_key_up(key))
+    return true;
+
+  return false;
+}
+
+bool
+EditorLayersWidget::on_key_down(const SDL_KeyboardEvent &key)
+{
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_key_down(key))
+    return true;
+
+  return false;
+}
+
+bool
 EditorLayersWidget::has_mouse_focus() const
 {
   return m_has_mouse_focus;

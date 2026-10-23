@@ -305,7 +305,8 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
 }
 
 bool
-ControlTextbox::event(const SDL_Event& ev) {
+ControlTextbox::event(const SDL_Event& ev)
+{
   Widget::event(ev);
 
   if (ev.type == SDL_EVENT_TEXT_INPUT && m_has_focus)
