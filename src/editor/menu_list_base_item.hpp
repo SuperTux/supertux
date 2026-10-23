@@ -43,7 +43,9 @@ public:
   {
   }
 
-  virtual bool is_separator() { return false; }
+  virtual bool is_separator() const { return false; }
+
+  virtual bool has_focus() const { return false; }
 
 public:
   const Rectf &get_rect() const { return m_rect; }

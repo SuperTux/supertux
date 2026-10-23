@@ -64,6 +64,7 @@ public:
 
   virtual void setup() override;
   virtual void on_window_resize() override;
+  virtual bool has_focus() const;
 
   void refresh();
 
