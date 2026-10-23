@@ -233,6 +233,23 @@ EditorLayersWidget::event(const SDL_Event& ev)
 }
 
 bool
+EditorLayersWidget::has_focus() const
+{
+  if (!m_layer_list_widget_visible)
+  {
+    return false;
+  }
+
+  for (const auto &item : m_layer_list_widget->get_menu_items())
+  {
+    if (item->has_focus())
+      return true;
+  }
+
+  return false;
+}
+
+bool
 EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_button_up(button))

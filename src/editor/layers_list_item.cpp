@@ -104,6 +104,12 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
 }
 
 bool
+LayersListItem::has_focus() const
+{
+  return m_show_layer_name_textbox && m_layer_name_textbox->has_focus();
+}
+
+bool
 LayersListItem::has_visibility_settings() const
 {
   const auto &class_name = m_layer->get_game_object()->get_class_name();
