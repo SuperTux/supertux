@@ -97,7 +97,11 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   auto layer_name_changed = [this]()
   {
     m_show_layer_name_textbox = false;
-    m_layer->get_game_object()->set_name(m_current_layer_name);
+    auto object = m_layer->get_game_object();
+    object->set_name(m_current_layer_name);
+    object->after_editor_set();
+    object->check_state();
+
     set_label(m_layer->get_display_name());
   };
   m_layer_name_textbox->m_on_change_callbacks.emplace_back(layer_name_changed);
@@ -147,7 +151,10 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   if (textbox_rect.contains(event_handling->get_mouse_pos()) && button.clicks == 2)
   {
     m_show_layer_name_textbox = true;
-    m_current_layer_name = m_layer->get_game_object()->get_name();
+    auto object = m_layer->get_game_object();
+    object->save_state();
+
+    m_current_layer_name = object->get_name();
 
     m_layer_name_textbox->set_rect(textbox_rect);
     m_layer_name_textbox->bind_string(&m_current_layer_name);
