@@ -119,9 +119,9 @@ LayersListItem::event(const SDL_Event &ev)
 {
   if (m_show_layer_name_textbox)
   {
-    m_layer_name_textbox->event(ev);
+    return m_layer_name_textbox->event(ev);
   }
-  return MenuListItem::event(ev);
+  return false;
 }
 
 bool 
@@ -134,15 +134,15 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   
   if (m_show_layer_name_textbox)
   {
-    m_layer_name_textbox->on_mouse_button_down(button);
+    return m_layer_name_textbox->on_mouse_button_down(button);
   }
 
-  if (get_rect().contains(event_handling->get_mouse_pos()) && button.clicks == 2)
+  auto textbox_rect = Rectf(get_rect().p1() + Vector(get_label_offset().x, 0), get_rect().p2());
+  if (textbox_rect.contains(event_handling->get_mouse_pos()) && button.clicks == 2)
   {
     m_show_layer_name_textbox = true;
     m_current_layer_name = m_layer->get_game_object()->get_name();
 
-    auto textbox_rect = Rectf(get_rect().p1() + Vector(get_label_offset().x, 0), get_rect().p2());
     m_layer_name_textbox->set_rect(textbox_rect);
     m_layer_name_textbox->bind_string(&m_current_layer_name);
     return true;
