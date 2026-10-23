@@ -26,7 +26,7 @@
 #include <functional>
 #include <vector>
 
-class MenuListWidget : Widget
+class MenuListWidget : public Widget
 {
 public:
   MenuListWidget();
