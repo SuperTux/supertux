@@ -347,7 +347,8 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
 
-  if (m_hovered_item != HoveredItem::SECTOR && m_layer_list_widget_visible && !m_layer_list_widget->get_area().contains(mouse_pos))
+  if (m_hovered_item != HoveredItem::SECTOR && m_layer_list_widget_visible &&
+      !m_layer_list_widget->get_area().contains(mouse_pos) && !has_focus())
   {
     m_layer_list_widget_visible = false;
     return true;
