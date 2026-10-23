@@ -97,6 +97,7 @@ extern "C" {
 #include "util/string_util.hpp"
 #include "video/sdl_surface.hpp"
 #include "video/sdl_surface_ptr.hpp"
+#include "video/texture_manager.hpp"
 #include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
 
@@ -689,6 +690,22 @@ Main::launch_game(const CommandLineArguments& args)
   m_video_system = VideoSystem::create(VideoSystem::VIDEO_SDL);
 #endif
   init_video();
+
+#ifdef __vita__
+  TextureManager::current()->preload({
+    "images/engine/menu/frame.png",
+    "images/engine/console.png",
+    "images/engine/console2.png",
+    "images/engine/menu/logo.png",
+    "images/engine/menu/mousecursor.png",
+    "images/engine/fonts/white.png",
+    "images/engine/fonts/shadow.png",
+    "images/engine/fonts/zh/white.png",
+    "images/engine/fonts/zh/shadow.png",
+    "images/engine/fonts/ko/white.png",
+    "images/engine/fonts/ko/shadow.png"
+  });
+#endif
 
   m_ttf_surface_manager.reset(new TTFSurfaceManager());
 

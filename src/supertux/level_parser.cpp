@@ -27,6 +27,34 @@
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#ifdef __vita__
+#include <sexp/value.hpp>
+
+#include "physfs/vita_archive.hpp"
+#include "supertux/tile_manager.hpp"
+#include "util/string_util.hpp"
+#include "video/texture_manager.hpp"
+
+namespace {
+
+void collect_images(const sexp::Value& value, std::vector<std::string>& images)
+{
+  if (value.is_string())
+  {
+    const std::string& text = value.as_string();
+    if ((StringUtil::has_suffix(text, ".png") || StringUtil::has_suffix(text, ".jpg")) &&
+        vita_archive_offset(text) >= 0)
+      images.push_back(text);
+  }
+  else if (value.is_array())
+  {
+    for (const auto& item : value.as_array())
+      collect_images(item, images);
+  }
+}
+
+} // namespace
+#endif
 
 std::string
 LevelParser::get_level_name(const std::string& filename)
@@ -167,6 +195,15 @@ LevelParser::load(const ReaderDocument& doc)
       level.get("save-version", m_level.m_save_version);
     level.get("tileset", m_level.m_tileset);
 
+#ifdef __vita__
+    if (!m_level.m_tileset.empty())
+      TileManager::current()->get_tileset(m_level.m_tileset);
+
+    std::vector<std::string> images;
+    collect_images(level.get_sexp(), images);
+    TextureManager::current()->preload(images);
+#endif
+
     level.get("name", m_level.m_name);
     level.get("author", m_level.m_author);
     level.get("contact", m_level.m_contact);
@@ -209,6 +246,10 @@ LevelParser::load(const ReaderDocument& doc)
   }
 
   m_level.initialize();
+
+#ifdef __vita__
+  TextureManager::current()->discard_preloaded();
+#endif
 }
 
 void

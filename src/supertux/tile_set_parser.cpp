@@ -30,6 +30,32 @@
 #include "util/reader_mapping.hpp"
 #include "util/file_system.hpp"
 #include "video/surface.hpp"
+#ifdef __vita__
+#include "video/texture_manager.hpp"
+
+namespace {
+
+void collect_images(const ReaderMapping& images_mapping, const std::string& tiles_path,
+                    std::vector<std::string>& images)
+{
+  auto iter = images_mapping.get_iter();
+  while (iter.next())
+  {
+    if (iter.is_string())
+    {
+      images.push_back(FileSystem::join(tiles_path, iter.as_string_item()));
+    }
+    else if (iter.is_pair() && iter.get_key() == "region")
+    {
+      auto const& arr = iter.as_mapping().get_sexp().as_array();
+      if (arr.size() == 6)
+        images.push_back(FileSystem::join(tiles_path, arr[1].as_string()));
+    }
+  }
+}
+
+} // namespace
+#endif
 
 TileSetParser::TileSetParser(TileSet& tileset, const std::string& filename,
                              int32_t start, int32_t end, int32_t offset) :
@@ -69,6 +95,25 @@ TileSetParser::parse(bool imported)
   if (root.get_name() != "supertux-tiles") {
     throw std::runtime_error("file is not a supertux tiles file.");
   }
+
+#ifdef __vita__
+  std::vector<std::string> images;
+  auto images_iter = root.get_mapping().get_iter();
+  while (images_iter.next())
+  {
+    if (images_iter.get_key() != "tile" && images_iter.get_key() != "tiles")
+      continue;
+
+    ReaderMapping reader = images_iter.as_mapping();
+    for (const char* key : { "image", "images", "editor-images" })
+    {
+      std::optional<ReaderMapping> images_mapping;
+      if (reader.get(key, images_mapping))
+        collect_images(*images_mapping, m_tiles_path, images);
+    }
+  }
+  TextureManager::current()->preload(images);
+#endif
 
   auto iter = root.get_mapping().get_iter();
   while (iter.next())
@@ -212,6 +257,9 @@ TileSetParser::parse(bool imported)
       log_warning << "Unknown symbol '" << iter.get_key() << "' in tileset file" << std::endl;
     }
   }
+#ifdef __vita__
+  TextureManager::current()->discard_preloaded();
+#endif
   /* Check for and remove any deprecated tiles from tilegroups */
   m_tileset.remove_deprecated_tiles();
   /* only create the unassigned tilegroup from the parent strf */

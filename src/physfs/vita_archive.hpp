@@ -17,8 +17,12 @@
 
 #ifdef __vita__
 
+#include <string>
+
 #include <physfs.h>
 
 PHYSFS_Io* vita_open_archive_io(const char* path);
+PHYSFS_sint64 vita_archive_offset(const std::string& filename);
+void vita_archive_prefetch(const std::string& filename);
 
 #endif
