@@ -42,32 +42,15 @@ public:
     {
       return m_layer_name_textbox->on_mouse_button_up(button);
     }
+
+    if (m_dragging)
+    {
+      m_dragging = false;
+    }
+
     return MenuListItem::on_mouse_button_up(button);
   }
-  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override
-  {
-    if (m_show_layer_name_textbox)
-    {
-      return m_layer_name_textbox->on_mouse_motion(motion);
-    }
-    return MenuListItem::on_mouse_motion(motion);
-  }
-  virtual bool on_key_up(const SDL_KeyboardEvent& key) override
-  {
-    if (m_show_layer_name_textbox)
-    {
-      return m_layer_name_textbox->on_key_up(key);
-    }
-    return MenuListItem::on_key_up(key);
-  }
-  virtual bool on_key_down(const SDL_KeyboardEvent& key) override
-  {
-    if (m_show_layer_name_textbox)
-    {
-      return m_layer_name_textbox->on_key_down(key);
-    }
-    return MenuListItem::on_key_down(key);
-  }
+  virtual bool on_mouse_motion(const SDL_MouseMotionEvent &motion) override;
 
   virtual void update(float dt_sec) override
   {
@@ -100,4 +83,6 @@ private:
   std::unique_ptr<ControlTextbox> m_layer_name_textbox;
   bool m_show_layer_name_textbox;
   std::string m_current_layer_name;
+  bool m_dragging;
+  Vector m_dragging_offset;
 };
