@@ -24,6 +24,7 @@
 #include "math/sizef.hpp"
 #include "supertux/timer.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface_ptr.hpp"
 
 class Notification
 {
@@ -40,6 +41,7 @@ private:
   std::string m_mini_text;
   Sizef m_text_size;
   Sizef m_mini_text_size;
+  SurfacePtr m_image;
 
   Vector m_pos;
   Sizef m_size;
@@ -67,6 +69,7 @@ public:
 
   void set_text(const std::string& text);
   void set_mini_text(const std::string& text);
+  void set_image(const std::string& path);
   inline void on_press(const std::function<void ()>& callback) { m_callback = callback; }
 
   void event(const SDL_Event& event);
