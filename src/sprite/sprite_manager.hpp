@@ -39,6 +39,8 @@ public:
   /** Loads a sprite. */
   SpritePtr create(const std::string& filename);
 
+  void preload(const std::string& filename);
+
   /** Reloads all sprites. */
   void reload();
 

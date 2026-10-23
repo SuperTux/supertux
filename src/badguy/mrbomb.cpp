@@ -42,6 +42,8 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/explosion.wav");
+  SpriteManager::current()->preload("images/objects/explosion/explosion.sprite");
+  SpriteManager::current()->preload("images/objects/lightmap_light/lightmap_light-large.sprite");
 
   m_exploding_sprite->set_action("default", 1);
 }
@@ -56,6 +58,8 @@ MrBomb::MrBomb(const ReaderMapping& reader, const std::string& sprite, const std
   set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/explosion.wav");
+  SpriteManager::current()->preload("images/objects/explosion/explosion.sprite");
+  SpriteManager::current()->preload("images/objects/lightmap_light/lightmap_light-large.sprite");
 
   m_exploding_sprite->set_action("default", 1);
 }

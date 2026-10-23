@@ -42,6 +42,13 @@ SpriteManager::create(const std::string& name)
   return SpritePtr(new Sprite(*data));
 }
 
+void
+SpriteManager::preload(const std::string& filename)
+{
+  if (m_sprites.find(filename) == m_sprites.end())
+    load(filename);
+}
+
 SpriteData*
 SpriteManager::load(const std::string& filename)
 {
