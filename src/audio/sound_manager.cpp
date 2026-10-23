@@ -129,7 +129,11 @@ SoundManager::intern_create_sound_source(const std::string& filename)
     // Load sound file
     std::unique_ptr<SoundFile> file(load_sound_file(filename));
 
+#ifdef __vita__
+    if (file->m_size < 1024 * 1024) {
+#else
     if (file->m_size < 100000) {
+#endif
       log_debug << "Adding \"" << filename <<
         "\" into the buffer, file size: " << file->m_size << std::endl;
       buffer = load_file_into_buffer(*file);
@@ -175,7 +179,11 @@ SoundManager::preload(const std::string& filename)
   try {
     std::unique_ptr<SoundFile> file (load_sound_file(filename));
     // only keep small files
+#ifdef __vita__
+    if (file->m_size >= 1024 * 1024)
+#else
     if (file->m_size >= 100000)
+#endif
       return;
 
     ALuint buffer = load_file_into_buffer(*file);
@@ -440,6 +448,11 @@ SoundManager::update()
   static Uint32 lasttime = SDL_GetTicks();
   Uint32 now = SDL_GetTicks();
 
+#ifdef __vita__
+  for (auto* stream : m_update_list)
+    stream->update();
+#endif
+
   if (now - lasttime < 300)
     return;
   lasttime = now;
@@ -456,10 +469,12 @@ SoundManager::update()
       ++it;
     }
   }
+#ifndef __vita__
   // check streaming sounds
   if (m_music_source) {
     m_music_source->update();
   }
+#endif
 
   if (m_context)
   {
@@ -467,12 +482,14 @@ SoundManager::update()
     check_alc_error("Error while processing audio context: ");
   }
 
+#ifndef __vita__
   //run update() for stream_sound_source
   auto s = m_update_list.begin();
   while (s != m_update_list.end()) {
     (*s)->update();
     ++s;
   }
+#endif
 }
 
 ALenum

@@ -77,6 +77,9 @@ SDLVideoSystem::create_window()
     SDL_ClearError();
     throw std::runtime_error(msg.str());
   }
+#ifdef __vita__
+  SDL_SetRenderVSync(m_sdl_renderer.get(), 1);
+#endif
 }
 
 void
@@ -85,7 +88,7 @@ SDLVideoSystem::apply_config()
   apply_video_mode();
 
   { // apply_viewport
-#ifndef __ANDROID__
+#if !defined(__ANDROID__) && !defined(__vita__)
     Size target_size = (g_config->use_fullscreen && g_config->fullscreen_size != Size(0, 0)) ?
       g_config->fullscreen_size :
       g_config->window_size;

@@ -49,6 +49,10 @@ project(SUPERTUX
         LANGUAGES C CXX
         VERSION 0.7.0)
 
+if(VITA)
+  include(SuperTux/Vita)
+endif()
+
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0069 NEW)
 endif()
@@ -500,6 +504,10 @@ if(APPLE AND NOT DISABLE_CPACK_BUNDLING)
   set_target_properties(supertux2 PROPERTIES
     INSTALL_RPATH "@executable_path/../MacOS"
     BUILD_WITH_INSTALL_RPATH FALSE)
+endif()
+
+if(VITA)
+  supertux_vita_package(supertux2)
 endif()
 
 ## Install stuff

@@ -77,8 +77,18 @@ GLenum string2filter(const std::string& text)
 
 SDLSurfacePtr create_image_surface(const std::string& filename)
 {
+#ifdef __vita__
+  try
+  {
+    return SDLSurface::from_file(filename);
+  }
+  catch (const std::exception&)
+  {
+  }
+#else
   if (PHYSFS_exists(filename.c_str()))
     return SDLSurface::from_file(filename);
+#endif
 
   // The image doesn't exist, so attempt to load a ".deprecated" version
   log_warning << "Image '" << filename << "' doesn't exist. Attempting to load \".deprecated\" version." << std::endl;

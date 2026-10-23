@@ -22,6 +22,8 @@
 
 StreamSoundSource::StreamSoundSource() :
   m_file(),
+  m_buffers_filled(0),
+  m_buffers_target(0),
   m_fade_state(NoFading),
   m_fade_start_time(),
   m_fade_time(),
@@ -65,9 +67,13 @@ StreamSoundSource::set_sound_file(std::unique_ptr<SoundFile> newfile)
 
   ALint queued;
   alGetSourcei(m_source, AL_BUFFERS_QUEUED, &queued);
-  for (size_t i = 0; i < STREAMFRAGMENTS - queued; ++i) {
-    if (fillBufferAndQueue(m_buffers[i]) == false)
+  m_buffers_target = STREAMFRAGMENTS - queued;
+  m_buffers_filled = 0;
+  while (m_buffers_filled < m_buffers_target && m_buffers_filled < STREAMFRAGMENTS_INITIAL) {
+    if (fillBufferAndQueue(m_buffers[m_buffers_filled++]) == false) {
+      m_buffers_filled = m_buffers_target;
       break;
+    }
   }
 }
 
@@ -98,6 +104,11 @@ StreamSoundSource::update()
 
     if (fillBufferAndQueue(buffer) == false)
       break;
+  }
+
+  if (m_buffers_filled < m_buffers_target) {
+    if (fillBufferAndQueue(m_buffers[m_buffers_filled++]) == false)
+      m_buffers_filled = m_buffers_target;
   }
 
   if (!playing() && !paused()) {

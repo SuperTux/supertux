@@ -155,6 +155,26 @@ SDL_IOStream* get_physfs_SDLRWops(const std::string& filename)
         << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
+#ifdef __vita__
+  const PHYSFS_sint64 length = PHYSFS_fileLength(file);
+  if (length >= 0 && length <= 4 * 1024 * 1024)
+  {
+    void* data = SDL_malloc(length > 0 ? static_cast<size_t>(length) : 1);
+    const PHYSFS_sint64 got = length > 0 ? PHYSFS_readBytes(file, data, length) : 0;
+    PHYSFS_close(file);
+    SDL_IOStream* io = (got == length) ? SDL_IOFromConstMem(data, static_cast<size_t>(length)) : nullptr;
+    if (!io) {
+      SDL_free(data);
+      std::stringstream msg;
+      msg << "Couldn't read '" << filename << "': " << physfsutil::get_last_error();
+      throw std::runtime_error(msg.str());
+    }
+    SDL_SetPointerProperty(SDL_GetIOProperties(io), SDL_PROP_IOSTREAM_MEMORY_FREE_FUNC_POINTER,
+                           reinterpret_cast<void*>(SDL_free));
+    return io;
+  }
+  PHYSFS_setBuffer(file, 64 * 1024);
+#endif
 
   SDL_IOStreamInterface iface;
   SDL_INIT_INTERFACE(&iface);

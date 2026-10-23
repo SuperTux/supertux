@@ -19,6 +19,13 @@
 #include <config.h>
 #include <version.h>
 #include <filesystem>
+#ifdef __vita__
+#include <cstdio>
+#include <cstdlib>
+#include <psp2/apputil.h>
+#include <psp2/power.h>
+#include <psp2/system_param.h>
+#endif
 #include <fstream>
 
 #include <SDL3/SDL.h>
@@ -55,6 +62,7 @@ extern "C" {
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "physfs/util.hpp"
+#include "physfs/vita_archive.hpp"
 #include "port/emscripten.hpp"
 #include "sdk/integration.hpp"
 #include "sprite/sprite_data.hpp"
@@ -93,6 +101,55 @@ extern "C" {
 #include "worldmap/worldmap.hpp"
 
 static Timelog s_timelog;
+
+#ifdef __vita__
+static bool s_vita_data_archive = false;
+
+static const char*
+vita_system_language()
+{
+  SceAppUtilInitParam init_param = {};
+  SceAppUtilBootParam boot_param = {};
+  sceAppUtilInit(&init_param, &boot_param);
+
+  int language = SCE_SYSTEM_PARAM_LANG_ENGLISH_US;
+  sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, &language);
+
+  switch (language)
+  {
+    case SCE_SYSTEM_PARAM_LANG_JAPANESE: return "ja_JP";
+    case SCE_SYSTEM_PARAM_LANG_FRENCH: return "fr_FR";
+    case SCE_SYSTEM_PARAM_LANG_SPANISH: return "es_ES";
+    case SCE_SYSTEM_PARAM_LANG_GERMAN: return "de_DE";
+    case SCE_SYSTEM_PARAM_LANG_ITALIAN: return "it_IT";
+    case SCE_SYSTEM_PARAM_LANG_DUTCH: return "nl_NL";
+    case SCE_SYSTEM_PARAM_LANG_PORTUGUESE_PT: return "pt_PT";
+    case SCE_SYSTEM_PARAM_LANG_RUSSIAN: return "ru_RU";
+    case SCE_SYSTEM_PARAM_LANG_KOREAN: return "ko_KR";
+    case SCE_SYSTEM_PARAM_LANG_CHINESE_T: return "zh_TW";
+    case SCE_SYSTEM_PARAM_LANG_CHINESE_S: return "zh_CN";
+    case SCE_SYSTEM_PARAM_LANG_FINNISH: return "fi_FI";
+    case SCE_SYSTEM_PARAM_LANG_SWEDISH: return "sv_SE";
+    case SCE_SYSTEM_PARAM_LANG_DANISH: return "da_DK";
+    case SCE_SYSTEM_PARAM_LANG_NORWEGIAN: return "nb_NO";
+    case SCE_SYSTEM_PARAM_LANG_POLISH: return "pl_PL";
+    case SCE_SYSTEM_PARAM_LANG_PORTUGUESE_BR: return "pt_BR";
+    case SCE_SYSTEM_PARAM_LANG_ENGLISH_GB: return "en_GB";
+    case SCE_SYSTEM_PARAM_LANG_TURKISH: return "tr_TR";
+    default: return "en_US";
+  }
+}
+#endif
+
+static std::string
+mount_path(const std::string& path)
+{
+#ifdef __vita__
+  return path;
+#else
+  return std::filesystem::canonical(path).string();
+#endif
+}
 
 ConfigSubsystem::ConfigSubsystem() :
   m_config()
@@ -259,7 +316,21 @@ void PhysfsSubsystem::find_mount_datadir()
     }
   }
 
-  if (!PHYSFS_mount(std::filesystem::canonical(m_datadir).string().c_str(), nullptr, 1))
+#ifdef __vita__
+  const std::string archive = m_datadir + ".zip";
+  if (PHYSFS_Io* io = vita_open_archive_io(archive.c_str()))
+  {
+    if (PHYSFS_mountIo(io, archive.c_str(), nullptr, 1))
+    {
+      s_vita_data_archive = true;
+      return;
+    }
+    log_warning << "Couldn't mount '" << archive << "': " << physfsutil::get_last_error() << std::endl;
+    io->destroy(io);
+  }
+#endif
+
+  if (!PHYSFS_mount(mount_path(m_datadir).c_str(), nullptr, 1))
   {
     log_warning << "Couldn't add '" << m_datadir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
@@ -292,8 +363,12 @@ void PhysfsSubsystem::remount_datadir_static() const
 
 void PhysfsSubsystem::add_data_to_search_path(const std::string& dir) const
 {
+#ifdef __vita__
+  if (s_vita_data_archive)
+    return;
+#endif
 #ifndef __EMSCRIPTEN__
-  if (!PHYSFS_mount(FileSystem::join(std::filesystem::canonical(m_datadir).string(), dir).c_str(), dir.c_str(), 0))
+  if (!PHYSFS_mount(FileSystem::join(mount_path(m_datadir), dir).c_str(), dir.c_str(), 0))
   {
     log_warning << "Couldn't add '" << m_datadir << "/" << dir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
@@ -405,7 +480,11 @@ if (FileSystem::is_directory(olduserdir)) {
     throw std::runtime_error(msg.str());
   }
 
+#ifdef __vita__
+  if (!PHYSFS_mount(m_userdir.c_str(), nullptr, 1))
+#else
   if (!PHYSFS_mount(m_userdir.c_str(), nullptr, 0))
+#endif
   {
     log_warning << "Couldn't add user directory '" << m_userdir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
@@ -745,6 +824,19 @@ Main::run(int argc, char** argv)
   init_emscripten();
 #endif
 
+#ifdef __vita__
+  freopen("ux0:/data/supertux2/stdout.txt", "w", stdout);
+  freopen("ux0:/data/supertux2/stderr.txt", "w", stderr);
+  setvbuf(stderr, nullptr, _IONBF, 0);
+  setenv("LANG", vita_system_language(), 1);
+  SDL_SetHint(SDL_HINT_INVALID_PARAM_CHECKS, "1");
+
+  scePowerSetArmClockFrequency(444);
+  scePowerSetBusClockFrequency(222);
+  scePowerSetGpuClockFrequency(222);
+  scePowerSetGpuXbarClockFrequency(166);
+#endif
+
 #ifdef WIN32
 	//SDL is used instead of PHYSFS because both create the same path in app data
 	//However, PHYSFS is not yet initizlized, and this should be run before anything is initialized
@@ -795,6 +887,9 @@ Main::run(int argc, char** argv)
 
 #ifdef __ANDROID__
     m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, SDL_GetAndroidExternalStoragePath()));
+#elif defined(__vita__)
+    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir.value_or("ux0:/data/supertux2/data"),
+                                                 args.userdir.value_or("ux0:/data/supertux2/user")));
 #else
     m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, args.userdir));
 #endif

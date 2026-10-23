@@ -22,6 +22,13 @@
 
 #include "supertux/main.hpp"
 
+#ifdef __vita__
+extern "C" {
+int _newlib_heap_size_user = 192 * 1024 * 1024;
+unsigned int sceUserMainThreadStackSize = 2 * 1024 * 1024;
+}
+#endif
+
 static std::unique_ptr<Main> g_main;
 
 int main(int argc, char** argv)

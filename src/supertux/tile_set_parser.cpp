@@ -335,6 +335,9 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
 
   bool shared_surface = false;
   reader.get("shared-surface", shared_surface);
+#ifdef __vita__
+  shared_surface = true;
+#endif
 
   float fps = 10;
   reader.get("fps",     fps);
@@ -415,6 +418,11 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
             [x, y] (const SurfacePtr& surface) {
               return surface->region(Rect(x, y, Size(32, 32)));
             });
+#ifdef __vita__
+        if (!surfaces.empty() &&
+            !Rect(0, 0, surfaces[0]->get_width(), surfaces[0]->get_height()).contains(Rect(x, y, Size(32, 32))))
+          regions = parse_imagespecs(*surfaces_mapping, Rect(x, y, Size(32, 32)));
+#endif
 
         std::vector<SurfacePtr> editor_regions;
         editor_regions.reserve(editor_surfaces.size());
