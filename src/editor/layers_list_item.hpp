@@ -67,6 +67,20 @@ public:
         m_show_layer_name_textbox = false;
       }
     }
+
+    if (m_layer)
+    {
+      // TODO: Checking this every tick is overkill!!!
+      // GameObject probably requires a refactor to
+      // support custom after_editor_set callback
+      // functions that can be registered.
+
+      auto layer_display_name = m_layer->get_display_name();
+      if (get_label() != layer_display_name)
+      {
+        set_label(layer_display_name);
+      }
+    }
   };
 
   virtual void draw(DrawingContext& context) override;
