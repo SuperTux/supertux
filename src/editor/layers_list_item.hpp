@@ -61,6 +61,11 @@ public:
     if (m_show_layer_name_textbox)
     {
       m_layer_name_textbox->update(dt_sec);
+
+      if (!m_layer_name_textbox->has_focus())
+      {
+        m_show_layer_name_textbox = false;
+      }
     }
   };
 
