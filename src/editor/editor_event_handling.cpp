@@ -339,8 +339,10 @@ EditorEventHandling::update_keyboard(const Controller& controller)
   auto editor = Editor::current();
   auto properties_panel = editor->get_properties_panel();
   auto toolbar = editor->get_toolbar_widget();
+  auto layers_widget = editor->get_layers_widget();
 
-  if (!editor->has_focus() || properties_panel->has_focus() || toolbar->has_focus())
+  if (!editor->has_focus() || properties_panel->has_focus() ||
+      toolbar->has_focus() || layers_widget->has_focus())
     return;
 
   if (m_ctrl_pressed || m_alt_pressed || m_shift_pressed)

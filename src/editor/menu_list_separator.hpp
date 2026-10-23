@@ -27,5 +27,5 @@ public:
 
 public:
   virtual void draw(DrawingContext &context) override;
-  virtual bool is_separator() override { return true; }
+  virtual bool is_separator() const override { return true; }
 };

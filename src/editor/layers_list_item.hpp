@@ -32,6 +32,8 @@ class LayersListItem : public MenuListItem
 public:
   LayersListItem(EditorLayersWidget* parent, EditorLayer* layer);
 
+  virtual bool has_focus() const override;
+
   virtual bool event(const SDL_Event &ev) override;
 
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent &button) override;

@@ -64,6 +64,10 @@ public:
     add_item(std::make_unique<MenuListSeparator>());
   }
 
+  const std::vector<std::unique_ptr<MenuListBaseItem>>& get_menu_items()
+  {
+    return m_menu_items;
+  }
   size_t get_item_count() const { return m_menu_items.size(); }
 
   /**
