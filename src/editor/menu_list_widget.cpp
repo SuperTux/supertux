@@ -89,6 +89,28 @@ MenuListWidget::on_mouse_motion(const SDL_MouseMotionEvent &motion)
   return has_mouse_focus();
 }
 
+bool
+MenuListWidget::on_key_up(const SDL_KeyboardEvent &key)
+{
+  bool event_handled = false;
+  for (const auto &item : m_menu_items)
+  {
+    event_handled |= item->on_key_up(key);
+  }
+  return event_handled;
+}
+
+bool
+MenuListWidget::on_key_down(const SDL_KeyboardEvent &key)
+{
+  bool event_handled = false;
+  for (const auto &item : m_menu_items)
+  {
+    event_handled |= item->on_key_down(key);
+  }
+  return event_handled;
+}
+
 void
 MenuListWidget::set_position(const Vector& position, bool anchor_bottom)
 {
