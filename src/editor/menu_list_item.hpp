@@ -49,6 +49,7 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent &button) override;
 
   const std::string &get_label() const { return m_label; }
+  void set_label(const std::string &label) { m_label = label; }
 
   const std::string &get_keyboard_shortcut() const { return m_keyboard_shortcut; }
   void set_keyboard_shortcut(const std::string &shortcut) { m_keyboard_shortcut = shortcut; }
