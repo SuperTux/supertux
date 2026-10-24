@@ -53,8 +53,12 @@ MenuListWidget::draw(DrawingContext& context)
 }
 
 void
-MenuListWidget::update(float /* dt_sec */)
+MenuListWidget::update(float dt_sec)
 {
+  for (const auto& item : m_menu_items)
+  {
+    item->update(dt_sec);
+  }
 }
 
 bool
