@@ -496,7 +496,7 @@ EditorLayersWidget::recalculate_positions()
   m_Ypos = SCREEN_HEIGHT - 32;
   m_Width = SCREEN_WIDTH - 128;
 
-  m_layer_list_widget->set_position(Vector(m_Xpos, m_Ypos), true);
+  m_layer_list_widget->recalculate_item_position_and_size(Vector(m_Xpos, m_Ypos), true);
 }
 
 void
