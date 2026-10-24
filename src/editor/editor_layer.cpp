@@ -84,6 +84,11 @@ std::string
 EditorLayer::get_name() const
 {
   auto object = get_game_object();
+  if (object == nullptr)
+  {
+    return "";
+  }
+
   auto item_label = object->get_name();
   if (item_label.empty())
   {
@@ -98,7 +103,7 @@ EditorLayer::get_display_name() const
 {
   auto item_label = get_name();
   
-  if (item_label.size() > 15)
+  if (has_shortened_display_name())
   {
     item_label = item_label.substr(0, 12) + "...";
   }
@@ -109,4 +114,10 @@ EditorLayer::get_display_name() const
   }
 
   return item_label;
+}
+
+bool
+EditorLayer::has_shortened_display_name() const
+{
+  return get_name().size() > 15;
 }
