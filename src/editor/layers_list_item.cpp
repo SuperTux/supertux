@@ -146,7 +146,9 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     return m_layer_name_textbox->on_mouse_button_down(button);
   }
 
-  auto textbox_rect = Rectf(get_rect().p1() + Vector(get_label_offset().x, 0), get_rect().p2());
+  auto textbox_rect = Rectf(get_rect().p1() + Vector(get_label_offset().x, 2.f),
+                            get_rect().p2() - Vector(2.f, 2.f));
+
   if (textbox_rect.contains(event_handling->get_mouse_pos()) && button.clicks == 2)
   {
     m_show_layer_name_textbox = true;
