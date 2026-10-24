@@ -76,6 +76,7 @@ public:
 
   const Tilegroup* get_active_tilegroup() const;
 
+  ObjectGroup* get_layers_object_group() const;
   void select_objectgroup(int id);
   void select_last_objectgroup();
   bool select_layers_objectgroup();
