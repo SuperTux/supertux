@@ -66,6 +66,11 @@ public:
   std::string get_display_name() const;
 
   /**
+   * Returns true if the display name was shortened and contains an ellipsis (...)
+   */
+  bool has_shortened_display_name() const;
+
+  /**
    * Returns the selection surface (red box)
    */
   const SurfacePtr get_selection_surface() const { return m_selection; }
