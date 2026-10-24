@@ -53,12 +53,12 @@ EditorToolbarButtonWidget::draw(DrawingContext& context)
 
   if (!m_flat)
     context.color().draw_filled_rect(m_rect, Color(0.0f, 0.0f, 0.0f, 0.6f), 4.0f,
-                                     LAYER_GUI-5);
+                                     m_layer);
 
   if (m_sprite)
   {
     if (m_disabled) context.set_alpha(0.4);
-    m_sprite->draw_scaled(context.color(), m_rect.grown(-4.0f), LAYER_GUI - 5);
+    m_sprite->draw_scaled(context.color(), m_rect.grown(-4.0f), m_layer);
     if (m_disabled) context.set_alpha(1.0);
   }
 

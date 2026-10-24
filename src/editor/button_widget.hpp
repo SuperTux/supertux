@@ -47,6 +47,11 @@ public:
   inline void set_flat(bool flat) { m_flat = flat; }
   inline bool is_flat() const { return m_flat; }
 
+  void set_onclick_handler(const std::function<void()>& onclick_handler)
+  {
+    m_sig_click = onclick_handler;
+  }
+
 protected:
   SpritePtr m_sprite;
   bool m_flat;
