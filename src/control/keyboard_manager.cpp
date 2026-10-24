@@ -41,7 +41,12 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     key_mapping != m_keyboard_config.m_keymap.end() &&
     key_mapping->second.control == Control::CONSOLE;
 
-  if (console_key_pressed || Console::current()->hasFocus())
+  if (m_wait_for_key)
+  {
+    // if waiting for a key to bind: send it to the menu, even the console key
+    process_menu_key_event(event);
+  }
+  else if (console_key_pressed || Console::current()->hasFocus())
   {
     // if console is open: send key there
     process_console_key_event(event);
