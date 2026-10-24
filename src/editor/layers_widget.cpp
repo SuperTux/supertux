@@ -546,8 +546,9 @@ EditorLayersWidget::populate_layers_list_widget()
     m_layer_list_widget->add_item(std::move(menu_item));
   }
 
+  m_layer_list_widget->add_separator();
   m_layer_list_widget->add_item(std::make_unique<MenuListLayerActionsItem>(this));
-  
+
   recalculate_positions();
 }
 
