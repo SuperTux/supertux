@@ -58,6 +58,8 @@ public:
     return is_tilemap() ? static_cast<TileMap *>(get_game_object()) : nullptr;
   }
 
+  std::string get_name() const;
+
   /**
    * Returns the displayed title of this layer object (as shown in the editor layers widget)
    */
