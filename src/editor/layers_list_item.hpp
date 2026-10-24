@@ -92,6 +92,9 @@ public:
 
 private:
   void draw_visibility_icon(DrawingContext& context);
+  void draw_full_name_tooltip(DrawingContext &context);
+
+  Rectf get_textbox_rect();
 
   bool has_visibility_settings() const;
   void toggle_visibility();
@@ -105,6 +108,7 @@ private:
   SurfacePtr m_layer_transparent_surface;
   std::unique_ptr<LayersNameEditTextbox> m_layer_name_textbox;
   bool m_show_layer_name_textbox;
+  bool m_show_layer_name_tooltip;
   std::string m_current_layer_name;
   bool m_dragging;
   Vector m_dragging_offset;
