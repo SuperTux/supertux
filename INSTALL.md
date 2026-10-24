@@ -65,6 +65,11 @@ For ease of use, here are some installation lines for some Linux distributions:
   sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl3-dev libsdl3-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev libfmt-dev libsdl3-ttf-dev libphysfs-dev
   ```
 
+* Fedora:
+  ```
+  sudo dnf install -y cmake gcc gcc-c++ make git ninja-build libogg-devel libvorbis-devel openal-soft-devel SDL3-devel SDL3_image-devel SDL3_ttf-devel freetype-devel libraqm-devel libcurl-devel glew-devel harfbuzz-devel fribidi-devel glm-devel zlib-devel fmt-devel physfs-devel
+  ```
+
 - ArchLinux (using sudo, as of August 28th 2024)
   ```
   sudo pacman -S cmake base-devel libogg libvorbis openal sdl3 sdl3_image sdl3_ttf freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib fmt physfs

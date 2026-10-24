@@ -60,6 +60,7 @@ EditorSettings::EditorSettings()
   add_textfield(_("Preferred Text Editor"), &(g_config->preferred_text_editor));
   if (g_config->editor_undo_tracking)
   {
+    // l10n: This is a noun (specifies the number of entries in the undo stack)
     add_intfield(_("Undo Stack Size"), &(g_config->editor_undo_stack_size), -1, true);
   }
   add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));

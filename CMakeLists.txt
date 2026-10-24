@@ -129,7 +129,7 @@ else()
 endif()
 
 ## Determine whether static linking for SimpleSquirrel should be defaulted to
-if(MSVC OR ANDROID OR EMSCRIPTEN)
+if(WIN32 OR ANDROID OR EMSCRIPTEN)
   option(USE_STATIC_SIMPLESQUIRREL "Statically link the SimpleSquirrel library" ON)
 else()
   option(USE_STATIC_SIMPLESQUIRREL "Statically link the SimpleSquirrel library" OFF)
@@ -520,7 +520,7 @@ if(ANDROID)
     file(MAKE_DIRECTORY "${ANDROID_ASSETS_DIR}")
   endif()
 
-  file(GLOB DATA_CONTENTS RELATIVE CONFIGURE_DEPENDS "${DATA_DIR}" "${DATA_DIR}/*")
+  file(GLOB DATA_CONTENTS RELATIVE "${DATA_DIR}" CONFIGURE_DEPENDS "${DATA_DIR}/*")
   add_custom_command(
     OUTPUT "${ANDROID_DATA_ZIP}"
     COMMAND ${CMAKE_COMMAND} -E tar "cfv" "${ANDROID_DATA_ZIP}" --format=zip ${DATA_CONTENTS}
