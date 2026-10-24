@@ -19,6 +19,7 @@
 #include <math.h>
 
 #include "editor/editor.hpp"
+#include "editor/editor_camera.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
@@ -89,7 +90,7 @@ EditorScrollerWidget::update(float dt_sec)
   if (!rendered) return;
   if (!can_scroll()) return;
 
-  m_editor.scroll(m_scrolling_vec * 32.0f * dt_sec);
+  m_editor.get_camera()->scroll(m_scrolling_vec * 32.0f * dt_sec);
 }
 
 bool

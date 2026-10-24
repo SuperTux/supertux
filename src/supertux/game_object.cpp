@@ -37,6 +37,7 @@ GameObject::GameObject(const std::string& name) :
   m_version(1),
   m_uid(),
   m_scheduled_for_removal(false),
+  m_editor_layer_alpha(1.f),
   m_last_state(),
   m_components(),
   m_remove_listeners()
@@ -133,8 +134,11 @@ GameObject::get_settings()
   ObjectSettings result(get_display_name(), get_uid());
 
   result.add_int(_("Version"), &m_version, "version", 1, OPTION_HIDDEN);
+
+  // TODO: Description is inaccurate: names with spaces can still be references using an array indexer:
+  // sector["name with spaces"]
   result.add_text(_("Name"), &m_name, "name", "")
-    ->set_description(_("The name of this object. Must not contain any spaces if this object is to be referenced from scripts"));
+      ->set_description(_("The name of this object. Must not contain any spaces if this object is to be referenced from scripts"));
 
   const GameObjectTypes types = get_types();
   if (!types.empty())

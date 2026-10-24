@@ -26,6 +26,9 @@ public:
   NodeMarker(std::vector<Path::Node>::iterator node_iterator, size_t id_, UID before, UID after);
   virtual GameObjectClasses get_class_types() const override { return MarkerObject::get_class_types().add(typeid(NodeMarker)); }
 
+  static std::string class_name() { return "#node"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+
   virtual void move_to(const Vector& pos) override;
   virtual void editor_delete() override;
   virtual Vector get_point_vector() const override;

@@ -44,7 +44,6 @@
 
 TileMap::TileMap(const TileSet *new_tileset) :
   PathObject(),
-  m_editor_active(true),
   m_tileset(new_tileset),
   m_tiles(),
   m_real_solid(false),
@@ -78,7 +77,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   LayerObject(reader),
   PathObject(),
-  m_editor_active(true),
   m_tileset(tileset_),
   m_tiles(),
   m_real_solid(false),
@@ -176,7 +174,11 @@ TileMap::parse_tiles(const ReaderMapping& reader)
     m_tiles.clear();
     resize(static_cast<int>(Sector::get().get_width() / 32.0f),
            static_cast<int>(Sector::get().get_height() / 32.0f));
-    m_editor_active = false;
+
+    // TODO (maybe): 
+    // Before refactoring, the previously existing `m_editor_active` flag was set to false here.
+    // This would mean that this tilemap was deselected in the editor.
+    // I could not find a valid reason for doing this.
   }
   else
   {
@@ -241,13 +243,31 @@ TileMap::~TileMap()
 void
 TileMap::on_path_resolved()
 {
-  if (Editor::is_active())
+  auto editor = Editor::current();
+  if (!Editor::is_active() || editor == nullptr)
   {
-    if (Editor* editor = Editor::current())
-    {
-      editor->queue_layers_refresh();
-    }
+    return;
   }
+
+  auto layers_widget = editor->get_layers_widget();
+  if (layers_widget)
+  {
+    layers_widget->refresh();
+  }
+}
+
+bool
+TileMap::is_selected_in_editor() const
+{
+  if (!Editor::is_active())
+  {
+    return false;
+  }
+
+  auto editor = Editor::current();
+  auto layers_widget = editor->get_layers_widget();
+
+  return layers_widget->get_selected_tilemap() == this;
 }
 
 const std::string
@@ -371,7 +391,7 @@ TileMap::get_settings()
 
   result.reorder({ "solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "tiles" });
 
-  if (!m_editor_active)
+  if (!is_selected_in_editor())
   {
     result.add_remove();
   }
@@ -477,23 +497,31 @@ TileMap::update(float dt_sec)
 void
 TileMap::editor_update()
 {
-  if (get_walker()) {
-    if (get_path() && get_path()->is_valid()) {
-      m_movement = get_walker()->get_pos(get_size() * 32, m_path_handle) - get_offset();
-      set_offset(get_walker()->get_pos(get_size() * 32, m_path_handle));
+  if (!get_walker())
+    return;
 
-      if (!get_path()) return;
-      if (!get_path()->is_valid()) return;
+  auto start_position = Vector(0, 0);
+  if (get_path() && get_path()->is_valid())
+  {
+    auto new_offset = get_walker()->get_pos(get_size() * 32, m_path_handle);
+    m_movement = new_offset - get_offset();
+    set_offset(new_offset);
 
-      if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
-        m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+    // TODO: Can it happen that these checks will fail here?
+    if (!get_path()) return;
+    if (!get_path()->is_valid()) return;
 
-      m_movement += get_path()->get_nodes()[m_starting_node].position - get_offset();
-      set_offset(m_path_handle.get_pos(get_size() * 32, get_path()->get_nodes()[m_starting_node].position));
-    } else {
-      set_offset(m_path_handle.get_pos(get_size() * 32, Vector(0, 0)));
-    }
+    auto path_nodes = get_path()->get_nodes();
+    int node_count = static_cast<int>(path_nodes.size());
+
+    if (m_starting_node >= node_count)
+      m_starting_node = node_count - 1;
+
+    start_position = path_nodes[m_starting_node].position;
+    m_movement += start_position - get_offset();
   }
+
+  set_offset(m_path_handle.get_pos(get_size() * 32, start_position));
 }
 
 void
@@ -520,11 +548,13 @@ void
 TileMap::draw(DrawingContext& context)
 {
   // skip draw if current opacity is 0.0
-  if (m_current_alpha == 0.0f) return;
+  if (m_current_alpha == 0.0f ||
+      Editor::is_active() && get_editor_layer_alpha() == 0.0f)
+    return;
 
   context.push_transform();
 
-  const bool normal_speed = m_editor_active && Editor::is_active();
+  const bool normal_speed = is_selected_in_editor();
   const float speed_x = normal_speed ? 1.0f : m_speed_x;
   const float speed_y = normal_speed ? 1.0f : m_speed_y;
   if (!context.perspective_scale(speed_x, speed_y)) {
@@ -535,12 +565,13 @@ TileMap::draw(DrawingContext& context)
 
   if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
-  if (m_editor_active) {
-    if (m_current_alpha != 1.0f) {
-      context.set_alpha(m_current_alpha);
-    }
-  } else {
-    context.set_alpha(m_current_alpha/2);
+  if (!Editor::is_active())
+  {
+    context.set_alpha(m_current_alpha);
+  }
+  else
+  {
+    context.set_alpha(get_editor_layer_alpha());
   }
 
   const float trans_x = context.get_translation().x;
@@ -567,12 +598,13 @@ TileMap::draw(DrawingContext& context)
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
-	  if (g_debug.show_collision_rects && m_real_solid) {
+	    if (g_debug.show_collision_rects && m_real_solid)
+      {
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
       // If the tilemap is active in editor and showing deprecated tiles is enabled, draw indication over each deprecated tile
-      if (Editor::is_active() && m_editor_active &&
+      if (is_selected_in_editor() &&
           g_config->editor_show_deprecated_tiles && tile.is_deprecated())
       {
         context.color().draw_text(Resources::normal_font, "!", pos + Vector(16, 8),

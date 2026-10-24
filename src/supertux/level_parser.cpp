@@ -19,6 +19,7 @@
 #include <physfs.h>
 #include <sstream>
 
+#include "physfs/util.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
@@ -37,14 +38,17 @@ LevelParser::get_level_name(const std::string& filename)
     auto doc = ReaderDocument::from_file(filename, 1);
     auto root = doc.get_root();
 
-    if (root.get_name() != "supertux-level") {
+    if (root.get_name() != "supertux-level")
+    {
       return "";
-    } else {
-      auto mapping = root.get_mapping();
-      std::string name;
-      mapping.get("name", name);
-      return name;
     }
+
+    auto mapping = root.get_mapping();
+    
+    std::string name;
+    mapping.get("name", name);
+    
+    return name;
   }
   catch(const std::exception& e)
   {
@@ -78,16 +82,11 @@ LevelParser::from_nothing(const std::string& basedir)
   auto level = std::make_unique<Level>(false);
   LevelParser parser(*level, false, false);
 
-  // Find a free level filename
-  std::string level_file;
-  int num = 0;
-  do {
-    num++;
-    level_file = basedir + "/level" + std::to_string(num) + ".stl";
-  } while ( PHYSFS_exists(level_file.c_str()) );
-  std::string level_name = "Level " + std::to_string(num);
-  level_file = "level" + std::to_string(num) + ".stl";
+  int file_number = 0;
+  auto level_file =
+      physfsutil::get_first_nonexisting_filename(basedir, "level", ".stl", false, &file_number);
 
+  std::string level_name = "Level " + std::to_string(file_number);
   parser.create(level_file, level_name);
   return level;
 }
@@ -99,17 +98,8 @@ LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string
   LevelParser parser(*level, true, false);
 
   // Find a free level filename
-  std::string level_file = basedir + "/worldmap.stwm";
-  if (PHYSFS_exists(level_file.c_str())) {
-    int num = 0;
-    do {
-      num++;
-      level_file = basedir + "/worldmap" + std::to_string(num) + ".stwm";
-    } while ( PHYSFS_exists(level_file.c_str()) );
-    level_file = "worldmap" + std::to_string(num) + ".stwm";
-  } else {
-    level_file = "worldmap.stwm";
-  }
+  auto level_file =
+    physfsutil::get_first_nonexisting_filename(basedir, "worldmap", ".stwm", true);
 
   parser.create(level_file, name);
   return level;

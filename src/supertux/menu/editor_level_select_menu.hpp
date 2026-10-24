@@ -19,6 +19,7 @@
 #include "gui/menu.hpp"
 
 class EditorLevelsetSelectMenu;
+class Level;
 class Levelset;
 class World;
 
@@ -39,7 +40,7 @@ private:
   void initialize();
   void create_level();
   void create_worldmap();
-  void create_item(bool worldmap);
+  void save_item(std::unique_ptr<Level> level);
 
   World* get_world() const;
 

@@ -81,11 +81,15 @@ public:
 
   Rectf get_rect() const;
 
+  inline float * const get_scale_ptr() { return &m_scale; }
+
   /** \addtogroup CameraAPI
       @{ */
 
   /** reset camera position */
   void reset(const Vector& tuxpos);
+
+  virtual bool can_follow_path() const override { return true; }
 
   /** Get the predicted translation and scale of the camera, time_offset seconds from now. */
   std::pair<Vector, float> get_predicted_transform(float time_offset) const;

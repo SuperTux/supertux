@@ -23,11 +23,13 @@
 
 EditorTilegroupMenu::EditorTilegroupMenu()
 {
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
   add_label(_("Tiles"));
   add_hl();
 
   int id = 0;
-  for (auto& tg : Editor::current()->get_tilegroups()) {
+  for (auto& tg : editor_project->get_tilegroups()) {
     add_entry(id, _(tg.name));
     id++;
   }
@@ -46,7 +48,9 @@ EditorTilegroupMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() >= 0)
   {
-    Editor::current()->select_tilegroup(item.get_id());
+    auto editor = Editor::current();
+    auto toolbox_widget = editor->get_toolbox_widget();
+    toolbox_widget->select_tilegroup(item.get_id());
   }
   MenuManager::instance().clear_menu_stack();
 }

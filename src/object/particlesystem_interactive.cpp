@@ -17,6 +17,7 @@
 #include "object/particlesystem_interactive.hpp"
 
 #include "collision/collision.hpp"
+#include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/globals.hpp"
@@ -51,6 +52,16 @@ ParticleSystem_Interactive::~ParticleSystem_Interactive()
 void
 ParticleSystem_Interactive::draw(DrawingContext& context)
 {
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
+
+
   if (!enabled)
     return;
 

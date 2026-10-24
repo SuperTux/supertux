@@ -21,6 +21,7 @@
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
 
+#include "editor/editor.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
@@ -78,6 +79,15 @@ ParticleSystem::~ParticleSystem()
 void
 ParticleSystem::draw(DrawingContext& context)
 {
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
+
   if (!enabled)
     return;
 

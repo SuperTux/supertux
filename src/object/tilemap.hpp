@@ -68,6 +68,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PathObject)).add(typeid(TileMap)); }
 
+  virtual bool can_follow_path() const override { return true; }
+
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
@@ -269,6 +271,11 @@ public:
 
   inline const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
 
+  /**
+   * Returns true when this tilemap is currently selected in the editor
+   */
+  bool is_selected_in_editor() const;
+
 private:
   void update_effective_solid(bool update_manager = true);
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
@@ -292,9 +299,6 @@ private:
 
   void apply_offset_x(int fill_id, int xoffset);
   void apply_offset_y(int fill_id, int yoffset);
-
-public:
-  bool m_editor_active;
 
 private:
   const TileSet* m_tileset;
