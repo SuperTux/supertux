@@ -112,7 +112,7 @@ MenuListWidget::on_key_down(const SDL_KeyboardEvent &key)
 }
 
 void
-MenuListWidget::set_position(const Vector& position, bool anchor_bottom)
+MenuListWidget::recalculate_item_position_and_size(const Vector& position, bool anchor_bottom)
 {
   int i = 0;
   float max_item_width;

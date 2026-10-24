@@ -71,12 +71,13 @@ public:
   size_t get_item_count() const { return m_menu_items.size(); }
 
   /**
-   * Sets the position of the menu list
+   * Sets the position of the menu list and recalculates the positions 
+   * for all child menu items.
    * @param position Position of the menu list
    * @param anchor_bottom If `true`, the menu size will stay fixed at the bottom
    *                      and grow towards the top
    */
-  void set_position(const Vector &position, bool anchor_bottom = false);
+  void recalculate_item_position_and_size(const Vector &position, bool anchor_bottom = false);
 
   const Vector &get_position() const { return m_menu_area.p1(); }
 
