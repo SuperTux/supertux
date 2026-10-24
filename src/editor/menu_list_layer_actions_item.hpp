@@ -40,5 +40,7 @@ public:
 
 private:
   std::unique_ptr<EditorToolbarButtonWidget> m_delete_button;
+  std::unique_ptr<EditorToolbarButtonWidget> m_move_up_button;
+  std::unique_ptr<EditorToolbarButtonWidget> m_move_down_button;
   EditorLayersWidget *m_parent;
 };
