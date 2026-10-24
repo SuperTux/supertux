@@ -150,6 +150,37 @@ SpriteData::load()
 void
 SpriteData::parse(const ReaderMapping& mapping)
 {
+#ifdef __vita__
+  std::vector<std::string> files;
+  auto images_iter = mapping.get_iter();
+  while (images_iter.next())
+  {
+    if (images_iter.get_key() != "action")
+      continue;
+
+    ReaderMapping action = images_iter.as_mapping();
+    const std::string directory = action.get_doc().get_directory();
+    std::vector<std::string> images;
+    std::optional<ReaderMapping> regions;
+    if (action.get("images", images))
+    {
+      for (const auto& image : images)
+        files.push_back(FileSystem::join(directory, image));
+    }
+    else if (action.get("regions", regions))
+    {
+      auto region_iter = regions->get_iter();
+      while (region_iter.next())
+      {
+        const auto& arr = region_iter.as_mapping().get_sexp().as_array();
+        if (region_iter.get_key() == "region" && arr.size() == 6)
+          files.push_back(FileSystem::join(directory, arr[1].as_string()));
+      }
+    }
+  }
+  const bool preloading = files.size() >= 8 && TextureManager::current()->preload(files, files.size() >= 32);
+#endif
+
   auto iter = mapping.get_iter();
   while (iter.next())
   {
@@ -158,6 +189,11 @@ SpriteData::parse(const ReaderMapping& mapping)
     else
       log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
   }
+
+#ifdef __vita__
+  if (preloading)
+    TextureManager::current()->finish_preload();
+#endif
 
   if (actions.empty())
     throw std::runtime_error("Error: Sprite without actions.");

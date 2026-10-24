@@ -43,6 +43,8 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   reader.get("message", message);
   reader.get("script", script);
 
+  SoundManager::current()->preload("sounds/welldone.ogg");
+
   if (message.empty() && !Editor::is_active())
     message = _("You found a secret area!");
 }

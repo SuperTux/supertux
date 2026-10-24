@@ -22,8 +22,20 @@
 
 #include <physfs.h>
 
+#ifdef __vita__
+#include <algorithm>
+#include <atomic>
+#include <cstdint>
+#include <unordered_set>
+#include <psp2/kernel/cpu.h>
+#include <psp2/kernel/threadmgr.h>
+#endif
+
 #include "math/rect.hpp"
 #include "physfs/physfs_sdl.hpp"
+#ifdef __vita__
+#include "physfs/vita_archive.hpp"
+#endif
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
@@ -77,8 +89,18 @@ GLenum string2filter(const std::string& text)
 
 SDLSurfacePtr create_image_surface(const std::string& filename)
 {
+#ifdef __vita__
+  try
+  {
+    return SDLSurface::from_file(filename);
+  }
+  catch (const std::exception&)
+  {
+  }
+#else
   if (PHYSFS_exists(filename.c_str()))
     return SDLSurface::from_file(filename);
+#endif
 
   // The image doesn't exist, so attempt to load a ".deprecated" version
   log_warning << "Image '" << filename << "' doesn't exist. Attempting to load \".deprecated\" version." << std::endl;
@@ -88,11 +110,84 @@ SDLSurfacePtr create_image_surface(const std::string& filename)
 
 } // namespace
 
+#ifdef __vita__
+struct TextureManager::PreloadJob
+{
+  std::vector<std::string> filenames;
+  std::unordered_map<std::string, size_t> index;
+  std::vector<SDLSurfacePtr> surfaces;
+  std::unique_ptr<std::atomic<bool>[]> done;
+  std::atomic<size_t> next;
+  std::atomic<size_t> completed;
+  std::vector<SceUID> threads;
+
+  static SDLSurfacePtr load(const std::string& filename)
+  {
+    PHYSFS_File* file = PHYSFS_openRead(filename.c_str());
+    if (!file)
+      return SDLSurfacePtr();
+
+    const PHYSFS_sint64 length = PHYSFS_fileLength(file);
+    std::vector<Uint8> data(length > 0 ? static_cast<size_t>(length) : 0);
+    const PHYSFS_sint64 got = length > 0 ? PHYSFS_readBytes(file, data.data(), length) : -1;
+    PHYSFS_close(file);
+    if (length <= 0 || got != length)
+      return SDLSurfacePtr();
+
+    return SDLSurfacePtr(IMG_Load_IO(SDL_IOFromConstMem(data.data(), static_cast<size_t>(length)), true));
+  }
+
+  void prefetch()
+  {
+    for (size_t i = 0; i < filenames.size(); ++i)
+    {
+      while (i > next + 200)
+        sceKernelDelayThread(1000);
+      vita_archive_prefetch(filenames[i]);
+    }
+  }
+
+  void decode()
+  {
+    for (size_t i = next++; i < filenames.size(); i = next++)
+    {
+      surfaces[i] = load(filenames[i]);
+      done[i] = true;
+      completed++;
+    }
+  }
+};
+
+namespace {
+
+struct PreloadArg
+{
+  TextureManager::PreloadJob* job;
+  bool prefetch;
+};
+
+int preload_thread(SceSize, void* argp)
+{
+  PreloadArg* arg = static_cast<PreloadArg*>(argp);
+  if (arg->prefetch)
+    arg->job->prefetch();
+  else
+    arg->job->decode();
+  return 0;
+}
+
+} // namespace
+#endif
+
 const std::string TextureManager::s_dummy_texture = "images/engine/missing.png";
 
 TextureManager::TextureManager() :
   m_image_textures(),
   m_surfaces(),
+#ifdef __vita__
+  m_preload_job(),
+  m_preloaded(),
+#endif
   m_load_successful(false)
 {
 }
@@ -106,8 +201,127 @@ TextureManager::~TextureManager()
       log_warning << "Texture '" << std::get<0>(texture.first) << "' not freed" << std::endl;
     }
   }
+#ifdef __vita__
+  finish_preload();
+#endif
   m_image_textures.clear();
   m_surfaces.clear();
+}
+
+#ifdef __vita__
+bool
+TextureManager::preload(const std::vector<std::string>& filenames, bool wait)
+{
+  if (!wait && m_preload_job && m_preload_job->completed < m_preload_job->filenames.size())
+    return false;
+  finish_preload();
+
+  std::vector<std::pair<PHYSFS_uint64, std::string>> sorted;
+  std::unordered_set<std::string> seen;
+  for (const auto& filename : filenames)
+  {
+    std::string normalized = FileSystem::normalize(filename);
+    if (m_surfaces.count(normalized) || m_preloaded.count(normalized) || !seen.insert(normalized).second)
+      continue;
+    const PHYSFS_sint64 offset = vita_archive_offset(normalized);
+    sorted.emplace_back(offset < 0 ? UINT64_MAX : static_cast<PHYSFS_uint64>(offset), std::move(normalized));
+  }
+  if (sorted.empty())
+    return false;
+
+  std::stable_sort(sorted.begin(), sorted.end(),
+                   [] (const auto& a, const auto& b) { return a.first < b.first; });
+
+  auto job = std::make_unique<PreloadJob>();
+  for (auto& entry : sorted)
+  {
+    job->index[entry.second] = job->filenames.size();
+    job->filenames.push_back(std::move(entry.second));
+  }
+  job->surfaces.resize(job->filenames.size());
+  job->done.reset(new std::atomic<bool>[job->filenames.size()]);
+  for (size_t i = 0; i < job->filenames.size(); ++i)
+    job->done[i] = false;
+  job->next = 0;
+  job->completed = 0;
+
+  auto start_thread = [&job] (bool prefetch, int cpu) {
+    PreloadArg arg = { job.get(), prefetch };
+    SceUID thread = sceKernelCreateThread("preload", preload_thread, 0x10000100, 256 * 1024, 0, cpu, nullptr);
+    if (thread < 0)
+      return;
+    if (sceKernelStartThread(thread, sizeof(arg), &arg) < 0)
+    {
+      sceKernelDeleteThread(thread);
+      return;
+    }
+    job->threads.push_back(thread);
+  };
+
+  start_thread(false, SCE_KERNEL_CPU_MASK_USER_0);
+  start_thread(false, SCE_KERNEL_CPU_MASK_USER_1);
+  start_thread(false, SCE_KERNEL_CPU_MASK_USER_2);
+  if (job->threads.empty())
+    return false;
+  start_thread(true, SCE_KERNEL_CPU_MASK_USER_ALL);
+
+  m_preload_job = std::move(job);
+  return true;
+}
+
+void
+TextureManager::finish_preload()
+{
+  if (!m_preload_job)
+    return;
+
+  for (SceUID thread : m_preload_job->threads)
+  {
+    sceKernelWaitThreadEnd(thread, nullptr, nullptr);
+    sceKernelDeleteThread(thread);
+  }
+  for (size_t i = 0; i < m_preload_job->filenames.size(); ++i)
+  {
+    if (m_preload_job->surfaces[i])
+      m_preloaded[m_preload_job->filenames[i]] = std::move(m_preload_job->surfaces[i]);
+  }
+  m_preload_job.reset();
+}
+
+void
+TextureManager::discard_preloaded()
+{
+  finish_preload();
+  m_preloaded.clear();
+}
+#endif
+
+SDLSurfacePtr
+TextureManager::load_surface(const std::string& filename)
+{
+#ifdef __vita__
+  if (m_preload_job)
+  {
+    auto it = m_preload_job->index.find(filename);
+    if (it != m_preload_job->index.end())
+    {
+      const size_t i = it->second;
+      while (!m_preload_job->done[i])
+        sceKernelDelayThread(100);
+      if (m_preload_job->surfaces[i])
+        return std::move(m_preload_job->surfaces[i]);
+    }
+  }
+
+  auto it = m_preloaded.find(filename);
+  if (it != m_preloaded.end())
+  {
+    SDLSurfacePtr surface = std::move(it->second);
+    m_preloaded.erase(it);
+    return surface;
+  }
+#endif
+  return create_image_surface(filename);
 }
 
 TexturePtr
@@ -288,7 +502,7 @@ TextureManager::get_surface(const std::string& filename)
     return *i->second;
   }
 
-  SDLSurfacePtr surface = create_image_surface(filename);
+  SDLSurfacePtr surface = load_surface(filename);
   const SDL_PixelFormatDetails* format = SDL_GetPixelFormatDetails(surface.get()->format);
   if (format->Rmask == 0 &&
       format->Gmask == 0 &&
@@ -355,7 +569,7 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
   m_load_successful = true;
   try
   {
-    SDLSurfacePtr surface = create_image_surface(filename);
+    SDLSurfacePtr surface = load_surface(filename);
     return VideoSystem::current()->new_texture(*surface, sampler);
   }
   catch (const std::exception& err)

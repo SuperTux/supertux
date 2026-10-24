@@ -83,6 +83,9 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename_original)
       msg << "Couldn't open '" << raw_music_file << "': " << physfsutil::get_last_error();
       throw SoundError(msg.str());
     }
+#ifdef __vita__
+    PHYSFS_setBuffer(file, 64 * 1024);
+#endif
     auto format = SoundFile::get_file_format(file, raw_music_file);
 
     std::unique_ptr<SoundFile> sound_file;
@@ -119,6 +122,9 @@ std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
       throw SoundError(msg.str());
     }
   }
+#ifdef __vita__
+  PHYSFS_setBuffer(file, 64 * 1024);
+#endif
 
   auto format = SoundFile::get_file_format(file, filename);
   if (format == SoundFile::FORMAT_WAV)

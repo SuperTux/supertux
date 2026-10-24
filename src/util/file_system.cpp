@@ -17,6 +17,8 @@
 #include "util/file_system.hpp"
 #include "supertux/globals.hpp"
 
+#include <config.h>
+
 #include <physfs.h>
 #include <filesystem>
 #include <iostream>
@@ -26,7 +28,9 @@
 #include <sys/types.h>
 #ifndef WIN32
 #include <unistd.h>
+#ifndef __vita__
 #include <spawn.h>
+#endif
 #endif
 #include <vector>
 #if defined(WIN32)
@@ -38,7 +42,7 @@
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
-#else
+#elif defined(HAVE_CURL)
 #include <curl/curl.h>
 #endif
 
@@ -271,6 +275,8 @@ void open_path(const std::string& path)
   ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__EMSCRIPTEN__)
   emscripten_run_script(("window.supertux_download('" + path + "');").c_str());
+#elif defined(__vita__)
+  log_warning << "Opening paths is not supported: " << path << std::endl;
 #else
   // TODO Use posix_spawn
   #if defined(__APPLE__)
@@ -294,7 +300,7 @@ void open_path(const std::string& path)
 void
 open_editor(const std::string& filename)
 {
-#if !defined(ANDROID) && !defined(__EMSCRIPTEN__)
+#if !defined(ANDROID) && !defined(__EMSCRIPTEN__) && !defined(__vita__)
   std::string editor =
 #ifdef WIN32
     "notepad.exe"; // *shrugs*

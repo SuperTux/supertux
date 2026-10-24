@@ -55,6 +55,14 @@ public:
                  const Sampler& sampler = Sampler());
   TexturePtr create_dummy_texture() const;
 
+#ifdef __vita__
+  struct PreloadJob;
+
+  bool preload(const std::vector<std::string>& filenames, bool wait = true);
+  void finish_preload();
+  void discard_preloaded();
+#endif
+
   void reload();
 
   void debug_print(std::ostream& out) const;
@@ -63,6 +71,7 @@ public:
 
 private:
   const SDL_Surface& get_surface(const std::string& filename);
+  SDLSurfacePtr load_surface(const std::string& filename);
   void reap_cache_entry(const Texture::Key& key);
 
   /** on failure a dummy texture is returned and no exception is thrown */
@@ -78,6 +87,10 @@ private:
 private:
   std::map<Texture::Key, std::weak_ptr<Texture>> m_image_textures;
   std::unordered_map<std::string, SDLSurfacePtr> m_surfaces;
+#ifdef __vita__
+  std::unique_ptr<PreloadJob> m_preload_job;
+  std::unordered_map<std::string, SDLSurfacePtr> m_preloaded;
+#endif
   bool m_load_successful;
 
 private:
