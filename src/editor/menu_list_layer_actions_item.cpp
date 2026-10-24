@@ -23,16 +23,11 @@
 MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
   MenuListBaseItem(),
   m_parent(parent),
-  m_delete_button(std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/layer-delete.png", get_rect().p1(),
-    []{}, Sizef(25, 25))),
-  m_move_up_button(std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/layer-up.png", get_rect().p1() + Vector(25, 0),
-    []{}, Sizef(25, 25))),
-  m_move_down_button(std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/layer-down.png", get_rect().p1() + Vector(50, 0),
-    []{}, Sizef(25, 25)))
+  m_buttons()
 {
+  auto delete_button = std::make_unique<EditorToolbarButtonWidget>(
+      "images/engine/editor/layer-delete.png", get_rect().p1(),
+      [] {}, Sizef(25, 25));
   auto delete_current_layer = [this]
   {
     auto selected_tilemap = m_parent->get_selected_tilemap();
@@ -42,56 +37,81 @@ MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
     }
     log_warning << "Delete layer" << std::endl;
   };
-  m_delete_button->set_onclick_handler(delete_current_layer);
-  m_delete_button->set_help_text(_("Delete layer"));
+  delete_button->set_onclick_handler(delete_current_layer);
+  delete_button->set_help_text(_("Delete layer"));
 
-  m_delete_button->set_flat(true);
-  m_delete_button->set_layer(LAYER_GUI + 1);
+  m_buttons.push_back(std::move(delete_button));
 
-  m_move_down_button->set_flat(true);
-  m_move_down_button->set_layer(LAYER_GUI + 1);
+  auto move_up_button = std::make_unique<EditorToolbarButtonWidget>(
+      "images/engine/editor/layer-up.png", get_rect().p1() + Vector(25, 0),
+      [] {}, Sizef(25, 25));
+  m_buttons.push_back(std::move(move_up_button));
 
-  m_move_up_button->set_flat(true);
-  m_move_up_button->set_layer(LAYER_GUI + 1);
+  auto move_down_button = std::make_unique<EditorToolbarButtonWidget>(
+      "images/engine/editor/layer-down.png", get_rect().p1() + Vector(50, 0),
+      [] {}, Sizef(25, 25));
+  m_buttons.push_back(std::move(move_down_button));
+
+  for (const auto& button : m_buttons)
+  {
+    button->set_flat(true);
+    button->set_layer(LAYER_GUI + 1);
+  }
 }
 
 void
 MenuListLayerActionsItem::update(float dt_sec)
 {
-  m_delete_button->update(dt_sec);
-  m_delete_button->set_position(get_rect().p1());
+  auto position = get_rect().p1();
+  for (const auto &button : m_buttons)
+  {
+    button->update(dt_sec);
+    button->set_position(position);
 
-  m_move_up_button->update(dt_sec);
-  m_move_up_button->set_position(get_rect().p1() + Vector(25, 0));
-
-  m_move_down_button->update(dt_sec);
-  m_move_down_button->set_position(get_rect().p1() + Vector(50, 0));
+    position += Vector(25, 0);
+  }
 }
 
 bool
 MenuListLayerActionsItem::on_mouse_button_up(const SDL_MouseButtonEvent &button)
 {
-  return m_delete_button->on_mouse_button_up(button);
+  bool handled = false;
+  for (const auto &action_button : m_buttons)
+  {
+    handled |= action_button->on_mouse_button_up(button);
+  }
+  return handled;
 }
 
 bool
 MenuListLayerActionsItem::on_mouse_button_down(const SDL_MouseButtonEvent &button)
 {
-  return m_delete_button->on_mouse_button_down(button);
+  bool handled = false;
+  for (const auto &action_button : m_buttons)
+  {
+    handled |= action_button->on_mouse_button_down(button);
+  }
+  return handled;
 }
 
 bool
 MenuListLayerActionsItem::on_mouse_motion(const SDL_MouseMotionEvent &motion)
 {
-  return m_delete_button->on_mouse_motion(motion);
+  bool handled = false;
+  for (const auto &button : m_buttons)
+  {
+    handled |= button->on_mouse_motion(motion);
+  }
+  return handled;
 }
 
 void
 MenuListLayerActionsItem::draw(DrawingContext& context)
 {
   context.color().draw_filled_rect(m_rect, Color::BLACK, LAYER_GUI + 1);
-  
-  m_delete_button->draw(context);
-  m_move_down_button->draw(context);
-  m_move_up_button->draw(context);
+
+  for (const auto &button : m_buttons)
+  {
+    button->draw(context);
+  }
 }
