@@ -20,6 +20,7 @@
 #include "editor/editor_event_handling.hpp"
 #include "editor/editor_layer.hpp"
 #include "editor/layers_list_item.hpp"
+#include "editor/menu_list_layer_actions_item.hpp"
 #include "editor/menu_list_item.hpp"
 #include "editor/menu_list_widget.hpp"
 #include "editor/object_menu.hpp"
@@ -200,6 +201,11 @@ void
 EditorLayersWidget::update(float dt_sec)
 {
   remove_invalid_layers();
+
+  if (m_layer_list_widget_visible)
+  {
+    m_layer_list_widget->update(dt_sec);
+  }
 
   auto selected_tilemap = get_selected_tilemap();
   if (!selected_tilemap)
@@ -539,6 +545,9 @@ EditorLayersWidget::populate_layers_list_widget()
 
     m_layer_list_widget->add_item(std::move(menu_item));
   }
+
+  m_layer_list_widget->add_item(std::make_unique<MenuListLayerActionsItem>(this));
+  
   recalculate_positions();
 }
 

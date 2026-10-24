@@ -48,12 +48,12 @@ EditorToolbarBaseWidget::draw(DrawingContext& context)
   if (m_grab)
   {
     context.color().draw_filled_rect(m_rect, g_config->editorgrabcolor, 4.0f,
-                                     LAYER_GUI-5);
+                                     m_layer);
   }
   else if (m_hover && !m_disabled)
   {
     context.color().draw_filled_rect(m_rect, g_config->editorhovercolor, 4.0f,
-                                     LAYER_GUI-5);
+                                     m_layer);
   }
 
   if (m_hover && !m_help_text.empty())

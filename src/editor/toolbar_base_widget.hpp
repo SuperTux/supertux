@@ -39,6 +39,7 @@ public:
     m_disabled(false),
     m_rect(),
     m_size(Sizef(32.f, 32.f)),
+    m_layer(LAYER_GUI - 5),
     m_grab(false),
     m_hover(false),
     m_mouse_pos(),
@@ -96,6 +97,12 @@ public:
 
   const Sizef& get_size() const { return m_size; }
 
+  const Rectf& get_rect() const { return m_rect; }
+  void set_rect(const Rectf &rect) { m_rect = rect; }
+
+  void set_layer(int layer) { m_layer = layer; }
+  int get_layer() const { return m_layer; }
+
 protected:
   bool m_tile_mode_visible;
   bool m_object_mode_visible;
@@ -108,6 +115,7 @@ protected:
 
   Rectf m_rect;
   Sizef m_size;
+  int m_layer;
   bool m_grab;
   bool m_hover;
   bool m_disabled;
