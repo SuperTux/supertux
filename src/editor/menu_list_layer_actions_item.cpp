@@ -25,6 +25,12 @@ MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
   m_parent(parent),
   m_delete_button(std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/layer-delete.png", get_rect().p1(),
+    []{}, Sizef(25, 25))),
+  m_move_up_button(std::make_unique<EditorToolbarButtonWidget>(
+    "images/engine/editor/layer-up.png", get_rect().p1() + Vector(25, 0),
+    []{}, Sizef(25, 25))),
+  m_move_down_button(std::make_unique<EditorToolbarButtonWidget>(
+    "images/engine/editor/layer-down.png", get_rect().p1() + Vector(50, 0),
     []{}, Sizef(25, 25)))
 {
   auto delete_current_layer = [this]
@@ -37,9 +43,16 @@ MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
     log_warning << "Delete layer" << std::endl;
   };
   m_delete_button->set_onclick_handler(delete_current_layer);
+  m_delete_button->set_help_text(_("Delete layer"));
+
   m_delete_button->set_flat(true);
   m_delete_button->set_layer(LAYER_GUI + 1);
-  m_delete_button->set_help_text(_("Delete layer"));
+
+  m_move_down_button->set_flat(true);
+  m_move_down_button->set_layer(LAYER_GUI + 1);
+
+  m_move_up_button->set_flat(true);
+  m_move_up_button->set_layer(LAYER_GUI + 1);
 }
 
 void
@@ -47,6 +60,12 @@ MenuListLayerActionsItem::update(float dt_sec)
 {
   m_delete_button->update(dt_sec);
   m_delete_button->set_position(get_rect().p1());
+
+  m_move_up_button->update(dt_sec);
+  m_move_up_button->set_position(get_rect().p1() + Vector(25, 0));
+
+  m_move_down_button->update(dt_sec);
+  m_move_down_button->set_position(get_rect().p1() + Vector(50, 0));
 }
 
 bool
@@ -73,4 +92,6 @@ MenuListLayerActionsItem::draw(DrawingContext& context)
   context.color().draw_filled_rect(m_rect, Color::BLACK, LAYER_GUI + 1);
   
   m_delete_button->draw(context);
+  m_move_down_button->draw(context);
+  m_move_up_button->draw(context);
 }
