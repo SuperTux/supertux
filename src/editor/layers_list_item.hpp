@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "editor/editor_event_handling.hpp"
 #include "editor/editor_layer.hpp"
+#include "editor/layers_name_edit_textbox.hpp"
 #include "editor/menu_list_item.hpp"
 #include "editor/menu_list_separator.hpp"
 #include "editor/widget.hpp"
@@ -87,6 +88,7 @@ public:
 
 public:
   SurfacePtr get_state_icon() const;
+  void hide_textbox() { m_show_layer_name_textbox = false; }
 
 private:
   void draw_visibility_icon(DrawingContext& context);
@@ -101,7 +103,7 @@ private:
   SurfacePtr m_layer_visible_surface;
   SurfacePtr m_layer_hidden_surface;
   SurfacePtr m_layer_transparent_surface;
-  std::unique_ptr<ControlTextbox> m_layer_name_textbox;
+  std::unique_ptr<LayersNameEditTextbox> m_layer_name_textbox;
   bool m_show_layer_name_textbox;
   std::string m_current_layer_name;
   bool m_dragging;
