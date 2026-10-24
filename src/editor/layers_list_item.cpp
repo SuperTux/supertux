@@ -38,7 +38,7 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   m_layer_visible_surface(Surface::from_file("images/engine/editor/shown.png")),
   m_layer_hidden_surface(Surface::from_file("images/engine/editor/hidden.png")),
   m_layer_transparent_surface(Surface::from_file("images/engine/editor/transparent.png")),
-  m_layer_name_textbox(std::make_unique<ControlTextbox>()),
+  m_layer_name_textbox(std::make_unique<LayersNameEditTextbox>(this)),
   m_show_layer_name_textbox(),
   m_current_layer_name(),
   m_dragging(),
@@ -96,7 +96,6 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
 
   auto layer_name_changed = [this]()
   {
-    m_show_layer_name_textbox = false;
     auto object = m_layer->get_game_object();
     object->set_name(m_current_layer_name);
     object->after_editor_set();
