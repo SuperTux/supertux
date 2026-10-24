@@ -4,6 +4,8 @@ include(InstallRequiredSystemLibraries)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
+  set(SUPERTUX_MACOS_SIGN_IDENTITY "-" CACHE STRING
+      "Code signing identity for macOS packages (- for ad hoc builds)")
 
   install(RUNTIME_DEPENDENCY_SET supertux2_deps LIBRARY DESTINATION "MacOS")
 
@@ -20,32 +22,26 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
        include(BundleUtilities)
        fixup_bundle(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2\" \"\" \"${DIRS}\")
 
-       find_program(SUPERTUX_CODESIGN_PROGRAM codesign)
-       if(SUPERTUX_CODESIGN_PROGRAM)
-         file(GLOB SUPERTUX_BUNDLE_DYLIBS
-              \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/MacOS/*.dylib\"
-              \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/Frameworks/*.dylib\")
-         list(APPEND SUPERTUX_BUNDLE_DYLIBS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2\")
-         foreach(_supertux_bundle_item \${SUPERTUX_BUNDLE_DYLIBS})
-           if(NOT IS_SYMLINK \"\${_supertux_bundle_item}\")
-             execute_process(
-               COMMAND \${SUPERTUX_CODESIGN_PROGRAM} --force --sign - \"\${_supertux_bundle_item}\"
-               RESULT_VARIABLE _supertux_codesign_result)
-             if(NOT _supertux_codesign_result EQUAL 0)
-               message(FATAL_ERROR \"Failed to sign \${_supertux_bundle_item}\")
-             endif()
-           endif()
-         endforeach()
-       endif()
+       include(\"${CMAKE_BINARY_DIR}/tools/darwin/SignInstalledCode.cmake\")
        endif()
        ")
 
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/SignInstalledCode.cmake.in"
+                 "${CMAKE_BINARY_DIR}/tools/darwin/SignInstalledCode.cmake" @ONLY)
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
 
   set(CPACK_BUNDLE_NAME "SuperTux")
   set(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
   set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns")
   set(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/startup.sh")
+  # CPack signs the completed app after adding the launcher, plist, and icon.
+  # Installed Mach-O files are re-signed above, after fixup_bundle() runs.
+  set(CPACK_BUNDLE_APPLE_CERT_APP "${SUPERTUX_MACOS_SIGN_IDENTITY}")
+  if(SUPERTUX_MACOS_SIGN_IDENTITY STREQUAL "-")
+    set(CPACK_BUNDLE_APPLE_CODESIGN_PARAMETER "--force")
+  else()
+    set(CPACK_BUNDLE_APPLE_CODESIGN_PARAMETER "--force --options runtime --timestamp")
+  endif()
   set(CPACK_DMG_VOLUME_NAME "SuperTux ${SUPERTUX_VERSION_STRING}")
   set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/dsstore_setup.scpt")
   set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/background.png")
