@@ -40,6 +40,7 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   m_layer_transparent_surface(Surface::from_file("images/engine/editor/transparent.png")),
   m_layer_name_textbox(std::make_unique<LayersNameEditTextbox>(this)),
   m_show_layer_name_textbox(),
+  m_show_layer_name_tooltip(),
   m_current_layer_name(),
   m_dragging(),
   m_dragging_offset()
@@ -133,6 +134,13 @@ LayersListItem::event(const SDL_Event &ev)
   return false;
 }
 
+Rectf
+LayersListItem::get_textbox_rect()
+{
+  return {get_rect().p1() + Vector(get_label_offset().x, 2.f),
+          get_rect().p2() - Vector(2.f, 2.f)};
+}
+
 bool 
 LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
@@ -146,8 +154,7 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     return m_layer_name_textbox->on_mouse_button_down(button);
   }
 
-  auto textbox_rect = Rectf(get_rect().p1() + Vector(get_label_offset().x, 2.f),
-                            get_rect().p2() - Vector(2.f, 2.f));
+  auto textbox_rect = get_textbox_rect();
 
   if (textbox_rect.contains(event_handling->get_mouse_pos()) && button.clicks == 2)
   {
@@ -179,6 +186,9 @@ LayersListItem::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     m_rect.set_pos(Vector(m_rect.p1().x, mouse_pos.y));
   }
 
+  m_show_layer_name_tooltip = 
+    m_layer->has_shortened_display_name() && get_textbox_rect().contains(mouse_pos);
+
   return MenuListItem::on_mouse_motion(motion);
 }
 
@@ -191,6 +201,10 @@ LayersListItem::draw(DrawingContext& context)
   if (m_show_layer_name_textbox)
   {
     m_layer_name_textbox->draw(context);
+  }
+  else if (m_show_layer_name_tooltip)
+  {
+    draw_full_name_tooltip(context);
   }
 }
 
@@ -210,6 +224,23 @@ LayersListItem::draw_visibility_icon(DrawingContext& context)
 
   auto icon_size = Vector(icon->get_width(), icon->get_height());
   context.color().draw_surface_scaled(icon, target_rect, LAYER_GUI);
+}
+
+void
+LayersListItem::draw_full_name_tooltip(DrawingContext& context)
+{
+  auto mouse_pos = Editor::current()->get_event_handling()->get_mouse_pos();
+
+  auto font = Resources::editor_menu_font;
+  auto layer_name = m_layer->get_name();
+  auto text_height = font->get_text_height(layer_name);
+  auto text_width = font->get_text_width(layer_name);
+  auto position = mouse_pos + Vector(35, 25);
+  auto tooltip_rect = Rectf(position, position + Vector(text_width, text_height)).grown(2.f);
+
+  context.color().draw_filled_rect(tooltip_rect.grown(1.f), Color::WHITE, LAYER_GUI + 1);
+  context.color().draw_filled_rect(tooltip_rect, Color(0.3, 0.3, 0.3), LAYER_GUI + 1);
+  context.color().draw_text(font, layer_name, position, FontAlignment::ALIGN_LEFT, LAYER_GUI + 1);
 }
 
 SurfacePtr
