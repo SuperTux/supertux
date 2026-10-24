@@ -17,6 +17,8 @@
 
 #include "video/sdl/sdl_screen_renderer.hpp"
 
+#include <cmath>
+
 #include <SDL3/SDL_render.h>
 
 #include "math/rect.hpp"
@@ -68,13 +70,17 @@ SDLScreenRenderer::start_draw()
   const Rect& viewport = m_video_system.get_viewport().get_rect();
   const Vector& scale = m_video_system.get_viewport().get_scale();
 
-  SDL_Rect sdl_viewport = viewport.to_sdl();
-
-  // SetViewport() works in scaled screen coordinates, so we have to
-  // reset it to 1.0, 1.0 to get meaningful results
-  SDL_SetRenderScale(m_renderer, 1.0f, 1.0f);
-  SDL_SetRenderViewport(m_renderer, &sdl_viewport);
+  // SDL3 keeps the viewport in scaled coordinates and recalculates it
+  // whenever the scale changes, so set the scale first and divide the
+  // viewport by it
   SDL_SetRenderScale(m_renderer, scale.x, scale.y);
+
+  SDL_Rect sdl_viewport;
+  sdl_viewport.x = static_cast<int>(std::round(static_cast<float>(viewport.left) / scale.x));
+  sdl_viewport.y = static_cast<int>(std::round(static_cast<float>(viewport.top) / scale.y));
+  sdl_viewport.w = static_cast<int>(std::ceil(static_cast<float>(viewport.get_width()) / scale.x));
+  sdl_viewport.h = static_cast<int>(std::ceil(static_cast<float>(viewport.get_height()) / scale.y));
+  SDL_SetRenderViewport(m_renderer, &sdl_viewport);
 
   SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
   SDL_RenderClear(m_renderer);
