@@ -300,6 +300,11 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
     parse_value();
     return true;
   }
+  else if (key.key == SDLK_ESCAPE)
+  {
+    set_has_focus(false);
+    return true;
+  }
 
   return false;
 }
