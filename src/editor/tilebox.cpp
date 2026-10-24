@@ -501,13 +501,20 @@ EditorTilebox::change_objectgroup(int dir)
   select_last_objectgroup();
 }
 
+ObjectGroup*
+EditorTilebox::get_layers_object_group() const
+{
+  auto editor_project = m_editor.get_project();
+  bool is_worldmap = editor_project->get_level()->is_worldmap();
+  auto worldmap_layers_group = m_object_info->m_worldmap_layers_group.get();
+  auto level_layers_group = m_object_info->m_layers_group.get();
+  return is_worldmap ? worldmap_layers_group : level_layers_group;
+}
+
 bool
 EditorTilebox::select_layers_objectgroup()
 {
-  bool is_worldmap = m_editor.get_project()->get_level()->is_worldmap();
-  ObjectGroup* layers = is_worldmap ?
-    m_object_info->m_worldmap_layers_group.get() :
-    m_object_info->m_layers_group.get();
+  auto layers = get_layers_object_group();
 
   if (layers)
   {
