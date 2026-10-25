@@ -66,6 +66,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_object_tip(new Tip()),
   m_layer_list_widget(std::make_unique<MenuListWidget>()),
   m_layer_list_widget_visible(),
+  m_queue_layer_list_widget_refresh(),
   m_has_mouse_focus(false)
 {
   m_add_layer_box->on_select([this](EditorTilebox& tilebox)
@@ -260,7 +261,15 @@ bool
 EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_button_up(button))
+  {
+    if (m_queue_layer_list_widget_refresh)
+    {
+      populate_layers_list_widget();
+      m_queue_layer_list_widget_refresh = false;
+    }
+    
     return true;
+  }
 
   return false;
 }
@@ -679,7 +688,8 @@ EditorLayersWidget::move_selected_layer_up()
 
   layer_tilemap->set_layer(previous_layer->get_zpos() - 1);
   sort_layers();
-  // refresh();
+
+  m_queue_layer_list_widget_refresh = true;
 }
 
 void
@@ -699,7 +709,8 @@ EditorLayersWidget::move_selected_layer_down()
 
   layer_tilemap->set_layer(next_layer->get_zpos() + 1);
   sort_layers();
-  // refresh();
+
+  m_queue_layer_list_widget_refresh = true;
 }
 
 void
