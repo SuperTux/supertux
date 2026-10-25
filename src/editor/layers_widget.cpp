@@ -315,10 +315,7 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           auto& hovered_layer = get_hovered_layer();
           auto hovered_object = hovered_layer->get_game_object();
 
-          if (auto tilemap = hovered_layer->get_tilemap())
-          {
-            set_selected_tilemap(tilemap);
-          }
+          set_selected_layer(hovered_layer.get());
 
           if (hovered_object->can_follow_path())
           { 
@@ -564,8 +561,9 @@ EditorLayersWidget::refresh_sector_text()
 void
 EditorLayersWidget::refresh_layers()
 {
-  bool tilemap_selected = false;
-  TileMap* first_tilemap = nullptr;
+  bool layer_selected = false;
+  EditorLayer* first_selectable_layer = nullptr;
+
   for (const auto& layer : m_editor_layers)
   {
     if (!layer->is_tilemap())
@@ -575,21 +573,21 @@ EditorLayersWidget::refresh_layers()
     if (!tm)
       continue;
 
-    if (first_tilemap == nullptr)
+    if (first_selectable_layer == nullptr)
     {
-      first_tilemap = tm;
+      first_selectable_layer = layer.get();
     }
 
-    if (tm->is_solid() && !tilemap_selected)
+    if (tm->is_solid() && !layer_selected)
     {
-      set_selected_tilemap(tm);
-      tilemap_selected = true;
+      set_selected_layer(layer.get());
+      layer_selected = true;
     }
   }
 
-  if (!tilemap_selected && first_tilemap != nullptr)
+  if (!layer_selected && first_selectable_layer != nullptr)
   {
-    set_selected_tilemap(first_tilemap);
+    set_selected_layer(first_selectable_layer);
   }
 }
 

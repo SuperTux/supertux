@@ -68,7 +68,6 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
       return;
 
     parent->set_selected_layer(m_layer);
-    parent->set_selected_tilemap(tilemap);
   };
 
   set_onclick_handler(select_layer);
@@ -296,11 +295,8 @@ LayersListItem::toggle_visibility()
     {
       layer->set_layer_visibility(EditorLayer::HIDDEN);
     }
-    
-    if (m_layer->get_tilemap() != nullptr)
-    {
-      m_parent->set_selected_tilemap(m_layer->get_tilemap());
-    }
+
+    m_parent->set_selected_layer(m_layer);
   }
 
   m_layer->set_layer_visibility(next_visibility);
