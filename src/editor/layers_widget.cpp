@@ -648,7 +648,10 @@ EditorLayersWidget::get_previous_layer(const EditorLayer* layer) const
   if (find_result == m_editor_layers.begin())
     return nullptr;
 
-  return (*(--find_result)).get();
+  auto prev_layer = (*(--find_result)).get();
+  auto is_valid = prev_layer->get_zpos() > INT_MIN;
+
+  return is_valid ? prev_layer : nullptr;
 }
 
 const EditorLayer* const
@@ -668,7 +671,10 @@ EditorLayersWidget::get_next_layer(const EditorLayer* layer) const
   if (find_result == m_editor_layers.end() - 1)
     return nullptr;
 
-  return (*(++find_result)).get();
+  auto next_layer = (*(++find_result)).get();
+  auto is_valid = next_layer->get_zpos() > INT_MIN;
+
+  return is_valid ? next_layer : nullptr;
 }
 
 void
