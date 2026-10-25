@@ -43,6 +43,8 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent &button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent &motion) override;
 
+  virtual bool is_user_removable() const override { return false; }
+
 private:
   EditorLayersWidget *m_parent;
   std::vector<std::unique_ptr<EditorToolbarButtonWidget>> m_buttons;
