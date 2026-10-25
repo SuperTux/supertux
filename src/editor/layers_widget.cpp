@@ -265,6 +265,10 @@ EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
     if (m_queue_layer_list_widget_refresh)
     {
       populate_layers_list_widget();
+
+      auto selected_layer_object = get_selected_layer()->get_game_object();
+      selected_layer_object->check_state();
+
       m_queue_layer_list_widget_refresh = false;
     }
     
@@ -546,7 +550,6 @@ EditorLayersWidget::populate_layers_list_widget()
 
   m_layer_list_widget->clear_items();
 
-  auto layer_icon_rect = Rectf(0, 0, 16, 16);
   int idx = 0;
   for (const auto &editor_layer : m_editor_layers)
   {
@@ -698,6 +701,7 @@ EditorLayersWidget::move_selected_layer_up()
   if (previous_layer == nullptr)
     return;
 
+  layer_tilemap->save_state();
   layer_tilemap->set_layer(previous_layer->get_zpos() - 1);
   sort_layers();
 
@@ -719,6 +723,7 @@ EditorLayersWidget::move_selected_layer_down()
   if (next_layer == nullptr)
     return;
 
+  layer_tilemap->save_state();
   layer_tilemap->set_layer(next_layer->get_zpos() + 1);
   sort_layers();
 
