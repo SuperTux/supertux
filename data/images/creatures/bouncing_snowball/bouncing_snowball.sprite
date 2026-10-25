@@ -1,25 +1,26 @@
 (supertux-sprite
- (action
-  (name "left")
-  (hitbox 8 10 32 32)
-  (fps 20)
-  (images "jump-0.png"
-          "jump-1.png"
-          "jump-2.png"
-          "jump-3.png"
-          "jump-4.png"
-          "jump-5.png"
-          "jump-6.png"
-          "jump-7.png"
-          "jump-7.png"
-          "jump-7.png"
-          "jump-7.png"
-          "jump-7.png"))
+  (action
+    (name "left")
+    (hitbox 8 10 32 32)
+    (fps 20)
+    (images "jump-0.png"
+            "jump-1.png"
+            "jump-2.png"
+            "jump-3.png"
+            "jump-4.png"
+            "jump-5.png"
+            "jump-6.png"
+            "jump-7.png"
+            "jump-7.png"
+            "jump-7.png"
+            "jump-7.png"
+            "jump-7.png"))
   (action
     (name "right")
     (hitbox 8 10 32 32)
     (fps 20)
     (mirror-action "left"))
+
   (action
     (name "left-down")
     (loops 1)
@@ -35,6 +36,7 @@
     (hitbox 8 10 32 32)
     (fps 30)
     (mirror-action "left-down"))
+
   (action
     (name "left-up")
     (loops 1)
@@ -51,10 +53,12 @@
     (hitbox 8 10 32 32)
     (fps 30)
     (mirror-action "left-up"))
+
   (action
     (name "melting")
     (hitbox 0 0 32 32)
     (images "../../objects/water_drop/water-drop.png"))
+
   (action
     (name "squished-left")
     (hitbox 8 13 32 32)

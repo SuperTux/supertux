@@ -7,8 +7,7 @@
     (images "up-0.png"
             "up-1.png"
             "up-2.png"
-            "up-3.png")
-  )
+            "up-3.png"))
   (action
     (name "accel1-right")
     (loops 1)
@@ -16,6 +15,7 @@
     (hitbox 22 7 28 38)
     (mirror-action "accel1-left")
   )
+
   (action
     (name "accel2-up")
     (loops 1)
@@ -24,27 +24,25 @@
     (images "up-4.png"
             "up-5.png"
             "up-6.png"
-            "up-7.png")
-  )
+            "up-7.png"))
   (action
     (name "accel2-up")
     (loops 1)
     (fps 15)
     (hitbox 22 7 28 38)
-    (mirror-action "accel2-up")
-  )
+    (mirror-action "accel2-up"))
+
   (action
     (name "left-up")
     (fps 15)
     (hitbox 21 7 28 38)
-    (images "up-8.png")
-  )
+    (images "up-8.png"))
   (action
     (name "right-up")
     (fps 15)
     (hitbox 22 7 28 38)
-    (mirror-action "left-up")
-  )
+    (mirror-action "left-up"))
+
   (action
     (name "left")
     (fps 12)
@@ -54,14 +52,13 @@
             "down-2.png"
             "down-3.png"
             "down-4.png"
-            "down-5.png")
-  )
+            "down-5.png"))
   (action
     (name "right")
     (fps 12)
     (hitbox 22 7 28 38)
-    (mirror-action "left")
-  )
+    (mirror-action "left"))
+
   (action
     (name "stunned-left")
     (fps 15)
@@ -71,15 +68,14 @@
             "stun-1.png"
             "stun-2.png"
             "stun-3.png"
-            "stun-4.png")
-  )
+            "stun-4.png"))
   (action
     (name "stunned-right")
     (fps 15)
     (loops 1)
     (hitbox 22 7 28 38)
-    (mirror-action "stunned-left")
-  )
+    (mirror-action "stunned-left"))
+
   (action
     (name "recovering-left")
     (fps 15)
@@ -89,13 +85,11 @@
             "stun-3.png"
             "stun-2.png"
             "stun-1.png"
-            "stun-0.png")
-  )
+            "stun-0.png"))
   (action
     (name "recovering-right")
     (fps 15)
     (loops 1)
     (hitbox 22 7 28 38)
-    (mirror-action "recovering-left")
-  )
+    (mirror-action "recovering-left"))
 )

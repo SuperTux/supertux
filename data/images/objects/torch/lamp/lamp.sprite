@@ -2,6 +2,5 @@
   (action
     (name "default")
     (hitbox -1 38 32 32)
-    (images "lamp.png")
-  )
+    (images "lamp.png"))
 )
