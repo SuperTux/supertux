@@ -67,6 +67,7 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
     if (tilemap == nullptr)
       return;
 
+    parent->set_selected_layer(m_layer);
     parent->set_selected_tilemap(tilemap);
   };
 

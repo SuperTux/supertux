@@ -30,6 +30,11 @@ class MenuListLayerActionsItem: public MenuListBaseItem
 public:
     MenuListLayerActionsItem(EditorLayersWidget* parent);
 
+private:
+  void add_delete_button();
+  void add_move_up_button();
+  void add_move_down_button();
+
 public:
   virtual void update(float /* dt_sec */) override;
   virtual void draw(DrawingContext &context) override;
