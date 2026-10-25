@@ -352,7 +352,7 @@ CloudParticleSystem::draw(DrawingContext& context)
     auto& surface = it.first;
     auto& batch = it.second;
     context.color().draw_surface_batch(surface, batch.move_srcrects(),
-      batch.move_dstrects(), batch.move_angles(), batch.get_color(), z_pos);
+      batch.move_dstrects(), batch.move_angles(), batch.get_color(), m_layer);
   }
 
   apply_fog_effect(context);
