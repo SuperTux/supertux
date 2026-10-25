@@ -60,7 +60,7 @@ EditorLayer::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
   ObjectIcon::draw(context, pos, pixels_shown);
 
   auto z_pos = get_zpos();
-  if (z_pos == std::numeric_limits<int>::min())
+  if (z_pos == INT_MIN)
     return;
 
   // Don't draw the text if the icon is not 100% visible
@@ -71,7 +71,7 @@ EditorLayer::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
 int
 EditorLayer::get_zpos() const
 {
-  return is_valid() ? m_layer_object->get_layer() : std::numeric_limits<int>::min();
+  return is_valid() ? m_layer_object->get_layer() : INT_MIN;
 }
 
 bool
