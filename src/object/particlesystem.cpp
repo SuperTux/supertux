@@ -43,7 +43,6 @@ ParticleSystem::ParticleSystem(const ReaderMapping& reader, float max_particle_s
   enabled(true)
 {
   reader.get("enabled", enabled, true);
-  m_layer = reader_get_layer(reader, LAYER_BACKGROUND1);
 }
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
