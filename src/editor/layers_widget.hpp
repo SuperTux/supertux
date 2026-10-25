@@ -80,7 +80,15 @@ public:
   void add_layer(GameObject* layer, bool sort_layers_after_adding = true);
 
   EditorLayer *get_selected_layer() const { return m_selected_layer; }
-  void set_selected_layer(EditorLayer *layer) { m_selected_layer = layer; }
+  void set_selected_layer(EditorLayer *layer)
+  {
+    if (layer->is_tilemap())
+    {
+      set_selected_tilemap(layer->get_tilemap());
+    }
+
+    m_selected_layer = layer; 
+  }
 
   /**
    * Returns the previous (in terms of list order) layer or nullptr if layer is at the top 
