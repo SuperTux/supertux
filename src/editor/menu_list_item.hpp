@@ -83,6 +83,8 @@ public:
    */
   bool is_enabled() const;
 
+  virtual bool is_user_removable() const override { return true; }
+
   /**
    * Returns true if the menu list item currently has mouse focus
    */

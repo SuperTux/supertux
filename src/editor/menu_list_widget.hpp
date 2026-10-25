@@ -44,11 +44,27 @@ public:
   virtual bool on_key_up(const SDL_KeyboardEvent &key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent &key) override;
 
-  void clear_items() { m_menu_items.clear(); }
+  void clear_items()
+  {
+    auto remove_predicate = [](std::unique_ptr<MenuListBaseItem>& item)
+    {
+      return item->is_user_removable();
+    };
+
+    auto remove_iterator = std::remove_if(
+      m_menu_items.begin(), m_menu_items.end(), remove_predicate);
+    
+      m_menu_items.erase(remove_iterator, m_menu_items.end());
+  }
 
   void add_item(std::unique_ptr<MenuListBaseItem> item)
   {
     m_menu_items.push_back(std::move(item));
+  }
+  
+  void add_item(int idx, std::unique_ptr<MenuListBaseItem> item)
+  {
+    m_menu_items.insert(m_menu_items.begin() + idx, std::move(item));
   }
 
   void add_separator()
