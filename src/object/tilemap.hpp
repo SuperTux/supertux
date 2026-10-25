@@ -148,9 +148,6 @@ public:
   void hits_object_bottom(CollisionObject& object);
   void notify_object_removal(CollisionObject* other);
 
-  int get_layer() const override { return m_z_pos; }
-  inline void set_layer(int layer) { m_z_pos = layer; }
-
   inline bool is_solid() const { return m_real_solid && m_effective_solid; }
 
   /**
@@ -324,7 +321,6 @@ private:
   float m_speed_y;
   int m_width;
   int m_height;
-  int m_z_pos;
   Vector m_offset;
   Vector m_movement; /**< The movement that happened last frame */
 

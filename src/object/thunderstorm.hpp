@@ -104,7 +104,6 @@ private:
 private:
   bool running; /**< whether we currently automatically trigger lightnings */
   float interval; /**< time between two lightnings */
-  int layer; /**< layer, where flash will be painted */
 
   std::string m_strike_script;
 

@@ -40,10 +40,9 @@ const float RESTORE_BACKGROUND_COLOR_TIME = 0.1f;
 } // namespace
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
-  LayerObject(reader),
+  LayerObject(reader, 500),
   running(true),
   interval(10.0f),
-  layer(LAYER_BACKGROUNDTILES-1),
   m_strike_script(),
   time_to_thunder(),
   time_to_lightning(),
@@ -59,7 +58,7 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   if (interval <= 0) {
     log_warning << "Running a thunderstorm with non-positive time interval is a bad idea" << std::endl;
   }
-  layer = reader_get_layer (reader, LAYER_BACKGROUNDTILES - 1);
+  m_layer = reader_get_layer (reader, 500);
 
   SoundManager::current()->preload("sounds/thunder.wav");
   SoundManager::current()->preload("sounds/lightning.wav");
@@ -75,7 +74,7 @@ Thunderstorm::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_int(_("Z-pos"), &layer, "z-pos", LAYER_BACKGROUNDTILES - 1);
+  result.add_int(_("Z-pos"), &m_layer, "z-pos", 500);
   result.add_bool(_("Running"), &running, "running", true);
   result.add_float(_("Interval"), &interval, "interval", 10.0f);
   result.add_text(_("Strike Script"), &m_strike_script, "strike-script");
@@ -138,7 +137,7 @@ Thunderstorm::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.transform().scale = 1.f;
-  context.color().draw_gradient(m_flash_color, m_flash_color, 500, GradientDirection::HORIZONTAL, context.get_rect(), Blend::ADD);
+  context.color().draw_gradient(m_flash_color, m_flash_color, m_layer, GradientDirection::HORIZONTAL, context.get_rect(), Blend::ADD);
   context.pop_transform();
 }
 

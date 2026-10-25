@@ -26,6 +26,7 @@
 #include "video/drawing_context.hpp"
 
 AmbientLight::AmbientLight(const Color& color) :
+  LayerObject(),
   m_ambient_light(color),
   m_ambient_light_fading(false),
   m_source_ambient_light(color),

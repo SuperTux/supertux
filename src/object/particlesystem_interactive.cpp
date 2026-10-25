@@ -87,7 +87,7 @@ ParticleSystem_Interactive::draw(DrawingContext& context)
     auto& batch = it.second;
     // FIXME: What is the colour used for?
     context.color().draw_surface_batch(surface, batch.move_srcrects(),
-      batch.move_dstrects(), batch.move_angles(), Color::WHITE, z_pos);
+      batch.move_dstrects(), batch.move_angles(), Color::WHITE, m_layer);
   }
 
   context.pop_transform();
