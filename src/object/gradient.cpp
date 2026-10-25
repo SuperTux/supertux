@@ -65,7 +65,6 @@ Gradient::Gradient(const ReaderMapping& reader) :
   m_fade_total_time(),
   m_fade_time()
 {
-  m_layer = reader_get_layer (reader, LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
   std::string direction;
   if (reader.get("direction", direction))
