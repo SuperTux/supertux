@@ -32,16 +32,8 @@ public:
   MenuListWidget();
   ~MenuListWidget();
 
-  virtual bool event(const SDL_Event &ev) override
-  { 
-    bool event_handled = false;
-    for (const auto &item : m_menu_items)
-    {
-      event_handled |= item->event(ev);
-    }
-    return event_handled;
-  }
-  virtual void draw(DrawingContext& context) override;
+  virtual bool event(const SDL_Event &ev) override;
+  virtual void draw(DrawingContext &context) override;
   virtual void update(float dt_sec) override;
 
   virtual void setup() override {}

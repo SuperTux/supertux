@@ -40,6 +40,17 @@ MenuListWidget::~MenuListWidget()
 {
 }
 
+bool
+MenuListWidget::event(const SDL_Event& ev)
+{ 
+  bool event_handled = false;
+  for (const auto &item : m_menu_items)
+  {
+    event_handled |= item->event(ev);
+  }
+  return event_handled;
+}
+
 void
 MenuListWidget::draw(DrawingContext& context)
 {
@@ -64,6 +75,9 @@ MenuListWidget::update(float dt_sec)
 bool
 MenuListWidget::on_mouse_button_up(const SDL_MouseButtonEvent &button)
 {
+  if (!has_mouse_focus())
+    return false;
+
   bool event_handled = false;
   for (const auto &item : m_menu_items)
   {
@@ -75,6 +89,9 @@ MenuListWidget::on_mouse_button_up(const SDL_MouseButtonEvent &button)
 bool
 MenuListWidget::on_mouse_button_down(const SDL_MouseButtonEvent &button) 
 {
+  if (!has_mouse_focus())
+    return false;
+
   bool event_handled = false;
   for (const auto &item : m_menu_items)
   {
@@ -86,11 +103,14 @@ MenuListWidget::on_mouse_button_down(const SDL_MouseButtonEvent &button)
 bool
 MenuListWidget::on_mouse_motion(const SDL_MouseMotionEvent &motion)
 {
+  if (!has_mouse_focus())
+    return false;
+
   for (const auto &item : m_menu_items)
   {
     item->on_mouse_motion(motion);
   }
-  return has_mouse_focus();
+  return true;
 }
 
 bool
