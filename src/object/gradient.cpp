@@ -36,7 +36,7 @@ const Color Gradient::DEFAULT_GRADIENT_TOP(0.5f, 0.7f, 1.f);
 const Color Gradient::DEFAULT_GRADIENT_BOTTOM(Color::WHITE);
 
 Gradient::Gradient() :
-  m_layer(LAYER_BACKGROUND0),
+  LayerObject(LAYER_BACKGROUND0),
   m_gradient_top(DEFAULT_GRADIENT_TOP),
   m_gradient_bottom(DEFAULT_GRADIENT_BOTTOM),
   m_gradient_direction(),
@@ -52,8 +52,7 @@ Gradient::Gradient() :
 }
 
 Gradient::Gradient(const ReaderMapping& reader) :
-  LayerObject(reader),
-  m_layer(LAYER_BACKGROUND0),
+  LayerObject(reader, LAYER_BACKGROUND0),
   m_gradient_top(DEFAULT_GRADIENT_TOP),
   m_gradient_bottom(DEFAULT_GRADIENT_BOTTOM),
   m_gradient_direction(),
