@@ -27,6 +27,12 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
+std::string
+Profile::get_basedir(int id)
+{
+  return "profile" + std::to_string(id);
+}
+
 Profile::Profile(int id) :
   m_id(id),
   m_name(),
@@ -93,5 +99,5 @@ Profile::create_basedir()
 std::string
 Profile::get_basedir() const
 {
-  return "profile" + std::to_string(m_id);
+  return get_basedir(m_id);
 }
