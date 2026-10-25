@@ -17,6 +17,7 @@
 #pragma once
 
 #include "supertux/game_object.hpp"
+#include "util/reader.hpp"
 
 namespace
 {
@@ -35,7 +36,7 @@ public:
 
   LayerObject(const ReaderMapping& reader, int layer = DEFAULT_LAYER) :
     GameObject(reader),
-    m_layer(layer)
+    m_layer(reader_get_layer(reader, layer))
   {
   }
 

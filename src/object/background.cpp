@@ -226,8 +226,6 @@ Background::Background(const ReaderMapping& reader) :
   reader.get("scroll-speed-x", m_scroll_speed.x, 0.0f);
   reader.get("scroll-speed-y", m_scroll_speed.y, 0.0f);
 
-  m_layer = reader_get_layer(reader, LAYER_BACKGROUND0);
-
   reader.get("image", m_imagefile, "images/background/misc/transparent_up.png");
   m_image = load_background(m_imagefile);
 
