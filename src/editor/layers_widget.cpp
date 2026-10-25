@@ -50,6 +50,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_editor(editor),
   m_editor_layers(),
   m_layer_visibilities(),
+  m_selected_layer(),
   m_selected_tilemap(),
   m_add_icon("", "images/engine/editor/add.png"),
   m_add_layer_box(new EditorTilebox(editor, Rectf())),
@@ -621,6 +622,86 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
   }
 
   recalculate_positions();
+}
+
+const EditorLayer* const
+EditorLayersWidget::get_previous_layer(const EditorLayer* layer) const
+{
+  auto layers_equal = [layer](const std::unique_ptr<EditorLayer>& editor_layer)
+  {
+    return editor_layer.get() == layer;
+  };
+  auto find_result = std::find_if(m_editor_layers.begin(), m_editor_layers.end(), layers_equal);
+
+  // not found (this should never happen!)
+  if (find_result == m_editor_layers.end())
+    return nullptr;
+
+  // layer is already first layer
+  if (find_result == m_editor_layers.begin())
+    return nullptr;
+
+  return (*(--find_result)).get();
+}
+
+const EditorLayer* const
+EditorLayersWidget::get_next_layer(const EditorLayer* layer) const
+{
+  auto layers_equal = [layer](const std::unique_ptr<EditorLayer>& editor_layer)
+  {
+    return editor_layer.get() == layer;
+  };
+  auto find_result = std::find_if(m_editor_layers.begin(), m_editor_layers.end(), layers_equal);
+
+  // not found (this should never happen!)
+  if (find_result == m_editor_layers.end())
+    return nullptr;
+
+  // layer is already last layer
+  if (find_result == m_editor_layers.end() - 1)
+    return nullptr;
+
+  return (*(++find_result)).get();
+}
+
+void
+EditorLayersWidget::move_selected_layer_up()
+{
+  auto layer = get_selected_layer();
+  if (layer == nullptr)
+    return;
+
+  auto layer_tilemap = dynamic_cast<TileMap *>(layer->get_game_object());
+  if (layer_tilemap == nullptr)
+    return;
+  
+  auto previous_layer = get_previous_layer(layer);
+  if (previous_layer == nullptr)
+    return;
+
+  layer_tilemap->set_layer(previous_layer->get_zpos() - 1);
+  sort_layers();
+  // refresh();
+}
+
+void
+EditorLayersWidget::move_selected_layer_down()
+{
+  auto layer = get_selected_layer();
+  if (layer == nullptr)
+    return;
+
+  auto layer_tilemap = dynamic_cast<TileMap *>(layer->get_game_object());
+  if (layer_tilemap == nullptr)
+    return;
+
+  auto next_layer = get_next_layer(layer);
+  if (next_layer == nullptr)
+    return;
+
+  layer_tilemap->set_layer(next_layer->get_zpos() + 1);
+  sort_layers();
+  // refresh();
 }
 
 void

@@ -79,6 +79,22 @@ public:
    */
   void add_layer(GameObject* layer, bool sort_layers_after_adding = true);
 
+  EditorLayer *get_selected_layer() const { return m_selected_layer; }
+  void set_selected_layer(EditorLayer *layer) { m_selected_layer = layer; }
+
+  /**
+   * Returns the previous (in terms of list order) layer or nullptr if layer is at the top 
+   */
+  const EditorLayer* const get_previous_layer(const EditorLayer* layer) const;
+
+  /**
+   * Returns the next (in terms of list order) layer or nullptr if layer is at the bottom
+   */
+  const EditorLayer* const get_next_layer(const EditorLayer* layer) const;
+
+  void move_selected_layer_up();
+  void move_selected_layer_down();
+
   /**
    * Populates the layers menu with all the relevant layers
    */
@@ -120,6 +136,7 @@ private:
   Editor& m_editor;
   std::vector<std::unique_ptr<EditorLayer>> m_editor_layers;
   std::map<EditorLayer*, EditorLayer::LayerVisibility> m_layer_visibilities;
+  EditorLayer *m_selected_layer;
   UID m_selected_tilemap;
 
   ObjectIcon m_add_icon;
