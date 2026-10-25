@@ -25,6 +25,20 @@ MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
   m_parent(parent),
   m_buttons()
 {
+  add_delete_button();
+  add_move_up_button();
+  add_move_down_button();
+
+  for (const auto& button : m_buttons)
+  {
+    button->set_flat(true);
+    button->set_layer(LAYER_GUI + 1);
+  }
+}
+
+void
+MenuListLayerActionsItem::add_delete_button()
+{
   auto delete_button = std::make_unique<EditorToolbarButtonWidget>(
       "images/engine/editor/layer-delete.png", get_rect().p1(),
       [] {}, Sizef(25, 25));
@@ -41,22 +55,35 @@ MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
   delete_button->set_help_text(_("Delete layer"));
 
   m_buttons.push_back(std::move(delete_button));
+}
 
+void
+MenuListLayerActionsItem::add_move_up_button()
+{
   auto move_up_button = std::make_unique<EditorToolbarButtonWidget>(
       "images/engine/editor/layer-up.png", get_rect().p1() + Vector(25, 0),
       [] {}, Sizef(25, 25));
+  auto move_layer_up = [this]
+  {
+    m_parent->move_selected_layer_up();
+  };
+  move_up_button->set_onclick_handler(move_layer_up);
   m_buttons.push_back(std::move(move_up_button));
+}
 
+void
+MenuListLayerActionsItem::add_move_down_button()
+{
   auto move_down_button = std::make_unique<EditorToolbarButtonWidget>(
       "images/engine/editor/layer-down.png", get_rect().p1() + Vector(50, 0),
       [] {}, Sizef(25, 25));
-  m_buttons.push_back(std::move(move_down_button));
 
-  for (const auto& button : m_buttons)
+  auto move_layer_down = [this]
   {
-    button->set_flat(true);
-    button->set_layer(LAYER_GUI + 1);
-  }
+    m_parent->move_selected_layer_down();
+  };
+  move_down_button->set_onclick_handler(move_layer_down);
+  m_buttons.push_back(std::move(move_down_button));
 }
 
 void
