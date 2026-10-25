@@ -58,7 +58,6 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   if (interval <= 0) {
     log_warning << "Running a thunderstorm with non-positive time interval is a bad idea" << std::endl;
   }
-  m_layer = reader_get_layer (reader, 500);
 
   SoundManager::current()->preload("sounds/thunder.wav");
   SoundManager::current()->preload("sounds/lightning.wav");

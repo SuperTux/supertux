@@ -44,7 +44,8 @@ int reader_get_layer(const ReaderMapping& reader, int def)
   if (!status)
     tmp = def;
 
-  if (!Editor::is_active()) {
+  if (!Editor::is_active())
+  {
     if (tmp > (LAYER_GUI - 100))
       tmp = LAYER_GUI - 100;
   }
