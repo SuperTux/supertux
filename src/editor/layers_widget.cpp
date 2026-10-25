@@ -542,19 +542,25 @@ EditorLayersWidget::refresh()
 void
 EditorLayersWidget::populate_layers_list_widget()
 {
+  bool was_initialized = m_layer_list_widget->get_item_count() > 0;
+
   m_layer_list_widget->clear_items();
 
   auto layer_icon_rect = Rectf(0, 0, 16, 16);
+  int idx = 0;
   for (const auto &editor_layer : m_editor_layers)
   {
     std::unique_ptr<MenuListItem> menu_item = 
       std::make_unique<LayersListItem>(this, editor_layer.get());
-
-    m_layer_list_widget->add_item(std::move(menu_item));
+    m_layer_list_widget->add_item(idx, std::move(menu_item));
+    idx++;
   }
 
-  m_layer_list_widget->add_separator();
-  m_layer_list_widget->add_item(std::make_unique<MenuListLayerActionsItem>(this));
+  if (!was_initialized)
+  {
+    m_layer_list_widget->add_separator();
+    m_layer_list_widget->add_item(std::make_unique<MenuListLayerActionsItem>(this));
+  }
 
   recalculate_positions();
 }

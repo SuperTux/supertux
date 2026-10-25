@@ -20,7 +20,6 @@
 #include "editor/widget.hpp"
 #include "math/rectf.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 
 #include <functional>
 #include <vector>
@@ -46,6 +45,14 @@ public:
   virtual bool is_separator() const { return false; }
 
   virtual bool has_focus() const { return false; }
+
+  /**
+   * Returns true if the user can remove this
+   * TODO: This is a bad name, I wanted to 
+   * distinguish normal SuperTux layers from the list
+   * items that can stay (UI-related)
+   */
+  virtual bool is_user_removable() const { return false; }
 
 public:
   const Rectf &get_rect() const { return m_rect; }
