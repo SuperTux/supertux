@@ -311,7 +311,7 @@ void RainParticleSystem::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
   context.color().draw_filled_rect(context.get_rect(),
                                    Color(0.3f, 0.38f, 0.4f, opacity),
-                                   z_pos);
+                                   m_layer);
   context.pop_transform();
 }
 

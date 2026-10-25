@@ -45,7 +45,7 @@ const float SCROLL_JUMP = 60;
 } // namespace
 
 TextScroller::TextScroller(const ReaderMapping& mapping) :
-  LayerObject(mapping),
+  LayerObject(mapping, LAYER_GUI),
   controller(&InputManager::current()->get_controller()),
   m_filename(),
   m_finish_script(),
@@ -268,7 +268,7 @@ TextScroller::draw(DrawingContext& context)
     {
       if (y + line->get_height() >= 0 && ctx_h - y >= 0) {
         line->draw(context, Rectf(LEFT_BORDER, y, ctx_w * (m_x_anchor == XAnchor::SCROLLER_ANCHOR_LEFT ? 0.f :
-           m_x_anchor == XAnchor::SCROLLER_ANCHOR_RIGHT ? 2.f : 1.f) + m_x_offset, y), LAYER_GUI,
+           m_x_anchor == XAnchor::SCROLLER_ANCHOR_RIGHT ? 2.f : 1.f) + m_x_offset, y), m_layer,
           (m_text_align == TextAlign::SCROLLER_ALIGN_LEFT ? line->LineAlignment::LEFT :
            m_text_align == TextAlign::SCROLLER_ALIGN_RIGHT ? line->LineAlignment::RIGHT :
            line->LineAlignment::CENTER));

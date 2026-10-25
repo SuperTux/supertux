@@ -913,7 +913,7 @@ CustomParticleSystem::draw(DrawingContext& context)
     auto& surface = it.first->texture;
     auto& batch = it.second;
     context.color().draw_surface_batch(surface, batch.move_srcrects(),
-      batch.move_dstrects(), batch.move_angles(), it.first->color, z_pos);
+      batch.move_dstrects(), batch.move_angles(), it.first->color, m_layer);
   }
 
   context.pop_transform();

@@ -135,9 +135,9 @@ static SpritePtr load_background(const std::string& image_path)
 
 
 Background::Background() :
+  LayerObject(LAYER_BACKGROUND0),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
-  m_layer(LAYER_BACKGROUND0),
   m_imagefile_top(),
   m_imagefile(),
   m_imagefile_bottom(),
@@ -159,10 +159,9 @@ Background::Background() :
 }
 
 Background::Background(const ReaderMapping& reader) :
-  LayerObject(reader),
+  LayerObject(reader, LAYER_BACKGROUND0),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
-  m_layer(LAYER_BACKGROUND0),
   m_imagefile_top(),
   m_imagefile(),
   m_imagefile_bottom(),
