@@ -43,6 +43,7 @@
 #include "video/surface.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
+  LayerObject(0),
   PathObject(),
   m_tileset(new_tileset),
   m_tiles(),
@@ -52,7 +53,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_speed_y(1),
   m_width(0),
   m_height(0),
-  m_z_pos(0),
   m_offset(Vector(0, 0)),
   m_movement(0, 0),
   m_objects_hit_bottom(),
@@ -75,7 +75,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
-  LayerObject(reader),
+  LayerObject(reader, 0),
   PathObject(),
   m_tileset(tileset_),
   m_tiles(),
@@ -85,7 +85,6 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_speed_y(1),
   m_width(-1),
   m_height(-1),
-  m_z_pos(0),
   m_offset(Vector(0, 0)),
   m_movement(Vector(0, 0)),
   m_objects_hit_bottom(),
@@ -123,7 +122,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
     }
   }
 
-  m_z_pos = reader_get_layer(reader, 0);
+  m_layer = reader_get_layer(reader, 0);
 
   if (!Editor::is_active()) {
     if (m_real_solid && ((m_speed_x != 1) || (m_speed_y != 1))) {
@@ -203,7 +202,7 @@ TileMap::parse_tiles(const ReaderMapping& reader)
 
   if (empty)
   {
-    log_info << "Tilemap '" << get_name() << "', z-pos '" << m_z_pos << "' is empty." << std::endl;
+    log_info << "Tilemap '" << get_name() << "', z-pos '" << m_layer << "' is empty." << std::endl;
   }
 
   m_new_size_x = m_width;
@@ -367,7 +366,7 @@ TileMap::get_settings()
   result.add_float(_("Speed x"), &m_speed_x, "speed-x", 1.0f);
   result.add_float(_("Speed y"), &m_speed_y, "speed-y", 1.0f);
   result.add_color(_("Tint"), &m_tint, "tint", Color::WHITE);
-  result.add_int(_("Z-pos"), &m_z_pos, "z-pos");
+  result.add_int(_("Z-pos"), &m_layer, "z-pos");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
                   { _("Normal"), _("Lightmap") },
                   { "normal", "lightmap" },
@@ -630,7 +629,7 @@ TileMap::draw(DrawingContext& context)
       canvas.draw_surface_batch(surface,
                                 std::move(std::get<0>(it.second)),
                                 std::move(std::get<1>(it.second)),
-                                m_current_tint, m_z_pos);
+                                m_current_tint, m_layer);
     }
   }
 
@@ -651,9 +650,9 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
   m_tiles = newt;
 
   if (new_z_pos > (LAYER_GUI - 100))
-    m_z_pos = LAYER_GUI - 100;
+    m_layer = LAYER_GUI - 100;
   else
-    m_z_pos  = new_z_pos;
+    m_layer  = new_z_pos;
   m_real_solid  = newsolid;
   update_effective_solid ();
 

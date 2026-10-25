@@ -18,20 +18,41 @@
 
 #include "supertux/game_object.hpp"
 
+namespace
+{
+  int DEFAULT_LAYER = std::numeric_limits<int>::min();
+}
+
 /** Base class for all GameObjects listed as layers in EditorLayersWidget. */
 class LayerObject : public GameObject
 {
 public:
-  LayerObject(const std::string& name = "") :
-    GameObject(name)
-  {}
-  LayerObject(const ReaderMapping& reader) :
-    GameObject(reader)
-  {}
+  LayerObject(const std::string& name = "", int layer = DEFAULT_LAYER) :
+    GameObject(name),
+    m_layer(layer)
+  {
+  }
+
+  LayerObject(const ReaderMapping& reader, int layer = DEFAULT_LAYER) :
+    GameObject(reader),
+    m_layer(layer)
+  {
+  }
+
+  LayerObject(int layer) :
+    LayerObject("", layer)
+  {
+  }
+
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(LayerObject)); }
 
   virtual const std::string get_icon_path() const = 0;
-  virtual int get_layer() const { return std::numeric_limits<int>::min(); }
+
+  virtual int get_layer() const { return m_layer; }
+  virtual void set_layer(int layer) { m_layer = layer; }
+
+protected:
+  int m_layer;
 
 private:
   LayerObject(const LayerObject&) = delete;

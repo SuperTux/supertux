@@ -35,21 +35,20 @@
 #include "video/viewport.hpp"
 
 ParticleSystem::ParticleSystem(const ReaderMapping& reader, float max_particle_size_) :
-  LayerObject(reader),
+  LayerObject(reader, LAYER_BACKGROUND1),
   max_particle_size(max_particle_size_),
-  z_pos(LAYER_BACKGROUND1),
   particles(),
   virtual_width(static_cast<float>(SCREEN_WIDTH) + max_particle_size * 2.0f),
   virtual_height(static_cast<float>(SCREEN_HEIGHT) + max_particle_size * 2.0f),
   enabled(true)
 {
   reader.get("enabled", enabled, true);
-  z_pos = reader_get_layer(reader, LAYER_BACKGROUND1);
+  m_layer = reader_get_layer(reader, LAYER_BACKGROUND1);
 }
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
+  LayerObject(LAYER_BACKGROUND1),
   max_particle_size(max_particle_size_),
-  z_pos(LAYER_BACKGROUND1),
   particles(),
   virtual_width(static_cast<float>(SCREEN_WIDTH) + max_particle_size * 2.0f),
   virtual_height(static_cast<float>(SCREEN_HEIGHT) + max_particle_size * 2.0f),
@@ -63,7 +62,7 @@ ParticleSystem::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   result.add_bool(_("Enabled"), &enabled, "enabled", true);
-  result.add_int(_("Z-pos"), &z_pos, "z-pos", LAYER_BACKGROUND1);
+  result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND1);
 
   result.reorder({"enabled", "name"});
 
@@ -142,7 +141,7 @@ ParticleSystem::draw(DrawingContext& context)
                                        batch.move_dstrects(),
                                        batch.move_angles(),
                                        batch.get_color(),
-                                       z_pos);
+                                       m_layer);
   }
 
   context.pop_transform();
