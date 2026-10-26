@@ -299,6 +299,7 @@ CloudParticleSystem::fade_amount(int new_amount, float fade_time, float time_bet
 void
 CloudParticleSystem::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
   if (Editor::is_active())
   {
     auto editor_layer_alpha = get_editor_layer_alpha();
@@ -345,6 +346,7 @@ CloudParticleSystem::draw(DrawingContext& context)
         it->second.draw(particle->pos, particle->angle);
       }
     }
+    context.set_alpha(previous_alpha);
   }
 
   for (auto& it : batches)
