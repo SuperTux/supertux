@@ -19,6 +19,7 @@
 #include "editor/layers_widget.hpp"
 #include "editor/menu_list_item.hpp"
 #include "math/vector.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "video/color.hpp"
 
 MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
@@ -89,7 +90,9 @@ MenuListLayerActionsItem::add_layer_add_button()
   for (const auto &layer_type : layer_objects->get_icons())
   {
     auto surface_path = layer_type.get_surface()->get_filename();
-    auto label = layer_type.get_object_class_name();
+    auto object_class = layer_type.get_object_class_name();
+    auto label = GameObjectFactory::instance().get_display_name(object_class);
+
     auto surface_rect = Rectf(get_rect().p1(), Vector(25, 25));
 
     auto item = std::make_unique<MenuListItem>(label, [] {}, surface_path, surface_rect);
