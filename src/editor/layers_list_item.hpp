@@ -69,7 +69,7 @@ public:
       }
     }
 
-    if (m_layer)
+    if (m_layer && m_layer->is_valid())
     {
       // TODO: Checking this every tick is overkill!!!
       // GameObject probably requires a refactor to
