@@ -94,8 +94,13 @@ MenuListLayerActionsItem::add_layer_add_button()
     auto label = GameObjectFactory::instance().get_display_name(object_class);
 
     auto surface_rect = Rectf(get_rect().p1(), Vector(25, 25));
+    auto create_object = [object_class, this]()
+    {
+      auto object = GameObjectFactory::instance().create(object_class);
+      Sector::current()->add_object(std::move(object));
+    };
 
-    auto item = std::make_unique<MenuListItem>(label, [] {}, surface_path, surface_rect);
+    auto item = std::make_unique<MenuListItem>(label, create_object, surface_path, surface_rect);
 
     m_add_layer_menu->add_item(std::move(item));
   }
