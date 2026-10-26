@@ -40,6 +40,8 @@ public:
    */
   inline const std::string& get_object_class_name() const { return m_object_class_name; }
 
+  inline const SurfacePtr get_surface() const { return m_surface; }
+
   ObjectIcon(const ObjectIcon&) = default;
   ObjectIcon& operator=(const ObjectIcon&) = default;
 
