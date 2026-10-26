@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-09-11 22:47+0000\n"
+"POT-Creation-Date: 2026-09-20 00:29+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Tommaso Macchiella, 2025-2026\n"
 "Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
@@ -410,7 +410,7 @@ msgstr "Il componente aggiuntivo {} di {} è stato installato con successo."
 msgid "Angry Stone"
 msgstr "Pietra Arrabbiata"
 
-#: src/badguy/badguy.cpp:1379 src/badguy/crusher.cpp:1248
+#: src/badguy/badguy.cpp:1385 src/badguy/crusher.cpp:1248
 #: src/object/bigsnowball.cpp:80 src/object/bumper.cpp:59
 #: src/object/conveyor_belt.cpp:62 src/object/gradient.cpp:101
 #: src/object/ispy.cpp:56 src/object/pushbutton.cpp:65
@@ -419,21 +419,21 @@ msgstr "Pietra Arrabbiata"
 msgid "Direction"
 msgstr "Direzione"
 
-#: src/badguy/badguy.cpp:1380
+#: src/badguy/badguy.cpp:1386
 msgid ""
 "The direction the badguy is facing at the start of the level. AUTO makes the"
 " badguy face towards the player when activated."
 msgstr "La direzione verso la quale guarda il nemico all'inizio del livello. AUTO fa sì che il nemico guardi verso Tux quando attivato."
 
-#: src/badguy/badguy.cpp:1381
+#: src/badguy/badguy.cpp:1387
 msgid "Death script"
 msgstr "Script di morte"
 
-#: src/badguy/badguy.cpp:1382
+#: src/badguy/badguy.cpp:1388
 msgid "Script that is executed when the badguy dies."
 msgstr "Script che viene eseguito quando il nemico muore."
 
-#: src/badguy/badguy.cpp:1385
+#: src/badguy/badguy.cpp:1391
 msgid "Glinting"
 msgstr "Scintillio"
 
@@ -1995,7 +1995,7 @@ msgstr "Incolla dagli appunti"
 
 #: src/gui/menu_filesystem.cpp:121
 msgid "Open Directory"
-msgstr "Apri Directory"
+msgstr "Apri cartella"
 
 #: src/gui/menu_object_select.cpp:46
 msgid "List of objects"
@@ -5209,11 +5209,11 @@ msgstr "Il supporto del Network è disattivato. "
 
 #: src/supertux/menu/options_menu.cpp:285
 msgid "Open user directory"
-msgstr ""
+msgstr "Apri cartella utente"
 
 #: src/supertux/menu/options_menu.cpp:286
 msgid "Open the user directory containing the SuperTux configuration"
-msgstr ""
+msgstr "Apri la cartella dell'utente, contenente la configurazione di SuperTux. "
 
 #: src/supertux/menu/options_menu.cpp:352
 msgid "Magnification"
@@ -5413,7 +5413,7 @@ msgstr "Elimina tutto"
 
 #: src/supertux/menu/profile_menu.cpp:118
 msgid "Open Profile Directory"
-msgstr ""
+msgstr "Apri cartella del profilo"
 
 #: src/supertux/menu/profile_menu.cpp:154
 msgid ""

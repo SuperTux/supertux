@@ -14,15 +14,16 @@
 # Jesusaves <jesusalva@themanaworld.org>, 2018
 # Joel Gil Leon <joel@gil.com>, 2013
 # Jesusaves <jesusalva@themanaworld.org>, 2015
+# rodrigocasagrande, 2026
 # Rui <xymarior@yandex.com>, 2016
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-09-11 22:47+0000\n"
+"POT-Creation-Date: 2026-09-20 00:29+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>, 2023,2026\n"
+"Last-Translator: rodrigocasagrande, 2026\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -383,7 +384,7 @@ msgid ""
 "Tux: The thing over there must be the\n"
 "     crystal mine the Yeti was talking\n"
 "     about."
-msgstr ""
+msgstr "Tux: Aquela coisa alí deve ser a mina de cristais o Yeti estava falando."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"

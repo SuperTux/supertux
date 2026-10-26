@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-09-11 22:47+0000\n"
+"POT-Creation-Date: 2026-09-20 00:29+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Jonatan Nyberg, 2026\n"
+"Last-Translator: theschitz <theodore@theschitz.se>, 2016\n"
 "Language-Team: Swedish (http://app.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -406,7 +406,7 @@ msgstr "Tillägget {} av {} har installerats."
 msgid "Angry Stone"
 msgstr "Arg sten"
 
-#: src/badguy/badguy.cpp:1379 src/badguy/crusher.cpp:1248
+#: src/badguy/badguy.cpp:1385 src/badguy/crusher.cpp:1248
 #: src/object/bigsnowball.cpp:80 src/object/bumper.cpp:59
 #: src/object/conveyor_belt.cpp:62 src/object/gradient.cpp:101
 #: src/object/ispy.cpp:56 src/object/pushbutton.cpp:65
@@ -415,21 +415,21 @@ msgstr "Arg sten"
 msgid "Direction"
 msgstr "Riktning"
 
-#: src/badguy/badguy.cpp:1380
+#: src/badguy/badguy.cpp:1386
 msgid ""
 "The direction the badguy is facing at the start of the level. AUTO makes the"
 " badguy face towards the player when activated."
 msgstr "Riktningen som fienden är vänd åt när banan börjar. AUTO gör att fienden vänder sig mot spelaren när den aktiveras."
 
-#: src/badguy/badguy.cpp:1381
+#: src/badguy/badguy.cpp:1387
 msgid "Death script"
 msgstr "Dödsskript"
 
-#: src/badguy/badguy.cpp:1382
+#: src/badguy/badguy.cpp:1388
 msgid "Script that is executed when the badguy dies."
 msgstr "Skript som körs när fienden dör."
 
-#: src/badguy/badguy.cpp:1385
+#: src/badguy/badguy.cpp:1391
 msgid "Glinting"
 msgstr "Glittrande"
 
@@ -1247,7 +1247,7 @@ msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr "Kunde inte hitta en sektor med namnet ”main”.\nÄndra namnet på den sektor där\ndu vill att spelaren ska starta till ”main”."
+msgstr "Kunde inte hitta en sektor med namnet ”main”.\nÄndra namnet på den sektor där\ndu vill att spelaren ska starta till ”main”"
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
@@ -1256,7 +1256,7 @@ msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr "Kunde inte hitta en spawnpunkt med namnet ”main”.\nÄndra namnet på den spawnpunkt där\ndu vill att spelaren ska starta till ”main”."
+msgstr "Kunde inte hitta en spawnpunkt med namnet ”main”.\nÄndra namnet på den spawnpunkt där\ndu vill att spelaren ska starta till ”main”"
 
 #. l10n: A note refers to a reminder left for future
 #. level designers to read in order to better understand
@@ -1635,15 +1635,15 @@ msgstr "Det går inte att välja föråldrade plattor"
 
 #: src/editor/overlay_widget.cpp:1718
 msgid "Autotile erasing mode is on (\"{}\")"
-msgstr "Raderingsläget för autoplattsättning är på (”{}”)"
+msgstr "Raderingsläget för automatisk plattsättning är på (”{}”)"
 
 #: src/editor/overlay_widget.cpp:1722
 msgid "Autotile erasing cannot be performed here"
-msgstr "Autoplattsättning kan inte raderas här"
+msgstr "Automatisk plattsättning kan inte raderas här"
 
 #: src/editor/overlay_widget.cpp:1727
 msgid "Autotile mode is on (\"{}\")"
-msgstr "Autoplattsättningsläget är på (”{}”)"
+msgstr "Läget för automatisk plattsättning är på (”{}”)"
 
 #: src/editor/overlay_widget.cpp:1731
 msgid "Selected tile isn't autotileable"
@@ -1659,7 +1659,7 @@ msgstr "Släpp Ctrl för att radera autoplattsättning"
 
 #: src/editor/overlay_widget.cpp:1744
 msgid "Hold Ctrl to enable autotile"
-msgstr "Håll ner CTRL för att aktivera autoplattsättning"
+msgstr "Håll ned Ctrl för att aktivera automatisk plattsättning"
 
 #: src/editor/overlay_widget.cpp:1746
 msgid "Release Ctrl to autotile"
@@ -2447,7 +2447,7 @@ msgstr "Brinnande"
 
 #: src/object/candle.cpp:76
 msgid "Flicker"
-msgstr "flämtande"
+msgstr "Flämtande"
 
 #: src/object/candle.hpp:42
 msgid "Candle"
@@ -3197,7 +3197,7 @@ msgstr "  -w, --window                 Kör i fönsterläge"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "  -g, --geometry BREDDxHÖJD    Kör SuperTux i angiven upplösning"
+msgstr "  -g, --geometry WIDTHxHEIGHT  Kör SuperTux i angiven upplösning"
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
@@ -3341,7 +3341,7 @@ msgstr "Namn"
 msgid ""
 "The name of this object. Must not contain any spaces if this object is to be"
 " referenced from scripts"
-msgstr "Namnet på detta objekt. Får inte innehålla några mellanslag om detta objekt ska refereras till från skript."
+msgstr "Namnet på detta objekt. Får inte innehålla några mellanslag om objektet ska refereras till från skript"
 
 #: src/supertux/game_object.cpp:151
 #: src/supertux/menu/editor_levelset_menu.cpp:55
@@ -3400,7 +3400,7 @@ msgstr "En ny utgåva av SuperTux ({}) finns tillgänglig!\nFör mer information
 
 #: src/supertux/main.cpp:910
 msgid "Checking for new releases..."
-msgstr "Letar efter nya utgåvor..."
+msgstr "Letar efter nya utgåvor…"
 
 #: src/supertux/menu/addon_browse_menu.cpp:69
 #: src/supertux/menu/addon_menu.cpp:161
@@ -3527,7 +3527,7 @@ msgstr "För att söka efter uppdateringar för tillägg måste du aktivera nät
 
 #: src/supertux/menu/addon_menu.cpp:226
 msgid "Checking for updates..."
-msgstr "Letar efter uppdateringar..."
+msgstr "Letar efter uppdateringar…"
 
 #: src/supertux/menu/addon_preview_menu.cpp:86
 msgid "{} \"{}\""
@@ -3641,7 +3641,7 @@ msgstr "Det går inte att växla tillägg \"{}\":\n{}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:290
 msgid "Fetching screenshot previews..."
-msgstr "Hämtar förhandsvisningar för skärmdump..."
+msgstr "Hämtar förhandsvisningar av skärmdumpar…"
 
 #: src/supertux/menu/addon_preview_menu.cpp:313
 msgid "Downloading {}"
@@ -3823,7 +3823,7 @@ msgstr "Redigerarens hovringsfärg"
 
 #: src/supertux/menu/custom_menu_menu.cpp:62
 msgid "Editor Grab Color"
-msgstr "Redaktörens greppfärg"
+msgstr "Redigerarens greppfärg"
 
 #: src/supertux/menu/custom_menu_menu.cpp:64
 msgid "Reset to defaults"
@@ -4518,7 +4518,7 @@ msgstr "Dela inte bannamn vid redigering"
 msgid ""
 "Enable this if you want to work on secret levels and don't want the names to"
 " be spoiled"
-msgstr "Aktivera detta om du vill arbeta med hemliga banor och inte vill att namnen ska avslöjas."
+msgstr "Aktivera detta om du vill arbeta med hemliga banor och inte vill att namnen ska avslöjas"
 
 #: src/supertux/menu/integrations_menu.cpp:54
 msgid "Enable Discord integration"
@@ -4910,7 +4910,7 @@ msgstr "Fönster kan ändra storlek"
 
 #: src/supertux/menu/options_menu.cpp:111
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr "Tillåt storleksändring av fönster, kan kräva en omstart för att  bli verksamt"
+msgstr "Tillåt storleksändring av fönster; kan kräva omstart för att bli verksamt"
 
 #: src/supertux/menu/options_menu.cpp:115
 msgid "Fullscreen"
@@ -5204,11 +5204,11 @@ msgstr "Nätverksstöd är inaktiverat."
 
 #: src/supertux/menu/options_menu.cpp:285
 msgid "Open user directory"
-msgstr ""
+msgstr "Öppna användarkatalog"
 
 #: src/supertux/menu/options_menu.cpp:286
 msgid "Open the user directory containing the SuperTux configuration"
-msgstr ""
+msgstr "Öppna användarkatalogen som innehåller SuperTux-konfigurationen"
 
 #: src/supertux/menu/options_menu.cpp:352
 msgid "Magnification"
@@ -5307,7 +5307,7 @@ msgstr "Blixtintensitet"
 
 #: src/supertux/menu/options_menu.cpp:648
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr "Justera intensiteten på blixtarna som åskvädret ger upphov till."
+msgstr "Justera intensiteten på blixtarna som åskvädret ger upphov till"
 
 #: src/supertux/menu/options_menu.cpp:661
 msgid "On-screen controls scale"
@@ -5408,7 +5408,7 @@ msgstr "Ta bort alla"
 
 #: src/supertux/menu/profile_menu.cpp:118
 msgid "Open Profile Directory"
-msgstr ""
+msgstr "Öppna profilkatalog"
 
 #: src/supertux/menu/profile_menu.cpp:154
 msgid ""
@@ -5586,7 +5586,7 @@ msgstr "Detta spelet kommer ABSOLUT INTE UNDER GARANTI. Detta är fri programvar
 
 #: src/trigger/climbable.hpp:45
 msgid "Climbable"
-msgstr "Klättringsbar"
+msgstr "Klätterbar"
 
 #: src/trigger/door.cpp:81 src/worldmap/spawn_point.hpp:57
 msgid "Spawn point"

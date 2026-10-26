@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-09-11 22:47+0000\n"
+"POT-Creation-Date: 2026-09-20 00:29+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: X X <vvmsda@orion.rs>, 2018\n"
 "Language-Team: Serbian (http://app.transifex.com/arctic-games/supertux/language/sr/)\n"
@@ -401,7 +401,7 @@ msgstr "Додатак {} од {} је успешно инсталиран."
 msgid "Angry Stone"
 msgstr "Љути камен"
 
-#: src/badguy/badguy.cpp:1379 src/badguy/crusher.cpp:1248
+#: src/badguy/badguy.cpp:1385 src/badguy/crusher.cpp:1248
 #: src/object/bigsnowball.cpp:80 src/object/bumper.cpp:59
 #: src/object/conveyor_belt.cpp:62 src/object/gradient.cpp:101
 #: src/object/ispy.cpp:56 src/object/pushbutton.cpp:65
@@ -410,21 +410,21 @@ msgstr "Љути камен"
 msgid "Direction"
 msgstr "Смер"
 
-#: src/badguy/badguy.cpp:1380
+#: src/badguy/badguy.cpp:1386
 msgid ""
 "The direction the badguy is facing at the start of the level. AUTO makes the"
 " badguy face towards the player when activated."
 msgstr "Смер у којем лош момак гледа на почетку нивоа. AUTO чини да лош момак, када се активира, окрене лице ка играчу."
 
-#: src/badguy/badguy.cpp:1381
+#: src/badguy/badguy.cpp:1387
 msgid "Death script"
 msgstr "Скрипта смрти"
 
-#: src/badguy/badguy.cpp:1382
+#: src/badguy/badguy.cpp:1388
 msgid "Script that is executed when the badguy dies."
 msgstr "Скрипта која се извршава када зликовац умре."
 
-#: src/badguy/badguy.cpp:1385
+#: src/badguy/badguy.cpp:1391
 msgid "Glinting"
 msgstr "Сјај"
 

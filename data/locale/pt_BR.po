@@ -15,6 +15,7 @@
 # Jesusaves <jesusalva@themanaworld.org>, 2021,2024
 # Joel Gil Leon <joel@gil.com>, 2013
 # Jesusaves <jesusalva@themanaworld.org>, 2014-2015
+# rodrigocasagrande, 2026
 # Rui <xymarior@yandex.com>, 2016,2018
 # Thiago Feldhaus <thiagofcf@gmail.com>, 2019
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
@@ -22,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-09-11 22:47+0000\n"
+"POT-Creation-Date: 2026-09-20 00:29+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021,2023-2026\n"
+"Last-Translator: rodrigocasagrande, 2026\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -406,7 +407,7 @@ msgstr "Complemento {} de {} instalado com sucesso."
 msgid "Angry Stone"
 msgstr "Pedra Irritada"
 
-#: src/badguy/badguy.cpp:1379 src/badguy/crusher.cpp:1248
+#: src/badguy/badguy.cpp:1385 src/badguy/crusher.cpp:1248
 #: src/object/bigsnowball.cpp:80 src/object/bumper.cpp:59
 #: src/object/conveyor_belt.cpp:62 src/object/gradient.cpp:101
 #: src/object/ispy.cpp:56 src/object/pushbutton.cpp:65
@@ -415,21 +416,21 @@ msgstr "Pedra Irritada"
 msgid "Direction"
 msgstr "Direção"
 
-#: src/badguy/badguy.cpp:1380
+#: src/badguy/badguy.cpp:1386
 msgid ""
 "The direction the badguy is facing at the start of the level. AUTO makes the"
 " badguy face towards the player when activated."
 msgstr "A direção para a qual o inimigo está virado no início do nível. AUTO faz com que o inimigo fique virado para o jogador quando ativado."
 
-#: src/badguy/badguy.cpp:1381
+#: src/badguy/badguy.cpp:1387
 msgid "Death script"
 msgstr "Script da Morte"
 
-#: src/badguy/badguy.cpp:1382
+#: src/badguy/badguy.cpp:1388
 msgid "Script that is executed when the badguy dies."
 msgstr "Script que é executado quando o inimigo morre."
 
-#: src/badguy/badguy.cpp:1385
+#: src/badguy/badguy.cpp:1391
 msgid "Glinting"
 msgstr "Brilhando"
 
@@ -4547,7 +4548,7 @@ msgstr "Configuração Manual"
 #: src/supertux/menu/joystick_menu.cpp:59
 msgid ""
 "Use manual configuration instead of SDL3's automatic GameController support"
-msgstr ""
+msgstr "Usar configuração manual invés do suporte automático de GameController do SDL3"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 #: src/supertux/menu/keyboard_menu.cpp:79
@@ -5008,13 +5009,13 @@ msgstr "Atualmente, este recurso só é usado no menu de opções de multijogado
 
 #: src/supertux/menu/options_menu.cpp:186
 msgid "Show Touch Controls"
-msgstr ""
+msgstr "Mostrar controles de toque"
 
 #: src/supertux/menu/options_menu.cpp:187
 msgid ""
 "If disabled, touch controls will still work, but the buttons will remain "
 "hidden."
-msgstr ""
+msgstr "Se desativado, os controles de toque ainda funcionarão, mas os botões ficarão escondidos."
 
 #: src/supertux/menu/options_menu.cpp:189
 msgid "Enable Haptic Feedback"
@@ -5205,11 +5206,11 @@ msgstr "O suporte de rede está desativado."
 
 #: src/supertux/menu/options_menu.cpp:285
 msgid "Open user directory"
-msgstr ""
+msgstr "Abrir diretório de usuário"
 
 #: src/supertux/menu/options_menu.cpp:286
 msgid "Open the user directory containing the SuperTux configuration"
-msgstr ""
+msgstr "Abrir diretório de usuário contendo as configurações do SuperTux."
 
 #: src/supertux/menu/options_menu.cpp:352
 msgid "Magnification"
@@ -5272,19 +5273,19 @@ msgstr "Definir o modo VSync"
 
 #: src/supertux/menu/options_menu.cpp:524
 msgid "reduced"
-msgstr ""
+msgstr "reduzido"
 
 #: src/supertux/menu/options_menu.cpp:525
 msgid "full"
-msgstr ""
+msgstr "completo"
 
 #: src/supertux/menu/options_menu.cpp:539
 msgid "Screen shake"
-msgstr ""
+msgstr "Agito de tela"
 
 #: src/supertux/menu/options_menu.cpp:540
 msgid "Adjust amount of screen shake effects"
-msgstr ""
+msgstr "Ajusta quantidade de efeitos de agito de tela"
 
 #: src/supertux/menu/options_menu.cpp:575
 msgid "Sound Volume"
@@ -5409,7 +5410,7 @@ msgstr "Excluir tudo"
 
 #: src/supertux/menu/profile_menu.cpp:118
 msgid "Open Profile Directory"
-msgstr ""
+msgstr "Abrir diretório de perfil"
 
 #: src/supertux/menu/profile_menu.cpp:154
 msgid ""

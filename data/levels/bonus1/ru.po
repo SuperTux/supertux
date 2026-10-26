@@ -171,7 +171,7 @@ msgstr "Переместиться в область Thompson'а"
 
 #: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
-msgstr "Выйти из острова команды SuperTux'а"
+msgstr "Покинуть остров команды СуперТакса"
 
 #: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
