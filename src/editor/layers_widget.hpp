@@ -92,6 +92,8 @@ public:
     m_selected_layer = layer; 
   }
 
+  EditorTilebox *get_tilebox() const { return m_add_layer_box.get(); }
+
   /**
    * Returns the previous (in terms of list order) layer or nullptr if layer is at the top 
    */
@@ -106,6 +108,10 @@ public:
   void move_selected_layer_down();
   void delete_selected_layer();
 
+  const MenuListWidget* get_menu_list_widget() const
+  {
+    return m_layer_list_widget.get();
+  }
   /**
    * Populates the layers menu with all the relevant layers
    */
