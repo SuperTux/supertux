@@ -481,6 +481,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 void
 Background::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
   if (Editor::is_active())
   {
     auto editor_layer_alpha = get_editor_layer_alpha();
@@ -513,6 +514,7 @@ Background::draw(DrawingContext& context)
   draw_image(context, pos + m_scroll_offset + Vector(center_offset.x * (1.0f - m_parallax_speed.x),
                                                      center_offset.y * (1.0f - m_parallax_speed.y)));
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 void
