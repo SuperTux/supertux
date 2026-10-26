@@ -23,17 +23,9 @@
 MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
   MenuListBaseItem(),
   m_parent(parent),
-  m_buttons()
+  m_buttons(),
+  m_initialized()
 {
-  add_delete_button();
-  add_move_up_button();
-  add_move_down_button();
-
-  for (const auto& button : m_buttons)
-  {
-    button->set_flat(true);
-    button->set_layer(LAYER_GUI + 1);
-  }
 }
 
 void
@@ -82,15 +74,41 @@ MenuListLayerActionsItem::add_move_down_button()
 }
 
 void
+MenuListLayerActionsItem::add_layer_add_button()
+{
+  auto add_button = std::make_unique<EditorToolbarButtonWidget>(
+      "images/engine/editor/add.png", get_rect().p2() - Vector(25, 25),
+      [] {}, Sizef(25, 25));
+  m_buttons.push_back(std::move(add_button));
+}
+
+void
+MenuListLayerActionsItem::initialize()
+{
+  add_delete_button();
+  add_move_up_button();
+  add_move_down_button();
+  add_layer_add_button();
+
+  for (const auto& button : m_buttons)
+  {
+    button->set_flat(true);
+    button->set_layer(LAYER_GUI + 1);
+  }
+}
+
+void
 MenuListLayerActionsItem::update(float dt_sec)
 {
-  auto position = get_rect().p1();
+  if (!m_initialized)
+  {
+    initialize();
+    m_initialized = true;
+  }
+
   for (const auto &button : m_buttons)
   {
     button->update(dt_sec);
-    button->set_position(position);
-
-    position += Vector(25, 0);
   }
 }
 
