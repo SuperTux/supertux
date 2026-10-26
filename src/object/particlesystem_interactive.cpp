@@ -52,6 +52,7 @@ ParticleSystem_Interactive::~ParticleSystem_Interactive()
 void
 ParticleSystem_Interactive::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
   if (Editor::is_active())
   {
     auto editor_layer_alpha = get_editor_layer_alpha();
@@ -91,6 +92,7 @@ ParticleSystem_Interactive::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 int

@@ -261,6 +261,7 @@ Gradient::swap_colors()
 void
 Gradient::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
   if (Editor::is_active())
   {
     auto editor_layer_alpha = get_editor_layer_alpha();
@@ -289,6 +290,7 @@ Gradient::draw(DrawingContext& context)
   context.get_canvas(m_target).draw_gradient(m_gradient_top, m_gradient_bottom, m_layer, m_gradient_direction,
                                              gradient_region, m_blend);
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 bool
