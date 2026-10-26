@@ -525,20 +525,18 @@ EditorLayersWidget::setup()
 void
 EditorLayersWidget::refresh()
 {
+  m_editor_layers.clear();
+
   auto editor_project = m_editor.get_project();
   auto sector = editor_project->get_sector();
 
   if (sector == nullptr)
     return;
 
-  m_editor_layers.clear();
-
   for (const auto& obj : sector->get_objects())
     add_layer(obj.get(), /* sort_layers_after_adding = */ false);
 
-  sort_layers();
-
-  populate_layers_list_widget();
+  perform_post_layer_add_actions();
 
   refresh_sector_text();
 }
@@ -620,7 +618,7 @@ EditorLayersWidget::sort_layers()
 }
 
 void
-EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
+EditorLayersWidget::add_layer(GameObject* object, bool execute_post_layer_add_actions)
 {
   if (!object->has_settings())
     return;
@@ -632,12 +630,19 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
   auto editor_layer = std::make_unique<EditorLayer>(layer);
   m_editor_layers.push_back(std::move(editor_layer));
 
-  if (sort_layers_after_adding)
+  if (execute_post_layer_add_actions)
   {
-    sort_layers();
+    perform_post_layer_add_actions();
   }
 
   recalculate_positions();
+}
+
+void
+EditorLayersWidget::perform_post_layer_add_actions()
+{
+  sort_layers();
+  populate_layers_list_widget();
 }
 
 EditorLayer*
