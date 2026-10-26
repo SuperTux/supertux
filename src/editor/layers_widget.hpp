@@ -72,12 +72,14 @@ public:
   void refresh_layers();
   void sort_layers();
 
+  void perform_post_layer_add_actions();
+
   /**
    * Adds a new layer to the layers widget.
    * @param GameObject* layer GameObject to add to layers
-   * @param sort_layers_after_adding If true, the layer list will be sorted after each addition
+   * @param execute_post_layer_add_actions If true, post layer add (sorting, populating layer list) actions are performed
    */
-  void add_layer(GameObject* layer, bool sort_layers_after_adding = true);
+  void add_layer(GameObject* layer, bool execute_post_layer_add_actions = true);
 
   EditorLayer *get_selected_layer() const { return m_selected_layer; }
   void set_selected_layer(EditorLayer *layer)
