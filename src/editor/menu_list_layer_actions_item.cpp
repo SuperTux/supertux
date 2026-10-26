@@ -17,6 +17,7 @@
 #include "editor/menu_list_layer_actions_item.hpp"
 
 #include "editor/layers_widget.hpp"
+#include "editor/menu_list_item.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
 
@@ -24,7 +25,8 @@ MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
   MenuListBaseItem(),
   m_parent(parent),
   m_buttons(),
-  m_initialized()
+  m_initialized(),
+  m_add_layer_menu(std::make_unique<MenuListWidget>())
 {
 }
 
@@ -79,6 +81,27 @@ MenuListLayerActionsItem::add_layer_add_button()
   auto add_button = std::make_unique<EditorToolbarButtonWidget>(
       "images/engine/editor/add.png", get_rect().p2() - Vector(25, 25),
       [] {}, Sizef(25, 25));
+
+  add_button->set_onclick_handler([this] { m_add_layer_menu_visible = true; });
+
+  auto layer_objects = m_parent->get_tilebox()->get_layers_object_group();
+
+  for (const auto &layer_type : layer_objects->get_icons())
+  {
+    auto surface_path = layer_type.get_surface()->get_filename();
+    auto label = layer_type.get_object_class_name();
+    auto surface_rect = Rectf(get_rect().p1(), Vector(25, 25));
+
+    auto item = std::make_unique<MenuListItem>(label, [] {}, surface_path, surface_rect);
+
+    m_add_layer_menu->add_item(std::move(item));
+  }
+
+  auto menu_list_widget = m_parent->get_menu_list_widget();
+  auto menu_position = menu_list_widget->get_area().p2();
+
+  m_add_layer_menu->recalculate_item_position_and_size(menu_position, true);
+
   m_buttons.push_back(std::move(add_button));
 }
 
@@ -106,6 +129,11 @@ MenuListLayerActionsItem::update(float dt_sec)
     m_initialized = true;
   }
 
+  if (m_add_layer_menu_visible)
+  {
+    m_add_layer_menu->update(dt_sec);
+  }
+
   for (const auto &button : m_buttons)
   {
     button->update(dt_sec);
@@ -116,6 +144,12 @@ bool
 MenuListLayerActionsItem::on_mouse_button_up(const SDL_MouseButtonEvent &button)
 {
   bool handled = false;
+
+  if (m_add_layer_menu_visible)
+  {
+    handled |= m_add_layer_menu->on_mouse_button_up(button);
+  }
+
   for (const auto &action_button : m_buttons)
   {
     handled |= action_button->on_mouse_button_up(button);
@@ -127,6 +161,12 @@ bool
 MenuListLayerActionsItem::on_mouse_button_down(const SDL_MouseButtonEvent &button)
 {
   bool handled = false;
+  
+  if (m_add_layer_menu_visible)
+  {
+    handled |= m_add_layer_menu->on_mouse_button_down(button);
+  }
+
   for (const auto &action_button : m_buttons)
   {
     handled |= action_button->on_mouse_button_down(button);
@@ -138,6 +178,12 @@ bool
 MenuListLayerActionsItem::on_mouse_motion(const SDL_MouseMotionEvent &motion)
 {
   bool handled = false;
+
+  if (m_add_layer_menu_visible)
+  {
+    handled |= m_add_layer_menu->on_mouse_motion(motion);
+  }
+
   for (const auto &button : m_buttons)
   {
     handled |= button->on_mouse_motion(motion);
@@ -149,6 +195,11 @@ void
 MenuListLayerActionsItem::draw(DrawingContext& context)
 {
   context.color().draw_filled_rect(m_rect, Color::BLACK, LAYER_GUI + 1);
+
+  if (m_add_layer_menu_visible)
+  {
+    m_add_layer_menu->draw(context);
+  }
 
   for (const auto &button : m_buttons)
   {
