@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the SuperTux package.
-# 
+#
 # Translators:
 # afba88cf42cbdff57149d4a6d53a94f9, 2018
 # Wuzzy <Wuzzy@disroot.org>, 2015-2016
@@ -25,19 +25,22 @@
 # Tobias Markus <tobbi@supertuxproject.org>, 2018-2021,2024-2026
 # Wuzzy <Wuzzy@disroot.org>, 2016
 # Yepoleb <huberg18@gmail.com>, 2013
+# Tobias Markus <tobbi@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2026-09-20 00:29+0000\n"
-"PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2021,2024-2026\n"
-"Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
+"PO-Revision-Date: 2026-10-26 18:16+0000\n"
+"Last-Translator: Tobias Markus <tobbi@users.noreply.hosted.weblate.org>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/supertux/supertux/"
+"de/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: data/credits.stxt:11
 msgid "The SuperTux Team"
@@ -5693,7 +5696,7 @@ msgstr "Ankerversatz Y"
 
 #: src/trigger/text_area.cpp:149
 msgid "Texts"
-msgstr "Texts"
+msgstr "Texte"
 
 #: src/trigger/text_area.hpp:46
 msgid "Text Area"
