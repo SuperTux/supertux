@@ -768,6 +768,8 @@ EditorLayersWidget::save_layer_visibilities()
   auto& editor_layers = get_editor_layers();
   for(const auto& layer : editor_layers)
   {
+    if (!layer->is_valid())
+      continue;
     m_layer_visibilities[layer.get()] = layer->get_layer_visibility();
   }
 }
@@ -777,6 +779,8 @@ EditorLayersWidget::restore_layer_visibilities()
 {
   for(const auto& layer_visibility : m_layer_visibilities)
   {
+    if (!layer_visibility.first->is_valid())
+      continue;
     layer_visibility.first->set_layer_visibility(layer_visibility.second);
   }
   
