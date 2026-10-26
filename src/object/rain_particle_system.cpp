@@ -287,6 +287,7 @@ void RainParticleSystem::fade_angle(float new_angle, float fade_time, easing eas
 
 void RainParticleSystem::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
   if (Editor::is_active())
   {
     auto editor_layer_alpha = get_editor_layer_alpha();
@@ -313,8 +314,8 @@ void RainParticleSystem::draw(DrawingContext& context)
                                    Color(0.3f, 0.38f, 0.4f, opacity),
                                    m_layer);
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
-
 
 void
 RainParticleSystem::register_class(ssq::VM& vm)

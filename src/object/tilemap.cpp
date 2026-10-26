@@ -544,6 +544,7 @@ TileMap::on_flip(float height)
 void
 TileMap::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
   // skip draw if current opacity is 0.0
   if (m_current_alpha == 0.0f ||
       Editor::is_active() && get_editor_layer_alpha() == 0.0f)
@@ -632,6 +633,7 @@ TileMap::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 void

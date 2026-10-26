@@ -852,6 +852,7 @@ CustomParticleSystem::update(float dt_sec)
 void
 CustomParticleSystem::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
   if (Editor::is_active())
   {
     auto editor_layer_alpha = get_editor_layer_alpha();
@@ -917,6 +918,7 @@ CustomParticleSystem::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 // Duplicated from ParticleSystem_Interactive because I intend to bring edits

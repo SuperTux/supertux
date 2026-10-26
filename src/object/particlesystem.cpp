@@ -77,6 +77,7 @@ ParticleSystem::~ParticleSystem()
 void
 ParticleSystem::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
   if (Editor::is_active())
   {
     auto editor_layer_alpha = get_editor_layer_alpha();
@@ -130,6 +131,7 @@ ParticleSystem::draw(DrawingContext& context)
     } else {
       it->second.draw(pos, particle->angle);
     }
+    context.set_alpha(previous_alpha);
   }
 
   for(auto& it : batches) {
