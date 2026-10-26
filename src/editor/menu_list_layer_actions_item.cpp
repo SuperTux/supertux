@@ -44,12 +44,7 @@ MenuListLayerActionsItem::add_delete_button()
       [] {}, Sizef(25, 25));
   auto delete_current_layer = [this]
   {
-    auto selected_tilemap = m_parent->get_selected_tilemap();
-    if (selected_tilemap == nullptr)
-    {
-      return;
-    }
-    log_warning << "Delete layer" << std::endl;
+    m_parent->delete_selected_layer();
   };
   delete_button->set_onclick_handler(delete_current_layer);
   delete_button->set_help_text(_("Delete layer"));

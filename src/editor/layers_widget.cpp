@@ -640,7 +640,7 @@ EditorLayersWidget::add_layer(GameObject* object, bool sort_layers_after_adding)
   recalculate_positions();
 }
 
-const EditorLayer* const
+EditorLayer*
 EditorLayersWidget::get_previous_layer(const EditorLayer* layer) const
 {
   auto layers_equal = [layer](const std::unique_ptr<EditorLayer>& editor_layer)
@@ -663,7 +663,7 @@ EditorLayersWidget::get_previous_layer(const EditorLayer* layer) const
   return is_valid ? prev_layer : nullptr;
 }
 
-const EditorLayer* const
+EditorLayer*
 EditorLayersWidget::get_next_layer(const EditorLayer* layer) const
 {
   auto layers_equal = [layer](const std::unique_ptr<EditorLayer>& editor_layer)
@@ -726,6 +726,33 @@ EditorLayersWidget::move_selected_layer_down()
   layer_tilemap->save_state();
   layer_tilemap->set_layer(next_layer->get_zpos() + 1);
   sort_layers();
+
+  m_queue_layer_list_widget_refresh = true;
+}
+
+void
+EditorLayersWidget::delete_selected_layer()
+{
+  auto layer = get_selected_layer();
+  if (layer == nullptr)
+    return;
+
+  auto layer_tilemap = dynamic_cast<TileMap *>(layer->get_game_object());
+  if (layer_tilemap == nullptr)
+    return;
+  
+  auto next_selected_layer = get_previous_layer(layer);
+  if (next_selected_layer == nullptr) // no previous layer found, try next
+    next_selected_layer = get_next_layer(layer);
+
+  if (next_selected_layer == nullptr) // layer is the only layer. Keep it
+    return;
+
+  layer->get_game_object()->save_state();
+  set_selected_layer(next_selected_layer);
+
+  layer->get_game_object()->remove_me();
+  remove_invalid_layers();
 
   m_queue_layer_list_widget_refresh = true;
 }
