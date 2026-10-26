@@ -50,5 +50,7 @@ public:
 private:
   EditorLayersWidget *m_parent;
   std::vector<std::unique_ptr<EditorToolbarButtonWidget>> m_buttons;
+  std::unique_ptr<MenuListWidget> m_add_layer_menu;
   bool m_initialized;
+  bool m_add_layer_menu_visible;
 };
