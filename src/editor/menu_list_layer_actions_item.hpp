@@ -31,9 +31,11 @@ public:
     MenuListLayerActionsItem(EditorLayersWidget* parent);
 
 private:
+  void initialize();
   void add_delete_button();
   void add_move_up_button();
   void add_move_down_button();
+  void add_layer_add_button();
 
 public:
   virtual void update(float /* dt_sec */) override;
@@ -48,4 +50,5 @@ public:
 private:
   EditorLayersWidget *m_parent;
   std::vector<std::unique_ptr<EditorToolbarButtonWidget>> m_buttons;
+  bool m_initialized;
 };
