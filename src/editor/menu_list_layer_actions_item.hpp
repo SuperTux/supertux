@@ -47,6 +47,12 @@ public:
 
   virtual bool is_user_removable() const override { return false; }
 
+  bool add_layer_menu_has_mouse_focus(const Vector& mouse_pos)
+  {
+    return m_add_layer_menu_visible &&
+           m_add_layer_menu->get_area().contains(mouse_pos);
+  }
+
 private:
   EditorLayersWidget *m_parent;
   std::vector<std::unique_ptr<EditorToolbarButtonWidget>> m_buttons;
