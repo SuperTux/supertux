@@ -93,15 +93,16 @@ public:
   /**
    * Returns the previous (in terms of list order) layer or nullptr if layer is at the top 
    */
-  const EditorLayer* const get_previous_layer(const EditorLayer* layer) const;
+  EditorLayer* get_previous_layer(const EditorLayer* layer) const;
 
   /**
    * Returns the next (in terms of list order) layer or nullptr if layer is at the bottom
    */
-  const EditorLayer* const get_next_layer(const EditorLayer* layer) const;
+  EditorLayer* get_next_layer(const EditorLayer* layer) const;
 
   void move_selected_layer_up();
   void move_selected_layer_down();
+  void delete_selected_layer();
 
   /**
    * Populates the layers menu with all the relevant layers
