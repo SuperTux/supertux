@@ -344,9 +344,9 @@ Editor::open_particle_editor()
   ScreenManager::current()->push_screen(std::move(screen));
 
   auto particle_system_path = m_project->get_particle_editor_filepath();
-  if (particle_system_path != nullptr)
+  if (!particle_system_path.empty())
   {
-    ParticleEditor::current()->open(*particle_system_path);
+    ParticleEditor::current()->open(particle_system_path);
   }
 }
 

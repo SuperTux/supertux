@@ -261,13 +261,13 @@ public:
    */
   void set_particle_editor_filename(std::string* particle_editor_filename)
   {
-    if (particle_editor_filename == nullptr)
+    if (particle_editor_filename == nullptr || particle_editor_filename->empty())
     {
-      m_particle_editor_filepath = nullptr;
+      m_particle_editor_filepath = "";
       return;
     }
     
-    *m_particle_editor_filepath = FileSystem::join("particles", *particle_editor_filename);
+    m_particle_editor_filepath = FileSystem::join("particles", *particle_editor_filename);
   }
 
   /**
@@ -276,10 +276,10 @@ public:
    */
   const std::string get_particle_editor_filename() const
   {
-    if (m_particle_editor_filepath == nullptr)
+    if (m_particle_editor_filepath.empty())
       return "";
     
-    return FileSystem::basename(*m_particle_editor_filepath);
+    return FileSystem::basename(m_particle_editor_filepath);
   }
 
   /**
@@ -288,7 +288,7 @@ public:
    * @return full filepath to particle system, or nullptr in case filename
    *         is not set.
    */
-  const std::string* get_particle_editor_filepath() const
+  const std::string& get_particle_editor_filepath() const
   {
     return m_particle_editor_filepath;
   }
@@ -408,5 +408,5 @@ private:
   std::vector<std::function<void()>> m_on_sector_set_callbacks;
   std::vector<std::function<void()>> m_on_tileset_reloaded_callbacks;
 
-  std::string* m_particle_editor_filepath;
+  std::string m_particle_editor_filepath;
 };
