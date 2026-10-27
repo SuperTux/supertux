@@ -90,6 +90,7 @@ public:
 public:
   SurfacePtr get_state_icon() const;
   void hide_textbox() { m_show_layer_name_textbox = false; }
+  bool is_editing_layer_name() { return m_show_layer_name_textbox; }
 
 private:
   void draw_visibility_icon(DrawingContext& context);
