@@ -263,7 +263,17 @@ EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_button_up(button))
   {
-    if (m_queue_layer_list_widget_refresh)
+    auto& layer_items = m_layer_list_widget->get_menu_items();
+    auto layer_name_editing_predicate = [](const std::unique_ptr<MenuListBaseItem> &item)
+    {
+      auto layer_item = dynamic_cast<LayersListItem *>(item.get());
+      return layer_item && layer_item->is_editing_layer_name();
+    };
+
+    auto is_editing_layer_name = std::any_of(layer_items.begin(), layer_items.end(), 
+                                  layer_name_editing_predicate);
+
+    if (m_queue_layer_list_widget_refresh && !is_editing_layer_name)
     {
       populate_layers_list_widget();
 
