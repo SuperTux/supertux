@@ -54,7 +54,7 @@ EditorProject::EditorProject() :
   m_on_level_set_callbacks(),
   m_on_sector_set_callbacks(),
   m_on_tileset_reloaded_callbacks(),
-  m_particle_editor_filepath(nullptr)
+  m_particle_editor_filepath()
 {
 }
 
