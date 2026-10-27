@@ -47,6 +47,7 @@
 #include <fmt/format.h>
 
 EditorLayersWidget::EditorLayersWidget(Editor& editor) :
+  Widget(),
   m_editor(editor),
   m_editor_layers(),
   m_layer_visibilities(),
@@ -720,7 +721,7 @@ EditorLayersWidget::move_selected_layer_up()
   layer_tilemap->set_layer(previous_layer->get_zpos() - 1);
   sort_layers();
 
-  m_queue_layer_list_widget_refresh = true;
+  queue_layer_list_refresh();
 }
 
 void
@@ -742,7 +743,7 @@ EditorLayersWidget::move_selected_layer_down()
   layer_tilemap->set_layer(next_layer->get_zpos() + 1);
   sort_layers();
 
-  m_queue_layer_list_widget_refresh = true;
+  queue_layer_list_refresh();
 }
 
 void
@@ -767,9 +768,6 @@ EditorLayersWidget::delete_selected_layer()
   set_selected_layer(next_selected_layer);
 
   layer->get_game_object()->remove_me();
-  remove_invalid_layers();
-
-  m_queue_layer_list_widget_refresh = true;
 }
 
 void
@@ -830,6 +828,8 @@ EditorLayersWidget::remove_invalid_layers()
   m_editor_layers.erase(std::remove_if(
       m_editor_layers.begin(), m_editor_layers.end(),
       remove_predicate), m_editor_layers.end());
+  
+  queue_layer_list_refresh();
 }
 
 TileMap*
