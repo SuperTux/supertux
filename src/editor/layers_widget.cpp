@@ -621,7 +621,7 @@ EditorLayersWidget::refresh_layers()
 void
 EditorLayersWidget::sort_layers()
 {
-  auto layers_comparator = [](const auto &lhs, const auto &rhs)
+  auto layers_comparator = [](const std::unique_ptr<EditorLayer> &lhs, const std::unique_ptr<EditorLayer> &rhs)
   {
     return lhs->get_zpos() < rhs->get_zpos();
   };
