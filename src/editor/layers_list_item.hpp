@@ -69,7 +69,8 @@ public:
       }
     }
 
-    if (m_layer && m_layer->is_valid())
+    if (m_layer &&
+        m_layer->is_valid() && m_layer->get_zpos() > INT_MIN)
     {
       // TODO: Checking this every tick is overkill!!!
       // GameObject probably requires a refactor to
