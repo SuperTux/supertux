@@ -104,6 +104,14 @@ public:
    */
   EditorLayer* get_next_layer(const EditorLayer* layer) const;
 
+  /**
+   * Queues a refresh of the layers widget
+   */
+  inline void queue_layer_list_refresh()
+  {
+    m_queue_layer_list_widget_refresh = true;
+  }
+
   void move_selected_layer_up();
   void move_selected_layer_down();
   void delete_selected_layer();
@@ -140,6 +148,7 @@ public:
 
   TileMap* get_selected_tilemap() const;
   void set_selected_tilemap(TileMap* tilemap);
+  void remove_invalid_layers();
 
 private:
   Vector get_layer_coords(const int idx) const;
@@ -147,7 +156,6 @@ private:
   void recalculate_positions();
 
   void update_tip();
-  void remove_invalid_layers();
 
 private:
   Editor& m_editor;
