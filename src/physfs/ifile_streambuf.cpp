@@ -39,6 +39,9 @@ IFileStreambuf::IFileStreambuf(const std::string& filename) :
         << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
+#ifdef __vita__
+  PHYSFS_setBuffer(file, 64 * 1024);
+#endif
 }
 
 IFileStreambuf::~IFileStreambuf()

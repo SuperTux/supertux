@@ -197,15 +197,15 @@ TitleScreen::draw(Compositor& compositor)
   m_logo_opacity = math::clamp<float>(m_logo_opacity, 0.0, 1.0);
 
   context.set_alpha(m_logo_opacity);
+  const float logo_y = std::max(8.f, context.get_height() / 2 - static_cast<float>(m_logo->get_height()) / 2 - 200.f);
   context.color().draw_surface(m_logo,
-                               Vector(context.get_width() / 2 - static_cast<float>(m_logo->get_width()) / 2,
-                                      context.get_height() / 2 - static_cast<float>(m_logo->get_height()) / 2 - 200.f),
+                               Vector(context.get_width() / 2 - static_cast<float>(m_logo->get_width()) / 2, logo_y),
                                LAYER_GUI + 1);
   if (m_christmas)
   {
     context.color().draw_surface(m_santahat,
                                  Vector(context.get_width() / 2 - static_cast<float>(m_santahat->get_width()) / 2 + 35.f,
-                                        context.get_height() / 2 - static_cast<float>(m_santahat->get_height()) / 2 - 255.f),
+                                        logo_y + static_cast<float>(m_logo->get_height()) / 2 - static_cast<float>(m_santahat->get_height()) / 2 - 55.f),
                                  LAYER_GUI + 2);
   }
   context.set_alpha(1.0);

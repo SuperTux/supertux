@@ -484,6 +484,9 @@ Sector::draw(DrawingContext& context)
   std::pair<Vector, float> transform = camera.get_predicted_transform(context.get_time_offset());
   context.set_translation(transform.first);
   context.scale(transform.second);
+#ifdef __vita__
+  context.set_translation(glm::floor(context.get_translation() + Vector(0.5f, 0.5f)));
+#endif
 
   GameObjectManager::draw(context);
 

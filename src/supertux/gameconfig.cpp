@@ -51,7 +51,7 @@ Config::Config() :
   fit_window(true),
 #endif
   magnification(0.0f),
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(__vita__)
   use_fullscreen(true),
 #else
   use_fullscreen(false),
@@ -91,7 +91,7 @@ Config::Config() :
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(__vita__)
   custom_mouse_cursor(false),
 #else
   custom_mouse_cursor(true),

@@ -23,8 +23,15 @@ class SoundFile;
 class StreamSoundSource final : public OpenALSoundSource
 {
 private:
+#ifdef __vita__
+  static const size_t STREAMBUFFERSIZE = 1024 * 512;
+  static const size_t STREAMFRAGMENTS = 64;
+  static const size_t STREAMFRAGMENTS_INITIAL = 8;
+#else
   static const size_t STREAMBUFFERSIZE = 1024 * 500;
   static const size_t STREAMFRAGMENTS = 5;
+  static const size_t STREAMFRAGMENTS_INITIAL = STREAMFRAGMENTS;
+#endif
   static const size_t STREAMFRAGMENTSIZE = STREAMBUFFERSIZE / STREAMFRAGMENTS;
 
 public:
@@ -50,6 +57,8 @@ private:
 private:
   std::unique_ptr<SoundFile> m_file;
   ALuint m_buffers[STREAMFRAGMENTS];
+  size_t m_buffers_filled;
+  size_t m_buffers_target;
 
   FadeState m_fade_state;
   float m_fade_start_time;
