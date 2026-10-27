@@ -27,7 +27,8 @@ MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
   m_parent(parent),
   m_buttons(),
   m_initialized(),
-  m_add_layer_menu(std::make_unique<MenuListWidget>())
+  m_add_layer_menu(std::make_unique<MenuListWidget>()),
+  m_add_layer_menu_visible()
 {
 }
 
@@ -173,6 +174,11 @@ MenuListLayerActionsItem::on_mouse_button_down(const SDL_MouseButtonEvent &butto
   if (m_add_layer_menu_visible)
   {
     handled |= m_add_layer_menu->on_mouse_button_down(button);
+
+    if (handled)
+    {
+      m_add_layer_menu_visible = false;
+    }
   }
 
   for (const auto &action_button : m_buttons)
