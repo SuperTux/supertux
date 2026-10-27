@@ -45,6 +45,8 @@ public:
   {
   }
 
+  virtual void remove_me() override;
+
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(LayerObject)); }
 
   virtual const std::string get_icon_path() const = 0;
