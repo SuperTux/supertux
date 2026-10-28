@@ -109,8 +109,8 @@ MenuListLayerActionsItem::add_layer_add_button()
     m_add_layer_menu->add_item(std::move(item));
   }
 
-  auto menu_list_widget = m_parent->get_menu_list_widget();
-  auto menu_position = menu_list_widget->get_area().p2();
+  auto layer_list_widget = m_parent->get_layer_list_widget();
+  auto menu_position = layer_list_widget->get_area().p2();
 
   m_add_layer_menu->recalculate_item_position_and_size(menu_position, true);
 
@@ -129,6 +129,21 @@ MenuListLayerActionsItem::initialize()
   {
     button->set_flat(true);
     button->set_layer(LAYER_GUI + 1);
+  }
+}
+
+void
+MenuListLayerActionsItem::set_disabled(bool disabled)
+{
+  for (const auto& button : m_buttons)
+  {
+    button->set_disabled(disabled);
+  }
+
+  if (m_buttons.size())
+  {
+    // Keep the add layer button enabled
+    m_buttons.back()->set_disabled(false);
   }
 }
 
