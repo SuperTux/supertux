@@ -947,6 +947,8 @@ EditorOverlayWidget::process_left_click()
   auto layers_widget = m_editor.get_layers_widget();
   auto selected_tilemap = layers_widget->get_selected_tilemap();
 
+  m_editor.set_selected_object(nullptr);
+
   m_dragging = true;
   m_dragging_right = false;
   m_drag_start = m_sector_pos;
