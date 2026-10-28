@@ -29,7 +29,6 @@ LayerObject::remove_me()
   if (Editor::current()->is_active())
   {
     auto layers_widget = Editor::current()->get_layers_widget();
-    layers_widget->remove_invalid_layers();
-    layers_widget->populate_layers_list_widget();
+    layers_widget->on_layer_list_changed();
   }
 }
