@@ -681,23 +681,34 @@ EditorLayersWidget::add_layer(GameObject* object, bool execute_post_layer_add_ac
   recalculate_positions();
 }
 
-void
-EditorLayersWidget::set_selected_layer(GameObject* object)
+EditorLayer* 
+EditorLayersWidget::get_layer_for_game_object(GameObject* object) const
 {
-  auto is_layer_for_object = [object] (std::unique_ptr<EditorLayer> &editor_layer)
+  auto is_layer_for_object = [object] (const std::unique_ptr<EditorLayer> &editor_layer)
   {
     return editor_layer->get_game_object() == object;
   };
 
-  auto matching_layer = 
+  auto matching_layer =
     std::find_if(m_editor_layers.begin(), m_editor_layers.end(), is_layer_for_object);
 
   if (matching_layer == m_editor_layers.end())
   {
-    return;
+    return nullptr;
   }
 
-  set_selected_layer(matching_layer->get());
+  return matching_layer->get();
+}
+
+void
+EditorLayersWidget::set_selected_layer(GameObject* object)
+{
+  auto matching_layer = get_layer_for_game_object(object);
+  
+  if (matching_layer == nullptr)
+    return;
+
+  set_selected_layer(matching_layer);
 }
 
 void
