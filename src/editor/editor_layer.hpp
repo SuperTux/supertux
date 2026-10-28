@@ -18,6 +18,8 @@
 
 #include "editor/layer_object.hpp"
 #include "editor/object_icon.hpp"
+#include "object/background.hpp"
+#include "object/gradient.hpp"
 #include "object/tilemap.hpp"
 
 class LayerObject;
@@ -43,6 +45,21 @@ public:
    * Returns the underlying LayerObject instance of this EditorLayer
    */
   inline LayerObject* get_game_object() const { return m_layer_object; }
+
+  /**
+   * Returns true when the eye icon is supposed to be shown for this layer.
+   * TODO: This is also used to handle, which layers can be moved up or down.
+   * It might need a better name.
+   */
+  bool has_visibility_settings() const
+  {
+    const auto &class_name = get_game_object()->get_class_name();
+
+    return class_name == TileMap::class_name() ||
+           class_name == Gradient::class_name() ||
+           class_name == Background::class_name() ||
+           class_name.find("particles-") == 0;
+  }
 
   /**
    * Returns true if the underlying GameObject instance is a tilemap

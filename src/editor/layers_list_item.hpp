@@ -83,7 +83,6 @@ private:
 
   Rectf get_textbox_rect();
 
-  bool has_visibility_settings() const;
   void toggle_visibility();
 
 private:
