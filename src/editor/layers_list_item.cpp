@@ -133,7 +133,8 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
   auto textbox_rect = get_textbox_rect();
 
-  if (textbox_rect.contains(event_handling->get_mouse_pos()) && button.clicks == 2)
+  if (textbox_rect.contains(event_handling->get_mouse_pos()) && button.clicks == 2 &&
+      m_layer->is_user_modifiable())
   {
     m_show_layer_name_textbox = true;
     auto object = m_layer->get_game_object();
