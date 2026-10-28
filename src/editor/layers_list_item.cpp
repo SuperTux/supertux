@@ -49,7 +49,7 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
     auto eye_origin = get_rect().p1() + m_eye_offset;
     Rectf eye_rect = Rectf(eye_origin, eye_origin + Vector(get_size().height, get_size().height));
 
-    if (layer->has_visibility_settings())
+    if (layer->is_user_modifiable())
     {
       if (eye_rect.contains(mouse_pos))
       {
@@ -188,7 +188,7 @@ LayersListItem::draw(DrawingContext& context)
 void
 LayersListItem::draw_visibility_icon(DrawingContext& context)
 {
-  if (!m_layer->has_visibility_settings())
+  if (!m_layer->is_user_modifiable())
     return;
 
   auto origin = get_rect().p1() + m_eye_offset + Vector(5, 5);
