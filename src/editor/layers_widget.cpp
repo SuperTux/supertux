@@ -206,13 +206,13 @@ EditorLayersWidget::update(float dt_sec)
   if (m_layer_list_widget_visible)
   {
     m_layer_list_widget->update(dt_sec);
-  }
 
-  auto selected_tilemap = get_selected_tilemap();
-  if (!selected_tilemap)
-  {
-    // Ensure a tilemap is always selected
-    refresh_layers();
+    auto selected_layer = get_selected_layer();
+    if (!selected_layer)
+    {
+      // Ensure a layer is always selected
+      refresh_layers();
+    }
   }
 
   if(m_scroll_speed < 0 && m_scroll > 0)
@@ -614,8 +614,17 @@ EditorLayersWidget::refresh_layers()
   bool layer_selected = false;
   EditorLayer* first_selectable_layer = nullptr;
 
+  auto last_selected_layer = get_selected_layer();
+
   for (const auto& layer : m_editor_layers)
   {
+    // Restore last selected layer if possible
+    if (last_selected_layer && layer.get() == last_selected_layer)
+    {
+      set_selected_layer(layer.get());
+      return;
+    }
+
     if (!layer->is_tilemap())
       continue;
 
@@ -733,17 +742,13 @@ EditorLayersWidget::move_selected_layer_up()
   auto layer = get_selected_layer();
   if (layer == nullptr)
     return;
-
-  auto layer_tilemap = dynamic_cast<TileMap *>(layer->get_game_object());
-  if (layer_tilemap == nullptr)
-    return;
   
   auto previous_layer = get_previous_layer(layer);
   if (previous_layer == nullptr)
     return;
 
-  layer_tilemap->save_state();
-  layer_tilemap->set_layer(previous_layer->get_zpos() - 1);
+  layer->get_game_object()->save_state();
+  layer->get_game_object()->set_layer(previous_layer->get_zpos() - 1);
   sort_layers();
 
   queue_layer_list_refresh();
@@ -756,16 +761,12 @@ EditorLayersWidget::move_selected_layer_down()
   if (layer == nullptr)
     return;
 
-  auto layer_tilemap = dynamic_cast<TileMap *>(layer->get_game_object());
-  if (layer_tilemap == nullptr)
-    return;
-
   auto next_layer = get_next_layer(layer);
   if (next_layer == nullptr)
     return;
 
-  layer_tilemap->save_state();
-  layer_tilemap->set_layer(next_layer->get_zpos() + 1);
+  layer->get_game_object()->save_state();
+  layer->get_game_object()->set_layer(next_layer->get_zpos() + 1);
   sort_layers();
 
   queue_layer_list_refresh();
@@ -776,10 +777,6 @@ EditorLayersWidget::delete_selected_layer()
 {
   auto layer = get_selected_layer();
   if (layer == nullptr)
-    return;
-
-  auto layer_tilemap = dynamic_cast<TileMap *>(layer->get_game_object());
-  if (layer_tilemap == nullptr)
     return;
   
   auto next_selected_layer = get_previous_layer(layer);
