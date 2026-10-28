@@ -693,7 +693,7 @@ EditorLayersWidget::on_layer_list_changed()
 EditorLayer*
 EditorLayersWidget::get_previous_layer(const EditorLayer* layer) const
 {
-  auto layers_equal = [layer](const std::unique_ptr<EditorLayer>& editor_layer)
+  auto layers_equal = [layer](const std::unique_ptr<EditorLayer> &editor_layer)
   {
     return editor_layer.get() == layer;
   };
@@ -740,7 +740,7 @@ void
 EditorLayersWidget::move_selected_layer_up()
 {
   auto layer = get_selected_layer();
-  if (layer == nullptr)
+  if (layer == nullptr || !layer->has_visibility_settings())
     return;
   
   auto previous_layer = get_previous_layer(layer);
@@ -758,7 +758,7 @@ void
 EditorLayersWidget::move_selected_layer_down()
 {
   auto layer = get_selected_layer();
-  if (layer == nullptr)
+  if (layer == nullptr || !layer->has_visibility_settings())
     return;
 
   auto next_layer = get_next_layer(layer);
