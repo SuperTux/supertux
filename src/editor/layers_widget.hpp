@@ -149,6 +149,7 @@ public:
   TileMap* get_selected_tilemap() const;
   void set_selected_tilemap(TileMap* tilemap);
   void remove_invalid_layers();
+  void handle_layer_list_widget_refresh();
 
 private:
   Vector get_layer_coords(const int idx) const;
