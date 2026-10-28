@@ -203,8 +203,6 @@ EditorLayersWidget::draw(DrawingContext& context)
 void
 EditorLayersWidget::update(float dt_sec)
 {
-  remove_invalid_layers();
-
   if (m_layer_list_widget_visible)
   {
     m_layer_list_widget->update(dt_sec);
@@ -677,6 +675,7 @@ EditorLayersWidget::add_layer(GameObject* object, bool execute_post_layer_add_ac
 void
 EditorLayersWidget::on_layer_list_changed()
 {
+  remove_invalid_layers();
   sort_layers();
   populate_layers_list_widget();
   refresh_layers();
@@ -794,6 +793,7 @@ EditorLayersWidget::delete_selected_layer()
   set_selected_layer(next_selected_layer);
 
   layer->get_game_object()->remove_me();
+  on_layer_list_changed();
 }
 
 void
