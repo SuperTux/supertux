@@ -127,7 +127,7 @@ EditorTileConverter::focus_on_tile(Sector* sector, TileMap* tilemap, int pos)
   auto layers_widget = editor->get_layers_widget();
 
   editor_project->set_sector(sector);
-  layers_widget->set_selected_tilemap(tilemap);
+  layers_widget->set_selected_layer(tilemap);
 
   const int width = tilemap->get_width();
   auto screen_position = Vector(pos % width, pos / width) * 32.f;

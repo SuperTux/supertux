@@ -682,6 +682,25 @@ EditorLayersWidget::add_layer(GameObject* object, bool execute_post_layer_add_ac
 }
 
 void
+EditorLayersWidget::set_selected_layer(GameObject* object)
+{
+  auto is_layer_for_object = [object] (std::unique_ptr<EditorLayer> &editor_layer)
+  {
+    return editor_layer->get_game_object() == object;
+  };
+
+  auto matching_layer = 
+    std::find_if(m_editor_layers.begin(), m_editor_layers.end(), is_layer_for_object);
+
+  if (matching_layer == m_editor_layers.end())
+  {
+    return;
+  }
+
+  set_selected_layer(matching_layer->get());
+}
+
+void
 EditorLayersWidget::set_selected_layer(EditorLayer *layer)
 {
   if (layer->is_tilemap())
