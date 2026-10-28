@@ -28,7 +28,7 @@ class EditorLayersWidget;
 class MenuListLayerActionsItem: public MenuListBaseItem
 {
 public:
-    MenuListLayerActionsItem(EditorLayersWidget* parent);
+  MenuListLayerActionsItem(EditorLayersWidget* parent);
 
 private:
   void initialize();
@@ -46,6 +46,8 @@ public:
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent &motion) override;
 
   virtual bool is_user_removable() const override { return false; }
+
+  void set_disabled(bool disabled);
 
   bool add_layer_menu_has_mouse_focus(const Vector& mouse_pos)
   {

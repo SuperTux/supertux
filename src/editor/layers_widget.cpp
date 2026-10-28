@@ -682,6 +682,27 @@ EditorLayersWidget::add_layer(GameObject* object, bool execute_post_layer_add_ac
 }
 
 void
+EditorLayersWidget::set_selected_layer(EditorLayer *layer)
+{
+  if (layer->is_tilemap())
+  {
+    set_selected_tilemap(layer->get_tilemap());
+  }
+
+  m_selected_layer = layer;
+
+  if (layer)
+  {
+    auto& last_widget = m_layer_list_widget->get_menu_items().back();
+    auto actions_widget = dynamic_cast<MenuListLayerActionsItem*>(last_widget.get());
+    if (actions_widget)
+    {
+      actions_widget->set_disabled(!layer->is_user_modifiable());
+    }
+  }
+}
+
+void
 EditorLayersWidget::on_layer_list_changed()
 {
   remove_invalid_layers();

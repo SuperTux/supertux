@@ -82,15 +82,7 @@ public:
   void add_layer(GameObject* layer, bool execute_post_layer_add_actions = true);
 
   EditorLayer *get_selected_layer() const { return m_selected_layer; }
-  void set_selected_layer(EditorLayer *layer)
-  {
-    if (layer->is_tilemap())
-    {
-      set_selected_tilemap(layer->get_tilemap());
-    }
-
-    m_selected_layer = layer; 
-  }
+  void set_selected_layer(EditorLayer *layer);
 
   EditorTilebox *get_tilebox() const { return m_add_layer_box.get(); }
 
@@ -116,7 +108,7 @@ public:
   void move_selected_layer_down();
   void delete_selected_layer();
 
-  const MenuListWidget* get_menu_list_widget() const
+  const MenuListWidget* get_layer_list_widget() const
   {
     return m_layer_list_widget.get();
   }
