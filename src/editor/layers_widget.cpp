@@ -208,6 +208,7 @@ EditorLayersWidget::update(float dt_sec)
   if (m_layer_list_widget_visible)
   {
     m_layer_list_widget->update(dt_sec);
+    handle_layer_list_widget_refresh();
   }
 
   auto selected_tilemap = get_selected_tilemap();
@@ -263,33 +264,6 @@ EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_button_up(button))
   {
-    auto& layer_items = m_layer_list_widget->get_menu_items();
-    auto layer_name_editing_predicate = [](const std::unique_ptr<MenuListBaseItem> &item)
-    {
-      auto layer_item = dynamic_cast<LayersListItem *>(item.get());
-      return layer_item && layer_item->is_editing_layer_name();
-    };
-
-    auto is_editing_layer_name = std::any_of(layer_items.begin(), layer_items.end(), 
-                                  layer_name_editing_predicate);
-
-    if (m_queue_layer_list_widget_refresh && !is_editing_layer_name)
-    {
-      populate_layers_list_widget();
-
-      auto selected_layer = get_selected_layer();
-      if (selected_layer != nullptr)
-      {
-        auto selected_layer_object = selected_layer->get_game_object();
-        if (selected_layer_object != nullptr)
-        {
-          selected_layer_object->check_state();
-        }
-      }
-
-      m_queue_layer_list_widget_refresh = false;
-    }
-    
     return true;
   }
 
@@ -564,7 +538,7 @@ EditorLayersWidget::refresh()
   for (const auto& obj : sector->get_objects())
     add_layer(obj.get(), /* sort_layers_after_adding = */ false);
 
-  perform_post_layer_add_actions();
+  on_layer_list_changed();
 
   refresh_sector_text();
 }
@@ -592,6 +566,40 @@ EditorLayersWidget::populate_layers_list_widget()
   }
 
   recalculate_positions();
+}
+
+void
+EditorLayersWidget::handle_layer_list_widget_refresh()
+{
+  if (!m_layer_list_widget_visible)
+    return;
+
+  auto& layer_items = m_layer_list_widget->get_menu_items();
+  auto layer_name_editing_predicate = [](const std::unique_ptr<MenuListBaseItem> &item)
+  {
+    auto layer_item = dynamic_cast<LayersListItem *>(item.get());
+    return layer_item && layer_item->is_editing_layer_name();
+  };
+
+  auto is_editing_layer_name = std::any_of(layer_items.begin(), layer_items.end(), 
+                                layer_name_editing_predicate);
+
+  if (m_queue_layer_list_widget_refresh && !is_editing_layer_name)
+  {
+    on_layer_list_changed();
+
+    auto selected_layer = get_selected_layer();
+    if (selected_layer != nullptr)
+    {
+      auto selected_layer_object = selected_layer->get_game_object();
+      if (selected_layer_object != nullptr)
+      {
+        selected_layer_object->check_state();
+      }
+    }
+
+    m_queue_layer_list_widget_refresh = false;
+  }
 }
 
 void
@@ -660,17 +668,18 @@ EditorLayersWidget::add_layer(GameObject* object, bool execute_post_layer_add_ac
 
   if (execute_post_layer_add_actions)
   {
-    perform_post_layer_add_actions();
+    on_layer_list_changed();
   }
 
   recalculate_positions();
 }
 
 void
-EditorLayersWidget::perform_post_layer_add_actions()
+EditorLayersWidget::on_layer_list_changed()
 {
   sort_layers();
   populate_layers_list_widget();
+  refresh_layers();
 }
 
 EditorLayer*
