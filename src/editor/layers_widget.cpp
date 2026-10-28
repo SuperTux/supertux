@@ -208,7 +208,6 @@ EditorLayersWidget::update(float dt_sec)
   if (m_layer_list_widget_visible)
   {
     m_layer_list_widget->update(dt_sec);
-    handle_layer_list_widget_refresh();
   }
 
   auto selected_tilemap = get_selected_tilemap();
@@ -264,6 +263,7 @@ EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_button_up(button))
   {
+    handle_layer_list_widget_refresh();
     return true;
   }
 
