@@ -944,6 +944,8 @@ EditorOverlayWidget::process_left_click()
   if (MenuManager::instance().has_dialog()) return;
 
   auto editor_events = m_editor.get_event_handling();
+  auto layers_widget = m_editor.get_layers_widget();
+  auto selected_tilemap = layers_widget->get_selected_tilemap();
 
   m_dragging = true;
   m_dragging_right = false;
@@ -952,6 +954,7 @@ EditorOverlayWidget::process_left_click()
   switch (m_editor.get_input_mode())
   {
     case InputMode::TILE:
+      layers_widget->set_selected_layer(selected_tilemap);
       switch (m_editor.get_tileselect_select_mode())
       {
         case 0:
