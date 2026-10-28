@@ -85,6 +85,8 @@ public:
   void set_selected_layer(EditorLayer *layer);
   void set_selected_layer(GameObject *object);
 
+  EditorLayer *get_layer_for_game_object(GameObject *object) const;
+
   EditorTilebox *get_tilebox() const { return m_add_layer_box.get(); }
 
   /**
