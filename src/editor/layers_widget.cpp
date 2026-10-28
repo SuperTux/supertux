@@ -277,8 +277,15 @@ EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
     {
       populate_layers_list_widget();
 
-      auto selected_layer_object = get_selected_layer()->get_game_object();
-      selected_layer_object->check_state();
+      auto selected_layer = get_selected_layer();
+      if (selected_layer != nullptr)
+      {
+        auto selected_layer_object = selected_layer->get_game_object();
+        if (selected_layer_object != nullptr)
+        {
+          selected_layer_object->check_state();
+        }
+      }
 
       m_queue_layer_list_widget_refresh = false;
     }
