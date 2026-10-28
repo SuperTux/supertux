@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <functional>
 #include <string>
 
 namespace {
@@ -95,7 +96,7 @@ private:
    * @param initial_check If `initial_check`, indicates that the check was done during level load
    *                       (shows no message, unless deprecated tiles were found)
    */
-  void show_message(bool initial_check);
+  void show_message(bool initial_check, const std::function<void ()>& callback = {});
 
 private:
   std::map<std::string, ConverterInfo> m_converters;

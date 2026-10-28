@@ -101,11 +101,14 @@ EditorTileConverter::check_deprecated_tiles(bool initial_check)
         {
           m_has_deprecated_tiles = true;
 
-          // Focus on deprecated tile
           if (initial_check)
           {
-            focus_on_tile(sector.get(), &tilemap, idx);
-            show_message(initial_check);
+            auto callback = [&sector, &tilemap, &idx, this]
+            {
+              // Focus on deprecated tile
+              focus_on_tile(sector.get(), &tilemap, idx);
+            };
+            show_message(initial_check, callback);
             return;
           }
         }
@@ -137,7 +140,7 @@ EditorTileConverter::focus_on_tile(Sector* sector, TileMap* tilemap, int pos)
 }
 
 void
-EditorTileConverter::show_message(bool initial_check)
+EditorTileConverter::show_message(bool initial_check, const std::function<void ()>& callback)
 {
   if (initial_check)
   {
@@ -150,7 +153,7 @@ EditorTileConverter::show_message(bool initial_check)
     if (!g_config->editor_show_deprecated_tiles)
       message += "\n\n" + _("Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu.");
 
-    Dialog::show_message(message);
+    Dialog::show_message(message, false, false, callback);
   }
   else
   {
@@ -160,7 +163,7 @@ EditorTileConverter::show_message(bool initial_check)
       const std::string present_message = _("Deprecated tiles are still present in the level.");
       if (g_config->editor_show_deprecated_tiles)
       {
-        Dialog::show_message(present_message);
+        Dialog::show_message(present_message, false, false, callback);
       }
       else
       {
