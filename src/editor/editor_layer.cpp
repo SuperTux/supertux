@@ -18,6 +18,8 @@
 
 #include <limits>
 
+#include "editor/editor.hpp"
+#include "editor/layers_widget.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
@@ -29,7 +31,7 @@ EditorLayer::EditorLayer(LayerObject* layer_object) :
   ObjectIcon("", layer_object->get_icon_path()),
   m_layer_object(layer_object),
   m_layer_visibility(),
-  m_selection(is_tilemap() ? Surface::from_file("images/engine/editor/selection.png") : nullptr)
+  m_selection(Surface::from_file("images/engine/editor/selection.png"))
 {
 }
 
@@ -48,23 +50,23 @@ EditorLayer::draw(DrawingContext& context, const Vector& pos)
                               pos + Vector(16,16),
                               ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
 
-  if (is_tilemap() && get_tilemap()->is_selected_in_editor())
+  if (Editor::current()->get_layers_widget()->get_selected_layer() == this)
     context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
 }
 
 void
-EditorLayer::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
+EditorLayer::draw(DrawingContext& context, const Vector& pos, int _pixels_shown)
 {
   if (!is_valid()) return;
 
-  ObjectIcon::draw(context, pos, pixels_shown);
+  ObjectIcon::draw(context, pos, _pixels_shown);
 
   auto z_pos = get_zpos();
   if (z_pos == INT_MIN)
     return;
 
   // Don't draw the text if the icon is not 100% visible
-  if (is_tilemap() && get_tilemap()->is_selected_in_editor())
+  if (Editor::current()->get_layers_widget()->get_selected_layer() == this)
     context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
 }
 

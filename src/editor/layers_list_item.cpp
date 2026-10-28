@@ -45,7 +45,7 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   m_dragging(),
   m_dragging_offset()
 {
-  auto select_layer = [parent, tilemap = m_layer->get_tilemap(), this]
+  auto select_layer = [parent, this]
   {
     auto editor_event_handling = Editor::current()->get_event_handling();
     auto mouse_pos = editor_event_handling->get_mouse_pos();
@@ -64,9 +64,6 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
       m_layer->set_layer_visibility(EditorLayer::VISIBLE);
     }
 
-    if (tilemap == nullptr)
-      return;
-
     parent->set_selected_layer(m_layer);
   };
 
@@ -78,16 +75,12 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   };
   set_on_right_click_handler(right_click_layer);
 
-  auto tilemap = m_layer->get_tilemap();
-  auto is_selected_layer = [tilemap]
+  auto is_selected_layer = [this]
   {
-    return tilemap != nullptr && tilemap->is_selected_in_editor();
+    return m_parent->get_selected_layer() == m_layer;
   };
 
-  if (tilemap)
-  {
-    set_is_selected_handler(is_selected_layer); 
-  }
+  set_is_selected_handler(is_selected_layer);
 
   set_item_selected_surface(layer->get_selection_surface());
 
