@@ -23,9 +23,6 @@
 #include "gui/menu_manager.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
-#include "object/background.hpp"
-#include "object/gradient.hpp"
-#include "object/tilemap.hpp"
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
@@ -45,14 +42,14 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   m_dragging(),
   m_dragging_offset()
 {
-  auto select_layer = [parent, this]
+  auto select_layer = [parent, this, layer]
   {
     auto editor_event_handling = Editor::current()->get_event_handling();
     auto mouse_pos = editor_event_handling->get_mouse_pos();
     auto eye_origin = get_rect().p1() + m_eye_offset;
     Rectf eye_rect = Rectf(eye_origin, eye_origin + Vector(get_size().height, get_size().height));
 
-    if (has_visibility_settings())
+    if (layer->has_visibility_settings())
     {
       if (eye_rect.contains(mouse_pos))
       {
@@ -102,17 +99,6 @@ bool
 LayersListItem::has_focus() const
 {
   return m_show_layer_name_textbox && m_layer_name_textbox->has_focus();
-}
-
-bool
-LayersListItem::has_visibility_settings() const
-{
-  const auto &class_name = m_layer->get_game_object()->get_class_name();
-
-  return class_name == TileMap::class_name() ||
-         class_name == Gradient::class_name() ||
-         class_name == Background::class_name() ||
-         class_name.find("particles-") == 0;
 }
 
 bool
@@ -202,7 +188,7 @@ LayersListItem::draw(DrawingContext& context)
 void
 LayersListItem::draw_visibility_icon(DrawingContext& context)
 {
-  if (!has_visibility_settings())
+  if (!m_layer->has_visibility_settings())
     return;
 
   auto origin = get_rect().p1() + m_eye_offset + Vector(5, 5);
