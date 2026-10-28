@@ -47,11 +47,12 @@ public:
   inline LayerObject* get_game_object() const { return m_layer_object; }
 
   /**
-   * Returns true when the eye icon is supposed to be shown for this layer.
-   * TODO: This is also used to handle, which layers can be moved up or down.
-   * It might need a better name.
+   * Returns true when the user can modify the layer properties
+   * (move up / move down / delete)
+   * NOTE: This is different from modifying the game object properties
+   * via the editor's object menu
    */
-  bool has_visibility_settings() const
+  bool is_user_modifiable() const
   {
     const auto &class_name = get_game_object()->get_class_name();
 

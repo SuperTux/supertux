@@ -740,7 +740,7 @@ void
 EditorLayersWidget::move_selected_layer_up()
 {
   auto layer = get_selected_layer();
-  if (layer == nullptr || !layer->has_visibility_settings())
+  if (layer == nullptr || !layer->is_user_modifiable())
     return;
   
   auto previous_layer = get_previous_layer(layer);
@@ -758,7 +758,7 @@ void
 EditorLayersWidget::move_selected_layer_down()
 {
   auto layer = get_selected_layer();
-  if (layer == nullptr || !layer->has_visibility_settings())
+  if (layer == nullptr || !layer->is_user_modifiable())
     return;
 
   auto next_layer = get_next_layer(layer);
@@ -776,7 +776,7 @@ void
 EditorLayersWidget::delete_selected_layer()
 {
   auto layer = get_selected_layer();
-  if (layer == nullptr)
+  if (layer == nullptr || !layer->is_user_modifiable())
     return;
   
   auto next_selected_layer = get_previous_layer(layer);
