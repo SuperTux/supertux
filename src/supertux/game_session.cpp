@@ -17,6 +17,7 @@
 #include "supertux/game_session.hpp"
 
 #include <cfloat>
+#include <cmath>
 #include <fmt/format.h>
 #include <stdexcept>
 
@@ -29,6 +30,7 @@
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
 #include "object/endsequence_walk.hpp"
+#include "object/ghost_replay.hpp"
 #include "object/level_time.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
@@ -62,7 +64,7 @@ static const float TELEPORT_FADE_TIME = 1.0f;
 static const float TELEPORT_FADE_TIME_CIRCLE = 1.43f;
 static const float TELEPORT_SPEEDUP = 3.18f;
 
-GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
+GameSession::GameSession(Savegame* savegame, Statistics* statistics, const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run) :
   reset_button(false),
   reset_checkpoint_button(false),
   m_prevent_death(false),
@@ -94,6 +96,8 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   m_active(false),
   m_end_seq_started(false),
   m_pause_target_timer(false),
+  m_current_run_path(),
+  m_best_ghost_run(best_ghost_run),
   m_current_cutscene_text(),
   m_endsequence_timer()
 {
@@ -106,20 +110,20 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
 }
 
 
-GameSession::GameSession(Level* level, Savegame* savegame, Statistics* statistics) :
-  GameSession{savegame, statistics}
+GameSession::GameSession(Level* level, Savegame* savegame, Statistics* statistics, const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run) :
+  GameSession{savegame, statistics, best_ghost_run}
 {
   m_level = level;
 }
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
-  GameSession{&savegame, statistics}
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics, const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run) :
+  GameSession{&savegame, statistics, best_ghost_run}
 {
   m_levelfile = levelfile_;
 }
 
-GameSession::GameSession(std::istream& istream_, Savegame* savegame, Statistics* statistics) :
-  GameSession{savegame, statistics}
+GameSession::GameSession(std::istream& istream_, Savegame* savegame, Statistics* statistics, const std::vector<worldmap::LevelTile::GhostRunPoint>& best_ghost_run) :
+  GameSession{savegame, statistics, best_ghost_run}
 {
   m_levelstream = &istream_;
 }
@@ -292,6 +296,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 
       m_play_time = 0; // Reset play time.
       m_data_table.clear();
+      m_current_run_path.clear();
     }
 
     /* Perform the respawn from the chosen spawnpoint. */
@@ -309,6 +314,12 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     else
     {
       m_currentsector->activate(spawnpoint->spawnpoint);
+    }
+
+    if (g_config->show_speedrun_ghost_mode && !m_best_ghost_run.empty()) 
+    {
+      m_currentsector->add<GhostReplay>(m_best_ghost_run);
+      m_currentsector->flush_game_objects();
     }
   }
   catch (std::exception& e) {
@@ -539,7 +550,7 @@ GameSession::draw(Compositor& compositor)
   if (m_game_pause)
     draw_pause(context);
 
-  if (g_config->show_game_timer && !g_debug.hide_player_hud)
+  if ((g_config->show_game_timer || g_config->show_speedrun_ghost_mode) && !g_debug.hide_player_hud)
     draw_timer(context);
 }
 
@@ -653,6 +664,12 @@ GameSession::update(float dt_sec, const Controller& controller)
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
 
+    if (g_config->show_speedrun_ghost_mode && !m_best_ghost_run.empty()) 
+    {
+      m_currentsector->add<GhostReplay>(m_best_ghost_run);
+      m_currentsector->flush_game_objects();
+    }
+
     switch (m_spawn_fade_type)
     {
       case ScreenFade::FadeType::FADE:
@@ -714,6 +731,11 @@ GameSession::update(float dt_sec, const Controller& controller)
       }
 
       m_currentsector->update(dt_sec);
+      if (!players.empty() && players.front()->is_active())
+      {
+        const Player& player = *players.front();
+        m_current_run_path.push_back({0.0f, player.get_pos(), player.get_action()});
+      }
 
     } else {
       bool are_all_stopped = true;
@@ -814,7 +836,7 @@ GameSession::finish(bool win)
   if (win) {
     if (WorldMapSector::current())
     {
-      WorldMapSector::current()->finished_level(m_level);
+      WorldMapSector::current()->finished_level(m_level, m_current_run_path);
     }
 
     if (LevelsetScreen::current())
@@ -1068,9 +1090,62 @@ GameSession::draw_timer(DrawingContext& context) const
     << std::setw(2) << s << '.'
     << std::setw(3) << ms;
 
-  context.color().draw_text(Resources::normal_bitmap_font, out.str(),
-                            Vector(context.get_width() / 2
-                                     + (m_currentsector->get_object_count<LevelTime>() > 0 ? context.get_width() * 0.10f : 0),
-                                   20.f),
-                            ALIGN_CENTER, LAYER_HUD);
+  const std::string text = out.str();
+  const float x = context.get_width() / 2
+    + (m_currentsector->get_object_count<LevelTime>() > 0 ? context.get_width() * 0.10f : 0);
+  const float y = 20.f;
+
+  const auto players = m_currentsector->get_players();
+
+  if (g_config->show_speedrun_ghost_mode && !m_best_ghost_run.empty() && !players.empty())
+  {
+    const float player_x = players.front()->get_pos().x;
+
+    // Find the time at which the ghost first reached the player's current x
+    float ghost_time_at_player_x = m_best_ghost_run.back().time;
+    for (const auto& point : m_best_ghost_run)
+    {
+      if (point.position.x >= player_x)
+      {
+        ghost_time_at_player_x = point.time;
+        break;
+      }
+    }
+
+    const float delta = m_play_time - ghost_time_at_player_x;
+    const bool behind = delta >= 0.0f;
+    const Color pace_color = behind ? Color::RED : Color::GREEN;
+
+    int delta_ms = static_cast<int>(std::abs(delta) * 1000.f);
+    const int delta_m = delta_ms / (1000 * 60);
+    delta_ms -= delta_m * (1000 * 60);
+    const int delta_s = delta_ms / 1000;
+    delta_ms -= delta_s * 1000;
+
+    std::ostringstream delta_out;
+    delta_out << (behind ? '+' : '-') << std::setfill('0')
+      << std::setw(2) << delta_m << ':'
+      << std::setw(2) << delta_s << '.'
+      << std::setw(3) << delta_ms;
+
+    context.color().draw_text(Resources::normal_bitmap_font,
+                              text, 
+                              Vector(x, y), 
+                              ALIGN_CENTER, 
+                              LAYER_HUD, 
+                              pace_color
+                            );
+
+    context.color().draw_text(Resources::normal_bitmap_font, 
+                              delta_out.str(), 
+                              Vector(x, y + Resources::normal_bitmap_font->get_height()), 
+                              ALIGN_CENTER, 
+                              LAYER_HUD, 
+                              Color::WHITE
+                            );
+  }
+  else
+  {
+    context.color().draw_text(Resources::normal_bitmap_font, text, Vector(x, y), ALIGN_CENTER, LAYER_HUD);
+  }
 }
