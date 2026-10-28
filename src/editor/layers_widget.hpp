@@ -72,7 +72,7 @@ public:
   void refresh_layers();
   void sort_layers();
 
-  void perform_post_layer_add_actions();
+  void on_layer_list_changed();
 
   /**
    * Adds a new layer to the layers widget.
@@ -154,6 +154,7 @@ private:
   Vector get_layer_coords(const int idx) const;
   int get_layer_idx(const Vector& coords) const;
   void recalculate_positions();
+  void handle_layer_list_widget_refresh();
 
   void update_tip();
 
