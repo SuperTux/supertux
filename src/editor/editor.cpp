@@ -487,14 +487,14 @@ Editor::event(const SDL_Event& ev)
   if (!has_focus())
     return;
 
+  // handles generic editor events
+  m_event_handling->on_event(ev);
+  
   if (m_properties_panel->event(ev))
     return;
 
   try
   {
-    // handles generic editor events
-    m_event_handling->on_event(ev);
-
     BIND_SECTOR(*m_project->get_sector());
 
     if (m_toolbar_widget->event(ev))
