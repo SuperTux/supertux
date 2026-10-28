@@ -94,12 +94,11 @@ EditorPropertiesPanel::draw(DrawingContext& context)
 bool
 EditorPropertiesPanel::has_focus() const
 {
-  for (const auto &control : m_controls)
+  auto has_focus = [](const std::unique_ptr<InterfaceControl> &control)
   {
-    if (control->has_focus())
-      return true;
-  }
-  return false;
+    return control->has_focus();
+  };
+  return std::any_of(m_controls.begin(), m_controls.end(), has_focus);
 }
 
 bool
