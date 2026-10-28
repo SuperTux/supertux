@@ -84,7 +84,10 @@ MenuListLayerActionsItem::add_layer_add_button()
       "images/engine/editor/add.png", get_rect().p2() - Vector(25, 25),
       [] {}, Sizef(25, 25));
 
-  add_button->set_onclick_handler([this] { m_add_layer_menu_visible = true; });
+  add_button->set_onclick_handler([this]
+  {
+    m_add_layer_menu_visible = !m_add_layer_menu_visible;
+  });
 
   auto layer_objects = m_parent->get_tilebox()->get_layers_object_group();
 
