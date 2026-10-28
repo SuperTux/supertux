@@ -41,10 +41,10 @@ EditorEventHandling::EditorEventHandling() :
 void
 EditorEventHandling::on_event(const SDL_Event& ev)
 {
+  handle_internal_state(ev);
+
   auto editor = Editor::current();
   auto properties_panel = editor->get_properties_panel();
-
-  handle_internal_state(ev);
 
   // If properties sidebar controls are active and the mouse is hovering over the sidebar,
   // do not propagate mouse events to the editor or its widgets.
