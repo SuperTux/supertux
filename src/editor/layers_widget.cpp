@@ -456,6 +456,10 @@ EditorLayersWidget::recalculate_positions()
   m_Width = SCREEN_WIDTH - 128;
 
   m_layer_list_widget->recalculate_item_position_and_size(Vector(0, m_Ypos - 1), true);
+
+  auto layer_list_area = m_layer_list_widget->get_area();
+  layer_list_area.set_p1(Vector(0, SCREEN_HEIGHT / 2.f));
+  m_layer_list_widget->set_area(layer_list_area);
 }
 
 void
