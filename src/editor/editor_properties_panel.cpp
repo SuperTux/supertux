@@ -38,7 +38,7 @@ EditorPropertiesPanel::get_area() const
 Color
 EditorPropertiesPanel::get_background_color() const
 {
-  return Color(0.15, 0.15, 0.15);
+  return g_config->editorcolor;
 }
 
 int
