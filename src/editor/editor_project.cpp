@@ -470,6 +470,7 @@ EditorProject::open_level_directory()
 void
 EditorProject::set_sector(Sector* sector)
 {
+  m_is_sector_set = false;
   m_sector = sector;
   m_sector->activate(DEFAULT_SPAWNPOINT_NAME);
 
