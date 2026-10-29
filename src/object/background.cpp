@@ -311,6 +311,8 @@ Background::get_settings()
 void
 Background::after_editor_set()
 {
+  LayerObject::after_editor_set();
+
   m_image_top = load_background(m_imagefile_top);
   m_image = load_background(m_imagefile);
   m_image_bottom = load_background(m_imagefile_bottom);
