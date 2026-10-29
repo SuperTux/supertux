@@ -157,6 +157,11 @@ public:
   inline bool is_level_loaded() const { return m_is_level_loaded; }
 
   /**
+   * Returns ""true"" if a sector is currently set, otherwise false
+   */
+  inline bool is_sector_set() const { return m_is_sector_set; }
+
+  /**
    * Creates an empty world for temporary levels
    * @return Empty world
    */
@@ -401,6 +406,7 @@ private:
   std::string m_level_filename;
   std::string m_autosave_filename;
   bool m_is_level_loaded;
+  bool m_is_sector_set;
   float m_time_since_last_save;
 
   std::vector<std::function<void()>> m_post_save_callbacks;

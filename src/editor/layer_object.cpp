@@ -26,8 +26,14 @@ LayerObject::remove_me()
 {
   GameObject::remove_me();
 
-  if (Editor::current()->is_active())
+  auto editor = Editor::current();
+  if (editor->is_active())
   {
+    auto editor_project = editor->get_project();
+
+    if (!editor_project->is_sector_set())
+      return;
+
     auto layers_widget = Editor::current()->get_layers_widget();
     layers_widget->on_layer_list_changed();
   }
@@ -38,6 +44,12 @@ LayerObject::after_editor_set()
 {
   GameObject::after_editor_set();
 
-  auto layers_widget = Editor::current()->get_layers_widget();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+
+  if (!editor_project->is_sector_set())
+    return;
+
+  auto layers_widget = editor->get_layers_widget();
   layers_widget->on_layer_list_changed();
 }
