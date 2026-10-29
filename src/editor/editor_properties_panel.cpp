@@ -21,6 +21,7 @@
 #include "interface/control.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/resources.hpp"
 #include "video/color.hpp"
 
 EditorPropertiesPanel::EditorPropertiesPanel() :
@@ -49,7 +50,7 @@ EditorPropertiesPanel::get_layer() const
 bool
 EditorPropertiesPanel::is_visible() const
 {
-  return !m_controls.empty() && g_config->editor_show_properties_sidebar;
+  return g_config->editor_show_properties_sidebar;
 }
 
 bool
@@ -84,6 +85,33 @@ EditorPropertiesPanel::draw(DrawingContext& context)
 
   context.color().draw_filled_rect(get_area(), get_background_color(), get_layer());
   context.color().set_blur(0);
+
+  if (m_controls.empty())
+  {
+    std::string text = "";
+    if (Editor::current()->get_selected_object() == nullptr)
+    {
+      text = _("Select an object to change its properties here.");
+    }
+    else
+    {
+      text = _("The currently selected object has no properties.");
+    }
+
+    std::string overflow;
+    auto max_width = get_area().get_width() - 10.f;
+    text = Resources::editor_menu_font->wrap_to_width(text, max_width, &overflow);
+
+    while(!overflow.empty())
+    {
+      text += "\n";
+      text += Resources::editor_menu_font->wrap_to_width(overflow, max_width, &overflow);
+    }
+
+    context.color()
+        .draw_text(Resources::editor_menu_font, text, get_area().p1() + Vector(4, 4),
+                   FontAlignment::ALIGN_LEFT, LAYER_GUI);
+  }
 
   for(const auto& control : m_controls)
   {
