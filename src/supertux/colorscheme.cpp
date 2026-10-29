@@ -73,7 +73,7 @@ Color ColorScheme::Text::heading_color(1.f,1.f,0.6f);
 Color ColorScheme::Text::reference_color(0.2f,0.6f,1.f);
 Color ColorScheme::Text::normal_color(1.f,1.f,1.f);
 
-Color ColorScheme::Editor::default_color(0.9f, 0.9f, 1.0f, 0.6f);
+Color ColorScheme::Editor::default_color(0.15f, 0.15f, 0.15f);
 Color ColorScheme::Editor::hover_color(1.f, 1.f, 1.f, 0.4f);
 Color ColorScheme::Editor::grab_color(1.f, 1.f, 1.f, 0.7f);
 Color EditorOverlayWidget::text_autotile_available_color(1.f,1.f,0.6f);
