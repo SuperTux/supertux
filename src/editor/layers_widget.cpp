@@ -51,7 +51,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_editor(editor),
   m_editor_layers(),
   m_layer_visibilities(),
-  m_selected_layer(),
+  m_selected_layer(nullptr),
   m_selected_tilemap(),
   m_add_icon("", "images/engine/editor/add.png"),
   m_add_layer_box(new EditorTilebox(editor, Rectf())),
@@ -562,15 +562,14 @@ EditorLayersWidget::select_initial_layer()
 
   auto last_selected_layer = get_selected_layer();
 
+  if (last_selected_layer != nullptr && last_selected_layer->is_valid())
+  {
+    set_selected_layer(last_selected_layer->get_game_object());
+    return;
+  }
+
   for (const auto& layer : m_editor_layers)
   {
-    // Restore last selected layer if possible
-    if (last_selected_layer && layer.get() == last_selected_layer)
-    {
-      set_selected_layer(layer.get());
-      return;
-    }
-
     if (!layer->is_tilemap())
       continue;
 
