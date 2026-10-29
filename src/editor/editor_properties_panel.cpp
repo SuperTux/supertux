@@ -88,11 +88,11 @@ EditorPropertiesPanel::draw(DrawingContext& context)
     std::string text = "";
     if (Editor::current()->get_selected_object() == nullptr)
     {
-      text = _("Select an object to display its properties here.");
+      text = _("Select an object or layer to display its properties here.");
     }
     else
     {
-      text = _("The currently selected object has no properties.");
+      text = _("The currently selected object or layer has no properties.");
     }
 
     std::string overflow;
