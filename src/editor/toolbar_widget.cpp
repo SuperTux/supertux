@@ -481,11 +481,8 @@ EditorToolbarWidget::draw(DrawingContext& context)
     return;
 
   context.color().set_blur(g_config->editor_blur);
-  context.color().draw_filled_rect(
-    {-g_config->menuroundness, -g_config->menuroundness, m_widgets_width + m_widgets_width_offset, 32},
-    Color(0.2f, 0.2f, 0.2f, 0.5f),
-    math::clamp(g_config->menuroundness, 0.f, 16.f),
-    LAYER_GUI - 5);
+  context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
+                    g_config->editorcolor, LAYER_GUI - 5);
   context.color().set_blur(0);
 
   for(const auto& widget : m_widgets)

@@ -77,9 +77,6 @@ EditorPropertiesPanel::draw(DrawingContext& context)
   }
 
   context.color().set_blur(g_config->editor_blur);
-  context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
-                    get_background_color(), get_layer());
-
   context.color().draw_filled_rect(get_area(), get_background_color(), get_layer());
   context.color().set_blur(0);
 
