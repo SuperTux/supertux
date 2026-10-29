@@ -557,10 +557,11 @@ GameObjectManager::redo()
 void
 GameObjectManager::update_editor_buttons()
 {
-  if (Editor::current() && Editor::is_active() && Editor::current()->get_toolbar_widget())
+  if (Editor::current() && Editor::is_active())
   {
-    Editor::current()->get_toolbar_widget()->set_undo_disabled(m_undo_stack.empty());
-    Editor::current()->get_toolbar_widget()->set_redo_disabled(m_redo_stack.empty());
+    auto toolbar_widget = Editor::current()->get_toolbar_widget();
+    toolbar_widget->set_undo_disabled(m_undo_stack.empty());
+    toolbar_widget->set_redo_disabled(m_redo_stack.empty());
   }
 }
 
@@ -641,6 +642,14 @@ GameObjectManager::process_object_change(GameObjectChange& change)
 
       parse_object_settings(settings, change.data); // Parse old settings
       object->after_editor_set();
+
+      // If the changed object is the current object,
+      // re-select it in order to load its changed properties
+      auto editor = Editor::current();
+      if (editor->get_selected_object() == object)
+      {
+        editor->set_selected_object(object);
+      }
 
       // Prepare for redo
       change.data = save_object_settings_state(settings, false);
