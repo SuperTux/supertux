@@ -28,7 +28,7 @@ MenuListWidget::MenuListWidget() :
   Widget(),
   m_menu_area(),
   m_menu_items(),
-  m_menu_background_color(Color(0.15, 0.15, 0.15)),
+  m_menu_background_color(g_config->editorcolor),
   m_menu_border_color(Color(0.25, 0.25, 0.25)),
   m_visible(),
   m_menu_offset(),
