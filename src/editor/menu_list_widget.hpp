@@ -90,6 +90,7 @@ public:
   const Vector &get_position() const { return m_menu_area.p1(); }
 
   inline const Rectf &get_area() const { return m_menu_area; }
+  inline void set_area(const Rectf &area) { m_menu_area = area; }
 
   bool has_mouse_focus() const;
 
