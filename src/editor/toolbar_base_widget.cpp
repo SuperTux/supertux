@@ -57,7 +57,23 @@ EditorToolbarBaseWidget::draw(DrawingContext& context)
   }
 
   if (m_hover && !m_help_text.empty())
-    context.color().draw_text(Resources::normal_font, m_help_text, m_mouse_pos + Vector(32, 32), FontAlignment::ALIGN_LEFT, INT_MAX);
+  {
+    auto text_width = Resources::normal_font->get_text_width(m_help_text);
+    auto text_height = Resources::normal_font->get_text_height(m_help_text);
+    auto offset = Vector(32, 32);
+    auto position = m_mouse_pos + offset;
+    if (position.x + text_width > SCREEN_WIDTH)
+    {
+      position.x = m_mouse_pos.x - offset.x;
+    }
+
+    if (position.y + text_height > SCREEN_HEIGHT)
+    {
+      position.x += 10.f;
+      position.y = m_mouse_pos.y - offset.y;
+    }
+    context.color().draw_text(Resources::normal_font, m_help_text, position, FontAlignment::ALIGN_LEFT, INT_MAX);
+  }
 
   
   if (get_show_menu())
