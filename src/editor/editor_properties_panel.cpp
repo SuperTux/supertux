@@ -32,7 +32,7 @@ EditorPropertiesPanel::EditorPropertiesPanel() :
 Rectf
 EditorPropertiesPanel::get_area() const
 {
-  return Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f);
+  return Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT / 2.f);
 }
 
 Color
