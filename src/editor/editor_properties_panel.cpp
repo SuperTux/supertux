@@ -91,7 +91,7 @@ EditorPropertiesPanel::draw(DrawingContext& context)
     std::string text = "";
     if (Editor::current()->get_selected_object() == nullptr)
     {
-      text = _("Select an object to change its properties here.");
+      text = _("Select an object to display its properties here.");
     }
     else
     {
