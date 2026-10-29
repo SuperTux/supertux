@@ -34,7 +34,7 @@ LayerObject::remove_me()
     if (!editor_project->is_sector_set())
       return;
 
-    auto layers_widget = Editor::current()->get_layers_widget();
+    auto layers_widget = editor->get_layers_widget();
     layers_widget->on_layer_list_changed();
   }
 }
