@@ -32,3 +32,12 @@ LayerObject::remove_me()
     layers_widget->on_layer_list_changed();
   }
 }
+
+void
+LayerObject::after_editor_set()
+{
+  GameObject::after_editor_set();
+
+  auto layers_widget = Editor::current()->get_layers_widget();
+  layers_widget->on_layer_list_changed();
+}
