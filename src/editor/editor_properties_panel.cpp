@@ -25,7 +25,8 @@
 #include "video/color.hpp"
 
 EditorPropertiesPanel::EditorPropertiesPanel() :
-  m_controls()
+  m_controls(),
+  m_is_executing_state_change()
 {
 }
 
@@ -238,6 +239,9 @@ EditorPropertiesPanel::add_control(const std::string& name, std::unique_ptr<Inte
 void
 EditorPropertiesPanel::load_object_properties(GameObject* object)
 {
+  if (m_is_executing_state_change)
+    return;
+
   m_controls.clear();
 
   if (!g_config->editor_show_properties_sidebar)
@@ -263,11 +267,14 @@ EditorPropertiesPanel::load_object_properties(GameObject* object)
     control->m_on_activate_callbacks.emplace_back([object]() {
         object->save_state();
       });
-    control->m_on_change_callbacks.emplace_back([object]() {
+    control->m_on_change_callbacks.emplace_back([object, this]()
+                                                {
         // TODO: Updating the object doesn't work every time.
         // Investigate why this is the case!
+        m_is_executing_state_change = true;
         object->after_editor_set();
         object->check_state();
+        m_is_executing_state_change = false;
       });
     add_control(option->get_text(), std::move(control), option->get_description());
   }

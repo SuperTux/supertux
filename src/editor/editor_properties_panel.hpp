@@ -125,4 +125,9 @@ private:
    * List of controls for the currently selected `GameObject`
    */
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
+
+  /**
+   * Variable that describes whether one of the control's onchange callbacks is currently executing
+   */
+  bool m_is_executing_state_change;
 };
