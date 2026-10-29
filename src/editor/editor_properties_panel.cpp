@@ -56,9 +56,6 @@ EditorPropertiesPanel::is_visible() const
 bool
 EditorPropertiesPanel::contains_position(const Vector& pos) const
 {
-  if (m_controls.empty())
-    return false;
-  
   return get_area().contains(pos);
 }
 
