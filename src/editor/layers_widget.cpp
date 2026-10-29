@@ -665,6 +665,8 @@ EditorLayersWidget::set_selected_layer(EditorLayer *layer)
 
   if (layer)
   {
+    m_editor.set_selected_object(layer->get_game_object());
+
     auto& last_widget = m_layer_list_widget->get_menu_items().back();
     auto actions_widget = dynamic_cast<MenuListLayerActionsItem*>(last_widget.get());
     if (actions_widget)
