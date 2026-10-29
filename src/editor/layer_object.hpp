@@ -46,6 +46,7 @@ public:
   }
 
   virtual void remove_me() override;
+  virtual void after_editor_set() override;
 
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(LayerObject)); }
 
