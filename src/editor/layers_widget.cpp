@@ -748,7 +748,6 @@ EditorLayersWidget::move_selected_layer_up()
 
   layer->get_game_object()->save_state();
   layer->get_game_object()->set_layer(previous_layer->get_zpos() - 1);
-  sort_layers();
 
   queue_layer_list_refresh();
 }
@@ -766,7 +765,6 @@ EditorLayersWidget::move_selected_layer_down()
 
   layer->get_game_object()->save_state();
   layer->get_game_object()->set_layer(next_layer->get_zpos() + 1);
-  sort_layers();
 
   queue_layer_list_refresh();
 }
