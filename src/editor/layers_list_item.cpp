@@ -91,6 +91,7 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
     object->set_name(m_current_layer_name);
     object->after_editor_set();
     object->check_state();
+    m_parent->on_layer_list_changed();
   };
   m_layer_name_textbox->m_on_change_callbacks.emplace_back(layer_name_changed);
 }
