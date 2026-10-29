@@ -818,8 +818,6 @@ EditorLayersWidget::restore_layer_visibilities()
 void
 EditorLayersWidget::update_tip()
 {
-  remove_invalid_layers();
-
   if (m_hovered_layer_idx == m_editor_layers.size())
      m_object_tip->set_info(_("Add Layer"));
   else if (m_hovered_layer_idx > m_editor_layers.size())
@@ -848,8 +846,6 @@ EditorLayersWidget::remove_invalid_layers()
   m_editor_layers.erase(std::remove_if(
       m_editor_layers.begin(), m_editor_layers.end(),
       remove_predicate), m_editor_layers.end());
-  
-  queue_layer_list_refresh();
 }
 
 TileMap*
