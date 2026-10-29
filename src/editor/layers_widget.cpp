@@ -66,7 +66,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_hovered_layer_idx(),
   m_object_tip(new Tip()),
   m_layer_list_widget(std::make_unique<MenuListWidget>()),
-  m_layer_list_widget_visible(),
+  m_layer_list_widget_visible(true),
   m_queue_layer_list_widget_refresh(),
   m_has_mouse_focus(false)
 {
@@ -329,22 +329,6 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
 
-  auto list_widget_area = m_layer_list_widget->get_area();
-
-  auto new_layer_list_has_mouse_focus = false;
-  auto action_toolbar = dynamic_cast<MenuListLayerActionsItem *>(m_layer_list_widget->get_menu_items().back().get());
-  if (action_toolbar != nullptr)
-  {
-    new_layer_list_has_mouse_focus = action_toolbar->add_layer_menu_has_mouse_focus(mouse_pos);
-  }
-
-  if (m_hovered_item != HoveredItem::SECTOR && m_layer_list_widget_visible &&
-      !list_widget_area.contains(mouse_pos) && 
-      !new_layer_list_has_mouse_focus && !has_focus())
-  {
-    m_layer_list_widget_visible = false;
-    return true;
-  }
 
   float x = mouse_pos.x - static_cast<float>(m_Xpos);
   float y = mouse_pos.y - static_cast<float>(m_Ypos);
@@ -367,7 +351,6 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
   if (x <= static_cast<float>(m_sector_text_width)) {
     m_hovered_item = HoveredItem::SECTOR;
-    m_layer_list_widget_visible = true;
     m_object_tip->set_visible(false);
   } else {
     // Scrolling
@@ -472,7 +455,7 @@ EditorLayersWidget::recalculate_positions()
   m_Ypos = SCREEN_HEIGHT - 32;
   m_Width = SCREEN_WIDTH - 128;
 
-  m_layer_list_widget->recalculate_item_position_and_size(Vector(m_Xpos, m_Ypos), true);
+  m_layer_list_widget->recalculate_item_position_and_size(Vector(0, m_Ypos - 1), true);
 }
 
 void
