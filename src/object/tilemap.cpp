@@ -399,6 +399,8 @@ TileMap::get_settings()
 void
 TileMap::after_editor_set()
 {
+  LayerObject::after_editor_set();
+
   if ((m_new_size_x != m_width || m_new_size_y != m_height ||
       m_new_offset_x || m_new_offset_y) &&
       m_new_size_x > 0 && m_new_size_y > 0) {
