@@ -69,6 +69,7 @@ ControlTextboxFloat::on_key_down(const SDL_KeyboardEvent& key)
     }
 
     revert_value();
+    call_on_change_callbacks();
 
     return true;
   }
