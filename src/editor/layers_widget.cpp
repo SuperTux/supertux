@@ -186,7 +186,7 @@ EditorLayersWidget::update(float dt_sec)
     if (!selected_layer)
     {
       // Ensure a layer is always selected
-      refresh_layers();
+      select_initial_layer();
     }
   }
 
@@ -555,7 +555,7 @@ EditorLayersWidget::refresh_sector_text()
 }
 
 void
-EditorLayersWidget::refresh_layers()
+EditorLayersWidget::select_initial_layer()
 {
   bool layer_selected = false;
   EditorLayer* first_selectable_layer = nullptr;
@@ -686,7 +686,7 @@ EditorLayersWidget::on_layer_list_changed()
   remove_invalid_layers();
   sort_layers();
   populate_layers_list_widget();
-  refresh_layers();
+  select_initial_layer();
 }
 
 EditorLayer*
