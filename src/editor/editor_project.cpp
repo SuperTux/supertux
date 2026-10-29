@@ -49,6 +49,7 @@ EditorProject::EditorProject() :
   m_level_filename(),
   m_autosave_filename(),
   m_is_level_loaded(),
+  m_is_sector_set(),
   m_time_since_last_save(),
   m_post_save_callbacks(),
   m_on_level_set_callbacks(),
@@ -135,6 +136,7 @@ void
 EditorProject::reset()
 {
   m_is_level_loaded = false;
+  m_is_sector_set = false;
   m_level.reset();
   m_world.reset();
   m_level_filename.clear();
@@ -482,6 +484,7 @@ EditorProject::set_sector(Sector* sector)
   {
     callback();
   }
+  m_is_sector_set = true;
 }
 
 void
