@@ -275,16 +275,6 @@ EditorPropertiesPanel::load_object_properties(GameObject* object)
         m_is_executing_state_change = true;
         object->after_editor_set();
         object->check_state();
-
-        if (dynamic_cast<LayerObject*>(object))
-        {
-          // Sometimes, changing layer object properties can cause
-          // a different layer to be selected. Make sure to reset
-          // to the right layer here.
-          auto layers_widget = Editor::current()->get_layers_widget();
-          layers_widget->on_layer_list_changed();
-          layers_widget->set_selected_layer(object);
-        }
         m_is_executing_state_change = false;
       });
     add_control(option->get_text(), std::move(control), option->get_description());
