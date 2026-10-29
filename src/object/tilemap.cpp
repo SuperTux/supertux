@@ -569,7 +569,7 @@ TileMap::draw(DrawingContext& context)
   }
   else
   {
-    context.set_alpha(get_editor_layer_alpha());
+    context.set_alpha(get_editor_layer_alpha() * m_current_alpha);
   }
 
   const float trans_x = context.get_translation().x;
