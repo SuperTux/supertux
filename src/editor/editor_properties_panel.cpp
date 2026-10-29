@@ -282,6 +282,7 @@ EditorPropertiesPanel::load_object_properties(GameObject* object)
           // a different layer to be selected. Make sure to reset
           // to the right layer here.
           auto layers_widget = Editor::current()->get_layers_widget();
+          layers_widget->on_layer_list_changed();
           layers_widget->set_selected_layer(object);
         }
         m_is_executing_state_change = false;
