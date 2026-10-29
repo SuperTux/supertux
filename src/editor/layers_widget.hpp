@@ -69,7 +69,7 @@ public:
   void refresh();
 
   void refresh_sector_text();
-  void refresh_layers();
+  void select_initial_layer();
   void sort_layers();
 
   void on_layer_list_changed();
