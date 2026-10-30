@@ -108,3 +108,17 @@ EditorCamera::keep_in_bounds()
 
   overlay_widget->update_pos();
 }
+
+void
+EditorCamera::center_on(const Vector& position)
+{
+  auto overlay_widget = Editor::current()->get_overlay_widget();
+  auto editor_project = Editor::current()->get_project();
+  auto sector = editor_project->get_sector();
+  auto& camera = sector->get_camera();
+  
+  camera.set_translation_centered(position);
+  keep_in_bounds();
+
+  overlay_widget->update_pos();
+}
