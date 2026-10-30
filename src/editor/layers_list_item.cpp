@@ -201,7 +201,7 @@ LayersListItem::draw_visibility_icon(DrawingContext& context)
     return;
 
   auto icon_size = Vector(icon->get_width(), icon->get_height());
-  context.color().draw_surface_scaled(icon, target_rect, LAYER_GUI);
+  context.color().draw_surface_scaled(icon, target_rect, LAYER_GUI + 10);
 }
 
 void
