@@ -135,8 +135,7 @@ EditorTileConverter::focus_on_tile(Sector* sector, TileMap* tilemap, int pos)
   const int width = tilemap->get_width();
   auto screen_position = Vector(pos % width, pos / width) * 32.f;
   
-  sector->get_camera().set_translation_centered(screen_position);
-  editor->get_camera()->keep_in_bounds();
+  editor->get_camera()->center_on(screen_position);
 }
 
 void

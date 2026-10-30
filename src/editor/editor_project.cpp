@@ -623,12 +623,10 @@ EditorProject::check_save_prerequisites(const std::function<void ()>& callback) 
     if (sector->get_name() == DEFAULT_SECTOR_NAME)
     {
       sector_valid = true;
-      for (const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
+      if (sector->get_spawn_point(DEFAULT_SPAWNPOINT_NAME))
       {
-        if (spawnpoint.get_name() == DEFAULT_SPAWNPOINT_NAME)
-        {
-          spawnpoint_valid = true;
-        }
+        spawnpoint_valid = true;
+        break;
       }
     }
   }
