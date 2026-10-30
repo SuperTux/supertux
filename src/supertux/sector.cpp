@@ -276,6 +276,13 @@ Sector::activate(const Vector& player_pos)
 
   flush_game_objects();
 
+  if (Editor::is_active())
+  {
+    // Don't attempt to run init scripts when the editor
+    // is active and we're not testing a level.
+    return;
+  }
+
   //Run default.nut just before init script
   //Check to see if it's in a levelset (info file)
   std::string basedir = FileSystem::dirname(get_level().m_filename);
