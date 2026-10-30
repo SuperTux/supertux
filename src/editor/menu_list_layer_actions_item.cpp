@@ -128,7 +128,7 @@ MenuListLayerActionsItem::initialize()
   for (const auto& button : m_buttons)
   {
     button->set_flat(true);
-    button->set_layer(LAYER_GUI + 1);
+    button->set_layer(LAYER_GUI + 10);
   }
 }
 
@@ -226,7 +226,7 @@ MenuListLayerActionsItem::on_mouse_motion(const SDL_MouseMotionEvent &motion)
 void
 MenuListLayerActionsItem::draw(DrawingContext& context)
 {
-  context.color().draw_filled_rect(m_rect, Color::BLACK, LAYER_GUI + 1);
+  context.color().draw_filled_rect(m_rect, Color::BLACK, LAYER_GUI + 5);
 
   if (m_add_layer_menu_visible)
   {
