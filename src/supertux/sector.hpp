@@ -241,7 +241,7 @@ public:
    *                            spawnpoint if the spawnpoint couldn't be found
    */
   Vector get_spawn_point_position(const std::string& spawnpoint, bool fallback_to_default = false) const;
-  Vector get_spawn_point_position(const SpawnPointMarker* spawnpoint, bool fallback_to_default = false) const;
+  Vector get_spawn_point_position_fallback(bool fallback_to_default = false) const;
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
