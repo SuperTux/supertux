@@ -83,6 +83,10 @@ EditorPropertiesPanel::draw(DrawingContext& context)
   context.color().draw_rect(get_area(), Color(0.25, 0.25, 0.25), LAYER_GUI);
   context.color().set_blur(0);
 
+  context.push_transform();
+  context.set_translation(context.get_translation() + get_area().p1());
+  context.set_viewport(get_area().to_rect());
+
   if (m_controls.empty())
   {
     std::string text = "";
@@ -114,6 +118,8 @@ EditorPropertiesPanel::draw(DrawingContext& context)
   {
     control->draw(context);
   }
+
+  context.pop_transform();
 }
 
 bool
