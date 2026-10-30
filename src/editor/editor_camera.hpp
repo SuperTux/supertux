@@ -84,6 +84,12 @@ public:
    */
   void keep_in_bounds();
 
+  /**
+   * Centers the camera view on the specified position
+   * @param position Position to center the view on
+   */
+  void center_on(const Vector &position);
+
 private:
   float m_scroll_speed;
   float m_new_scale;
