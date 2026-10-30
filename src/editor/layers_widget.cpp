@@ -613,13 +613,10 @@ EditorLayersWidget::sort_layers()
 void
 EditorLayersWidget::add_layer(GameObject* object, bool execute_post_layer_add_actions)
 {
-  if (!object->has_settings())
+  if (!object->has_settings() || !object->is_layer_object())
     return;
 
-  auto* layer = dynamic_cast<LayerObject*>(object);
-  if (!layer)
-    return;
-
+  auto* layer = static_cast<LayerObject*>(object);
   auto editor_layer = std::make_unique<EditorLayer>(layer);
   m_editor_layers.push_back(std::move(editor_layer));
 
