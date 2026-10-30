@@ -419,14 +419,6 @@ TileMap::after_editor_set()
 
   m_current_tint = m_tint;
   m_current_alpha = m_alpha;
-
-  if (Editor::is_active())
-  {
-    if (Editor* editor = Editor::current())
-    {
-      editor->get_layers_widget()->refresh();
-    }
-  }
 }
 
 void

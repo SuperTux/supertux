@@ -560,12 +560,17 @@ EditorLayersWidget::select_initial_layer()
   bool layer_selected = false;
   EditorLayer* first_selectable_layer = nullptr;
 
-  auto last_selected_layer = get_selected_layer();
+  auto editor_project = m_editor.get_project();
 
-  if (last_selected_layer != nullptr && last_selected_layer->is_valid())
+  if (editor_project->is_sector_set())
   {
-    set_selected_layer(last_selected_layer->get_game_object());
-    return;
+    auto last_selected_layer = get_selected_layer();
+
+    if (last_selected_layer != nullptr && last_selected_layer->is_valid())
+    {
+      set_selected_layer(last_selected_layer->get_game_object());
+      return;
+    }
   }
 
   for (const auto& layer : m_editor_layers)
