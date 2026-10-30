@@ -188,31 +188,44 @@ Sector::get_spawn_point(const std::string& spawnpoint) const
 }
 
 Vector
-Sector::get_spawn_point_position(const std::string& spawnpoint) const
+Sector::get_spawn_point_position(const std::string& spawnpoint, bool fallback_to_default) const
 {
-  SpawnPointMarker* sp = get_spawn_point(spawnpoint);
+  auto sp = get_spawn_point(spawnpoint);
+  auto use_default_fallback = fallback_to_default && spawnpoint != DEFAULT_SPAWNPOINT_NAME;
+  return get_spawn_point_position(sp, use_default_fallback);
+}
+
+Vector
+Sector::get_spawn_point_position(const SpawnPointMarker* sp, bool fallback_to_default) const
+{
   if (sp)
+  {
     return sp->get_pos();
-  else
-    return Vector(0.0f, 0.0f);
+  }
+  
+  if (fallback_to_default)
+  {
+    return get_spawn_point_position(DEFAULT_SPAWNPOINT_NAME);
+  }
+  
+  return Vector(0.0f, 0.0f);
 }
 
 void
 Sector::activate(const std::string& spawnpoint)
 {
-  SpawnPointMarker* sp = get_spawn_point(spawnpoint);
-
-  if (!sp) {
-    if (!m_level.is_worldmap())
-      log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
-      activate(DEFAULT_SPAWNPOINT_NAME);
-    } else {
-      activate(Vector(0, 0));
-    }
-  } else {
+  auto sp = get_spawn_point(spawnpoint);
+  if (sp)
+  {
     activate(sp->get_pos());
+    return;
   }
+  
+  if (!m_level.is_worldmap())
+  {
+    log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
+  }
+  activate(get_spawn_point_position(sp, true));
 }
 
 void
