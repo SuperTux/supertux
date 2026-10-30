@@ -56,11 +56,17 @@ MenuListWidget::draw(DrawingContext& context)
 {
   context.color().draw_filled_rect(m_menu_area, m_menu_background_color, LAYER_GUI);
   context.color().draw_rect(m_menu_area, m_menu_border_color, LAYER_GUI);
-  
-  for(const auto& item : m_menu_items)
+
+  context.push_transform();
+  context.set_translation(context.get_translation() + m_menu_area.p1());
+  context.set_viewport(m_menu_area.to_rect());
+
+  for (const auto &item : m_menu_items)
   {
     item->draw(context);
   }
+
+  context.pop_transform();
 }
 
 void
