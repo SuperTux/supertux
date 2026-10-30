@@ -366,7 +366,8 @@ EditorEventHandling::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (editor->get_selected_object() == nullptr)
+  auto selected_object = editor->get_selected_object();
+  if (selected_object == nullptr || selected_object->is_layer_object())
   {
     if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT] || keys[SDL_SCANCODE_A]) {
       camera->scroll({ -scroll_speed, 0.0f });
