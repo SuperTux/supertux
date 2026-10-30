@@ -111,6 +111,18 @@ Editor::Editor() :
   {
     m_layers_widget->refresh();
     set_selected_object(nullptr);
+
+    auto sector = Sector::current();
+    if (sector)
+    {
+      auto spawnpoint_pos =
+        sector->get_spawn_point_position(DEFAULT_SPAWNPOINT_NAME, true);
+
+      if (spawnpoint_pos != Vector(0, 0))
+      {
+        m_camera->center_on(spawnpoint_pos);
+      }
+    }
   });
 
   m_project->add_tileset_reloaded_callback([this]()

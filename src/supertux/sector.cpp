@@ -191,24 +191,15 @@ Vector
 Sector::get_spawn_point_position(const std::string& spawnpoint, bool fallback_to_default) const
 {
   auto sp = get_spawn_point(spawnpoint);
-  auto use_default_fallback = fallback_to_default && spawnpoint != DEFAULT_SPAWNPOINT_NAME;
-  return get_spawn_point_position(sp, use_default_fallback);
+  auto _fallback_to_default = fallback_to_default && spawnpoint != DEFAULT_SPAWNPOINT_NAME;
+  return sp ? sp->get_pos() : get_spawn_point_position_fallback(_fallback_to_default);
 }
 
 Vector
-Sector::get_spawn_point_position(const SpawnPointMarker* sp, bool fallback_to_default) const
+Sector::get_spawn_point_position_fallback(bool fallback_to_default) const
 {
-  if (sp)
-  {
-    return sp->get_pos();
-  }
-  
-  if (fallback_to_default)
-  {
-    return get_spawn_point_position(DEFAULT_SPAWNPOINT_NAME);
-  }
-  
-  return Vector(0.0f, 0.0f);
+  return fallback_to_default ? 
+    get_spawn_point_position(DEFAULT_SPAWNPOINT_NAME) : Vector(0.0f, 0.0f);
 }
 
 void
@@ -225,7 +216,7 @@ Sector::activate(const std::string& spawnpoint)
   {
     log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
   }
-  activate(get_spawn_point_position(sp, true));
+  activate(get_spawn_point_position_fallback(true));
 }
 
 void
