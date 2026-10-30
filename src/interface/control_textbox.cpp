@@ -81,7 +81,7 @@ ControlTextbox::draw(DrawingContext& context)
   context.color().draw_filled_rect(m_rect,
                                    m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f)
                                                : Color(0.5f, 0.5f, 0.5f, 1.f),
-                                   2.f, LAYER_GUI);
+                                   2.f, get_base_layer());
 
   if (m_caret_pos != m_secondary_caret_pos) {
     float lgt1 = Resources::small_font
@@ -101,7 +101,7 @@ ControlTextbox::draw(DrawingContext& context)
                                            ),
                                      m_has_focus ? Color(1.f, 1.f, .9f, 0.75f)
                                                  : Color(1.f, 1.f, .9f, 0.5f),
-                                     LAYER_GUI);
+                                     get_base_layer());
   }
 
   context.color().draw_text(Resources::small_font,
@@ -110,7 +110,7 @@ ControlTextbox::draw(DrawingContext& context)
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                     Resources::small_font->get_height() / 2),
                             FontAlignment::ALIGN_LEFT,
-                            LAYER_GUI + 1,
+                            get_base_layer() + 1,
                             Color::WHITE);
   if (m_cursor_timer > 0 && m_has_focus) {
     float lgt = Resources::small_font
@@ -120,7 +120,7 @@ ControlTextbox::draw(DrawingContext& context)
                               m_rect.p1() + Vector(lgt + 5.f,
                                   Resources::small_font->get_height() + 4.f),
                               Color::BLACK,
-                              LAYER_GUI + 1);
+                              get_base_layer() + 1);
   }
 }
 

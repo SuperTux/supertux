@@ -28,6 +28,8 @@ public:
   void on_focus() override;
   void on_blur() override;
 
+  virtual int get_base_layer() const override { return LAYER_GUI + 10; }
+
 private:
   LayersListItem* m_parent;
 
