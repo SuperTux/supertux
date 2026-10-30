@@ -127,6 +127,11 @@ protected:
    */
   virtual void revert_value();
 
+  /**
+   * Returns the layer the textbox is supposed to get drawn to
+   */
+  virtual int get_base_layer() const { return LAYER_GUI; }
+
 protected:
   /** WARNING : These function returns the status of the string *as the user
    *  types*, and therefore are unsuited for callers expecting a validated
