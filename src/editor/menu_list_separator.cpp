@@ -30,5 +30,5 @@ MenuListSeparator::draw(DrawingContext& context)
   auto line_color = Color(0.5f, 0.5f, 0.5f);
   auto line_start = get_rect().p1() + Vector(0, get_rect().get_height() / 2.f);
   auto line_end = Vector(get_rect().p2().x, line_start.y);
-  context.color().draw_line(line_start, line_end, line_color, LAYER_GUI);
+  context.color().draw_line(line_start, line_end, line_color, LAYER_GUI + 5);
 }
