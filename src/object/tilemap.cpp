@@ -249,7 +249,7 @@ TileMap::on_path_resolved()
   auto layers_widget = editor->get_layers_widget();
   if (layers_widget)
   {
-    layers_widget->refresh();
+    layers_widget->queue_layer_list_refresh();
   }
 }
 
