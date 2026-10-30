@@ -30,13 +30,15 @@ class LayerObject : public GameObject
 public:
   LayerObject(const std::string& name = "", int layer = DEFAULT_LAYER) :
     GameObject(name),
-    m_layer(layer)
+    m_layer(layer),
+    m_editor_layer_alpha(1.f)
   {
   }
 
   LayerObject(const ReaderMapping& reader, int layer = DEFAULT_LAYER) :
     GameObject(reader),
-    m_layer(reader_get_layer(reader, layer))
+    m_layer(reader_get_layer(reader, layer)),
+    m_editor_layer_alpha(1.f)
   {
   }
 
@@ -45,8 +47,13 @@ public:
   {
   }
 
+  virtual bool is_layer_object() override { return true; }
+
   virtual void remove_me() override;
   virtual void after_editor_set() override;
+
+  inline void set_editor_layer_alpha(float value) { m_editor_layer_alpha = value; }
+  inline float get_editor_layer_alpha() { return m_editor_layer_alpha; }
 
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(LayerObject)); }
 
@@ -57,6 +64,10 @@ public:
 
 protected:
   int m_layer;
+
+private:
+  /** editor-specific setting specifying the alpha value this layer is drawn with */
+  float m_editor_layer_alpha;
 
 private:
   LayerObject(const LayerObject&) = delete;
