@@ -81,7 +81,7 @@ MenuListItem::draw(DrawingContext& context)
     if (has_mouse_focus() || is_selected)
     {
       context.color().draw_filled_rect(get_rect(),
-        has_mouse_focus() ? Color(0.3, 0.3, 0.3) : Color::BLACK, LAYER_GUI);
+        has_mouse_focus() ? Color(0.3, 0.3, 0.3) : Color::BLACK, LAYER_GUI + 10);
     }
   }
 
@@ -99,7 +99,7 @@ MenuListItem::draw(DrawingContext& context)
 
     auto surface_size = Sizef(rect.get_height(), rect.get_height()).as_vector() - m_sprite_offset;
     auto surface_rect = Rectf(origin, origin + surface_size);
-    context.color().draw_surface_scaled(surface, surface_rect, LAYER_GUI);
+    context.color().draw_surface_scaled(surface, surface_rect, LAYER_GUI + 10);
 
     if (draw_selected_indicator)
     {
@@ -107,7 +107,7 @@ MenuListItem::draw(DrawingContext& context)
       {
         if (item_selected_handler())
         {
-          context.color().draw_surface_scaled(item_selected_surface, surface_rect, LAYER_GUI);
+          context.color().draw_surface_scaled(item_selected_surface, surface_rect, LAYER_GUI + 10);
         }
       }
       else
@@ -121,17 +121,17 @@ MenuListItem::draw(DrawingContext& context)
   {
     auto checkbox_origin = origin + m_selected_indicator_offset;
     auto target_rect = Rectf(checkbox_origin, checkbox_origin + Vector(15, 15));
-    context.color().draw_surface_scaled(get_checkbox_surface(), target_rect, LAYER_GUI);
+    context.color().draw_surface_scaled(get_checkbox_surface(), target_rect, LAYER_GUI + 10);
   }
 
   auto label_position = origin + m_label_offset;
   auto text_color = is_enabled() ? Color::WHITE : Color(0.5, 0.5, 0.5);
-  context.color().draw_text(Resources::editor_menu_font, get_label(), label_position, FontAlignment::ALIGN_LEFT, LAYER_GUI, text_color);
+  context.color().draw_text(Resources::editor_menu_font, get_label(), label_position, FontAlignment::ALIGN_LEFT, LAYER_GUI + 10, text_color);
 
   if (get_keyboard_shortcut().size())
   {
     label_position += Vector(get_rect().get_width() - 30.f, 0);
-    context.color().draw_text(Resources::editor_menu_font, get_keyboard_shortcut(), label_position, FontAlignment::ALIGN_RIGHT, LAYER_GUI);
+    context.color().draw_text(Resources::editor_menu_font, get_keyboard_shortcut(), label_position, FontAlignment::ALIGN_RIGHT, LAYER_GUI + 10);
   }
 }
 
