@@ -81,7 +81,7 @@ ControlTextbox::draw(DrawingContext& context)
   context.color().draw_filled_rect(m_rect,
                                    m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f)
                                                : Color(0.5f, 0.5f, 0.5f, 1.f),
-                                   LAYER_GUI);
+                                   2.f, get_base_layer());
 
   if (m_caret_pos != m_secondary_caret_pos) {
     float lgt1 = Resources::small_font
@@ -101,7 +101,7 @@ ControlTextbox::draw(DrawingContext& context)
                                            ),
                                      m_has_focus ? Color(1.f, 1.f, .9f, 0.75f)
                                                  : Color(1.f, 1.f, .9f, 0.5f),
-                                     LAYER_GUI);
+                                     get_base_layer());
   }
 
   context.color().draw_text(Resources::small_font,
@@ -110,7 +110,7 @@ ControlTextbox::draw(DrawingContext& context)
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                     Resources::small_font->get_height() / 2),
                             FontAlignment::ALIGN_LEFT,
-                            LAYER_GUI + 1,
+                            get_base_layer() + 1,
                             Color::WHITE);
   if (m_cursor_timer > 0 && m_has_focus) {
     float lgt = Resources::small_font
@@ -120,7 +120,7 @@ ControlTextbox::draw(DrawingContext& context)
                               m_rect.p1() + Vector(lgt + 5.f,
                                   Resources::small_font->get_height() + 4.f),
                               Color::BLACK,
-                              LAYER_GUI + 1);
+                              get_base_layer() + 1);
   }
 }
 
@@ -129,19 +129,20 @@ ControlTextbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
   if (m_rect.contains(mouse_pos)) {
-    m_has_focus = true;
+    set_has_focus(true);
     m_cursor_timer = CONTROL_CURSOR_TIMER;
     m_caret_pos = get_text_position(mouse_pos);
     m_secondary_caret_pos = m_caret_pos;
     m_mouse_pressed = true;
     call_on_activate_callbacks();
     return true;
-  } else {
-    if (m_has_focus) {
-      parse_value();
-    }
-    m_has_focus = false;
   }
+  
+  if (m_has_focus)
+  {
+    parse_value();
+  }
+  set_has_focus(false);
   return false;
 }
 
@@ -295,8 +296,13 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
   }
   else if (key.key == SDLK_RETURN)
   {
-    m_has_focus = false;
+    set_has_focus(false);
     parse_value();
+    return true;
+  }
+  else if (key.key == SDLK_ESCAPE)
+  {
+    set_has_focus(false);
     return true;
   }
 
@@ -304,11 +310,15 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
 }
 
 bool
-ControlTextbox::event(const SDL_Event& ev) {
+ControlTextbox::event(const SDL_Event& ev)
+{
   Widget::event(ev);
 
   if (ev.type == SDL_EVENT_TEXT_INPUT && m_has_focus)
+  {
     put_text(std::string(ev.text.text));
+    return true;
+  }
 
   return false;
 }

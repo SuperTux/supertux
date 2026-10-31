@@ -233,7 +233,15 @@ public:
 
   std::vector<Player*> get_players() const;
 
-  Vector get_spawn_point_position(const std::string& spawnpoint) const;
+  SpawnPointMarker *get_spawn_point(const std::string &spawnpoint) const;
+  /**
+   * Returns the position of the specified spawnpoint
+   * @param spawnpoint Name of the spawnpoint to get the position for
+   * @param fallback_to_default If specified, returns the position of the default
+   *                            spawnpoint if the spawnpoint couldn't be found
+   */
+  Vector get_spawn_point_position(const std::string& spawnpoint, bool fallback_to_default = false) const;
+  Vector get_spawn_point_position_fallback(bool fallback_to_default = false) const;
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
@@ -246,8 +254,6 @@ private:
   /** Convert tiles into their corresponding GameObjects (e.g.
       bonusblocks, add light to lava tiles) */
   void convert_tiles2gameobject();
-
-  SpawnPointMarker* get_spawn_point(const std::string& spawnpoint) const;
 
 private:
   Level& m_level; // Parent level

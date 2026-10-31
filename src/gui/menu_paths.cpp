@@ -30,8 +30,13 @@ auto on_select = [](const std::string& path, PathObject& target, const std::stri
   return [path, &target, path_ref] {
     auto dialog = std::make_unique<Dialog>();
     dialog->add_default_button(_("Clone"), [path, path_ref] {
-      auto* from = Editor::current()->get_sector()->get_object_by_name<PathGameObject>(path);
-      auto* into = Editor::current()->get_sector()->get_object_by_name<PathGameObject>(path_ref);
+      
+      auto editor_project = Editor::current()->get_project();
+      auto sector = editor_project->get_sector();
+
+      auto* from = sector->get_object_by_name<PathGameObject>(path);
+      auto* into = sector->get_object_by_name<PathGameObject>(path_ref);
+      
       if (from && into) {
         from->copy_into(*into);
         MenuManager::instance().pop_menu();
@@ -56,7 +61,8 @@ PathsMenu::PathsMenu(PathObject& target, const std::string& path_ref)
   add_label(fmt::format(fmt::runtime(_("Path {}")), path_ref));
   add_hl();
 
-  const auto paths = Editor::current()->get_sector()->get_objects_by_type<PathGameObject>();
+  auto editor_project = Editor::current()->get_project();
+  const auto paths = editor_project->get_sector()->get_objects_by_type<PathGameObject>();
 
   for (const auto& path : paths)
   {

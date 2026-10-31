@@ -20,6 +20,7 @@
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
 
+#include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"
@@ -298,6 +299,16 @@ CloudParticleSystem::fade_amount(int new_amount, float fade_time, float time_bet
 void
 CloudParticleSystem::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
+
   if (!enabled)
     return;
 
@@ -335,6 +346,7 @@ CloudParticleSystem::draw(DrawingContext& context)
         it->second.draw(particle->pos, particle->angle);
       }
     }
+    context.set_alpha(previous_alpha);
   }
 
   for (auto& it : batches)
@@ -342,7 +354,7 @@ CloudParticleSystem::draw(DrawingContext& context)
     auto& surface = it.first;
     auto& batch = it.second;
     context.color().draw_surface_batch(surface, batch.move_srcrects(),
-      batch.move_dstrects(), batch.move_angles(), batch.get_color(), z_pos);
+      batch.move_dstrects(), batch.move_angles(), batch.get_color(), m_layer);
   }
 
   apply_fog_effect(context);

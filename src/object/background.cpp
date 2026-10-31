@@ -135,9 +135,9 @@ static SpritePtr load_background(const std::string& image_path)
 
 
 Background::Background() :
+  LayerObject(LAYER_BACKGROUND0),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
-  m_layer(LAYER_BACKGROUND0),
   m_imagefile_top(),
   m_imagefile(),
   m_imagefile_bottom(),
@@ -159,10 +159,9 @@ Background::Background() :
 }
 
 Background::Background(const ReaderMapping& reader) :
-  LayerObject(reader),
+  LayerObject(reader, LAYER_BACKGROUND0),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
-  m_layer(LAYER_BACKGROUND0),
   m_imagefile_top(),
   m_imagefile(),
   m_imagefile_bottom(),
@@ -226,8 +225,6 @@ Background::Background(const ReaderMapping& reader) :
 
   reader.get("scroll-speed-x", m_scroll_speed.x, 0.0f);
   reader.get("scroll-speed-y", m_scroll_speed.y, 0.0f);
-
-  m_layer = reader_get_layer(reader, LAYER_BACKGROUND0);
 
   reader.get("image", m_imagefile, "images/background/misc/transparent_up.png");
   m_image = load_background(m_imagefile);
@@ -314,6 +311,8 @@ Background::get_settings()
 void
 Background::after_editor_set()
 {
+  LayerObject::after_editor_set();
+
   m_image_top = load_background(m_imagefile_top);
   m_image = load_background(m_imagefile);
   m_image_bottom = load_background(m_imagefile_bottom);
@@ -484,8 +483,15 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 void
 Background::draw(DrawingContext& context)
 {
-  if (Editor::is_active() && !g_config->editor_render_background)
-    return;
+  auto previous_alpha = context.get_alpha();
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (!g_config->editor_render_background || editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
 
   if (!m_image)
     return;
@@ -510,6 +516,7 @@ Background::draw(DrawingContext& context)
   draw_image(context, pos + m_scroll_offset + Vector(center_offset.x * (1.0f - m_parallax_speed.x),
                                                      center_offset.y * (1.0f - m_parallax_speed.y)));
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 void

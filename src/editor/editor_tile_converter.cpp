@@ -15,7 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "editor/editor.hpp"
+#include "editor/editor_camera.hpp"
 #include "editor/editor_tile_converter.hpp"
+#include "editor/layers_widget.hpp"
 #include "gui/dialog.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
@@ -82,7 +84,8 @@ void
 EditorTileConverter::check_deprecated_tiles(bool initial_check)
 {
   auto editor = Editor::current();
-  auto level = editor->get_level();
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
 
   m_has_deprecated_tiles = false;
 
@@ -94,15 +97,18 @@ EditorTileConverter::check_deprecated_tiles(bool initial_check)
       for (const uint32_t& tile_id : tilemap.get_tiles())
       {
         idx++;
-        if (editor->get_tileset()->get(tile_id).is_deprecated())
+        if (editor_project->get_tileset()->get(tile_id).is_deprecated())
         {
           m_has_deprecated_tiles = true;
 
-          // Focus on deprecated tile
           if (initial_check)
           {
-            focus_on_tile(sector.get(), &tilemap, idx);
-            show_message(initial_check);
+            auto callback = [&sector, &tilemap, &idx, this]
+            {
+              // Focus on deprecated tile
+              focus_on_tile(sector.get(), &tilemap, idx);
+            };
+            show_message(initial_check, callback);
             return;
           }
         }
@@ -120,20 +126,20 @@ EditorTileConverter::focus_on_tile(Sector* sector, TileMap* tilemap, int pos)
     return;
 
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
   auto layers_widget = editor->get_layers_widget();
 
-  editor->set_sector(sector);
-  layers_widget->set_selected_tilemap(tilemap);
+  editor_project->set_sector(sector);
+  layers_widget->set_selected_layer(tilemap);
 
   const int width = tilemap->get_width();
   auto screen_position = Vector(pos % width, pos / width) * 32.f;
   
-  sector->get_camera().set_translation_centered(screen_position);
-  editor->keep_camera_in_bounds();
+  editor->get_camera()->center_on(screen_position);
 }
 
 void
-EditorTileConverter::show_message(bool initial_check)
+EditorTileConverter::show_message(bool initial_check, const std::function<void ()>& callback)
 {
   if (initial_check)
   {
@@ -146,7 +152,7 @@ EditorTileConverter::show_message(bool initial_check)
     if (!g_config->editor_show_deprecated_tiles)
       message += "\n\n" + _("Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu.");
 
-    Dialog::show_message(message);
+    Dialog::show_message(message, false, false, callback);
   }
   else
   {
@@ -156,7 +162,7 @@ EditorTileConverter::show_message(bool initial_check)
       const std::string present_message = _("Deprecated tiles are still present in the level.");
       if (g_config->editor_show_deprecated_tiles)
       {
-        Dialog::show_message(present_message);
+        Dialog::show_message(present_message, false, false, callback);
       }
       else
       {
@@ -176,7 +182,7 @@ void
 EditorTileConverter::convert_tiles_by_file(const std::string& file)
 {
   auto editor = Editor::current();
-  auto level = editor->get_level();
+  auto level = editor->get_project()->get_level();
 
   std::unordered_map<int, int> tiles;
 

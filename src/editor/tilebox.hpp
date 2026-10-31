@@ -53,10 +53,6 @@ public:
     NONE, UP, DOWN
   };
 
-  enum class InputType {
-    NONE, TILE, OBJECT
-  };
-
 public:
   EditorTilebox(Editor& editor, const Rectf& rect);
 
@@ -77,18 +73,17 @@ public:
 
   void select_tilegroup(int id);
   void select_last_tilegroup();
-  inline void set_tilegroup(std::unique_ptr<Tilegroup> tilegroup) { m_active_tilegroup = std::move(tilegroup); }
+
+  const Tilegroup* get_active_tilegroup() const;
+
+  ObjectGroup* get_layers_object_group() const;
   void select_objectgroup(int id);
   void select_last_objectgroup();
   bool select_layers_objectgroup();
 
   inline const ObjectInfo& get_object_info() const { return *m_object_info; }
-  inline InputType get_input_type() const { return m_input_type; }
-  inline void set_input_type(InputType input_type) { m_input_type = input_type; }
 
   inline TileSelection* get_tiles() const { return m_tiles.get(); }
-  inline const std::string& get_object() const { return m_object; }
-  inline void set_object(const std::string& object) { m_object = object; }
 
   float get_tiles_height() const;
 
@@ -122,16 +117,15 @@ private:
 
   std::unique_ptr<TileSelection> m_tiles;
 
-  std::string m_object;
   std::unique_ptr<Tip> m_object_tip;
-  InputType m_input_type;
 
-  std::unique_ptr<Tilegroup> m_active_tilegroup;
   ObjectGroup* m_active_objectgroup;
   std::unique_ptr<ObjectInfo> m_object_info;
   int m_tilegroup_id, m_objectgroup_id;
 
   std::function<void(EditorTilebox&)> m_on_select_callback;
+
+  SurfacePtr m_selection_surface;
 
   std::unique_ptr<ControlScrollbar> m_scrollbar;
   float m_scroll_progress;

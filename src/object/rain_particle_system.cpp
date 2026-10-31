@@ -22,6 +22,7 @@
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
 
+#include "editor/editor.hpp"
 #include "math/easing.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
@@ -286,6 +287,16 @@ void RainParticleSystem::fade_angle(float new_angle, float fade_time, easing eas
 
 void RainParticleSystem::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
+
   ParticleSystem_Interactive::draw(context);
 
   if (!enabled)
@@ -301,10 +312,10 @@ void RainParticleSystem::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
   context.color().draw_filled_rect(context.get_rect(),
                                    Color(0.3f, 0.38f, 0.4f, opacity),
-                                   z_pos);
+                                   m_layer);
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
-
 
 void
 RainParticleSystem::register_class(ssq::VM& vm)
