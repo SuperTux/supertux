@@ -125,6 +125,8 @@ private:
 
   std::function<void(EditorTilebox&)> m_on_select_callback;
 
+  SurfacePtr m_selection_surface;
+
   std::unique_ptr<ControlScrollbar> m_scrollbar;
   float m_scroll_progress;
 
