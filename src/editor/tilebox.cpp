@@ -21,7 +21,6 @@
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
-#include "sprite/sprite_ptr.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/debug.hpp"
@@ -32,6 +31,7 @@
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include <algorithm>
 
@@ -48,6 +48,7 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_object_info(new ObjectInfo()),
   m_on_select_callback([](EditorTilebox&) {}),
   m_scrollbar(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f)),
+  m_selection_surface(Surface::from_file("images/engine/editor/selection.png")),
   m_scroll_progress(1.f),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_tile(-1),
@@ -147,6 +148,9 @@ EditorTilebox::draw_tilegroup(DrawingContext& context)
 void
 EditorTilebox::draw_objectgroup(DrawingContext& context)
 {
+  auto selected_editor_class_name =
+    Editor::current()->get_selected_object_class_name();
+
   int pos = -1;
   for (auto& icon : m_active_objectgroup->get_icons())
   {
@@ -154,7 +158,15 @@ EditorTilebox::draw_objectgroup(DrawingContext& context)
     if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
       continue;
 
-    icon.draw(context, get_tile_coords(pos, false));
+    auto coordinates = get_tile_coords(pos, false);
+
+    if (icon.get_object_class_name() == selected_editor_class_name)
+    {
+      auto target_rect = Rectf(coordinates, coordinates + Vector(32, 32));
+      context.color().draw_surface_scaled(m_selection_surface, target_rect, LAYER_GUI);
+    }
+
+    icon.draw(context, coordinates);
   }
 }
 
