@@ -216,9 +216,9 @@ LayersListItem::draw_full_name_tooltip(DrawingContext& context)
   auto position = mouse_pos + Vector(35, 25);
   auto tooltip_rect = Rectf(position, position + Vector(text_width, text_height)).grown(2.f);
 
-  context.color().draw_filled_rect(tooltip_rect.grown(1.f), Color::WHITE, LAYER_GUI + 1);
-  context.color().draw_filled_rect(tooltip_rect, Color(0.3, 0.3, 0.3), LAYER_GUI + 1);
-  context.color().draw_text(font, layer_name, position, FontAlignment::ALIGN_LEFT, LAYER_GUI + 1);
+  context.color().draw_filled_rect(tooltip_rect.grown(1.f), Color::WHITE, LAYER_GUI + 15);
+  context.color().draw_filled_rect(tooltip_rect, Color(0.3, 0.3, 0.3), LAYER_GUI + 15);
+  context.color().draw_text(font, layer_name, position, FontAlignment::ALIGN_LEFT, LAYER_GUI + 15);
 }
 
 SurfacePtr
