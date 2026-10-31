@@ -896,14 +896,17 @@ void
 EditorOverlayWidget::put_object()
 {
   auto editor_project = m_editor.get_project();
+  auto editor_events = m_editor.get_event_handling();
 
   const std::string& object_class_name = m_editor.get_selected_object_class_name();
+
   if (object_class_name[0] == '#')
   {
     const auto& node_marker_class_name = NodeMarker::class_name();
     if (m_edited_path && object_class_name == node_marker_class_name)
     {
-      if (m_edited_path->is_valid() && m_last_node_marker) {
+      if (m_edited_path->is_valid() && m_last_node_marker)
+      {
         add_path_node();
       }
     }
@@ -935,6 +938,11 @@ EditorOverlayWidget::put_object()
     }
 
     editor_project->get_sector()->add_object(std::move(object));
+
+    if (!editor_events->get_shift_pressed())
+    {
+      m_editor.set_selected_object_class_name("");
+    }
   }
 }
 
@@ -1276,6 +1284,11 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
   {
     m_scrolling = false;
     m_scrolling_scale = 1.0f;
+  }
+
+  if (key.key == SDLK_LSHIFT || key.key == SDLK_RSHIFT)
+  {
+    m_editor.set_selected_object_class_name("");
   }
 
   return true;
