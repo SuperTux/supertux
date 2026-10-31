@@ -941,7 +941,7 @@ EditorOverlayWidget::put_object()
 
     if (!editor_events->get_shift_pressed())
     {
-      m_editor.set_selected_object_class_name("");
+      m_editor.set_selected_object_class_name("#move");
     }
   }
 }
@@ -1288,7 +1288,7 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 
   if (key.key == SDLK_LSHIFT || key.key == SDLK_RSHIFT)
   {
-    m_editor.set_selected_object_class_name("");
+    m_editor.set_selected_object_class_name("#move");
   }
 
   return true;
