@@ -89,6 +89,8 @@ public:
   static std::string class_name() { return "layer-objects"; }
   virtual std::string get_class_name() const override { return class_name(); }
 
+  virtual bool has_settings() const override { return false; }
+
   int get_layer() const override { return LAYER_OBJECTS; }
   
   void set_layer(int) override {}
