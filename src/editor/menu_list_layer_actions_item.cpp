@@ -226,8 +226,6 @@ MenuListLayerActionsItem::on_mouse_motion(const SDL_MouseMotionEvent &motion)
 void
 MenuListLayerActionsItem::draw(DrawingContext& context)
 {
-  context.color().draw_filled_rect(m_rect, Color::BLACK, LAYER_GUI + 5);
-
   if (m_add_layer_menu_visible)
   {
     m_add_layer_menu->draw(context);
