@@ -1,6 +1,5 @@
 function initialize()
 {
-  wait(0);
   start_cutscene();
   
   TUX.set_action("big-run-right");
