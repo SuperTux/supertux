@@ -58,6 +58,7 @@ MenuListLayerActionsItem::add_move_up_button()
   {
     m_parent->move_selected_layer_up();
   };
+  move_up_button->set_help_text(_("Move layer up"));
   move_up_button->set_onclick_handler(move_layer_up);
   m_buttons.push_back(std::move(move_up_button));
 }
@@ -73,6 +74,7 @@ MenuListLayerActionsItem::add_move_down_button()
   {
     m_parent->move_selected_layer_down();
   };
+  move_down_button->set_help_text(_("Move layer down"));
   move_down_button->set_onclick_handler(move_layer_down);
   m_buttons.push_back(std::move(move_down_button));
 }
@@ -84,6 +86,7 @@ MenuListLayerActionsItem::add_layer_add_button()
       "images/engine/editor/add.png", get_rect().p2() - Vector(25, 25),
       [] {}, Sizef(25, 25));
 
+  add_button->set_help_text(_("Add layer"));
   add_button->set_onclick_handler([this]
   {
     m_add_layer_menu_visible = !m_add_layer_menu_visible;
