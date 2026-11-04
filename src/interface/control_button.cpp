@@ -33,8 +33,7 @@ ControlButton::draw(DrawingContext& context)
   InterfaceControl::draw(context);
 
   context.color().draw_filled_rect(m_rect,
-                                   m_mouse_down ? Color(0.3f, 0.3f, 0.3f, 1.f) :
-                                       (m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f) : Color(0.5f, 0.5f, 0.5f, 1.f)),
+                                   m_mouse_down ? Color(0.3f, 0.3f, 0.3f, 1.f) : get_widget_color(),
                                    2.f,
                                    LAYER_GUI);
 
