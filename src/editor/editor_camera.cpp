@@ -92,7 +92,7 @@ EditorCamera::keep_in_bounds()
   auto sector = editor_project->get_sector();
   auto& camera = sector->get_camera();
 
-  constexpr float offset = 300.f;
+  float offset = 300.f * (1.f / camera.get_current_scale());
 #if 0
   float controls_offset_x = m_controls.size() != 0 ? -200.f : 0.f;
   float controls_offset_y = m_controls.size() != 0 ? -32.f : 0.f;
