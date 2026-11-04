@@ -93,13 +93,6 @@ EditorCamera::keep_in_bounds()
   auto& camera = sector->get_camera();
 
   float offset = 300.f * (1.f / camera.get_current_scale());
-#if 0
-  float controls_offset_x = m_controls.size() != 0 ? -200.f : 0.f;
-  float controls_offset_y = m_controls.size() != 0 ? -32.f : 0.f;
-  camera.keep_in_bounds(Rectf(-offset + controls_offset_x, -offset + controls_offset_y,
-                              std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()) + offset,
-                              std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale()) + offset));
-#endif
 
   camera.keep_in_bounds(Rectf(-offset,
                               -offset,
