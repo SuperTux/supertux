@@ -618,8 +618,12 @@ EditorOverlayWidget::hover_object()
     }
   }
 
-  if (m_hovered_object && m_hovered_object->has_settings() && !editor_tilebox.has_active_object_tip()) {
-    m_object_tip->set_info_for_object(*m_hovered_object);
+  if (Editor::current()->get_input_mode() == InputMode::OBJECT)
+  {
+    if (m_hovered_object && m_hovered_object->has_settings() && !editor_tilebox.has_active_object_tip())
+    {
+      m_object_tip->set_info_for_object(*m_hovered_object);
+    }
   }
 
   // (2/2) ...but select them anyways if they weren't hovering a node marker
