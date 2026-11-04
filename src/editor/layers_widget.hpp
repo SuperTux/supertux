@@ -124,10 +124,14 @@ public:
 
   bool has_mouse_focus() const;
 
-
   const std::vector<std::unique_ptr<EditorLayer>>& get_editor_layers() const
   {
     return m_editor_layers;
+  }
+
+  ObjectsLayer* get_objects_layer() const
+  {
+    return m_objects_layer;
   }
 
   /**
@@ -156,6 +160,7 @@ private:
 private:
   Editor& m_editor;
   std::vector<std::unique_ptr<EditorLayer>> m_editor_layers;
+  ObjectsLayer* m_objects_layer;
   std::map<EditorLayer*, EditorLayer::LayerVisibility> m_layer_visibilities;
   EditorLayer *m_selected_layer;
   UID m_selected_tilemap;

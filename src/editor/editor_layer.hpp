@@ -54,12 +54,30 @@ public:
    */
   bool is_user_modifiable() const
   {
-    const auto &class_name = get_game_object()->get_class_name();
+    auto game_object = get_game_object();
+
+    if (game_object == nullptr)
+      return false;
+
+    const auto &class_name = game_object->get_class_name();
 
     return class_name == TileMap::class_name() ||
            class_name == Gradient::class_name() ||
            class_name == Background::class_name() ||
            class_name.find("particles-") == 0;
+  }
+
+  bool has_visibility_settings() const
+  {
+    if (is_user_modifiable())
+      return true;
+
+    auto game_object = get_game_object();
+
+    if (game_object == nullptr)
+      return false;
+
+    return game_object->get_class_name() == "layer-objects";
   }
 
   /**

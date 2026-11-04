@@ -73,3 +73,32 @@ private:
   LayerObject(const LayerObject&) = delete;
   LayerObject& operator=(const LayerObject&) = delete;
 };
+
+class ObjectsLayer final : public LayerObject
+{
+public:
+  ObjectsLayer() :
+    LayerObject(LAYER_OBJECTS)
+  {
+  }
+
+  void remove_me() override {};
+
+  inline std::string get_display_name() const override { return _("Objects"); }
+
+  static std::string class_name() { return "layer-objects"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+
+  int get_layer() const override { return LAYER_OBJECTS; }
+  
+  void set_layer(int) override {}
+
+  void update(float) override {}
+
+  bool is_saveable() const override { return false; }
+  bool track_state() const override { return false; }
+
+  void draw(DrawingContext&) override {};
+
+  const std::string get_icon_path() const override { return "images/engine/editor/toggle_tile_object_mode.png"; }
+};

@@ -51,6 +51,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_editor(editor),
   m_editor_layers(),
   m_layer_visibilities(),
+  m_objects_layer(new ObjectsLayer()),
   m_selected_layer(nullptr),
   m_selected_tilemap(),
   m_add_icon("", "images/engine/editor/add.png"),
@@ -481,6 +482,8 @@ EditorLayersWidget::refresh()
 
   for (const auto& obj : sector->get_objects())
     add_layer(obj.get(), /* sort_layers_after_adding = */ false);
+
+  m_editor_layers.push_back(std::make_unique<EditorLayer>(m_objects_layer));
 
   on_layer_list_changed();
 
