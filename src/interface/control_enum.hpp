@@ -97,11 +97,7 @@ ControlEnum<T>::draw(DrawingContext& context)
 {
   InterfaceControl::draw(context);
 
-  context.color().draw_filled_rect(m_rect,
-                                   m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f)
-                                               : Color(0.5f, 0.5f, 0.5f, 1.f),
-                                   2.f,
-                                   LAYER_GUI);
+  context.color().draw_filled_rect(m_rect, get_widget_color(), 2.f, LAYER_GUI);
 
   std::string label;
   auto it = std::find_if(m_options.begin(), m_options.end(), [this](const auto &a) { return a.first == *m_value; });
