@@ -2,6 +2,5 @@
   (action
     (name "default")
     (hitbox 0 0 128 192)
-    (images "rock-4x6.png")
-  )
+    (images "rock-4x6.png"))
 )

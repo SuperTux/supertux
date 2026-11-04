@@ -1,24 +1,25 @@
 (supertux-sprite
- (action
-  (name "left")
-  (fps 15)
-  (hitbox 11 10 36 72)
-  (images "snowman-0.png"
-          "snowman-1.png"
-          "snowman-2.png"
-          "snowman-3.png"
-          "snowman-4.png"
-          "snowman-5.png"
-          "snowman-6.png"
-          "snowman-7.png"
-          "snowman-8.png"
-          "snowman-9.png"))
+  (action
+    (name "left")
+    (fps 15)
+    (hitbox 11 10 36 72)
+    (images "snowman-0.png"
+            "snowman-1.png"
+            "snowman-2.png"
+            "snowman-3.png"
+            "snowman-4.png"
+            "snowman-5.png"
+            "snowman-6.png"
+            "snowman-7.png"
+            "snowman-8.png"
+            "snowman-9.png"))
   (action
     (name "right")
-	  (fps 15)
+    (fps 15)
     (hitbox 11 10 36 72)
     (mirror-action "left")
   )
+
   (action
     (name "headless-left")
     (fps 18.0)
@@ -29,10 +30,11 @@
             "headless-1.png"))
   (action
     (name "headless-right")
-	  (fps 18.0)
+    (fps 18.0)
     (hitbox 11 10 36 72)
     (mirror-action "headless-left")
   )
+
   (action
     (name "melting")
     (hitbox 0 0 32 32)

@@ -6,9 +6,8 @@
     (images "flame_glow1.png"
             "flame_glow2.png"
             "flame_glow3.png"
-            "flame_glow4.png"
-            )
-  )
+            "flame_glow4.png"))
+
   (action
     (name "greyscale")
     (fps 16)
@@ -16,7 +15,5 @@
     (images "greyscale/flame_glow1.png"
             "greyscale/flame_glow2.png"
             "greyscale/flame_glow3.png"
-            "greyscale/flame_glow4.png"
-            )
-  )
+            "greyscale/flame_glow4.png"))
 )

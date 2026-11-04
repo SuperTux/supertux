@@ -3,39 +3,41 @@
     (hitbox 0 2 48 49)
     (name "walking-left")
     (fps 12.0)
-    (images "walking1.png" "walking2.png" "walking3.png" "walking4.png" "walking5.png" "walking6.png" "walking7.png" "walking8.png") 
-    )
+    (images "walking1.png"
+            "walking2.png"
+            "walking3.png"
+            "walking4.png"
+            "walking5.png"
+            "walking6.png"
+            "walking7.png"
+            "walking8.png"))
   (action
     (hitbox 0 2 48 49)
     (name "walking-right")
-    (mirror-action "walking-left")
-    )
+    (mirror-action "walking-left"))
+
   (action
     (hitbox 0 2 48 43)
     (name "stacked-left")
-    (images "stacked.png")
-    )
+    (images "stacked.png"))
   (action
     (hitbox 0 2 48 43)
     (name "stacked-right")
-    (mirror-action "stacked-left")
-    )
+    (mirror-action "stacked-left"))
+
   (action
     (hitbox 0 2 48 45)
     (name "squished-left")
-    (images "squished.png")
-    )
+    (images "squished.png"))
   (action
     (hitbox 0 2 48 45)
     (name "squished-right")
-    (mirror-action "squished-left")
-    )
+    (mirror-action "squished-left"))
+
   (action
     (name "editor-left")
-    (clone-action "walking-left")
-    )
+    (clone-action "walking-left"))
   (action
     (name "editor-right")
-    (clone-action "walking-right")
-    )
-  )
+    (clone-action "walking-right"))
+)
