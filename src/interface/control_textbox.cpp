@@ -78,10 +78,7 @@ ControlTextbox::draw(DrawingContext& context)
 {
   InterfaceControl::draw(context);
 
-  context.color().draw_filled_rect(m_rect,
-                                   m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f)
-                                               : Color(0.5f, 0.5f, 0.5f, 1.f),
-                                   2.f, get_base_layer());
+  context.color().draw_filled_rect(m_rect, get_widget_color(), 2.f, get_base_layer());
 
   if (m_caret_pos != m_secondary_caret_pos) {
     float lgt1 = Resources::small_font
@@ -99,8 +96,7 @@ ControlTextbox::draw(DrawingContext& context)
     context.color().draw_filled_rect(Rectf(m_rect.p1() + Vector(lgt1 + 5.f, 0.f),
                                            m_rect.p1() + Vector(lgt2 + 5.f, m_rect.get_height())
                                            ),
-                                     m_has_focus ? Color(1.f, 1.f, .9f, 0.75f)
-                                                 : Color(1.f, 1.f, .9f, 0.5f),
+                                     get_widget_color(),
                                      get_base_layer());
   }
 
