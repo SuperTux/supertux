@@ -133,8 +133,21 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   }
 
   auto textbox_rect = get_textbox_rect();
+  auto mouse_pos = event_handling->get_mouse_pos();
 
-  if (textbox_rect.contains(event_handling->get_mouse_pos()))
+  if (get_rect().contains(mouse_pos))
+  {
+    if (m_layer->get_game_object() == m_parent->get_objects_layer())
+    {
+      editor->set_input_mode(Editor::InputMode::OBJECT);
+    }
+    else
+    {
+      editor->set_input_mode(Editor::InputMode::TILE);
+    }
+  }
+
+  if (textbox_rect.contains(mouse_pos))
   {
     if (m_layer->is_user_modifiable() && button.clicks == 2)
     {
@@ -146,17 +159,6 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
       m_layer_name_textbox->set_rect(textbox_rect);
       m_layer_name_textbox->bind_string(&m_current_layer_name);
-    }
-    else
-    {
-      if (m_layer->get_game_object() == m_parent->get_objects_layer())
-      {
-        editor->set_input_mode(Editor::InputMode::OBJECT);
-      }
-      else
-      {
-        editor->set_input_mode(Editor::InputMode::TILE);
-      }
     }
   }
 
