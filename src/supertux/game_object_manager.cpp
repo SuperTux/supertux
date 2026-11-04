@@ -282,7 +282,23 @@ GameObjectManager::draw(DrawingContext& context)
     if (!object->is_valid())
       continue;
 
+    auto previous_alpha = context.get_alpha();
+
+    if (Editor::is_active() && !object->is_layer_object())
+    {
+      auto layers_widget = Editor::current()->get_layers_widget();
+      auto objects_layer = layers_widget->get_objects_layer();
+
+      context.push_transform();
+      context.set_alpha(objects_layer->get_editor_layer_alpha());
+    }
+
     object->draw(context);
+
+    if (Editor::is_active() && !object->is_layer_object())
+    {
+      context.set_alpha(previous_alpha);
+    }
   }
 }
 
