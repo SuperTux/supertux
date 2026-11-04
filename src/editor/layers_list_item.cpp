@@ -123,7 +123,8 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   // m_dragging = true;
 
-  auto event_handling = Editor::current()->get_event_handling();
+  auto editor = Editor::current();
+  auto event_handling = editor->get_event_handling();
   m_dragging_offset = event_handling->get_mouse_pos() - get_rect().p1();
   
   if (m_show_layer_name_textbox)
@@ -133,18 +134,30 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
   auto textbox_rect = get_textbox_rect();
 
-  if (textbox_rect.contains(event_handling->get_mouse_pos()) && button.clicks == 2 &&
-      m_layer->is_user_modifiable())
+  if (textbox_rect.contains(event_handling->get_mouse_pos()))
   {
-    m_show_layer_name_textbox = true;
-    auto object = m_layer->get_game_object();
-    object->save_state();
+    if (m_layer->is_user_modifiable() && button.clicks == 2)
+    {
+      m_show_layer_name_textbox = true;
+      auto object = m_layer->get_game_object();
+      object->save_state();
 
-    m_current_layer_name = object->get_name();
+      m_current_layer_name = object->get_name();
 
-    m_layer_name_textbox->set_rect(textbox_rect);
-    m_layer_name_textbox->bind_string(&m_current_layer_name);
-    return true;
+      m_layer_name_textbox->set_rect(textbox_rect);
+      m_layer_name_textbox->bind_string(&m_current_layer_name);
+    }
+    else
+    {
+      if (m_layer->get_game_object() == m_parent->get_objects_layer())
+      {
+        editor->set_input_mode(Editor::InputMode::OBJECT);
+      }
+      else
+      {
+        editor->set_input_mode(Editor::InputMode::TILE);
+      }
+    }
   }
 
   return MenuListItem::on_mouse_button_down(button);
