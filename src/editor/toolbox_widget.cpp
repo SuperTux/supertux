@@ -64,8 +64,11 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 
   auto editor_project = Editor::current()->get_project();
 
+  // TODO: Same callback func for tileset reloaded
   editor_project->add_sector_set_callback([editor_project, this]()
                                           {
+    m_tile_groups_dropdown->clear_items();
+
     int i = 0;
     for (const auto &tile_group : editor_project->get_tile_groups())
     {
