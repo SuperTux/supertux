@@ -19,6 +19,8 @@
 #include <vector>
 
 #include "interface/control.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 
 #include "util/log.hpp"
 
@@ -98,6 +100,10 @@ ControlEnum<T>::draw(DrawingContext& context)
   InterfaceControl::draw(context);
 
   context.color().draw_filled_rect(m_rect, get_widget_color(), 2.f, LAYER_GUI);
+
+  auto p2 = get_rect().p2();
+  Vector vertices[] = { p2 - Vector(15.f, 11.5f), p2 - Vector(6.f, 11.5f), p2 - Vector(10.5f, 6.5f) };
+  context.color().draw_triangle(vertices[0], vertices[1], vertices[2], g_config->editorcolor, LAYER_GUI + 5);
 
   std::string label;
   auto it = std::find_if(m_options.begin(), m_options.end(), [this](const auto &a) { return a.first == *m_value; });
