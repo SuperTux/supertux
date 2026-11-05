@@ -264,4 +264,6 @@ MenuListLayerActionsItem::set_rect(const Rectf &rect)
 
     i++;
   }
+
+  m_add_layer_menu->recalculate_item_position_and_size(rect.p2(), true);
 }
