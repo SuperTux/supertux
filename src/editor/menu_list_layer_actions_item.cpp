@@ -195,9 +195,10 @@ MenuListLayerActionsItem::on_mouse_button_down(const SDL_MouseButtonEvent &butto
   
   if (m_add_layer_menu_visible)
   {
+    auto event_handling = Editor::current()->get_event_handling();
     handled |= m_add_layer_menu->on_mouse_button_down(button);
 
-    if (handled)
+    if (handled || !m_add_layer_menu->get_area().contains(event_handling->get_mouse_pos()))
     {
       m_add_layer_menu_visible = false;
     }
