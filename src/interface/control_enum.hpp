@@ -53,6 +53,8 @@ public:
     );
   }
 
+  inline void clear_items() { m_options.clear(); }
+
 private:
   T* m_value;
   bool m_open_list;
