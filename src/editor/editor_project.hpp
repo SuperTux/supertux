@@ -389,9 +389,9 @@ public:
   bool test_project(const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
 
   /**
-   * Gets the current tileset's tilegroups.
+   * Gets the current tileset's tile groups.
    */
-  const std::vector<Tilegroup>& get_tilegroups() const
+  const std::vector<Tilegroup>& get_tile_groups() const
   {
     return m_tileset->get_tilegroups();
   }

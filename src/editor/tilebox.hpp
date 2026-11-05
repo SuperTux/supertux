@@ -37,10 +37,10 @@ class TileSelection;
 
 /**
   The tilebox allows selection of tiles or objects
-  from a specified tilegroup/objectgroup.
+  from a specified tile group/object group.
 
   NOTE: Not to be confused with EditorToolboxWidget, which also includes
-        tilegroup/objectgroup selection and tools.
+        tile group/object group selection and tools.
 */
 class EditorTilebox final : public Widget
 {
@@ -71,15 +71,15 @@ public:
 
   void on_select(const std::function<void(EditorTilebox&)>& callback);
 
-  void select_tilegroup(int id);
-  void select_last_tilegroup();
+  void select_tile_group(int id);
+  void select_last_tile_group();
 
-  const Tilegroup* get_active_tilegroup() const;
+  const Tilegroup* get_active_tile_group() const;
 
   ObjectGroup* get_layers_object_group() const;
-  void select_objectgroup(int id);
-  void select_last_objectgroup();
-  bool select_layers_objectgroup();
+  void select_object_group(int id);
+  void select_last_object_group();
+  bool select_layers_object_group();
 
   inline const ObjectInfo& get_object_info() const { return *m_object_info; }
 
@@ -88,11 +88,11 @@ public:
   float get_tiles_height() const;
 
   inline bool has_active_object_tip() const { return m_object_tip->get_visible(); }
-  inline size_t get_objectgroup_id() const { return m_objectgroup_id; }
-  inline size_t get_tilegroup_id() const { return m_tilegroup_id; }
+  inline size_t get_object_group_id() const { return m_object_group_id; }
+  inline size_t get_tile_group_id() const { return m_tile_group_id; }
 
-  void change_tilegroup(int dir);
-  void change_objectgroup(int dir);
+  void change_tile_group(int dir);
+  void change_object_group(int dir);
 
 private:
   Vector get_tile_coords(int pos, bool relative = true) const;
@@ -107,8 +107,8 @@ private:
 
   void reset_scrollbar();
 
-  void draw_tilegroup(DrawingContext& context);
-  void draw_objectgroup(DrawingContext& context);
+  void draw_tile_group(DrawingContext& context);
+  void draw_object_group(DrawingContext& context);
 
 private:
   Editor& m_editor;
@@ -119,9 +119,9 @@ private:
 
   std::unique_ptr<Tip> m_object_tip;
 
-  ObjectGroup* m_active_objectgroup;
+  ObjectGroup* m_active_object_group;
   std::unique_ptr<ObjectInfo> m_object_info;
-  int m_tilegroup_id, m_objectgroup_id;
+  int m_tile_group_id, m_object_group_id;
 
   std::function<void(EditorTilebox&)> m_on_select_callback;
 
