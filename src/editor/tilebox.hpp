@@ -110,6 +110,9 @@ private:
   void draw_tile_group(DrawingContext& context);
   void draw_object_group(DrawingContext& context);
 
+public:
+  int m_tile_group_id, m_object_group_id;
+
 private:
   Editor& m_editor;
 
@@ -121,7 +124,6 @@ private:
 
   ObjectGroup* m_active_object_group;
   std::unique_ptr<ObjectInfo> m_object_info;
-  int m_tile_group_id, m_object_group_id;
 
   std::function<void(EditorTilebox&)> m_on_select_callback;
 
