@@ -103,7 +103,7 @@ ControlEnum<T>::draw(DrawingContext& context)
 
   auto p2 = get_rect().p2();
   Vector vertices[] = { p2 - Vector(15.f, 11.5f), p2 - Vector(6.f, 11.5f), p2 - Vector(10.5f, 6.5f) };
-  context.color().draw_triangle(vertices[0], vertices[1], vertices[2], g_config->editorcolor, LAYER_GUI + 5);
+  context.color().draw_triangle(vertices[0], vertices[1], vertices[2], g_config->editorcolor, LAYER_GUI + 1);
 
   std::string label;
   auto it = std::find_if(m_options.begin(), m_options.end(), [this](const auto &a) { return a.first == *m_value; });
