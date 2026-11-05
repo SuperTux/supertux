@@ -47,6 +47,8 @@ public:
 
   virtual bool is_user_removable() const override { return false; }
 
+  virtual void set_rect(const Rectf &rect) override;
+
   void set_disabled(bool disabled);
 
   bool add_layer_menu_has_mouse_focus(const Vector& mouse_pos)
