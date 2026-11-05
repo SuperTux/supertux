@@ -26,6 +26,7 @@
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "gui/menu.hpp"
+#include "interface/control_enum.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -50,6 +51,8 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_node_marker_mode(new ToolIcon("images/engine/editor/path_node.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
   m_undo_mode(new ToolIcon("images/engine/editor/arrow.png")),
+  m_tile_groups_dropdown(std::make_unique<ControlEnum<int>>()),
+  m_object_groups_dropdown(std::make_unique<ControlEnum<int>>()),
   m_has_mouse_focus(false)
 {
   m_select_mode->push_mode("images/engine/editor/select-mode1.png");
@@ -59,6 +62,20 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_undo_mode->push_mode("images/engine/editor/redo.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 
+  auto editor_project = Editor::current()->get_project();
+
+  editor_project->add_sector_set_callback([editor_project, this]()
+                                          {
+    int i = 0;
+    for (const auto &tile_group : editor_project->get_tile_groups())
+    {
+      m_tile_groups_dropdown->add_option(i, tile_group.name);
+      i++;
+    }
+    m_tile_groups_dropdown->bind_value(&(m_tilebox->m_tile_group_id));
+    m_tile_groups_dropdown->m_on_change_callbacks.emplace_back([this]
+                                                               { select_tile_group(m_tilebox->m_tile_group_id); }); });
+
   set_mouse_tool();
 }
 
@@ -66,6 +83,11 @@ void
 EditorToolboxWidget::draw(DrawingContext& context)
 {
   draw_separator(context);
+
+  if (m_editor.get_input_mode() == InputMode::TILE)
+  {
+    m_tile_groups_dropdown->draw(context);
+  }
 
   m_tilebox->draw(context);
 
@@ -118,12 +140,22 @@ EditorToolboxWidget::draw_separator(DrawingContext& context)
 bool
 EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
+  if (m_editor.get_input_mode() == InputMode::TILE && m_tile_groups_dropdown->on_mouse_button_up(button))
+  {
+    return true;
+  }
   return m_tilebox->on_mouse_button_up(button);
 }
 
 bool
 EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
+  if (m_editor.get_input_mode() == InputMode::TILE &&
+    m_tile_groups_dropdown->on_mouse_button_down(button))
+  {
+    return true;
+  }
+
   if (m_tilebox->on_mouse_button_down(button))
   {
     m_editor.get_overlay_widget()->update_autotileset();
@@ -203,6 +235,12 @@ EditorToolboxWidget::set_mouse_tool()
 bool
 EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
+  if (m_editor.get_input_mode() == InputMode::TILE &&
+      m_tile_groups_dropdown->on_mouse_motion(motion))
+  {
+    return true;
+  }
+
   if (m_tilebox->on_mouse_motion(motion))
   {
     m_hovered_item = HoveredItem::TILEBOX;
@@ -324,6 +362,8 @@ EditorToolboxWidget::on_window_resize()
                             Vector(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))));
 
   m_tilebox->on_window_resize();
+
+  m_tile_groups_dropdown->set_rect(Rectf(m_pos_x, 70.f, SCREEN_WIDTH, 90.f));
 }
 
 void

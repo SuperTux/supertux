@@ -25,6 +25,9 @@
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 
+template<typename T>
+class ControlEnum;
+
 class Editor;
 class EditorTilebox;
 class ToolIcon;
@@ -107,6 +110,9 @@ private:
   std::unique_ptr<ToolIcon> m_node_marker_mode;
   std::unique_ptr<ToolIcon> m_move_mode;
   std::unique_ptr<ToolIcon> m_undo_mode;
+
+  std::unique_ptr<ControlEnum<int>> m_tile_groups_dropdown;
+  std::unique_ptr<ControlEnum<int>> m_object_groups_dropdown;
 
   bool m_has_mouse_focus;
 
