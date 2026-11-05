@@ -94,24 +94,6 @@ EditorToolboxWidget::draw(DrawingContext& context)
   context.color().draw_text(Resources::normal_font, _("Objects"),
                             Vector(context.get_width(), 37),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
-
-  m_rubber->draw(context);
-  m_undo_mode->draw(context);
-  switch (m_editor.get_input_mode())
-  {
-    case InputMode::TILE:
-      m_select_mode->draw(context);
-      break;
-
-    case InputMode::NONE:
-    case InputMode::OBJECT:
-      m_node_marker_mode->draw(context);
-      m_move_mode->draw(context);
-      break;
-
-    default:
-      break;
-  }
 }
 
 void
@@ -192,47 +174,6 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
       }
         return true;
 
-      case HoveredItem::TOOL:
-        switch (m_hovered_tool)
-        {
-          case 0:
-            set_rubber_tool();
-            break;
-
-          case 1:
-            switch (m_editor.get_input_mode())
-            {
-              case InputMode::TILE:
-                m_select_mode->next_mode();
-                break;
-              case InputMode::NONE:
-              case InputMode::OBJECT:
-              {
-                m_editor.set_selected_object_class_name(NodeMarker::class_name());
-              }
-              break;
-              default:
-                break;
-            }
-            update_mouse_icon();
-            break;
-
-           case 2:
-             if (m_editor.get_input_mode() == InputMode::OBJECT ||
-                 m_editor.get_input_mode() == InputMode::NONE)
-               m_move_mode->next_mode();
-             update_mouse_icon();
-             break;
-
-           case 3:
-             set_mouse_tool();
-             break;
-
-          default:
-            break;
-        }
-        return true;
-
       default:
         return false;
     }
@@ -292,11 +233,6 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     else if (y < -32)
     {
       m_hovered_item = HoveredItem::OBJECTS;
-    }
-    else
-    {
-      m_hovered_item = HoveredItem::TOOL;
-      m_hovered_tool = get_tool_pos(mouse_pos);
     }
     return true;
   }
@@ -387,12 +323,6 @@ EditorToolboxWidget::on_window_resize()
   m_tilebox->set_rect(Rectf(Vector(m_pos_x, 96.f),
                             Vector(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))));
 
-  m_rubber->m_pos           = Vector(m_pos_x        , 64.0f);
-  m_select_mode->m_pos      = Vector(m_pos_x + 32.0f, 64.0f);
-  m_node_marker_mode->m_pos = Vector(m_pos_x + 32.0f, 64.0f);
-  m_move_mode->m_pos        = Vector(m_pos_x + 64.0f, 64.0f);
-  m_undo_mode->m_pos        = Vector(m_pos_x + 96.0f, 64.0f);
-
   m_tilebox->on_window_resize();
 }
 
@@ -459,21 +389,6 @@ EditorToolboxWidget::set_tileselect_move_mode(int mode)
   update_mouse_icon();
 }
 
-Vector
-EditorToolboxWidget::get_tool_coords(int pos) const
-{
-  return Vector(static_cast<float>((pos % 4) * 32) + m_pos_x,
-                static_cast<float>((pos / 4) * 32) + 64.f);
-}
-
-int
-EditorToolboxWidget::get_tool_pos(const Vector& coords) const
-{
-  int x = static_cast<int>((coords.x - m_pos_x) / 32.f);
-  int y = static_cast<int>((coords.y - 64.f) / 32.f);
-  return y * 4 + x;
-}
-
 Rectf
 EditorToolboxWidget::get_rect_from_hovered_item(HoveredItem item) const
 {
@@ -484,12 +399,6 @@ EditorToolboxWidget::get_rect_from_hovered_item(HoveredItem item) const
 
     case HoveredItem::OBJECTS:
       return Rectf(Vector(m_pos_x, 32.f), Vector(static_cast<float>(SCREEN_WIDTH), 64.f));
-
-    case HoveredItem::TOOL:
-    {
-      auto coords = get_tool_coords(m_hovered_tool);
-      return Rectf(coords, coords + Vector(32.f, 32.f));
-    }
 
     default:
       return Rectf();
