@@ -29,7 +29,7 @@ EditorTilegroupMenu::EditorTilegroupMenu()
   add_hl();
 
   int id = 0;
-  for (auto& tg : editor_project->get_tilegroups()) {
+  for (auto& tg : editor_project->get_tile_groups()) {
     add_entry(id, _(tg.name));
     id++;
   }
@@ -50,7 +50,7 @@ EditorTilegroupMenu::menu_action(MenuItem& item)
   {
     auto editor = Editor::current();
     auto toolbox_widget = editor->get_toolbox_widget();
-    toolbox_widget->select_tilegroup(item.get_id());
+    toolbox_widget->select_tile_group(item.get_id());
   }
   MenuManager::instance().clear_menu_stack();
 }

@@ -201,7 +201,7 @@ EditorToolbarWidget::set_mode(const InputMode& input_mode)
 
   if (input_mode == InputMode::OBJECT)
   {
-    toolbox_widget->select_last_objectgroup();
+    toolbox_widget->select_last_object_group();
     for(const auto& toolbar_button : m_widgets)
     {
       toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
@@ -210,7 +210,7 @@ EditorToolbarWidget::set_mode(const InputMode& input_mode)
   }
   else
   {
-    toolbox_widget->select_last_tilegroup();
+    toolbox_widget->select_last_tile_group();
     for(const auto& toolbar_button : m_widgets)
     {
       toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());

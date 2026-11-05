@@ -128,7 +128,7 @@ Editor::Editor() :
   m_project->add_tileset_reloaded_callback([this]()
   {
     set_input_mode(InputMode::TILE);
-    m_toolbox_widget->get_tilebox().select_tilegroup(0);
+    m_toolbox_widget->get_tilebox().select_tile_group(0);
   });
 }
 
@@ -335,7 +335,7 @@ Editor::on_level_set()
   MouseCursor::current()->set_icon(nullptr);
 
   auto& tilebox = m_toolbox_widget->get_tilebox();
-  tilebox.select_tilegroup(0);
+  tilebox.select_tile_group(0);
   set_input_mode(InputMode::TILE);
 
   m_script_manager.clear_tmp();

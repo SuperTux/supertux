@@ -60,7 +60,7 @@ EditorObjectgroupMenu::menu_action(MenuItem& item)
   {
     auto editor = Editor::current();
     auto toolbox_widget = editor->get_toolbox_widget();
-    toolbox_widget->select_objectgroup(item.get_id());
+    toolbox_widget->select_object_group(item.get_id());
   }
   MenuManager::instance().clear_menu_stack();
 }
