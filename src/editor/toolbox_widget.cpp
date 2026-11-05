@@ -76,8 +76,33 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
       i++;
     }
     m_tile_groups_dropdown->bind_value(&(m_tilebox->m_tile_group_id));
-    m_tile_groups_dropdown->m_on_change_callbacks.emplace_back([this]
-                                                               { select_tile_group(m_tilebox->m_tile_group_id); }); });
+    auto on_tile_group_select = [this]
+    {
+      select_tile_group(m_tilebox->m_tile_group_id);
+    };
+    m_tile_groups_dropdown->m_on_change_callbacks.emplace_back(on_tile_group_select);
+
+    auto level = editor_project->get_level();
+    bool is_worldmap = level->is_worldmap();
+
+    m_object_groups_dropdown->clear_items();
+    i = 0;
+    for (const auto &object_group : get_tilebox().get_object_info().m_groups)
+    {
+      if (object_group.is_worldmap() == is_worldmap)
+      {
+        m_object_groups_dropdown->add_option(i, object_group.get_name());
+        i++;
+      }
+    }
+    m_object_groups_dropdown->bind_value(&(m_tilebox->m_object_group_id));
+    auto on_object_group_select = [this]
+    {
+      select_object_group(m_tilebox->m_object_group_id);
+    };
+    m_object_groups_dropdown->m_on_change_callbacks.emplace_back(on_object_group_select);
+
+  });
 
   set_mouse_tool();
 }
@@ -90,6 +115,10 @@ EditorToolboxWidget::draw(DrawingContext& context)
   if (m_editor.get_input_mode() == InputMode::TILE)
   {
     m_tile_groups_dropdown->draw(context);
+  }
+  else
+  {
+    m_object_groups_dropdown->draw(context);
   }
 
   m_tilebox->draw(context);
@@ -147,6 +176,11 @@ EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   {
     return true;
   }
+  
+  if (m_editor.get_input_mode() == InputMode::OBJECT && m_object_groups_dropdown->on_mouse_button_up(button))
+  {
+    return true;
+  }
   return m_tilebox->on_mouse_button_up(button);
 }
 
@@ -155,6 +189,12 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (m_editor.get_input_mode() == InputMode::TILE &&
     m_tile_groups_dropdown->on_mouse_button_down(button))
+  {
+    return true;
+  }
+
+  if (m_editor.get_input_mode() == InputMode::OBJECT &&
+    m_object_groups_dropdown->on_mouse_button_down(button))
   {
     return true;
   }
@@ -240,6 +280,12 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
   if (m_editor.get_input_mode() == InputMode::TILE &&
       m_tile_groups_dropdown->on_mouse_motion(motion))
+  {
+    return true;
+  }
+
+  if (m_editor.get_input_mode() == InputMode::OBJECT &&
+      m_object_groups_dropdown->on_mouse_motion(motion))
   {
     return true;
   }
@@ -366,7 +412,9 @@ EditorToolboxWidget::on_window_resize()
 
   m_tilebox->on_window_resize();
 
-  m_tile_groups_dropdown->set_rect(Rectf(m_pos_x, 70.f, SCREEN_WIDTH, 90.f));
+  auto dropdown_selector_rect = Rectf(m_pos_x, 70.f, SCREEN_WIDTH, 90.f);
+  m_tile_groups_dropdown->set_rect(dropdown_selector_rect);
+  m_object_groups_dropdown->set_rect(dropdown_selector_rect);
 }
 
 void
