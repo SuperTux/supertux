@@ -194,9 +194,6 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
   if (button.button == SDL_BUTTON_LEFT)
   {
-    auto editor_events = m_editor.get_event_handling();
-    auto mouse_pos = editor_events->get_mouse_pos();
-
     switch (hovered_item)
     {
       case HoveredItem::SECTOR:
