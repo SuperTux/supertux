@@ -41,10 +41,10 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_editor(editor),
   m_rect(rect),
   m_tiles(new TileSelection()),
-  m_tilegroup_id(0),
-  m_objectgroup_id(0),
+  m_tile_group_id(0),
+  m_object_group_id(0),
   m_object_tip(new Tip()),
-  m_active_objectgroup(),
+  m_active_object_group(),
   m_object_info(new ObjectInfo()),
   m_on_select_callback([](EditorTilebox&) {}),
   m_scrollbar(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f)),
@@ -100,11 +100,11 @@ EditorTilebox::draw(DrawingContext& context)
   switch (input_mode)
   {
     case InputMode::TILE:
-      draw_tilegroup(context);
+      draw_tile_group(context);
       break;
 
     case InputMode::OBJECT:
-      draw_objectgroup(context);
+      draw_object_group(context);
       break;
 
     default:
@@ -117,17 +117,17 @@ EditorTilebox::draw(DrawingContext& context)
 }
 
 void
-EditorTilebox::draw_tilegroup(DrawingContext& context)
+EditorTilebox::draw_tile_group(DrawingContext& context)
 {
   int pos = -1;
-  auto active_tilegroup = get_active_tilegroup();
+  auto active_tile_group = get_active_tile_group();
   
-  if (active_tilegroup == nullptr)
+  if (active_tile_group == nullptr)
   {
     return;
   }
   
-  for (auto &tile_ID : active_tilegroup->tiles)
+  for (auto &tile_ID : active_tile_group->tiles)
   {
     pos++;
     if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
@@ -136,23 +136,23 @@ EditorTilebox::draw_tilegroup(DrawingContext& context)
     auto position = get_tile_coords(pos, false);
     m_editor.get_project()->get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
 
-    if (g_config->developer_mode && (active_tilegroup->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
+    if (g_config->developer_mode && (active_tile_group->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
     {
       // Display tile ID on top of tile:
       context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
                                 position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
     }
-    }
+  }
 }
 
 void
-EditorTilebox::draw_objectgroup(DrawingContext& context)
+EditorTilebox::draw_object_group(DrawingContext& context)
 {
   auto selected_editor_class_name =
     Editor::current()->get_selected_object_class_name();
 
   int pos = -1;
-  for (auto& icon : m_active_objectgroup->get_icons())
+  for (auto& icon : m_active_object_group->get_icons())
   {
     pos++;
     if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
@@ -206,9 +206,9 @@ void
 EditorTilebox::update_selection()
 {
   Rectf select = normalize_selection(true);
-  auto active_tilegroup = get_active_tilegroup();
+  auto active_tile_group = get_active_tile_group();
   
-  if (active_tilegroup == nullptr)
+  if (active_tile_group == nullptr)
   {
     return;
   }
@@ -217,14 +217,14 @@ EditorTilebox::update_selection()
   m_tiles->m_width = static_cast<int>(select.get_width() + 1);
   m_tiles->m_height = static_cast<int>(select.get_height() + 1);
 
-  int size = static_cast<int>(active_tilegroup->tiles.size());
+  int size = static_cast<int>(active_tile_group->tiles.size());
   for (int y = static_cast<int>(select.get_top()); y <= static_cast<int>(select.get_bottom()); y++)
   {
     for (int x = static_cast<int>(select.get_left()); x <= static_cast<int>(select.get_right()); x++)
     {
       int tile_pos = (y + static_cast<int>(m_scroll_progress / 32.f)) * 4 + x;
       if (tile_pos < size && tile_pos >= 0)
-        m_tiles->m_tiles.push_back(active_tilegroup->tiles[tile_pos]);
+        m_tiles->m_tiles.push_back(active_tile_group->tiles[tile_pos]);
       else
         m_tiles->m_tiles.push_back(0);
     }
@@ -262,16 +262,16 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             m_dragging = true;
             m_drag_start = Vector(static_cast<float>(m_hovered_tile % 4),
                                   static_cast<float>(m_hovered_tile / 4)); // NOLINT
-            auto active_tilegroup = get_active_tilegroup();
+            auto active_tile_group = get_active_tile_group();
 
-            if (active_tilegroup == nullptr)
+            if (active_tile_group == nullptr)
             {
               break;
             }
 
-            int size = static_cast<int>(active_tilegroup->tiles.size());
+            int size = static_cast<int>(active_tile_group->tiles.size());
             if (m_hovered_tile < size && m_hovered_tile >= 0)
-              m_tiles->set_tile(active_tilegroup->tiles[m_hovered_tile]);
+              m_tiles->set_tile(active_tile_group->tiles[m_hovered_tile]);
             else
               m_tiles->set_tile(0);
           }
@@ -279,7 +279,7 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
         case InputMode::OBJECT:
           {
-            auto& icons = m_active_objectgroup->get_icons();
+            auto& icons = m_active_object_group->get_icons();
             int size = static_cast<int>(icons.size());
             if (m_hovered_tile < size && m_hovered_tile >= 0)
             {
@@ -346,7 +346,7 @@ EditorTilebox::update_hovered_tile()
   }
   else if (input_mode == InputMode::OBJECT && m_hovered_tile != prev_hovered_tile)
   {
-    const auto& icons = m_active_objectgroup->get_icons();
+    const auto& icons = m_active_object_group->get_icons();
     if (m_hovered_tile < static_cast<int>(icons.size())) {
       const std::string& obj_class = icons[m_hovered_tile].get_object_class_name();
       std::string obj_name = obj_class;
@@ -425,92 +425,92 @@ EditorTilebox::on_select(const std::function<void(EditorTilebox&)>& callback)
 }
 
 void
-EditorTilebox::select_tilegroup(int id)
+EditorTilebox::select_tile_group(int id)
 {
-  m_tilegroup_id = id;
+  m_tile_group_id = id;
   m_editor.set_input_mode(InputMode::TILE);
   reset_scrollbar();
 }
 
 void
-EditorTilebox::select_last_tilegroup()
+EditorTilebox::select_last_tile_group()
 {
-  select_tilegroup(get_tilegroup_id());
+  select_tile_group(get_tile_group_id());
 }
 
 void
-EditorTilebox::select_objectgroup(int id)
+EditorTilebox::select_object_group(int id)
 {
-  m_active_objectgroup = &m_object_info->m_groups[id];
-  m_objectgroup_id = id;
+  m_active_object_group = &m_object_info->m_groups[id];
+  m_object_group_id = id;
   m_editor.set_input_mode(InputMode::OBJECT);
   reset_scrollbar();
 }
 
 void
-EditorTilebox::select_last_objectgroup()
+EditorTilebox::select_last_object_group()
 {
-  select_objectgroup(m_objectgroup_id);
+  select_object_group(m_object_group_id);
 }
 
 void
-EditorTilebox::change_tilegroup(int dir)
+EditorTilebox::change_tile_group(int dir)
 {
   auto input_mode = m_editor.get_input_mode();
 
   if (input_mode == InputMode::OBJECT)
   {
-    select_last_tilegroup();
+    select_last_tile_group();
     return;
   }
 
-  size_t tilegroups_size = m_editor.get_project()->get_tileset()->get_tilegroups().size();
-  m_tilegroup_id += dir;
-  if (m_tilegroup_id < 0)
-    m_tilegroup_id = tilegroups_size - 1;
-  else if (m_tilegroup_id > tilegroups_size - 1)
-    m_tilegroup_id = 0;
+  size_t tile_groups_size = m_editor.get_project()->get_tileset()->get_tilegroups().size();
+  m_tile_group_id += dir;
+  if (m_tile_group_id < 0)
+    m_tile_group_id = tile_groups_size - 1;
+  else if (m_tile_group_id > tile_groups_size - 1)
+    m_tile_group_id = 0;
 
-  select_last_tilegroup();
+  select_last_tile_group();
 }
 
 const Tilegroup* 
-EditorTilebox::get_active_tilegroup() const
+EditorTilebox::get_active_tile_group() const
 {
-  auto tileset = m_editor.get_project()->get_tileset();
-  if (m_tilegroup_id < 0 || m_tilegroup_id >= tileset->get_tilegroups().size())
+  auto& tilegroups = m_editor.get_project()->get_tileset()->get_tilegroups();
+  if (m_tile_group_id < 0 || m_tile_group_id >= tilegroups.size())
     return nullptr;
 
-  return &(tileset->get_tilegroups()[m_tilegroup_id]);
+  return &(tilegroups[m_tile_group_id]);
 }
 
 void
-EditorTilebox::change_objectgroup(int dir)
+EditorTilebox::change_object_group(int dir)
 {
   auto input_mode = m_editor.get_input_mode();
   if (input_mode == InputMode::TILE)
   {
-    select_last_objectgroup();
+    select_last_object_group();
     return;
   }
 
   bool is_worldmap = m_editor.get_project()->get_level()->is_worldmap();
   auto object_groups = m_object_info->m_groups;
 
-  size_t objectgroups_size = object_groups.size();
+  size_t object_groups_size = object_groups.size();
   // We also need to skip worldmap groups if we aren't a worldmap here
   do
   {
-    m_objectgroup_id += dir;
+    m_object_group_id += dir;
 
-    if (m_objectgroup_id < 0)
-      m_objectgroup_id = objectgroups_size - 1;
-    else if (m_objectgroup_id > objectgroups_size - 1)
-      m_objectgroup_id = 0;
+    if (m_object_group_id < 0)
+      m_object_group_id = object_groups_size - 1;
+    else if (m_object_group_id > object_groups_size - 1)
+      m_object_group_id = 0;
   }
-  while (!is_worldmap && object_groups.at(m_objectgroup_id).is_worldmap());
+  while (!is_worldmap && object_groups.at(m_object_group_id).is_worldmap());
 
-  select_last_objectgroup();
+  select_last_object_group();
 }
 
 ObjectGroup*
@@ -524,18 +524,18 @@ EditorTilebox::get_layers_object_group() const
 }
 
 bool
-EditorTilebox::select_layers_objectgroup()
+EditorTilebox::select_layers_object_group()
 {
   auto layers = get_layers_object_group();
 
   if (layers)
   {
-    m_active_objectgroup = layers;
+    m_active_object_group = layers;
     m_editor.set_input_mode(InputMode::OBJECT);
   }
   else
   {
-    m_active_objectgroup = nullptr;
+    m_active_object_group = nullptr;
     m_editor.set_input_mode(InputMode::NONE);
   }
   reset_scrollbar();
@@ -550,12 +550,12 @@ EditorTilebox::get_tiles_height() const
   {
     case InputMode::TILE:
     {
-      auto active_tilegroup = get_active_tilegroup();
-      return active_tilegroup ? ceilf((active_tilegroup->tiles.size() * 1.f) / 4.f) * 32.f : 0.f;
+      auto active_tile_group = get_active_tile_group();
+      return active_tile_group ? ceilf((active_tile_group->tiles.size() * 1.f) / 4.f) * 32.f : 0.f;
     }
 
     case InputMode::OBJECT:
-      return ceilf(static_cast<float>(m_active_objectgroup->get_icons().size()) / 4.f) * 32.f;
+      return ceilf(static_cast<float>(m_active_object_group->get_icons().size()) / 4.f) * 32.f;
 
     default:
       return 0.f;

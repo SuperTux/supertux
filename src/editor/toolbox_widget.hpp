@@ -52,10 +52,10 @@ public:
   virtual void setup() override;
   virtual void on_window_resize() override;
 
-  void select_tilegroup(int id);
-  void select_objectgroup(int id);
-  void select_last_tilegroup();
-  void select_last_objectgroup();
+  void select_tile_group(int id);
+  void select_object_group(int id);
+  void select_last_tile_group();
+  void select_last_object_group();
 
   void switch_current_group(int dir);
 
