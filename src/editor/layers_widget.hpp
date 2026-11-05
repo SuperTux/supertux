@@ -45,7 +45,7 @@ class EditorLayersWidget final : public Widget
 {
 public:
   enum class HoveredItem {
-    NONE, SPAWNPOINTS, SECTOR, LAYERS
+    NONE, SPAWNPOINTS, SECTOR
   };
 
 public:
@@ -87,8 +87,6 @@ public:
 
   EditorLayer *get_layer_for_game_object(GameObject *object) const;
 
-  EditorTilebox *get_tilebox() const { return m_add_layer_box.get(); }
-
   /**
    * Returns the previous (in terms of list order) layer or nullptr if layer is at the top 
    */
@@ -120,8 +118,6 @@ public:
    */
   void populate_layers_list_widget();
 
-  void update_current_tip();
-
   bool has_mouse_focus() const;
 
   const std::vector<std::unique_ptr<EditorLayer>>& get_editor_layers() const
@@ -132,14 +128,6 @@ public:
   ObjectsLayer* get_objects_layer() const
   {
     return m_objects_layer;
-  }
-
-  /**
-   * Returns the layer the mouse is currently hovering over
-   */
-  inline const std::unique_ptr<EditorLayer>& get_hovered_layer() const
-  {
-    return m_editor_layers[m_hovered_layer_idx];
   }
 
   void save_layer_visibilities();
@@ -155,8 +143,6 @@ private:
   void recalculate_positions();
   void handle_layer_list_widget_refresh();
 
-  void update_tip();
-
 private:
   Editor& m_editor;
   std::vector<std::unique_ptr<EditorLayer>> m_editor_layers;
@@ -165,23 +151,15 @@ private:
   EditorLayer *m_selected_layer;
   UID m_selected_tilemap;
 
-  ObjectIcon m_add_icon;
-  std::unique_ptr<EditorTilebox> m_add_layer_box;
-  bool m_add_layer_box_visible;
-
   int m_Ypos;
   const int m_Xpos = 32;
   int m_Width;
-  int m_scroll;
-  int m_scroll_speed;
 
   std::string m_sector_text;
   int m_sector_text_width;
 
   HoveredItem m_hovered_item;
-  unsigned int m_hovered_layer_idx;
 
-  std::unique_ptr<Tip> m_object_tip;
   std::unique_ptr<MenuListWidget> m_layer_list_widget;
   bool m_layer_list_widget_visible;
   bool m_queue_layer_list_widget_refresh;
