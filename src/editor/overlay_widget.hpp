@@ -107,11 +107,10 @@ private:
   std::string get_autotileset_key_range() const;
 
   /**
-   * Draws the zoom percentage in the top right corner when it's not 100%
-   * and applies the current zoom percentage
+   * Applies the current camera scale ("zoom") and translation
    * @param DrawingContext Current DrawingContext instance
    */
-  void draw_zoom_indicator(DrawingContext &);
+  void apply_camera_settings(DrawingContext &);
 
   /**
    * Draws help text for autotiling, including the necessary key presses

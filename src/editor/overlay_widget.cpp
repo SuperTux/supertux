@@ -1722,7 +1722,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
 
   m_object_tip->draw(context, m_mouse_pos);
 
-  draw_zoom_indicator(context);
+  apply_camera_settings(context);
   draw_tile_tip(context);
   draw_rectangle_preview(context);
   draw_path(context);
@@ -1791,23 +1791,14 @@ EditorOverlayWidget::draw(DrawingContext& context)
 }
 
 void
-EditorOverlayWidget::draw_zoom_indicator(DrawingContext& context)
+EditorOverlayWidget::apply_camera_settings(DrawingContext& context)
 {
-  // Draw zoom indicator.
-  // The placing on the top-right is temporary, will be moved with the implementation of an editor toolbar.
   auto editor_project = m_editor.get_project();
   auto& camera = editor_project->get_sector()->get_camera();
 
-  const float scale = camera.get_current_scale();
-  const int scale_percentage = static_cast<int>(roundf(scale * 100.f));
-  if (scale_percentage != 100)
-    context.color().draw_text(Resources::big_font, std::to_string(scale_percentage) + '%',
-                              Vector(context.get_width() - 140.f, 15.f),
-                              ALIGN_RIGHT, LAYER_OBJECTS + 1, Color::WHITE);
-
   context.push_transform();
   context.set_translation(camera.get_translation());
-  context.transform().scale = scale;
+  context.transform().scale = camera.get_current_scale();
 }
 
 void
