@@ -55,11 +55,11 @@ public:
   virtual bool is_user_removable() const { return false; }
 
 public:
-  const Rectf &get_rect() const { return m_rect; }
-  inline void set_rect(const Rectf &rect) { m_rect = rect; }
+  virtual const Rectf &get_rect() const { return m_rect; }
+  virtual inline void set_rect(const Rectf &rect) { m_rect = rect; }
 
-  Sizef get_size() const { return m_size; }
-  inline void set_size(const Sizef &size) { m_size = size; }
+  virtual Sizef get_size() const { return m_size; }
+  virtual inline void set_size(const Sizef &size) { m_size = size; }
 
 protected:
   Rectf m_rect;

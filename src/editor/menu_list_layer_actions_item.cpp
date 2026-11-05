@@ -240,3 +240,28 @@ MenuListLayerActionsItem::draw(DrawingContext& context)
     button->draw(context);
   }
 }
+
+void
+MenuListLayerActionsItem::set_rect(const Rectf &rect)
+{
+  MenuListBaseItem::set_rect(rect);
+
+  Vector positions[] =
+  {
+    rect.p1(), // Delete button
+    rect.p1() + Vector(25, 0), // move up
+    rect.p1() + Vector(50, 0), // move down
+    rect.p2() - Vector(25, 25) // add layer
+  };
+
+  int i = 0;
+  for(auto& button : m_buttons)
+  {
+    auto button_rect = button->get_rect();
+    button_rect.set_p1(positions[i]);
+    button_rect.set_size(25.f, 25.f);
+    button->set_rect(button_rect);
+
+    i++;
+  }
+}
