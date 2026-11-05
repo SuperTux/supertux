@@ -62,7 +62,6 @@ EditorHistoryManager::undo()
 
   BIND_SECTOR(*sector);
   sector->undo();
-  layers_widget->update_current_tip();
 }
 
 void
@@ -75,5 +74,4 @@ EditorHistoryManager::redo()
 
   BIND_SECTOR(*sector);
   sector->redo();
-  layers_widget->update_current_tip();
 }

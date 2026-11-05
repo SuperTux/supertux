@@ -1021,7 +1021,8 @@ EditorOverlayWidget::process_left_click()
 
       if (!m_editor.get_selected_object_class_name().empty())
       {
-        if (!m_dragged_object) put_object();
+        if (!m_dragged_object)
+          put_object();
       }
       else
       {

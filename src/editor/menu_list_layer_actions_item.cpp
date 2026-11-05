@@ -16,6 +16,7 @@
 
 #include "editor/menu_list_layer_actions_item.hpp"
 
+#include "editor/editor.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/menu_list_item.hpp"
 #include "math/vector.hpp"
@@ -92,7 +93,7 @@ MenuListLayerActionsItem::add_layer_add_button()
     m_add_layer_menu_visible = !m_add_layer_menu_visible;
   });
 
-  auto layer_objects = m_parent->get_tilebox()->get_layers_object_group();
+  auto layer_objects =  Editor::current()->get_tilebox().get_layers_object_group();
 
   for (const auto &layer_type : layer_objects->get_icons())
   {
