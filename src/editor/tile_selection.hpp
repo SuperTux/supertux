@@ -41,6 +41,7 @@ public:
   /**
    * Returns true if the tile selection is supposed to erase
    * existing tiles
+   * TODO: This only checks if the first tile is 0, is this what we want?
    */
   inline bool erases_tiles() const { return m_tiles.size() > 0 && m_tiles[0] == 0; }
 
