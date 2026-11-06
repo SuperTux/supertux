@@ -543,7 +543,12 @@ EditorToolboxWidget::get_mouse_icon() const
     }
 
     case InputMode::TILE:
+    {
+      if (m_editor.get_tile_selection()->erases_tiles())
+        return m_rubber.get();
+      
       return m_select_mode.get();
+    }
 
     default:
       return nullptr;
