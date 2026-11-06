@@ -1106,6 +1106,7 @@ void
 EditorOverlayWidget::update_tile_selection()
 {
   Rectf select = tile_drag_rect();
+  auto toolbox_widget = m_editor.get_toolbox_widget();
   auto tiles = m_editor.get_tile_selection();
   auto tileset = m_editor.get_project()->get_tileset();
   auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
@@ -1142,6 +1143,7 @@ EditorOverlayWidget::update_tile_selection()
   }
 
   update_autotileset();
+  toolbox_widget->update_mouse_icon();
 }
 
 bool
