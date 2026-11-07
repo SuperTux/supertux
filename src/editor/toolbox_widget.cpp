@@ -187,57 +187,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     return true;
   }
 
-  if (button.button == SDL_BUTTON_LEFT)
-  {
-    auto editor_project = m_editor.get_project();
-    auto level = editor_project->get_level();
-
-    auto hovered_item = m_hovered_item;
-    m_hovered_item = HoveredItem::NONE;
-
-    switch (hovered_item)
-    {
-      case HoveredItem::TILEGROUP:
-      {
-        auto tileset = editor_project->get_tileset();
-        if (tileset->get_tilegroups().size() > 1)
-        {
-          MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
-          MenuManager::instance().current_menu()->set_item(m_tilebox->get_tile_group_id());
-        }
-        else
-        {
-          select_tile_group(0);
-        }
-      }
-        return true;
-
-      case HoveredItem::OBJECTS:
-      {
-        if ((level->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
-            (!level->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
-        {
-          MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
-          MenuManager::instance().current_menu()->set_item(m_tilebox->get_object_group_id());
-        }
-        else
-        {
-          if (level->is_worldmap())
-            select_object_group(m_tilebox->get_object_info().get_first_worldmap_group_index());
-          else
-            select_object_group(0);
-        }
-      }
-        return true;
-
-      default:
-        return false;
-    }
-  }
-  else
-  {
-    return false;
-  }
+  return false;
 }
 
 void
