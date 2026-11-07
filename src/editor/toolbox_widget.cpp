@@ -129,25 +129,6 @@ EditorToolboxWidget::draw(DrawingContext& context)
                                    g_config->editorcolor,
                                    0.0f, LAYER_GUI-10);
   context.color().set_blur(0);
-
-  if (m_hovered_item != HoveredItem::NONE && m_hovered_item != HoveredItem::TILEBOX)
-  {
-    context.color().draw_filled_rect(get_hovered_item_rect(),
-                                     g_config->editorhovercolor,
-                                     0.0f, LAYER_GUI - 5);
-  }
-
-  Rectf item_rect = get_active_item_rect();
-  context.color().draw_gradient(Color(1.0f, 1.0f, 1.0f, 0.0f),
-                                Color(1.0f, 1.0f, 1.0f, 0.5f),
-                                LAYER_GUI, GradientDirection::HORIZONTAL, item_rect);
-
-  context.color().draw_text(Resources::normal_font, _("Tiles"),
-                            Vector(context.get_width(), 5),
-                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
-  context.color().draw_text(Resources::normal_font, _("Objects"),
-                            Vector(context.get_width(), 37),
-                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
 }
 
 void
@@ -292,41 +273,13 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
   if (m_tilebox->on_mouse_motion(motion))
   {
-    m_hovered_item = HoveredItem::TILEBOX;
     m_has_mouse_focus = true;
     return false; // The layers widget wouldn't be able to scroll otherwise.
   }
 
   const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
-  const float x = mouse_pos.x - m_pos_x;
-  const float y = mouse_pos.y - m_tilebox->get_rect().get_top();
-
-  if (x < 0)
-  {
-    m_hovered_item = HoveredItem::NONE;
-    m_has_mouse_focus = false;
-    return false;
-  }
-
-  // Mouse is currently over the toolbox widget.
-  m_has_mouse_focus = true;
-
-  if (y < 0) /** Tool bar */
-  {
-    if (y < -64)
-    {
-      m_hovered_item = HoveredItem::TILEGROUP;
-    }
-    else if (y < -32)
-    {
-      m_hovered_item = HoveredItem::OBJECTS;
-    }
-    return true;
-  }
-  else /** Tilebox */
-  {
-    m_hovered_item = HoveredItem::TILEBOX;
-  }
+  const float relative_x = mouse_pos.x - m_pos_x;
+  m_has_mouse_focus = relative_x > 0;
 
   return false;
 }
@@ -407,12 +360,12 @@ void
 EditorToolboxWidget::on_window_resize()
 {
   m_pos_x = static_cast<float>(SCREEN_WIDTH - 128);
-  m_tilebox->set_rect(Rectf(Vector(m_pos_x, 96.f),
+  m_tilebox->set_rect(Rectf(Vector(m_pos_x, 32.f),
                             Vector(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))));
 
   m_tilebox->on_window_resize();
 
-  auto dropdown_selector_rect = Rectf(m_pos_x, 70.f, SCREEN_WIDTH, 90.f);
+  auto dropdown_selector_rect = Rectf(m_pos_x, 6.f, SCREEN_WIDTH, 26.f);
   m_tile_groups_dropdown->set_rect(dropdown_selector_rect);
   m_object_groups_dropdown->set_rect(dropdown_selector_rect);
 }
@@ -478,44 +431,6 @@ EditorToolboxWidget::set_tileselect_move_mode(int mode)
 {
   m_move_mode->set_mode(mode);
   update_mouse_icon();
-}
-
-Rectf
-EditorToolboxWidget::get_rect_from_hovered_item(HoveredItem item) const
-{
-  switch (item)
-  {
-    case HoveredItem::TILEGROUP:
-      return Rectf(Vector(m_pos_x, 0.f), Vector(static_cast<float>(SCREEN_WIDTH), 32.f));
-
-    case HoveredItem::OBJECTS:
-      return Rectf(Vector(m_pos_x, 32.f), Vector(static_cast<float>(SCREEN_WIDTH), 64.f));
-
-    default:
-      return Rectf();
-  }
-}
-
-Rectf
-EditorToolboxWidget::get_active_item_rect() const
-{
-  InputMode input_mode = m_editor.get_input_mode();
-  switch (input_mode)
-  {
-    case InputMode::TILE:
-      return get_rect_from_hovered_item(HoveredItem::TILEGROUP);
-    case InputMode::OBJECT:
-      return get_rect_from_hovered_item(HoveredItem::OBJECTS);
-    case InputMode::NONE:
-    default:
-      return {};
-  }
-}
-
-Rectf
-EditorToolboxWidget::get_hovered_item_rect() const
-{
-  return get_rect_from_hovered_item(m_hovered_item);
 }
 
 void
