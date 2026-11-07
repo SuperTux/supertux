@@ -305,6 +305,13 @@ EditorLayersWidget::setup()
 }
 
 void
+EditorLayersWidget::on_level_change()
+{
+  m_selected_layer = nullptr;
+  m_selected_tilemap = 0;
+}
+
+void
 EditorLayersWidget::refresh()
 {
   m_editor_layers.clear();

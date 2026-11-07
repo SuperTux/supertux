@@ -67,6 +67,8 @@ public:
   virtual void on_window_resize() override;
   virtual bool has_focus() const;
 
+  void on_level_change();
+
   void refresh();
 
   void refresh_sector_text();

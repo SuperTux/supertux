@@ -332,6 +332,9 @@ Editor::on_level_set()
 {
   m_enabled = true;
 
+  m_selected_object = nullptr;
+  m_selected_object_class_name = "";
+
   MouseCursor::current()->set_icon(nullptr);
 
   auto& tilebox = m_toolbox_widget->get_tilebox();
@@ -341,6 +344,7 @@ Editor::on_level_set()
   m_script_manager.clear_tmp();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
+  m_layers_widget->on_level_change();
 
   m_history_manager->retoggle_undo_tracking();
   m_history_manager->undo_stack_cleanup();
