@@ -685,7 +685,7 @@ void
 EditorLayersWidget::set_mode(Editor::InputMode mode)
 {
   auto editor_project = m_editor.get_project();
-  if (!editor_project->is_sector_set())
+  if (!editor_project->is_level_loaded() || !editor_project->is_sector_set())
   {
     return;
   }
