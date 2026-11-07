@@ -87,7 +87,7 @@ Coin::get_default_sprite_name() const
 void
 Coin::finish_construction()
 {
-  if (get_path())
+  if (get_path() && get_path()->is_valid())
   {
     if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
       m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
@@ -128,8 +128,6 @@ Coin::editor_update()
     if (m_from_tilemap) {
       set_pos(m_offset + get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
     } else {
-      set_pos(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
-
       if (!get_path()) return;
       if (!get_path()->is_valid()) return;
 
