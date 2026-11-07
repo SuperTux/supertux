@@ -36,7 +36,7 @@ const Color Gradient::DEFAULT_GRADIENT_TOP(0.5f, 0.7f, 1.f);
 const Color Gradient::DEFAULT_GRADIENT_BOTTOM(Color::WHITE);
 
 Gradient::Gradient() :
-  m_layer(LAYER_BACKGROUND0),
+  LayerObject(LAYER_BACKGROUND0),
   m_gradient_top(DEFAULT_GRADIENT_TOP),
   m_gradient_bottom(DEFAULT_GRADIENT_BOTTOM),
   m_gradient_direction(),
@@ -52,8 +52,7 @@ Gradient::Gradient() :
 }
 
 Gradient::Gradient(const ReaderMapping& reader) :
-  LayerObject(reader),
-  m_layer(LAYER_BACKGROUND0),
+  LayerObject(reader, LAYER_BACKGROUND0),
   m_gradient_top(DEFAULT_GRADIENT_TOP),
   m_gradient_bottom(DEFAULT_GRADIENT_BOTTOM),
   m_gradient_direction(),
@@ -66,7 +65,6 @@ Gradient::Gradient(const ReaderMapping& reader) :
   m_fade_total_time(),
   m_fade_time()
 {
-  m_layer = reader_get_layer (reader, LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
   std::string direction;
   if (reader.get("direction", direction))
@@ -263,8 +261,15 @@ Gradient::swap_colors()
 void
 Gradient::draw(DrawingContext& context)
 {
-  if (Editor::is_active() && !g_config->editor_render_background)
-    return;
+  auto previous_alpha = context.get_alpha();
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (!g_config->editor_render_background || editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
 
   Rectf gradient_region;
   if (m_gradient_direction != HORIZONTAL && m_gradient_direction != VERTICAL)
@@ -285,6 +290,7 @@ Gradient::draw(DrawingContext& context)
   context.get_canvas(m_target).draw_gradient(m_gradient_top, m_gradient_bottom, m_layer, m_gradient_direction,
                                              gradient_region, m_blend);
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 bool

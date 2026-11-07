@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2026 Tobias Markus
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,17 +16,24 @@
 
 #pragma once
 
-#include "gui/menu.hpp"
+#include "interface/control_textbox.hpp"
 
-class EditorObjectgroupMenu final : public Menu
+class LayersListItem;
+
+class LayersNameEditTextbox : public ControlTextbox
 {
 public:
-  EditorObjectgroupMenu();
-  ~EditorObjectgroupMenu() override;
+  LayersNameEditTextbox(LayersListItem *parent);
 
-  void menu_action(MenuItem& item) override;
+  void on_focus() override;
+  void on_blur() override;
+
+  virtual int get_base_layer() const override { return LAYER_GUI + 10; }
 
 private:
-  EditorObjectgroupMenu(const EditorObjectgroupMenu&) = delete;
-  EditorObjectgroupMenu& operator=(const EditorObjectgroupMenu&) = delete;
+  LayersListItem* m_parent;
+
+private:
+  LayersNameEditTextbox(const LayersNameEditTextbox&) = delete;
+  LayersNameEditTextbox& operator=(const LayersNameEditTextbox&) = delete;
 };

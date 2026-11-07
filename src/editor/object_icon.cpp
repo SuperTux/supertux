@@ -21,8 +21,8 @@
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"
 
-ObjectIcon::ObjectIcon(const std::string& object_class, const std::string& icon) :
-  m_object_class(object_class),
+ObjectIcon::ObjectIcon(const std::string& object_class_name, const std::string& icon) :
+  m_object_class_name(object_class_name),
   m_surface(Surface::from_file(icon)),
   m_offset(0.0f, 0.0f)
 {
@@ -30,12 +30,12 @@ ObjectIcon::ObjectIcon(const std::string& object_class, const std::string& icon)
 }
 
 ObjectIcon::ObjectIcon(const ReaderMapping& reader) :
-  m_object_class(),
+  m_object_class_name(),
   m_surface(),
   m_offset(0.0f, 0.0f)
 {
   std::string icon = "images/engine/icons/supertux.png";
-  reader.get("class", m_object_class);
+  reader.get("class", m_object_class_name);
   reader.get("icon", icon);
   m_surface = Surface::from_file(icon);
   calculate_offset();

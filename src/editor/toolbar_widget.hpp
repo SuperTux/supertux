@@ -21,17 +21,18 @@
 #include <array>
 #include <memory>
 
+#include "editor/editor.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 
-class Editor;
+class EditorToolbarBaseWidget;
 class EditorToolbarButtonWidget;
+class EditorToolbarZoomWidget;
 
 /** The toolbar is at the top of the screen and offers easy access to the most commonly used functions of the editor. */
 class EditorToolbarWidget final : public Widget
 {
-
 public:
   EditorToolbarWidget(Editor& editor);
 
@@ -39,16 +40,35 @@ public:
   virtual void update(float dt_sec) override;
   virtual bool event(const SDL_Event& ev) override;
 
+  bool has_focus() const;
+
+  void set_mode(const Editor::InputMode& input_mode);
   void toggle_tile_object_mode();
 
   void set_undo_disabled(bool state);
   void set_redo_disabled(bool state);
 
+  const Rectf get_area() { return Rectf(0, 0, m_widgets_width, 32); }
+
+private:
+  std::unique_ptr<EditorToolbarButtonWidget> create_open_button() const;
+  std::unique_ptr<EditorToolbarButtonWidget> create_save_button() const;
+  std::unique_ptr<EditorToolbarButtonWidget> create_grid_button() const;
+  std::unique_ptr<EditorToolbarButtonWidget> create_show_button() const;
+  std::unique_ptr<EditorToolbarZoomWidget> create_zoom_widget() const;
+
+  /**
+   * Sets all widget positions and calculates the width of the
+   * toolbar from the width of all visible toolbar elements
+   */
+  void set_widget_positions();
+
 private:
   Editor& m_editor;
   EditorToolbarButtonWidget* m_undo_widget;
   EditorToolbarButtonWidget* m_redo_widget;
-  std::vector<std::unique_ptr<EditorToolbarButtonWidget> > m_widgets;
+  EditorToolbarZoomWidget* m_zoom_widget;
+  std::vector<std::unique_ptr<EditorToolbarBaseWidget>> m_widgets;
 
   float m_widgets_width;
   float m_widgets_width_offset;

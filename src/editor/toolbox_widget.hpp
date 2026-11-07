@@ -25,6 +25,9 @@
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 
+template<typename T>
+class ControlEnum;
+
 class Editor;
 class EditorTilebox;
 class ToolIcon;
@@ -52,15 +55,15 @@ public:
   virtual void setup() override;
   virtual void on_window_resize() override;
 
-  void select_tilegroup(int id);
-  void select_objectgroup(int id);
-  void select_last_tilegroup();
-  void select_last_objectgroup();
+  void select_tile_group(int id);
+  void select_object_group(int id);
+  void select_last_tile_group();
+  void select_last_object_group();
 
   void switch_current_group(int dir);
 
   int get_tileselect_select_mode() const;
-  int get_tileselect_move_mode() const;
+  int get_object_select_mode() const;
 
   void update_mouse_icon();
   void set_tileselect_move_mode(int mode);
@@ -75,12 +78,12 @@ public:
   inline bool has_mouse_focus() const { return m_has_mouse_focus; }
 
 private:
-  Vector get_tool_coords(int pos) const;
-  int get_tool_pos(const Vector& coords) const;
-
-  Rectf get_rect_from_hovered_item(HoveredItem item) const;
-  Rectf get_hovered_item_rect() const;
-  Rectf get_active_item_rect() const;
+  /**
+   * Draws the line and shadow on the intersection between the
+   * OverlayWidget and the tile selector on the right side.
+   * @param context The current DrawingContext instance
+   */
+  void draw_separator(DrawingContext &context);
 
   ToolIcon* get_mouse_icon() const;
   void update_last_active_group();
@@ -100,6 +103,9 @@ private:
   std::unique_ptr<ToolIcon> m_node_marker_mode;
   std::unique_ptr<ToolIcon> m_move_mode;
   std::unique_ptr<ToolIcon> m_undo_mode;
+
+  std::unique_ptr<ControlEnum<int>> m_tile_groups_dropdown;
+  std::unique_ptr<ControlEnum<int>> m_object_groups_dropdown;
 
   bool m_has_mouse_focus;
 

@@ -38,6 +38,13 @@ public:
   /** Returns true when has no tiles or is full of zeros */
   bool empty() const;
 
+  /**
+   * Returns true if the tile selection is supposed to erase
+   * existing tiles
+   * TODO: This only checks if the first tile is 0, is this what we want?
+   */
+  inline bool erases_tiles() const { return m_tiles.size() > 0 && m_tiles[0] == 0; }
+
 public:
   std::vector<uint32_t> m_tiles;
   int m_width;

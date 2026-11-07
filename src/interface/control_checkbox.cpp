@@ -31,9 +31,8 @@ ControlCheckbox::draw(DrawingContext& context)
 {
   InterfaceControl::draw(context);
 
-  context.color().draw_filled_rect(m_rect,
-                                   m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f) : Color(0.5f, 0.5f, 0.5f, 1.f),
-                                   LAYER_GUI);
+  context.color().draw_filled_rect(m_rect, get_widget_color(), 2.f, LAYER_GUI);
+
   if (*m_value) {
     context.color().draw_text(Resources::small_font,
                               "X",
@@ -62,7 +61,7 @@ ControlCheckbox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 
   call_on_change_callbacks();
 
-  m_has_focus = true;
+  set_has_focus(true);
 
   return true;
 }
@@ -71,9 +70,7 @@ bool
 ControlCheckbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  if (!m_rect.contains(mouse_pos)) {
-    m_has_focus = false;
-  }
+  set_has_focus(m_rect.contains(mouse_pos));
   return false;
 }
 

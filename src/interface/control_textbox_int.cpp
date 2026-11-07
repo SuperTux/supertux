@@ -19,12 +19,54 @@
 #include <string>
 #include <exception>
 
+#include "util/log.hpp"
+
 ControlTextboxInt::ControlTextboxInt() :
   ControlTextbox(),
   m_validate_int(),
-  m_value(nullptr)
+  m_value(nullptr),
+  m_step_size(1),
+  m_large_step_size(10)
 {
   revert_value();
+}
+
+bool
+ControlTextboxInt::on_key_down(const SDL_KeyboardEvent& key)
+{
+  if (!m_has_focus)
+    return false;
+
+  if (key.key == SDLK_DOWN || key.key == SDLK_UP)
+  {
+    int default_value = 0;
+    if (m_value == nullptr)
+    {
+      m_value = &default_value;
+    }
+
+    bool shift_pressed = SDL_GetModState() & SDL_KMOD_SHIFT;
+    int step_size = shift_pressed ? m_large_step_size : m_step_size;
+
+    if (key.key == SDLK_DOWN)
+      *m_value -= step_size;
+
+    if (key.key == SDLK_UP)
+      *m_value += step_size;
+
+    if (m_validate_int != nullptr)
+    {
+      m_validate_int(this, *m_value);
+    }
+
+    revert_value();
+
+    call_on_change_callbacks();
+
+    return true;
+  }
+
+  return ControlTextbox::on_key_down(key);
 }
 
 void

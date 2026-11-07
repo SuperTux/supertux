@@ -24,16 +24,20 @@ class Levelset final
 private:
   std::string m_basedir;
   std::vector<std::string> m_levels;
+  std::vector<std::string> m_level_names;
+  bool m_parse_level_names;
 
 public:
-  Levelset(const std::string& basedir, bool recursively = false);
+  Levelset(const std::string& basedir, bool recursively = false, bool parse_level_names = false);
 
   int get_num_levels() const;
-  std::string get_level_filename(int i) const;
+  const std::string& get_level_filename(int i) const;
+  const std::string* get_level_name(int i) const;
 
 private:
   Levelset(const Levelset&) = delete;
   Levelset& operator=(const Levelset&) = delete;
 
   void walk_directory(const std::string& directory, bool recursively = false);
+  void parse_names();
 };

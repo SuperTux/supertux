@@ -40,6 +40,8 @@ public:
 
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override
   {
+    m_is_hovered = get_rect().contains(Vector(motion.x, motion.y));
+
     if (m_label) 
     {
       m_label->on_mouse_motion(motion);
@@ -47,15 +49,31 @@ public:
     return false;
   }
 
-  inline void set_focus(bool focus) { m_has_focus = focus; }
+  virtual void on_focus() {}
+
+  virtual void on_blur() {}
+
+  inline void set_has_focus(bool focus)
+  {
+    if (m_has_focus == focus)
+      return;
+
+    m_has_focus = focus;
+
+    m_has_focus ? on_focus() : on_blur();
+  }
   inline bool has_focus() const { return m_has_focus; }
 
   inline void set_rect(const Rectf& rect) { m_rect = rect; }
   inline Rectf get_rect() const { return m_rect; }
 
+  virtual bool prevents_event_propagation() const { return false; }
+
 protected:
   void call_on_activate_callbacks() const;
   void call_on_change_callbacks() const;
+
+  Color get_widget_color() const;
 
 public:
   /** Optional; a function that will be called each time the control is activated.
@@ -73,6 +91,10 @@ public:
 protected:
   /** Whether or not the user has this InterfaceControl as focused */
   bool m_has_focus;
+
+  /** Whether the mouse is currently over this InterfaceControl */
+  bool m_is_hovered;
+
   /** The rectangle where the InterfaceControl should be rendered */
   Rectf m_rect;
   /** A pointer to the parent container, or null if not in any container. */

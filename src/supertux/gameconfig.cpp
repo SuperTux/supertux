@@ -130,8 +130,7 @@ Config::Config() :
   editor_undo_tracking(true),
   editor_undo_stack_size(20),
   editor_show_deprecated_tiles(false),
-  // TODO: Set to true when this setting is ready
-  editor_show_properties_sidebar(false),
+  editor_show_properties_sidebar(true),
   editor_show_toolbar_widgets(true),
   editor_blur(12),
   editor_remember_last_level(true),
@@ -249,6 +248,18 @@ Config::load()
     editorhovercolor = Color(editorhovercolor_);
     editorgrabcolor = Color(editorgrabcolor_);
     interface_colors_mapping->get("menuroundness", menuroundness, 16.f);
+
+    bool new_editor_colorscheme_applied;
+    interface_colors_mapping->get("new_editor_colorscheme_applied", new_editor_colorscheme_applied, false);
+
+    // Apply new default color unless the user specifically resets it
+    if (!new_editor_colorscheme_applied)
+    {
+      if (editorcolor == Color(0.9, 0.9, 1.0, 0.6)) // old default
+      {
+        editorcolor = ColorScheme::Editor::default_color.toVector();
+      }
+    }
   }
 
   // Compatibility; will be overwritten by the "editor" category.
@@ -493,6 +504,8 @@ Config::save()
   writer.write("editorcolor", editorcolor.toVector());
   writer.write("editorhovercolor", editorhovercolor.toVector());
   writer.write("editorgrabcolor", editorgrabcolor.toVector());
+  writer.write("new_editor_colorscheme_applied", true);
+
   writer.write("menuroundness", menuroundness);
   writer.end_list("interface_colors");
 

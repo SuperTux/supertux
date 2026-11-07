@@ -212,6 +212,12 @@ public:
   /** continues all looping sounds */
   virtual void play_looping_sounds() {}
 
+  /**
+   * Return `true` when this object can potentially
+   * have a path that it follows
+   */
+  virtual bool can_follow_path() const { return false; }
+
   template<typename T>
   T* get_component() {
     for(auto& component : m_components) {
@@ -252,6 +258,8 @@ public:
   /** Called each frame in the editor, used to keep linked objects
       together (e.g. platform on a path) */
   virtual void editor_update() {}
+
+  virtual bool is_layer_object() { return false; }
 
   inline GameObjectManager* get_parent() const { return m_parent; }
 

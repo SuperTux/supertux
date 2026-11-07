@@ -21,7 +21,6 @@
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
-#include "sprite/sprite_ptr.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/debug.hpp"
@@ -32,23 +31,24 @@
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include <algorithm>
+
+using InputMode = Editor::InputMode;
 
 EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_editor(editor),
   m_rect(rect),
   m_tiles(new TileSelection()),
-  m_object(),
-  m_tilegroup_id(0),
-  m_objectgroup_id(0),
+  m_tile_group_id(0),
+  m_object_group_id(0),
   m_object_tip(new Tip()),
-  m_input_type(InputType::NONE),
-  m_active_tilegroup(),
-  m_active_objectgroup(),
+  m_active_object_group(),
   m_object_info(new ObjectInfo()),
   m_on_select_callback([](EditorTilebox&) {}),
   m_scrollbar(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f)),
+  m_selection_surface(Surface::from_file("images/engine/editor/selection.png")),
   m_scroll_progress(1.f),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_tile(-1),
@@ -95,14 +95,16 @@ EditorTilebox::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_viewport(Rect(m_rect));
-  switch (m_input_type)
+  auto input_mode = m_editor.get_input_mode();
+
+  switch (input_mode)
   {
-    case InputType::TILE:
-      draw_tilegroup(context);
+    case InputMode::TILE:
+      draw_tile_group(context);
       break;
 
-    case InputType::OBJECT:
-      draw_objectgroup(context);
+    case InputMode::OBJECT:
+      draw_object_group(context);
       break;
 
     default:
@@ -115,19 +117,26 @@ EditorTilebox::draw(DrawingContext& context)
 }
 
 void
-EditorTilebox::draw_tilegroup(DrawingContext& context)
+EditorTilebox::draw_tile_group(DrawingContext& context)
 {
   int pos = -1;
-  for (auto& tile_ID : m_active_tilegroup->tiles)
+  auto active_tile_group = get_active_tile_group();
+  
+  if (active_tile_group == nullptr)
+  {
+    return;
+  }
+  
+  for (auto &tile_ID : active_tile_group->tiles)
   {
     pos++;
     if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
       continue;
 
     auto position = get_tile_coords(pos, false);
-    m_editor.get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
+    m_editor.get_project()->get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
 
-    if (g_config->developer_mode && (m_active_tilegroup->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
+    if (g_config->developer_mode && (active_tile_group->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
     {
       // Display tile ID on top of tile:
       context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
@@ -137,16 +146,27 @@ EditorTilebox::draw_tilegroup(DrawingContext& context)
 }
 
 void
-EditorTilebox::draw_objectgroup(DrawingContext& context)
+EditorTilebox::draw_object_group(DrawingContext& context)
 {
+  auto selected_editor_class_name =
+    Editor::current()->get_selected_object_class_name();
+
   int pos = -1;
-  for (auto& icon : m_active_objectgroup->get_icons())
+  for (auto& icon : m_active_object_group->get_icons())
   {
     pos++;
     if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
       continue;
 
-    icon.draw(context, get_tile_coords(pos, false));
+    auto coordinates = get_tile_coords(pos, false);
+
+    if (icon.get_object_class_name() == selected_editor_class_name)
+    {
+      auto target_rect = Rectf(coordinates, coordinates + Vector(32, 32));
+      context.color().draw_surface_scaled(m_selection_surface, target_rect, LAYER_GUI);
+    }
+
+    icon.draw(context, coordinates);
   }
 }
 
@@ -186,18 +206,25 @@ void
 EditorTilebox::update_selection()
 {
   Rectf select = normalize_selection(true);
+  auto active_tile_group = get_active_tile_group();
+  
+  if (active_tile_group == nullptr)
+  {
+    return;
+  }
+
   m_tiles->m_tiles.clear();
   m_tiles->m_width = static_cast<int>(select.get_width() + 1);
   m_tiles->m_height = static_cast<int>(select.get_height() + 1);
 
-  int size = static_cast<int>(m_active_tilegroup->tiles.size());
+  int size = static_cast<int>(active_tile_group->tiles.size());
   for (int y = static_cast<int>(select.get_top()); y <= static_cast<int>(select.get_bottom()); y++)
   {
     for (int x = static_cast<int>(select.get_left()); x <= static_cast<int>(select.get_right()); x++)
     {
       int tile_pos = (y + static_cast<int>(m_scroll_progress / 32.f)) * 4 + x;
       if (tile_pos < size && tile_pos >= 0)
-        m_tiles->m_tiles.push_back(m_active_tilegroup->tiles[tile_pos]);
+        m_tiles->m_tiles.push_back(active_tile_group->tiles[tile_pos]);
       else
         m_tiles->m_tiles.push_back(0);
     }
@@ -223,32 +250,40 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   if (m_scrollbar->on_mouse_button_down(button))
     return true;
 
+  auto input_mode = m_editor.get_input_mode();
   if (button.button == SDL_BUTTON_LEFT)
   {
     if (m_hovered_item == HoveredItem::TILE)
     {
-      switch (m_input_type)
+      switch (input_mode)
       {
-        case InputType::TILE:
+        case InputMode::TILE:
           {
             m_dragging = true;
             m_drag_start = Vector(static_cast<float>(m_hovered_tile % 4),
                                   static_cast<float>(m_hovered_tile / 4)); // NOLINT
+            auto active_tile_group = get_active_tile_group();
 
-            int size = static_cast<int>(m_active_tilegroup->tiles.size());
+            if (active_tile_group == nullptr)
+            {
+              break;
+            }
+
+            int size = static_cast<int>(active_tile_group->tiles.size());
             if (m_hovered_tile < size && m_hovered_tile >= 0)
-              m_tiles->set_tile(m_active_tilegroup->tiles[m_hovered_tile]);
+              m_tiles->set_tile(active_tile_group->tiles[m_hovered_tile]);
             else
               m_tiles->set_tile(0);
           }
           break;
 
-        case InputType::OBJECT:
+        case InputMode::OBJECT:
           {
-            int size = static_cast<int>(m_active_objectgroup->get_icons().size());
+            auto& icons = m_active_object_group->get_icons();
+            int size = static_cast<int>(icons.size());
             if (m_hovered_tile < size && m_hovered_tile >= 0)
             {
-              m_object = m_active_objectgroup->get_icons()[m_hovered_tile].get_object_class();
+              m_editor.set_selected_object_class_name(icons[m_hovered_tile].get_object_class_name());
               m_on_select_callback(*this);
             }
           }
@@ -301,18 +336,19 @@ EditorTilebox::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 void
 EditorTilebox::update_hovered_tile()
 {
+  auto input_mode = m_editor.get_input_mode();
   const int prev_hovered_tile = std::move(m_hovered_tile);
   m_hovered_item = HoveredItem::TILE;
   m_hovered_tile = get_tile_pos(m_mouse_pos);
-  if (m_dragging && m_input_type == InputType::TILE)
+  if (m_dragging && input_mode == InputMode::TILE)
   {
     update_selection();
   }
-  else if (m_input_type == InputType::OBJECT && m_hovered_tile != prev_hovered_tile)
+  else if (input_mode == InputMode::OBJECT && m_hovered_tile != prev_hovered_tile)
   {
-    const auto& icons = m_active_objectgroup->get_icons();
+    const auto& icons = m_active_object_group->get_icons();
     if (m_hovered_tile < static_cast<int>(icons.size())) {
-      const std::string obj_class = icons[m_hovered_tile].get_object_class();
+      const std::string& obj_class = icons[m_hovered_tile].get_object_class_name();
       std::string obj_name = obj_class;
       try {
         obj_name = GameObjectFactory::instance().get_display_name(obj_class);
@@ -389,96 +425,118 @@ EditorTilebox::on_select(const std::function<void(EditorTilebox&)>& callback)
 }
 
 void
-EditorTilebox::select_tilegroup(int id)
+EditorTilebox::select_tile_group(int id)
 {
-  m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
-  m_tilegroup_id = id;
-  m_input_type = InputType::TILE;
+  m_tile_group_id = id;
+  m_editor.set_input_mode(InputMode::TILE);
   reset_scrollbar();
 }
 
 void
-EditorTilebox::select_last_tilegroup()
+EditorTilebox::select_last_tile_group()
 {
-  select_tilegroup(get_tilegroup_id());
+  select_tile_group(get_tile_group_id());
 }
 
 void
-EditorTilebox::select_objectgroup(int id)
+EditorTilebox::select_object_group(int id)
 {
-  m_active_objectgroup = &m_object_info->m_groups[id];
-  m_objectgroup_id = id;
-  m_input_type = InputType::OBJECT;
+  m_active_object_group = &m_object_info->m_groups[id];
+  m_object_group_id = id;
+  m_editor.set_input_mode(InputMode::OBJECT);
   reset_scrollbar();
 }
 
 void
-EditorTilebox::select_last_objectgroup()
+EditorTilebox::select_last_object_group()
 {
-  select_objectgroup(m_objectgroup_id);
+  select_object_group(m_object_group_id);
 }
 
 void
-EditorTilebox::change_tilegroup(int dir)
+EditorTilebox::change_tile_group(int dir)
 {
-  if (m_input_type == InputType::OBJECT)
+  auto input_mode = m_editor.get_input_mode();
+
+  if (input_mode == InputMode::OBJECT)
   {
-    select_last_tilegroup();
+    select_last_tile_group();
     return;
   }
 
-  size_t tilegroups_size = m_editor.get_tileset()->get_tilegroups().size();
-  m_tilegroup_id += dir;
-  if (m_tilegroup_id < 0)
-    m_tilegroup_id = tilegroups_size - 1;
-  else if (m_tilegroup_id > tilegroups_size - 1)
-    m_tilegroup_id = 0;
+  size_t tile_groups_size = m_editor.get_project()->get_tileset()->get_tilegroups().size();
+  m_tile_group_id += dir;
+  if (m_tile_group_id < 0)
+    m_tile_group_id = tile_groups_size - 1;
+  else if (m_tile_group_id > tile_groups_size - 1)
+    m_tile_group_id = 0;
 
-  select_last_tilegroup();
+  select_last_tile_group();
+}
+
+const Tilegroup* 
+EditorTilebox::get_active_tile_group() const
+{
+  auto& tilegroups = m_editor.get_project()->get_tileset()->get_tilegroups();
+  if (m_tile_group_id < 0 || m_tile_group_id >= tilegroups.size())
+    return nullptr;
+
+  return &(tilegroups[m_tile_group_id]);
 }
 
 void
-EditorTilebox::change_objectgroup(int dir)
+EditorTilebox::change_object_group(int dir)
 {
-  if (m_input_type == InputType::TILE)
+  auto input_mode = m_editor.get_input_mode();
+  if (input_mode == InputMode::TILE)
   {
-    select_last_objectgroup();
+    select_last_object_group();
     return;
   }
 
-  size_t objectgroups_size = m_object_info->m_groups.size();
+  bool is_worldmap = m_editor.get_project()->get_level()->is_worldmap();
+  auto object_groups = m_object_info->m_groups;
+
+  size_t object_groups_size = object_groups.size();
   // We also need to skip worldmap groups if we aren't a worldmap here
   do
   {
-    m_objectgroup_id += dir;
+    m_object_group_id += dir;
 
-    if (m_objectgroup_id < 0)
-      m_objectgroup_id = objectgroups_size - 1;
-    else if (m_objectgroup_id > objectgroups_size - 1)
-      m_objectgroup_id = 0;
+    if (m_object_group_id < 0)
+      m_object_group_id = object_groups_size - 1;
+    else if (m_object_group_id > object_groups_size - 1)
+      m_object_group_id = 0;
   }
-  while (!Editor::current()->get_level()->is_worldmap() &&
-          Editor::current()->get_objectgroups().at(m_objectgroup_id).is_worldmap());
+  while (!is_worldmap && object_groups.at(m_object_group_id).is_worldmap());
 
-  select_last_objectgroup();
+  select_last_object_group();
+}
+
+ObjectGroup*
+EditorTilebox::get_layers_object_group() const
+{
+  auto editor_project = m_editor.get_project();
+  bool is_worldmap = editor_project->get_level()->is_worldmap();
+  auto worldmap_layers_group = m_object_info->m_worldmap_layers_group.get();
+  auto level_layers_group = m_object_info->m_layers_group.get();
+  return is_worldmap ? worldmap_layers_group : level_layers_group;
 }
 
 bool
-EditorTilebox::select_layers_objectgroup()
+EditorTilebox::select_layers_object_group()
 {
-  ObjectGroup* layers = m_editor.get_level()->is_worldmap() ?
-    m_object_info->m_worldmap_layers_group.get() :
-    m_object_info->m_layers_group.get();
+  auto layers = get_layers_object_group();
 
   if (layers)
   {
-    m_active_objectgroup = layers;
-    m_input_type = InputType::OBJECT;
+    m_active_object_group = layers;
+    m_editor.set_input_mode(InputMode::OBJECT);
   }
   else
   {
-    m_active_objectgroup = nullptr;
-    m_input_type = InputType::NONE;
+    m_active_object_group = nullptr;
+    m_editor.set_input_mode(InputMode::NONE);
   }
   reset_scrollbar();
   return layers;
@@ -487,13 +545,17 @@ EditorTilebox::select_layers_objectgroup()
 float
 EditorTilebox::get_tiles_height() const
 {
-  switch (m_input_type)
+  auto input_mode = m_editor.get_input_mode();
+  switch (input_mode)
   {
-    case InputType::TILE:
-      return ceilf(static_cast<float>(m_active_tilegroup->tiles.size()) / 4.f) * 32.f;
+    case InputMode::TILE:
+    {
+      auto active_tile_group = get_active_tile_group();
+      return active_tile_group ? ceilf((active_tile_group->tiles.size() * 1.f) / 4.f) * 32.f : 0.f;
+    }
 
-    case InputType::OBJECT:
-      return ceilf(static_cast<float>(m_active_objectgroup->get_icons().size()) / 4.f) * 32.f;
+    case InputMode::OBJECT:
+      return ceilf(static_cast<float>(m_active_object_group->get_icons().size()) / 4.f) * 32.f;
 
     default:
       return 0.f;
