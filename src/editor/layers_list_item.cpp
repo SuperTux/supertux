@@ -224,6 +224,9 @@ LayersListItem::draw_full_name_tooltip(DrawingContext& context)
 {
   auto mouse_pos = Editor::current()->get_event_handling()->get_mouse_pos();
 
+  if (!m_rect.contains(mouse_pos))
+    return;
+
   auto font = Resources::editor_menu_font;
   auto layer_name = m_layer->get_name();
   auto text_height = font->get_text_height(layer_name);
