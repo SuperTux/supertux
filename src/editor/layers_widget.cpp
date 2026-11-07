@@ -680,3 +680,28 @@ EditorLayersWidget::set_selected_tilemap(TileMap* tilemap)
 {
   m_selected_tilemap = tilemap->get_uid();
 }
+
+void
+EditorLayersWidget::set_mode(Editor::InputMode mode)
+{
+  auto editor_project = m_editor.get_project();
+  if (!editor_project->is_sector_set())
+  {
+    return;
+  }
+
+  if (mode == Editor::InputMode::OBJECT)
+  {
+    set_selected_layer(get_objects_layer());
+    return;
+  }
+  
+  if (mode == Editor::InputMode::TILE)
+  {
+    auto last_tilemap = get_selected_tilemap();
+    if (last_tilemap != nullptr)
+    {
+      set_selected_layer(last_tilemap);
+    }
+  }
+}
