@@ -29,6 +29,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/resources.hpp"
+#include "video/drawing_context.hpp"
 
 class EditorToolbarButtonWidget : public EditorToolbarBaseWidget
 {
@@ -37,6 +38,17 @@ public:
   EditorToolbarButtonWidget(const std::string &path, const Vector &pos, std::function<void()> callback = {}, std::optional<Sizef> sprite_size = std::nullopt);
   EditorToolbarButtonWidget(const std::string &path, std::function<void()> callback = {}, const std::string &help_text = "", std::optional<Sizef> sprite_size = std::nullopt);
 
+protected:
+  EditorToolbarButtonWidget():
+    EditorToolbarBaseWidget(),
+    m_sprite(nullptr),
+    m_sig_click(nullptr),
+    m_flat(false)
+  {
+  }
+
+public:
+
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent &button) override;
 
   virtual void draw(DrawingContext &context) override;
@@ -44,8 +56,8 @@ public:
   void set_sprite(const std::string& path);
   void set_sprite(SpritePtr sprite);
   
-  inline void set_flat(bool flat) { m_flat = flat; }
-  inline bool is_flat() const { return m_flat; }
+  virtual void set_flat(bool flat) { m_flat = flat; }
+  virtual bool is_flat() const { return m_flat; }
 
   void set_onclick_handler(const std::function<void()>& onclick_handler)
   {
@@ -60,4 +72,17 @@ protected:
 private:
   EditorToolbarButtonWidget(const EditorToolbarButtonWidget&) = delete;
   EditorToolbarButtonWidget& operator=(const EditorToolbarButtonWidget&) = delete;
+};
+
+class EditorToolbarSeparator : public EditorToolbarButtonWidget
+{
+public:
+  EditorToolbarSeparator();
+
+  void set_flat(bool) override {};
+  bool is_flat() const override { return false; }
+
+  bool on_mouse_button_up(const SDL_MouseButtonEvent &) override { return false; };
+
+  void draw(DrawingContext &context) override;
 };

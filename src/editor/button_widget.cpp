@@ -94,3 +94,15 @@ EditorToolbarButtonWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button
 
   return handled;
 }
+
+EditorToolbarSeparator::EditorToolbarSeparator() :
+  EditorToolbarButtonWidget()
+{
+  m_size = Sizef(2.f, m_size.height);
+}
+
+void
+EditorToolbarSeparator::draw(DrawingContext &context)
+{
+  context.color().draw_filled_rect(m_rect, Color(0.5, 0.5, 0.5), LAYER_GUI);
+}

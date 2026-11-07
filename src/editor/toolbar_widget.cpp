@@ -62,7 +62,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   auto grid_button = create_grid_button();
   auto show_button = create_show_button();
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 10> general_widgets =
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 13> general_widgets =
   {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
@@ -74,6 +74,8 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
                                                 std::bind(&EditorHistoryManager::redo, m_editor.get_history_manager()),
                                                 _("Redo"),
                                                 Sizef(32.f, 32.f)),
+
+    std::make_unique<EditorToolbarSeparator>(),
     
     // Open button
     std::move(open_button),
@@ -94,6 +96,8 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
     // Button for toggling visibility of things
     std::move(show_button),
+
+    std::make_unique<EditorToolbarSeparator>(),
 
     // Mouse select button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [toolbox_widget]()
@@ -157,12 +161,22 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
   for (auto &widget : general_widgets)
   {
+    if (!widget)
+    {
+      continue;
+    }
+
     widget->set_flat(true);
     m_widgets.push_back(std::move(widget));
   }
 
   for (auto &widget : tile_mode_widgets)
   {
+    if (!widget)
+    {
+      continue;
+    }
+
     widget->set_flat(true);
     widget->set_visible_in_object_mode(false);
     m_widgets.push_back(std::move(widget));
@@ -170,6 +184,11 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
   for (auto &widget : object_mode_widgets)
   {
+    if (!widget)
+    {
+      continue;
+    }
+
     widget->set_flat(true);
     widget->set_visible_in_tile_mode(false);
     m_widgets.push_back(std::move(widget));
