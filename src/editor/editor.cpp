@@ -530,6 +530,7 @@ Editor::set_input_mode(const InputMode& input_mode)
 
   m_input_mode = input_mode;
   m_toolbar_widget->set_mode(input_mode);
+  m_layers_widget->set_mode(input_mode);
 }
 
 void
