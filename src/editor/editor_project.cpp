@@ -17,6 +17,7 @@
 #include "editor/editor_project.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/layers_widget.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/notification.hpp"
@@ -141,6 +142,11 @@ EditorProject::reset()
   m_world.reset();
   m_level_filename.clear();
   m_sector = nullptr;
+
+  // TODO: Maybe handle this using a callback
+  // to reduce cross-component calls
+  auto layers_widget = Editor::current()->get_layers_widget();
+  layers_widget->on_level_change();
 }
 
 void
