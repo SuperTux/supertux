@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 
+#include "editor/editor.hpp"
 #include "editor/widget.hpp"
 
 #include "editor/editor_layer.hpp"
@@ -132,6 +133,8 @@ public:
 
   void save_layer_visibilities();
   void restore_layer_visibilities();
+
+  void set_mode(Editor::InputMode mode);
 
   TileMap* get_selected_tilemap() const;
   void set_selected_tilemap(TileMap* tilemap);
