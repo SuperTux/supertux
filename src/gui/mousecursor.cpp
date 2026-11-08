@@ -189,7 +189,8 @@ MouseCursor::draw(DrawingContext& context)
     if (!g_config->custom_system_cursor)
       m_sprite->draw(context.color(), mouse_pos, LAYER_GUI + 100);
 
-    if (m_icon) {
+    if (m_icon)
+    {
       context.color().draw_surface(m_icon,
                                    Vector(mouse_pos.x + static_cast<float>(m_icon->get_width()) / 2,
                                           mouse_pos.y - static_cast<float>(m_icon->get_height())),
