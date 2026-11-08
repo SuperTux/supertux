@@ -21,6 +21,7 @@
 #include <sqstdaux.h>
 
 #include "audio/sound_manager.hpp"
+#include "control/keyboard_manager.hpp"
 #include "math/anchor_point.hpp"
 #include "math/random.hpp"
 #include "object/camera.hpp"
@@ -803,6 +804,7 @@ void register_supertux_scripting_api(ssq::VM& vm)
 
   /* Other classes */
   GameObjectManager::register_class(vm);
+  KeyboardManager::register_class(vm);
   Sector::register_class(vm);
   worldmap::WorldMapSector::register_class(vm);
 
