@@ -314,6 +314,15 @@ public:
   void reset();
 
   /**
+   * Adds a callback function that gets executed once the project was reset
+   * @param callback Callback function to add.
+   */
+  void add_reset_callback(const std::function<void()>& callback)
+  {
+    m_on_reset_callbacks.push_back(callback);
+  }
+
+  /**
    * Open the level directory with the current system's file explorer
    */
   void open_level_directory();
@@ -412,6 +421,7 @@ private:
   std::vector<std::function<void()>> m_post_save_callbacks;
   std::vector<std::function<void()>> m_on_level_set_callbacks;
   std::vector<std::function<void()>> m_on_sector_set_callbacks;
+  std::vector<std::function<void()>> m_on_reset_callbacks;
   std::vector<std::function<void()>> m_on_tileset_reloaded_callbacks;
 
   std::string m_particle_editor_filepath;
