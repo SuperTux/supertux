@@ -311,7 +311,7 @@ EditorToolboxWidget::on_window_resize()
 {
   m_pos_x = static_cast<float>(SCREEN_WIDTH - 128);
   m_tilebox->set_rect(Rectf(Vector(m_pos_x, 32.f),
-                            Vector(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))));
+                            Vector(SCREEN_WIDTH * 1.f, SCREEN_HEIGHT * 1.f)));
 
   m_tilebox->on_window_resize();
 
