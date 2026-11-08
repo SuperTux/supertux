@@ -247,6 +247,8 @@ EditorProject::get_level_from_current_level_filename()
 void
 EditorProject::set_level(std::unique_ptr<Level> level)
 {
+  reset();
+
   if (level)
   {
     m_level = std::move(level);
