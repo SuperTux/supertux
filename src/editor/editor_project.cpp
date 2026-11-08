@@ -17,7 +17,6 @@
 #include "editor/editor_project.hpp"
 
 #include "editor/editor.hpp"
-#include "editor/layers_widget.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/notification.hpp"
@@ -56,6 +55,7 @@ EditorProject::EditorProject() :
   m_on_level_set_callbacks(),
   m_on_sector_set_callbacks(),
   m_on_tileset_reloaded_callbacks(),
+  m_on_reset_callbacks(),
   m_particle_editor_filepath()
 {
 }
@@ -143,10 +143,10 @@ EditorProject::reset()
   m_level_filename.clear();
   m_sector = nullptr;
 
-  // TODO: Maybe handle this using a callback
-  // to reduce cross-component calls
-  auto layers_widget = Editor::current()->get_layers_widget();
-  layers_widget->on_level_change();
+  for(const auto& callback : m_on_reset_callbacks)
+  {
+    callback();
+  }
 }
 
 void
