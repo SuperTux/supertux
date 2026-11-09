@@ -190,6 +190,15 @@ MenuListWidget::recalculate_item_position_and_size(const Vector& position, bool 
     i++;
   }
 
+  for(auto& item : m_menu_items)
+  {
+    auto item_rect = item->get_rect();
+    item_rect.set_width(max_item_width);
+    
+    item->set_rect(item_rect);
+    item->set_size(item_rect.get_size());
+  }
+
   auto menu_size = Vector(max_item_width, total_menu_height) + m_menu_offset;
 
   if (anchor_bottom)
