@@ -533,7 +533,8 @@ EditorToolbarWidget::set_undo_changes(const std::vector<GameObjectChangeSet>& ch
   menu_list->clear_items();
 
   int steps = 1;
-  for (const auto &change : changes)
+
+  std::for_each(changes.rbegin(), changes.rend(), [&steps, menu_list, history_manager](const auto &change)
   {
     auto callback = [steps, history_manager]()
     {
@@ -548,7 +549,7 @@ EditorToolbarWidget::set_undo_changes(const std::vector<GameObjectChangeSet>& ch
     auto item = std::make_unique<MenuListItem>(label, callback);
     menu_list->add_item(std::move(item));
     steps++;
-  }
+  });
   menu_list->recalculate_item_position_and_size();
 
   set_undo_disabled(changes.empty());
@@ -562,7 +563,7 @@ EditorToolbarWidget::set_redo_changes(const std::vector<GameObjectChangeSet>& ch
   menu_list->clear_items();
 
   int steps = 1;
-  for (const auto &change : changes)
+  std::for_each(changes.rbegin(), changes.rend(), [&steps, menu_list, history_manager](const auto &change)
   {
     auto callback = [steps, history_manager]()
     {
@@ -577,7 +578,7 @@ EditorToolbarWidget::set_redo_changes(const std::vector<GameObjectChangeSet>& ch
     auto item = std::make_unique<MenuListItem>(label, callback);
     menu_list->add_item(std::move(item));
     steps++;
-  }
+  });
   menu_list->recalculate_item_position_and_size();
 
   set_redo_disabled(changes.empty());
