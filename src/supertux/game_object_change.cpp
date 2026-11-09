@@ -62,13 +62,19 @@ std::string
 GameObjectChange::to_string() const
 {
   auto object = Sector::get().get_object_by_uid<GameObject>(uid);
-  if (object == nullptr)
-    return "";
+  std::string object_identifier = "";
 
-  auto object_identifier = object->get_display_name();
-  if (object->get_name().size())
+  if (object == nullptr)
   {
-    object_identifier += " " + object->get_name();
+    object_identifier = name;
+  }
+  else
+  {
+    object_identifier = object->get_display_name();
+    if (object->get_name().size())
+    {
+      object_identifier += " " + object->get_name();
+    }
   }
 
   // TODO: Use string interpolation and account for RTL languages
