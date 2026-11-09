@@ -545,7 +545,7 @@ EditorToolbarWidget::set_undo_changes(const std::vector<GameObjectChangeSet>& ch
     };
    
     auto _change = change.changes.begin();
-    auto label = "Undo \"" + _change->to_string() + "\"";
+    auto label = _change->to_string();
     auto item = std::make_unique<MenuListItem>(label, callback);
     menu_list->add_item(std::move(item));
     steps++;
@@ -574,7 +574,7 @@ EditorToolbarWidget::set_redo_changes(const std::vector<GameObjectChangeSet>& ch
     };
    
     auto _change = change.changes.begin();
-    auto label = "Redo \"" + _change->to_string() + "\"";
+    auto label = _change->to_string();
     auto item = std::make_unique<MenuListItem>(label, callback);
     menu_list->add_item(std::move(item));
     steps++;
