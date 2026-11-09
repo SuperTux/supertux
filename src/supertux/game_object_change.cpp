@@ -16,6 +16,8 @@
 
 #include "supertux/game_object_change.hpp"
 
+#include <fmt/format.h>
+
 #include "supertux/game_object.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/game_object_manager.hpp"
@@ -74,20 +76,18 @@ GameObjectChange::to_string() const
     object_identifier = object->get_display_name();
     if (object->get_name().size())
     {
-      object_identifier += " " + object->get_name();
+      object_identifier += " \"" + object->get_name() + "\"";
     }
   }
 
-  // TODO: Use string interpolation and account for RTL languages
-
   if (action == ACTION_CREATE)
-    return _("Create ") + object_identifier;
+    return fmt::format(fmt::runtime(_("Create {}")), object_identifier);
 
   if (action == ACTION_DELETE)
-    return _("Delete ") + object_identifier;
+    return fmt::format(fmt::runtime(_("Delete {}")), object_identifier);
 
   if (action == ACTION_MODIFY)
-    return _("Modify ") + object_identifier;
+    return fmt::format(fmt::runtime(_("Modify {}")), object_identifier);
 
   return "";
 }
