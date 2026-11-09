@@ -25,21 +25,22 @@
 #include "video/drawing_context.hpp"
 
 MenuListItem::MenuListItem(const std::string& label, const std::function<void()> onclick_handler,
-  const std::string& surface_path, const Rectf& rect) :
-    MenuListBaseItem(rect),
-    m_label(label),
-    m_label_offset(DEFAULT_LABEL_OFFSET),
-    m_sprite_offset(DEFAULT_SPRITE_OFFSET),
-    m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
-    m_keyboard_shortcut(""),
-    m_onclick_handler(onclick_handler),
-    m_on_right_click_handler(nullptr),
-    m_is_selected_handler(nullptr),
-    m_is_enabled_handler(nullptr),
-    m_surface(Surface::from_file(surface_path)),
-    m_item_selected_surface(nullptr)
-  {
-  }
+                           const std::string& surface_path, const Rectf& rect) :
+  MenuListBaseItem(rect),
+  m_label(label),
+  m_label_offset(DEFAULT_LABEL_OFFSET),
+  m_sprite_offset(DEFAULT_SPRITE_OFFSET),
+  m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
+  m_keyboard_shortcut(""),
+  m_onclick_handler(onclick_handler),
+  m_on_right_click_handler(nullptr),
+  m_is_selected_handler(nullptr),
+  m_is_enabled_handler(nullptr),
+  m_surface(Surface::from_file(surface_path)),
+  m_item_selected_surface(nullptr)
+{
+  set_label(label);
+}
 
 MenuListItem::MenuListItem(const std::string& label) :
   MenuListBaseItem(),
@@ -54,6 +55,7 @@ MenuListItem::MenuListItem(const std::string& label) :
   m_surface(nullptr),
   m_item_selected_surface(nullptr)
 {
+  set_label(label);
 }
 
 MenuListItem::MenuListItem(const std::string& label, const std::function<void()> onclick_handler) :
@@ -69,6 +71,7 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
   m_surface(nullptr),
   m_item_selected_surface(nullptr)
 {
+  set_label(label);
 }
 
 void
@@ -179,4 +182,17 @@ MenuListItem::get_checkbox_surface() const
     return nullptr;
 
   return selected_handler() ? Resources::checkbox_checked : Resources::checkbox;
+}
+
+void
+MenuListItem::set_label(const std::string& label)
+{
+  m_label = label;
+
+  auto label_width = Resources::editor_menu_font->get_text_width(m_label) + m_label_offset.x;
+  if (label_width > DEFAULT_SIZE.width)
+  {
+    m_size.width = label_width;
+    m_rect.set_width(label_width);
+  }
 }

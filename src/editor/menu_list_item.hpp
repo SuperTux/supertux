@@ -21,6 +21,7 @@
 #include "editor/menu_list_base_item.hpp"
 #include "editor/widget.hpp"
 #include "math/rectf.hpp"
+#include "supertux/resources.hpp"
 #include "video/surface.hpp"
 
 #include <functional>
@@ -49,7 +50,7 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent &button) override;
 
   const std::string &get_label() const { return m_label; }
-  void set_label(const std::string &label) { m_label = label; }
+  void set_label(const std::string &label);
 
   const std::string &get_keyboard_shortcut() const { return m_keyboard_shortcut; }
   void set_keyboard_shortcut(const std::string &shortcut) { m_keyboard_shortcut = shortcut; }
