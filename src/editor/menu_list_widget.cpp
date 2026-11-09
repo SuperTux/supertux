@@ -46,7 +46,10 @@ MenuListWidget::event(const SDL_Event& ev)
   bool event_handled = false;
   for (const auto &item : m_menu_items)
   {
-    event_handled |= item->event(ev);
+    if (item)
+    {
+      event_handled |= item->event(ev);
+    }
   }
   return event_handled;
 }
@@ -65,7 +68,10 @@ MenuListWidget::draw(DrawingContext& context)
 
   for (const auto &item : m_menu_items)
   {
-    item->draw(context);
+    if (item)
+    {
+      item->draw(context);
+    }
   }
 
   //context.pop_transform();
@@ -76,7 +82,10 @@ MenuListWidget::update(float dt_sec)
 {
   for (const auto& item : m_menu_items)
   {
-    item->update(dt_sec);
+    if (item)
+    {
+      item->update(dt_sec);
+    }
   }
 }
 
@@ -89,7 +98,10 @@ MenuListWidget::on_mouse_button_up(const SDL_MouseButtonEvent &button)
   bool event_handled = false;
   for (const auto &item : m_menu_items)
   {
-    event_handled |= item->on_mouse_button_up(button);
+    if (item)
+    {
+      event_handled |= item->on_mouse_button_up(button);
+    }
   }
   return event_handled;
 }
@@ -103,7 +115,10 @@ MenuListWidget::on_mouse_button_down(const SDL_MouseButtonEvent &button)
   bool event_handled = false;
   for (const auto &item : m_menu_items)
   {
-    event_handled |= item->on_mouse_button_down(button);
+    if (item)
+    {
+      event_handled |= item->on_mouse_button_down(button);
+    }
   }
   return event_handled;
 }
@@ -116,7 +131,10 @@ MenuListWidget::on_mouse_motion(const SDL_MouseMotionEvent &motion)
 
   for (const auto &item : m_menu_items)
   {
-    item->on_mouse_motion(motion);
+    if (item)
+    {
+      item->on_mouse_motion(motion);
+    }
   }
   return true;
 }
@@ -127,7 +145,10 @@ MenuListWidget::on_key_up(const SDL_KeyboardEvent &key)
   bool event_handled = false;
   for (const auto &item : m_menu_items)
   {
-    event_handled |= item->on_key_up(key);
+    if (item)
+    {
+      event_handled |= item->on_key_up(key);
+    }
   }
   return event_handled;
 }
@@ -138,7 +159,10 @@ MenuListWidget::on_key_down(const SDL_KeyboardEvent &key)
   bool event_handled = false;
   for (const auto &item : m_menu_items)
   {
-    event_handled |= item->on_key_down(key);
+    if (item)
+    {
+      event_handled |= item->on_key_down(key);
+    }
   }
   return event_handled;
 }
