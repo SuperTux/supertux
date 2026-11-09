@@ -24,11 +24,11 @@
 #include "editor/editor.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
-#include "video/surface_ptr.hpp"
 
 class EditorToolbarBaseWidget;
 class EditorToolbarButtonWidget;
 class EditorToolbarZoomWidget;
+class GameObjectChangeSet;
 
 /** The toolbar is at the top of the screen and offers easy access to the most commonly used functions of the editor. */
 class EditorToolbarWidget final : public Widget
@@ -47,6 +47,9 @@ public:
 
   void set_undo_disabled(bool state);
   void set_redo_disabled(bool state);
+
+  void set_undo_changes(const std::vector<GameObjectChangeSet>& changes);
+  void set_redo_changes(const std::vector<GameObjectChangeSet>& changes);
 
   const Rectf get_area() { return Rectf(0, 0, m_widgets_width, 32); }
 

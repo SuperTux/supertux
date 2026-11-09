@@ -182,6 +182,12 @@ MenuListWidget::recalculate_item_position_and_size(const Vector& position, bool 
   m_menu_area = Rectf(menu_position, menu_position + menu_size);
 }
 
+void
+MenuListWidget::recalculate_item_position_and_size(bool anchor_bottom)
+{
+  recalculate_item_position_and_size(m_menu_area.p1(), anchor_bottom);
+}
+
 bool
 MenuListWidget::has_mouse_focus() const
 {

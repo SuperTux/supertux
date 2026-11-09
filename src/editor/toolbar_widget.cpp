@@ -32,6 +32,7 @@
 #include "gui/notification.hpp"
 #include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/game_object_change.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
@@ -522,4 +523,62 @@ EditorToolbarWidget::set_redo_disabled(bool state)
 {
   if (m_redo_widget)
     m_redo_widget->set_disabled(state);
+}
+
+void
+EditorToolbarWidget::set_undo_changes(const std::vector<GameObjectChangeSet>& changes)
+{
+  auto history_manager = Editor::current()->get_history_manager();
+  auto menu_list = m_undo_widget->get_menu_list();
+  menu_list->clear_items();
+
+  int steps = 1;
+  for (const auto &change : changes)
+  {
+    auto callback = [steps, history_manager]()
+    {
+      for(int i = 0; i < steps; i++)
+      {
+        history_manager->undo();
+      }
+    };
+   
+    auto _change = change.changes.begin();
+    auto label = "Undo \"" + _change->to_string() + "\"";
+    auto item = std::make_unique<MenuListItem>(label, callback);
+    menu_list->add_item(std::move(item));
+    steps++;
+  }
+  menu_list->recalculate_item_position_and_size();
+
+  set_undo_disabled(changes.empty());
+}
+
+void
+EditorToolbarWidget::set_redo_changes(const std::vector<GameObjectChangeSet>& changes)
+{
+  auto history_manager = Editor::current()->get_history_manager();
+  auto menu_list = m_redo_widget->get_menu_list();
+  menu_list->clear_items();
+
+  int steps = 1;
+  for (const auto &change : changes)
+  {
+    auto callback = [steps, history_manager]()
+    {
+      for(int i = 0; i < steps; i++)
+      {
+        history_manager->redo();
+      }
+    };
+   
+    auto _change = change.changes.begin();
+    auto label = "Redo \"" + _change->to_string() + "\"";
+    auto item = std::make_unique<MenuListItem>(label, callback);
+    menu_list->add_item(std::move(item));
+    steps++;
+  }
+  menu_list->recalculate_item_position_and_size();
+
+  set_redo_disabled(changes.empty());
 }
