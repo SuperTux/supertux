@@ -17,6 +17,7 @@
 #include "supertux/game_object_change.hpp"
 
 #include "supertux/game_object.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/game_object_manager.hpp"
 #include "supertux/sector.hpp"
 
@@ -66,7 +67,7 @@ GameObjectChange::to_string() const
 
   if (object == nullptr)
   {
-    object_identifier = name;
+    object_identifier = GameObjectFactory::instance().get_display_name(name);
   }
   else
   {
