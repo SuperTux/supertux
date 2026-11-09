@@ -2,6 +2,6 @@
   (file "forest_midday_alt.ogg")
   (authors "SnugglyBun" "Marek \"Wansti\" Moeckel")
   (license "CC-BY-SA 4.0")
-  (loop-begin 7.215)
-  (loop-at  101.053)
+  (loop-begin 7.21)
+  (loop-at 101.05)
 )

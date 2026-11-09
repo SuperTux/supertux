@@ -321,7 +321,7 @@ function textbox()
   
   wait(3);
 
-  Text.set_text(_("The mighty Yeti had made his appearence, busting his chest in an intimidating fashion!"));
+  Text.set_text(_("The mighty Yeti had made his appearance, busting his chest in an intimidating fashion!"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);

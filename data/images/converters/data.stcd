@@ -13,6 +13,6 @@
   (rock_tiles_addon_to_vanilla.sttc
     (title (_ "Jagged Rock Tiles from Addon"))
     (author "Eauix")
-    (description (_ "For levels, created with the rock tiles addon, converts their IDs to vanilla rock tile IDs"))
+    (description (_ "For levels, created with the rock tiles addon, converts their IDs to vanilla rock tile IDs."))
   )
 )

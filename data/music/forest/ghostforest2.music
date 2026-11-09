@@ -4,5 +4,5 @@
   (license "CC-BY-SA / GPL 2+")
   (title "Ghost Forest 2")
   (loop-begin 0)
-  (loop-at    91)
+  (loop-at 91)
 )

@@ -1,5 +1,5 @@
 (supertux-music
   (file "deeply_rooted.ogg")
   (loop-begin 0)
-  (loop-at    69.81)
+  (loop-at 69.8)
 )
