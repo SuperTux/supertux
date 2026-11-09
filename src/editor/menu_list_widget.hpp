@@ -87,6 +87,13 @@ public:
    */
   void recalculate_item_position_and_size(const Vector &position, bool anchor_bottom = false);
 
+  /**
+   * Recalculates the positions for all child menu items.
+   * @param anchor_bottom If `true`, the menu size will stay fixed at the bottom
+   *                      and grow towards the top
+   */
+  void recalculate_item_position_and_size(bool anchor_bottom = false);
+
   const Vector &get_position() const { return m_menu_area.p1(); }
 
   inline const Rectf &get_area() const { return m_menu_area; }

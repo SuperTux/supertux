@@ -43,6 +43,8 @@ public:
 
   void save(Writer& writer) const;
 
+  std::string to_string() const;
+
 public:
   std::string name;
   UID uid;
