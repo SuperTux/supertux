@@ -201,7 +201,7 @@
       (y 1376)
     )
     (music
-      (file "/music/forest/ghostforest2.music")
+      (file "/music/forest/root_sapling_shuffle.ogg")
     )
     (particles-rain
     )
@@ -1017,7 +1017,7 @@ end_level();")
       (glinting #f)
     )
     (music
-      (file "/music/forest/ghostforest2.music")
+      (file "/music/forest/root_sapling_shuffle.ogg")
     )
     (particles-rain
       (intensity 0.5)
