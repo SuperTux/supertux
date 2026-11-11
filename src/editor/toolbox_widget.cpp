@@ -18,6 +18,8 @@
 #include "editor/toolbox_widget.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/menu_list_item.hpp"
+#include "editor/menu_list_widget.hpp"
 #include "editor/node_marker.hpp"
 #include "editor/toolbar_widget.hpp"
 #include "editor/tilebox.hpp"
@@ -53,6 +55,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_undo_mode(new ToolIcon("images/engine/editor/arrow.png")),
   m_tile_groups_dropdown(std::make_unique<ControlEnum<int>>()),
   m_object_groups_dropdown(std::make_unique<ControlEnum<int>>()),
+  m_brushes_list_widget(std::make_unique<MenuListWidget>()),
   m_has_mouse_focus(false)
 {
   m_select_mode->push_mode("images/engine/editor/select-mode1.png");
@@ -62,49 +65,66 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_undo_mode->push_mode("images/engine/editor/redo.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 
+  auto prepare_dropdowns = [this]()
+  {
+    prepare_tile_group_dropdown();
+    prepare_object_group_dropdown();
+  };
+
   auto editor_project = Editor::current()->get_project();
-
-  // TODO: Same callback func for tileset reloaded
-  editor_project->add_sector_set_callback([editor_project, this]()
-                                          {
-    m_tile_groups_dropdown->clear_items();
-
-    int i = 0;
-    for (const auto &tile_group : editor_project->get_tile_groups())
-    {
-      m_tile_groups_dropdown->add_option(i, tile_group.name);
-      i++;
-    }
-    m_tile_groups_dropdown->bind_value(&(m_tilebox->m_tile_group_id));
-    auto on_tile_group_select = [this]
-    {
-      select_tile_group(m_tilebox->m_tile_group_id);
-    };
-    m_tile_groups_dropdown->m_on_change_callbacks.emplace_back(on_tile_group_select);
-
-    auto level = editor_project->get_level();
-    bool is_worldmap = level->is_worldmap();
-
-    m_object_groups_dropdown->clear_items();
-    i = 0;
-    for (const auto &object_group : get_tilebox().get_object_info().m_groups)
-    {
-      if (object_group.is_worldmap() == is_worldmap)
-      {
-        m_object_groups_dropdown->add_option(i, object_group.get_name());
-        i++;
-      }
-    }
-    m_object_groups_dropdown->bind_value(&(m_tilebox->m_object_group_id));
-    auto on_object_group_select = [this]
-    {
-      select_object_group(m_tilebox->m_object_group_id);
-    };
-    m_object_groups_dropdown->m_on_change_callbacks.emplace_back(on_object_group_select);
-
-  });
+  editor_project->add_sector_set_callback(prepare_dropdowns);
+  editor_project->add_tileset_reloaded_callback(prepare_dropdowns);
 
   set_mouse_tool();
+
+  auto test_item = std::make_unique<MenuListItem>("Test Brush");
+  m_brushes_list_widget->add_item(std::move(test_item));
+}
+
+void
+EditorToolboxWidget::prepare_tile_group_dropdown()
+{
+  auto editor_project = Editor::current()->get_project();
+  m_tile_groups_dropdown->clear_items();
+
+  int i = 0;
+  for (const auto &tile_group : editor_project->get_tile_groups())
+  {
+    m_tile_groups_dropdown->add_option(i, tile_group.name);
+    i++;
+  }
+  m_tile_groups_dropdown->bind_value(&(m_tilebox->m_tile_group_id));
+  auto on_tile_group_select = [this]
+  {
+    select_tile_group(m_tilebox->m_tile_group_id);
+  };
+  m_tile_groups_dropdown->m_on_change_callbacks.emplace_back(on_tile_group_select);
+}
+
+void
+EditorToolboxWidget::prepare_object_group_dropdown()
+{
+  auto editor_project = Editor::current()->get_project();
+  auto level = editor_project->get_level();
+  bool is_worldmap = level->is_worldmap();
+
+  m_object_groups_dropdown->clear_items();
+  
+  int i = 0;
+  for (const auto &object_group : get_tilebox().get_object_info().m_groups)
+  {
+    if (object_group.is_worldmap() == is_worldmap)
+    {
+      m_object_groups_dropdown->add_option(i, object_group.get_name());
+      i++;
+    }
+  }
+  m_object_groups_dropdown->bind_value(&(m_tilebox->m_object_group_id));
+  auto on_object_group_select = [this]
+  {
+    select_object_group(m_tilebox->m_object_group_id);
+  };
+  m_object_groups_dropdown->m_on_change_callbacks.emplace_back(on_object_group_select);
 }
 
 void
@@ -115,6 +135,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
   if (m_editor.get_input_mode() == InputMode::TILE)
   {
     m_tile_groups_dropdown->draw(context);
+    m_brushes_list_widget->draw(context);
   }
   else
   {
@@ -162,6 +183,12 @@ EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   {
     return true;
   }
+
+  if (m_editor.get_input_mode() == InputMode::TILE && m_brushes_list_widget->on_mouse_button_up(button))
+  {
+    return true;
+  }
+
   return m_tilebox->on_mouse_button_up(button);
 }
 
@@ -184,6 +211,12 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   {
     m_editor.get_overlay_widget()->update_autotileset();
     update_mouse_icon();
+    return true;
+  }
+
+  if (m_editor.get_input_mode() == InputMode::TILE &&
+      m_brushes_list_widget->on_mouse_button_down(button))
+  {
     return true;
   }
 
@@ -217,6 +250,12 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
   if (m_editor.get_input_mode() == InputMode::OBJECT &&
       m_object_groups_dropdown->on_mouse_motion(motion))
+  {
+    return true;
+  }
+
+  if (m_editor.get_input_mode() == InputMode::TILE &&
+      m_brushes_list_widget->on_mouse_motion(motion))
   {
     return true;
   }
@@ -310,8 +349,14 @@ void
 EditorToolboxWidget::on_window_resize()
 {
   m_pos_x = static_cast<float>(SCREEN_WIDTH - 128);
+  m_brushes_list_widget->set_area(Rectf(Vector(m_pos_x, SCREEN_HEIGHT * .6f),
+                                        Vector(SCREEN_WIDTH * 1.f, SCREEN_HEIGHT)));
+  m_brushes_list_widget->recalculate_item_position_and_size();
+  m_brushes_list_widget->set_area(Rectf(Vector(m_pos_x, SCREEN_HEIGHT * .6f),
+                                        Vector(SCREEN_WIDTH * 1.f, SCREEN_HEIGHT)));
+
   m_tilebox->set_rect(Rectf(Vector(m_pos_x, 32.f),
-                            Vector(SCREEN_WIDTH * 1.f, SCREEN_HEIGHT * 1.f)));
+                            Vector(SCREEN_WIDTH * 1.f, SCREEN_HEIGHT * .6f)));
 
   m_tilebox->on_window_resize();
 
