@@ -18,6 +18,7 @@
 #include "editor/tilebox.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/editor_event_handling.hpp"
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
@@ -234,6 +235,10 @@ EditorTilebox::update_selection()
 bool
 EditorTilebox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
+  auto editor_events = Editor::current()->get_event_handling();
+  if (!m_rect.contains(editor_events->get_mouse_pos()))
+    return false;
+
   m_scrollbar->on_mouse_button_up(button);
 
   if (m_dragging)
@@ -247,6 +252,10 @@ EditorTilebox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 bool
 EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
+  auto editor_events = Editor::current()->get_event_handling();
+  if (!m_rect.contains(editor_events->get_mouse_pos()))
+    return false;
+
   if (m_scrollbar->on_mouse_button_down(button))
     return true;
 
@@ -301,6 +310,10 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 EditorTilebox::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
+  auto editor_events = Editor::current()->get_event_handling();
+  if (!m_rect.contains(editor_events->get_mouse_pos()))
+    return false;
+
   if (m_scrollbar->on_mouse_motion(motion))
   {
     m_hovered_item = HoveredItem::SCROLLBAR;
@@ -324,7 +337,10 @@ EditorTilebox::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorTilebox::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
-  if (m_hovered_item == HoveredItem::TILE)
+  if (!m_rect.contains(m_mouse_pos))
+    return false;
+
+    if (m_hovered_item == HoveredItem::TILE)
   {
     m_scrollbar->on_mouse_wheel(wheel);
     update_hovered_tile();
