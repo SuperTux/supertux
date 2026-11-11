@@ -50,7 +50,22 @@ public:
   int m_width;
   int m_height;
 
+public:
+  bool operator==(const TileSelection& other)
+  {
+    return m_width == other.m_width &&
+           m_height == other.m_height &&
+           m_tiles == other.m_tiles;
+  };
+
+  TileSelection& operator=(const TileSelection& other)
+  {
+    m_width = other.m_width;
+    m_height = other.m_height;
+    m_tiles = other.m_tiles;
+    return *this;
+  };
+
 private:
   TileSelection(const TileSelection&) = delete;
-  TileSelection& operator=(const TileSelection&) = delete;
 };

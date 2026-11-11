@@ -19,6 +19,7 @@
 
 #include "editor/widget.hpp"
 
+#include <map>
 #include <memory>
 
 #include "math/rectf.hpp"
@@ -31,6 +32,7 @@ class ControlEnum;
 class Editor;
 class EditorTilebox;
 class MenuListWidget;
+class TileSelection;
 class ToolIcon;
 
 /** The toolbox is on the right side of the screen and allows
@@ -92,6 +94,8 @@ private:
   void prepare_tile_group_dropdown();
   void prepare_object_group_dropdown();
 
+  void load_brushes();
+
 private:
   Editor& m_editor;
 
@@ -112,6 +116,7 @@ private:
   std::unique_ptr<ControlEnum<int>> m_object_groups_dropdown;
 
   std::unique_ptr<MenuListWidget> m_brushes_list_widget;
+  std::map<std::string, std::unique_ptr<TileSelection>> m_brushes;
 
   bool m_has_mouse_focus;
 
