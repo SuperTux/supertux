@@ -310,17 +310,6 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 EditorTilebox::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
-  auto editor_events = Editor::current()->get_event_handling();
-  if (!m_rect.contains(editor_events->get_mouse_pos()))
-    return false;
-
-  if (m_scrollbar->on_mouse_motion(motion))
-  {
-    m_hovered_item = HoveredItem::SCROLLBAR;
-    m_object_tip->set_visible(false);
-    return true;
-  }
-
   m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
 
   if (!m_rect.contains(m_mouse_pos))
@@ -328,6 +317,13 @@ EditorTilebox::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     m_hovered_item = HoveredItem::NONE;
     m_object_tip->set_visible(false);
     return false;
+  }
+
+  if (m_scrollbar->on_mouse_motion(motion))
+  {
+    m_hovered_item = HoveredItem::SCROLLBAR;
+    m_object_tip->set_visible(false);
+    return true;
   }
 
   update_hovered_tile();
@@ -340,7 +336,7 @@ EditorTilebox::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
   if (!m_rect.contains(m_mouse_pos))
     return false;
 
-    if (m_hovered_item == HoveredItem::TILE)
+  if (m_hovered_item == HoveredItem::TILE)
   {
     m_scrollbar->on_mouse_wheel(wheel);
     update_hovered_tile();
