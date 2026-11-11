@@ -105,7 +105,8 @@ MenuListLayerActionsItem::add_layer_add_button()
     auto create_object = [object_class, this]()
     {
       auto object = GameObjectFactory::instance().create(object_class);
-      Sector::current()->add_object(std::move(object));
+      auto& added_object = Sector::current()->add_object(std::move(object));
+      m_parent->set_selected_layer(&added_object);
     };
 
     auto item = std::make_unique<MenuListItem>(label, create_object, surface_path, surface_rect);
