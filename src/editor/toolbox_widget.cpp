@@ -223,28 +223,27 @@ EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 bool
 EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
-  if (m_editor.get_input_mode() == InputMode::TILE &&
-    m_tile_groups_dropdown->on_mouse_button_down(button))
+  auto input_mode = m_editor.get_input_mode();
+  if (input_mode == InputMode::TILE &&
+      m_tile_groups_dropdown->on_mouse_button_down(button))
   {
     return true;
   }
 
-  if (m_editor.get_input_mode() == InputMode::OBJECT &&
-    m_object_groups_dropdown->on_mouse_button_down(button))
+  if (input_mode == InputMode::OBJECT &&
+      m_object_groups_dropdown->on_mouse_button_down(button))
   {
     return true;
   }
 
-  if (m_tilebox->on_mouse_button_down(button))
+  if (m_tilebox->on_mouse_button_down(button) ||
+      (input_mode == InputMode::TILE && m_brushes_list_widget->on_mouse_button_down(button)))
   {
-    m_editor.get_overlay_widget()->update_autotileset();
+    if (input_mode == InputMode::TILE)
+    {
+      m_editor.get_overlay_widget()->update_autotileset();
+    }
     update_mouse_icon();
-    return true;
-  }
-
-  if (m_editor.get_input_mode() == InputMode::TILE &&
-      m_brushes_list_widget->on_mouse_button_down(button))
-  {
     return true;
   }
 
