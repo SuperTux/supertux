@@ -350,6 +350,11 @@ public:
   void trigger_post_save_callback();
 
   /**
+   * Returns the autosave interval in seconds
+   */
+  float get_autosave_interval() const;
+
+  /**
    * Adds the current value of `dt_sec` to the elapsed time
    * since last autosave and performs an autosave if necessary
    * @param dt_sec elapsed time since last tick
