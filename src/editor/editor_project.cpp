@@ -368,6 +368,12 @@ EditorProject::reload_level()
                                           get_autosave_from_level_filename(m_level_filename));
 }
 
+float
+EditorProject::get_autosave_interval() const
+{
+  return static_cast<float>(std::max(g_config->editor_autosave_frequency, 1)) * 60.f;
+}
+
 void
 EditorProject::check_autosave(float dt_sec)
 {
@@ -380,10 +386,7 @@ EditorProject::check_autosave(float dt_sec)
   // Auto-save (interval).
   m_time_since_last_save += dt_sec;
 
-  float autosave_frequency_sec =
-    static_cast<float>(std::max(g_config->editor_autosave_frequency, 1)) * 60.f;
-
-  if (m_time_since_last_save < autosave_frequency_sec)
+  if (m_time_since_last_save < get_autosave_interval())
     return;
 
   autosave();
