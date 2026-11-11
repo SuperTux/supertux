@@ -55,6 +55,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_undo_mode(new ToolIcon("images/engine/editor/arrow.png")),
   m_tile_groups_dropdown(std::make_unique<ControlEnum<int>>()),
   m_object_groups_dropdown(std::make_unique<ControlEnum<int>>()),
+  m_brushes(),
   m_brushes_list_widget(std::make_unique<MenuListWidget>()),
   m_has_mouse_focus(false)
 {
@@ -69,6 +70,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   {
     prepare_tile_group_dropdown();
     prepare_object_group_dropdown();
+    load_brushes();
   };
 
   auto editor_project = Editor::current()->get_project();
@@ -76,9 +78,6 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   editor_project->add_tileset_reloaded_callback(prepare_dropdowns);
 
   set_mouse_tool();
-
-  auto test_item = std::make_unique<MenuListItem>("Test Brush");
-  m_brushes_list_widget->add_item(std::move(test_item));
 }
 
 void
@@ -125,6 +124,33 @@ EditorToolboxWidget::prepare_object_group_dropdown()
     select_object_group(m_tilebox->m_object_group_id);
   };
   m_object_groups_dropdown->m_on_change_callbacks.emplace_back(on_object_group_select);
+}
+
+void
+EditorToolboxWidget::load_brushes()
+{
+  auto test_selection = std::make_unique<TileSelection>();
+  test_selection->m_height = 4;
+  test_selection->m_width = 4;
+  test_selection->m_tiles = {20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20};
+  m_brushes["Test Brush"] = std::move(test_selection);
+
+  for(const auto& brush : m_brushes)
+  {
+    auto on_brush_selected = [&brush, &test_selection, this]
+    {
+      *(m_editor.get_tile_selection()) = *(brush.second.get());
+    };
+    auto brush_item = std::make_unique<MenuListItem>(brush.first, on_brush_selected);
+
+    auto is_brush_selected = [&brush, this]
+    {
+      return *(m_editor.get_tile_selection()) == *(brush.second.get());
+    };
+    brush_item->set_is_selected_handler(is_brush_selected);
+
+    m_brushes_list_widget->add_item(std::move(brush_item));
+  }
 }
 
 void
