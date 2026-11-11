@@ -30,6 +30,7 @@ class ControlEnum;
 
 class Editor;
 class EditorTilebox;
+class MenuListWidget;
 class ToolIcon;
 
 /** The toolbox is on the right side of the screen and allows
@@ -88,6 +89,9 @@ private:
   ToolIcon* get_mouse_icon() const;
   void update_last_active_group();
 
+  void prepare_tile_group_dropdown();
+  void prepare_object_group_dropdown();
+
 private:
   Editor& m_editor;
 
@@ -106,6 +110,8 @@ private:
 
   std::unique_ptr<ControlEnum<int>> m_tile_groups_dropdown;
   std::unique_ptr<ControlEnum<int>> m_object_groups_dropdown;
+
+  std::unique_ptr<MenuListWidget> m_brushes_list_widget;
 
   bool m_has_mouse_focus;
 
