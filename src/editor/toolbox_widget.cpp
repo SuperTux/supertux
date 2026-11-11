@@ -164,6 +164,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
   else
   {
     m_object_groups_dropdown->draw(context);
+    context.color().draw_filled_rect(m_brushes_list_widget->get_area(), g_config->editorcolor, LAYER_GUI);
   }
 
   m_tilebox->draw(context);
