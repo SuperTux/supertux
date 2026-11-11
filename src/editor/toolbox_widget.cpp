@@ -52,7 +52,6 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
   m_node_marker_mode(new ToolIcon("images/engine/editor/path_node.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
-  m_undo_mode(new ToolIcon("images/engine/editor/arrow.png")),
   m_tile_groups_dropdown(std::make_unique<ControlEnum<int>>()),
   m_object_groups_dropdown(std::make_unique<ControlEnum<int>>()),
   m_brushes(),
@@ -63,7 +62,6 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_select_mode->push_mode("images/engine/editor/select-mode2.png");
   m_select_mode->push_mode("images/engine/editor/select-mode3.png");
   m_move_mode->push_mode("images/engine/editor/move-mode1.png");
-  m_undo_mode->push_mode("images/engine/editor/redo.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 
   auto prepare_dropdowns = [this]()
