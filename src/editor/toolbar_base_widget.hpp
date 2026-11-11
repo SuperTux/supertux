@@ -44,7 +44,8 @@ public:
     m_hover(false),
     m_mouse_pos(),
     m_help_text(),
-    m_menu_list(std::make_unique<MenuListWidget>())
+    m_menu_list(std::make_unique<MenuListWidget>()),
+    m_show_menu(false)
   {
   }
   
