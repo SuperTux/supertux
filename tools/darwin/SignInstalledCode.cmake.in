@@ -1,0 +1,40 @@
+# CPack has installed the payload and fixup_bundle() has rewritten load paths.
+# CPack itself adds the launcher and signs the complete app after this step.
+set(_supertux_sign_identity "@SUPERTUX_MACOS_SIGN_IDENTITY@")
+set(_supertux_payload_root "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}")
+
+find_program(_supertux_codesign codesign REQUIRED)
+file(GLOB_RECURSE _supertux_payload_files LIST_DIRECTORIES false
+     "${_supertux_payload_root}/*")
+
+set(_supertux_sign_options)
+if(NOT _supertux_sign_identity STREQUAL "-")
+  list(APPEND _supertux_sign_options --options runtime --timestamp)
+endif()
+
+set(_supertux_signed_count 0)
+foreach(_supertux_item IN LISTS _supertux_payload_files)
+  if(IS_SYMLINK "${_supertux_item}")
+    continue()
+  endif()
+
+  file(READ "${_supertux_item}" _supertux_magic LIMIT 4 HEX)
+  string(TOLOWER "${_supertux_magic}" _supertux_magic)
+  if(NOT _supertux_magic MATCHES "^(cffaedfe|feedfacf|cefaedfe|feedface|cafebabe|bebafeca|cafebabf|bfbafeca)$")
+    continue()
+  endif()
+
+  execute_process(
+    COMMAND "${_supertux_codesign}" --force ${_supertux_sign_options}
+            --sign "${_supertux_sign_identity}" "${_supertux_item}"
+    RESULT_VARIABLE _supertux_sign_result)
+  if(NOT _supertux_sign_result EQUAL 0)
+    message(FATAL_ERROR "Failed to sign ${_supertux_item}")
+  endif()
+  math(EXPR _supertux_signed_count "${_supertux_signed_count} + 1")
+endforeach()
+
+if(_supertux_signed_count EQUAL 0)
+  message(FATAL_ERROR "No Mach-O files found under ${_supertux_payload_root}")
+endif()
+message(STATUS "Signed ${_supertux_signed_count} Mach-O files in the CPack payload")
