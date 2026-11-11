@@ -284,7 +284,6 @@ EditorProject::load_level_from_filename(const std::string& level_filename)
   }
   catch(const std::exception& e)
   {
-    reset();
     set_level(nullptr);
   }
 }
