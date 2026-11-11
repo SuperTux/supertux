@@ -200,17 +200,20 @@ EditorToolboxWidget::draw_separator(DrawingContext& context)
 bool
 EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  if (m_editor.get_input_mode() == InputMode::TILE && m_tile_groups_dropdown->on_mouse_button_up(button))
+  if (m_editor.get_input_mode() == InputMode::TILE &&
+      m_tile_groups_dropdown->on_mouse_button_up(button))
   {
     return true;
   }
   
-  if (m_editor.get_input_mode() == InputMode::OBJECT && m_object_groups_dropdown->on_mouse_button_up(button))
+  if (m_editor.get_input_mode() == InputMode::OBJECT &&
+      m_object_groups_dropdown->on_mouse_button_up(button))
   {
     return true;
   }
 
-  if (m_editor.get_input_mode() == InputMode::TILE && m_brushes_list_widget->on_mouse_button_up(button))
+  if (m_editor.get_input_mode() == InputMode::TILE &&
+      m_brushes_list_widget->on_mouse_button_up(button))
   {
     return true;
   }
@@ -470,8 +473,10 @@ EditorToolboxWidget::get_mouse_icon() const
     {
       const std::string& object_class_name = m_editor.get_selected_object_class_name();
       const auto &node_marker_class_name = NodeMarker::class_name();
+
       if (object_class_name.empty())
         return m_rubber.get();
+
       if (object_class_name == node_marker_class_name)
         return m_node_marker_mode.get();
 
