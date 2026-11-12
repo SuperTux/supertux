@@ -1545,11 +1545,11 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size) cons
   if (current_tm == nullptr) return;
 
   const Camera& camera = m_editor.get_project()->get_sector()->get_camera();
-  const Rectf draw_rect = Rectf(camera.get_translation(),
-                                Sizef((context.get_width() - 128.f) / camera.get_current_scale(),
-                                      (context.get_height() - 32.f) / camera.get_current_scale()));
-  Vector start = sp_to_tp( Vector(draw_rect.get_left(), draw_rect.get_top()), tile_size );
-  Vector end = sp_to_tp( Vector(draw_rect.get_right(), draw_rect.get_bottom()), tile_size );
+  const Sizef draw_rect_size = Sizef((context.get_width() - 128.f), (context.get_height() - 32.f));
+  const Rectf draw_rect = Rectf(camera.get_translation(), draw_rect_size / camera.get_current_scale());
+
+  Vector start = sp_to_tp(draw_rect.p1(), tile_size);
+  Vector end = sp_to_tp(draw_rect.p2(), tile_size);
   start.x = std::max(0.0f, start.x);
   start.y = std::max(0.0f, start.y);
   end.x = std::min(static_cast<float>(current_tm->get_width() * (32 / tile_size)), end.x);
@@ -1565,37 +1565,6 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size) cons
   };
 
   auto origin = tile_screen_pos(Vector(0, 0));
-  Vector viewport_scale = VideoSystem::current()->get_viewport().get_scale();
-  const Color shadow_colour(0.0f, 0.0f, 0.0f, 0.05f);
-  const Vector shadow_offset = 1.0f / viewport_scale;
-
-  for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++)
-  {
-    line_start = tile_screen_pos(Vector(i * 1.f, 0.0f), tile_size) + shadow_offset;
-    line_end = tile_screen_pos(Vector(i * 1.f, end.y), tile_size) + shadow_offset;
-    bool is_border = (int)(line_start.x - origin.x - shadow_offset.x) % 32 == 0;
-
-    if (!is_border)
-    {
-      continue;
-    }
-
-    draw_line(line_start, line_end, shadow_colour);
-  }
-
-  for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++)
-  {
-    line_start = tile_screen_pos(Vector(0.0f, i * 1.f), tile_size) + shadow_offset;
-    line_end = tile_screen_pos(Vector(end.x, i * 1.f), tile_size) + shadow_offset;
-    bool is_border = ((int)(line_start.y - origin.y - shadow_offset.y)) % 32 == 0;
-    
-    if (!is_border)
-    {
-      continue;
-    }
-    
-    draw_line(line_start, line_end, shadow_colour);
-  }
 
   const Color line_color(1.f, 1.f, 1.f, 0.2f);
   const Color line_color_tile_border(1.f, 1.f, 1.f, 0.4f);
@@ -1637,9 +1606,8 @@ EditorOverlayWidget::draw_tilemap_outer_shading(DrawingContext& context)
   auto current_tm = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!current_tm) return;
 
-  Vector start = tile_screen_pos( Vector(0, 0) );
-  Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
-                                       static_cast<float>(current_tm->get_height())) );
+  Vector start = tile_screen_pos(Vector(0, 0));
+  Vector end = tile_screen_pos(current_tm->get_size().to_vector());
 
   const Color& bg_color = { 0, 0, 0, 0.15 };
   const Camera& camera = m_editor.get_project()->get_sector()->get_camera();
