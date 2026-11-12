@@ -33,9 +33,9 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
+#include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -161,6 +161,24 @@ EditorToolboxWidget::load_brushes()
     m_brushes_list_widget->add_item(std::move(brush_item));
   }
   on_window_resize();
+}
+
+void
+EditorToolboxWidget::save_brushes()
+{
+  Writer brushes_writer("editor_brushes");
+  brushes_writer.start_list("supertux-editor-brushes");
+  for(const auto& brush : m_brushes)
+  {
+    brushes_writer.start_list("brush");
+    brushes_writer.write("name", brush->get_name());
+    brushes_writer.write("tilegroup_id", brush->get_tilegroup_id());
+    brushes_writer.write("width", brush->m_width);
+    brushes_writer.write("height", brush->m_height);
+    brushes_writer.write("tiles", brush->m_tiles, brush->m_width);
+    brushes_writer.end_list("brush");
+  }
+  brushes_writer.end_list("supertux-editor-brushes");
 }
 
 void

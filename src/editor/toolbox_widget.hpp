@@ -80,6 +80,9 @@ public:
 
   inline bool has_mouse_focus() const { return m_has_mouse_focus; }
 
+  void load_brushes();
+  void save_brushes();
+
 private:
   /**
    * Draws the line and shadow on the intersection between the
@@ -93,8 +96,6 @@ private:
 
   void prepare_tile_group_dropdown();
   void prepare_object_group_dropdown();
-
-  void load_brushes();
 
 private:
   Editor& m_editor;
