@@ -98,6 +98,8 @@ EditorProject::setup()
 void
 EditorProject::load_initial_level()
 {
+  reset();
+
   try
   {
     if (g_config->editor_remember_last_level)
@@ -247,8 +249,6 @@ EditorProject::get_level_from_current_level_filename()
 void
 EditorProject::set_level(std::unique_ptr<Level> level)
 {
-  reset();
-
   if (level)
   {
     m_level = std::move(level);
@@ -256,6 +256,7 @@ EditorProject::set_level(std::unique_ptr<Level> level)
   }
   else
   {
+    reset();
     create_empty_project();
   }
 
@@ -273,7 +274,7 @@ EditorProject::set_level(std::unique_ptr<Level> level)
 
 void
 EditorProject::load_level_from_filename(const std::string& level_filename)
-{ 
+{
   m_level_filename = level_filename;
 
   try
