@@ -138,6 +138,7 @@ Editor::~Editor()
     m_on_exit_callback();
 
   m_script_manager.clear_tmp();
+  m_toolbox_widget->save_brushes();
 }
 
 void
