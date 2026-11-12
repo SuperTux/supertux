@@ -80,8 +80,9 @@ public:
 
   inline bool has_mouse_focus() const { return m_has_mouse_focus; }
 
-  void load_brushes();
-  void save_brushes();
+  void load_brushes_for_current_tilegroup();
+  void load_brushes_from_file();
+  void save_brushes_to_file();
 
 private:
   /**

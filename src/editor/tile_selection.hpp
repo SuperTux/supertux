@@ -88,7 +88,7 @@ public:
   const std::string& get_name() const { return m_name; }
   void set_name(const std::string& name) { m_name = name; }
 
-private:
+public:
   int m_tilegroup_id;
   std::string m_name;
 };

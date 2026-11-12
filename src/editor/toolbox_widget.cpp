@@ -35,6 +35,9 @@
 #include "supertux/level.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
+#include "util/reader_collection.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
@@ -74,6 +77,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   editor_project->add_sector_set_callback(prepare_dropdowns);
   editor_project->add_tileset_reloaded_callback(prepare_dropdowns);
 
+  load_brushes_from_file();
   set_mouse_tool();
 }
 
@@ -95,7 +99,7 @@ EditorToolboxWidget::prepare_tile_group_dropdown()
     select_tile_group(m_tilebox->m_tile_group_id);
   };
   m_tile_groups_dropdown->m_on_change_callbacks.emplace_back(on_tile_group_select);
-  load_brushes();
+  load_brushes_for_current_tilegroup();
 }
 
 void
@@ -125,18 +129,9 @@ EditorToolboxWidget::prepare_object_group_dropdown()
 }
 
 void
-EditorToolboxWidget::load_brushes()
+EditorToolboxWidget::load_brushes_for_current_tilegroup()
 {
   m_brushes_list_widget->clear_items();
-  m_brushes.clear();
-
-  auto test_brush = std::make_unique<EditorBrush>();
-  test_brush->m_height = 4;
-  test_brush->m_width = 4;
-  test_brush->m_tiles = {20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20};
-  test_brush->set_tilegroup_id(1);
-  test_brush->set_name("Test Brush");
-  m_brushes.push_back(std::move(test_brush));
 
   auto active_tilegroup_id = m_tilebox->get_active_tile_group()->id;
 
@@ -164,7 +159,37 @@ EditorToolboxWidget::load_brushes()
 }
 
 void
-EditorToolboxWidget::save_brushes()
+EditorToolboxWidget::load_brushes_from_file()
+{
+  m_brushes.clear();
+
+  auto brushes_document = ReaderDocument::from_file("editor_brushes");
+  auto brushes_root = brushes_document.get_root();
+
+  if (brushes_root.get_name() != "supertux-editor-brushes")
+  {
+    log_warning << "editor_brushes file is not a valid supertux editor brush definition" << std::endl;
+    return;
+  }
+
+  auto brush_definitions = brushes_root.get_collection();
+  for (const auto& brush : brush_definitions.get_objects())
+  {
+    auto brush_definition = brush.get_mapping();
+    auto editor_brush = std::make_unique<EditorBrush>();
+
+    brush_definition.get("name", editor_brush->m_name);
+    brush_definition.get("tilegroup_id", editor_brush->m_tilegroup_id);
+    brush_definition.get("width", editor_brush->m_width);
+    brush_definition.get("height", editor_brush->m_height);
+    brush_definition.get("tiles", editor_brush->m_tiles);
+
+    m_brushes.push_back(std::move(editor_brush));
+  }
+}
+
+void
+EditorToolboxWidget::save_brushes_to_file()
 {
   Writer brushes_writer("editor_brushes");
   brushes_writer.start_list("supertux-editor-brushes");
@@ -434,7 +459,7 @@ EditorToolboxWidget::select_tile_group(int id)
 {
   m_editor.set_input_mode(InputMode::TILE);
   m_tilebox->select_tile_group(id);
-  load_brushes();
+  load_brushes_for_current_tilegroup();
   update_mouse_icon();
 }
 
