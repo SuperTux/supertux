@@ -36,6 +36,7 @@ public:
   Tilegroup();
 
   bool developers_group = false;
+  int id;
   std::string name;
   std::vector<int> tiles;
 };

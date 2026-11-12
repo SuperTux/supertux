@@ -18,9 +18,10 @@
 
 #include <algorithm>
 #include <stdint.h>
+#include <string>
 #include <vector>
 
-class TileSelection final
+class TileSelection
 {
 public:
   TileSelection();
@@ -68,4 +69,26 @@ public:
 
 private:
   TileSelection(const TileSelection&) = delete;
+};
+
+class EditorBrush final : public TileSelection
+{
+public:
+  EditorBrush() :
+    TileSelection(),
+    m_tilegroup_id(-1),
+    m_name()
+  {
+  }
+
+public:
+  int get_tilegroup_id() const { return m_tilegroup_id; }
+  void set_tilegroup_id(int id) { m_tilegroup_id = id; }
+
+  const std::string& get_name() const { return m_name; }
+  void set_name(const std::string& name) { m_name = name; }
+
+private:
+  int m_tilegroup_id;
+  std::string m_name;
 };
