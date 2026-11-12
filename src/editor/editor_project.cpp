@@ -310,10 +310,8 @@ EditorProject::save_level(const std::string& filename, bool set_as_current_filen
     set_as_current_filename = true;
   }
 
-  const auto& level_directory = get_level_directory();
-
   auto file = get_default_save_filename(filename);
-  auto filepath = FileSystem::join(level_directory, file);
+  auto filepath = FileSystem::join(get_level_directory(), file);
 
   if (set_as_current_filename)
     m_level_filename = file;
@@ -472,7 +470,7 @@ EditorProject::open_level_directory()
   if (m_is_temp_level)
     return;
 
-  m_level->save(FileSystem::join(get_level_directory(), m_level_filename));
+  m_level->save(FileSystem::join(get_level_directory(), get_level_filename()));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
   FileSystem::open_path(path);
 }
