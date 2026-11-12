@@ -127,6 +127,9 @@ EditorToolboxWidget::prepare_object_group_dropdown()
 void
 EditorToolboxWidget::load_brushes()
 {
+  m_brushes_list_widget->clear_items();
+  m_brushes.clear();
+
   auto test_selection = std::make_unique<TileSelection>();
   test_selection->m_height = 4;
   test_selection->m_width = 4;
@@ -149,6 +152,7 @@ EditorToolboxWidget::load_brushes()
 
     m_brushes_list_widget->add_item(std::move(brush_item));
   }
+  on_window_resize();
 }
 
 void
@@ -376,8 +380,6 @@ void
 EditorToolboxWidget::on_window_resize()
 {
   m_pos_x = static_cast<float>(SCREEN_WIDTH - 128);
-  m_brushes_list_widget->set_area(Rectf(Vector(m_pos_x, SCREEN_HEIGHT * .6f),
-                                        Vector(SCREEN_WIDTH * 1.f, SCREEN_HEIGHT)));
   m_brushes_list_widget->recalculate_item_position_and_size();
   m_brushes_list_widget->set_area(Rectf(Vector(m_pos_x, SCREEN_HEIGHT * .6f),
                                         Vector(SCREEN_WIDTH * 1.f, SCREEN_HEIGHT)));
