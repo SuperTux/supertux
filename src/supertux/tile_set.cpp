@@ -28,6 +28,7 @@
 
 Tilegroup::Tilegroup() :
   developers_group(),
+  id(),
   name(),
   tiles()
 {

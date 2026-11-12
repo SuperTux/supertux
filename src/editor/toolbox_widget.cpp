@@ -68,7 +68,6 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   {
     prepare_tile_group_dropdown();
     prepare_object_group_dropdown();
-    load_brushes();
   };
 
   auto editor_project = Editor::current()->get_project();
@@ -96,6 +95,7 @@ EditorToolboxWidget::prepare_tile_group_dropdown()
     select_tile_group(m_tilebox->m_tile_group_id);
   };
   m_tile_groups_dropdown->m_on_change_callbacks.emplace_back(on_tile_group_select);
+  load_brushes();
 }
 
 void
@@ -130,23 +130,31 @@ EditorToolboxWidget::load_brushes()
   m_brushes_list_widget->clear_items();
   m_brushes.clear();
 
-  auto test_selection = std::make_unique<TileSelection>();
-  test_selection->m_height = 4;
-  test_selection->m_width = 4;
-  test_selection->m_tiles = {20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20};
-  m_brushes["Test Brush"] = std::move(test_selection);
+  auto test_brush = std::make_unique<EditorBrush>();
+  test_brush->m_height = 4;
+  test_brush->m_width = 4;
+  test_brush->m_tiles = {20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20};
+  test_brush->set_tilegroup_id(1);
+  test_brush->set_name("Test Brush");
+  m_brushes.push_back(std::move(test_brush));
+
+  auto active_tilegroup_id = m_tilebox->get_active_tile_group()->id;
 
   for(const auto& brush : m_brushes)
   {
-    auto on_brush_selected = [&brush, &test_selection, this]
+    auto tilegroup_id = brush->get_tilegroup_id();
+    if (tilegroup_id > 0 && tilegroup_id != active_tilegroup_id)
+      continue;
+
+    auto on_brush_selected = [&brush, this]
     {
-      *(m_editor.get_tile_selection()) = *(brush.second.get());
+      *(m_editor.get_tile_selection()) = *(brush.get());
     };
-    auto brush_item = std::make_unique<MenuListItem>(brush.first, on_brush_selected);
+    auto brush_item = std::make_unique<MenuListItem>(brush->get_name(), on_brush_selected);
 
     auto is_brush_selected = [&brush, this]
     {
-      return *(m_editor.get_tile_selection()) == *(brush.second.get());
+      return *(m_editor.get_tile_selection()) == *(brush.get());
     };
     brush_item->set_is_selected_handler(is_brush_selected);
 
@@ -408,6 +416,7 @@ EditorToolboxWidget::select_tile_group(int id)
 {
   m_editor.set_input_mode(InputMode::TILE);
   m_tilebox->select_tile_group(id);
+  load_brushes();
   update_mouse_icon();
 }
 

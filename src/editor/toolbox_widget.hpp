@@ -30,9 +30,9 @@ template<typename T>
 class ControlEnum;
 
 class Editor;
+class EditorBrush;
 class EditorTilebox;
 class MenuListWidget;
-class TileSelection;
 class ToolIcon;
 
 /** The toolbox is on the right side of the screen and allows
@@ -115,7 +115,7 @@ private:
   std::unique_ptr<ControlEnum<int>> m_object_groups_dropdown;
 
   std::unique_ptr<MenuListWidget> m_brushes_list_widget;
-  std::map<std::string, std::unique_ptr<TileSelection>> m_brushes;
+  std::vector<std::unique_ptr<EditorBrush>> m_brushes;
 
   bool m_has_mouse_focus;
 
