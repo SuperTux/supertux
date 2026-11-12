@@ -158,8 +158,7 @@ EditorProject::close()
 
   if (m_world && !get_level_filename().empty() && g_config->editor_remember_last_level)
   {
-    auto level_path = FileSystem::join(get_level_directory(), get_level_filename());
-    g_config->editor_last_edited_level = level_path;
+    g_config->editor_last_edited_level = get_level_path();
   }
 
   reset();
@@ -471,7 +470,7 @@ EditorProject::open_level_directory()
   if (m_is_temp_level)
     return;
 
-  m_level->save(FileSystem::join(get_level_directory(), get_level_filename()));
+  m_level->save(get_level_path());
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
   FileSystem::open_path(path);
 }
