@@ -26,6 +26,7 @@
 
   (tilegroup
     (name (_ "Snow"))
+    (id 1)
     (tiles
       7    8    9    202
       13   14   15   203
@@ -329,6 +330,7 @@
 
   (tilegroup
     (name (_ "Snow Background"))
+    (id 2)
     (tiles
       2185 2186 2180 2181
       2193 2194 2188 2189
@@ -483,6 +485,7 @@
 
   (tilegroup
     (name (_ "Crystal"))
+    (id 3)
     (tiles
       4723 4724 4725 4726
       4736 4737 4738 4739
@@ -584,6 +587,7 @@
 
   (tilegroup
     (name (_ "Forest"))
+    (id 4)
     (tiles
       1000 1001 1002 1003
       1004 1005 1006 1007
@@ -814,6 +818,7 @@
 
   (tilegroup
     (name (_ "Forest Background"))
+    (id 5)
     (tiles
       5645 5646 5663 5664
       5643 5644 5665 5674
@@ -992,6 +997,7 @@
 
   (tilegroup
     (name (_ "Corrupted Forest"))
+    (id 6)
     (tiles
       1423 1424 1425 1426
       1427 1428 1429 1430
@@ -1236,6 +1242,7 @@
 
   (tilegroup
     (name (_ "Corrupted Background"))
+    (id 7)
     (tiles
       6142 6143 6160 6161
       6140 6141 6162 6171
@@ -1388,6 +1395,7 @@
 
   (tilegroup
     (name (_ "Jagged Rocks"))
+    (id 8)
     (tiles
     7312 7313 7314 7315
     7316 7317 7318 7319
@@ -1426,6 +1434,7 @@
 
   (tilegroup
     (name (_ "Block + Bonus"))
+    (id 9)
     (tiles
       27   28   29   47
       48   50   49   211
@@ -1524,6 +1533,7 @@
 
   (tilegroup
     (name (_ "Pole + Signs"))
+    (id 10)
     (tiles
       136  137  141  142
       138  139  143  144
@@ -1578,6 +1588,7 @@
 
   (tilegroup
     (name (_ "Liquid"))
+    (id 11)
     (tiles
       
     ;; Water
@@ -1603,6 +1614,7 @@
 
   (tilegroup
     (name (_ "Castle"))
+    (id 12)
     (tiles
       ;; Ice Castle
     
@@ -1733,6 +1745,7 @@
 
   (tilegroup
     (name (_ "Halloween"))
+    (id 13)
     (tiles
       3068 3069 3070 3071
       3072 3073 3074 3075
@@ -1775,6 +1788,7 @@
 
   (tilegroup
     (name (_ "Industrial"))
+    (id 14)
     (tiles
       3167 3168 3169 3170
       3173 3174 3175 3189
@@ -1810,6 +1824,7 @@
 
   (tilegroup
     (name (_ "Unisolid + Lightmap"))
+    (id 15)
     (tiles
       2817 2818 2819 2820
       2823 2821 2822 2824
@@ -1838,6 +1853,7 @@
 
   (tilegroup
     (name (_ "Miscellaneous"))
+    (id 16)
     (tiles
       130  4970 2047 3927
       129  4969 2048 3928
@@ -1870,6 +1886,7 @@
 
   (tilegroup
     (name (_ "Retro Tiles"))
+    (id 17)
     (tiles
     
     ;; Retro Snow
