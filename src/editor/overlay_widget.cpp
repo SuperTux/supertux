@@ -419,6 +419,8 @@ EditorOverlayWidget::fill()
   auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!tilemap) return;
 
+  auto tilemap_size = tilemap->get_size().to_vector();
+
   // The tile that is going to be replaced:
   uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
@@ -469,7 +471,7 @@ EditorOverlayWidget::fill()
 
     // Going right...
     pos_ = pos + Vector(1, 0);
-    if (pos_.x < static_cast<float>(tilemap->get_width()))
+    if (pos_.x < tilemap_size.x)
     {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(pos_),
@@ -495,7 +497,7 @@ EditorOverlayWidget::fill()
 
     // Going down...
     pos_ = pos + Vector(0, 1);
-    if (pos_.y < static_cast<float>(tilemap->get_height()))
+    if (pos_.y < tilemap_size.y)
     {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(pos_),
@@ -1593,9 +1595,8 @@ EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
   auto current_tm = m_editor.get_layers_widget()->get_selected_tilemap();
   if (!current_tm) return;
 
-  Vector start = tile_screen_pos( Vector(0, 0) );
-  Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
-                                       static_cast<float>(current_tm->get_height())) );
+  Vector start = tile_screen_pos(Vector(0, 0));
+  Vector end = tile_screen_pos(current_tm->get_size().to_vector());
   Rectf rect = Rectf(start, end);
   context.color().draw_rect(rect, Color(1, 0, 1), current_tm->get_layer());
 }
