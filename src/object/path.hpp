@@ -73,19 +73,6 @@ public:
       easing()
     {}
 
-    Node(Path* parent_, const Vector& _position,
-         const Vector& _bezier_before, const Vector& _bezier_after,
-         float _time) :
-      parent(parent_),
-      position(_position),
-      bezier_before(_bezier_before),
-      bezier_after(_bezier_after),
-      time(_time),
-      speed(),
-      easing()
-    {
-    }
-
     inline Path& get_parent() const { return *parent; }
   };
 
