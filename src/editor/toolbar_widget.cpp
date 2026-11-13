@@ -63,7 +63,33 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   auto grid_button = create_grid_button();
   auto show_button = create_show_button();
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 13> general_widgets =
+  auto mouse_tool = // Mouse select button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [toolbox_widget]()
+                                                  { toolbox_widget->set_mouse_tool(); },
+                                                  _("Select or move the object under the mouse"));
+  auto is_mouse_tool_selected = [this]
+  {
+    return m_editor.get_selected_object_class_name() == "#move";
+  };
+  mouse_tool->set_selected_function(is_mouse_tool_selected);
+
+  auto erase_tool =
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [toolbox_widget]()
+                                                  { toolbox_widget->set_rubber_tool(); }, _("Delete the tile or object under the mouse"));
+  auto is_erase_tool_selected = [this]
+  {
+    if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
+    {
+      return m_editor.get_selected_object_class_name().empty();
+    }
+    else
+    {
+      return m_editor.get_tile_selection()->erases_tiles();
+    }
+  };
+  erase_tool->set_selected_function(is_erase_tool_selected);
+
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 11> general_widgets =
   {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
@@ -100,15 +126,8 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
     std::make_unique<EditorToolbarSeparator>(),
 
-    // Mouse select button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [toolbox_widget]()
-                                                { toolbox_widget->set_mouse_tool(); }, 
-                                                _("Select or move the object under the mouse")),
-
     // Rubber button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [toolbox_widget]()
-                                                { toolbox_widget->set_rubber_tool(); },
-                                                _("Delete the tile or object under the mouse"))
+    std::move(erase_tool)
   };
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets =
@@ -143,24 +162,26 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     tile_mode_widgets[i]->set_selected_function(is_mode_selected);
   }
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 3> object_mode_widgets =
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> object_mode_widgets =
   {
-      // Path edit mode
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png", [this]
-      {
-        const auto& node_marker_class = NodeMarker::class_name();
-        m_editor.set_selected_object_class_name(node_marker_class);
-      }, _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
+    std::move(mouse_tool),
 
-      // Select mode
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png", [toolbox_widget]
-                                                  { toolbox_widget->set_tileselect_move_mode(0); }, 
-                                                  _("Select mode (Clicking selects the object under the mouse)")),
+    // Path edit mode
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png", [this]
+    {
+      const auto& node_marker_class = NodeMarker::class_name();
+      m_editor.set_selected_object_class_name(node_marker_class);
+    }, _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
 
-      // Duplicate mode
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png", [toolbox_widget]
-                                                  { toolbox_widget->set_tileselect_move_mode(1); },
-                                                  _("Duplicate mode (Clicking duplicates the object under the mouse)")),
+    // Select mode
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png", [toolbox_widget]
+                                                { toolbox_widget->set_tileselect_move_mode(0); }, 
+                                                _("Select mode (Clicking selects the object under the mouse)")),
+
+    // Duplicate mode
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png", [toolbox_widget]
+                                                { toolbox_widget->set_tileselect_move_mode(1); },
+                                                _("Duplicate mode (Clicking duplicates the object under the mouse)")),
   };
 
   m_undo_widget = general_widgets[0].get();
