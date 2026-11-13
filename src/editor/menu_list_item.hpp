@@ -30,7 +30,7 @@
 namespace
 {
   static constexpr Vector DEFAULT_SPRITE_OFFSET = {2.f, 2.f};
-  static constexpr Vector DEFAULT_LABEL_OFFSET  = {25.f, 6.5f};
+  static constexpr Vector DEFAULT_LABEL_OFFSET  = {6.5f, 6.5f};
   static constexpr Vector DEFAULT_SELECTED_INDICATOR_OFFSET = {5.f, 5.f};
 }
 
@@ -129,6 +129,9 @@ public:
   const Vector &get_label_offset() const { return m_label_offset; }
   void set_label_offset(const Vector& label_offset) { m_label_offset = label_offset; }
 
+  bool get_draw_selected_indicator() const { return m_draw_selected_indicator; }
+  void set_draw_selected_indicator(bool value) { m_draw_selected_indicator = value; }
+
   const Vector &get_selected_indicator_offset() const { return m_selected_indicator_offset; }
   void set_selected_indicator_offset(const Vector& selected_indicator_offset) { m_selected_indicator_offset = selected_indicator_offset; }
 
@@ -137,6 +140,7 @@ private:
   std::string m_keyboard_shortcut;
   Vector m_sprite_offset;
   Vector m_label_offset;
+  bool m_draw_selected_indicator;
   Vector m_selected_indicator_offset;
   std::function<void()> m_onclick_handler;
   std::function<void()> m_on_right_click_handler;
