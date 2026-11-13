@@ -282,7 +282,14 @@ LayersListItem::toggle_visibility()
       break;
   }
 
-  if (next_visibility == EditorLayer::SINGLE)
+  if (current_visibility == EditorLayer::SINGLE)
+  {
+    for(const auto& layer : m_parent->get_editor_layers())
+    {
+      layer->set_layer_visibility(next_visibility);
+    }
+  }
+  else if (next_visibility == EditorLayer::SINGLE)
   {
     for(const auto& layer : m_parent->get_editor_layers())
     {
@@ -290,14 +297,6 @@ LayersListItem::toggle_visibility()
     }
 
     m_parent->set_selected_layer(m_layer);
-  }
-  else if (next_visibility == EditorLayer::VISIBLE)
-  {
-    // Previous visibility was SINGLE:
-    for(const auto& layer : m_parent->get_editor_layers())
-    {
-      layer->set_layer_visibility(next_visibility);
-    }
   }
 
   m_layer->set_layer_visibility(next_visibility);
