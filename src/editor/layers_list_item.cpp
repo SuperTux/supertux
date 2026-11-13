@@ -58,7 +58,15 @@ LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
       }
 
       // Selected layers become visible by default
-      m_layer->set_layer_visibility(EditorLayer::VISIBLE);
+      if (m_parent->get_single_selection_mode())
+      {
+        // hidden -> single
+        toggle_visibility();
+      }
+      else
+      {
+        m_layer->set_layer_visibility(EditorLayer::VISIBLE);
+      }
     }
 
     parent->set_selected_layer(m_layer);
@@ -284,10 +292,11 @@ LayersListItem::toggle_visibility()
 
   if (current_visibility == EditorLayer::SINGLE)
   {
-    for(const auto& layer : m_parent->get_editor_layers())
+    for (const auto &layer : m_parent->get_editor_layers())
     {
       layer->set_layer_visibility(next_visibility);
     }
+    m_parent->set_single_selection_mode(false);
   }
   else if (next_visibility == EditorLayer::SINGLE)
   {
@@ -297,6 +306,7 @@ LayersListItem::toggle_visibility()
     }
 
     m_parent->set_selected_layer(m_layer);
+    m_parent->set_single_selection_mode(true);
   }
 
   m_layer->set_layer_visibility(next_visibility);

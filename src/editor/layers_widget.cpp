@@ -53,6 +53,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_objects_layer(new ObjectsLayer()),
   m_selected_layer(nullptr),
   m_selected_tilemap(),
+  m_single_selection_mode(),
   m_Ypos(448),
   m_Width(512),
   m_sector_text(),
