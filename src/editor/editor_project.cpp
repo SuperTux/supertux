@@ -591,10 +591,11 @@ bool
 EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
   auto current_world = m_world.get();
+  auto game_manager = GameManager::current();
 
   if ((m_level && !current_world) || m_level_filename == "")
   {
-    GameManager::current()->start_level(m_level.get(), start_pos, true);
+    game_manager->start_level(m_level.get(), start_pos, true);
     return true;
   }
 
@@ -611,13 +612,13 @@ EditorProject::test_project(const std::optional<std::pair<std::string, Vector>>&
 
   if (m_level->is_worldmap())
   {
-    return GameManager::current()->start_worldmap(*current_world, m_autosave_filename, start_pos);
+    return game_manager->start_worldmap(*current_world, m_autosave_filename, start_pos);
   }
 
   // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
   //       If not, call reactivate().
   std::string backup_filename = get_autosave_from_level_filename(m_level_filename);
-  GameManager::current()->start_level(*current_world, backup_filename, start_pos, true);
+  game_manager->start_level(*current_world, backup_filename, start_pos, true);
   return true;
 }
 
