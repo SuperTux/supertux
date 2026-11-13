@@ -47,7 +47,7 @@ public:
     return m_control_textbox->event(ev);
   }
 
-  bool has_focus() const { return m_control_textbox->has_focus() || m_menu_list->has_mouse_focus(); }
+  bool has_focus() const { return m_control_textbox->has_focus(); }
 
   float get_scale_value() const { return m_control_textbox->get_value(); }
   inline void set_scale_value(float value) { m_control_textbox->set_value(value); }
