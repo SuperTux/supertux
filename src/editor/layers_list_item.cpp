@@ -282,17 +282,22 @@ LayersListItem::toggle_visibility()
       break;
   }
 
-  m_parent->restore_layer_visibilities();
-
   if (next_visibility == EditorLayer::SINGLE)
   {
-    m_parent->save_layer_visibilities();
     for(const auto& layer : m_parent->get_editor_layers())
     {
       layer->set_layer_visibility(EditorLayer::HIDDEN);
     }
 
     m_parent->set_selected_layer(m_layer);
+  }
+  else if (next_visibility == EditorLayer::VISIBLE)
+  {
+    // Previous visibility was SINGLE:
+    for(const auto& layer : m_parent->get_editor_layers())
+    {
+      layer->set_layer_visibility(next_visibility);
+    }
   }
 
   m_layer->set_layer_visibility(next_visibility);
