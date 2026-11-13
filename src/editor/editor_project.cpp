@@ -364,6 +364,11 @@ EditorProject::reload_level()
   m_level_filename = get_level_filename_from_autosave(m_level_filename);
   m_autosave_filename = FileSystem::join(get_level_directory(),
                                           get_autosave_from_level_filename(m_level_filename));
+
+  for(const auto& callback : m_on_reset_callbacks)
+  {
+    callback();
+  }
 }
 
 float
