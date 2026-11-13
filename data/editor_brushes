@@ -1,0 +1,42 @@
+(supertux-editor-brushes
+  (brush
+    (name "Run Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    136 137
+    138 139
+    )
+  )
+  (brush
+    (name "Arrow Right Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    141 142
+    143 144
+    )
+  )
+  (brush
+    (name "Arrow Top Right Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    1600 1601
+    1602 1603
+    )
+  )
+  (brush
+    (name "Arrow Bottom Right Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    1604 1605
+    1606 1607
+    )
+  )
+)
