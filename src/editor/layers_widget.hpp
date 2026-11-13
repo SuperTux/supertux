@@ -139,6 +139,18 @@ public:
   void set_selected_tilemap(TileMap* tilemap);
   void remove_invalid_layers();
 
+  /**
+   * Returns true if a layer has been single-selected (only this layer is shown)
+   * @return true if single-selection mode is enabled, otherwise false.
+   */
+  bool get_single_selection_mode() const { return m_single_selection_mode; }
+
+  /**
+   * Sets single-selection mode (only show one particular layer)
+   * @param value true if single-selection mode is enabled, otherwise false.
+   */
+  void set_single_selection_mode(bool value) { m_single_selection_mode = value; }
+
 private:
   Vector get_layer_coords(const int idx) const;
   int get_layer_idx(const Vector& coords) const;
@@ -151,6 +163,7 @@ private:
   ObjectsLayer* m_objects_layer;
   EditorLayer *m_selected_layer;
   UID m_selected_tilemap;
+  bool m_single_selection_mode;
 
   int m_Ypos;
   const int m_Xpos = 32;
