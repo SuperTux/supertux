@@ -39,4 +39,64 @@
     1606 1607
     )
   )
+  (brush
+    (name "Arrow Left Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    1608 1609
+    1610 1611
+    )
+  )
+  (brush
+    (name "Arrow Top Left Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    1612 1613
+    1614 1615
+    )
+  )
+  (brush
+    (name "Arrow Bottom Left Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    1616 1617
+    1618 1619
+    )
+  )
+  (brush
+    (name "Arrow Top Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    1620 1621
+    1622 1623
+    )
+  )
+  (brush
+    (name "Arrow Bottom Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    1624 1625
+    1626 1627
+    )
+  )
+  (brush
+    (name "Danger Sign")
+    (tilegroup_id 10)
+    (width 2)
+    (height 2)
+    (tiles
+    1628 1629
+    1630 1631
+    )
+  )
 )
