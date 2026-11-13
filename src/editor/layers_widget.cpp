@@ -50,7 +50,6 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   Widget(),
   m_editor(editor),
   m_editor_layers(),
-  m_layer_visibilities(),
   m_objects_layer(new ObjectsLayer()),
   m_selected_layer(nullptr),
   m_selected_tilemap(),
@@ -636,31 +635,6 @@ EditorLayersWidget::delete_selected_layer()
 
   layer->get_game_object()->remove_me();
   on_layer_list_changed();
-}
-
-void
-EditorLayersWidget::save_layer_visibilities()
-{
-  auto& editor_layers = get_editor_layers();
-  for(const auto& layer : editor_layers)
-  {
-    if (!layer->is_valid())
-      continue;
-    m_layer_visibilities[layer.get()] = layer->get_layer_visibility();
-  }
-}
-
-void
-EditorLayersWidget::restore_layer_visibilities()
-{
-  for(const auto& layer_visibility : m_layer_visibilities)
-  {
-    if (!layer_visibility.first->is_valid())
-      continue;
-    layer_visibility.first->set_layer_visibility(layer_visibility.second);
-  }
-  
-  m_layer_visibilities.clear();
 }
 
 void
