@@ -1105,7 +1105,7 @@ EditorOverlayWidget::selection_draw_rect() const
 void
 EditorOverlayWidget::update_tile_selection()
 {
-  Rectf select = tile_drag_rect();
+  Rect selection_rect = tile_drag_rect().to_rect();
   auto toolbox_widget = m_editor.get_toolbox_widget();
   auto tiles = m_editor.get_tile_selection();
   auto tileset = m_editor.get_project()->get_tileset();
@@ -1114,12 +1114,12 @@ EditorOverlayWidget::update_tile_selection()
 
   m_selection_warning = false;
   tiles->m_tiles.clear();
-  tiles->m_width = static_cast<int>(select.get_width());
-  tiles->m_height = static_cast<int>(select.get_height());
+  tiles->m_width = selection_rect.get_width();
+  tiles->m_height = selection_rect.get_height();
 
-  for (int y = static_cast<int>(select.get_top()); y < static_cast<int>(select.get_bottom()); y++)
+  for (int y = selection_rect.get_top(); y < selection_rect.get_bottom(); y++)
   {
-    for (int x = static_cast<int>(select.get_left()); x < static_cast<int>(select.get_right()); x++)
+    for (int x = selection_rect.get_left(); x < selection_rect.get_right(); x++)
     {
       if (!is_position_inside_tilemap(tilemap, Vector(x, y)))
       {
