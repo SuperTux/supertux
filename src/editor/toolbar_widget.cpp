@@ -134,6 +134,15 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
                                                 _("Replace mode")),
   };
 
+  for (int i = 0; i < tile_mode_widgets.size(); i++)
+  {
+    auto is_mode_selected = [i, toolbox_widget]()
+    {
+      return toolbox_widget->get_tileselect_select_mode() == i;
+    };
+    tile_mode_widgets[i]->set_selected_function(is_mode_selected);
+  }
+
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 3> object_mode_widgets =
   {
       // Path edit mode

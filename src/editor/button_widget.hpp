@@ -34,7 +34,7 @@
 class EditorToolbarButtonWidget : public EditorToolbarBaseWidget
 {
 public:
-  EditorToolbarButtonWidget(SpritePtr sprite, const Vector& pos, std::function<void()> m_sig_click = {}, std::optional<Sizef> sprite_size = std::nullopt);
+  EditorToolbarButtonWidget(SpritePtr sprite, const Vector& pos, std::function<void()> callback = {}, std::optional<Sizef> sprite_size = std::nullopt);
   EditorToolbarButtonWidget(const std::string &path, const Vector &pos, std::function<void()> callback = {}, std::optional<Sizef> sprite_size = std::nullopt);
   EditorToolbarButtonWidget(const std::string &path, std::function<void()> callback = {}, const std::string &help_text = "", std::optional<Sizef> sprite_size = std::nullopt);
 
@@ -42,7 +42,8 @@ protected:
   EditorToolbarButtonWidget():
     EditorToolbarBaseWidget(),
     m_sprite(nullptr),
-    m_sig_click(nullptr),
+    m_callback(nullptr),
+    m_selected_function(nullptr),
     m_flat(false)
   {
   }
@@ -61,13 +62,19 @@ public:
 
   void set_onclick_handler(const std::function<void()>& onclick_handler)
   {
-    m_sig_click = onclick_handler;
+    m_callback = onclick_handler;
+  }
+
+  void set_selected_function(const std::function<bool()>& selected_function)
+  {
+    m_selected_function = selected_function;
   }
 
 protected:
   SpritePtr m_sprite;
   bool m_flat;
-  std::function<void()> m_sig_click;
+  std::function<void()> m_callback;
+  std::function<bool()> m_selected_function;
 
 private:
   EditorToolbarButtonWidget(const EditorToolbarButtonWidget&) = delete;
