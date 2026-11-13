@@ -31,6 +31,7 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
   m_label_offset(DEFAULT_LABEL_OFFSET),
   m_sprite_offset(DEFAULT_SPRITE_OFFSET),
   m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
+  m_draw_selected_indicator(true),
   m_keyboard_shortcut(""),
   m_onclick_handler(onclick_handler),
   m_on_right_click_handler(nullptr),
@@ -48,6 +49,7 @@ MenuListItem::MenuListItem(const std::string& label) :
   m_label_offset(DEFAULT_LABEL_OFFSET),
   m_sprite_offset(DEFAULT_SPRITE_OFFSET),
   m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
+  m_draw_selected_indicator(true),
   m_keyboard_shortcut(""),
   m_onclick_handler([]{}),
   m_is_selected_handler(nullptr),
@@ -64,6 +66,7 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
   m_label_offset(DEFAULT_LABEL_OFFSET),
   m_sprite_offset(DEFAULT_SPRITE_OFFSET),
   m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
+  m_draw_selected_indicator(true),
   m_keyboard_shortcut(""),
   m_onclick_handler(onclick_handler),
   m_is_selected_handler(nullptr),
@@ -94,7 +97,7 @@ MenuListItem::draw(DrawingContext& context)
   auto surface = get_surface();
 
   auto item_selected_surface = get_item_selected_surface();
-  bool draw_selected_indicator = is_enabled() && item_selected_handler != nullptr;
+  bool draw_selected_indicator = m_draw_selected_indicator && is_enabled() && item_selected_handler != nullptr;
 
   if (surface != nullptr)
   {
@@ -113,10 +116,6 @@ MenuListItem::draw(DrawingContext& context)
           context.color().draw_surface_scaled(item_selected_surface, surface_rect, LAYER_GUI + 10);
         }
       }
-      else
-      {
-        origin += Vector(surface_size.x, 0);
-      }
     }
   }
 
@@ -125,6 +124,11 @@ MenuListItem::draw(DrawingContext& context)
     auto checkbox_origin = origin + m_selected_indicator_offset;
     auto target_rect = Rectf(checkbox_origin, checkbox_origin + Vector(15, 15));
     context.color().draw_surface_scaled(get_checkbox_surface(), target_rect, LAYER_GUI + 10);
+  }
+
+  if (draw_selected_indicator)
+  {
+    origin += Vector(15.f, 0);
   }
 
   auto label_position = origin + m_label_offset;

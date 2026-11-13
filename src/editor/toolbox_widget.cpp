@@ -153,6 +153,8 @@ EditorToolboxWidget::load_brushes_for_current_tilegroup()
     };
     brush_item->set_is_selected_handler(is_brush_selected);
 
+    brush_item->set_draw_selected_indicator(false);
+
     m_brushes_list_widget->add_item(std::move(brush_item));
   }
   on_window_resize();
