@@ -375,20 +375,20 @@ EditorOverlayWidget::put_next_tiles()
 void
 EditorOverlayWidget::preview_rectangle()
 {
-  Rectf dr = drag_rect();
+  Rectf dr = drag_rect().to_rect();
   dr.set_p1(glm::floor(sp_to_tp(dr.p1())));
   dr.set_p2(glm::floor(sp_to_tp(dr.p2())));
   bool sgn_x = m_drag_start.x < m_sector_pos.x;
   bool sgn_y = m_drag_start.y < m_sector_pos.y;
 
   m_rectangle_preview->m_tiles.clear();
-  m_rectangle_preview->m_width = static_cast<int>(dr.get_width()) + 1;
-  m_rectangle_preview->m_height = static_cast<int>(dr.get_height()) + 1;
-  int y_ = sgn_y ? 0 : static_cast<int>(-dr.get_height());
-  for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++)
+  m_rectangle_preview->m_width = dr.get_width() + 1;
+  m_rectangle_preview->m_height = dr.get_height() + 1;
+  int y_ = sgn_y ? 0 : -dr.get_height();
+  for (int y = dr.get_top(); y <= dr.get_bottom(); y++, y_++)
   {
-    int x_ = sgn_x ? 0 : static_cast<int>(-dr.get_width());
-    for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++)
+    int x_ = sgn_x ? 0 : -dr.get_width();
+    for (int x = dr.get_left(); x <= dr.get_right(); x++, x_++)
     {
       m_rectangle_preview->m_tiles.push_back(m_editor.get_tile_selection()->pos(x_, y_));
     }
