@@ -117,6 +117,10 @@ MenuListItem::draw(DrawingContext& context)
         }
       }
     }
+    else
+    {
+      origin += Vector(surface_size.x - m_sprite_offset.x, 0);
+    }
   }
 
   if (item_selected_surface == nullptr && draw_selected_indicator)
