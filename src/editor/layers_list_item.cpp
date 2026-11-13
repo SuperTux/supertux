@@ -114,8 +114,8 @@ LayersListItem::event(const SDL_Event &ev)
 Rectf
 LayersListItem::get_textbox_rect()
 {
-  return {get_rect().p1() + Vector(get_label_offset().x, 2.f),
-          get_rect().p2() - Vector(2.f, 2.f)};
+  return { get_rect().p1() + Vector(get_label_offset().x + 15.f, 2.f),
+           get_rect().p2() - Vector(2.f, 2.f) };
 }
 
 bool 
