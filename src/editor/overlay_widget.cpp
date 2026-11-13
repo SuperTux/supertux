@@ -908,8 +908,7 @@ EditorOverlayWidget::put_object()
 
   if (object_class_name[0] == '#')
   {
-    const auto& node_marker_class_name = NodeMarker::class_name();
-    if (m_edited_path && object_class_name == node_marker_class_name)
+    if (m_edited_path && object_class_name == NodeMarker::class_name())
     {
       if (m_edited_path->is_valid() && m_last_node_marker)
       {

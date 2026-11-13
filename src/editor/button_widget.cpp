@@ -24,10 +24,11 @@
 #include "video/video_system.hpp"
 
 EditorToolbarButtonWidget::EditorToolbarButtonWidget(SpritePtr sprite, const Vector& pos,
-                           std::function<void()> sig_click, std::optional<Sizef> sprite_size) :
+                           std::function<void()> callback, std::optional<Sizef> sprite_size) :
   EditorToolbarBaseWidget(),
   m_sprite(std::move(sprite)),
-  m_sig_click(std::move(sig_click)),
+  m_callback(std::move(callback)),
+  m_selected_function(nullptr),
   m_flat(false)
 {
   m_rect = Rectf(pos, sprite_size ? *sprite_size : m_sprite->get_size());
@@ -52,8 +53,16 @@ EditorToolbarButtonWidget::draw(DrawingContext& context)
     return;
 
   if (!m_flat)
+  {
     context.color().draw_filled_rect(m_rect, Color(0.0f, 0.0f, 0.0f, 0.6f), 4.0f,
                                      m_layer);
+  }
+  
+  if (m_selected_function != nullptr && m_selected_function())
+  {
+    auto button_color = Color(0.5f, 0.5f, 0.5f, 0.6);
+    context.color().draw_filled_rect(m_rect, button_color, 4.0f, m_layer);
+  }
 
   if (m_sprite)
   {
@@ -83,13 +92,10 @@ EditorToolbarButtonWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button
 {
   auto handled = EditorToolbarBaseWidget::on_mouse_button_up(button);
 
-  if (m_hover)
+  if (m_hover && m_callback)
   {
-    if (m_sig_click)
-    {
-      m_sig_click();
-      return true;
-    }
+    m_callback();
+    return true;
   }
 
   return handled;
