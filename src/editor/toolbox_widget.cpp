@@ -43,6 +43,8 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+#include <physfs.h>
+
 using InputMode = Editor::InputMode;
 
 EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
@@ -168,6 +170,12 @@ void
 EditorToolboxWidget::load_brushes_from_file()
 {
   m_brushes.clear();
+
+  if (!PHYSFS_exists("editor_brushes"))
+  {
+    log_warning << "editor_brushes file could not be found. Skipping.";
+    return;
+  }
 
   auto brushes_document = ReaderDocument::from_file("editor_brushes");
   auto brushes_root = brushes_document.get_root();
