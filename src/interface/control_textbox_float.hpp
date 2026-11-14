@@ -24,6 +24,7 @@ public:
   ControlTextboxFloat();
 
   virtual void update(float dt_sec) override;
+  virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
   inline float get_value() const { return *m_value; }
   inline void set_value(float value) { *m_value = value; revert_value(); }
@@ -33,6 +34,12 @@ public:
    *  @param value A pointer to the value to be bound. MUST NOT BE NULL (FIXME)
    */
   inline void bind_value(float* value) { m_value = value; revert_value(); }
+
+  float get_step_size() const { return m_step_size; }
+  void set_step_size(float value) { m_step_size = value; }
+
+  float get_large_step_size() const { return m_large_step_size; }
+  void set_large_step_size(float value) { m_large_step_size = value; }
 
 protected:
   virtual bool parse_value(bool call_on_change = true) override;
@@ -54,6 +61,8 @@ public:
 
 private:
   float* m_value;
+  float m_step_size;
+  float m_large_step_size;
 
 private:
   ControlTextboxFloat(const ControlTextboxFloat&) = delete;

@@ -20,6 +20,7 @@
 #include <math.h>
 
 #include "collision/collision.hpp"
+#include "editor/editor.hpp"
 #include "editor/particle_editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/aatriangle.hpp"
@@ -851,6 +852,16 @@ CustomParticleSystem::update(float dt_sec)
 void
 CustomParticleSystem::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
+
   // The "enabled" flag being false only indicates that new particles shouldn't spawn.
   // However, we still need to update the existing particles, if any.
 
@@ -903,10 +914,11 @@ CustomParticleSystem::draw(DrawingContext& context)
     auto& surface = it.first->texture;
     auto& batch = it.second;
     context.color().draw_surface_batch(surface, batch.move_srcrects(),
-      batch.move_dstrects(), batch.move_angles(), it.first->color, z_pos);
+      batch.move_dstrects(), batch.move_angles(), it.first->color, m_layer);
   }
 
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 // Duplicated from ParticleSystem_Interactive because I intend to bring edits

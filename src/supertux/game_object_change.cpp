@@ -16,6 +16,13 @@
 
 #include "supertux/game_object_change.hpp"
 
+#include <fmt/format.h>
+
+#include "supertux/game_object.hpp"
+#include "supertux/game_object_factory.hpp"
+#include "supertux/game_object_manager.hpp"
+#include "supertux/sector.hpp"
+
 #include "util/log.hpp"
 #include "util/reader_iterator.hpp"
 #include "util/reader_mapping.hpp"
@@ -54,6 +61,36 @@ GameObjectChange::save(Writer& writer) const
   writer.write("action", reinterpret_cast<const int&>(action));
 }
 
+std::string
+GameObjectChange::to_string() const
+{
+  auto object = Sector::get().get_object_by_uid<GameObject>(uid);
+  std::string object_identifier = "";
+
+  if (object == nullptr)
+  {
+    object_identifier = GameObjectFactory::instance().get_display_name(name);
+  }
+  else
+  {
+    object_identifier = object->get_display_name();
+    if (object->get_name().size())
+    {
+      object_identifier += " \"" + object->get_name() + "\"";
+    }
+  }
+
+  if (action == ACTION_CREATE)
+    return fmt::format(fmt::runtime(_("Create {}")), object_identifier);
+
+  if (action == ACTION_DELETE)
+    return fmt::format(fmt::runtime(_("Delete {}")), object_identifier);
+
+  if (action == ACTION_MODIFY)
+    return fmt::format(fmt::runtime(_("Modify {}")), object_identifier);
+
+  return "";
+}
 
 GameObjectChangeSet::GameObjectChangeSet(const UID& uid_, std::vector<GameObjectChange> changes_) :
   uid(uid_),

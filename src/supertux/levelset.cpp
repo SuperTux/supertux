@@ -20,16 +20,20 @@
 #include <algorithm>
 
 #include "physfs/util.hpp"
+#include "supertux/level_parser.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 
-Levelset::Levelset(const std::string& basedir, bool recursively) :
+Levelset::Levelset(const std::string& basedir, bool recursively, bool parse_level_names) :
   m_basedir(basedir),
-  m_levels()
+  m_levels(),
+  m_level_names(),
+  m_parse_level_names(parse_level_names)
 {
   walk_directory(m_basedir, recursively);
   std::sort(m_levels.begin(), m_levels.end(), StringUtil::numeric_less);
+  parse_names();
 }
 
 int
@@ -38,10 +42,19 @@ Levelset::get_num_levels() const
   return static_cast<int>(m_levels.size());
 }
 
-std::string
+const std::string&
 Levelset::get_level_filename(int i) const
 {
   return m_levels[i];
+}
+
+const std::string*
+Levelset::get_level_name(int i) const
+{
+  if (!m_parse_level_names)
+    return nullptr;
+
+  return &(m_level_names[i]);
 }
 
 void
@@ -73,5 +86,23 @@ Levelset::walk_directory(const std::string& directory, bool recursively)
   if (!enumerateSuccess)
   {
     log_warning << "Couldn't read subset dir '" << directory << "'" << std::endl;
+  }
+}
+
+void
+Levelset::parse_names()
+{
+  if (!m_parse_level_names)
+  {
+    return;
+  }
+
+  m_level_names.reserve(m_levels.size());
+
+  for(const auto& level_file : m_levels)
+  {
+    auto filepath = FileSystem::join(m_basedir, level_file);
+    auto level_name = LevelParser::get_level_name(filepath);
+    m_level_names.push_back(level_name);
   }
 }

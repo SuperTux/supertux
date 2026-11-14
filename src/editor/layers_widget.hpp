@@ -16,13 +16,16 @@
 
 #pragma once
 
+#include <map>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
+#include "editor/editor.hpp"
 #include "editor/widget.hpp"
 
+#include "editor/editor_layer.hpp"
 #include "editor/object_icon.hpp"
 #include "editor/object_info.hpp"
 #include "math/fwd.hpp"
@@ -31,8 +34,9 @@
 class DrawingContext;
 class Editor;
 class EditorTilebox;
+class MenuListWidget;
 class GameObject;
-class LayerIcon;
+class EditorLayer;
 class TileMap;
 class Tip;
 
@@ -42,7 +46,7 @@ class EditorLayersWidget final : public Widget
 {
 public:
   enum class HoveredItem {
-    NONE, SPAWNPOINTS, SECTOR, LAYERS
+    NONE, SPAWNPOINTS, SECTOR
   };
 
 public:
@@ -56,53 +60,123 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
   virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
+  virtual bool on_key_up(const SDL_KeyboardEvent &key) override;
+  virtual bool on_key_down(const SDL_KeyboardEvent &key) override;
 
   virtual void setup() override;
   virtual void on_window_resize() override;
+  virtual bool has_focus() const;
+
+  void on_level_change();
 
   void refresh();
 
   void refresh_sector_text();
-  void refresh_layers();
+  void select_initial_layer();
   void sort_layers();
-  void add_layer(GameObject* layer, bool initial = false);
 
-  void update_current_tip();
+  void on_layer_list_changed();
+
+  /**
+   * Adds a new layer to the layers widget.
+   * @param GameObject* layer GameObject to add to layers
+   * @param execute_post_layer_add_actions If true, post layer add (sorting, populating layer list) actions are performed
+   */
+  void add_layer(GameObject* layer, bool execute_post_layer_add_actions = true);
+
+  EditorLayer *get_selected_layer() const { return m_selected_layer; }
+  void set_selected_layer(EditorLayer *layer);
+  void set_selected_layer(GameObject *object);
+
+  EditorLayer *get_layer_for_game_object(GameObject *object) const;
+
+  /**
+   * Returns the previous (in terms of list order) layer or nullptr if layer is at the top 
+   */
+  EditorLayer* get_previous_layer(const EditorLayer* layer) const;
+
+  /**
+   * Returns the next (in terms of list order) layer or nullptr if layer is at the bottom
+   */
+  EditorLayer* get_next_layer(const EditorLayer* layer) const;
+
+  /**
+   * Queues a refresh of the layers widget
+   */
+  inline void queue_layer_list_refresh()
+  {
+    m_queue_layer_list_widget_refresh = true;
+  }
+
+  void move_selected_layer_up();
+  void move_selected_layer_down();
+  void delete_selected_layer();
+
+  const MenuListWidget* get_layer_list_widget() const
+  {
+    return m_layer_list_widget.get();
+  }
+  /**
+   * Populates the layers menu with all the relevant layers
+   */
+  void populate_layers_list_widget();
 
   bool has_mouse_focus() const;
 
+  const std::vector<std::unique_ptr<EditorLayer>>& get_editor_layers() const
+  {
+    return m_editor_layers;
+  }
+
+  ObjectsLayer* get_objects_layer() const
+  {
+    return m_objects_layer;
+  }
+
+  void set_mode(Editor::InputMode mode);
+
   TileMap* get_selected_tilemap() const;
   void set_selected_tilemap(TileMap* tilemap);
+  void remove_invalid_layers();
+
+  /**
+   * Returns true if a layer has been single-selected (only this layer is shown)
+   * @return true if single-selection mode is enabled, otherwise false.
+   */
+  bool get_single_selection_mode() const { return m_single_selection_mode; }
+
+  /**
+   * Sets single-selection mode (only show one particular layer)
+   * @param value true if single-selection mode is enabled, otherwise false.
+   */
+  void set_single_selection_mode(bool value) { m_single_selection_mode = value; }
 
 private:
-  Vector get_layer_coords(const int pos) const;
-  int get_layer_pos(const Vector& coords) const;
-
-  void update_tip();
-  void remove_invalid_layers();
+  Vector get_layer_coords(const int idx) const;
+  int get_layer_idx(const Vector& coords) const;
+  void recalculate_positions();
+  void handle_layer_list_widget_refresh();
 
 private:
   Editor& m_editor;
-  std::vector<std::unique_ptr<LayerIcon>> m_layer_icons;
+  std::vector<std::unique_ptr<EditorLayer>> m_editor_layers;
+  ObjectsLayer* m_objects_layer;
+  EditorLayer *m_selected_layer;
   UID m_selected_tilemap;
-
-  ObjectIcon m_add_icon;
-  std::unique_ptr<EditorTilebox> m_add_layer_box;
-  bool m_add_layer_box_visible;
+  bool m_single_selection_mode;
 
   int m_Ypos;
   const int m_Xpos = 32;
   int m_Width;
-  int m_scroll;
-  int m_scroll_speed;
 
   std::string m_sector_text;
   int m_sector_text_width;
 
   HoveredItem m_hovered_item;
-  unsigned int m_hovered_layer;
 
-  std::unique_ptr<Tip> m_object_tip;
+  std::unique_ptr<MenuListWidget> m_layer_list_widget;
+  bool m_layer_list_widget_visible;
+  bool m_queue_layer_list_widget_refresh;
 
   bool m_has_mouse_focus;
 

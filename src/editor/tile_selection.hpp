@@ -18,9 +18,10 @@
 
 #include <algorithm>
 #include <stdint.h>
+#include <string>
 #include <vector>
 
-class TileSelection final
+class TileSelection
 {
 public:
   TileSelection();
@@ -38,12 +39,56 @@ public:
   /** Returns true when has no tiles or is full of zeros */
   bool empty() const;
 
+  /**
+   * Returns true if the tile selection is supposed to erase
+   * existing tiles
+   * TODO: This only checks if the first tile is 0, is this what we want?
+   */
+  inline bool erases_tiles() const { return m_tiles.size() > 0 && m_tiles[0] == 0; }
+
 public:
   std::vector<uint32_t> m_tiles;
   int m_width;
   int m_height;
 
+public:
+  bool operator==(const TileSelection& other)
+  {
+    return m_width == other.m_width &&
+           m_height == other.m_height &&
+           m_tiles == other.m_tiles;
+  };
+
+  TileSelection& operator=(const TileSelection& other)
+  {
+    m_width = other.m_width;
+    m_height = other.m_height;
+    m_tiles = other.m_tiles;
+    return *this;
+  };
+
 private:
   TileSelection(const TileSelection&) = delete;
-  TileSelection& operator=(const TileSelection&) = delete;
+};
+
+class EditorBrush final : public TileSelection
+{
+public:
+  EditorBrush() :
+    TileSelection(),
+    m_tilegroup_id(-1),
+    m_name()
+  {
+  }
+
+public:
+  int get_tilegroup_id() const { return m_tilegroup_id; }
+  void set_tilegroup_id(int id) { m_tilegroup_id = id; }
+
+  const std::string& get_name() const { return m_name; }
+  void set_name(const std::string& name) { m_name = name; }
+
+public:
+  int m_tilegroup_id;
+  std::string m_name;
 };

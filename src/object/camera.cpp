@@ -186,7 +186,10 @@ Camera::get_settings()
 void
 Camera::after_editor_set()
 {
-  if (has_valid_path()) {
+  LayerObject::after_editor_set();
+
+  if (has_valid_path())
+  {
     if (m_defaultmode != Mode::AUTOSCROLL) {
       get_path()->m_nodes.clear();
       auto path_obj = get_path_gameobject();
@@ -195,7 +198,9 @@ Camera::after_editor_set()
         path_obj->editor_delete();
       }
     }
-  } else {
+  }
+  else
+  {
     if (m_defaultmode == Mode::AUTOSCROLL) {
       init_path_pos(Vector(0,0));
     }
