@@ -51,6 +51,8 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_editor(editor),
   m_undo_widget(),
   m_redo_widget(),
+  m_rubber_widget(),
+  m_draw_widget(),
   m_zoom_widget(),
   m_widgets(),
   m_widgets_width(0.f),
@@ -64,6 +66,9 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   auto erase_tool = create_rubber_button();
   auto grid_button = create_grid_button();
   auto show_button = create_show_button();
+
+  m_rubber_widget = erase_tool.get();
+  m_draw_widget = draw_button.get();
 
   auto mouse_tool = // Mouse select button
       std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [toolbox_widget]()
@@ -497,7 +502,7 @@ EditorToolbarWidget::create_rubber_button() const
   auto toolbox_widget = m_editor.get_toolbox_widget();
   auto erase_tool =
       std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [toolbox_widget]()
-                                                  { toolbox_widget->set_rubber_tool(); }, _("Delete the tile or object under the mouse"));
+                                                  {}, _("Delete the tile or object under the mouse"));
   auto is_erase_tool_selected = [this]
   {
     if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
