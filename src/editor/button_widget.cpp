@@ -78,7 +78,7 @@ void
 EditorToolbarButtonWidget::set_sprite(SpritePtr sprite)
 {
   m_sprite = std::move(sprite);
-  m_rect.set_size(sprite->get_width() * 1.0f, sprite->get_height() * 1.0f);
+  m_rect.set_size(m_sprite->get_size());
 }
 
 void

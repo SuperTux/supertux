@@ -51,6 +51,9 @@ public:
   void set_undo_changes(const std::vector<GameObjectChangeSet>& changes);
   void set_redo_changes(const std::vector<GameObjectChangeSet>& changes);
 
+  EditorToolbarButtonWidget *get_draw_button() { return m_draw_widget; }
+  EditorToolbarButtonWidget *get_rubber_button() { return m_rubber_widget; }
+
   const Rectf get_area() { return Rectf(0, 0, m_widgets_width, 32); }
 
 private:
@@ -72,7 +75,9 @@ private:
   Editor& m_editor;
   EditorToolbarButtonWidget* m_undo_widget;
   EditorToolbarButtonWidget* m_redo_widget;
-  EditorToolbarZoomWidget* m_zoom_widget;
+  EditorToolbarButtonWidget *m_rubber_widget;
+  EditorToolbarButtonWidget *m_draw_widget;
+  EditorToolbarZoomWidget *m_zoom_widget;
   std::vector<std::unique_ptr<EditorToolbarBaseWidget>> m_widgets;
 
   float m_widgets_width;
