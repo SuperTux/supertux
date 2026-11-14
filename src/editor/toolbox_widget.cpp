@@ -596,19 +596,29 @@ EditorToolboxWidget::set_tileselect_move_mode(int mode)
 void
 EditorToolboxWidget::update_mouse_icon()
 {
-  if (m_editor.get_project()->is_sector_set() &&
-      m_editor.get_input_mode() == Editor::InputMode::TILE)
+  if (m_editor.get_project()->is_sector_set())
   {
     auto toolbar_widget = m_editor.get_toolbar_widget();
-    if (m_editor.get_tile_selection()->erases_tiles())
+    if (m_editor.get_input_mode() == Editor::InputMode::TILE)
     {
-      auto toolbar_rubber_button = toolbar_widget->get_rubber_button();
-      toolbar_rubber_button->set_sprite(get_tileselect_rubber_mode_icon());
+      if (m_editor.get_tile_selection()->erases_tiles())
+      {
+        auto toolbar_rubber_button = toolbar_widget->get_rubber_button();
+        toolbar_rubber_button->set_sprite(get_tileselect_rubber_mode_icon());
+      }
+      else
+      {
+        auto toolbar_draw_button = toolbar_widget->get_draw_button();
+        toolbar_draw_button->set_sprite(get_tileselect_draw_mode_icon());
+      }
     }
     else
     {
-      auto toolbar_draw_button = toolbar_widget->get_draw_button();
-      toolbar_draw_button->set_sprite(get_tileselect_draw_mode_icon());
+      if (m_editor.get_selected_object_class_name().empty())
+      {
+        auto toolbar_rubber_button = toolbar_widget->get_rubber_button();
+        toolbar_rubber_button->set_sprite(get_tileselect_rubber_mode_icon());
+      }
     }
   }
   MouseCursor::current()->set_icon(get_mouse_icon()->get_current_surface());
