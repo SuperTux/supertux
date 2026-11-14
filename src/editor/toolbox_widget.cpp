@@ -333,7 +333,26 @@ EditorToolboxWidget::set_rubber_tool()
 void
 EditorToolboxWidget::set_mouse_tool()
 {
-  m_editor.set_selected_object_class_name("#move");
+  if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
+  {
+    m_editor.set_selected_object_class_name("#move");
+  }
+  else if (m_editor.get_project()->is_sector_set())
+  {
+    m_editor.set_input_mode(InputMode::TILE);
+    auto tile_selection = m_editor.get_tile_selection();
+    if (tile_selection && tile_selection->erases_tiles())
+    {
+      auto active_tilegroup = m_tilebox->get_active_tile_group();
+      auto tile_id = 1;
+      if (active_tilegroup->tiles.size())
+      {
+        tile_id = active_tilegroup->tiles[0];
+      }
+      tile_selection->set_tile(tile_id);
+      m_editor.get_overlay_widget()->update_autotileset();
+    }
+  }
   update_mouse_icon();
 }
 
