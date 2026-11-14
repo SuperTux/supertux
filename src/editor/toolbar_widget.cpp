@@ -88,6 +88,44 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     }
   };
   erase_tool->set_selected_function(is_erase_tool_selected);
+  auto menu_list = erase_tool->get_menu_list();
+
+  auto erase = [toolbox_widget]
+  {
+    toolbox_widget->set_rubber_tool();
+    toolbox_widget->set_tileselect_select_mode(0);
+  };
+
+  auto erase_item = std::make_unique<MenuListItem>(_("Erase"), erase,
+                      "images/engine/editor/rubber.png", Rectf());
+  menu_list->add_item(std::move(erase_item));
+
+  auto box_erase = [toolbox_widget]
+  {
+    toolbox_widget->set_rubber_tool();
+    toolbox_widget->set_tileselect_select_mode(1);
+  };
+  auto box_erase_item = std::make_unique<MenuListItem>(_("Box Erase"), box_erase,
+                          "images/engine/editor/box-rubber.png", Rectf());
+  menu_list->add_item(std::move(box_erase_item));
+
+  auto fill_erase = [toolbox_widget]
+  {
+    toolbox_widget->set_rubber_tool();
+    toolbox_widget->set_tileselect_select_mode(2);
+  };
+  auto fill_erase_item = std::make_unique<MenuListItem>(_("Fill Erase"), fill_erase,
+                            "images/engine/editor/fill-rubber.png", Rectf());
+  menu_list->add_item(std::move(fill_erase_item));
+
+  auto same_tile_erase = [toolbox_widget]
+  {
+    toolbox_widget->set_rubber_tool();
+    toolbox_widget->set_tileselect_select_mode(3);
+  };
+  auto same_tile_erase_item = std::make_unique<MenuListItem>(_("Same Tile Erase"), same_tile_erase,
+                                "images/engine/editor/same-tile-rubber.png", Rectf());
+  menu_list->add_item(std::move(same_tile_erase_item));
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 11> general_widgets =
   {
@@ -103,13 +141,12 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
                                                 Sizef(32.f, 32.f)),
 
     std::make_unique<EditorToolbarSeparator>(),
-    
+
     // Open button
     std::move(open_button),
 
     // Save button
     std::move(save_button),
-
 
     // Play button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
