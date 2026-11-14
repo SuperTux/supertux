@@ -502,7 +502,7 @@ EditorToolbarWidget::create_rubber_button() const
   auto toolbox_widget = m_editor.get_toolbox_widget();
   auto erase_tool =
       std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [toolbox_widget]()
-                                                  {}, _("Delete the tile or object under the mouse"));
+                                                  {toolbox_widget->set_tileselect_select_mode(0); toolbox_widget->set_rubber_tool(); }, _("Delete the tile or object under the mouse"));
   auto is_erase_tool_selected = [this]
   {
     if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
