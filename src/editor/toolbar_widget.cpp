@@ -60,6 +60,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
   auto open_button = create_open_button();
   auto save_button = create_save_button();
+  auto erase_tool = create_rubber_button();
   auto grid_button = create_grid_button();
   auto show_button = create_show_button();
 
@@ -73,59 +74,6 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   };
   mouse_tool->set_selected_function(is_mouse_tool_selected);
 
-  auto erase_tool =
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [toolbox_widget]()
-                                                  { toolbox_widget->set_rubber_tool(); }, _("Delete the tile or object under the mouse"));
-  auto is_erase_tool_selected = [this]
-  {
-    if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
-    {
-      return m_editor.get_selected_object_class_name().empty();
-    }
-    else
-    {
-      return m_editor.get_tile_selection()->erases_tiles();
-    }
-  };
-  erase_tool->set_selected_function(is_erase_tool_selected);
-  auto menu_list = erase_tool->get_menu_list();
-
-  auto erase = [toolbox_widget]
-  {
-    toolbox_widget->set_rubber_tool();
-    toolbox_widget->set_tileselect_select_mode(0);
-  };
-
-  auto erase_item = std::make_unique<MenuListItem>(_("Erase"), erase,
-                      "images/engine/editor/rubber.png", Rectf());
-  menu_list->add_item(std::move(erase_item));
-
-  auto box_erase = [toolbox_widget]
-  {
-    toolbox_widget->set_rubber_tool();
-    toolbox_widget->set_tileselect_select_mode(1);
-  };
-  auto box_erase_item = std::make_unique<MenuListItem>(_("Box Erase"), box_erase,
-                          "images/engine/editor/box-rubber.png", Rectf());
-  menu_list->add_item(std::move(box_erase_item));
-
-  auto fill_erase = [toolbox_widget]
-  {
-    toolbox_widget->set_rubber_tool();
-    toolbox_widget->set_tileselect_select_mode(2);
-  };
-  auto fill_erase_item = std::make_unique<MenuListItem>(_("Fill Erase"), fill_erase,
-                            "images/engine/editor/fill-rubber.png", Rectf());
-  menu_list->add_item(std::move(fill_erase_item));
-
-  auto same_tile_erase = [toolbox_widget]
-  {
-    toolbox_widget->set_rubber_tool();
-    toolbox_widget->set_tileselect_select_mode(3);
-  };
-  auto same_tile_erase_item = std::make_unique<MenuListItem>(_("Same Tile Erase"), same_tile_erase,
-                                "images/engine/editor/same-tile-rubber.png", Rectf());
-  menu_list->add_item(std::move(same_tile_erase_item));
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 11> general_widgets =
   {
@@ -513,6 +461,67 @@ EditorToolbarWidget::create_show_button() const
   menu_list->add_item(std::move(show_deprecated_item));
 
   return show_hide_button;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_rubber_button() const
+{
+  auto toolbox_widget = m_editor.get_toolbox_widget();
+  auto erase_tool =
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [toolbox_widget]()
+                                                  { toolbox_widget->set_rubber_tool(); }, _("Delete the tile or object under the mouse"));
+  auto is_erase_tool_selected = [this]
+  {
+    if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
+    {
+      return m_editor.get_selected_object_class_name().empty();
+    }
+    else
+    {
+      return m_editor.get_tile_selection()->erases_tiles();
+    }
+  };
+  erase_tool->set_selected_function(is_erase_tool_selected);
+  auto menu_list = erase_tool->get_menu_list();
+
+  auto erase = [toolbox_widget]
+  {
+    toolbox_widget->set_tileselect_select_mode(0);
+    toolbox_widget->set_rubber_tool();
+  };
+
+  auto erase_item = std::make_unique<MenuListItem>(_("Erase"), erase,
+                      "images/engine/editor/rubber.png", Rectf());
+  menu_list->add_item(std::move(erase_item));
+
+  auto box_erase = [toolbox_widget]
+  {
+    toolbox_widget->set_tileselect_select_mode(1);
+    toolbox_widget->set_rubber_tool();
+  };
+  auto box_erase_item = std::make_unique<MenuListItem>(_("Box Erase"), box_erase,
+                          "images/engine/editor/box-rubber.png", Rectf());
+  menu_list->add_item(std::move(box_erase_item));
+
+  auto fill_erase = [toolbox_widget]
+  {
+    toolbox_widget->set_tileselect_select_mode(2);
+    toolbox_widget->set_rubber_tool();
+  };
+  auto fill_erase_item = std::make_unique<MenuListItem>(_("Fill Erase"), fill_erase,
+                            "images/engine/editor/fill-rubber.png", Rectf());
+  menu_list->add_item(std::move(fill_erase_item));
+
+  auto same_tile_erase = [toolbox_widget]
+  {
+    toolbox_widget->set_tileselect_select_mode(3);
+    toolbox_widget->set_rubber_tool();
+  };
+  auto same_tile_erase_item = std::make_unique<MenuListItem>(_("Same Tile Erase"), same_tile_erase,
+                                "images/engine/editor/same-tile-rubber.png", Rectf());
+  menu_list->add_item(std::move(same_tile_erase_item));
+
+  return erase_tool;
 }
 
 std::unique_ptr<EditorToolbarZoomWidget>

@@ -68,6 +68,8 @@ public:
   int get_tileselect_select_mode() const;
   int get_object_select_mode() const;
 
+  std::string get_tileselect_rubber_mode_icon() const;
+
   void update_mouse_icon();
   void set_tileselect_move_mode(int mode);
 

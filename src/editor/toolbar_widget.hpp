@@ -58,6 +58,7 @@ private:
   std::unique_ptr<EditorToolbarButtonWidget> create_save_button() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_grid_button() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_show_button() const;
+  std::unique_ptr<EditorToolbarButtonWidget> create_rubber_button() const;
   std::unique_ptr<EditorToolbarZoomWidget> create_zoom_widget() const;
 
   /**
