@@ -67,6 +67,10 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_move_mode->push_mode("images/engine/editor/move-mode1.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 
+  m_rubber->push_mode("images/engine/editor/box-rubber.png");
+  m_rubber->push_mode("images/engine/editor/fill-rubber.png");
+  m_rubber->push_mode("images/engine/editor/same-tile-rubber.png");
+
   auto prepare_dropdowns = [this]()
   {
     prepare_tile_group_dropdown();
@@ -313,6 +317,16 @@ EditorToolboxWidget::set_rubber_tool()
   m_editor.set_selected_object_class_name("");
   m_tilebox->get_tiles()->set_tile(0);
   m_editor.get_overlay_widget()->update_autotileset();
+
+  if (m_editor.get_input_mode() == Editor::InputMode::TILE)
+  {
+    m_rubber->set_mode(m_editor.get_tileselect_select_mode());
+  }
+  else
+  {
+    m_rubber->set_mode(0);
+  }
+
   update_mouse_icon();
 }
 
@@ -498,6 +512,26 @@ EditorToolboxWidget::set_tileselect_select_mode(int mode)
   update_mouse_icon();
 }
 
+std::string
+EditorToolboxWidget::get_tileselect_rubber_mode_icon() const
+{
+  switch(m_select_mode->get_mode())
+  {
+    case 0:
+    default:
+      return "images/engine/editor/rubber.png";
+    
+    case 1:
+      return "images/engine/editor/box-rubber.png";
+
+    case 2:
+      return "images/engine/editor/fill-rubber.png";
+
+    case 3:
+      return "images/engine/editor/same-tile-rubber.png";
+    }
+}
+
 int
 EditorToolboxWidget::get_object_select_mode() const
 {
@@ -540,7 +574,9 @@ EditorToolboxWidget::get_mouse_icon() const
     case InputMode::TILE:
     {
       if (m_editor.get_tile_selection()->erases_tiles())
+      {
         return m_rubber.get();
+      }
       
       return m_select_mode.get();
     }
