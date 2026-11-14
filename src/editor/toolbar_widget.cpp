@@ -60,6 +60,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
   auto open_button = create_open_button();
   auto save_button = create_save_button();
+  auto draw_button = create_draw_button();
   auto erase_tool = create_rubber_button();
   auto grid_button = create_grid_button();
   auto show_button = create_show_button();
@@ -115,37 +116,10 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     std::move(erase_tool)
   };
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets =
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 1> tile_mode_widgets =
   {
-    // Select mode mouse
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode0.png", [toolbox_widget]
-                                                { toolbox_widget->set_tileselect_select_mode(0); },
-                                                _("Draw mode")),
-
-    // Select mode area
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode1.png", [toolbox_widget]
-                                                { toolbox_widget->set_tileselect_select_mode(1); },
-                                                _("Box draw mode")),
-
-    // Select mode fill button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode2.png", [toolbox_widget]
-                                                { toolbox_widget->set_tileselect_select_mode(2); },
-                                                _("Fill mode")),
-
-    // Select mode same button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode3.png", [toolbox_widget]
-                                                { toolbox_widget->set_tileselect_select_mode(3); },
-                                                _("Replace mode")),
+    std::move(draw_button),
   };
-
-  for (int i = 0; i < tile_mode_widgets.size(); i++)
-  {
-    auto is_mode_selected = [i, toolbox_widget]()
-    {
-      return toolbox_widget->get_tileselect_select_mode() == i;
-    };
-    tile_mode_widgets[i]->set_selected_function(is_mode_selected);
-  }
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> object_mode_widgets =
   {
@@ -461,6 +435,60 @@ EditorToolbarWidget::create_show_button() const
   menu_list->add_item(std::move(show_deprecated_item));
 
   return show_hide_button;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_draw_button() const
+{
+  auto toolbox_widget = m_editor.get_toolbox_widget();
+  auto draw_tool =
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode0.png", [toolbox_widget]()
+                                                  { toolbox_widget->set_tileselect_select_mode(0); toolbox_widget->set_mouse_tool(); }, _("Delete the tile or object under the mouse"));
+  auto is_draw_tool_selected = [this]
+  {
+    return !m_editor.get_tile_selection()->erases_tiles();
+  };
+  draw_tool->set_selected_function(is_draw_tool_selected);
+  auto menu_list = draw_tool->get_menu_list();
+
+  auto draw = [toolbox_widget]
+  {
+    toolbox_widget->set_tileselect_select_mode(0);
+    toolbox_widget->set_mouse_tool();
+  };
+
+  auto draw_item = std::make_unique<MenuListItem>(_("Draw"), draw,
+                      "images/engine/editor/select-mode0.png", Rectf());
+  menu_list->add_item(std::move(draw_item));
+
+  auto box_draw = [toolbox_widget]
+  {
+    toolbox_widget->set_tileselect_select_mode(1);
+    toolbox_widget->set_mouse_tool();
+  };
+  auto box_draw_item = std::make_unique<MenuListItem>(_("Box Draw"), box_draw,
+                          "images/engine/editor/select-mode1.png", Rectf());
+  menu_list->add_item(std::move(box_draw_item));
+
+  auto fill = [toolbox_widget]
+  {
+    toolbox_widget->set_tileselect_select_mode(2);
+    toolbox_widget->set_mouse_tool();
+  };
+  auto fill_draw_item = std::make_unique<MenuListItem>(_("Fill"), fill,
+                            "images/engine/editor/select-mode2.png", Rectf());
+  menu_list->add_item(std::move(fill_draw_item));
+
+  auto same_tile_replace = [toolbox_widget]
+  {
+    toolbox_widget->set_tileselect_select_mode(3);
+    toolbox_widget->set_mouse_tool();
+  };
+  auto same_tile_draw_item = std::make_unique<MenuListItem>(_("Same Tile Replace"), same_tile_replace,
+                                "images/engine/editor/select-mode3.png", Rectf());
+  menu_list->add_item(std::move(same_tile_draw_item));
+
+  return draw_tool;
 }
 
 std::unique_ptr<EditorToolbarButtonWidget>
