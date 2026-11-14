@@ -71,6 +71,13 @@ EditorToolbarButtonWidget::draw(DrawingContext& context)
     if (m_disabled) context.set_alpha(1.0);
   }
 
+  if (m_menu_list->get_item_count() > 0)
+  {
+    auto origin = m_rect.p2() - Vector(2, 2);
+    context.color().draw_triangle(origin - Vector(5, 0), origin, origin - Vector(0, 5),
+                                  g_config->editorhovercolor, m_layer + 1);
+  }
+
   EditorToolbarBaseWidget::draw(context);
 }
 
