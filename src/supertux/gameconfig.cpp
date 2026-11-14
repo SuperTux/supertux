@@ -167,6 +167,12 @@ Config::load()
   }
 
   auto config_mapping = root.get_mapping();
+
+  // NOTE: This is outside the editor mapping as some
+  // settings apply to color scheme as well:
+  bool new_editor_settings_applied;
+  config_mapping.get("new_editor_settings_applied", new_editor_settings_applied, false);
+
   config_mapping.get("profile", profile);
 
   config_mapping.get("frame_prediction", frame_prediction);
@@ -249,11 +255,8 @@ Config::load()
     editorgrabcolor = Color(editorgrabcolor_);
     interface_colors_mapping->get("menuroundness", menuroundness, 16.f);
 
-    bool new_editor_colorscheme_applied;
-    interface_colors_mapping->get("new_editor_colorscheme_applied", new_editor_colorscheme_applied, false);
-
     // Apply new default color unless the user specifically resets it
-    if (!new_editor_colorscheme_applied)
+    if (!new_editor_settings_applied)
     {
       if (editorcolor == Color(0.9, 0.9, 1.0, 0.6)) // old default
       {
@@ -296,6 +299,16 @@ Config::load()
     editor_mapping->get("last_edited_level", editor_last_edited_level);
     editor_mapping->get("remember_last_level", editor_remember_last_level);
     editor_mapping->get("max_viewport", editor_max_viewport);
+
+    if (!new_editor_settings_applied)
+    {
+      // Properties sidebar was set to false while it was
+      // still in development. Force-set it to true
+      if (!editor_show_properties_sidebar) // old default
+      {
+        editor_show_properties_sidebar = true;
+      }
+    }
   }
 
   if (is_christmas()) {
@@ -480,6 +493,7 @@ Config::save()
   writer.end_list("notifications");
 
   writer.write("editor_autosave_frequency", editor_autosave_frequency);
+  writer.write("new_editor_settings_applied", true);
 
   if (is_christmas()) {
     writer.write("christmas", christmas_mode);
@@ -504,7 +518,6 @@ Config::save()
   writer.write("editorcolor", editorcolor.toVector());
   writer.write("editorhovercolor", editorhovercolor.toVector());
   writer.write("editorgrabcolor", editorgrabcolor.toVector());
-  writer.write("new_editor_colorscheme_applied", true);
 
   writer.write("menuroundness", menuroundness);
   writer.end_list("interface_colors");
