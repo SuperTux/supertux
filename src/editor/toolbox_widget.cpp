@@ -344,6 +344,7 @@ EditorToolboxWidget::set_mouse_tool()
 {
   if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
   {
+    set_tileselect_select_mode(0);
     m_editor.set_selected_object_class_name("#move");
   }
   else if (m_editor.get_project()->is_sector_set())
