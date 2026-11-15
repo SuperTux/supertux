@@ -43,7 +43,7 @@ MrIceBlock::MrIceBlock(const ReaderMapping& reader, const std::string& sprite_na
   parse_type(reader);
 
   walk_speed = 80;
-  set_ledge_behavior(LedgeBehavior::FALL);
+  set_ledge_behavior(LedgeBehavior::SMART);
   SoundManager::current()->preload("sounds/iceblock_bump.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
   SoundManager::current()->preload("sounds/kick.wav");
