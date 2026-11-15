@@ -536,6 +536,11 @@ EditorToolbarWidget::create_rubber_button() const
                           "images/engine/editor/box-rubber.png", Rectf());
   menu_list->add_item(std::move(box_erase_item));
 
+  auto is_tile_mode = [this]
+  {
+    return m_editor.get_input_mode() == InputMode::TILE;
+  };
+
   auto fill_erase = [toolbox_widget]
   {
     toolbox_widget->set_tileselect_select_mode(2);
@@ -543,6 +548,7 @@ EditorToolbarWidget::create_rubber_button() const
   };
   auto fill_erase_item = std::make_unique<MenuListItem>(_("Fill Erase"), fill_erase,
                             "images/engine/editor/fill-rubber.png", Rectf());
+  fill_erase_item->set_is_enabled_handler(is_tile_mode);
   menu_list->add_item(std::move(fill_erase_item));
 
   auto same_tile_erase = [toolbox_widget]
@@ -552,6 +558,7 @@ EditorToolbarWidget::create_rubber_button() const
   };
   auto same_tile_erase_item = std::make_unique<MenuListItem>(_("Same Tile Erase"), same_tile_erase,
                                 "images/engine/editor/same-tile-rubber.png", Rectf());
+  same_tile_erase_item->set_is_enabled_handler(is_tile_mode);
   menu_list->add_item(std::move(same_tile_erase_item));
 
   return erase_tool;
