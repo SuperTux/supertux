@@ -180,6 +180,9 @@ MenuListWidget::recalculate_item_position_and_size(const Vector& position, bool 
     auto item_pos = menu_position + Vector(0, total_menu_height);
     auto item_size = item->get_size();
 
+    if (item_size.width > 200.f)
+      item_size.width = 200.f;
+
     if (item_size.width > max_item_width)
       max_item_width = item_size.width;
 
