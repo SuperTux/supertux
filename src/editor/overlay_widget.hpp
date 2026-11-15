@@ -79,6 +79,9 @@ public:
 
   inline Vector get_sector_pos() const { return m_sector_pos; }
 
+  bool get_is_autotile_mode() const { return m_autotile_mode; }
+  void set_is_autotile_mode(bool value) { m_autotile_mode = value; }
+
 private:
   void input_tile(const Vector& pos, uint32_t tile);
   void input_autotile(const Vector& pos, uint32_t tile);

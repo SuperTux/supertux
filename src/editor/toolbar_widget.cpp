@@ -63,6 +63,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   auto save_button = create_save_button();
   auto draw_button = create_draw_button();
   auto erase_tool = create_rubber_button();
+  auto autotile_button = create_autotile_button();
   auto grid_button = create_grid_button();
   auto show_button = create_show_button();
 
@@ -120,9 +121,10 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     std::move(erase_tool)
   };
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 1> tile_mode_widgets =
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 2> tile_mode_widgets =
   {
     std::move(draw_button),
+    std::move(autotile_button)
   };
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> object_mode_widgets =
@@ -561,6 +563,30 @@ EditorToolbarWidget::create_rubber_button() const
   menu_list->add_item(std::move(same_tile_erase_item));
 
   return erase_tool;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_autotile_button() const
+{
+  auto overlay_widget = m_editor.get_overlay_widget();
+  auto toggle_autotile = [overlay_widget]()
+  {
+    auto autotile_mode = overlay_widget->get_is_autotile_mode();
+    overlay_widget->set_is_autotile_mode(!autotile_mode);
+  };
+
+  // TODO: "Blue A" graphics are a placeholder until someone comes up with a better icon for autotile mode
+  auto autotile_tool =
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/bluea.png",
+                                                  toggle_autotile,
+                                                  _("Toggle autotile mode on / off"));
+  auto is_autotile_selected = [overlay_widget]()
+  {
+    return overlay_widget->get_is_autotile_mode();
+  };
+  autotile_tool->set_selected_function(is_autotile_selected);
+
+  return autotile_tool;
 }
 
 std::unique_ptr<EditorToolbarZoomWidget>
