@@ -81,7 +81,6 @@ private:
   std::vector<std::unique_ptr<EditorToolbarBaseWidget>> m_widgets;
 
   float m_widgets_width;
-  float m_widgets_width_offset;
 
 private:
   EditorToolbarWidget(const EditorToolbarWidget&) = delete;

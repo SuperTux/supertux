@@ -55,8 +55,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_draw_widget(),
   m_zoom_widget(),
   m_widgets(),
-  m_widgets_width(0.f),
-  m_widgets_width_offset(0.f)
+  m_widgets_width(0.f)
 {
   auto toolbox_widget = m_editor.get_toolbox_widget();
 
