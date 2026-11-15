@@ -89,6 +89,8 @@ public:
   void set_flat(bool) override {};
   bool is_flat() const override { return false; }
 
+  void set_position(const Vector &pos) override;
+
   bool on_mouse_button_up(const SDL_MouseButtonEvent &) override { return false; };
 
   void draw(DrawingContext &context) override;

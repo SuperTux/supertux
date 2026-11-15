@@ -105,7 +105,7 @@ public:
   inline void set_height(float height) { m_size.height = height; }
   inline void set_size(float width, float height) { m_size = Sizef(width, height); }
   inline void set_size(const Sizef &size) { m_size = size; }
-  inline Sizef get_size() const { return m_size; }
+  inline const Sizef& get_size() const { return m_size; }
 
   bool empty() const
   {

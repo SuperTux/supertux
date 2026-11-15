@@ -111,7 +111,17 @@ EditorToolbarButtonWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button
 EditorToolbarSeparator::EditorToolbarSeparator() :
   EditorToolbarButtonWidget()
 {
-  m_size = Sizef(2.f, m_size.height);
+  m_size = Sizef(3.f, m_size.height);
+}
+
+void
+EditorToolbarSeparator::set_position(const Vector& pos)
+{
+  EditorToolbarButtonWidget::set_position(pos);
+
+  auto offset = Vector(1.f, 3.f);
+  m_rect.set_p1(pos + offset);
+  m_rect.set_p2(pos + m_size.as_vector() - offset);
 }
 
 void
