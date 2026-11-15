@@ -28,10 +28,9 @@ EditorToolbarBaseWidget::set_position(const Vector& pos)
 {
   float w = m_rect.get_width(),
         h = m_rect.get_height();
-  
-  m_rect.set_left(pos.x);
+
+  m_rect.set_pos(pos);
   m_rect.set_width(w);
-  m_rect.set_top(pos.y);
   m_rect.set_height(h);
 
   m_menu_list->recalculate_item_position_and_size(pos + Vector(0, m_rect.get_height()));
