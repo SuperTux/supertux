@@ -297,6 +297,7 @@ EditorLayersWidget::recalculate_positions()
 
   auto layer_list_area = m_layer_list_widget->get_area();
   layer_list_area.set_p1(Vector(0, SCREEN_HEIGHT / 2.f));
+  layer_list_area.set_p2(Vector(200.f, m_Ypos));
   m_layer_list_widget->set_area(layer_list_area);
 }
 
