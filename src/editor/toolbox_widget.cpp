@@ -94,6 +94,8 @@ EditorToolboxWidget::set_mode(const Editor::InputMode& input_mode)
 {
   if (input_mode == Editor::InputMode::OBJECT)
   {
+    select_last_object_group();
+
     if (m_select_mode->get_mode() > 1)
     {
       m_select_mode->set_mode(0);
@@ -105,6 +107,10 @@ EditorToolboxWidget::set_mode(const Editor::InputMode& input_mode)
     }
 
     update_mouse_icon();
+  }
+  else
+  {
+    select_last_tile_group();
   }
 }
 
