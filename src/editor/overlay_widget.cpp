@@ -248,7 +248,7 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
   {
     for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--)
     {
-      const uint32_t tile = tiles->pos(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
+      const uint32_t tile = tiles->get_tile_id(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
 
       if (m_autotile_mode)
       {
@@ -397,7 +397,7 @@ EditorOverlayWidget::preview_rectangle()
     int x_ = sgn_x ? 0 : -dr.get_width();
     for (int x = dr.get_left(); x <= dr.get_right(); x++, x_++)
     {
-      m_rectangle_preview->m_tiles.push_back(m_editor.get_tile_selection()->pos(x_, y_));
+      m_rectangle_preview->m_tiles.push_back(m_editor.get_tile_selection()->get_tile_id(x_, y_));
     }
   }
 }
@@ -459,7 +459,7 @@ EditorOverlayWidget::fill()
   // The tile that is going to be replaced:
   uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
-  if (replace_tile == tiles->pos(0, 0))
+  if (replace_tile == tiles->get_tile_id(0, 0))
   {
     // Replacing by the same tiles shouldn't do anything.
     return;
@@ -487,7 +487,7 @@ EditorOverlayWidget::fill()
     }
 
     // Autotile will happen later, so that directional filling works properly
-    input_tile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
+    input_tile(pos, tiles->get_tile_id(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
 
     Vector pos_(0.0f, 0.0f);
 
@@ -497,7 +497,7 @@ EditorOverlayWidget::fill()
     {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(pos_),
-          tiles->pos(static_cast<int>(tpos.x - 1), static_cast<int>(tpos.y))))
+          tiles->get_tile_id(static_cast<int>(tpos.x - 1), static_cast<int>(tpos.y))))
       {
         pos_stack.push_back( pos_ );
         continue;
@@ -510,7 +510,7 @@ EditorOverlayWidget::fill()
     {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(pos_),
-          tiles->pos(static_cast<int>(tpos.x + 1), static_cast<int>(tpos.y))))
+          tiles->get_tile_id(static_cast<int>(tpos.x + 1), static_cast<int>(tpos.y))))
       {
         pos_stack.push_back( pos_ );
         continue;
@@ -523,7 +523,7 @@ EditorOverlayWidget::fill()
     {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(pos_),
-          tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y - 1))))
+          tiles->get_tile_id(static_cast<int>(tpos.x), static_cast<int>(tpos.y - 1))))
       {
         pos_stack.push_back( pos_ );
         continue;
@@ -536,7 +536,7 @@ EditorOverlayWidget::fill()
     {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(pos_),
-          tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y + 1))))
+          tiles->get_tile_id(static_cast<int>(tpos.x), static_cast<int>(tpos.y + 1))))
       {
         pos_stack.push_back( pos_ );
         continue;
@@ -545,7 +545,7 @@ EditorOverlayWidget::fill()
 
     // Autotile happens after directional detection (because of borders; see snow tileset)
     if (m_autotile_mode)
-      input_autotile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
+      input_autotile(pos, tiles->get_tile_id(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
 
     // When tiles on each side are already filled or occupied by another tiles, it ends.
     pos_stack.pop_back();
@@ -569,7 +569,7 @@ EditorOverlayWidget::replace()
   uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
   // Don't do anything if the old and new tiles are the same tile.
-  if (tiles_width == 1 && tiles_height == 1 && replace_tile == tiles->pos(0, 0)) return;
+  if (tiles_width == 1 && tiles_height == 1 && replace_tile == tiles->get_tile_id(0, 0)) return;
 
   tilemap->save_state();
   for (int x = 0; x < tilemap->get_width(); ++x)
@@ -578,7 +578,7 @@ EditorOverlayWidget::replace()
     {
       if (tilemap->get_tile_id(x, y) == replace_tile)
       {
-        tilemap->change(x, y, tiles->pos(
+        tilemap->change(x, y, tiles->get_tile_id(
           (x - static_cast<int>(m_hovered_tile.x)) % tiles_width,
           (y - static_cast<int>(m_hovered_tile.y)) % tiles_height)
         );
@@ -1445,7 +1445,7 @@ EditorOverlayWidget::update_autotileset()
   }
   else
   {
-    m_available_autotilesets = tileset->get_autotilesets_from_tile(tile_selection->pos(0, 0));
+    m_available_autotilesets = tileset->get_autotilesets_from_tile(tile_selection->get_tile_id(0, 0));
   }
 
   if (!old_autotileset)
@@ -1528,7 +1528,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
       {
         continue;
       }
-      uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
+      uint32_t tile_id = tiles->get_tile_id(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
       tileset->get(tile_id).draw(context.color(), align_to_tilemap(on_tile), LAYER_GUI - 11, Color(1, 1, 1, 0.5));
       //if (tile_id) {
       //const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
@@ -1568,7 +1568,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
       {
         continue;
       }
-      uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
+      uint32_t tile_id = tiles->get_tile_id(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
       tileset->get(tile_id).draw(context.color(), align_to_tilemap(on_tile), LAYER_GUI - 11, Color(1, 1, 1, 0.5));
     }
   }
