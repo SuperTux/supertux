@@ -148,6 +148,14 @@ public:
   void hits_object_bottom(CollisionObject& object);
   void notify_object_removal(CollisionObject* other);
 
+  inline bool is_empty() const
+  {
+    auto tile_empty = [](auto tile)
+    {
+      return tile == 0;
+    };
+    return std::all_of(m_tiles.begin(), m_tiles.end(), tile_empty);
+  }
   inline bool is_solid() const { return m_real_solid && m_effective_solid; }
 
   /**

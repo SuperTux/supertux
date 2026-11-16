@@ -416,10 +416,22 @@ EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
 void
 EditorOverlayWidget::fill()
 {
-  auto tiles = m_editor.get_tile_selection();
   auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
-  if (!tilemap) return;
+  
+  if (!tilemap)
+  {
+    return;
+  }
 
+  if (tilemap->is_empty() && !m_autotile_mode)
+  {
+    // Fast path: all tiles are 0, so the result of `replace` is
+    // the same as calling `fill`, replace is faster, though.
+    replace();
+    return;
+  }
+
+  auto tiles = m_editor.get_tile_selection();
   auto tilemap_size = tilemap->get_size().to_vector();
 
   // The tile that is going to be replaced:
