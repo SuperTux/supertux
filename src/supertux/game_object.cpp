@@ -306,4 +306,5 @@ GameObject::register_class(ssq::VM& vm)
   cls.addFunc("get_name", &GameObject::get_name);
   cls.addFunc("get_display_name", &GameObject::get_display_name);
   cls.addFunc("get_type", &GameObject::get_type);
+  cls.addFunc("remove", &GameObject::remove_me);
 }
