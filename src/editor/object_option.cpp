@@ -708,12 +708,17 @@ ColorObjectOption::add_to_menu(Menu& menu) const
 std::unique_ptr<InterfaceControl>
 ColorObjectOption::create_interface_control() const
 {
-  auto button = std::make_unique<ControlButton>(_("Mix..."));
+  auto button = std::make_unique<ControlColorButton>(_("Mix..."));
   button->m_on_activate_callbacks.emplace_back([color = m_value_pointer]()
     {
       MenuManager::instance().push_menu(std::make_unique<ColorMenu>(color));
     });
+  button->m_on_change_callbacks.emplace_back([&button, this]
+    {
+      button->set_color(*m_value_pointer);
+    });
   button->set_rect(Rectf(0, 32, 20, 32));
+  button->set_color(*m_value_pointer);
   return button;
 }
 
