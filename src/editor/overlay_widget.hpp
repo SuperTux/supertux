@@ -90,7 +90,16 @@ private:
   void put_next_tiles();
   void draw_rectangle();
   void preview_rectangle();
-  bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile) const;
+
+  /**
+   * Checks if `first_tile` and `second_tile` have mutual autotilesets
+   * and caches the result.
+   * @param first_tile First tile to check
+   * @param second_tile Second tile to check
+   * @return `true` if there are mutual autotilesets, otherwise `false` 
+   */
+  bool has_mutual_autotileset(uint32_t first_tile, uint32_t second_tile);
+  bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile);
   void fill();
   void replace();
   void put_object();
@@ -176,6 +185,7 @@ private:
 
   std::vector<AutotileSet*> m_available_autotilesets;
   int m_current_autotileset;
+  std::map<std::tuple<uint32_t, uint32_t>, bool> m_mutual_autotilesets;
 
   std::unique_ptr<Tip> m_object_tip;
   Vector m_obj_mouse_desync;
