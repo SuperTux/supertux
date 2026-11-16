@@ -246,7 +246,7 @@ void
 TileMap::on_path_resolved()
 {
   auto editor = Editor::current();
-  if (!Editor::is_active() || editor == nullptr)
+  if (editor == nullptr)
   {
     return;
   }
