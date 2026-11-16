@@ -61,7 +61,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_hovered_item(HoveredItem::NONE),
   m_layer_list_widget(std::make_unique<MenuListWidget>()),
   m_layer_list_widget_visible(true),
-  m_queue_layer_list_widget_refresh(),
+  m_layer_list_needs_refresh(),
   m_has_mouse_focus(false)
 {
   m_editor.get_project()->add_reset_callback(
@@ -363,7 +363,7 @@ EditorLayersWidget::populate_layers_list_widget()
 void
 EditorLayersWidget::handle_layer_list_widget_refresh()
 {
-  if (!m_layer_list_widget_visible || !m_queue_layer_list_widget_refresh)
+  if (!m_layer_list_widget_visible || !m_layer_list_needs_refresh)
     return;
 
   auto& layer_items = m_layer_list_widget->get_menu_items();
@@ -391,7 +391,7 @@ EditorLayersWidget::handle_layer_list_widget_refresh()
     }
   }
 
-  m_queue_layer_list_widget_refresh = false;
+  m_layer_list_needs_refresh = false;
 }
 
 void
