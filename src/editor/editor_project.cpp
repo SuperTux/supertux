@@ -672,7 +672,11 @@ bool
 EditorProject::has_unsaved_changes() const
 {
   if (!g_config->editor_undo_tracking)
-    return false;
+  {
+    // If editor undo tracking is disabled,
+    // assume by default that it was modified
+    return true;
+  }
 
   auto level = get_level();
   for (const auto& sector : level->get_sectors())
