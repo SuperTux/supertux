@@ -105,7 +105,7 @@ public:
    */
   inline void queue_layer_list_refresh()
   {
-    m_queue_layer_list_widget_refresh = true;
+    m_layer_list_needs_refresh = true;
   }
 
   void move_selected_layer_up();
@@ -176,7 +176,7 @@ private:
 
   std::unique_ptr<MenuListWidget> m_layer_list_widget;
   bool m_layer_list_widget_visible;
-  bool m_queue_layer_list_widget_refresh;
+  bool m_layer_list_needs_refresh;
 
   bool m_has_mouse_focus;
 
