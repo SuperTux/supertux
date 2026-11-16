@@ -27,7 +27,9 @@
 #include "editor/editor_properties_panel.hpp"
 #include "editor/editor_tile_converter.hpp"
 #include "editor/layers_widget.hpp"
+#include "editor/tip.hpp"
 #include "editor/toolbar_widget.hpp"
+#include "editor/toolbox_widget.hpp"
 #include "gui/dialog.hpp"
 #include "gui/mousecursor.hpp"
 #include "object/camera.hpp"
@@ -534,8 +536,35 @@ Editor::set_input_mode(const InputMode& input_mode)
     return;
 
   m_input_mode = input_mode;
+
+  // TODO: Convert to callback method!
   m_toolbar_widget->set_mode(input_mode);
   m_layers_widget->set_mode(input_mode);
+  m_toolbox_widget->set_mode(input_mode);
+}
+
+EditorTilebox&
+Editor::get_tilebox() const
+{
+  return m_toolbox_widget->get_tilebox();
+}
+
+TileSelection*
+Editor::get_tile_selection() const
+{
+  return get_tilebox().get_tiles();
+}
+
+int
+Editor::get_tileselect_select_mode() const
+{
+  return m_toolbox_widget->get_tileselect_select_mode();
+}
+
+int
+Editor::get_object_select_mode() const
+{
+  return m_toolbox_widget->get_object_select_mode();
 }
 
 void

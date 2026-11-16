@@ -22,7 +22,6 @@
 
 #include "editor/editor_project.hpp"
 #include "editor/tilebox.hpp"
-#include "editor/toolbox_widget.hpp"
 #include "editor/overlay_widget.hpp"
 #include "interface/control.hpp"
 #include "supertux/screen.hpp"
@@ -36,6 +35,7 @@
 
 class EditorToolbarWidget;
 class EditorToolbarButtonWidget;
+class EditorToolboxWidget;
 class EditorCamera;
 class EditorHistoryManager;
 class EditorLayersWidget;
@@ -100,15 +100,15 @@ public:
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
   inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
-  inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
-  inline TileSelection* get_tile_selection() const { return get_tilebox().get_tiles(); }
+  EditorTilebox &get_tilebox() const;
+  TileSelection *get_tile_selection() const;
 
   inline EditorPropertiesPanel* get_properties_panel() const { return m_properties_panel; }
   inline InputMode get_input_mode() const { return m_input_mode; }
   void set_input_mode(const InputMode &input_mode);
 
-  inline int get_tileselect_select_mode() const { return m_toolbox_widget->get_tileselect_select_mode(); }
-  inline int get_object_select_mode() const { return m_toolbox_widget->get_object_select_mode(); }
+  int get_tileselect_select_mode() const;
+  int get_object_select_mode() const;
 
   /**
    * Returns the class name of the current selected object

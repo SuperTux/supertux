@@ -580,3 +580,9 @@ EditorTilebox::reset_scrollbar()
   m_scroll_progress = 0.f;
   m_scrollbar->set_total_region(get_tiles_height());
 }
+
+bool
+EditorTilebox::has_active_object_tip() const
+{
+  return m_object_tip->get_visible();
+}

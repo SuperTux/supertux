@@ -21,12 +21,10 @@
 
 #include <functional>
 
-#include "editor/tip.hpp"
 #include "interface/control_scrollbar.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_ptr.hpp"
 #include "supertux/tile_set.hpp"
 
 class Editor;
@@ -34,6 +32,7 @@ class ObjectGroup;
 class ObjectInfo;
 class Rectf;
 class TileSelection;
+class Tip;
 
 /**
   The tilebox allows selection of tiles or objects
@@ -87,7 +86,7 @@ public:
 
   float get_tiles_height() const;
 
-  inline bool has_active_object_tip() const { return m_object_tip->get_visible(); }
+  bool has_active_object_tip() const;
   inline size_t get_object_group_id() const { return m_object_group_id; }
   inline size_t get_tile_group_id() const { return m_tile_group_id; }
 

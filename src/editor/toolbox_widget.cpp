@@ -24,6 +24,7 @@
 #include "editor/button_widget.hpp"
 #include "editor/toolbar_widget.hpp"
 #include "editor/tilebox.hpp"
+#include "editor/tip.hpp"
 #include "editor/object_info.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
@@ -86,6 +87,15 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 
   load_brushes_from_file();
   set_mouse_tool();
+}
+
+void
+EditorToolboxWidget::set_mode(const Editor::InputMode& input_mode)
+{
+  if (input_mode == Editor::InputMode::OBJECT && m_select_mode->get_mode() > 1)
+  {
+    m_select_mode->set_mode(0);
+  }
 }
 
 void
