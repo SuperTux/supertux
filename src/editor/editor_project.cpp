@@ -671,20 +671,19 @@ EditorProject::check_save_prerequisites(const std::function<void ()>& callback) 
 bool
 EditorProject::has_unsaved_changes() const
 {
+  if (!g_config->editor_undo_tracking)
+    return false;
+
   auto level = get_level();
-  bool has_unsaved_changes = !g_config->editor_undo_tracking;
-  if (!has_unsaved_changes)
+  for (const auto& sector : level->get_sectors())
   {
-    for (const auto& sector : level->get_sectors())
+    if (sector->has_object_changes())
     {
-      if (sector->has_object_changes())
-      {
-        has_unsaved_changes = true;
-        break;
-      }
+      return true;
     }
   }
-  return has_unsaved_changes;
+  
+  return false;
 }
 
 void
