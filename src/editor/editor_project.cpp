@@ -667,7 +667,6 @@ EditorProject::check_save_prerequisites(const std::function<void ()>& callback) 
   }
 }
 
-
 bool
 EditorProject::has_unsaved_changes() const
 {
