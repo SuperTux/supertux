@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-09-11 22:47+0000\n"
+"POT-Creation-Date: 2026-09-20 00:29+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: Jaakko Muilu, 2025-2026\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -305,6 +305,19 @@ msgid "Granito freed!"
 msgstr "Graniitti vapaa!"
 
 #: data/levels/world2/scripts_floral_blossom.txt:19
+msgid "You have 1 Granito Group saved!"
+msgstr "Pelastit yhden Graniittiryhmän!"
+
+#: data/levels/world2/scripts_floral_blossom.txt:20
+#: data/levels/world2/scripts_floral_blossom.txt:22
+msgid "Everything is as it should be!"
+msgstr "Kaikki on niin kuin pitkääkin!"
+
+#: data/levels/world2/scripts_floral_blossom.txt:21
+msgid "You have 2 Granito Groups saved!"
+msgstr "Pelastit kaksi Graniittiryhmää!"
+
+#: data/levels/world2/scripts_floral_blossom.txt:23
 msgid "You saved all Granito. Hurray!"
 msgstr "Pelastit kaikki Graniitit. Hurraa!"
 

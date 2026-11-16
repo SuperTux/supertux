@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-09-11 22:47+0000\n"
+"POT-Creation-Date: 2026-09-20 00:29+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>, 2021-2022,2024-2026\n"
 "Language-Team: Dutch (http://app.transifex.com/arctic-games/supertux/language/nl/)\n"
@@ -407,7 +407,7 @@ msgstr "Add-on {} van {} succesvol geïnstalleerd."
 msgid "Angry Stone"
 msgstr "Boze steen"
 
-#: src/badguy/badguy.cpp:1379 src/badguy/crusher.cpp:1248
+#: src/badguy/badguy.cpp:1385 src/badguy/crusher.cpp:1248
 #: src/object/bigsnowball.cpp:80 src/object/bumper.cpp:59
 #: src/object/conveyor_belt.cpp:62 src/object/gradient.cpp:101
 #: src/object/ispy.cpp:56 src/object/pushbutton.cpp:65
@@ -416,21 +416,21 @@ msgstr "Boze steen"
 msgid "Direction"
 msgstr "Richting"
 
-#: src/badguy/badguy.cpp:1380
+#: src/badguy/badguy.cpp:1386
 msgid ""
 "The direction the badguy is facing at the start of the level. AUTO makes the"
 " badguy face towards the player when activated."
 msgstr "De richting waarin de slechterik aan het begin van het level kijkt. AUTO zorgt ervoor dat de slechterik naar de speler kijkt wanneer deze functie wordt geactiveerd."
 
-#: src/badguy/badguy.cpp:1381
+#: src/badguy/badguy.cpp:1387
 msgid "Death script"
 msgstr "Doodsvonnis"
 
-#: src/badguy/badguy.cpp:1382
+#: src/badguy/badguy.cpp:1388
 msgid "Script that is executed when the badguy dies."
 msgstr "Script dat wordt uitgevoerd wanneer de slechterik sterft."
 
-#: src/badguy/badguy.cpp:1385
+#: src/badguy/badguy.cpp:1391
 msgid "Glinting"
 msgstr "Glinsteren"
 

@@ -12,6 +12,7 @@
 # Jesusaves <jesusalva@themanaworld.org>, 2018
 # Jesusaves <jesusalva@themanaworld.org>, 2021
 # Jesusaves <jesusalva@themanaworld.org>, 2015
+# rodrigocasagrande, 2026
 # Rui <xymarior@yandex.com>, 2016
 # Thiago Feldhaus <thiagofcf@gmail.com>, 2019
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
@@ -19,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-09-11 22:47+0000\n"
+"POT-Creation-Date: 2026-09-20 00:29+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>, 2026\n"
+"Last-Translator: rodrigocasagrande, 2026\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -312,8 +313,21 @@ msgid "Granito freed!"
 msgstr "Granito libertado!"
 
 #: data/levels/world2/scripts_floral_blossom.txt:19
+msgid "You have 1 Granito Group saved!"
+msgstr "Você tem 1 Grupo de Granito salvo!"
+
+#: data/levels/world2/scripts_floral_blossom.txt:20
+#: data/levels/world2/scripts_floral_blossom.txt:22
+msgid "Everything is as it should be!"
+msgstr "Tudo está como deveria ser!"
+
+#: data/levels/world2/scripts_floral_blossom.txt:21
+msgid "You have 2 Granito Groups saved!"
+msgstr "Você tem 2 Grupos de Granito salvos!"
+
+#: data/levels/world2/scripts_floral_blossom.txt:23
 msgid "You saved all Granito. Hurray!"
-msgstr ""
+msgstr "Você salvou todos os Granito. Viva!"
 
 #: data/levels/world2/scripts_forest_intro.txt:2
 msgid "After quite the long trip, Tux arrived at the new biome."
