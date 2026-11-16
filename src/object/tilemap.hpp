@@ -159,6 +159,13 @@ public:
   inline bool is_solid() const { return m_real_solid && m_effective_solid; }
 
   /**
+   * Returns true when the tilemap boundaries contain the specified position
+   * @param pos Position to check
+   * @return `true` if position lies within tilemap boundaries, otherwise `false`.
+   */
+  bool contains_position(const Vector &pos);
+
+  /**
    * @scripting
    * @description Switches the tilemap's real solidity to ""solid"".${SRG_TABLENEWPARAGRAPH}
                   Note: The effective solidity is also influenced by the alpha of the tilemap.

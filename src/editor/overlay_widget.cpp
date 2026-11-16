@@ -60,14 +60,6 @@ const int MAX_FILL_STACK_SIZE = 1000000;
 
 // TODO: This should be configurable
 constexpr float PAN_SCROLLING_SCALE = 2.5f;
-
-bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos)
-{
-  return pos.x >= 0 && pos.y >= 0 &&
-         pos.x < tilemap->get_width() * 1.f &&
-         pos.y < tilemap->get_height() * 1.f;
-}
-
 } // namespace
 
 using InputMode = Editor::InputMode;
@@ -196,7 +188,7 @@ void
 EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
 {
   auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
-  if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
+  if (!tilemap || !tilemap->contains_position(pos)) return;
 
   auto events = m_editor.get_event_handling();
 
@@ -211,7 +203,7 @@ void
 EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
 {
   auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
-  if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
+  if (!tilemap || !tilemap->contains_position(pos)) return;
 
   tilemap->save_state();
   tilemap->autotile(pos, tile, get_current_autotileset());
@@ -221,7 +213,7 @@ void
 EditorOverlayWidget::input_autotile_erase(const Vector& pos)
 {
   auto tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
-  if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
+  if (!tilemap || !tilemap->contains_position(pos)) return;
 
   tilemap->save_state();
   tilemap->autotile_erase(pos, get_current_autotileset());
@@ -480,7 +472,7 @@ EditorOverlayWidget::fill()
     Vector tpos = pos - m_hovered_tile;
 
     // Tests for being inside tilemap:
-    if (!is_position_inside_tilemap(tilemap, pos))
+    if (!tilemap->contains_position(pos))
     {
       pos_stack.pop_back();
       continue;
@@ -1157,7 +1149,7 @@ EditorOverlayWidget::update_tile_selection()
   {
     for (int x = selection_rect.get_left(); x < selection_rect.get_right(); x++)
     {
-      if (!is_position_inside_tilemap(tilemap, Vector(x, y)))
+      if (!tilemap->contains_position(Vector(x, y)))
       {
         tiles->m_tiles.push_back(0);
       }
@@ -1522,7 +1514,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
     {
       Vector on_tile = m_hovered_tile + drawn_tile;
 
-      if (!is_position_inside_tilemap(tilemap, on_tile) ||
+      if (!tilemap->contains_position(on_tile) ||
           on_tile.x >= ceilf(screen_corner.x / 32) ||
           on_tile.y >= ceilf(screen_corner.y / 32))
       {
@@ -1562,7 +1554,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
     {
       Vector on_tile = corner + drawn_tile;
 
-      if (!is_position_inside_tilemap(tilemap, on_tile) ||
+      if (!tilemap->contains_position(on_tile) ||
           on_tile.x >= ceilf(screen_corner.x / 32) ||
           on_tile.y >= ceilf(screen_corner.y / 32))
       {
