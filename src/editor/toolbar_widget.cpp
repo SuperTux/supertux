@@ -213,25 +213,11 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 void
 EditorToolbarWidget::set_mode(const InputMode& input_mode)
 {
-  auto toolbox_widget = m_editor.get_toolbox_widget();
-
-  if (input_mode == InputMode::OBJECT)
+  for(const auto& widget : m_widgets)
   {
-    toolbox_widget->select_last_object_group();
-    for(const auto& toolbar_button : m_widgets)
-    {
-      toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
-  	}
-    toolbox_widget->set_tileselect_move_mode(0);
-  }
-  else
-  {
-    toolbox_widget->select_last_tile_group();
-    for(const auto& toolbar_button : m_widgets)
-    {
-      toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
-    }
-    toolbox_widget->set_tileselect_select_mode(0);
+    widget->set_visible(input_mode == InputMode::OBJECT ? 
+      widget->get_visible_in_object_mode() : 
+      widget->get_visible_in_tile_mode());
   }
 
   set_widget_positions();
