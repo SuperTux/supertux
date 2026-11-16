@@ -105,13 +105,13 @@ EditorToolboxWidget::set_mode(const Editor::InputMode& input_mode)
     {
       m_rubber->set_mode(0);
     }
-
-    update_mouse_icon();
   }
   else
   {
     select_last_tile_group();
   }
+  
+  update_mouse_icon();
 }
 
 void
