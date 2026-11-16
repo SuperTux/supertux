@@ -22,6 +22,7 @@
 #include "editor/editor_camera.hpp"
 #include "editor/editor_event_handling.hpp"
 #include "editor/editor_properties_panel.hpp"
+#include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/node_marker.hpp"
 #include "editor/object_info.hpp"

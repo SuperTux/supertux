@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include "editor/editor.hpp"
 #include "editor/widget.hpp"
 
 #include <map>
@@ -24,7 +25,6 @@
 
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
-#include "video/surface_ptr.hpp"
 
 template<typename T>
 class ControlEnum;
@@ -62,6 +62,8 @@ public:
   void select_object_group(int id);
   void select_last_tile_group();
   void select_last_object_group();
+
+  void set_mode(const Editor::InputMode &input_mode);
 
   void switch_current_group(int dir);
 
