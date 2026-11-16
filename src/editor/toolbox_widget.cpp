@@ -92,9 +92,19 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 void
 EditorToolboxWidget::set_mode(const Editor::InputMode& input_mode)
 {
-  if (input_mode == Editor::InputMode::OBJECT && m_select_mode->get_mode() > 1)
+  if (input_mode == Editor::InputMode::OBJECT)
   {
-    m_select_mode->set_mode(0);
+    if (m_select_mode->get_mode() > 1)
+    {
+      m_select_mode->set_mode(0);
+    }
+
+    if (m_rubber->get_mode() > 1)
+    {
+      m_rubber->set_mode(0);
+    }
+
+    update_mouse_icon();
   }
 }
 

@@ -599,7 +599,8 @@ EditorToolbarWidget::create_zoom_widget() const
 void
 EditorToolbarWidget::toggle_tile_object_mode()
 {
-  set_mode(m_editor.get_input_mode() == InputMode::OBJECT ? InputMode::TILE : InputMode::OBJECT);
+  m_editor.set_input_mode(
+    m_editor.get_input_mode() == InputMode::OBJECT ? InputMode::TILE : InputMode::OBJECT);
 }
 
 bool
