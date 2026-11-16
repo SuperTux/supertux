@@ -10,24 +10,22 @@
             "snowball-4.png"
             "snowball-5.png"
             "snowball-6.png"
-            "snowball-7.png")
-  )
+            "snowball-7.png"))
   (action
     (name "right")
     (hitbox 8 13 32 32)
     (fps 14)
-    (mirror-action "left")
-  )
+    (mirror-action "left"))
+
   (action
     (name "squished-left")
     (hitbox 8 13 32 32)
-    (images "snowball-squished.png")
-  )
+    (images "snowball-squished.png"))
   (action
     (name "squished-right")
     (hitbox 8 13 32 32)
-    (mirror-action "squished-left")
-  )
+    (mirror-action "squished-left"))
+
   (action
     (name "melting")
     (hitbox 0 0 32 32)

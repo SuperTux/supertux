@@ -3,5 +3,5 @@
   (authors "Enol \"Meji\" Monte")
   (license "CC-BY-SA")
   (loop-begin 0)
-  (loop-at    96)
+  (loop-at 96)
 )

@@ -4,5 +4,5 @@
   (license "CC-BY-SA / GPL 2+")
   (title "Bonus Cave")
   (loop-begin 0)
-  (loop-at    10)
+  (loop-at 10)
 )

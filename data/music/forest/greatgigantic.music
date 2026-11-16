@@ -4,5 +4,5 @@
   (license "GPL")
   (title "The Great Gigantic Secret (with kind permission from Chris Huelsbeck)")
   (loop-begin 0)
-  (loop-at    -1)
+  (loop-at -1)
 )

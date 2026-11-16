@@ -1,9 +1,9 @@
 (supertux-sprite
-	(action
-	  (name "left")
-	  (hitbox 8 10 32 32)
-	  (fps 14)
-	  (images "smartblock-0.png"
+  (action
+    (name "left")
+    (hitbox 8 10 32 32)
+    (fps 14)
+    (images "smartblock-0.png"
             "smartblock-1.png"
             "smartblock-2.png"
             "smartblock-3.png"
@@ -11,20 +11,22 @@
             "smartblock-5.png"
             "smartblock-6.png"
             "smartblock-7.png"))
-	(action
-	  (name "right")
-	  (hitbox 8 10 32 32)
-	  (fps 14)
-	  (mirror-action "left"))
-	(action 
-		(name "flat-left")
-	  (hitbox 8 16 32 26)
-	  (images "smartblock-squished.png"))
-	(action 
-		(name "flat-right")
-	  (hitbox 8 16 32 26)
-	  (mirror-action "flat-left"))
-	(action
+  (action
+    (name "right")
+    (hitbox 8 10 32 32)
+    (fps 14)
+    (mirror-action "left"))
+
+  (action 
+    (name "flat-left")
+    (hitbox 8 16 32 26)
+    (images "smartblock-squished.png"))
+  (action 
+    (name "flat-right")
+    (hitbox 8 16 32 26)
+    (mirror-action "flat-left"))
+
+  (action
     (name "melting")
     (hitbox 0 0 32 32)
     (images "../../objects/water_drop/pink-drop.png"))
@@ -37,6 +39,7 @@
             "../../objects/water_drop/pink-splash-3.png"
             "../../objects/water_drop/pink-splash-4.png"
             "../../objects/water_drop/pink-splash-5.png"))
+
   (action
     (name "waking-left")
     (fps 12)

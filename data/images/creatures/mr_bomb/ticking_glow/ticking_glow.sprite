@@ -1,5 +1,4 @@
 (supertux-sprite
-
   (action
     (name "default")
     (fps 15)
@@ -9,6 +8,7 @@
     (name "exploding")
     (fps 15)
     (loops 1)
+    (hitbox 75 75 0 0)
     (images "ticking_glow-0.png"
             "ticking_glow-1.png"
             "ticking_glow-2.png"
@@ -74,7 +74,5 @@
             "ticking_glow-0.png"
             "ticking_glow-4.png"
             "ticking_glow-0.png"
-            "ticking_glow-4.png")
-    (hitbox 75 75 0 0))
-
+            "ticking_glow-4.png"))
 )
