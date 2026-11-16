@@ -340,14 +340,14 @@ Editor::on_level_set()
 
   MouseCursor::current()->set_icon(nullptr);
 
-  auto& tilebox = m_toolbox_widget->get_tilebox();
-  tilebox.select_tile_group(0);
-  set_input_mode(InputMode::TILE);
-
   m_script_manager.clear_tmp();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
   m_layers_widget->on_level_change();
+
+  auto& tilebox = m_toolbox_widget->get_tilebox();
+  tilebox.select_tile_group(0);
+  set_input_mode(InputMode::TILE);
 
   m_history_manager->retoggle_undo_tracking();
   m_history_manager->undo_stack_cleanup();
