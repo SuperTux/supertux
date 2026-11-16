@@ -72,6 +72,8 @@ public:
 
   virtual void draw(DrawingContext& context) override;
 
+  EditorLayer *get_editor_layer() const { return m_layer; }
+
 public:
   SurfacePtr get_state_icon() const;
   void hide_textbox() { m_show_layer_name_textbox = false; }

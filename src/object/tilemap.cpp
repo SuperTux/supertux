@@ -222,11 +222,16 @@ TileMap::finish_construction()
 {
   get_parent()->update_solid(this);
 
-  if (get_path() && get_path()->get_nodes().size() > 0) {
-    if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
-      m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+  auto path = get_path();
 
-    set_offset(m_path_handle.get_pos(get_size() * 32, get_path()->get_nodes()[m_starting_node].position));
+  if (path && path->is_valid())
+  {
+    auto path_nodes = path->get_nodes();
+    auto node_count = static_cast<int>(path_nodes.size());
+    if (m_starting_node >= node_count)
+      m_starting_node = node_count - 1;
+
+    set_offset(m_path_handle.get_pos(get_size() * 32, path_nodes[m_starting_node].position));
     get_walker()->jump_to_node(m_starting_node);
   }
 

@@ -98,6 +98,15 @@ public:
   SurfacePtr get_surface() const { return m_surface; }
 
   /**
+   * Sets the current surface that represents the
+   * icon of this menu list item
+   */
+  void set_surface(const std::string& surface_path)
+  {
+    m_surface = Surface::from_file(surface_path);
+  }
+
+  /**
    * Returns the current checkbox surface for the item
    */
   SurfacePtr get_checkbox_surface() const;
