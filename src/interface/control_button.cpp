@@ -23,8 +23,25 @@
 
 ControlButton::ControlButton(std::string label) :
   m_btn_label(std::move(label)),
+  m_background_color(get_widget_color()),
   m_mouse_down(false)
 {
+}
+
+Color
+ControlButton::get_background_color() const
+{
+  if (m_mouse_down)
+  {
+    return Color(0.3f, 0.3f, 0.3f, 1.f);
+  }
+  return m_background_color;
+}
+
+void
+ControlButton::set_background_color(const Color& color)
+{
+  m_background_color = color;
 }
 
 void
@@ -32,10 +49,7 @@ ControlButton::draw(DrawingContext& context)
 {
   InterfaceControl::draw(context);
 
-  context.color().draw_filled_rect(m_rect,
-                                   m_mouse_down ? Color(0.3f, 0.3f, 0.3f, 1.f) : get_widget_color(),
-                                   2.f,
-                                   LAYER_GUI);
+  context.color().draw_filled_rect(m_rect, get_background_color(), 2.f, LAYER_GUI);
 
   context.color().draw_text(Resources::small_font,
                             m_btn_label,
@@ -113,4 +127,16 @@ ControlButton::on_key_down(const SDL_KeyboardEvent& key)
   }
 
   return false;
+}
+
+void
+ControlColorButton::draw(DrawingContext& context)
+{
+  ControlButton::draw(context);
+
+  auto height = m_rect.get_height();
+  auto offset = Vector(2, 2);
+  auto target_rect = Rectf(m_rect.p1() + offset,
+                           m_rect.p1() + Vector(height, height) - offset);
+  context.color().draw_filled_rect(target_rect, get_color(), 2.f, LAYER_GUI);
 }

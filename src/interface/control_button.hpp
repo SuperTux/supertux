@@ -29,11 +29,33 @@ public:
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
+  Color get_background_color() const;
+  void set_background_color(const Color& color);
+
 private:
   std::string m_btn_label;
+  Color m_background_color;
   bool m_mouse_down;
 
 private:
   ControlButton(const ControlButton&) = delete;
   ControlButton& operator=(const ControlButton&) = delete;
+};
+
+class ControlColorButton : public ControlButton
+{
+public:
+  ControlColorButton(std::string label) :
+    ControlButton(label)
+  {
+  }
+
+  virtual void draw(DrawingContext& context) override;
+
+public:
+  Color get_color() const { return m_color; }
+  void set_color(const Color &color) { m_color = color; }
+
+private:
+  Color m_color;
 };
