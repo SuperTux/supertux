@@ -845,14 +845,21 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
   }
 }
 
+bool
+TileMap::contains_position(const Vector& pos)
+{
+  return pos.x >= 0 && pos.y >= 0 &&
+         pos.x < static_cast<float>(m_width) &&
+         pos.y < static_cast<float>(m_height);
+}
+
 void
 TileMap::autotile(const Vector& pos, uint32_t tile, AutotileSet* autotileset)
 {
   if (!autotileset || !autotileset->is_member(tile))
     return;
 
-  if (pos.x < 0.f || pos.x >= static_cast<float>(m_width) ||
-      pos.y < 0.f || pos.y >= static_cast<float>(m_height))
+  if (!contains_position(pos))
     return;
 
   if (autotileset->is_corner())
@@ -953,17 +960,13 @@ TileMap::autotile_single_corner(int x, int y, AutotileSet* autotileset, Autotile
 void
 TileMap::autotile_erase(const Vector& pos, AutotileSet* autotileset)
 {
-  if (!autotileset)
-    return;
-
-  if (pos.x < 0.f || pos.x >= static_cast<float>(m_width) ||
-      pos.y < 0.f || pos.y >= static_cast<float>(m_height))
+  if (!autotileset || !contains_position(pos))
     return;
 
   if (autotileset->is_corner())
   {
     const int x = static_cast<int>(pos.x + 0.5f), y = static_cast<int>(pos.y + 0.5f);
-    if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+    if (!contains_position(Vector(x, y)))
       return;
 
     const uint32_t current_tile = m_tiles[y*m_width + x];
