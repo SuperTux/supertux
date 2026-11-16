@@ -273,29 +273,26 @@ TileMap::get_icon_path() const
   const bool on_path = has_valid_path();
   const bool is_lightmap = (m_draw_target == DrawingTarget::LIGHTMAP);
   const bool is_solid = m_real_solid;
-  std::string icon_name;
+  std::string icon_name = "tilemap";
+
+  if (on_path)
+  {
+    icon_name += "_path";
+  }
 
   if (is_lightmap)
   {
-    if (on_path)
-    {
-      icon_name = is_solid ? "tilemap_path_lightmap_solid" : "tilemap_path_lightmap";
-    }
-    else // Not on path
-    {
-      icon_name = is_solid ? "tilemap_lightmap_solid" : "tilemap_lightmap";
-    }
+    icon_name += "_lightmap";
   }
-  else // Not lightmap
+
+  if (is_solid && is_lightmap)
   {
-    if (on_path)
-    {
-      icon_name = is_solid ? "tilemap_path" : "tilemap_path_nonsolid";
-    }
-    else // Not on path
-    {
-      icon_name = is_solid ? "tilemap" : "tilemap_nonsolid";
-    }
+    icon_name += "_solid";
+  }
+  
+  if (!is_solid && !is_lightmap)
+  {
+    icon_name += "_nonsolid";
   }
 
   return "images/engine/editor/" + icon_name + ".png";
