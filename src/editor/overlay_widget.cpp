@@ -94,6 +94,7 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_last_node_marker(nullptr),
   m_available_autotilesets(),
   m_current_autotileset(0),
+  m_mutual_autotilesets(),
   m_object_tip(new Tip()),
   m_obj_mouse_desync(0, 0),
   m_rectangle_preview(new TileSelection()),
@@ -102,6 +103,11 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_selection_warning(false),
   m_autotile_mode(g_config->editor_autotile_mode)
 {
+  auto clear_mutual_autotilesets = [this]
+  {
+    m_mutual_autotilesets.clear();
+  };
+  m_editor.get_project()->add_tileset_reloaded_callback(clear_mutual_autotilesets);
 }
 
 EditorOverlayWidget::~EditorOverlayWidget()
@@ -397,15 +403,31 @@ EditorOverlayWidget::preview_rectangle()
 }
 
 bool
+EditorOverlayWidget::has_mutual_autotileset(uint32_t first_tile, uint32_t second_tile)
+{
+  auto tileset = m_editor.get_project()->get_tileset();
+  auto first_value = first_tile < second_tile ? first_tile : second_tile;
+  auto second_value = first_tile >= second_tile ? first_tile : second_tile;
+
+  auto cache_key = std::make_tuple(first_value, second_value);
+  if (m_mutual_autotilesets.find(cache_key) == m_mutual_autotilesets.end())
+  {
+    m_mutual_autotilesets[cache_key] =
+      tileset->has_mutual_autotileset(first_tile, second_tile);
+  }
+
+  return m_mutual_autotilesets[cache_key];
+}
+
+bool
 EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
                                           uint32_t target_tile,
-                                          uint32_t third_tile) const
+                                          uint32_t third_tile)
 {
   if (m_autotile_mode)
   {
-    auto tileset = m_editor.get_project()->get_tileset();
-    return tileset->has_mutual_autotileset(replace_tile, target_tile) &&
-          !tileset->has_mutual_autotileset(replace_tile, third_tile);
+    return has_mutual_autotileset(replace_tile, target_tile) &&
+           !has_mutual_autotileset(replace_tile, third_tile);
   }
   else
   {
