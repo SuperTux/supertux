@@ -81,7 +81,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   mouse_tool->set_selected_function(is_mouse_tool_selected);
 
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 11> general_widgets =
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 12> general_widgets =
   {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
@@ -105,6 +105,8 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     // Play button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png", [this]
                                                 { m_editor.test_level(); }, _("Test level")),
+
+    std::make_unique<EditorToolbarSeparator>(),
 
     // Mode button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png", std::bind(&EditorToolbarWidget::toggle_tile_object_mode, this), _("Toggle between object and tile mode")),
