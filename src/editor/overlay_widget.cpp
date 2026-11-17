@@ -62,7 +62,7 @@ const int MAX_FILL_STACK_SIZE = 1000000;
 constexpr float PAN_SCROLLING_SCALE = 2.5f;
 } // namespace
 
-using InputMode = Editor::InputMode;
+using EditorMode = Editor::EditorMode;
 using ObjectMoveMode = Editor::ObjectMoveMode;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
@@ -648,7 +648,7 @@ EditorOverlayWidget::hover_object()
     }
   }
 
-  if (Editor::current()->get_input_mode() == InputMode::OBJECT)
+  if (Editor::current()->get_editor_mode() == EditorMode::OBJECT)
   {
     if (m_hovered_object && m_hovered_object->has_settings() && !editor_tilebox.has_active_object_tip())
     {
@@ -994,9 +994,9 @@ EditorOverlayWidget::process_left_click()
   m_dragging_right = false;
   m_drag_start = m_sector_pos;
 
-  switch (m_editor.get_input_mode())
+  switch (m_editor.get_editor_mode())
   {
-    case InputMode::TILE:
+    case EditorMode::TILE:
       layers_widget->set_selected_layer(selected_tilemap);
       switch (m_editor.get_select_mode())
       {
@@ -1023,8 +1023,8 @@ EditorOverlayWidget::process_left_click()
       }
       break;
 
-    case InputMode::NONE:
-    case InputMode::OBJECT:
+    case EditorMode::NONE:
+    case EditorMode::OBJECT:
       if (editor_events->get_pen_down())
       {
         grab_object();
@@ -1067,17 +1067,17 @@ EditorOverlayWidget::process_left_click()
 void
 EditorOverlayWidget::process_right_click()
 {
-  switch (m_editor.get_input_mode())
+  switch (m_editor.get_editor_mode())
   {
-    case InputMode::TILE:
+    case EditorMode::TILE:
       m_dragging = true;
       m_dragging_right = true;
       m_drag_start = m_sector_pos;
       update_tile_selection();
       break;
 
-    case InputMode::NONE:
-    case InputMode::OBJECT:
+    case EditorMode::NONE:
+    case EditorMode::OBJECT:
       {
         if (m_hovered_object &&
             m_hovered_object->is_valid() &&
@@ -1180,7 +1180,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (button.button == SDL_BUTTON_LEFT)
   {
-    if (m_editor.get_input_mode() == InputMode::TILE)
+    if (m_editor.get_editor_mode() == EditorMode::TILE)
     {
       if (m_dragging && m_editor.get_select_mode() == 1)
       {
@@ -1245,9 +1245,9 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
   if (m_dragging)
   {
-    switch (m_editor.get_input_mode())
+    switch (m_editor.get_editor_mode())
     {
-      case InputMode::TILE:
+      case EditorMode::TILE:
         if (m_dragging_right)
         {
           update_tile_selection();
@@ -1268,8 +1268,8 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         }
         break;
 
-      case InputMode::NONE:
-      case InputMode::OBJECT:
+      case EditorMode::NONE:
+      case EditorMode::OBJECT:
         if (m_editor.get_selected_object_class_name().empty())
         {
           if (m_editor.get_select_mode() == 1)
@@ -1486,7 +1486,7 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context) const
 void
 EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
-  if (m_editor.get_input_mode() != InputMode::TILE)
+  if (m_editor.get_editor_mode() != EditorMode::TILE)
   {
     return;
   }
@@ -1725,7 +1725,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
   draw_rectangle_preview(context);
   draw_path(context);
 
-  if (m_editor.get_input_mode() == InputMode::TILE &&
+  if (m_editor.get_editor_mode() == EditorMode::TILE &&
       !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
   {
     // Deprecated tiles in active tilemaps should have indication, when hovered
@@ -1802,7 +1802,7 @@ EditorOverlayWidget::apply_camera_settings(DrawingContext& context)
 void
 EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
 {
-  if (m_editor.get_input_mode() != InputMode::TILE || !g_config->editor_autotile_help)
+  if (m_editor.get_editor_mode() != EditorMode::TILE || !g_config->editor_autotile_help)
     return;
 
   Vector hint_pos(32, 16);

@@ -36,7 +36,7 @@
 #include "video/video_system.hpp"
 #include <algorithm>
 
-using InputMode = Editor::InputMode;
+using EditorMode = Editor::EditorMode;
 
 EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_editor(editor),
@@ -96,15 +96,15 @@ EditorTilebox::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_viewport(Rect(m_rect));
-  auto input_mode = m_editor.get_input_mode();
+  auto editor_mode = m_editor.get_editor_mode();
 
-  switch (input_mode)
+  switch (editor_mode)
   {
-    case InputMode::TILE:
+    case EditorMode::TILE:
       draw_tile_group(context);
       break;
 
-    case InputMode::OBJECT:
+    case EditorMode::OBJECT:
       draw_object_group(context);
       break;
 
@@ -259,14 +259,14 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   if (m_scrollbar->on_mouse_button_down(button))
     return true;
 
-  auto input_mode = m_editor.get_input_mode();
+  auto editor_mode = m_editor.get_editor_mode();
   if (button.button == SDL_BUTTON_LEFT)
   {
     if (m_hovered_item == HoveredItem::TILE)
     {
-      switch (input_mode)
+      switch (editor_mode)
       {
-        case InputMode::TILE:
+        case EditorMode::TILE:
           {
             m_dragging = true;
             m_drag_start = Vector(static_cast<float>(m_hovered_tile % 4),
@@ -286,7 +286,7 @@ EditorTilebox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           }
           break;
 
-        case InputMode::OBJECT:
+        case EditorMode::OBJECT:
           {
             auto& icons = m_active_object_group->get_icons();
             int size = static_cast<int>(icons.size());
@@ -348,15 +348,15 @@ EditorTilebox::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 void
 EditorTilebox::update_hovered_tile()
 {
-  auto input_mode = m_editor.get_input_mode();
+  auto editor_mode = m_editor.get_editor_mode();
   const int prev_hovered_tile = std::move(m_hovered_tile);
   m_hovered_item = HoveredItem::TILE;
   m_hovered_tile = get_tile_pos(m_mouse_pos);
-  if (m_dragging && input_mode == InputMode::TILE)
+  if (m_dragging && editor_mode == EditorMode::TILE)
   {
     update_selection();
   }
-  else if (input_mode == InputMode::OBJECT && m_hovered_tile != prev_hovered_tile)
+  else if (editor_mode == EditorMode::OBJECT && m_hovered_tile != prev_hovered_tile)
   {
     const auto& icons = m_active_object_group->get_icons();
     if (m_hovered_tile < static_cast<int>(icons.size())) {
@@ -440,7 +440,7 @@ void
 EditorTilebox::select_tile_group(int id)
 {
   m_tile_group_id = id;
-  m_editor.set_input_mode(InputMode::TILE);
+  m_editor.set_editor_mode(EditorMode::TILE);
   reset_scrollbar();
 }
 
@@ -455,7 +455,7 @@ EditorTilebox::select_object_group(int id)
 {
   m_active_object_group = &m_object_info->m_groups[id];
   m_object_group_id = id;
-  m_editor.set_input_mode(InputMode::OBJECT);
+  m_editor.set_editor_mode(EditorMode::OBJECT);
   reset_scrollbar();
 }
 
@@ -468,9 +468,9 @@ EditorTilebox::select_last_object_group()
 void
 EditorTilebox::change_tile_group(int dir)
 {
-  auto input_mode = m_editor.get_input_mode();
+  auto editor_mode = m_editor.get_editor_mode();
 
-  if (input_mode == InputMode::OBJECT)
+  if (editor_mode == EditorMode::OBJECT)
   {
     select_last_tile_group();
     return;
@@ -499,8 +499,8 @@ EditorTilebox::get_active_tile_group() const
 void
 EditorTilebox::change_object_group(int dir)
 {
-  auto input_mode = m_editor.get_input_mode();
-  if (input_mode == InputMode::TILE)
+  auto editor_mode = m_editor.get_editor_mode();
+  if (editor_mode == EditorMode::TILE)
   {
     select_last_object_group();
     return;
@@ -543,12 +543,12 @@ EditorTilebox::select_layers_object_group()
   if (layers)
   {
     m_active_object_group = layers;
-    m_editor.set_input_mode(InputMode::OBJECT);
+    m_editor.set_editor_mode(EditorMode::OBJECT);
   }
   else
   {
     m_active_object_group = nullptr;
-    m_editor.set_input_mode(InputMode::NONE);
+    m_editor.set_editor_mode(EditorMode::NONE);
   }
   reset_scrollbar();
   return layers;
@@ -557,16 +557,16 @@ EditorTilebox::select_layers_object_group()
 float
 EditorTilebox::get_tiles_height() const
 {
-  auto input_mode = m_editor.get_input_mode();
-  switch (input_mode)
+  auto editor_mode = m_editor.get_editor_mode();
+  switch (editor_mode)
   {
-    case InputMode::TILE:
+    case EditorMode::TILE:
     {
       auto active_tile_group = get_active_tile_group();
       return active_tile_group ? ceilf((active_tile_group->tiles.size() * 1.f) / 4.f) * 32.f : 0.f;
     }
 
-    case InputMode::OBJECT:
+    case EditorMode::OBJECT:
       return ceilf(static_cast<float>(m_active_object_group->get_icons().size()) / 4.f) * 32.f;
 
     default:

@@ -45,7 +45,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-using InputMode = Editor::InputMode;
+using EditorMode = Editor::EditorMode;
 using ObjectMoveMode = Editor::ObjectMoveMode;
 
 EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
@@ -201,11 +201,11 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 }
 
 void
-EditorToolbarWidget::set_mode(const InputMode& input_mode)
+EditorToolbarWidget::set_mode(const EditorMode& editor_mode)
 {
   for(const auto& widget : m_widgets)
   {
-    widget->set_visible(input_mode == InputMode::OBJECT ? 
+    widget->set_visible(editor_mode == EditorMode::OBJECT ? 
       widget->get_visible_in_object_mode() : 
       widget->get_visible_in_tile_mode());
   }
@@ -483,7 +483,7 @@ EditorToolbarWidget::create_rubber_button() const
                                                   {toolbox_widget->set_select_mode(0); toolbox_widget->set_rubber_tool(); }, _("Delete the tile or object under the mouse"));
   auto is_erase_tool_selected = [this]
   {
-    if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
+    if (m_editor.get_editor_mode() == EditorMode::OBJECT)
     {
       return m_editor.get_selected_object_class_name().empty();
     }
@@ -516,7 +516,7 @@ EditorToolbarWidget::create_rubber_button() const
 
   auto is_tile_mode = [this]
   {
-    return m_editor.get_input_mode() == InputMode::TILE;
+    return m_editor.get_editor_mode() == EditorMode::TILE;
   };
 
   auto fill_erase = [toolbox_widget]
@@ -592,8 +592,8 @@ EditorToolbarWidget::create_zoom_widget() const
 void
 EditorToolbarWidget::toggle_tile_object_mode()
 {
-  m_editor.set_input_mode(
-    m_editor.get_input_mode() == InputMode::OBJECT ? InputMode::TILE : InputMode::OBJECT);
+  m_editor.set_editor_mode(
+    m_editor.get_editor_mode() == EditorMode::OBJECT ? EditorMode::TILE : EditorMode::OBJECT);
 }
 
 bool
