@@ -46,6 +46,8 @@
 
 #include <fmt/format.h>
 
+using EditorMode = Editor::EditorMode;
+
 EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   Widget(),
   m_editor(editor),
@@ -667,7 +669,7 @@ EditorLayersWidget::set_selected_tilemap(TileMap* tilemap)
 }
 
 void
-EditorLayersWidget::set_mode(Editor::InputMode mode)
+EditorLayersWidget::set_mode(EditorMode mode)
 {
   auto editor_project = m_editor.get_project();
   if (!editor_project->is_level_loaded() || !editor_project->is_sector_set())
@@ -675,13 +677,13 @@ EditorLayersWidget::set_mode(Editor::InputMode mode)
     return;
   }
 
-  if (mode == Editor::InputMode::OBJECT)
+  if (mode == EditorMode::OBJECT)
   {
     set_selected_layer(get_objects_layer());
     return;
   }
   
-  if (mode == Editor::InputMode::TILE)
+  if (mode == EditorMode::TILE)
   {
     auto last_tilemap = get_selected_tilemap();
     if (last_tilemap != nullptr)

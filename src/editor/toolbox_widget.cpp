@@ -47,7 +47,7 @@
 
 #include <physfs.h>
 
-using InputMode = Editor::InputMode;
+using EditorMode = Editor::EditorMode;
 using ObjectMoveMode = Editor::ObjectMoveMode;
 
 EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
@@ -91,9 +91,9 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 }
 
 void
-EditorToolboxWidget::set_mode(const InputMode& input_mode)
+EditorToolboxWidget::set_mode(const EditorMode& editor_mode)
 {
-  if (input_mode == InputMode::OBJECT)
+  if (editor_mode == EditorMode::OBJECT)
   {
     select_last_object_group();
 
@@ -253,7 +253,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
 {
   draw_separator(context);
 
-  if (m_editor.get_input_mode() == InputMode::TILE)
+  if (m_editor.get_editor_mode() == EditorMode::TILE)
   {
     m_tile_groups_dropdown->draw(context);
     m_brushes_list_widget->draw(context);
@@ -296,19 +296,19 @@ EditorToolboxWidget::draw_separator(DrawingContext& context)
 bool
 EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  if (m_editor.get_input_mode() == InputMode::TILE &&
+  if (m_editor.get_editor_mode() == EditorMode::TILE &&
       m_tile_groups_dropdown->on_mouse_button_up(button))
   {
     return true;
   }
   
-  if (m_editor.get_input_mode() == InputMode::OBJECT &&
+  if (m_editor.get_editor_mode() == EditorMode::OBJECT &&
       m_object_groups_dropdown->on_mouse_button_up(button))
   {
     return true;
   }
 
-  if (m_editor.get_input_mode() == InputMode::TILE &&
+  if (m_editor.get_editor_mode() == EditorMode::TILE &&
       m_brushes_list_widget->on_mouse_button_up(button))
   {
     return true;
@@ -320,23 +320,23 @@ EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 bool
 EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
-  auto input_mode = m_editor.get_input_mode();
-  if (input_mode == InputMode::TILE &&
+  auto editor_mode = m_editor.get_editor_mode();
+  if (editor_mode == EditorMode::TILE &&
       m_tile_groups_dropdown->on_mouse_button_down(button))
   {
     return true;
   }
 
-  if (input_mode == InputMode::OBJECT &&
+  if (editor_mode == EditorMode::OBJECT &&
       m_object_groups_dropdown->on_mouse_button_down(button))
   {
     return true;
   }
 
   if (m_tilebox->on_mouse_button_down(button) ||
-      (input_mode == InputMode::TILE && m_brushes_list_widget->on_mouse_button_down(button)))
+      (editor_mode == EditorMode::TILE && m_brushes_list_widget->on_mouse_button_down(button)))
   {
-    if (input_mode == InputMode::TILE)
+    if (editor_mode == EditorMode::TILE)
     {
       m_editor.get_overlay_widget()->update_autotileset();
     }
@@ -354,7 +354,7 @@ EditorToolboxWidget::set_rubber_tool()
   m_tilebox->get_tiles()->set_tile(0);
   m_editor.get_overlay_widget()->update_autotileset();
 
-  if (m_editor.get_input_mode() == InputMode::TILE)
+  if (m_editor.get_editor_mode() == EditorMode::TILE)
   {
     m_rubber->set_mode(m_editor.get_select_mode());
   }
@@ -369,14 +369,14 @@ EditorToolboxWidget::set_rubber_tool()
 void
 EditorToolboxWidget::set_mouse_tool()
 {
-  if (m_editor.get_input_mode() == InputMode::OBJECT)
+  if (m_editor.get_editor_mode() == EditorMode::OBJECT)
   {
     set_select_mode(0);
     m_editor.set_selected_object_class_name("#move");
   }
   else if (m_editor.get_project()->is_sector_set())
   {
-    m_editor.set_input_mode(InputMode::TILE);
+    m_editor.set_editor_mode(EditorMode::TILE);
     auto tile_selection = m_editor.get_tile_selection();
     if (tile_selection && tile_selection->erases_tiles())
     {
@@ -396,19 +396,19 @@ EditorToolboxWidget::set_mouse_tool()
 bool
 EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
-  if (m_editor.get_input_mode() == InputMode::TILE &&
+  if (m_editor.get_editor_mode() == EditorMode::TILE &&
       m_tile_groups_dropdown->on_mouse_motion(motion))
   {
     return true;
   }
 
-  if (m_editor.get_input_mode() == InputMode::OBJECT &&
+  if (m_editor.get_editor_mode() == EditorMode::OBJECT &&
       m_object_groups_dropdown->on_mouse_motion(motion))
   {
     return true;
   }
 
-  if (m_editor.get_input_mode() == InputMode::TILE &&
+  if (m_editor.get_editor_mode() == EditorMode::TILE &&
       m_brushes_list_widget->on_mouse_motion(motion))
   {
     return true;
@@ -529,7 +529,7 @@ EditorToolboxWidget::setup()
 void
 EditorToolboxWidget::select_tile_group(int id)
 {
-  m_editor.set_input_mode(InputMode::TILE);
+  m_editor.set_editor_mode(EditorMode::TILE);
   m_tilebox->select_tile_group(id);
   load_brushes_for_current_tilegroup();
   update_mouse_icon();
@@ -538,7 +538,7 @@ EditorToolboxWidget::select_tile_group(int id)
 void
 EditorToolboxWidget::select_object_group(int id)
 {
-  m_editor.set_input_mode(InputMode::OBJECT);
+  m_editor.set_editor_mode(EditorMode::OBJECT);
   m_tilebox->select_object_group(id);
   update_mouse_icon();
 }
@@ -627,7 +627,7 @@ EditorToolboxWidget::update_mouse_icon()
   if (m_editor.get_project()->is_sector_set())
   {
     auto toolbar_widget = m_editor.get_toolbar_widget();
-    if (m_editor.get_input_mode() == InputMode::TILE)
+    if (m_editor.get_editor_mode() == EditorMode::TILE)
     {
       if (m_editor.get_tile_selection()->erases_tiles())
       {
@@ -655,10 +655,10 @@ EditorToolboxWidget::update_mouse_icon()
 ToolIcon*
 EditorToolboxWidget::get_mouse_icon() const
 {
-  switch (m_editor.get_input_mode())
+  switch (m_editor.get_editor_mode())
   {
-    case InputMode::NONE:
-    case InputMode::OBJECT:
+    case EditorMode::NONE:
+    case EditorMode::OBJECT:
     {
       const std::string& object_class_name = m_editor.get_selected_object_class_name();
       const auto &node_marker_class_name = NodeMarker::class_name();
@@ -672,7 +672,7 @@ EditorToolboxWidget::get_mouse_icon() const
       return m_move_mode.get();
     }
 
-    case InputMode::TILE:
+    case EditorMode::TILE:
     {
       if (m_editor.get_tile_selection()->erases_tiles())
       {

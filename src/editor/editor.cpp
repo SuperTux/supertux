@@ -85,7 +85,7 @@ Editor::Editor() :
   m_selected_object_class_name(),
   m_testing_disabled(false),
   m_enabled(false),
-  m_input_mode(InputMode::NONE),
+  m_editor_mode(EditorMode::NONE),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_draggables_visible(true),
   m_draggables_visible_hint_timer(),
@@ -130,7 +130,7 @@ Editor::Editor() :
 
   m_project->add_tileset_reloaded_callback([this]()
   {
-    set_input_mode(InputMode::TILE);
+    set_editor_mode(EditorMode::TILE);
     m_toolbox_widget->get_tilebox().select_tile_group(0);
   });
 }
@@ -348,7 +348,7 @@ Editor::on_level_set()
 
   auto& tilebox = m_toolbox_widget->get_tilebox();
   tilebox.select_tile_group(0);
-  set_input_mode(InputMode::TILE);
+  set_editor_mode(EditorMode::TILE);
 
   m_history_manager->retoggle_undo_tracking();
   m_history_manager->undo_stack_cleanup();
@@ -531,17 +531,17 @@ Editor::event(const SDL_Event& ev)
 }
 
 void
-Editor::set_input_mode(const InputMode& input_mode)
+Editor::set_editor_mode(const EditorMode& editor_mode)
 {
-  if (m_input_mode == input_mode)
+  if (m_editor_mode == editor_mode)
     return;
 
-  m_input_mode = input_mode;
+  m_editor_mode = editor_mode;
 
   // TODO: Convert to callback method!
-  m_toolbar_widget->set_mode(input_mode);
-  m_layers_widget->set_mode(input_mode);
-  m_toolbox_widget->set_mode(input_mode);
+  m_toolbar_widget->set_mode(editor_mode);
+  m_layers_widget->set_mode(editor_mode);
+  m_toolbox_widget->set_mode(editor_mode);
 }
 
 EditorTilebox&

@@ -42,7 +42,7 @@ public:
 
   bool has_focus() const;
 
-  void set_mode(const Editor::InputMode& input_mode);
+  void set_mode(const Editor::EditorMode& editor_mode);
   void toggle_tile_object_mode();
 
   void set_undo_disabled(bool state);

@@ -27,6 +27,8 @@
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
+using EditorMode = Editor::EditorMode;
+
 LayersListItem::LayersListItem(EditorLayersWidget* parent, EditorLayer* layer) :
   MenuListItem(layer->get_display_name(), {}, layer->get_icon_path(), Rectf(0, 0, 16, 16)),
   m_parent(parent),
@@ -147,11 +149,11 @@ LayersListItem::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   {
     if (m_layer->get_game_object() == m_parent->get_objects_layer())
     {
-      editor->set_input_mode(Editor::InputMode::OBJECT);
+      editor->set_editor_mode(EditorMode::OBJECT);
     }
     else
     {
-      editor->set_input_mode(Editor::InputMode::TILE);
+      editor->set_editor_mode(EditorMode::TILE);
     }
   }
 

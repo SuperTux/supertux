@@ -62,9 +62,9 @@ private:
 public:
 
   /**
-   * InputMode defines what we're currently editing
+   * EditorMode defines what we're currently editing
    */
-  enum class InputMode { NONE, TILE, OBJECT };
+  enum class EditorMode { NONE, TILE, OBJECT };
 
   /**
    * ObjectMoveMode determines how dragged objects are handled
@@ -109,8 +109,8 @@ public:
   TileSelection *get_tile_selection() const;
 
   inline EditorPropertiesPanel* get_properties_panel() const { return m_properties_panel; }
-  inline InputMode get_input_mode() const { return m_input_mode; }
-  void set_input_mode(const InputMode &input_mode);
+  inline EditorMode get_editor_mode() const { return m_editor_mode; }
+  void set_editor_mode(const EditorMode &editor_mode);
 
   int get_select_mode() const;
   ObjectMoveMode get_object_move_mode() const;
@@ -268,7 +268,7 @@ private:
   std::string m_selected_object_class_name;
 
   bool m_enabled;
-  InputMode m_input_mode;
+  EditorMode m_editor_mode;
   SurfacePtr m_bgr_surface;
 
   bool m_draggables_visible;

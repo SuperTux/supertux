@@ -133,7 +133,7 @@ public:
     return m_objects_layer;
   }
 
-  void set_mode(Editor::InputMode mode);
+  void set_mode(Editor::EditorMode mode);
 
   TileMap* get_selected_tilemap() const;
   void set_selected_tilemap(TileMap* tilemap);
