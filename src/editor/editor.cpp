@@ -556,9 +556,9 @@ Editor::get_tile_selection() const
 }
 
 int
-Editor::get_tileselect_select_mode() const
+Editor::get_select_mode() const
 {
-  return m_toolbox_widget->get_tileselect_select_mode();
+  return m_toolbox_widget->get_select_mode();
 }
 
 int

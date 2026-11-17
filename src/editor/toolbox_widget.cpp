@@ -355,7 +355,7 @@ EditorToolboxWidget::set_rubber_tool()
 
   if (m_editor.get_input_mode() == Editor::InputMode::TILE)
   {
-    m_rubber->set_mode(m_editor.get_tileselect_select_mode());
+    m_rubber->set_mode(m_editor.get_select_mode());
   }
   else
   {
@@ -370,7 +370,7 @@ EditorToolboxWidget::set_mouse_tool()
 {
   if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
   {
-    set_tileselect_select_mode(0);
+    set_select_mode(0);
     m_editor.set_selected_object_class_name("#move");
   }
   else if (m_editor.get_project()->is_sector_set())
@@ -555,13 +555,13 @@ EditorToolboxWidget::select_last_object_group()
 }
 
 int
-EditorToolboxWidget::get_tileselect_select_mode() const
+EditorToolboxWidget::get_select_mode() const
 {
   return m_select_mode->get_mode();
 }
 
 void
-EditorToolboxWidget::set_tileselect_select_mode(int mode)
+EditorToolboxWidget::set_select_mode(int mode)
 {
   m_select_mode->set_mode(mode);
   update_mouse_icon();

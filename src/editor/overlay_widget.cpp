@@ -997,7 +997,7 @@ EditorOverlayWidget::process_left_click()
   {
     case InputMode::TILE:
       layers_widget->set_selected_layer(selected_tilemap);
-      switch (m_editor.get_tileselect_select_mode())
+      switch (m_editor.get_select_mode())
       {
         case 0:
           put_tiles(m_hovered_tile, m_editor.get_tile_selection());
@@ -1181,7 +1181,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   {
     if (m_editor.get_input_mode() == InputMode::TILE)
     {
-      if (m_dragging && m_editor.get_tileselect_select_mode() == 1)
+      if (m_dragging && m_editor.get_select_mode() == 1)
       {
         put_tiles(sp_to_tp(drag_rect().p1()), m_rectangle_preview.get());
         m_rectangle_preview->m_tiles.clear();
@@ -1253,7 +1253,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         }
         else
         {
-          switch (m_editor.get_tileselect_select_mode())
+          switch (m_editor.get_select_mode())
           {
             case 0:
               put_next_tiles();
@@ -1271,7 +1271,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       case InputMode::OBJECT:
         if (m_editor.get_selected_object_class_name().empty())
         {
-          if (m_editor.get_tileselect_select_mode() == 1)
+          if (m_editor.get_select_mode() == 1)
           {
             rubber_rect();
           }
@@ -1736,7 +1736,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
                                 ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
   }
 
-  if (m_dragging && m_editor.get_tileselect_select_mode() == 1
+  if (m_dragging && m_editor.get_select_mode() == 1
       && !m_dragging_right)
   {
     // Draw selection rectangle...

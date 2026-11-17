@@ -107,7 +107,7 @@ public:
   inline InputMode get_input_mode() const { return m_input_mode; }
   void set_input_mode(const InputMode &input_mode);
 
-  int get_tileselect_select_mode() const;
+  int get_select_mode() const;
   int get_object_move_mode() const;
 
   /**
