@@ -31,7 +31,6 @@
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "gui/notification.hpp"
-#include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object_change.hpp"
 #include "supertux/gameconfig.hpp"
@@ -62,6 +61,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
   auto open_button = create_open_button();
   auto save_button = create_save_button();
+  auto mouse_tool = create_mouse_tool();
   auto draw_button = create_draw_button();
   auto erase_tool = create_rubber_button();
   auto autotile_button = create_autotile_button();
@@ -70,17 +70,6 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
   m_rubber_widget = erase_tool.get();
   m_draw_widget = draw_button.get();
-
-  auto mouse_tool = // Mouse select button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [toolbox_widget]()
-                                                  { toolbox_widget->set_mouse_tool(); },
-                                                  _("Select or move the object under the mouse"));
-  auto is_mouse_tool_selected = [this]
-  {
-    return m_editor.get_selected_object_class_name() == "#move";
-  };
-  mouse_tool->set_selected_function(is_mouse_tool_selected);
-
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 12> general_widgets =
   {
@@ -550,6 +539,23 @@ EditorToolbarWidget::create_rubber_button() const
   menu_list->add_item(std::move(same_tile_erase_item));
 
   return erase_tool;
+}
+
+std::unique_ptr<EditorToolbarButtonWidget>
+EditorToolbarWidget::create_mouse_tool() const
+{
+  auto toolbox_widget = m_editor.get_toolbox_widget();
+  auto mouse_tool = // Mouse select button
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [toolbox_widget]()
+                                                  { toolbox_widget->set_mouse_tool(); },
+                                                  _("Select or move the object under the mouse"));
+  auto is_mouse_tool_selected = [this]
+  {
+    return m_editor.get_selected_object_class_name() == "#move";
+  };
+  mouse_tool->set_selected_function(is_mouse_tool_selected);
+
+  return mouse_tool;
 }
 
 std::unique_ptr<EditorToolbarButtonWidget>

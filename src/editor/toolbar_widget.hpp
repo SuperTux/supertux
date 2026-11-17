@@ -61,6 +61,7 @@ private:
   std::unique_ptr<EditorToolbarButtonWidget> create_save_button() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_grid_button() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_show_button() const;
+  std::unique_ptr<EditorToolbarButtonWidget> create_mouse_tool() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_rubber_button() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_draw_button() const;
   std::unique_ptr<EditorToolbarButtonWidget> create_autotile_button() const;
