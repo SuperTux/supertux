@@ -576,12 +576,14 @@ EditorToolbarWidget::create_mouse_tool() const
                                                        "images/engine/editor/move-mode0.png", Rectf());
   move_mode_item->set_is_selected_handler([toolbox_widget]
     { return toolbox_widget->get_object_move_mode() == ObjectMoveMode::MOVE; });
+  move_mode_item->set_draw_selected_indicator(false);
   menu_list->add_item(std::move(move_mode_item));
 
   auto duplicate_mode_item = std::make_unique<MenuListItem>(_("Duplicate Mode"), set_duplicate_mode,
                                                             "images/engine/editor/move-mode1.png", Rectf());
   duplicate_mode_item->set_is_selected_handler([toolbox_widget]
     { return toolbox_widget->get_object_move_mode() == ObjectMoveMode::DUPLICATE; });
+  duplicate_mode_item->set_draw_selected_indicator(false);
   menu_list->add_item(std::move(duplicate_mode_item));
   // Duplicate mode
   //std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png", [toolbox_widget]
