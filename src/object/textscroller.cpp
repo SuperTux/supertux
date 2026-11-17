@@ -382,7 +382,6 @@ TextScroller::get_settings()
     },
     { "left", "center", "right" },
     static_cast<int>(TextAlign::SCROLLER_ALIGN_CENTER), "text-align");
-  result.add_remove();
 
   return result;
 }
