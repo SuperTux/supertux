@@ -66,6 +66,11 @@ public:
    */
   enum class InputMode { NONE, TILE, OBJECT };
 
+  /**
+   * ObjectMoveMode determines how dragged objects are handled
+   */
+  enum class ObjectMoveMode { MOVE, DUPLICATE };
+
 public:
   using exit_callback_t = std::function<void()>;
 
@@ -108,7 +113,7 @@ public:
   void set_input_mode(const InputMode &input_mode);
 
   int get_select_mode() const;
-  int get_object_move_mode() const;
+  ObjectMoveMode get_object_move_mode() const;
 
   /**
    * Returns the class name of the current selected object

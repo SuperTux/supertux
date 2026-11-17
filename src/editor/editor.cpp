@@ -54,6 +54,7 @@
 #endif
 
 bool Editor::s_resaving_in_progress = false;
+using ObjectMoveMode = Editor::ObjectMoveMode;
 
 bool
 Editor::is_active()
@@ -561,7 +562,7 @@ Editor::get_select_mode() const
   return m_toolbox_widget->get_select_mode();
 }
 
-int
+ObjectMoveMode
 Editor::get_object_move_mode() const
 {
   return m_toolbox_widget->get_object_move_mode();

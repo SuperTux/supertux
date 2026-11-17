@@ -70,8 +70,8 @@ public:
   int get_select_mode() const;
   void set_select_mode(int mode);
 
-  int get_object_move_mode() const;
-  void set_object_move_mode(int mode);
+  Editor::ObjectMoveMode get_object_move_mode() const;
+  void set_object_move_mode(Editor::ObjectMoveMode mode);
 
   std::string get_tileselect_draw_mode_icon() const;
   std::string get_tileselect_rubber_mode_icon() const;

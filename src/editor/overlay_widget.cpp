@@ -63,6 +63,7 @@ constexpr float PAN_SCROLLING_SCALE = 2.5f;
 } // namespace
 
 using InputMode = Editor::InputMode;
+using ObjectMoveMode = Editor::ObjectMoveMode;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_editor(editor),
@@ -1035,11 +1036,11 @@ EditorOverlayWidget::process_left_click()
 
       switch (m_editor.get_object_move_mode())
       {
-        case 0:
+        case ObjectMoveMode::MOVE:
           grab_object();
           break;
 
-        case 1:
+        case ObjectMoveMode::DUPLICATE:
           clone_object();
           break;
 

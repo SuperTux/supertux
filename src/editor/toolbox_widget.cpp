@@ -48,6 +48,7 @@
 #include <physfs.h>
 
 using InputMode = Editor::InputMode;
+using ObjectMoveMode = Editor::ObjectMoveMode;
 
 EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
@@ -90,9 +91,9 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 }
 
 void
-EditorToolboxWidget::set_mode(const Editor::InputMode& input_mode)
+EditorToolboxWidget::set_mode(const InputMode& input_mode)
 {
-  if (input_mode == Editor::InputMode::OBJECT)
+  if (input_mode == InputMode::OBJECT)
   {
     select_last_object_group();
 
@@ -353,7 +354,7 @@ EditorToolboxWidget::set_rubber_tool()
   m_tilebox->get_tiles()->set_tile(0);
   m_editor.get_overlay_widget()->update_autotileset();
 
-  if (m_editor.get_input_mode() == Editor::InputMode::TILE)
+  if (m_editor.get_input_mode() == InputMode::TILE)
   {
     m_rubber->set_mode(m_editor.get_select_mode());
   }
@@ -368,7 +369,7 @@ EditorToolboxWidget::set_rubber_tool()
 void
 EditorToolboxWidget::set_mouse_tool()
 {
-  if (m_editor.get_input_mode() == Editor::InputMode::OBJECT)
+  if (m_editor.get_input_mode() == InputMode::OBJECT)
   {
     set_select_mode(0);
     m_editor.set_selected_object_class_name("#move");
@@ -607,16 +608,16 @@ EditorToolboxWidget::get_tileselect_rubber_mode_icon() const
   }
 }
 
-int
+ObjectMoveMode
 EditorToolboxWidget::get_object_move_mode() const
 {
-  return m_move_mode->get_mode();
+  return (ObjectMoveMode)m_move_mode->get_mode();
 }
 
 void
-EditorToolboxWidget::set_object_move_mode(int mode)
+EditorToolboxWidget::set_object_move_mode(ObjectMoveMode mode)
 {
-  m_move_mode->set_mode(mode);
+  m_move_mode->set_mode((int)mode);
   update_mouse_icon();
 }
 
@@ -626,7 +627,7 @@ EditorToolboxWidget::update_mouse_icon()
   if (m_editor.get_project()->is_sector_set())
   {
     auto toolbar_widget = m_editor.get_toolbar_widget();
-    if (m_editor.get_input_mode() == Editor::InputMode::TILE)
+    if (m_editor.get_input_mode() == InputMode::TILE)
     {
       if (m_editor.get_tile_selection()->erases_tiles())
       {
