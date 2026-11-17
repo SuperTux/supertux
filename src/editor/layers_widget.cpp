@@ -66,8 +66,11 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_layer_list_needs_refresh(),
   m_has_mouse_focus(false)
 {
-  m_editor.get_project()->add_reset_callback(
-      std::bind(&EditorLayersWidget::on_level_change, this));
+  auto editor_project = m_editor.get_project();
+  editor_project->add_sector_set_callback(
+    std::bind(&EditorLayersWidget::refresh, this));
+  editor_project->add_reset_callback(
+    std::bind(&EditorLayersWidget::on_level_change, this));
 }
 
 void
