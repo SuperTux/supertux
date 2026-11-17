@@ -35,7 +35,7 @@ LayerObject::remove_me()
       return;
 
     auto layers_widget = editor->get_layers_widget();
-    layers_widget->on_layer_list_changed();
+    layers_widget->queue_layer_list_refresh();
   }
 }
 
