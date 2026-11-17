@@ -54,6 +54,7 @@
 #endif
 
 bool Editor::s_resaving_in_progress = false;
+using InputMode = Editor::InputMode;
 using ObjectMoveMode = Editor::ObjectMoveMode;
 
 bool
@@ -556,10 +557,10 @@ Editor::get_tile_selection() const
   return get_tilebox().get_tiles();
 }
 
-int
-Editor::get_select_mode() const
+InputMode
+Editor::get_input_mode() const
 {
-  return m_toolbox_widget->get_select_mode();
+  return m_toolbox_widget->get_input_mode();
 }
 
 ObjectMoveMode

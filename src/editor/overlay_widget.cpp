@@ -63,6 +63,7 @@ constexpr float PAN_SCROLLING_SCALE = 2.5f;
 } // namespace
 
 using EditorMode = Editor::EditorMode;
+using InputMode = Editor::InputMode;
 using ObjectMoveMode = Editor::ObjectMoveMode;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
@@ -998,23 +999,23 @@ EditorOverlayWidget::process_left_click()
   {
     case EditorMode::TILE:
       layers_widget->set_selected_layer(selected_tilemap);
-      switch (m_editor.get_select_mode())
+      switch (m_editor.get_input_mode())
       {
-        case 0:
+        case InputMode::SINGLE:
           put_tiles(m_hovered_tile, m_editor.get_tile_selection());
           m_hovered_tile_prev = m_hovered_tile;
           m_time_prev_put_tile = std::chrono::steady_clock::now();
           break;
 
-        case 1:
+        case InputMode::BOX:
           preview_rectangle();
           break;
 
-        case 2:
+        case InputMode::FILL:
           fill();
           break;
 
-        case 3:
+        case InputMode::REPLACE:
           replace();
           break;
 
@@ -1182,7 +1183,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   {
     if (m_editor.get_editor_mode() == EditorMode::TILE)
     {
-      if (m_dragging && m_editor.get_select_mode() == 1)
+      if (m_dragging && m_editor.get_input_mode() == InputMode::BOX)
       {
         put_tiles(sp_to_tp(drag_rect().p1()), m_rectangle_preview.get());
         m_rectangle_preview->m_tiles.clear();
@@ -1254,12 +1255,12 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         }
         else
         {
-          switch (m_editor.get_select_mode())
+          switch (m_editor.get_input_mode())
           {
-            case 0:
+            case InputMode::SINGLE:
               put_next_tiles();
               break;
-            case 1:
+            case InputMode::BOX:
               preview_rectangle();
               break;
             default:
@@ -1272,7 +1273,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       case EditorMode::OBJECT:
         if (m_editor.get_selected_object_class_name().empty())
         {
-          if (m_editor.get_select_mode() == 1)
+          if (m_editor.get_input_mode() == InputMode::BOX)
           {
             rubber_rect();
           }
@@ -1737,8 +1738,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
                                 ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
   }
 
-  if (m_dragging && m_editor.get_select_mode() == 1
-      && !m_dragging_right)
+  if (m_dragging && m_editor.get_input_mode() == InputMode::BOX && !m_dragging_right)
   {
     // Draw selection rectangle...
     Vector p0 = m_drag_start;

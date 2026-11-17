@@ -67,8 +67,8 @@ public:
 
   void switch_current_group(int dir);
 
-  int get_select_mode() const;
-  void set_select_mode(int mode);
+  Editor::InputMode get_input_mode() const;
+  void set_input_mode(Editor::InputMode mode);
 
   Editor::ObjectMoveMode get_object_move_mode() const;
   void set_object_move_mode(Editor::ObjectMoveMode mode);
@@ -114,7 +114,7 @@ private:
   int m_hovered_tool;
 
   std::unique_ptr<ToolIcon> m_rubber;
-  std::unique_ptr<ToolIcon> m_select_mode;
+  std::unique_ptr<ToolIcon> m_input_mode;
   std::unique_ptr<ToolIcon> m_node_marker_mode;
   std::unique_ptr<ToolIcon> m_move_mode;
 
