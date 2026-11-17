@@ -173,9 +173,9 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   }
 
   auto zoom_widget = create_zoom_widget();
+  m_zoom_widget = zoom_widget.get();
   m_widgets.push_back(std::make_unique<EditorToolbarSeparator>());
   m_widgets.push_back(std::move(zoom_widget));
-  m_zoom_widget = (EditorToolbarZoomWidget*)(m_widgets.back().get());
 
   set_widget_positions();
 
