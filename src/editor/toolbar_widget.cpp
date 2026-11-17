@@ -130,12 +130,12 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
     // Select mode
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png", [toolbox_widget]
-                                                { toolbox_widget->set_tileselect_move_mode(0); }, 
+                                                { toolbox_widget->set_object_move_mode(0); }, 
                                                 _("Select mode (Clicking selects the object under the mouse)")),
 
     // Duplicate mode
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png", [toolbox_widget]
-                                                { toolbox_widget->set_tileselect_move_mode(1); },
+                                                { toolbox_widget->set_object_move_mode(1); },
                                                 _("Duplicate mode (Clicking duplicates the object under the mouse)")),
   };
 

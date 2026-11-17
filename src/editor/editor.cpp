@@ -562,9 +562,9 @@ Editor::get_tileselect_select_mode() const
 }
 
 int
-Editor::get_object_select_mode() const
+Editor::get_object_move_mode() const
 {
-  return m_toolbox_widget->get_object_select_mode();
+  return m_toolbox_widget->get_object_move_mode();
 }
 
 void

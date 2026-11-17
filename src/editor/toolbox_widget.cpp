@@ -608,13 +608,13 @@ EditorToolboxWidget::get_tileselect_rubber_mode_icon() const
 }
 
 int
-EditorToolboxWidget::get_object_select_mode() const
+EditorToolboxWidget::get_object_move_mode() const
 {
   return m_move_mode->get_mode();
 }
 
 void
-EditorToolboxWidget::set_tileselect_move_mode(int mode)
+EditorToolboxWidget::set_object_move_mode(int mode)
 {
   m_move_mode->set_mode(mode);
   update_mouse_icon();
