@@ -120,10 +120,11 @@ void
 EditorToolboxWidget::prepare_tile_group_dropdown()
 {
   auto editor_project = Editor::current()->get_project();
+  auto& tile_groups = editor_project->get_tile_groups();
   m_tile_groups_dropdown->clear_items();
 
   int i = 0;
-  for (const auto &tile_group : editor_project->get_tile_groups())
+  for (const auto &tile_group : tile_groups)
   {
     m_tile_groups_dropdown->add_option(i, tile_group.name);
     i++;
@@ -135,6 +136,11 @@ EditorToolboxWidget::prepare_tile_group_dropdown()
   };
   m_tile_groups_dropdown->m_on_change_callbacks.emplace_back(on_tile_group_select);
   load_brushes_for_current_tilegroup();
+
+  if (tile_groups.size() > 0)
+  {
+    select_tile_group(0);
+  }
 }
 
 void

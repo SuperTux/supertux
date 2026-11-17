@@ -241,6 +241,16 @@ private:
    */
   void draw_selection_border(DrawingContext& context);
 
+  /**
+   * Prepares the widget that are used in the editor
+   */
+  void prepare_widgets();
+
+  /**
+   * Prepares the callbacks that are used in the editor
+   */
+  void prepare_callbacks();
+
 public:
   bool m_testing_disabled;
 

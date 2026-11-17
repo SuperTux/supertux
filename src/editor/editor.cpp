@@ -95,6 +95,22 @@ Editor::Editor() :
   m_test_position(std::nullopt),
   m_test_icon(SpriteManager::current()->create("images/engine/editor/spawnpoint.png"))
 {
+  prepare_widgets();
+  prepare_callbacks();
+}
+
+Editor::~Editor()
+{
+  if (m_on_exit_callback)
+    m_on_exit_callback();
+
+  m_script_manager.clear_tmp();
+  m_toolbox_widget->save_brushes_to_file();
+}
+
+void
+Editor::prepare_widgets()
+{
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   m_toolbox_widget = toolbox_widget.get();
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -108,12 +124,15 @@ Editor::Editor() :
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
   m_widgets.push_back(std::move(toolbar_widget));
+}
 
+void
+Editor::prepare_callbacks()
+{
   m_project->add_level_set_callback(std::bind(&Editor::on_level_set, this));
 
   m_project->add_sector_set_callback([this]()
   {
-    m_layers_widget->refresh();
     set_selected_object(nullptr);
 
     auto sector = Sector::current();
@@ -132,17 +151,7 @@ Editor::Editor() :
   m_project->add_tileset_reloaded_callback([this]()
   {
     set_editor_mode(EditorMode::TILE);
-    m_toolbox_widget->get_tilebox().select_tile_group(0);
   });
-}
-
-Editor::~Editor()
-{
-  if (m_on_exit_callback)
-    m_on_exit_callback();
-
-  m_script_manager.clear_tmp();
-  m_toolbox_widget->save_brushes_to_file();
 }
 
 void
