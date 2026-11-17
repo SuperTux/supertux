@@ -67,16 +67,16 @@ public:
 
   void switch_current_group(int dir);
 
-  int get_tileselect_select_mode() const;
+  int get_select_mode() const;
+  void set_select_mode(int mode);
+
   int get_object_move_mode() const;
+  void set_object_move_mode(int mode);
 
   std::string get_tileselect_draw_mode_icon() const;
   std::string get_tileselect_rubber_mode_icon() const;
 
   void update_mouse_icon();
-  void set_object_move_mode(int mode);
-
-  void set_tileselect_select_mode(int mode);
 
   void set_mouse_tool();
   void set_rubber_tool();
