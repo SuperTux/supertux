@@ -119,7 +119,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     std::move(autotile_button)
   };
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> object_mode_widgets =
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 3> object_mode_widgets =
   {
     std::move(mouse_tool),
 
@@ -128,17 +128,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     {
       const auto& node_marker_class = NodeMarker::class_name();
       m_editor.set_selected_object_class_name(node_marker_class);
-    }, _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
-
-    // Select mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png", [toolbox_widget]
-                                                { toolbox_widget->set_object_move_mode(ObjectMoveMode::MOVE); }, 
-                                                _("Select mode (Clicking selects the object under the mouse)")),
-
-    // Duplicate mode
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png", [toolbox_widget]
-                                                { toolbox_widget->set_object_move_mode(ObjectMoveMode::DUPLICATE); },
-                                                _("Duplicate mode (Clicking duplicates the object under the mouse)")),
+    }, _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)"))
   };
 
   m_undo_widget = general_widgets[0].get();
@@ -566,6 +556,35 @@ EditorToolbarWidget::create_mouse_tool() const
     return m_editor.get_selected_object_class_name() == "#move";
   };
   mouse_tool->set_selected_function(is_mouse_tool_selected);
+
+  auto set_move_mode = [toolbox_widget]
+  {
+    toolbox_widget->set_mouse_tool();
+    toolbox_widget->set_object_move_mode(ObjectMoveMode::MOVE);
+  };
+
+  auto set_duplicate_mode = [toolbox_widget]
+  {
+    toolbox_widget->set_mouse_tool();
+    toolbox_widget->set_object_move_mode(ObjectMoveMode::DUPLICATE);
+  };
+
+  auto menu_list = mouse_tool->get_menu_list();
+
+  auto move_mode_item = std::make_unique<MenuListItem>(_("Select Mode"), set_move_mode,
+                                                       "images/engine/editor/move-mode0.png", Rectf());
+  move_mode_item->set_is_selected_handler([toolbox_widget]
+    { return toolbox_widget->get_object_move_mode() == ObjectMoveMode::MOVE; });
+  menu_list->add_item(std::move(move_mode_item));
+
+  auto duplicate_mode_item = std::make_unique<MenuListItem>(_("Duplicate Mode"), set_duplicate_mode,
+                                                            "images/engine/editor/move-mode1.png", Rectf());
+  duplicate_mode_item->set_is_selected_handler([toolbox_widget]
+    { return toolbox_widget->get_object_move_mode() == ObjectMoveMode::DUPLICATE; });
+  menu_list->add_item(std::move(duplicate_mode_item));
+  // Duplicate mode
+  //std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png", [toolbox_widget]
+  //                                            { toolbox_widget->set_object_move_mode(ObjectMoveMode::DUPLICATE); }, _("Duplicate mode (Clicking duplicates the object under the mouse)")),
 
   return mouse_tool;
 }
