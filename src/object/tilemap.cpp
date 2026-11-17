@@ -390,11 +390,6 @@ TileMap::get_settings()
 
   result.reorder({ "solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "tiles" });
 
-  if (!is_selected_in_editor())
-  {
-    result.add_remove();
-  }
-
   return result;
 }
 

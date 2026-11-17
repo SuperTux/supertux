@@ -65,8 +65,6 @@ ParticleSystem::get_settings()
 
   result.reorder({"enabled", "name"});
 
-  result.add_remove();
-
   return result;
 }
 

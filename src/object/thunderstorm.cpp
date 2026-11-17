@@ -80,8 +80,6 @@ Thunderstorm::get_settings()
 
   result.reorder({"interval", "name", "z-pos" "strike-script"});
 
-  result.add_remove();
-
   return result;
 }
 

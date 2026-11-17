@@ -61,8 +61,6 @@ CustomParticleSystemFile::get_settings()
     editor_project->set_particle_editor_filename(&m_filename);
   }
 
-  result.add_remove();
-
   return result;
 }
 
