@@ -67,9 +67,14 @@ public:
   enum class EditorMode { NONE, TILE, OBJECT };
 
   /**
-   * ObjectMoveMode determines how dragged objects are handled
+   * ObjectMoveMode defines how dragged objects are handled
    */
   enum class ObjectMoveMode { MOVE, DUPLICATE };
+
+  /**
+   * InputMode defines what happens when a user clicks on the editor area
+   */
+  enum class InputMode { SINGLE, BOX, FILL, REPLACE };
 
 public:
   using exit_callback_t = std::function<void()>;
@@ -112,7 +117,7 @@ public:
   inline EditorMode get_editor_mode() const { return m_editor_mode; }
   void set_editor_mode(const EditorMode &editor_mode);
 
-  int get_select_mode() const;
+  InputMode get_input_mode() const;
   ObjectMoveMode get_object_move_mode() const;
 
   /**

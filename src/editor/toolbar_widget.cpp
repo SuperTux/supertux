@@ -46,6 +46,7 @@
 #include "video/viewport.hpp"
 
 using EditorMode = Editor::EditorMode;
+using InputMode = Editor::InputMode;
 using ObjectMoveMode = Editor::ObjectMoveMode;
 
 EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
@@ -424,9 +425,14 @@ std::unique_ptr<EditorToolbarButtonWidget>
 EditorToolbarWidget::create_draw_button() const
 {
   auto toolbox_widget = m_editor.get_toolbox_widget();
+  auto on_draw_tool_button_click = [toolbox_widget]()
+  {
+    toolbox_widget->set_input_mode(InputMode::SINGLE);
+    toolbox_widget->set_mouse_tool();
+  };
   auto draw_tool =
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode0.png", [toolbox_widget]()
-                                                  { toolbox_widget->set_select_mode(0); toolbox_widget->set_mouse_tool(); }, _("Delete the tile or object under the mouse"));
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode0.png",
+                                                  on_draw_tool_button_click, _("Delete the tile or object under the mouse"));
   auto is_draw_tool_selected = [this]
   {
     return !m_editor.get_tile_selection()->erases_tiles();
@@ -436,7 +442,7 @@ EditorToolbarWidget::create_draw_button() const
 
   auto draw = [toolbox_widget]
   {
-    toolbox_widget->set_select_mode(0);
+    toolbox_widget->set_input_mode(InputMode::SINGLE);
     toolbox_widget->set_mouse_tool();
   };
 
@@ -446,7 +452,7 @@ EditorToolbarWidget::create_draw_button() const
 
   auto box_draw = [toolbox_widget]
   {
-    toolbox_widget->set_select_mode(1);
+    toolbox_widget->set_input_mode(InputMode::BOX);
     toolbox_widget->set_mouse_tool();
   };
   auto box_draw_item = std::make_unique<MenuListItem>(_("Box Draw"), box_draw,
@@ -455,7 +461,7 @@ EditorToolbarWidget::create_draw_button() const
 
   auto fill = [toolbox_widget]
   {
-    toolbox_widget->set_select_mode(2);
+    toolbox_widget->set_input_mode(InputMode::FILL);
     toolbox_widget->set_mouse_tool();
   };
   auto fill_draw_item = std::make_unique<MenuListItem>(_("Fill"), fill,
@@ -464,7 +470,7 @@ EditorToolbarWidget::create_draw_button() const
 
   auto same_tile_replace = [toolbox_widget]
   {
-    toolbox_widget->set_select_mode(3);
+    toolbox_widget->set_input_mode(InputMode::REPLACE);
     toolbox_widget->set_mouse_tool();
   };
   auto same_tile_draw_item = std::make_unique<MenuListItem>(_("Same Tile Replace"), same_tile_replace,
@@ -478,9 +484,14 @@ std::unique_ptr<EditorToolbarButtonWidget>
 EditorToolbarWidget::create_rubber_button() const
 {
   auto toolbox_widget = m_editor.get_toolbox_widget();
+  auto on_erase_tool_click = [toolbox_widget]()
+  {
+    toolbox_widget->set_input_mode(InputMode::SINGLE);
+    toolbox_widget->set_rubber_tool(); 
+  };
   auto erase_tool =
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", [toolbox_widget]()
-                                                  {toolbox_widget->set_select_mode(0); toolbox_widget->set_rubber_tool(); }, _("Delete the tile or object under the mouse"));
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", on_erase_tool_click,
+                                                  _("Delete the tile or object under the mouse"));
   auto is_erase_tool_selected = [this]
   {
     if (m_editor.get_editor_mode() == EditorMode::OBJECT)
@@ -497,7 +508,7 @@ EditorToolbarWidget::create_rubber_button() const
 
   auto erase = [toolbox_widget]
   {
-    toolbox_widget->set_select_mode(0);
+    toolbox_widget->set_input_mode(InputMode::SINGLE);
     toolbox_widget->set_rubber_tool();
   };
 
@@ -507,7 +518,7 @@ EditorToolbarWidget::create_rubber_button() const
 
   auto box_erase = [toolbox_widget]
   {
-    toolbox_widget->set_select_mode(1);
+    toolbox_widget->set_input_mode(InputMode::BOX);
     toolbox_widget->set_rubber_tool();
   };
   auto box_erase_item = std::make_unique<MenuListItem>(_("Box Erase"), box_erase,
@@ -521,7 +532,7 @@ EditorToolbarWidget::create_rubber_button() const
 
   auto fill_erase = [toolbox_widget]
   {
-    toolbox_widget->set_select_mode(2);
+    toolbox_widget->set_input_mode(InputMode::FILL);
     toolbox_widget->set_rubber_tool();
   };
   auto fill_erase_item = std::make_unique<MenuListItem>(_("Fill Erase"), fill_erase,
@@ -531,7 +542,7 @@ EditorToolbarWidget::create_rubber_button() const
 
   auto same_tile_erase = [toolbox_widget]
   {
-    toolbox_widget->set_select_mode(3);
+    toolbox_widget->set_input_mode(InputMode::REPLACE);
     toolbox_widget->set_rubber_tool();
   };
   auto same_tile_erase_item = std::make_unique<MenuListItem>(_("Same Tile Erase"), same_tile_erase,

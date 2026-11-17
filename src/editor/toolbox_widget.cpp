@@ -48,6 +48,7 @@
 #include <physfs.h>
 
 using EditorMode = Editor::EditorMode;
+using InputMode = Editor::InputMode;
 using ObjectMoveMode = Editor::ObjectMoveMode;
 
 EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
@@ -57,7 +58,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_hovered_item(HoveredItem::NONE),
   m_hovered_tool(-1),
   m_rubber(new ToolIcon("images/engine/editor/rubber.png")),
-  m_select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
+  m_input_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
   m_node_marker_mode(new ToolIcon("images/engine/editor/path_node.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
   m_tile_groups_dropdown(std::make_unique<ControlEnum<int>>()),
@@ -66,9 +67,9 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_brushes_list_widget(std::make_unique<MenuListWidget>()),
   m_has_mouse_focus(false)
 {
-  m_select_mode->push_mode("images/engine/editor/select-mode1.png");
-  m_select_mode->push_mode("images/engine/editor/select-mode2.png");
-  m_select_mode->push_mode("images/engine/editor/select-mode3.png");
+  m_input_mode->push_mode("images/engine/editor/select-mode1.png");
+  m_input_mode->push_mode("images/engine/editor/select-mode2.png");
+  m_input_mode->push_mode("images/engine/editor/select-mode3.png");
   m_move_mode->push_mode("images/engine/editor/move-mode1.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 
@@ -97,9 +98,9 @@ EditorToolboxWidget::set_mode(const EditorMode& editor_mode)
   {
     select_last_object_group();
 
-    if (m_select_mode->get_mode() > 1)
+    if (m_input_mode->get_mode() > 1)
     {
-      m_select_mode->set_mode(0);
+      m_input_mode->set_mode(0);
     }
 
     if (m_rubber->get_mode() > 1)
@@ -356,7 +357,7 @@ EditorToolboxWidget::set_rubber_tool()
 
   if (m_editor.get_editor_mode() == EditorMode::TILE)
   {
-    m_rubber->set_mode(m_editor.get_select_mode());
+    m_rubber->set_mode((int)m_editor.get_input_mode());
   }
   else
   {
@@ -371,7 +372,7 @@ EditorToolboxWidget::set_mouse_tool()
 {
   if (m_editor.get_editor_mode() == EditorMode::OBJECT)
   {
-    set_select_mode(0);
+    set_input_mode(InputMode::SINGLE);
     m_editor.set_selected_object_class_name("#move");
   }
   else if (m_editor.get_project()->is_sector_set())
@@ -555,23 +556,23 @@ EditorToolboxWidget::select_last_object_group()
   m_tilebox->select_last_object_group();
 }
 
-int
-EditorToolboxWidget::get_select_mode() const
+InputMode
+EditorToolboxWidget::get_input_mode() const
 {
-  return m_select_mode->get_mode();
+  return (InputMode)m_input_mode->get_mode();
 }
 
 void
-EditorToolboxWidget::set_select_mode(int mode)
+EditorToolboxWidget::set_input_mode(InputMode mode)
 {
-  m_select_mode->set_mode(mode);
+  m_input_mode->set_mode((int)mode);
   update_mouse_icon();
 }
 
 std::string
 EditorToolboxWidget::get_tileselect_draw_mode_icon() const
 {
-  switch(m_select_mode->get_mode())
+  switch(m_input_mode->get_mode())
   {
     case 0:
     default:
@@ -591,7 +592,7 @@ EditorToolboxWidget::get_tileselect_draw_mode_icon() const
 std::string
 EditorToolboxWidget::get_tileselect_rubber_mode_icon() const
 {
-  switch(m_select_mode->get_mode())
+  switch(m_input_mode->get_mode())
   {
     case 0:
     default:
@@ -679,7 +680,7 @@ EditorToolboxWidget::get_mouse_icon() const
         return m_rubber.get();
       }
       
-      return m_select_mode.get();
+      return m_input_mode.get();
     }
 
     default:
