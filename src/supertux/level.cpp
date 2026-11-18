@@ -95,7 +95,7 @@ Level::initialize()
 
   // All players will be added to the first sector. They are moved between sectors.
   Sector* sector = m_sectors.at(0).get();
-  sector->add<Player>(player_status, "Tux", 0);
+  sector->add<Player>(player_status, "Tux", 0, player_status.get_character_id(0));
 
   if (savegame && !savegame->is_title_screen())
   {
@@ -107,7 +107,7 @@ Level::initialize()
 
       s_dummy_player_status.add_player();
 
-      sector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
+      sector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id, player_status.get_character_id(id));
     }
   }
   sector->flush_game_objects();

@@ -24,4 +24,5 @@ public:
   MultiplayerPlayersMenu();
 
   void menu_action(MenuItem& item) override {}
+  void refresh() override;
 };
