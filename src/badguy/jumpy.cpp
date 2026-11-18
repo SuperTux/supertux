@@ -67,6 +67,18 @@ Jumpy::get_default_sprite_name() const
   }
 }
 
+bool
+Jumpy::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("wooden.sprite") != std::string::npos)
+  {
+    type = "wooden";
+    return true;
+  }
+
+  return false;
+}
+
 void
 Jumpy::collision_solid(const CollisionHit& chit)
 {
