@@ -272,14 +272,16 @@ EditorMenu::menu_action(MenuItem& item)
 bool
 EditorMenu::on_back_action()
 {
-  auto editor = Editor::current();
-  if (!editor)
-    return true;
+  // TODO: Why are we re-toggling
+  // and cleaning up the undo stack here???
+  // auto editor = Editor::current();
+  // if (!editor)
+  //   return true;
 
-  auto history_manager = editor->get_history_manager();
+  // auto history_manager = editor->get_history_manager();
 
-  history_manager->retoggle_undo_tracking();
-  history_manager->undo_stack_cleanup();
+  // history_manager->retoggle_undo_tracking();
+  // history_manager->undo_stack_cleanup();
 
   return true;
 }
