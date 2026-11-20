@@ -21,6 +21,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/notification.hpp"
+#include "physfs/util.hpp"
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -32,7 +33,9 @@ EditorTempSaveAs::EditorTempSaveAs(std::unique_ptr<World> world) :
   m_world(std::move(world)),
   m_file_name()
 {
-  Level* level = Editor::current()->get_level();
+  auto editor = Editor::current();
+  auto editor_project = editor->get_project();
+  auto level = editor_project->get_level();
   add_label(_("Save Level as"));
 
   add_hl();
@@ -45,13 +48,8 @@ EditorTempSaveAs::EditorTempSaveAs(std::unique_ptr<World> world) :
   add_entry(MNID_SAVE, _("Save"));
   add_back(_("Cancel"));
 
-  std::string dir;
-  int num = 0;
-  do {
-    num++;
-    m_file_name = "level" + std::to_string(num) + ".stl";
-    dir = m_world->get_basedir() + "/" + m_file_name;
-  } while ( PHYSFS_exists(dir.c_str()) );
+  m_file_name = physfsutil::get_first_nonexisting_filename(
+      m_world->get_basedir(), "level", "stl");
 }
 
 EditorTempSaveAs::~EditorTempSaveAs()
@@ -60,19 +58,20 @@ EditorTempSaveAs::~EditorTempSaveAs()
   if (editor == nullptr) {
     return;
   }
-  editor->m_reactivate_request = true;
+  editor->reactivate_after_menu_close();
 }
 
 void
 EditorTempSaveAs::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
+  auto editor_project = editor->get_project();
 
   switch (item.get_id())
   {
     case MNID_SAVE:
     {
-      Level* level = editor->get_level();
+      Level* level = editor_project->get_level();
 
       if (level->m_name.empty())
       {
@@ -80,12 +79,9 @@ EditorTempSaveAs::menu_action(MenuItem& item)
         return;
       }
 
-      // post_save will get implicitly called here
-      editor->m_save_request = true;
-      editor->m_save_request_filename = m_file_name;
-      editor->m_save_temp_level = true;
-
-      editor->set_world(std::move(std::unique_ptr<World>(m_world.release())));
+      // post_save_callback will get implicitly called here
+      editor_project->set_world(std::move(std::unique_ptr<World>(m_world.release())));
+      editor_project->save_level(m_file_name, /* set_as_current_filename = */ true, /* post_save_callback = */ nullptr, /* save_temp_level = */ true);
 
       auto notif = std::make_unique<Notification>("create_level_notif", 5.f);
       notif->set_text(_("Level created!"));

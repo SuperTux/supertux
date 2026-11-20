@@ -17,6 +17,7 @@
 #pragma once
 
 #include <algorithm>
+#include <map>
 #include <memory>
 #include <stdint.h>
 #include <string>
@@ -110,10 +111,10 @@ public:
   inline const std::string& get_name() const { return m_name; }
 
   /** true if the given tile is present in the autotileset */
-  bool is_member(uint32_t tile_id) const;
+  bool is_member(uint32_t tile_id);
 
   /** true if is_member() is true AND the "center" bool is true */
-  bool is_solid(uint32_t tile_id) const;
+  bool is_solid(uint32_t tile_id);
 
   /** true if this is a corner-based autotileset */
   inline bool is_corner() const { return m_corner; }
@@ -132,6 +133,7 @@ public:
 
 private:
   std::vector<Autotile*> m_autotiles;
+  std::map<uint32_t, bool> m_is_member_cache;
   uint32_t m_default;
   std::string m_name;
   bool m_corner;

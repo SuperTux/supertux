@@ -43,8 +43,8 @@
 #include "video/surface.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
+  LayerObject(0),
   PathObject(),
-  m_editor_active(true),
   m_tileset(new_tileset),
   m_tiles(),
   m_real_solid(false),
@@ -53,7 +53,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_speed_y(1),
   m_width(0),
   m_height(0),
-  m_z_pos(0),
   m_offset(Vector(0, 0)),
   m_movement(0, 0),
   m_objects_hit_bottom(),
@@ -76,9 +75,8 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
-  LayerObject(reader),
+  LayerObject(reader, 0),
   PathObject(),
-  m_editor_active(true),
   m_tileset(tileset_),
   m_tiles(),
   m_real_solid(false),
@@ -87,7 +85,6 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_speed_y(1),
   m_width(-1),
   m_height(-1),
-  m_z_pos(0),
   m_offset(Vector(0, 0)),
   m_movement(Vector(0, 0)),
   m_objects_hit_bottom(),
@@ -124,8 +121,6 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
       m_speed_y = m_speed_x;
     }
   }
-
-  m_z_pos = reader_get_layer(reader, 0);
 
   if (!Editor::is_active()) {
     if (m_real_solid && ((m_speed_x != 1) || (m_speed_y != 1))) {
@@ -176,7 +171,11 @@ TileMap::parse_tiles(const ReaderMapping& reader)
     m_tiles.clear();
     resize(static_cast<int>(Sector::get().get_width() / 32.0f),
            static_cast<int>(Sector::get().get_height() / 32.0f));
-    m_editor_active = false;
+
+    // TODO (maybe): 
+    // Before refactoring, the previously existing `m_editor_active` flag was set to false here.
+    // This would mean that this tilemap was deselected in the editor.
+    // I could not find a valid reason for doing this.
   }
   else
   {
@@ -201,7 +200,7 @@ TileMap::parse_tiles(const ReaderMapping& reader)
 
   if (empty)
   {
-    log_info << "Tilemap '" << get_name() << "', z-pos '" << m_z_pos << "' is empty." << std::endl;
+    log_info << "Tilemap '" << get_name() << "', z-pos '" << m_layer << "' is empty." << std::endl;
   }
 
   m_new_size_x = m_width;
@@ -223,11 +222,16 @@ TileMap::finish_construction()
 {
   get_parent()->update_solid(this);
 
-  if (get_path() && get_path()->get_nodes().size() > 0) {
-    if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
-      m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+  auto path = get_path();
 
-    set_offset(m_path_handle.get_pos(get_size() * 32, get_path()->get_nodes()[m_starting_node].position));
+  if (path && path->is_valid())
+  {
+    auto path_nodes = path->get_nodes();
+    auto node_count = static_cast<int>(path_nodes.size());
+    if (m_starting_node >= node_count)
+      m_starting_node = node_count - 1;
+
+    set_offset(m_path_handle.get_pos(get_size() * 32, path_nodes[m_starting_node].position));
     get_walker()->jump_to_node(m_starting_node);
   }
 
@@ -241,13 +245,31 @@ TileMap::~TileMap()
 void
 TileMap::on_path_resolved()
 {
-  if (Editor::is_active())
+  auto editor = Editor::current();
+  if (editor == nullptr)
   {
-    if (Editor* editor = Editor::current())
-    {
-      editor->queue_layers_refresh();
-    }
+    return;
   }
+
+  auto layers_widget = editor->get_layers_widget();
+  if (layers_widget)
+  {
+    layers_widget->queue_layer_list_refresh();
+  }
+}
+
+bool
+TileMap::is_selected_in_editor() const
+{
+  if (!Editor::is_active())
+  {
+    return false;
+  }
+
+  auto editor = Editor::current();
+  auto layers_widget = editor->get_layers_widget();
+
+  return layers_widget->get_selected_tilemap() == this;
 }
 
 const std::string
@@ -256,29 +278,26 @@ TileMap::get_icon_path() const
   const bool on_path = has_valid_path();
   const bool is_lightmap = (m_draw_target == DrawingTarget::LIGHTMAP);
   const bool is_solid = m_real_solid;
-  std::string icon_name;
+  std::string icon_name = "tilemap";
+
+  if (on_path)
+  {
+    icon_name += "_path";
+  }
 
   if (is_lightmap)
   {
-    if (on_path)
-    {
-      icon_name = is_solid ? "tilemap_path_lightmap_solid" : "tilemap_path_lightmap";
-    }
-    else // Not on path
-    {
-      icon_name = is_solid ? "tilemap_lightmap_solid" : "tilemap_lightmap";
-    }
+    icon_name += "_lightmap";
   }
-  else // Not lightmap
+
+  if (is_solid && is_lightmap)
   {
-    if (on_path)
-    {
-      icon_name = is_solid ? "tilemap_path" : "tilemap_path_nonsolid";
-    }
-    else // Not on path
-    {
-      icon_name = is_solid ? "tilemap" : "tilemap_nonsolid";
-    }
+    icon_name += "_solid";
+  }
+  
+  if (!is_solid && !is_lightmap)
+  {
+    icon_name += "_nonsolid";
   }
 
   return "images/engine/editor/" + icon_name + ".png";
@@ -347,7 +366,7 @@ TileMap::get_settings()
   result.add_float(_("Speed x"), &m_speed_x, "speed-x", 1.0f);
   result.add_float(_("Speed y"), &m_speed_y, "speed-y", 1.0f);
   result.add_color(_("Tint"), &m_tint, "tint", Color::WHITE);
-  result.add_int(_("Z-pos"), &m_z_pos, "z-pos");
+  result.add_int(_("Z-pos"), &m_layer, "z-pos");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
                   { _("Normal"), _("Lightmap") },
                   { "normal", "lightmap" },
@@ -371,17 +390,14 @@ TileMap::get_settings()
 
   result.reorder({ "solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "tiles" });
 
-  if (!m_editor_active)
-  {
-    result.add_remove();
-  }
-
   return result;
 }
 
 void
 TileMap::after_editor_set()
 {
+  LayerObject::after_editor_set();
+
   if ((m_new_size_x != m_width || m_new_size_y != m_height ||
       m_new_offset_x || m_new_offset_y) &&
       m_new_size_x > 0 && m_new_size_y > 0) {
@@ -400,14 +416,6 @@ TileMap::after_editor_set()
 
   m_current_tint = m_tint;
   m_current_alpha = m_alpha;
-
-  if (Editor::is_active())
-  {
-    if (Editor* editor = Editor::current())
-    {
-      editor->get_layers_widget()->refresh();
-    }
-  }
 }
 
 void
@@ -477,23 +485,31 @@ TileMap::update(float dt_sec)
 void
 TileMap::editor_update()
 {
-  if (get_walker()) {
-    if (get_path() && get_path()->is_valid()) {
-      m_movement = get_walker()->get_pos(get_size() * 32, m_path_handle) - get_offset();
-      set_offset(get_walker()->get_pos(get_size() * 32, m_path_handle));
+  if (!get_walker())
+    return;
 
-      if (!get_path()) return;
-      if (!get_path()->is_valid()) return;
+  auto start_position = Vector(0, 0);
+  if (get_path() && get_path()->is_valid())
+  {
+    auto new_offset = get_walker()->get_pos(get_size() * 32, m_path_handle);
+    m_movement = new_offset - get_offset();
+    set_offset(new_offset);
 
-      if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
-        m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+    // TODO: Can it happen that these checks will fail here?
+    if (!get_path()) return;
+    if (!get_path()->is_valid()) return;
 
-      m_movement += get_path()->get_nodes()[m_starting_node].position - get_offset();
-      set_offset(m_path_handle.get_pos(get_size() * 32, get_path()->get_nodes()[m_starting_node].position));
-    } else {
-      set_offset(m_path_handle.get_pos(get_size() * 32, Vector(0, 0)));
-    }
+    auto path_nodes = get_path()->get_nodes();
+    int node_count = static_cast<int>(path_nodes.size());
+
+    if (m_starting_node >= node_count)
+      m_starting_node = node_count - 1;
+
+    start_position = path_nodes[m_starting_node].position;
+    m_movement += start_position - get_offset();
   }
+
+  set_offset(m_path_handle.get_pos(get_size() * 32, start_position));
 }
 
 void
@@ -519,12 +535,15 @@ TileMap::on_flip(float height)
 void
 TileMap::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
   // skip draw if current opacity is 0.0
-  if (m_current_alpha == 0.0f) return;
+  if (m_current_alpha == 0.0f ||
+      Editor::is_active() && get_editor_layer_alpha() == 0.0f)
+    return;
 
   context.push_transform();
 
-  const bool normal_speed = m_editor_active && Editor::is_active();
+  const bool normal_speed = is_selected_in_editor();
   const float speed_x = normal_speed ? 1.0f : m_speed_x;
   const float speed_y = normal_speed ? 1.0f : m_speed_y;
   if (!context.perspective_scale(speed_x, speed_y)) {
@@ -535,12 +554,13 @@ TileMap::draw(DrawingContext& context)
 
   if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
-  if (m_editor_active) {
-    if (m_current_alpha != 1.0f) {
-      context.set_alpha(m_current_alpha);
-    }
-  } else {
-    context.set_alpha(m_current_alpha/2);
+  if (!Editor::is_active())
+  {
+    context.set_alpha(m_current_alpha);
+  }
+  else
+  {
+    context.set_alpha(get_editor_layer_alpha() * m_current_alpha);
   }
 
   const float trans_x = context.get_translation().x;
@@ -567,12 +587,13 @@ TileMap::draw(DrawingContext& context)
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
-	  if (g_debug.show_collision_rects && m_real_solid) {
+	    if (g_debug.show_collision_rects && m_real_solid)
+      {
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
       // If the tilemap is active in editor and showing deprecated tiles is enabled, draw indication over each deprecated tile
-      if (Editor::is_active() && m_editor_active &&
+      if (is_selected_in_editor() &&
           g_config->editor_show_deprecated_tiles && tile.is_deprecated())
       {
         context.color().draw_text(Resources::normal_font, "!", pos + Vector(16, 8),
@@ -598,11 +619,12 @@ TileMap::draw(DrawingContext& context)
       canvas.draw_surface_batch(surface,
                                 std::move(std::get<0>(it.second)),
                                 std::move(std::get<1>(it.second)),
-                                m_current_tint, m_z_pos);
+                                m_current_tint, m_layer);
     }
   }
 
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 void
@@ -619,9 +641,9 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
   m_tiles = newt;
 
   if (new_z_pos > (LAYER_GUI - 100))
-    m_z_pos = LAYER_GUI - 100;
+    m_layer = LAYER_GUI - 100;
   else
-    m_z_pos  = new_z_pos;
+    m_layer  = new_z_pos;
   m_real_solid  = newsolid;
   update_effective_solid ();
 
@@ -820,14 +842,21 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
   }
 }
 
+bool
+TileMap::contains_position(const Vector& pos)
+{
+  return pos.x >= 0 && pos.y >= 0 &&
+         pos.x < static_cast<float>(m_width) &&
+         pos.y < static_cast<float>(m_height);
+}
+
 void
 TileMap::autotile(const Vector& pos, uint32_t tile, AutotileSet* autotileset)
 {
   if (!autotileset || !autotileset->is_member(tile))
     return;
 
-  if (pos.x < 0.f || pos.x >= static_cast<float>(m_width) ||
-      pos.y < 0.f || pos.y >= static_cast<float>(m_height))
+  if (!contains_position(pos))
     return;
 
   if (autotileset->is_corner())
@@ -928,17 +957,13 @@ TileMap::autotile_single_corner(int x, int y, AutotileSet* autotileset, Autotile
 void
 TileMap::autotile_erase(const Vector& pos, AutotileSet* autotileset)
 {
-  if (!autotileset)
-    return;
-
-  if (pos.x < 0.f || pos.x >= static_cast<float>(m_width) ||
-      pos.y < 0.f || pos.y >= static_cast<float>(m_height))
+  if (!autotileset || !contains_position(pos))
     return;
 
   if (autotileset->is_corner())
   {
     const int x = static_cast<int>(pos.x + 0.5f), y = static_cast<int>(pos.y + 0.5f);
-    if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+    if (!contains_position(Vector(x, y)))
       return;
 
     const uint32_t current_tile = m_tiles[y*m_width + x];

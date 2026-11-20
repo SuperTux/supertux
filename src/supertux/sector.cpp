@@ -188,31 +188,35 @@ Sector::get_spawn_point(const std::string& spawnpoint) const
 }
 
 Vector
-Sector::get_spawn_point_position(const std::string& spawnpoint) const
+Sector::get_spawn_point_position(const std::string& spawnpoint, bool fallback_to_default) const
 {
-  SpawnPointMarker* sp = get_spawn_point(spawnpoint);
-  if (sp)
-    return sp->get_pos();
-  else
-    return Vector(0.0f, 0.0f);
+  auto sp = get_spawn_point(spawnpoint);
+  auto _fallback_to_default = fallback_to_default && spawnpoint != DEFAULT_SPAWNPOINT_NAME;
+  return sp ? sp->get_pos() : get_spawn_point_position_fallback(_fallback_to_default);
+}
+
+Vector
+Sector::get_spawn_point_position_fallback(bool fallback_to_default) const
+{
+  return fallback_to_default ? 
+    get_spawn_point_position(DEFAULT_SPAWNPOINT_NAME) : Vector(0.0f, 0.0f);
 }
 
 void
 Sector::activate(const std::string& spawnpoint)
 {
-  SpawnPointMarker* sp = get_spawn_point(spawnpoint);
-
-  if (!sp) {
-    if (!m_level.is_worldmap())
-      log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
-      activate(DEFAULT_SPAWNPOINT_NAME);
-    } else {
-      activate(Vector(0, 0));
-    }
-  } else {
+  auto sp = get_spawn_point(spawnpoint);
+  if (sp)
+  {
     activate(sp->get_pos());
+    return;
   }
+  
+  if (!m_level.is_worldmap())
+  {
+    log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
+  }
+  activate(get_spawn_point_position_fallback(true));
 }
 
 void
@@ -276,6 +280,13 @@ Sector::activate(const Vector& player_pos)
 
   flush_game_objects();
 
+  if (Editor::is_active())
+  {
+    // Don't attempt to run init scripts when the editor
+    // is active and we're not testing a level.
+    return;
+  }
+
   //Run default.nut just before init script
   //Check to see if it's in a levelset (info file)
   std::string basedir = FileSystem::dirname(get_level().m_filename);
@@ -290,7 +301,12 @@ Sector::activate(const Vector& player_pos)
 
   // Run init script
   if (!m_init_script.empty() && !Editor::is_active() && !m_init_script_run) {
-    run_script(m_init_script, "init-script");
+    try {
+      run_script(m_init_script, "init-script");
+    }
+    catch(std::exception&) {
+      // doesn't exist or erroneous; do nothing
+    }
     if (m_init_script_run_once)
       m_init_script_run = true;
   }
@@ -651,8 +667,7 @@ Sector::resize(const Size& old_size, const Size& new_size, const Size& resize_of
   BIND_SECTOR(*this);
 
   const bool is_offset = resize_offset.width || resize_offset.height;
-  const Vector obj_shift(static_cast<float>(resize_offset.width) * 32.0f,
-                         static_cast<float>(resize_offset.height) * 32.0f);
+  const Vector obj_shift = resize_offset.to_vector() * 32.0f;
 
   for (auto* tilemap : get_all_tilemaps())
   {

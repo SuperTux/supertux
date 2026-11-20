@@ -84,6 +84,7 @@ TileSetParser::parse(bool imported)
       Tilegroup tilegroup;
       reader.get("name", tilegroup.name);
       reader.get("tiles", tilegroup.tiles);
+      reader.get("id", tilegroup.id);
 
       // Allow offsetting every tile ID, specified in the tilegroup
       int32_t tiles_offset = 0;

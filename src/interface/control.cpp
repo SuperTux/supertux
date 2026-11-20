@@ -39,3 +39,19 @@ InterfaceControl::call_on_change_callbacks() const
   for (const auto& on_change : m_on_change_callbacks)
     on_change();
 }
+
+Color
+InterfaceControl::get_widget_color() const
+{
+  if (m_has_focus)
+  {
+    return Color(0.75f, 0.75f, 0.7f, 1.f);
+  }
+
+  if (m_is_hovered)
+  {
+    return Color(0.6f, 0.6f, 0.6f, 1.f);
+  }
+
+  return Color(0.5f, 0.5f, 0.5f, 1.f);
+}

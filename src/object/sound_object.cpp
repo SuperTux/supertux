@@ -72,8 +72,6 @@ SoundObject::get_settings()
 
   result.reorder({"sample", "volume", "name"});
 
-  result.add_remove();
-
   return result;
 }
 
