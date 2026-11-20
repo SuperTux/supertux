@@ -193,7 +193,8 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
     set_action (walk_left_action, /* loops = */ -1);
   }
 
-if (m_ledge_confusion_timer.check()) {
+if (m_ledge_confusion_timer.check())
+{
   set_ledge_behavior(m_desired_ledge_behavior);
 }
 
@@ -230,7 +231,8 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
       turn_around();
   }
 
-  if (m_ledge_confusion_timer.check()) {
+  if (m_ledge_confusion_timer.check())
+  {
     set_ledge_behavior(m_desired_ledge_behavior);
   }
 
