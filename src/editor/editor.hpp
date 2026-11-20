@@ -66,11 +66,13 @@ public:
    */
   enum class EditorMode { NONE, TILE, OBJECT };
 
+public:
   /**
    * ObjectMoveMode defines how dragged objects are handled
    */
   enum class ObjectMoveMode { MOVE, DUPLICATE };
 
+public:
   /**
    * InputMode defines what happens when a user clicks on the editor area
    */
