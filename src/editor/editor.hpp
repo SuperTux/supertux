@@ -61,9 +61,7 @@ private:
 
 public:
 
-#ifdef DUPLICATE
-#error "DUPLICATE is already defined. IDK What to do, I'm just a stupid compiler. I don't have sixth sense."
-#endif
+#define DUPLICATE test
 
   /**
    * EditorMode defines what we're currently editing
