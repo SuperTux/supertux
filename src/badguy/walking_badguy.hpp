@@ -75,6 +75,9 @@ public:
   inline float get_walk_speed() const { return walk_speed; }
   void set_walk_speed (float);
 
+  /** Changes ledge behavior to FALL automatically */
+  void enable_temporary_fall();
+
   /** Set max_drop_height depending on the given behavior */
   void set_ledge_behavior(LedgeBehavior behavior);
 
@@ -89,6 +92,8 @@ protected:
   Timer turn_around_timer;
   int turn_around_counter; /**< counts number of turns since turn_around_timer was started */
   bool m_stay_on_platform_overridden;
+  Timer m_ledge_confusion_timer;
+  LedgeBehavior m_desired_ledge_behavior;
 
 private:
   WalkingBadguy(const WalkingBadguy&) = delete;

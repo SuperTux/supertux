@@ -36,7 +36,9 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   max_drop_height(-1),
   turn_around_timer(),
   turn_around_counter(),
-  m_stay_on_platform_overridden(false)
+  m_stay_on_platform_overridden(false),
+  m_desired_ledge_behavior(),
+  m_ledge_confusion_timer()
 {
 }
 
@@ -54,7 +56,9 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   max_drop_height(-1),
   turn_around_timer(),
   turn_around_counter(),
-  m_stay_on_platform_overridden(false)
+  m_stay_on_platform_overridden(false),
+  m_desired_ledge_behavior(),
+  m_ledge_confusion_timer()
 {
 }
 
@@ -71,7 +75,9 @@ WalkingBadguy::WalkingBadguy(const ReaderMapping& reader,
   max_drop_height(-1),
   turn_around_timer(),
   turn_around_counter(),
-  m_stay_on_platform_overridden(false)
+  m_stay_on_platform_overridden(false),
+  m_desired_ledge_behavior(),
+  m_ledge_confusion_timer()
 {
 }
 
@@ -113,12 +119,20 @@ void WalkingBadguy::set_ledge_behavior(LedgeBehavior behavior)
       max_drop_height = -1;
       break;
   }
+  m_desired_ledge_behavior = behavior;
 }
 
 void
 WalkingBadguy::add_velocity (const Vector& velocity)
 {
   m_physic.set_velocity(m_physic.get_velocity() + velocity);
+}
+
+void
+WalkingBadguy::enable_temporary_fall()
+{
+  max_drop_height = -1;
+  m_ledge_confusion_timer.start(5.0f);
 }
 
 void
@@ -178,6 +192,12 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
     m_dir = Direction::LEFT;
     set_action (walk_left_action, /* loops = */ -1);
   }
+
+if (m_ledge_confusion_timer.check())
+{
+  set_ledge_behavior(m_desired_ledge_behavior);
+}
+
 }
 
 void
@@ -209,6 +229,11 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
       ((hit.left && m_dir == Direction::LEFT) ||
       (hit.right && m_dir == Direction::RIGHT)) ) {
       turn_around();
+  }
+
+  if (m_ledge_confusion_timer.check())
+  {
+    set_ledge_behavior(m_desired_ledge_behavior);
   }
 
 }
