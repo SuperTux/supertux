@@ -121,6 +121,17 @@ public:
   std::string get_level_path() const;
 
   /**
+   * Reads the contents of the world directory and saves a file list to the internal
+   * `m_world_files_list` vector
+   */
+  void update_world_files_list();
+
+  /**
+   * Returns a list of the files contained in the world
+   */
+  const std::vector<std::string>& get_world_files_list() const;
+
+  /**
    * Returns the currently edited level
    */
   inline Level* get_level() const { return m_level.get(); }
@@ -419,6 +430,7 @@ private:
   bool m_is_temp_level;
   std::string m_level_filename;
   std::string m_autosave_filename;
+  std::vector<std::string> m_world_files_list;
   bool m_is_level_loaded;
   bool m_is_sector_set;
   float m_time_since_last_save;

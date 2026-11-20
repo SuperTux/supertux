@@ -47,6 +47,7 @@ EditorProject::EditorProject() :
   m_sector(),
   m_is_temp_level(true),
   m_level_filename(),
+  m_world_files_list(),
   m_autosave_filename(),
   m_is_level_loaded(),
   m_is_sector_set(),
@@ -142,6 +143,7 @@ EditorProject::reset()
   m_is_sector_set = false;
   m_level.reset();
   m_world.reset();
+  m_world_files_list.clear();
   m_level_filename.clear();
   m_sector = nullptr;
 
@@ -259,11 +261,13 @@ EditorProject::set_level(std::unique_ptr<Level> level)
     create_empty_project();
   }
 
+  update_world_files_list();
+
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
 
   m_is_level_loaded = true;
 
-  for(const auto& callback : m_on_level_set_callbacks)
+  for (const auto &callback : m_on_level_set_callbacks)
   {
     callback();
   }
@@ -369,6 +373,29 @@ EditorProject::reload_level()
   {
     callback();
   }
+}
+
+void
+EditorProject::update_world_files_list()
+{
+  m_world_files_list.clear();
+
+  auto world = get_world();
+  auto basedir = world->get_basedir();
+
+  auto enumerate_callback = [this](const auto &file)
+  {
+    m_world_files_list.push_back(file);
+    return false;
+  };
+
+  physfsutil::enumerate_files_alphabetical(basedir, enumerate_callback);
+}
+
+const std::vector<std::string>&
+EditorProject::get_world_files_list() const
+{
+  return m_world_files_list;
 }
 
 float
