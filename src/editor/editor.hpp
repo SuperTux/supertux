@@ -61,7 +61,6 @@ private:
 
 public:
 
-#define DUPLICATE test
 
   /**
    * EditorMode defines what we're currently editing
