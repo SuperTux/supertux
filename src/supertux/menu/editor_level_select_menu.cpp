@@ -154,6 +154,8 @@ EditorLevelSelectMenu::open_level(const std::string& filename)
   auto editor = Editor::current();
   auto editor_project = editor->get_project();
 
+  editor_project->reset();
+
   // If a world has been provided (not associated with the editor), set it as the editor world.
   if (m_world)
     editor_project->set_world(std::move(m_world));
