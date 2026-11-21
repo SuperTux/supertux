@@ -47,7 +47,7 @@ endif()
 
 project(SUPERTUX
         LANGUAGES C CXX
-        VERSION 0.7.0)
+        VERSION 0.7.0.1)
 
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0069 NEW)
