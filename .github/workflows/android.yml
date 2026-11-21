@@ -77,6 +77,8 @@ jobs:
 
           git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
           cd vcpkg
+          # Workaround dumb AI patch
+          git reset --hard de36db04550a8625e3154b1a758c60035901f244
           ./bootstrap-vcpkg.sh
 
           ./vcpkg install --classic --triplet=$VCPKG_TRIPLET \
