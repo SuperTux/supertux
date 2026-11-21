@@ -223,13 +223,6 @@ private:
   void draw_sector(DrawingContext &context);
 
   /**
-   * Draws a hint notifying the user that draggable objects are hidden
-   * and how to enable them again.
-   * @param context The current DrawingContext instance
-   */
-  void draw_draggables_hint(DrawingContext &context);
-
-  /**
    * Draws the current mouse pointer (and in some circumstances the "Test here" icon)
    * on top of the currently displayed sector
    * @param context The current DrawingContext instance

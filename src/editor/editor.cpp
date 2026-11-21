@@ -183,10 +183,6 @@ Editor::draw(Compositor& compositor)
   draw_sector(context);
 
   draw_mouse_pointer(context);
-
-  // TODO: The shortcut Ctrl+H is mentioned in the top menu,
-  // so evaluate if the draggables hint is still needed.
-  draw_draggables_hint(context);
 }
 
 void
@@ -201,19 +197,6 @@ Editor::draw_sector(DrawingContext& context)
   context.pop_transform();
 
   draw_selection_border(context);
-}
-
-void
-Editor::draw_draggables_hint(DrawingContext& context)
-{
-  if (m_draggables_visible || m_draggables_visible_hint_timer.done())
-    return;
-
-  context.color().draw_text(
-    Resources::normal_font,
-    _("Note: Draggables are now hidden. Press Ctrl+H to show again."),
-    { 16.0f, SCREEN_HEIGHT - 64.f }, ALIGN_LEFT, LAYER_OBJECTS+1,
-    Color(1.0f, 1.0f, 0.6f, (1.0f - m_draggables_visible_hint_timer.get_progress())));
 }
 
 void
