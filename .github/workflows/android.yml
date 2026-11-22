@@ -38,7 +38,7 @@ jobs:
       # SUPERTUX_VERSION is set later using git describe.
       SDL_TAG: 3.4.18
       B_T_VERSION: 35.0.0
-      NDK_VERSION: 29.0.14206865
+      NDK_VERSION: 30.0.16248370
       SDK_VERSION: 35
       VCPKG_ROOT: ${{ github.workspace }}/vcpkg
 
@@ -75,10 +75,13 @@ jobs:
           echo "VCPKG_TRIPLET=$VCPKG_TRIPLET" >> $GITHUB_ENV
           echo "VCPKG_ROOT=$VCPKG_ROOT" >> $GITHUB_ENV
 
+          echo $ANDROID_NDK_ROOT - $ANDROID_NDK_HOME - $ANDROID_NDK_LATEST_HOME
+          export ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME
+          export ANDROID_NDK_HOME=$ANDROID_NDK_LATEST_HOME
+
           git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
           cd vcpkg
-          # Workaround dumb AI patch
-          git reset --hard de36db04550a8625e3154b1a758c60035901f244
+          git reset --hard 8762709954cb3037ffc6cb3e894679e4f1aadaba
           ./bootstrap-vcpkg.sh
 
           ./vcpkg install --classic --triplet=$VCPKG_TRIPLET \
