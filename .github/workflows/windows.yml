@@ -83,7 +83,7 @@ jobs:
           & vcpkg/vcpkg install fmt:${{ matrix.arch }}-windows
           & vcpkg/vcpkg install physfs:${{ matrix.arch }}-windows
           & vcpkg/vcpkg install libraqm:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install --recurse "freetype:${{ matrix.arch }}-windows
+          & vcpkg/vcpkg install --recurse freetype:${{ matrix.arch }}-windows
 
       - name: Run slugify
         id: slugify
