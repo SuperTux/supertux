@@ -75,7 +75,7 @@ jobs:
           & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install libvorbis:${{ matrix.arch }}-windows
           & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install openal-soft:${{ matrix.arch }}-windows
           & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install sdl2:${{ matrix.arch }}-windows
-          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install "sdl2-image[jpeg,png]:${{ matrix.arch }}-windows"
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install "sdl2-image:${{ matrix.arch }}-windows"
           # & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install sdl3-ttf[harfbuzz]:${{ matrix.arch }}-windows
           & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install glm:${{ matrix.arch }}-windows
           & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install zlib:${{ matrix.arch }}-windows
