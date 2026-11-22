@@ -46,7 +46,7 @@ Compiling
 To build SuperTux from source, you need to have a number of tools and
 libraries installed.
 
-One of these tools is CMake, preferrably with the latest version.
+One of these tools is CMake, preferably with the latest version.
 
 The libraries are listed in the [vcpkg manifest file](vcpkg.json).
 - On Linux, install the development package for all of those libraries.
