@@ -116,7 +116,7 @@ jobs:
                    -DGIT_HASH="$Env:GIT_HASH" `
                    -DGIT_BRANCH="$Env:GIT_BRANCH" `
                    -DENABLE_DISCORD=ON -DVCPKG_MANIFEST_MODE=OFF `
-                   -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+                   -DCMAKE_TOOLCHAIN_FILE="$Env:GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake" `
                    -DVCPKG_TARGET_TRIPLET="$(if ($Env:ARCH -eq "x64") {"x64-windows"} else {"x86-windows"})" `
                    -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `
                    -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
