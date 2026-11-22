@@ -1,6 +1,13 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.7.0.2 (2026-11-22)
+-----------------------------
+Compared to v0.7.0.1, this release fixes an issue that caused SuperTux to error with an SDL version mismatch.
+
+Other systems are not affected, so for those, v0.7.0.2 and v0.7.0.1 should be identical.
+
+
 SuperTux 0.7.0.1 (2026-11-21)
 -----------------------------
 This is a security release and minor bugfix release. It is highly encouraged to
