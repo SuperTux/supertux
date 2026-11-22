@@ -1,6 +1,17 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.7.0.1 (2026-11-21)
+-----------------------------
+This is a security release and minor bugfix release. It is highly encouraged to
+upgrade, even if you don't download outside add-ons.
+
+The security vulnerability allows for shell explotation within a path (specifically such as a
+ levelname). See commit 5f156a9 in the master branch for more details. It should
+ only affect *nix/macOS systems.
+
+This release also backports several other minor fixes.
+
 SuperTux 0.7.0 (2026-03-15)
 ---------------------------
 The SuperTux Team is pleased to announce the stable release of version 0.7.0!
