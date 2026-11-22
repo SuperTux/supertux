@@ -65,7 +65,7 @@ jobs:
         run: |
           & git clone https://github.com/microsoft/vcpkg.git vcpkg
           cd vcpkg
-          & git reset --hard 8762709954cb3037ffc6cb3e894679e4f1aadaba
+          # & git reset --hard 8762709954cb3037ffc6cb3e894679e4f1aadaba
           & cmd /c bootstrap-vcpkg.bat
 
           cd C:/
