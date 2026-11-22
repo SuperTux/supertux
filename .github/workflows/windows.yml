@@ -69,21 +69,21 @@ jobs:
           & cmd /c bootstrap-vcpkg.bat
 
           cd C:/
-          & vcpkg/vcpkg integrate install
-          & vcpkg/vcpkg install curl:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install glew:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install libogg:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install libvorbis:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install openal-soft:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install sdl3:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install "sdl3-image[jpeg,png]:${{ matrix.arch }}-windows"
-          & vcpkg/vcpkg install sdl3-ttf[harfbuzz]:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install glm:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install zlib:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install fmt:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install physfs:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install libraqm:${{ matrix.arch }}-windows
-          & vcpkg/vcpkg install --recurse freetype:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe integrate install
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install curl:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install glew:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install libogg:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install libvorbis:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install openal-soft:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install sdl3:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install "sdl3-image[jpeg,png]:${{ matrix.arch }}-windows"
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install sdl3-ttf[harfbuzz]:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install glm:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install zlib:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install fmt:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install physfs:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install libraqm:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install --recurse freetype:${{ matrix.arch }}-windows
 
       - name: Run slugify
         id: slugify
