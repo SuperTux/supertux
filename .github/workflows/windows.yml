@@ -65,26 +65,25 @@ jobs:
         run: |
           git clone https://github.com/microsoft/vcpkg.git vcpkg
           cd vcpkg
-          # Workaround dumb AI patch
           git reset --hard 8762709954cb3037ffc6cb3e894679e4f1aadaba
           bootstrap-vcpkg.bat
 
-          cd \
-          vcpkg integrate install
-          vcpkg install curl:${{ matrix.arch }}-windows
-          vcpkg install glew:${{ matrix.arch }}-windows
-          vcpkg install libogg:${{ matrix.arch }}-windows
-          vcpkg install libvorbis:${{ matrix.arch }}-windows
-          vcpkg install openal-soft:${{ matrix.arch }}-windows
-          vcpkg install sdl3:${{ matrix.arch }}-windows
-          vcpkg install "sdl3-image[jpeg,png]:${{ matrix.arch }}-windows"
-          vcpkg install sdl3-ttf[harfbuzz]:${{ matrix.arch }}-windows
-          vcpkg install glm:${{ matrix.arch }}-windows
-          vcpkg install zlib:${{ matrix.arch }}-windows
-          vcpkg install fmt:${{ matrix.arch }}-windows
-          vcpkg install physfs:${{ matrix.arch }}-windows
-          vcpkg install libraqm:${{ matrix.arch }}-windows
-          vcpkg install --recurse freetype:${{ matrix.arch }}-windows
+          cd C:\
+          %GITHUB_WORKSPACE\vcpkg\vcpkg integrate install
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install curl:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install glew:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install libogg:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install libvorbis:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install openal-soft:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install sdl3:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install "sdl3-image[jpeg,png]:${{ matrix.arch }}-windows"
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install sdl3-ttf[harfbuzz]:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install glm:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install zlib:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install fmt:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install physfs:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install libraqm:${{ matrix.arch }}-windows
+          %GITHUB_WORKSPACE\vcpkg\vcpkg install --recurse freetype:${{ matrix.arch }}-windows
 
       - name: Run slugify
         id: slugify
@@ -117,7 +116,7 @@ jobs:
                    -DGIT_HASH="$Env:GIT_HASH" `
                    -DGIT_BRANCH="$Env:GIT_BRANCH" `
                    -DENABLE_DISCORD=ON -DVCPKG_MANIFEST_MODE=OFF `
-                   -DCMAKE_TOOLCHAIN_FILE="$($Env:GITHUB_WORKSPACE)/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+                   -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake" `
                    -DVCPKG_TARGET_TRIPLET="$(if ($Env:ARCH -eq "x64") {"x64-windows"} else {"x86-windows"})" `
                    -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `
                    -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
