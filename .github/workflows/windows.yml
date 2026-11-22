@@ -59,31 +59,36 @@ jobs:
       # I don't know why, but vcpkg manifest doesn't work in CI.
       - name: Install dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        shell: pwsh
         env:
           ARCH: ${{ matrix.arch }}
         run: |
+          & git clone https://github.com/microsoft/vcpkg.git vcpkg
+          cd vcpkg
+          & cmd /c bootstrap-vcpkg.bat
+
           cd C:/
-          vcpkg integrate install
-          vcpkg install curl:${{ matrix.arch }}-windows
-          vcpkg install glew:${{ matrix.arch }}-windows
-          vcpkg install libogg:${{ matrix.arch }}-windows
-          vcpkg install libvorbis:${{ matrix.arch }}-windows
-          vcpkg install openal-soft:${{ matrix.arch }}-windows
-          vcpkg install sdl3:${{ matrix.arch }}-windows
-          vcpkg install "sdl3-image[jpeg,png]:${{ matrix.arch }}-windows"
-          vcpkg install sdl3-ttf[harfbuzz]:${{ matrix.arch }}-windows
-          vcpkg install glm:${{ matrix.arch }}-windows
-          vcpkg install zlib:${{ matrix.arch }}-windows
-          vcpkg install fmt:${{ matrix.arch }}-windows
-          vcpkg install physfs:${{ matrix.arch }}-windows
-          vcpkg install libraqm:${{ matrix.arch }}-windows
-          vcpkg install --recurse freetype:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe integrate install
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install curl:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install glew:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install libogg:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install libvorbis:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install openal-soft:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install sdl3:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install "sdl3-image[jpeg,png]:${{ matrix.arch }}-windows"
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install sdl3-ttf[harfbuzz]:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install glm:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install zlib:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install fmt:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install physfs:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install libraqm:${{ matrix.arch }}-windows
+          & $Env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe install --recurse freetype:${{ matrix.arch }}-windows
 
       - name: Run slugify
         id: slugify
         uses: eltimn/slugify-action@v2.0.2
 
-      - name: Configure bulid
+      - name: Configure build
         shell: pwsh
         env:
           # Using git rev-parse gives incorrect values when querying the branch
@@ -110,7 +115,7 @@ jobs:
                    -DGIT_HASH="$Env:GIT_HASH" `
                    -DGIT_BRANCH="$Env:GIT_BRANCH" `
                    -DENABLE_DISCORD=ON -DVCPKG_MANIFEST_MODE=OFF `
-                   -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+                   -DCMAKE_TOOLCHAIN_FILE="$Env:GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake" `
                    -DVCPKG_TARGET_TRIPLET="$(if ($Env:ARCH -eq "x64") {"x64-windows"} else {"x86-windows"})" `
                    -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `
                    -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
