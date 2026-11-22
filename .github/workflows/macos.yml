@@ -96,7 +96,7 @@ jobs:
             libpng      \
             zlib        \
             sdl2        \
-            sdl2-image[jpeg,png]  \
+            sdl2-image  \
             curl        \
             openal-soft \
             libogg      \
