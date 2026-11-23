@@ -2,9 +2,9 @@
 
 ## Language
 
-C++17 is the main langauge used for this project. GCC, Clang and MSVC are supported.
+C++17 is the main language used for this project. GCC, Clang and MSVC are supported.
 
-For better backward compatibilty with older compiler, namely gcc5,
+For better backward compatibility with older compiler, namely gcc5,
 some C++17 features are restricted:
 
 * generic lambda functions are not allowed, e.g. `[](auto foo){}`
@@ -21,7 +21,7 @@ Third party libraries that are imported into `external/` as git
 submodule have to be forked and included into the SuperTux
 organisation on Github, not directly included from upstream.
 
-## File Formating
+## File Formatting
 
 Do not have spaces at the end of lines.
 

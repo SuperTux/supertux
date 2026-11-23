@@ -272,21 +272,17 @@ void open_path(const std::string& path)
 #elif defined(__EMSCRIPTEN__)
   emscripten_run_script(("window.supertux_download('" + path + "');").c_str());
 #else
-  // TODO Use posix_spawn
   #if defined(__APPLE__)
-  std::string cmd = "open \"" + path + "\"";
+  std::string cmd = "open";
   #else
-  std::string cmd = "xdg-open \"" + path + "\"";
+  std::string cmd = "xdg-open";
   #endif
 
-  int ret = system(cmd.c_str());
-  if (ret < 0)
+  const char *argv[] = { cmd.c_str(), path.c_str(), nullptr };
+  pid_t proc;
+  if (posix_spawnp(&proc, cmd.c_str(), NULL, NULL, const_cast<char** const>(argv), environ) != 0)
   {
     log_fatal << "failed to spawn: " << cmd << std::endl;
-  }
-  else if (ret > 0)
-  {
-    log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
 #endif
 }
