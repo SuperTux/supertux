@@ -61,7 +61,7 @@ FileSystemMenu::~FileSystemMenu()
 void
 FileSystemMenu::refresh_items()
 {
-  m_items.clear();
+  clear();
   m_directories.clear();
   m_files.clear();
   m_directory = FileSystem::normalize(m_directory);
