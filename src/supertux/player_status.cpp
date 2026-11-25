@@ -21,6 +21,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "object/character_registry.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/player_status_hud.hpp"
@@ -75,6 +76,9 @@ PlayerStatus::reset(int num_players)
   bonus.resize(num_players, BONUS_NONE);
   m_item_pockets.clear();
   m_item_pockets.resize(num_players, BONUS_NONE);
+
+  if (m_character_ids.size() < static_cast<size_t>(num_players))
+    m_character_ids.resize(num_players, CharacterType::TUX);
 
   m_num_players = num_players;
 }
@@ -353,9 +357,8 @@ PlayerStatus::parse_bonus_mapping(const ReaderMapping& map, int id)
     bonus[id] = get_bonus_from_name(bonusname);
   }
 
-  if (map.get("item-pocket", bonusname)) {
+  if (map.get("item-pocket", bonusname))
     m_item_pockets[id] = get_bonus_from_name(bonusname);
-  }
 }
 
 std::string
@@ -382,9 +385,11 @@ void
 PlayerStatus::add_player()
 {
   m_num_players++;
-
   bonus.resize(m_num_players, BONUS_NONE);
   m_item_pockets.resize(m_num_players, BONUS_NONE);
+
+  if (m_character_ids.size() < static_cast<size_t>(m_num_players))
+    m_character_ids.resize(m_num_players, CharacterType::TUX);
 }
 
 void
@@ -396,16 +401,39 @@ PlayerStatus::remove_player(int player_id)
   {
     bonus[i] = bonus[i + 1];
     m_item_pockets[i] = m_item_pockets[i + 1];
+    m_character_ids[i] = m_character_ids[i + 1];
   }
 
   bonus.resize(m_num_players, BONUS_NONE);
   m_item_pockets.resize(m_num_players, BONUS_NONE);
+  m_character_ids.resize(m_num_players, CharacterType::TUX);
 }
 
 void
 PlayerStatus::set_hud_hint(PlayerStatusHUD* hud)
 {
   m_hud = hud;
+}
+
+CharacterType
+PlayerStatus::get_character_id(int player_id) const
+{
+  if (player_id < 0 || player_id >= static_cast<int>(m_character_ids.size()))
+    return CharacterType::TUX;
+  return m_character_ids[player_id];
+}
+
+void
+PlayerStatus::set_character_id(int player_id, CharacterType character_type)
+{
+  if (player_id < 0)
+    return;
+
+  if (player_id >= static_cast<int>(m_character_ids.size())) {
+    m_character_ids.resize(player_id + 1, CharacterType::TUX);
+  }
+
+  m_character_ids[player_id] = character_type;
 }
 
 PlayerStatus::PocketPowerUp::PocketPowerUp(BonusType bonustype, Vector pos):
