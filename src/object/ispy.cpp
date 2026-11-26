@@ -32,7 +32,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   m_dir(Direction::LEFT)
 {
   reader.get("script", m_script);
-
+  parse_type(reader);
   std::string dir_str;
   if (reader.get("direction", dir_str))
     m_dir = string_to_dir(dir_str);
@@ -45,6 +45,12 @@ Ispy::Ispy(const ReaderMapping& reader) :
     log_warning << "Setting an Ispy's direction to AUTO is no good idea." << std::endl;
 
   set_action("idle", m_dir);
+}
+Ispy::Ispy(const ReaderMapping& reader, int type) :
+  Ispy(reader)
+{
+  m_type = type;
+  on_type_change(TypeChange::INITIAL);
 }
 
 ObjectSettings
@@ -130,6 +136,15 @@ Ispy::update(float dt_sec)
 
 }
 
+GameObjectTypes
+Ispy::get_types() const
+{
+  return {
+    { "ispy", _("Ispy") },
+    { "metal", _("Metal") }
+  };
+}
+
 void
 Ispy::on_flip(float height)
 {
@@ -144,4 +159,17 @@ Ispy::on_flip(float height)
     m_dir = Direction::UP;
     set_action("idle-up");
   }
+}
+
+std::string
+Ispy::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case ISPY:
+      return "images/objects/ispy/ispy.sprite";
+    case METAL:
+      return "images/objects/ispy/metal_detector/metal_detector.sprite";
+  }
+      return "images/objects/ispy/ispy.sprite";
 }
