@@ -2247,6 +2247,8 @@ Player::draw(DrawingContext& context)
       const bool is_not_idle = std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
         [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; });
 
+      std::string base_idle_action = sa_prefix + "-" + IDLE_STAGES[0] + sa_postfix;
+
       if (is_not_idle || (m_should_fancy_idle && !m_fancy_idle_active) || m_reset_action)
       {
         m_idle_stage = 0;
@@ -2279,13 +2281,19 @@ Player::draw(DrawingContext& context)
           else
             set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, 1);
         }
+        else if(m_sprite->get_action() != base_idle_action)
+        {
+          m_idle_stage = 0;
+          set_action(base_idle_action);
+          m_sprite->set_animation_loops(-1);
+        }
       }
       else
       {
-        if (m_idle_stage != 0 || m_sprite->get_action() != sa_prefix + ("-" + IDLE_STAGES[0]) + sa_postfix)
+        if (m_idle_stage != 0 || m_sprite->get_action() != base_idle_action)
         {
           m_idle_stage = 0;
-          set_action(sa_prefix + ("-" + IDLE_STAGES[0]) + sa_postfix);
+          set_action(base_idle_action);
           m_sprite->set_animation_loops(-1);
         }
         m_fancy_idle_active = false;
