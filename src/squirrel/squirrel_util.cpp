@@ -19,85 +19,147 @@
 #include <simplesquirrel/array.hpp>
 #include <simplesquirrel/table.hpp>
 
-std::string squirrel_to_string(const ssq::Object& object)
+std::string squirrel_to_string(const ssq::Object& object, bool lisp_syntax)
 {
   std::ostringstream os;
-  switch (object.getType())
+  using Type = ssq::Type;
+  const auto& obj_type = object.getType();
+
+  // Data types that can not directly be written in lisp should return a null value
+  if (lisp_syntax &&
+      (obj_type != Type::BOOL && obj_type != Type::INTEGER && obj_type != Type::FLOAT &&
+       obj_type != Type::STRING && obj_type != Type::TABLE && obj_type != Type::ARRAY))
   {
-    case ssq::Type::NULLPTR:
+    os << "nil";
+    return os.str();
+  }
+
+  switch (obj_type)
+  {
+    case Type::NULLPTR:
       os << "<null>";
       break;
-    case ssq::Type::BOOL:
-      os << object.toBool();
+    case Type::BOOL:
+    {
+      auto bool_value = object.toBool();
+      if (lisp_syntax)
+        os << (bool_value ? "#t" : "#f");
+      else
+        os << bool_value;
+    }
       break;
-    case ssq::Type::INTEGER:
+    case Type::INTEGER:
       os << object.to<int>();
       break;
-    case ssq::Type::FLOAT:
+    case Type::FLOAT:
       os << object.toFloat();
       break;
-    case ssq::Type::STRING:
-      os << "\"" << object.toString() << "\"";
+    case Type::STRING:
+    {
+      auto string_value = object.toString();
+      if (lisp_syntax)
+      {
+        os << string_value;
+      }
+      else
+      {
+        os << "\"" << string_value << "\"";
+      }
+    }
       break;
-    case ssq::Type::TABLE:
+    case Type::TABLE:
     {
       const std::map<std::string, ssq::Object> table = object.toTable().convertRaw();
 
       bool first = true;
-      os << "{";
+      if (!lisp_syntax)
+        os << "{";
+
       for (const auto& [key, value] : table)
       {
         if (!first)
-          os << ", ";
+        {
+          if (lisp_syntax)
+          {
+            os << " ";
+          }
+          else
+          {
+            os << ", ";
+          }
+        }
         first = false;
 
-        os << key << " => " << squirrel_to_string(value);
+        if (lisp_syntax)
+        {
+          os << "(" << key << " " << squirrel_to_string(value, lisp_syntax) << ")";
+        }
+        else
+        {
+          os << key << " => " << squirrel_to_string(value);
+        }
       }
-      os << "}";
+
+      if (!lisp_syntax)
+        os << "}";
       break;
     }
-    case ssq::Type::ARRAY:
+    case Type::ARRAY:
     {
       const std::vector<ssq::Object> array = object.toArray().convertRaw();
 
       bool first = true;
-      os << "[";
+      if (!lisp_syntax)
+        os << "[";
+      
       for (const ssq::Object& value : array)
       {
         if (!first)
-          os << ", ";
+        {
+          if (lisp_syntax)
+          {
+            os << " ";
+          }
+          else
+          {
+            os << ", ";
+          }
+        }
         first = false;
 
-        os << squirrel_to_string(value);
+        os << squirrel_to_string(value, lisp_syntax);
       }
-      os << "]";
+      if (!lisp_syntax)
+        os << "]";
       break;
     }
-    case ssq::Type::USERDATA:
+
+    // Following cases are only for non-LISP syntax (Lisp syntax got handled earlier)
+    case Type::USERDATA:
       os << "<userdata>";
       break;
-    case ssq::Type::CLOSURE:
+    case Type::CLOSURE:
       os << "<closure>";
       break;
-    case ssq::Type::NATIVECLOSURE:
+    case Type::NATIVECLOSURE:
       os << "<native closure>";
       break;
-    case ssq::Type::GENERATOR:
+    case Type::GENERATOR:
       os << "<generator>";
       break;
-    case ssq::Type::USERPOINTER:
-      os << "userpointer";
+    case Type::USERPOINTER:
+      os << "<userpointer>";
       break;
-    case ssq::Type::THREAD:
+    case Type::THREAD:
       os << "<thread>";
       break;
-    case ssq::Type::CLASS:
+    case Type::CLASS:
       os << "<class>";
       break;
-    case ssq::Type::INSTANCE:
+    case Type::INSTANCE:
       os << "<instance>";
       break;
-    case ssq::Type::WEAKREF:
+    case Type::WEAKREF:
       os << "<weakref>";
       break;
     default:
