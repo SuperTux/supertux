@@ -54,6 +54,20 @@ ObjectMenu::refresh()
     }
   }
 
+  TileMap* selected_tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
+  if (m_object != selected_tilemap) 
+  {
+    const float current_alpha = static_cast<TileMap*>(m_object)->get_alpha();
+    if (current_alpha > 0.0f) 
+    {
+      add_entry(MNID_HIDE_LAYER, _("Hide Layer"));
+    } 
+    else 
+    {
+      add_entry(MNID_HIDE_LAYER, _("Show Layer"));
+    }
+  }
+
   if (!m_object->is_up_to_date())
   {
     add_hl();
@@ -85,6 +99,25 @@ ObjectMenu::menu_action(MenuItem& item)
         m_object->update_version();
         refresh();
       });
+      break;
+    
+    case MNID_HIDE_LAYER:
+      if (m_object) 
+      {
+        TileMap* tilemap = static_cast<TileMap*>(m_object);
+        const float current_alpha = static_cast<TileMap*>(m_object)->get_alpha();
+        if (current_alpha > 0.0f) 
+        {
+          tilemap->set_alpha(0.0f);
+        } 
+        else 
+        {
+          tilemap->set_alpha(1.0f);
+        }
+        m_editor.m_reactivate_request = true;
+        refresh();
+      }
+      MenuManager::instance().pop_menu();
       break;
 
     case MNID_PATCH_NOTES:
