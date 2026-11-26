@@ -87,6 +87,18 @@ UnstableTile::get_default_sprite_name() const
   }
 }
 
+bool
+UnstableTile::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("castleblock.sprite") != std::string::npos)
+  {
+    type = "brick";
+    return true;
+  }
+
+  return false;
+}
+
 HitResponse
 UnstableTile::collision(MovingObject& other, const CollisionHit& )
 {
