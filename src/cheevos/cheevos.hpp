@@ -1,0 +1,63 @@
+//  SuperTux
+//  Copyright (C) 2026 MatusGuy
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#pragma once
+
+#include <string>
+#include <unordered_map>
+#include <cinttypes>
+#include <ctime>
+
+#include "util/gettext.hpp"
+
+enum CheevoRarity : std::uint8_t
+{
+  CHEEVO_RARITY_NORMAL,
+  CHEEVO_RARITY_RARE
+};
+
+struct CheevoData
+{
+  std::string name;
+  std::string requirement;
+  std::string image;
+  CheevoRarity rarity;
+
+  inline std::string get_name() const {
+    return _(name);
+  }
+
+  inline std::string get_requirement() const {
+    return _(requirement);
+  }
+};
+
+// Don't expect these strings to be translated.
+// In order to get the real information, use the CheevoData::get_* methods.
+static const std::unordered_map<std::string, CheevoData> g_cheevo_data = {
+  {"beat-yeti", {_("Angry Fuzzball"),   _("Beat the Yeti"),       "images/engine/cheevos/cool.png", CHEEVO_RARITY_NORMAL}},
+  {"beat-tree", {_("Nature's Vaccine"), _("Beat the Ghost Tree"), "images/engine/cheevos/cool.png", CHEEVO_RARITY_RARE  }},
+};
+
+using CheevoId = std::string;
+
+struct CheevoUnlocked {
+  std::time_t time;
+
+  inline bool unlocked() const { return time != 0; }
+};
+
+using CheevosUnlocked = std::unordered_map<CheevoId, CheevoUnlocked>;
