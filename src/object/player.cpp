@@ -1670,7 +1670,11 @@ Player::handle_input()
 
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>([this](const Bullet& b){ return &b.get_player() == this; });
-  if (m_controller->pressed(Control::ACTION) && (get_bonus() == BONUS_FIRE || get_bonus() == BONUS_ICE) && !just_grabbed) {
+  // On touchscreen, pressing Action while carrying something drops it (see below),
+  // so don't also shoot at the object that is being dropped.
+  const bool action_drops_object = m_controller->is_touchscreen() && m_grabbed_object;
+  if (m_controller->pressed(Control::ACTION) && (get_bonus() == BONUS_FIRE || get_bonus() == BONUS_ICE) &&
+      !just_grabbed && !action_drops_object) {
     if ((get_bonus() == BONUS_FIRE && active_bullets < MAX_FIRE_BULLETS) ||
         (get_bonus() == BONUS_ICE  && active_bullets < MAX_ICE_BULLETS))
     {
