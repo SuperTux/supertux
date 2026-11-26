@@ -61,10 +61,16 @@ MainMenu::MainMenu()
   add_submenu(_("Manage Assets"), MenuStorage::ASSET_MENU);
 #endif
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
-  // The level editor is not mobile friendly; hide for now
-#ifndef HIDE_NONMOBILE_OPTIONS
-  add_entry(MNID_LEVELEDITOR, _("Level Editor"));
+
+  // The level editor is not smartphone-friendly; hide for now
+  bool enable_level_editor = true;
+#ifdef HIDE_NONMOBILE_OPTIONS
+  enable_level_editor = SDL_IsTablet();
 #endif
+  if (enable_level_editor)
+  {
+    add_entry(MNID_LEVELEDITOR, _("Level Editor"));
+  }
   add_entry(MNID_CREDITS, _("Credits"));
 #if !defined(STEAM_BUILD) && !defined(GOOGLE_PLAY)
   // Links to external purchases are not allowed on Steam or Google Play, including donations
