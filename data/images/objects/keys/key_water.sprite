@@ -1,14 +1,13 @@
 (supertux-sprite
- (action
-  (name "default")
-  (images "water.png")
- )
- (action
-  (name "display")
-  (images "water.png")
- )
- (action
-  (name "outline")
-  (images "k_outline.png")
- )               
+  (action
+    (name "default")
+    (images "water.png"))
+
+  (action
+    (name "display")
+    (images "water.png"))
+
+  (action
+    (name "outline")
+    (images "k_outline.png"))
 )
