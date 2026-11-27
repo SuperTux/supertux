@@ -34,7 +34,7 @@ jobs:
       matrix:
         vm_os: [freebsd]
         build_type: [Debug, Release]
-        freebsd_release: ["15.0", "14.3"]
+        freebsd_release: ["15.1", "14.3"]
         include:
           - release: ON
 
@@ -48,7 +48,7 @@ jobs:
 
       - name: Start VM
         id: vm
-        uses: vmactions/freebsd-vm@v1.3.6
+        uses: vmactions/freebsd-vm@v1.6.0
         with:
           sync: nfs
           release: "${{ matrix.freebsd_release }}"

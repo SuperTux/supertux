@@ -3,10 +3,6 @@
   <id>org.supertuxproject.SuperTux</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  <content_rating type="oars-1.1">
-    <content_attribute id="violence-cartoon">mild</content_attribute>
-    <content_attribute id="language-humor">mild</content_attribute>
-  </content_rating>
   <name>SuperTux</name>
   <summary>A jump-and-run game starring Tux the Penguin</summary>
   <description>
@@ -55,11 +51,14 @@
   <url type="contact">https://github.com/SuperTux/supertux#community</url>
   <url type="vcs-browser">https://github.com/SuperTux/supertux</url>
   <url type="contribute">https://github.com/SuperTux/supertux/blob/master/CONTRIBUTING.md</url>
-  <categories>
-    <category>Game</category>
-    <category>ActionGame</category>
-    <category>ArcadeGame</category>
-  </categories>
+  <launchable type="desktop-id">supertux2.desktop</launchable>
+  <provides>
+    <binary>supertux2</binary>
+  </provides>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-cartoon">mild</content_attribute>
+    <content_attribute id="language-humor">mild</content_attribute>
+  </content_rating>
   <screenshots>
     <screenshot type="default">
       <image>https://www.supertux.org/images/0_7_0/07-1.png</image>
@@ -102,11 +101,13 @@
       <caption>A bunch of granitos standing behind Tux.</caption>
     </screenshot>
   </screenshots>
-  <launchable type="desktop-id">supertux2.desktop</launchable>
-  <provides>
-    <binary>supertux2</binary>
-  </provides>
   <releases>
+    <release version="0.7.0.1" date="2026-11-22">
+      <url>https://github.com/SuperTux/supertux/releases/tag/v0.7.0.1</url>
+      <description>
+        <p>This is a security release and minor bugfix release.</p>
+      </description>
+    </release>
     <release version="0.7.0" date="2026-03-14">
       <url>https://www.supertux.org/news/2026/03/14/0.7.0</url>
       <description>
