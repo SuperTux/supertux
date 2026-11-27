@@ -24,10 +24,12 @@
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
+#include "video/surface.hpp"
 
 EditorPropertiesPanel::EditorPropertiesPanel() :
   m_controls(),
-  m_is_executing_state_change()
+  m_is_executing_state_change(),
+  m_file_icon(Surface::from_file("images/engine/editor/file_icon.png"))
 {
 }
 
@@ -112,6 +114,19 @@ EditorPropertiesPanel::draw(DrawingContext& context)
     context.color()
         .draw_text(Resources::editor_menu_font, text, get_area().p1() + Vector(4, 4),
                    FontAlignment::ALIGN_LEFT, LAYER_GUI);
+
+    auto project = Editor::current()->get_project();
+    auto position = get_area().p1() + Vector(4, 50);
+    context.color().draw_text(Resources::console_font, project->get_world()->get_title(),
+                              position, FontAlignment::ALIGN_LEFT, LAYER_GUI);
+    position += Vector(10, 15);
+
+    for(const auto& file : project->get_world_files_list())
+    {
+      context.color().draw_surface(m_file_icon, position - Vector(7.5f, -5.f), LAYER_GUI);
+      context.color().draw_text(Resources::console_font, file, position, FontAlignment::ALIGN_LEFT, LAYER_GUI);
+      position += Vector(0, 15);
+    }
   }
 
   for(const auto& control : m_controls)

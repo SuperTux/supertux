@@ -130,4 +130,9 @@ private:
    * Variable that describes whether one of the control's onchange callbacks is currently executing
    */
   bool m_is_executing_state_change;
+
+  /**
+   * Icon that gets displayed in the project overview that depicts a file.
+   */
+  SurfacePtr m_file_icon;
 };
