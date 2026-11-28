@@ -197,11 +197,18 @@ public:
     return StringUtil::has_suffix(get_level_filename(), ".stwm");
   }
 
+  /**
+   * Returns the filepath of the last edited level
+   */
   const std::string& get_last_edited_level() const
   {
     return g_config->editor_last_edited_level;
   }
 
+  /**
+   * Sets the filepath of the last edited level
+   * @param level filepath File path of the last edited level
+   */
   void set_last_edited_level(const std::string& level)
   {
     g_config->editor_last_edited_level = level;
