@@ -56,8 +56,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_rubber_widget(),
   m_draw_widget(),
   m_zoom_widget(),
-  m_widgets(),
-  m_widgets_width(0.f)
+  m_widgets()
 {
   auto toolbox_widget = m_editor.get_toolbox_widget();
 
@@ -179,7 +178,6 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
 
   set_widget_positions();
 
-  // m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
   //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
   //     std::ostringstream level_ostream;
@@ -218,8 +216,6 @@ EditorToolbarWidget::set_widget_positions()
       widget_pos.x += widget->get_size().width;
     }
   }
-
-  m_widgets_width = widget_pos.x;
 }
 
 std::unique_ptr<EditorToolbarButtonWidget>
@@ -633,10 +629,16 @@ EditorToolbarWidget::event(const SDL_Event& ev)
   }
 
   auto event_handling = m_editor.get_event_handling();
+  auto has_mouse_focus = get_area().contains(event_handling->get_mouse_pos());
   if ((ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN || ev.type == SDL_EVENT_MOUSE_BUTTON_UP) &&
-      get_area().contains(event_handling->get_mouse_pos()))
+      has_mouse_focus)
   {
     return true;
+  }
+
+  if (ev.type == SDL_EVENT_MOUSE_MOTION && !has_mouse_focus)
+  {
+    m_editor.get_status_bar()->set_label("");
   }
 
   return false;
@@ -664,8 +666,7 @@ EditorToolbarWidget::draw(DrawingContext& context)
     return;
 
   context.color().set_blur(g_config->editor_blur);
-  context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
-                    g_config->editorcolor, LAYER_GUI - 5);
+  context.color().draw_filled_rect(get_area(), g_config->editorcolor, LAYER_GUI - 5);
   context.color().set_blur(0);
 
   for(const auto& widget : m_widgets)
