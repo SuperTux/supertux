@@ -4,7 +4,7 @@
   (source "autotiles_ice_world.satc")
 )
 
-;; worldmap tiles - next id: 1021
+;; worldmap tiles - next id: 1072
 
 (tilegroup
 	(name (_ "Snow"))
@@ -603,6 +603,49 @@
 (tile
 	(id 535)
 	(images "worldmap/christmas/snowman.png"
+	)
+)
+
+(tilegroup
+	(name (_ "Tropical"))
+	(tiles
+		1031 1032 1033 0
+		1036 1037 1038 0
+		1041 1042 1043 0
+		1034 1035 0    0
+		1039 1040 0    0
+
+		1044 1045 1046 0
+		1049 1037 1050 0
+		1053 1054 1055 0
+		1047 1048 0    0
+		1051 1052 0    0
+
+		1061 1062 1063 1064
+		1067 1068 1069 1070
+		1060 1056 1057 1065
+		1066 1058 1059 1071
+	)
+)
+(tiles
+	(width 5)(height 6)
+	(images "worldmap/tropical/land_beach.png")
+	(ids
+		1031 1032 1033 1034 1035
+		1036 1037 1038 1039 1040
+		1041 1042 1043 0    0
+		1044 1045 1046 1047 1048
+		1049 0    1050 1051 1052
+		1053 1054 1055 0    0
+	)
+)
+(tiles
+	(width 6)(height 3)
+	(images "worldmap/tropical/trees_shells.png")
+	(ids
+		0    0    1056 1057 1058 1059
+		1060 1061 1062 1063 1064 1065
+		1066 1067 1068 1069 1070 1071
 	)
 )
 
