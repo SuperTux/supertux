@@ -254,11 +254,6 @@ EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
   if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_wheel(wheel))
     return true;
 
-  if (!m_has_mouse_focus)
-  {
-    return false;
-  }
-
   return false;
 }
 
