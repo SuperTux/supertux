@@ -54,7 +54,7 @@ public:
   EditorToolbarButtonWidget *get_draw_button() { return m_draw_widget; }
   EditorToolbarButtonWidget *get_rubber_button() { return m_rubber_widget; }
 
-  const Rectf get_area() { return Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f); }
+  const Rectf get_area() { return Rectf(0.0f, 0.0f, SCREEN_WIDTH - 128.f, 32.0f); }
 
 private:
   std::unique_ptr<EditorToolbarButtonWidget> create_open_button() const;
