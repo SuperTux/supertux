@@ -46,11 +46,15 @@ public:
   MenuListItem(const std::string &label, const std::function<void()> onclick_handler);
 
   virtual void draw(DrawingContext& context) override;
+  virtual void update(float /* dt_sec */) override;
 
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent &button) override;
 
   const std::string &get_label() const { return m_label; }
   void set_label(const std::string &label);
+
+  const std::string &get_help_text() const { return m_help_text; }
+  void set_help_text(const std::string &help_text) { m_help_text = help_text; }
 
   const std::string &get_keyboard_shortcut() const { return m_keyboard_shortcut; }
   void set_keyboard_shortcut(const std::string &shortcut) { m_keyboard_shortcut = shortcut; }
@@ -146,6 +150,7 @@ public:
 
 private:
   std::string m_label;
+  std::string m_help_text;
   std::string m_keyboard_shortcut;
   Vector m_sprite_offset;
   Vector m_label_offset;

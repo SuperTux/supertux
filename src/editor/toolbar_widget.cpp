@@ -58,8 +58,6 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   m_zoom_widget(),
   m_widgets()
 {
-  auto toolbox_widget = m_editor.get_toolbox_widget();
-
   auto open_button = create_open_button();
   auto save_button = create_save_button();
   auto mouse_tool = create_mouse_tool();

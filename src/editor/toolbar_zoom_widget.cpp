@@ -20,6 +20,8 @@
 #include "editor/menu_list/menu_list_item.hpp"
 #include "object/camera.hpp"
 
+#include <fmt/format.h>
+
 EditorToolbarZoomWidget::EditorToolbarZoomWidget() :
   EditorToolbarBaseWidget(),
   m_control_textbox(std::make_unique<ControlTextboxFloat>()),
@@ -88,10 +90,11 @@ EditorToolbarZoomWidget::set_dropdown_values()
 
   for(const auto& zoom_factor : zoom_factors)
   {
-    auto item_label = std::to_string((int)(zoom_factor * 100.f)) + "%";
-    auto callback = [this, zoom_factor]
+    auto zoom_percent = zoom_factor * 100.f;
+    auto item_label = std::to_string((int)zoom_percent) + "%";
+    auto callback = [this, zoom_percent]
     {
-      m_scale_percentage = zoom_factor * 100.f;
+      m_scale_percentage = zoom_percent;
       on_scale_control_value_changed();
     };
 
@@ -102,6 +105,9 @@ EditorToolbarZoomWidget::set_dropdown_values()
     };
 
     auto zoom_item = std::make_unique<MenuListItem>(item_label, callback);
+    auto help_text = fmt::format(fmt::runtime(_("Set zoom factor to {}%.")), (int)zoom_percent);
+
+    zoom_item->set_help_text(help_text);
     zoom_item->set_is_selected_handler(is_selected_handler);
     menu_list->add_item(std::move(zoom_item));
   }

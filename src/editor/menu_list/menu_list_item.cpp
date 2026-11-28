@@ -28,6 +28,7 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
                            const std::string& surface_path, const Rectf& rect) :
   MenuListBaseItem(rect),
   m_label(label),
+  m_help_text(),
   m_label_offset(DEFAULT_LABEL_OFFSET),
   m_sprite_offset(DEFAULT_SPRITE_OFFSET),
   m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
@@ -46,6 +47,7 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
 MenuListItem::MenuListItem(const std::string& label) :
   MenuListBaseItem(),
   m_label(label),
+  m_help_text(),
   m_label_offset(DEFAULT_LABEL_OFFSET),
   m_sprite_offset(DEFAULT_SPRITE_OFFSET),
   m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
@@ -63,6 +65,7 @@ MenuListItem::MenuListItem(const std::string& label) :
 MenuListItem::MenuListItem(const std::string& label, const std::function<void()> onclick_handler) :
   MenuListBaseItem(),
   m_label(label),
+  m_help_text(),
   m_label_offset(DEFAULT_LABEL_OFFSET),
   m_sprite_offset(DEFAULT_SPRITE_OFFSET),
   m_selected_indicator_offset(DEFAULT_SELECTED_INDICATOR_OFFSET),
@@ -75,6 +78,19 @@ MenuListItem::MenuListItem(const std::string& label, const std::function<void()>
   m_item_selected_surface(nullptr)
 {
   set_label(label);
+}
+
+void
+MenuListItem::update(float)
+{
+  if (!has_mouse_focus() || m_help_text.empty())
+    return;
+
+  auto editor = Editor::current();
+  auto status_bar = editor->get_status_bar();
+
+  status_bar->set_label(m_help_text);
+  status_bar->set_color(Color::WHITE);
 }
 
 void
