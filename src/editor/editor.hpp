@@ -111,6 +111,7 @@ public:
   inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
   inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
   inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
+  inline InterfaceLabel* get_status_bar() const { return m_status_bar; }
   EditorTilebox &get_tilebox() const;
   TileSelection *get_tile_selection() const;
 
@@ -267,6 +268,7 @@ private:
   EditorLayersWidget* m_layers_widget;
   EditorToolbarWidget* m_toolbar_widget;
   EditorPropertiesPanel* m_properties_panel;
+  InterfaceLabel* m_status_bar;
   EditorHistoryManager* m_history_manager;
 
   std::unique_ptr<EditorProject> m_project;

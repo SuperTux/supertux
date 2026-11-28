@@ -125,10 +125,10 @@ private:
   void apply_camera_settings(DrawingContext &);
 
   /**
-   * Draws help text for autotiling, including the necessary key presses
-   * @param DrawingContext Current DrawingContext instance
+   * Updates status bar help text for autotiling, including the necessary key presses
    */
-  void draw_autotile_help(DrawingContext &);
+  void update_autotile_help();
+
   void draw_tilemap_outer_shading(DrawingContext&);
   void draw_tilemap_border(DrawingContext&);
   void draw_tile_tip(DrawingContext&);

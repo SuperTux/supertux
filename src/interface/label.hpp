@@ -19,6 +19,7 @@
 #include <SDL3/SDL.h>
 
 #include "editor/widget.hpp"
+#include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
 class InterfaceLabel : public Widget
@@ -33,7 +34,13 @@ public:
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
 
   inline void set_rect(const Rectf& rect) { m_rect = rect; }
-  inline Rectf get_rect() const { return m_rect; }
+  inline const Rectf& get_rect() const { return m_rect; }
+
+  inline void set_color(const Color &color) { m_color = color; }
+  inline const Color& get_color() const { return m_color; }
+
+  inline void set_layer(int layer) { m_layer = layer; }
+  inline int get_layer() { return m_layer; }
 
   inline void set_label(const std::string& label) { m_label = label; }
   inline const std::string& get_label() const { return m_label; }
@@ -47,6 +54,13 @@ public:
 protected:
   /** The rectangle where the InterfaceLabel should be rendered */
   Rectf m_rect;
+
+  /** The color of the label */
+  Color m_color;
+
+  /** The layer the label is drawn on */
+  int m_layer;
+
   /** The text of the label */
   std::string m_label;
   /** Some descriptive text for the label */

@@ -121,6 +121,8 @@ EditorOverlayWidget::update(float dt_sec)
   {
     delete_markers();
   }
+
+  update_autotile_help();
 }
 
 void
@@ -1785,8 +1787,6 @@ EditorOverlayWidget::draw(DrawingContext& context)
     else
       context.color().draw_text(Resources::normal_font, m_warning_text, Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::warning_color);
   }
-
-  draw_autotile_help(context);
 }
 
 void
@@ -1801,15 +1801,14 @@ EditorOverlayWidget::apply_camera_settings(DrawingContext& context)
 }
 
 void
-EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
+EditorOverlayWidget::update_autotile_help()
 {
   if (m_editor.get_editor_mode() != EditorMode::TILE || !g_config->editor_autotile_help)
     return;
 
-  Vector hint_pos(200.f, context.get_height() - 20.5f);
-
   auto events = m_editor.get_event_handling();
   auto tile_selection = m_editor.get_tile_selection();
+  auto status_bar = m_editor.get_status_bar();
 
   Color text_color;
   std::string hint_text = "";
@@ -1877,7 +1876,8 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
     hint_text += " " + key_range_hint;
   }
 
-  context.color().draw_text(Resources::small_font, hint_text, hint_pos, ALIGN_LEFT, LAYER_GUI + 2, text_color);
+  status_bar->set_color(text_color);
+  status_bar->set_label(hint_text);
 }
 
 Vector

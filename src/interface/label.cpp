@@ -22,6 +22,8 @@
 
 InterfaceLabel::InterfaceLabel() :
   m_rect(),
+  m_color(Color::WHITE),
+  m_layer(LAYER_GUI),
   m_label(),
   m_description(),
   m_mouse_pos(0.0f, 0.0f)
@@ -30,6 +32,8 @@ InterfaceLabel::InterfaceLabel() :
 
 InterfaceLabel::InterfaceLabel(const Rectf& rect, std::string label) :
   m_rect(rect),
+  m_color(Color::WHITE),
+  m_layer(LAYER_GUI),
   m_label(std::move(label)),
   m_description(),
   m_mouse_pos(0.0f, 0.0f)
@@ -38,6 +42,8 @@ InterfaceLabel::InterfaceLabel(const Rectf& rect, std::string label) :
 
 InterfaceLabel::InterfaceLabel(const Rectf& rect, std::string label, std::string description) :
   m_rect(rect),
+  m_color(Color::WHITE),
+  m_layer(LAYER_GUI),
   m_label(std::move(label)),
   m_description(std::move(description)),
   m_mouse_pos(0.0f, 0.0f)
@@ -59,12 +65,12 @@ InterfaceLabel::draw(DrawingContext& context)
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                     Resources::small_font->get_height() / 2 + 1.f),
-                            FontAlignment::ALIGN_LEFT,
-                            LAYER_GUI,
-                            Color::WHITE);
+                            FontAlignment::ALIGN_LEFT, m_layer, m_color);
 
   auto has_description = m_description.length() > 0;
-  if ((!fits(m_label) || has_description) && m_rect.contains(m_mouse_pos)) {
+  
+  if ((!fits(m_label) || has_description) && m_rect.contains(m_mouse_pos))
+  {
     auto font = Resources::small_font;
     auto text_width = font->get_text_width(m_label);
     auto text_height = font->get_height() * (has_description ? 2 : 1);

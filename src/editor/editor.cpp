@@ -78,6 +78,7 @@ Editor::Editor() :
   m_layers_widget(),
   m_toolbar_widget(),
   m_properties_panel(new EditorPropertiesPanel),
+  m_status_bar(),
   m_history_manager(new EditorHistoryManager),
   m_project(new EditorProject),
   m_tile_converter(new EditorTileConverter),
@@ -119,11 +120,15 @@ Editor::prepare_widgets()
   m_overlay_widget = overlay_widget.get();
   auto toolbar_widget = std::make_unique<EditorToolbarWidget>(*this);
   m_toolbar_widget = toolbar_widget.get();
+  auto status_bar = std::make_unique<InterfaceLabel>();
+  status_bar->set_layer(LAYER_GUI + 2);
+  m_status_bar = status_bar.get();
 
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
   m_widgets.push_back(std::move(toolbar_widget));
+  m_widgets.push_back(std::move(status_bar));
 }
 
 void
@@ -475,6 +480,9 @@ Editor::on_window_resize()
   {
     widget->on_window_resize();
   }
+
+  auto status_bar_rect = Rectf(200.f, SCREEN_HEIGHT - 32.f, SCREEN_WIDTH, SCREEN_HEIGHT);
+  m_status_bar->set_rect(status_bar_rect);
 }
 
 bool
