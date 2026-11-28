@@ -475,13 +475,14 @@ std::unique_ptr<EditorToolbarButtonWidget>
 EditorToolbarWidget::create_rubber_button() const
 {
   auto toolbox_widget = m_editor.get_toolbox_widget();
-  auto on_erase_tool_click = [toolbox_widget]()
+  auto erase = [toolbox_widget]
   {
     toolbox_widget->set_input_mode(InputMode::SINGLE);
-    toolbox_widget->set_rubber_tool(); 
+    toolbox_widget->set_rubber_tool();
   };
+
   auto erase_tool =
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", on_erase_tool_click,
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png", erase,
                                                   _("Delete the tile or object under the mouse"));
   auto is_erase_tool_selected = [this]
   {
@@ -496,12 +497,6 @@ EditorToolbarWidget::create_rubber_button() const
   };
   erase_tool->set_selected_function(is_erase_tool_selected);
   auto menu_list = erase_tool->get_menu_list();
-
-  auto erase = [toolbox_widget]
-  {
-    toolbox_widget->set_input_mode(InputMode::SINGLE);
-    toolbox_widget->set_rubber_tool();
-  };
 
   auto erase_item = std::make_unique<MenuListItem>(_("Erase"), erase,
                       "images/engine/editor/rubber.png", Rectf());
@@ -548,21 +543,20 @@ std::unique_ptr<EditorToolbarButtonWidget>
 EditorToolbarWidget::create_mouse_tool() const
 {
   auto toolbox_widget = m_editor.get_toolbox_widget();
+  auto set_move_mode = [toolbox_widget]
+  {
+    toolbox_widget->set_mouse_tool();
+    toolbox_widget->set_object_move_mode(ObjectMoveMode::MOVE);
+  };
+
   auto mouse_tool = // Mouse select button
-      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", [toolbox_widget]()
-                                                  { toolbox_widget->set_mouse_tool(); },
+      std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", set_move_mode,
                                                   _("Select or move the object under the mouse"));
   auto is_mouse_tool_selected = [this]
   {
     return m_editor.get_selected_object_class_name() == "#move";
   };
   mouse_tool->set_selected_function(is_mouse_tool_selected);
-
-  auto set_move_mode = [toolbox_widget]
-  {
-    toolbox_widget->set_mouse_tool();
-    toolbox_widget->set_object_move_mode(ObjectMoveMode::MOVE);
-  };
 
   auto set_duplicate_mode = [toolbox_widget]
   {
