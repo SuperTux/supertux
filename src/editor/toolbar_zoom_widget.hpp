@@ -43,8 +43,8 @@ public:
   virtual void draw(DrawingContext &context) override;
   virtual bool event(const SDL_Event &ev) override
   {
-    EditorToolbarBaseWidget::event(ev);
-    return m_control_textbox->event(ev);
+    return EditorToolbarBaseWidget::event(ev) ||
+            m_control_textbox->event(ev);
   }
 
   bool has_focus() const { return m_control_textbox->has_focus(); }
