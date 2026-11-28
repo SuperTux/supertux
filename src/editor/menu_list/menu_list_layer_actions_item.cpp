@@ -17,6 +17,7 @@
 #include "editor/menu_list/menu_list_layer_actions_item.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/editor_project.hpp"
 #include "editor/layers/layers_widget.hpp"
 #include "editor/menu_list/menu_list_item.hpp"
 #include "math/vector.hpp"
@@ -28,9 +29,23 @@ MenuListLayerActionsItem::MenuListLayerActionsItem(EditorLayersWidget* parent) :
   m_parent(parent),
   m_buttons(),
   m_initialized(),
+  m_is_worldmap(),
   m_add_layer_menu(std::make_unique<MenuListWidget>()),
   m_add_layer_menu_visible()
 {
+  auto editor_project = Editor::current()->get_project();
+  auto on_level_set = [this, editor_project]
+  {
+    auto is_worldmap = editor_project->is_worldmap();
+    if (m_initialized && m_is_worldmap == is_worldmap)
+      return;
+    
+    initialize();
+    m_is_worldmap = is_worldmap;
+    m_initialized = true;
+  };
+  editor_project->add_level_set_callback(on_level_set);
+  on_level_set();
 }
 
 void
@@ -83,6 +98,8 @@ MenuListLayerActionsItem::add_move_down_button()
 void
 MenuListLayerActionsItem::add_layer_add_button()
 {
+  m_add_layer_menu->clear_items();
+
   auto add_button = std::make_unique<EditorToolbarButtonWidget>(
       "images/engine/editor/add.png", get_rect().p2() - Vector(25, 25),
       [] {}, Sizef(25, 25));
@@ -93,7 +110,7 @@ MenuListLayerActionsItem::add_layer_add_button()
     m_add_layer_menu_visible = !m_add_layer_menu_visible;
   });
 
-  auto layer_objects =  Editor::current()->get_tilebox().get_layers_object_group();
+  auto layer_objects = Editor::current()->get_tilebox().get_layers_object_group();
 
   for (const auto &layer_type : layer_objects->get_icons())
   {
@@ -125,6 +142,8 @@ MenuListLayerActionsItem::add_layer_add_button()
 void
 MenuListLayerActionsItem::initialize()
 {
+  m_buttons.clear();
+
   add_delete_button();
   add_move_up_button();
   add_move_down_button();
@@ -155,12 +174,6 @@ MenuListLayerActionsItem::set_disabled(bool disabled)
 void
 MenuListLayerActionsItem::update(float dt_sec)
 {
-  if (!m_initialized)
-  {
-    initialize();
-    m_initialized = true;
-  }
-
   if (m_add_layer_menu_visible)
   {
     m_add_layer_menu->update(dt_sec);
