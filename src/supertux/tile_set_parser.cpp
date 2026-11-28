@@ -25,6 +25,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/tile_set.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -85,6 +86,8 @@ TileSetParser::parse(bool imported)
       reader.get("name", tilegroup.name);
       reader.get("tiles", tilegroup.tiles);
       reader.get("id", tilegroup.id);
+
+      tilegroup.name = _(tilegroup.name);
 
       // Allow offsetting every tile ID, specified in the tilegroup
       int32_t tiles_offset = 0;

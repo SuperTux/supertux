@@ -16,6 +16,7 @@
 
 #include "editor/object_group.hpp"
 
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 ObjectGroup::ObjectGroup() :
@@ -35,6 +36,8 @@ ObjectGroup::ObjectGroup(const ReaderMapping& reader) :
 
   reader.get("name", m_name);
   reader.get("worldmap", m_for_worldmap);
+
+  m_name = _(m_name);
 
   auto iter = reader.get_iter();
   while (iter.next()) {
