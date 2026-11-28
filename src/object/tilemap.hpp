@@ -16,11 +16,10 @@
 
 #pragma once
 
-#include "editor/layer_object.hpp"
-
 #include <algorithm>
 #include <unordered_set>
 
+#include "editor/layers/layer_object.hpp"
 #include "math/rect.hpp"
 #include "math/rectf.hpp"
 #include "math/size.hpp"

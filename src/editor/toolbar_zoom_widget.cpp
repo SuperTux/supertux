@@ -17,7 +17,7 @@
 #include "editor/toolbar_zoom_widget.hpp"
 
 #include "editor/editor_camera.hpp"
-#include "editor/menu_list_item.hpp"
+#include "editor/menu_list/menu_list_item.hpp"
 #include "object/camera.hpp"
 
 EditorToolbarZoomWidget::EditorToolbarZoomWidget() :

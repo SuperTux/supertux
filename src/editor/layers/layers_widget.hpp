@@ -1,0 +1,186 @@
+//  SuperTux
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#pragma once
+
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+#include "editor/editor.hpp"
+#include "editor/widget.hpp"
+
+#include "editor/layers/editor_layer.hpp"
+#include "editor/object_icon.hpp"
+#include "editor/object_info.hpp"
+#include "math/fwd.hpp"
+#include "util/uid.hpp"
+
+class DrawingContext;
+class Editor;
+class EditorTilebox;
+class MenuListWidget;
+class GameObject;
+class EditorLayer;
+class TileMap;
+class Tip;
+
+/** A widget at the bottom of the screen for switching between tilemap
+    layers and other non-movable GameObjects */
+class EditorLayersWidget final : public Widget
+{
+public:
+  enum class HoveredItem {
+    NONE, SPAWNPOINTS, SECTOR
+  };
+
+public:
+  EditorLayersWidget(Editor& editor);
+
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override;
+
+  virtual bool event(const SDL_Event& ev) override;
+  virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
+  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
+  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
+  virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
+  virtual bool on_key_up(const SDL_KeyboardEvent &key) override;
+  virtual bool on_key_down(const SDL_KeyboardEvent &key) override;
+
+  virtual void setup() override;
+  virtual void on_window_resize() override;
+  virtual bool has_focus() const;
+
+  void on_level_change();
+
+  void refresh();
+
+  void refresh_sector_text();
+  void select_initial_layer();
+  void sort_layers();
+
+  void on_layer_list_changed();
+
+  /**
+   * Adds a new layer to the layers widget.
+   * @param GameObject* layer GameObject to add to layers
+   * @param execute_post_layer_add_actions If true, post layer add (sorting, populating layer list) actions are performed
+   */
+  void add_layer(GameObject* layer, bool execute_post_layer_add_actions = true);
+
+  EditorLayer *get_selected_layer() const { return m_selected_layer; }
+  void set_selected_layer(EditorLayer *layer);
+  void set_selected_layer(GameObject *object);
+
+  EditorLayer *get_layer_for_game_object(GameObject *object) const;
+
+  /**
+   * Returns the previous (in terms of list order) layer or nullptr if layer is at the top 
+   */
+  EditorLayer* get_previous_layer(const EditorLayer* layer) const;
+
+  /**
+   * Returns the next (in terms of list order) layer or nullptr if layer is at the bottom
+   */
+  EditorLayer* get_next_layer(const EditorLayer* layer) const;
+
+  /**
+   * Queues a refresh of the layers widget
+   */
+  inline void queue_layer_list_refresh()
+  {
+    m_layer_list_needs_refresh = true;
+  }
+
+  void move_selected_layer_up();
+  void move_selected_layer_down();
+  void delete_selected_layer();
+
+  const MenuListWidget* get_layer_list_widget() const
+  {
+    return m_layer_list_widget.get();
+  }
+  /**
+   * Populates the layers menu with all the relevant layers
+   */
+  void populate_layers_list_widget();
+
+  bool has_mouse_focus() const;
+
+  const std::vector<std::unique_ptr<EditorLayer>>& get_editor_layers() const
+  {
+    return m_editor_layers;
+  }
+
+  ObjectsLayer* get_objects_layer() const
+  {
+    return m_objects_layer;
+  }
+
+  void set_mode(Editor::EditorMode mode);
+
+  TileMap* get_selected_tilemap() const;
+  void set_selected_tilemap(TileMap* tilemap);
+  void remove_invalid_layers();
+
+  /**
+   * Returns true if a layer has been single-selected (only this layer is shown)
+   * @return true if single-selection mode is enabled, otherwise false.
+   */
+  bool get_single_selection_mode() const { return m_single_selection_mode; }
+
+  /**
+   * Sets single-selection mode (only show one particular layer)
+   * @param value true if single-selection mode is enabled, otherwise false.
+   */
+  void set_single_selection_mode(bool value) { m_single_selection_mode = value; }
+
+private:
+  Vector get_layer_coords(const int idx) const;
+  int get_layer_idx(const Vector& coords) const;
+  void recalculate_positions();
+  void handle_layer_list_widget_refresh();
+
+private:
+  Editor& m_editor;
+  std::vector<std::unique_ptr<EditorLayer>> m_editor_layers;
+  ObjectsLayer* m_objects_layer;
+  EditorLayer *m_selected_layer;
+  UID m_selected_tilemap;
+  bool m_single_selection_mode;
+
+  int m_Ypos;
+  const int m_Xpos = 32;
+  int m_Width;
+
+  std::string m_sector_text;
+  int m_sector_text_width;
+
+  HoveredItem m_hovered_item;
+
+  std::unique_ptr<MenuListWidget> m_layer_list_widget;
+  bool m_layer_list_widget_visible;
+  bool m_layer_list_needs_refresh;
+
+  bool m_has_mouse_focus;
+
+private:
+  EditorLayersWidget(const EditorLayersWidget&) = delete;
+  EditorLayersWidget& operator=(const EditorLayersWidget&) = delete;
+};

@@ -18,7 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "editor/editor_event_handling.hpp"
-#include "editor/layers_widget.hpp"
+#include "editor/layers/layers_widget.hpp"
 #include "interface/control.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_object.hpp"

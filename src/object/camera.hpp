@@ -17,11 +17,10 @@
 
 #pragma once
 
-#include "editor/layer_object.hpp"
-
 #include <string>
 #include <utility>
 
+#include "editor/layers/layer_object.hpp"
 #include "math/anchor_point.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"

@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "editor/layer_object.hpp"
+#include "editor/layers/layer_object.hpp"
 
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"

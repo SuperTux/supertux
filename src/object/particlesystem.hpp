@@ -16,10 +16,9 @@
 
 #pragma once
 
-#include "editor/layer_object.hpp"
-
 #include <vector>
 
+#include "editor/layers/layer_object.hpp"
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 

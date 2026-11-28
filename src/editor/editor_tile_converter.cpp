@@ -17,7 +17,7 @@
 #include "editor/editor.hpp"
 #include "editor/editor_camera.hpp"
 #include "editor/editor_tile_converter.hpp"
-#include "editor/layers_widget.hpp"
+#include "editor/layers/layers_widget.hpp"
 #include "gui/dialog.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"

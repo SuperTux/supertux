@@ -23,7 +23,7 @@
 #include "editor/editor.hpp"
 #include "editor/editor_event_handling.hpp"
 #include "editor/toolbar_widget.hpp"
-#include "editor/menu_list_widget.hpp"
+#include "editor/menu_list/menu_list_widget.hpp"
 #include "math/rectf.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

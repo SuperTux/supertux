@@ -1,0 +1,692 @@
+//  SuperTux
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#include "editor/layers/layers_widget.hpp"
+
+#include "editor/editor.hpp"
+#include "editor/editor_event_handling.hpp"
+#include "editor/layers/editor_layer.hpp"
+#include "editor/layers/layers_list_item.hpp"
+#include "editor/menu_list/menu_list_layer_actions_item.hpp"
+#include "editor/menu_list/menu_list_item.hpp"
+#include "editor/menu_list/menu_list_widget.hpp"
+#include "editor/object_menu.hpp"
+#include "editor/tilebox.hpp"
+#include "editor/tip.hpp"
+#include "gui/menu_manager.hpp"
+#include "math/vector.hpp"
+#include "object/camera.hpp"
+#include "object/path_gameobject.hpp"
+#include "object/tilemap.hpp"
+#include "supertux/colorscheme.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/game_object_factory.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/menu/menu_storage.hpp"
+#include "supertux/moving_object.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
+#include "video/renderer.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
+
+#include <fmt/format.h>
+
+using EditorMode = Editor::EditorMode;
+
+EditorLayersWidget::EditorLayersWidget(Editor& editor) :
+  Widget(),
+  m_editor(editor),
+  m_editor_layers(),
+  m_objects_layer(new ObjectsLayer()),
+  m_selected_layer(nullptr),
+  m_selected_tilemap(),
+  m_single_selection_mode(),
+  m_Ypos(448),
+  m_Width(512),
+  m_sector_text(),
+  m_sector_text_width(0),
+  m_hovered_item(HoveredItem::NONE),
+  m_layer_list_widget(std::make_unique<MenuListWidget>()),
+  m_layer_list_widget_visible(true),
+  m_layer_list_needs_refresh(),
+  m_has_mouse_focus(false)
+{
+  auto editor_project = m_editor.get_project();
+  editor_project->add_sector_set_callback(
+    std::bind(&EditorLayersWidget::refresh, this));
+  editor_project->add_reset_callback(
+    std::bind(&EditorLayersWidget::on_level_change, this));
+}
+
+void
+EditorLayersWidget::draw(DrawingContext& context)
+{
+  // TODO: `LINE_THICKNESS` and `line_color` were copied from Editor::draw.
+  // We need to find a better place for them, so as to not duplicate code.
+
+  constexpr float LINE_THICKNESS = 1.f;
+  Color line_color = (g_config->editorcolor - Color(0.2, 0.2, 0.2, 0.2)).validate();
+  Rectf layers_rect = Rectf{0, SCREEN_HEIGHT - 32.f - LINE_THICKNESS,
+                            SCREEN_WIDTH - 128.f, SCREEN_HEIGHT - 32.f};
+  context.color().draw_filled_rect(layers_rect, line_color, LAYER_GUI + 1);
+
+  if(m_layer_list_widget_visible)
+  {
+    m_layer_list_widget->draw(context);
+  }
+
+  context.color().set_blur(g_config->editor_blur);
+  context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(m_Ypos)),
+                                         Vector(static_cast<float>(m_Width), static_cast<float>(SCREEN_HEIGHT))),
+                                     g_config->editorcolor,
+                                     0.0f,
+                                     LAYER_GUI-10);
+  context.color().set_blur(0);
+
+  Rectf target_rect = Rectf(0, 0, 0, 0);
+  bool draw_rect = true;
+
+  switch (m_hovered_item)
+  {
+    case HoveredItem::SPAWNPOINTS:
+      target_rect = Rectf(Vector(0, static_cast<float>(m_Ypos)),
+                          Vector(static_cast<float>(m_Xpos), static_cast<float>(SCREEN_HEIGHT)));
+      break;
+
+    case HoveredItem::SECTOR:
+      target_rect = Rectf(Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos)),
+                          Vector(static_cast<float>(m_sector_text_width + m_Xpos), static_cast<float>(SCREEN_HEIGHT)));
+      break;
+
+    default:
+      draw_rect = false;
+      break;
+  }
+
+  if (draw_rect)
+  {
+    context.color().draw_filled_rect(target_rect, g_config->editorhovercolor, 0.0f,
+                                       LAYER_GUI-5);
+  }
+
+  if (!m_editor.get_project()->is_level_loaded())
+  {
+    return;
+  }
+
+  context.color().draw_text(Resources::normal_font, m_sector_text,
+                            Vector(35.0f, static_cast<float>(m_Ypos) + 5.0f),
+                            ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
+}
+
+void
+EditorLayersWidget::update(float dt_sec)
+{
+  if (m_layer_list_widget_visible)
+  {
+    m_layer_list_widget->update(dt_sec);
+    handle_layer_list_widget_refresh();
+
+    auto selected_layer = get_selected_layer();
+    if (!selected_layer)
+    {
+      // Ensure a layer is always selected
+      select_initial_layer();
+    }
+  }
+}
+
+bool
+EditorLayersWidget::event(const SDL_Event& ev)
+{
+  bool result = Widget::event(ev);
+
+  if (m_layer_list_widget_visible)
+    result |= m_layer_list_widget->event(ev);
+
+  return result;
+}
+
+bool
+EditorLayersWidget::has_focus() const
+{
+  if (!m_layer_list_widget_visible)
+  {
+    return false;
+  }
+
+  for (const auto &item : m_layer_list_widget->get_menu_items())
+  {
+    if (item->has_focus())
+      return true;
+  }
+
+  return false;
+}
+
+bool
+EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
+{
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_button_up(button))
+  {
+    return true;
+  }
+
+  return false;
+}
+
+bool
+EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+{
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_button_down(button))
+    return true;
+
+  auto hovered_item = m_hovered_item;
+  m_hovered_item = HoveredItem::NONE;
+
+  if (button.button == SDL_BUTTON_LEFT)
+  {
+    switch (hovered_item)
+    {
+      case HoveredItem::SECTOR:
+        MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
+        return true;
+      
+      default:
+        return false;
+      }
+  }
+
+  return false;
+}
+
+bool
+EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+{
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_motion(motion))
+    return true;
+
+  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
+
+
+  float x = mouse_pos.x - static_cast<float>(m_Xpos);
+  float y = mouse_pos.y - static_cast<float>(m_Ypos);
+
+  if (y < 0 || x > static_cast<float>(m_Width)) {
+    m_hovered_item = HoveredItem::NONE;
+    m_has_mouse_focus = false;
+    return false;
+  }
+
+  m_has_mouse_focus = true;
+
+  if (x < 0) {
+    m_hovered_item = HoveredItem::SPAWNPOINTS;
+    return true;
+  }
+
+  if (x <= static_cast<float>(m_sector_text_width)) {
+    m_hovered_item = HoveredItem::SECTOR;
+  }
+
+  return true;
+}
+
+
+bool
+EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
+{
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_mouse_wheel(wheel))
+    return true;
+
+  return false;
+}
+
+bool
+EditorLayersWidget::on_key_up(const SDL_KeyboardEvent &key)
+{
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_key_up(key))
+    return true;
+
+  return false;
+}
+
+bool
+EditorLayersWidget::on_key_down(const SDL_KeyboardEvent &key)
+{
+  if (m_layer_list_widget_visible && m_layer_list_widget->on_key_down(key))
+    return true;
+
+  return false;
+}
+
+bool
+EditorLayersWidget::has_mouse_focus() const
+{
+  return m_has_mouse_focus;
+}
+
+void
+EditorLayersWidget::on_window_resize()
+{
+  recalculate_positions();
+}
+
+void
+EditorLayersWidget::recalculate_positions()
+{
+  m_Ypos = SCREEN_HEIGHT - 32;
+  m_Width = SCREEN_WIDTH - 128;
+
+  m_layer_list_widget->recalculate_item_position_and_size(Vector(0, m_Ypos - 1), true);
+
+  auto layer_list_area = m_layer_list_widget->get_area();
+  layer_list_area.set_p1(Vector(0, SCREEN_HEIGHT / 2.f));
+  layer_list_area.set_p2(Vector(200.f, m_Ypos));
+  m_layer_list_widget->set_area(layer_list_area);
+}
+
+void
+EditorLayersWidget::setup()
+{
+  recalculate_positions();
+}
+
+void
+EditorLayersWidget::on_level_change()
+{
+  m_selected_layer = nullptr;
+  m_selected_tilemap = 0;
+}
+
+void
+EditorLayersWidget::refresh()
+{
+  m_editor_layers.clear();
+
+  auto editor_project = m_editor.get_project();
+  auto sector = editor_project->get_sector();
+
+  if (sector == nullptr)
+    return;
+
+  for (const auto& obj : sector->get_objects())
+    add_layer(obj.get(), /* sort_layers_after_adding = */ false);
+
+  m_editor_layers.push_back(std::make_unique<EditorLayer>(m_objects_layer));
+
+  on_layer_list_changed();
+
+  refresh_sector_text();
+}
+
+void
+EditorLayersWidget::populate_layers_list_widget()
+{
+  bool was_initialized = m_layer_list_widget->get_item_count() > 0;
+
+  m_layer_list_widget->clear_items();
+
+  int idx = 0;
+  for (const auto &editor_layer : m_editor_layers)
+  {
+    std::unique_ptr<MenuListItem> menu_item = 
+      std::make_unique<LayersListItem>(this, editor_layer.get());
+    m_layer_list_widget->add_item(idx, std::move(menu_item));
+    idx++;
+  }
+
+  if (!was_initialized)
+  {
+    m_layer_list_widget->add_separator();
+    m_layer_list_widget->add_item(std::make_unique<MenuListLayerActionsItem>(this));
+  }
+
+  recalculate_positions();
+}
+
+void
+EditorLayersWidget::handle_layer_list_widget_refresh()
+{
+  if (!m_layer_list_widget_visible || !m_layer_list_needs_refresh)
+    return;
+
+  auto& layer_items = m_layer_list_widget->get_menu_items();
+  auto layer_name_editing_predicate = [](const std::unique_ptr<MenuListBaseItem> &item)
+  {
+    auto layer_item = dynamic_cast<LayersListItem *>(item.get());
+    return layer_item && layer_item->is_editing_layer_name();
+  };
+
+  auto is_editing_layer_name = std::any_of(layer_items.begin(), layer_items.end(), 
+                                layer_name_editing_predicate);
+
+  if (is_editing_layer_name)
+    return;
+
+  on_layer_list_changed();
+
+  auto selected_layer = get_selected_layer();
+  if (selected_layer != nullptr)
+  {
+    auto selected_layer_object = selected_layer->get_game_object();
+    if (selected_layer_object != nullptr)
+    {
+      selected_layer_object->check_state();
+    }
+  }
+
+  m_layer_list_needs_refresh = false;
+}
+
+void
+EditorLayersWidget::refresh_sector_text()
+{
+  auto sector = m_editor.get_project()->get_sector();
+  m_sector_text = fmt::format(fmt::runtime(_("Sector: {}")), sector->get_name());
+  m_sector_text_width  = int(Resources::normal_font->get_text_width(m_sector_text)) + 6;
+}
+
+void
+EditorLayersWidget::select_initial_layer()
+{
+  bool layer_selected = false;
+  EditorLayer* first_selectable_layer = nullptr;
+
+  auto editor_project = m_editor.get_project();
+
+  if (editor_project->is_sector_set())
+  {
+    auto last_selected_layer = get_selected_layer();
+
+    if (last_selected_layer != nullptr && last_selected_layer->is_valid())
+    {
+      set_selected_layer(last_selected_layer->get_game_object());
+      return;
+    }
+  }
+
+  for (const auto& layer : m_editor_layers)
+  {
+    if (!layer->is_tilemap())
+      continue;
+
+    auto tm = layer->get_tilemap();
+    if (!tm)
+      continue;
+
+    if (first_selectable_layer == nullptr)
+    {
+      first_selectable_layer = layer.get();
+    }
+
+    if (tm->is_solid() && !layer_selected)
+    {
+      set_selected_layer(layer.get());
+      layer_selected = true;
+    }
+  }
+
+  if (!layer_selected && first_selectable_layer != nullptr)
+  {
+    set_selected_layer(first_selectable_layer);
+  }
+}
+
+void
+EditorLayersWidget::sort_layers()
+{
+  auto layers_comparator = [](const std::unique_ptr<EditorLayer> &lhs, const std::unique_ptr<EditorLayer> &rhs)
+  {
+    return lhs->get_zpos() < rhs->get_zpos();
+  };
+  std::sort(m_editor_layers.begin(), m_editor_layers.end(), layers_comparator);
+}
+
+void
+EditorLayersWidget::add_layer(GameObject* object, bool execute_post_layer_add_actions)
+{
+  if (!object->has_settings() || !object->is_layer_object())
+    return;
+
+  auto* layer = static_cast<LayerObject*>(object);
+  auto editor_layer = std::make_unique<EditorLayer>(layer);
+  m_editor_layers.push_back(std::move(editor_layer));
+
+  if (execute_post_layer_add_actions)
+  {
+    on_layer_list_changed();
+  }
+
+  recalculate_positions();
+}
+
+EditorLayer* 
+EditorLayersWidget::get_layer_for_game_object(GameObject* object) const
+{
+  auto is_layer_for_object = [object] (const std::unique_ptr<EditorLayer> &editor_layer)
+  {
+    return editor_layer->get_game_object() == object;
+  };
+
+  auto matching_layer =
+    std::find_if(m_editor_layers.begin(), m_editor_layers.end(), is_layer_for_object);
+
+  if (matching_layer == m_editor_layers.end())
+  {
+    return nullptr;
+  }
+
+  return matching_layer->get();
+}
+
+void
+EditorLayersWidget::set_selected_layer(GameObject* object)
+{
+  auto matching_layer = get_layer_for_game_object(object);
+  
+  if (matching_layer == nullptr)
+    return;
+
+  set_selected_layer(matching_layer);
+}
+
+void
+EditorLayersWidget::set_selected_layer(EditorLayer *layer)
+{
+  if (layer->is_tilemap())
+  {
+    set_selected_tilemap(layer->get_tilemap());
+  }
+
+  m_selected_layer = layer;
+
+  if (layer)
+  {
+    m_editor.set_selected_object(layer->get_game_object());
+
+    auto& last_widget = m_layer_list_widget->get_menu_items().back();
+    auto actions_widget = dynamic_cast<MenuListLayerActionsItem*>(last_widget.get());
+    if (actions_widget)
+    {
+      actions_widget->set_disabled(!layer->is_user_modifiable());
+    }
+  }
+}
+
+void
+EditorLayersWidget::on_layer_list_changed()
+{
+  remove_invalid_layers();
+  sort_layers();
+  populate_layers_list_widget();
+  select_initial_layer();
+}
+
+EditorLayer*
+EditorLayersWidget::get_previous_layer(const EditorLayer* layer) const
+{
+  auto layers_equal = [layer](const std::unique_ptr<EditorLayer> &editor_layer)
+  {
+    return editor_layer.get() == layer;
+  };
+  auto find_result = std::find_if(m_editor_layers.begin(), m_editor_layers.end(), layers_equal);
+
+  // not found (this should never happen!)
+  if (find_result == m_editor_layers.end())
+    return nullptr;
+
+  // layer is already first layer
+  if (find_result == m_editor_layers.begin())
+    return nullptr;
+
+  auto prev_layer = (*(--find_result)).get();
+  auto is_valid = prev_layer->get_zpos() > INT_MIN;
+
+  return is_valid ? prev_layer : nullptr;
+}
+
+EditorLayer*
+EditorLayersWidget::get_next_layer(const EditorLayer* layer) const
+{
+  auto layers_equal = [layer](const std::unique_ptr<EditorLayer>& editor_layer)
+  {
+    return editor_layer.get() == layer;
+  };
+  auto find_result = std::find_if(m_editor_layers.begin(), m_editor_layers.end(), layers_equal);
+
+  // not found (this should never happen!)
+  if (find_result == m_editor_layers.end())
+    return nullptr;
+
+  // layer is already last layer
+  if (find_result == m_editor_layers.end() - 1)
+    return nullptr;
+
+  auto next_layer = (*(++find_result)).get();
+  auto is_valid = next_layer->get_zpos() > INT_MIN;
+
+  return is_valid ? next_layer : nullptr;
+}
+
+void
+EditorLayersWidget::move_selected_layer_up()
+{
+  auto layer = get_selected_layer();
+  if (layer == nullptr || !layer->is_user_modifiable())
+    return;
+  
+  auto previous_layer = get_previous_layer(layer);
+  if (previous_layer == nullptr)
+    return;
+
+  layer->get_game_object()->save_state();
+  layer->get_game_object()->set_layer(previous_layer->get_zpos() - 1);
+
+  queue_layer_list_refresh();
+}
+
+void
+EditorLayersWidget::move_selected_layer_down()
+{
+  auto layer = get_selected_layer();
+  if (layer == nullptr || !layer->is_user_modifiable())
+    return;
+
+  auto next_layer = get_next_layer(layer);
+  if (next_layer == nullptr)
+    return;
+
+  layer->get_game_object()->save_state();
+  layer->get_game_object()->set_layer(next_layer->get_zpos() + 1);
+
+  queue_layer_list_refresh();
+}
+
+void
+EditorLayersWidget::delete_selected_layer()
+{
+  auto layer = get_selected_layer();
+  if (layer == nullptr || !layer->is_user_modifiable())
+    return;
+  
+  auto next_selected_layer = get_previous_layer(layer);
+  if (next_selected_layer == nullptr) // no previous layer found, try next
+    next_selected_layer = get_next_layer(layer);
+
+  if (next_selected_layer == nullptr) // layer is the only layer. Keep it
+    return;
+
+  layer->get_game_object()->save_state();
+  set_selected_layer(next_selected_layer);
+
+  layer->get_game_object()->remove_me();
+  on_layer_list_changed();
+}
+
+void
+EditorLayersWidget::remove_invalid_layers()
+{
+  auto remove_predicate = [](const std::unique_ptr<EditorLayer> &layer)
+  {
+    return layer && !layer->is_valid();
+  };
+
+  m_editor_layers.erase(std::remove_if(
+      m_editor_layers.begin(), m_editor_layers.end(),
+      remove_predicate), m_editor_layers.end());
+}
+
+TileMap*
+EditorLayersWidget::get_selected_tilemap() const
+{
+  auto editor_project = m_editor.get_project();
+  auto sector = editor_project->get_sector();
+  return sector->get_object_by_uid<TileMap>(m_selected_tilemap);
+}
+
+void
+EditorLayersWidget::set_selected_tilemap(TileMap* tilemap)
+{
+  m_selected_tilemap = tilemap->get_uid();
+}
+
+void
+EditorLayersWidget::set_mode(EditorMode mode)
+{
+  auto editor_project = m_editor.get_project();
+  if (!editor_project->is_level_loaded() || !editor_project->is_sector_set())
+  {
+    return;
+  }
+
+  if (mode == EditorMode::OBJECT)
+  {
+    set_selected_layer(get_objects_layer());
+    return;
+  }
+  
+  if (mode == EditorMode::TILE)
+  {
+    auto last_tilemap = get_selected_tilemap();
+    if (last_tilemap != nullptr)
+    {
+      set_selected_layer(last_tilemap);
+    }
+  }
+}

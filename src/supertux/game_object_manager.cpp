@@ -24,7 +24,7 @@
 #include <simplesquirrel/vm.hpp>
 
 #include "editor/editor.hpp"
-#include "editor/layers_widget.hpp"
+#include "editor/layers/layers_widget.hpp"
 #include "editor/toolbar_widget.hpp"
 #include "object/ambient_light.hpp"
 #include "object/music_object.hpp"

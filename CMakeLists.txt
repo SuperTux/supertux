@@ -303,8 +303,25 @@ endif()
 ## Build list of sources for supertux binary
 set(SUPERTUX_SOURCES_C ${CMAKE_CURRENT_SOURCE_DIR})
 
-file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
-file(GLOB SUPERTUX_SOURCES_HXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS  src/*/*.hpp src/supertux/menu/*.hpp src/video/sdl/*.hpp src/video/null/*.hpp)
+file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS
+  src/*/*.cpp
+  src/editor/layers/*.cpp
+  src/editor/menu_list/*.cpp
+  src/supertux/menu/*.cpp
+  src/supertux/menu/editor/*.cpp
+  src/video/sdl/*.cpp
+  src/video/null/*.cpp
+)
+
+file(GLOB SUPERTUX_SOURCES_HXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS
+  src/*/*.hpp
+  src/editor/layers/*.hpp
+  src/editor/menu_list/*.hpp
+  src/supertux/menu/*.hpp
+  src/supertux/menu/editor/*.hpp
+  src/video/sdl/*.hpp
+  src/video/null/*.hpp
+)
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
 if(HAVE_OPENGL)

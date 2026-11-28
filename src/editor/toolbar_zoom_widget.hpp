@@ -22,9 +22,9 @@
 
 #include "editor/editor.hpp"
 #include "editor/editor_event_handling.hpp"
+#include "editor/menu_list/menu_list_widget.hpp"
 #include "editor/toolbar_base_widget.hpp"
 #include "editor/toolbar_widget.hpp"
-#include "editor/menu_list_widget.hpp"
 #include "interface/control_textbox_float.hpp"
 #include "math/rectf.hpp"
 #include "object/camera.hpp"

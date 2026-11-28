@@ -22,7 +22,7 @@
 #include <simplesquirrel/vm.hpp>
 
 #include "editor/editor.hpp"
-#include "editor/layers_widget.hpp"
+#include "editor/layers/layers_widget.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
