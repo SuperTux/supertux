@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 8667
+  ;; next-id: 8698
   ;; free/skipped ids (please use before any other):
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
@@ -1626,6 +1626,20 @@
       8640 8641 8642 0
       8650 0    8652 0
       8660 8661 8662 0
+
+      8667 8668 8669 0
+      8672 8673 8674 0
+
+      8677 8678 8670 8671
+      8682 8683 8675 8676
+
+      8679 8680 8681 0
+      8684 8685 8686 0
+
+      8687 8688 8689 0
+      8690 8691 8692 0
+      8693 8694 8695 0
+      8696 8697 0    0
       0    0    0    0
     )
   )
@@ -10036,6 +10050,21 @@
       0 0 0 0 0 0 3 3 3 3
     )
     (images "tiles/jungle/mud.png")
+  )
+
+  (tiles
+    (width 5)(height 8)
+    (ids
+      8667 8668 8669 8670 8671
+      8672 8673 8674 8675 8676
+      8677 8678 8679 8680 8681
+      8682 8683 8684 8685 8686
+      8687 8688 8689 0    0
+      8690 8691 8692 0    0
+      8693 8694 8695 0    0
+      8696 8697 0    0    0
+    )
+    (images "tiles/jungle/jungle_deco.png")
   )
 
   ;; Additional attributes
