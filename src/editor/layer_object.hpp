@@ -74,25 +74,17 @@ private:
   LayerObject& operator=(const LayerObject&) = delete;
 };
 
-class ObjectsLayer final : public LayerObject
+class EditorInternalLayer : public LayerObject
 {
 public:
-  ObjectsLayer() :
-    LayerObject(LAYER_OBJECTS)
+  EditorInternalLayer(int layer) :
+    LayerObject(layer)
   {
   }
 
   void remove_me() override {};
-
-  inline std::string get_display_name() const override { return _("Objects"); }
-
-  static std::string class_name() { return "layer-objects"; }
-  virtual std::string get_class_name() const override { return class_name(); }
-
   virtual bool has_settings() const override { return false; }
 
-  int get_layer() const override { return LAYER_OBJECTS; }
-  
   void set_layer(int) override {}
 
   void update(float) override {}
@@ -101,6 +93,22 @@ public:
   bool track_state() const override { return false; }
 
   void draw(DrawingContext&) override {};
+};
+
+class ObjectsLayer final : public EditorInternalLayer
+{
+public:
+  ObjectsLayer() :
+    EditorInternalLayer(LAYER_OBJECTS)
+  {
+  }
+
+  inline std::string get_display_name() const override { return _("Objects"); }
+
+  static std::string class_name() { return "layer-objects"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+
+  int get_layer() const override { return LAYER_OBJECTS; }
 
   const std::string get_icon_path() const override { return "images/engine/editor/toggle_tile_object_mode.png"; }
 };
