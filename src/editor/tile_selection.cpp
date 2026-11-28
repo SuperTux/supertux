@@ -24,7 +24,7 @@ TileSelection::TileSelection() :
 }
 
 uint32_t
-TileSelection::pos(int x, int y)
+TileSelection::get_tile_id(int x, int y)
 {
   // concern: Is this a sign of a bigger issue?
   if (m_tiles.empty())

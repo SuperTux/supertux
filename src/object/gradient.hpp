@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "editor/layer_object.hpp"
+#include "editor/layers/layer_object.hpp"
 
 #include "video/drawing_context.hpp"
 
@@ -66,9 +66,6 @@ public:
   inline GradientDirection get_direction() const { return m_gradient_direction; }
   std::string get_direction_string() const;
   inline void set_direction(const GradientDirection& direction) { m_gradient_direction = direction; }
-
-  inline void set_layer(int layer) { m_layer = layer; }
-  int get_layer() const override { return m_layer; }
 
   /**
    * @scripting
@@ -156,7 +153,6 @@ public:
   void swap_colors();
 
 private:
-  int m_layer;
   Color m_gradient_top;
   Color m_gradient_bottom;
   GradientDirection m_gradient_direction;

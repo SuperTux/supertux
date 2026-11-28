@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "editor/layer_object.hpp"
+#include "editor/layers/layer_object.hpp"
 
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
@@ -65,9 +65,6 @@ public:
 
   inline const std::string& get_image() const { return m_imagefile; }
   inline float get_speed() const { return m_parallax_speed.x; }
-
-  inline void set_layer(int layer) { m_layer = layer; }
-  int get_layer() const override { return m_layer; }
 
   inline Color get_color() const { return m_color; }
   void fade_color(Color color, float time);
@@ -174,7 +171,6 @@ private:
       are ignored in that case. */
   bool m_fill;
 
-  int m_layer;
   std::string m_imagefile_top;
   std::string m_imagefile;
   std::string m_imagefile_bottom;

@@ -16,11 +16,10 @@
 
 #pragma once
 
-#include "editor/layer_object.hpp"
-
 #include <algorithm>
 #include <unordered_set>
 
+#include "editor/layers/layer_object.hpp"
 #include "math/rect.hpp"
 #include "math/rectf.hpp"
 #include "math/size.hpp"
@@ -67,6 +66,8 @@ public:
   static std::string display_name() { return _("Tilemap"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PathObject)).add(typeid(TileMap)); }
+
+  virtual bool can_follow_path() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -146,10 +147,22 @@ public:
   void hits_object_bottom(CollisionObject& object);
   void notify_object_removal(CollisionObject* other);
 
-  int get_layer() const override { return m_z_pos; }
-  inline void set_layer(int layer) { m_z_pos = layer; }
-
+  inline bool is_empty() const
+  {
+    auto tile_empty = [](auto tile)
+    {
+      return tile == 0;
+    };
+    return std::all_of(m_tiles.begin(), m_tiles.end(), tile_empty);
+  }
   inline bool is_solid() const { return m_real_solid && m_effective_solid; }
+
+  /**
+   * Returns true when the tilemap boundaries contain the specified position
+   * @param pos Position to check
+   * @return `true` if position lies within tilemap boundaries, otherwise `false`.
+   */
+  bool contains_position(const Vector &pos);
 
   /**
    * @scripting
@@ -269,6 +282,11 @@ public:
 
   inline const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
 
+  /**
+   * Returns true when this tilemap is currently selected in the editor
+   */
+  bool is_selected_in_editor() const;
+
 private:
   void update_effective_solid(bool update_manager = true);
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
@@ -292,9 +310,6 @@ private:
 
   void apply_offset_x(int fill_id, int xoffset);
   void apply_offset_y(int fill_id, int yoffset);
-
-public:
-  bool m_editor_active;
 
 private:
   const TileSet* m_tileset;
@@ -320,7 +335,6 @@ private:
   float m_speed_y;
   int m_width;
   int m_height;
-  int m_z_pos;
   Vector m_offset;
   Vector m_movement; /**< The movement that happened last frame */
 

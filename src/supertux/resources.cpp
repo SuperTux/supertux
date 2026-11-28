@@ -51,6 +51,7 @@ FontPtr Resources::normal_bitmap_font;
 FontPtr Resources::small_font;
 FontPtr Resources::big_font;
 FontPtr Resources::control_font;
+FontPtr Resources::editor_menu_font;
 
 SurfacePtr Resources::checkbox;
 SurfacePtr Resources::checkbox_checked;
@@ -81,6 +82,7 @@ Resources::load(bool reload)
     small_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white-small.stf", 1));
     big_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white-big.stf", 3));
     control_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/white.stf")); // TODO: Make a better-looking font for this
+    editor_menu_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white-small.stf", 0));
   }
   else
   {
@@ -96,6 +98,7 @@ Resources::load(bool reload)
       small_font.reset(new TTFFont(font, 10, 1.25f, 2, 1));
       big_font.reset(new TTFFont(font, 22, 1.25f, 2, 1));
       control_font.reset(new TTFFont("fonts/Roboto-Regular.ttf", 15, 1.25f, 0, 0));
+      editor_menu_font.reset(new TTFFont(font, 10, 1.25f, 0, 1));
     }
   }
   TTFSurfaceManager::current()->clear_cache();
@@ -160,6 +163,7 @@ Resources::unload()
   small_font.reset();
   big_font.reset();
   control_font.reset();
+  editor_menu_font.reset();
 
   mouse_cursor.reset();
 }

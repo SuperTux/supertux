@@ -69,14 +69,18 @@ public:
   void update_node_iterators();
   void on_level_change();
 
-  void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
+  /**
+   * Edits the path of an object
+   * @note The path must inherit from the `PathObject` class in order for it to work 
+   * @param object The object whose path to edit
+   */
+  void edit_object_path(GameObject* object = nullptr);
   //void reset_action_press();
 
   inline Vector get_sector_pos() const { return m_sector_pos; }
 
-private:
-  static bool action_pressed;
-  static bool alt_pressed;
+  bool get_is_autotile_mode() const { return m_autotile_mode; }
+  void set_is_autotile_mode(bool value) { m_autotile_mode = value; }
 
 private:
   void input_tile(const Vector& pos, uint32_t tile);
@@ -86,7 +90,16 @@ private:
   void put_next_tiles();
   void draw_rectangle();
   void preview_rectangle();
-  bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile) const;
+
+  /**
+   * Checks if `first_tile` and `second_tile` have mutual autotilesets
+   * and caches the result.
+   * @param first_tile First tile to check
+   * @param second_tile Second tile to check
+   * @return `true` if there are mutual autotilesets, otherwise `false` 
+   */
+  bool has_mutual_autotileset(uint32_t first_tile, uint32_t second_tile);
+  bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile);
   void fill();
   void replace();
   void put_object();
@@ -105,10 +118,22 @@ private:
   AutotileSet* get_current_autotileset() const;
   std::string get_autotileset_key_range() const;
 
+  /**
+   * Applies the current camera scale ("zoom") and translation
+   * @param DrawingContext Current DrawingContext instance
+   */
+  void apply_camera_settings(DrawingContext &);
+
+  /**
+   * Updates status bar help text for autotiling, including the necessary key presses
+   */
+  void update_autotile_help();
+
   void draw_tilemap_outer_shading(DrawingContext&);
   void draw_tilemap_border(DrawingContext&);
   void draw_tile_tip(DrawingContext&);
-  void draw_tile_grid(DrawingContext&, int tile_size, bool draw_shadow) const;
+  void draw_tile_grid(DrawingContext &) const;
+  void draw_tile_grid(DrawingContext &, int tile_size) const;
   void draw_path(DrawingContext&);
   void draw_rectangle_preview(DrawingContext& context);
 
@@ -160,6 +185,7 @@ private:
 
   std::vector<AutotileSet*> m_available_autotilesets;
   int m_current_autotileset;
+  std::map<std::tuple<uint32_t, uint32_t>, bool> m_mutual_autotilesets;
 
   std::unique_ptr<Tip> m_object_tip;
   Vector m_obj_mouse_desync;

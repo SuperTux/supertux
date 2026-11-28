@@ -1,0 +1,114 @@
+//  SuperTux
+//  Copyright (C) 2024 Vankata453
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#pragma once
+
+#include "supertux/game_object.hpp"
+#include "util/reader.hpp"
+
+namespace
+{
+  int DEFAULT_LAYER = std::numeric_limits<int>::min();
+}
+
+/** Base class for all GameObjects listed as layers in EditorLayersWidget. */
+class LayerObject : public GameObject
+{
+public:
+  LayerObject(const std::string& name = "", int layer = DEFAULT_LAYER) :
+    GameObject(name),
+    m_layer(layer),
+    m_editor_layer_alpha(1.f)
+  {
+  }
+
+  LayerObject(const ReaderMapping& reader, int layer = DEFAULT_LAYER) :
+    GameObject(reader),
+    m_layer(reader_get_layer(reader, layer)),
+    m_editor_layer_alpha(1.f)
+  {
+  }
+
+  LayerObject(int layer) :
+    LayerObject("", layer)
+  {
+  }
+
+  virtual bool is_layer_object() override { return true; }
+
+  virtual void remove_me() override;
+  virtual void after_editor_set() override;
+
+  inline void set_editor_layer_alpha(float value) { m_editor_layer_alpha = value; }
+  inline float get_editor_layer_alpha() { return m_editor_layer_alpha; }
+
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(LayerObject)); }
+
+  virtual const std::string get_icon_path() const = 0;
+
+  virtual int get_layer() const { return m_layer; }
+  virtual void set_layer(int layer) { m_layer = layer; }
+
+protected:
+  int m_layer;
+
+private:
+  /** editor-specific setting specifying the alpha value this layer is drawn with */
+  float m_editor_layer_alpha;
+
+private:
+  LayerObject(const LayerObject&) = delete;
+  LayerObject& operator=(const LayerObject&) = delete;
+};
+
+class EditorInternalLayer : public LayerObject
+{
+public:
+  EditorInternalLayer(int layer = DEFAULT_LAYER) :
+    LayerObject(layer)
+  {
+  }
+
+  void remove_me() override {};
+  virtual bool has_settings() const override { return false; }
+
+  void set_layer(int) override {}
+
+  void update(float) override {}
+
+  bool is_saveable() const override { return false; }
+  bool track_state() const override { return false; }
+
+  void draw(DrawingContext&) override {};
+};
+
+class ObjectsLayer final : public EditorInternalLayer
+{
+public:
+  ObjectsLayer() :
+    EditorInternalLayer(LAYER_OBJECTS)
+  {
+  }
+
+  inline std::string get_display_name() const override { return _("Objects"); }
+
+  static std::string class_name() { return "layer-objects"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+
+  int get_layer() const override { return LAYER_OBJECTS; }
+
+  const std::string get_icon_path() const override { return "images/engine/editor/toggle_tile_object_mode.png"; }
+};

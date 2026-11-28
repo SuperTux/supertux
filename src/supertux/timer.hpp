@@ -50,6 +50,7 @@ public:
   inline float get_progress() const { return get_timegone() / get_period(); }
   inline bool started() const { return (m_period != 0 && get_timeleft() > 0); }
   inline bool paused() const { return m_cycle_pause != 0; }
+  inline bool done() const { return get_progress() >= 1.f; }
 
 private:
   float m_period;

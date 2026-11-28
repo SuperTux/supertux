@@ -16,10 +16,9 @@
 
 #pragma once
 
-#include "editor/layer_object.hpp"
-
 #include <vector>
 
+#include "editor/layers/layer_object.hpp"
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -78,8 +77,6 @@ public:
    */
   inline bool get_enabled() const { return enabled; }
 
-  int get_layer() const override { return z_pos; }
-
 protected:
   class Particle
   {
@@ -109,7 +106,6 @@ protected:
 
 protected:
   float max_particle_size;
-  int z_pos;
   std::vector<std::unique_ptr<Particle> > particles;
   float virtual_width;
   float virtual_height;

@@ -125,6 +125,7 @@ std::vector<std::unique_ptr<AutotileSet>> AutotileSet::m_autotilesets;
 
 AutotileSet::AutotileSet(const std::vector<Autotile*>& tiles, uint32_t default_tile, const std::string& name, bool corner) :
   m_autotiles(tiles),
+  m_is_member_cache(),
   m_default(default_tile),
   m_name(name),
   m_corner(corner)
@@ -214,12 +215,18 @@ AutotileSet::get_autotile(uint32_t tile_id,
 }
 
 bool
-AutotileSet::is_member(uint32_t tile_id) const
+AutotileSet::is_member(uint32_t tile_id)
 {
+  if (m_is_member_cache.find(tile_id) != m_is_member_cache.end())
+  {
+    return m_is_member_cache[tile_id];
+  }
+
   for (auto& tile : m_autotiles)
   {
     if (tile->get_tile_id() == tile_id)
     {
+      m_is_member_cache[tile_id] = true;
       return true;
     }
     else
@@ -228,18 +235,21 @@ AutotileSet::is_member(uint32_t tile_id) const
       {
         if (pair.first == tile_id)
         {
+          m_is_member_cache[tile_id] = true;
           return true;
         }
       }
     }
   }
+
   // m_default should *never* be 0 (always a valid solid tile,
   // even if said tile isn't part of the tileset).
-  return tile_id == m_default && m_default != 0;
+  m_is_member_cache[tile_id] = (tile_id == m_default && m_default != 0);
+  return m_is_member_cache[tile_id];
 }
 
 bool
-AutotileSet::is_solid(uint32_t tile_id) const
+AutotileSet::is_solid(uint32_t tile_id)
 {
   if (!is_member(tile_id))
     return false;

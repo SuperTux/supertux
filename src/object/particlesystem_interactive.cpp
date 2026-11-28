@@ -17,6 +17,7 @@
 #include "object/particlesystem_interactive.hpp"
 
 #include "collision/collision.hpp"
+#include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/globals.hpp"
@@ -51,6 +52,17 @@ ParticleSystem_Interactive::~ParticleSystem_Interactive()
 void
 ParticleSystem_Interactive::draw(DrawingContext& context)
 {
+  auto previous_alpha = context.get_alpha();
+  if (Editor::is_active())
+  {
+    auto editor_layer_alpha = get_editor_layer_alpha();
+    if (editor_layer_alpha == 0.f)
+      return;
+
+    context.set_alpha(editor_layer_alpha);
+  }
+
+
   if (!enabled)
     return;
 
@@ -76,10 +88,11 @@ ParticleSystem_Interactive::draw(DrawingContext& context)
     auto& batch = it.second;
     // FIXME: What is the colour used for?
     context.color().draw_surface_batch(surface, batch.move_srcrects(),
-      batch.move_dstrects(), batch.move_angles(), Color::WHITE, z_pos);
+      batch.move_dstrects(), batch.move_angles(), Color::WHITE, m_layer);
   }
 
   context.pop_transform();
+  context.set_alpha(previous_alpha);
 }
 
 int

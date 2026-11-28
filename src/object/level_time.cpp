@@ -53,7 +53,6 @@ LevelTime::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   result.add_float(_("Time"), &time_left, "time");
-  result.add_remove();
 
   return result;
 }
