@@ -85,7 +85,8 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 
   auto editor_project = Editor::current()->get_project();
   editor_project->add_sector_set_callback(prepare_dropdowns);
-  editor_project->add_tileset_reloaded_callback(prepare_dropdowns);
+  editor_project->add_tileset_reloaded_callback([this]
+                                                { prepare_tile_group_dropdown(); });
 
   load_brushes_from_file();
   set_mouse_tool();
@@ -149,17 +150,23 @@ EditorToolboxWidget::prepare_object_group_dropdown()
   auto editor_project = Editor::current()->get_project();
   auto level = editor_project->get_level();
   bool is_worldmap = level->is_worldmap();
+  auto& object_groups = get_tilebox().get_object_info().m_groups;
 
   m_object_groups_dropdown->clear_items();
   
   int i = 0;
-  for (const auto &object_group : get_tilebox().get_object_info().m_groups)
+  auto selected_object_group = -1;
+  for (const auto &object_group : object_groups)
   {
     if (object_group.is_worldmap() == is_worldmap)
     {
+      if (selected_object_group == -1)
+      {
+        selected_object_group = i;
+      }
       m_object_groups_dropdown->add_option(i, object_group.get_name());
-      i++;
     }
+    i++;
   }
   m_object_groups_dropdown->bind_value(&(m_tilebox->m_object_group_id));
   auto on_object_group_select = [this]
@@ -167,6 +174,11 @@ EditorToolboxWidget::prepare_object_group_dropdown()
     select_object_group(m_tilebox->m_object_group_id);
   };
   m_object_groups_dropdown->m_on_change_callbacks.emplace_back(on_object_group_select);
+
+  if (selected_object_group > -1)
+  {
+    select_object_group(selected_object_group);
+  }
 }
 
 void
