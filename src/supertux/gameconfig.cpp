@@ -132,7 +132,7 @@ Config::Config() :
   editor_show_deprecated_tiles(false),
   editor_show_properties_sidebar(true),
   editor_show_toolbar_widgets(true),
-  editor_blur(12),
+  editor_blur(0),
   editor_remember_last_level(true),
   editor_max_viewport(true),
   preferred_text_editor(),
@@ -307,6 +307,11 @@ Config::load()
       if (!editor_show_properties_sidebar) // old default
       {
         editor_show_properties_sidebar = true;
+      }
+
+      if (editor_blur == 12)
+      {
+        editor_blur = 0;
       }
     }
   }
