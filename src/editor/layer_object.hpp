@@ -77,7 +77,7 @@ private:
 class EditorInternalLayer : public LayerObject
 {
 public:
-  EditorInternalLayer(int layer) :
+  EditorInternalLayer(int layer = DEFAULT_LAYER) :
     LayerObject(layer)
   {
   }
