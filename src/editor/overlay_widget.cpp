@@ -963,7 +963,7 @@ EditorOverlayWidget::put_object()
       if (!g_config->editor_snap_to_grid)
       {
         auto bbox = mo->get_bbox();
-        mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
+        mo->move_to(mo->get_pos() - (bbox.get_size().as_vector() / 2.f));
       }
 
       auto* wo = dynamic_cast<worldmap::WorldMapObject*>(mo);
@@ -973,7 +973,8 @@ EditorOverlayWidget::put_object()
 
     editor_project->get_sector()->add_object(std::move(object));
 
-    if (!editor_events->get_shift_pressed())
+    if (!editor_events->get_shift_pressed() &&
+        m_editor.get_object_move_mode() == ObjectMoveMode::MOVE)
     {
       m_editor.set_selected_object_class_name("#move");
     }
