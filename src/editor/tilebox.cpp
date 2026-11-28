@@ -535,25 +535,6 @@ EditorTilebox::get_layers_object_group() const
   return is_worldmap ? worldmap_layers_group : level_layers_group;
 }
 
-bool
-EditorTilebox::select_layers_object_group()
-{
-  auto layers = get_layers_object_group();
-
-  if (layers)
-  {
-    m_active_object_group = layers;
-    m_editor.set_editor_mode(EditorMode::OBJECT);
-  }
-  else
-  {
-    m_active_object_group = nullptr;
-    m_editor.set_editor_mode(EditorMode::NONE);
-  }
-  reset_scrollbar();
-  return layers;
-}
-
 float
 EditorTilebox::get_tiles_height() const
 {

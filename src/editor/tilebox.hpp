@@ -78,7 +78,6 @@ public:
   ObjectGroup* get_layers_object_group() const;
   void select_object_group(int id);
   void select_last_object_group();
-  bool select_layers_object_group();
 
   inline const ObjectInfo& get_object_info() const { return *m_object_info; }
 
