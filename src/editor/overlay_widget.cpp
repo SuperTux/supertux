@@ -1805,14 +1805,7 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
   if (m_editor.get_editor_mode() != EditorMode::TILE || !g_config->editor_autotile_help)
     return;
 
-  Vector hint_pos(32, 16);
-
-  if (g_config->editor_show_toolbar_widgets || m_editor.get_properties_panel()->is_visible())
-    hint_pos.y += 32.f;
-
-  // TODO calculate width of rect
-  if (m_editor.get_properties_panel()->is_visible())
-    hint_pos.x += 200.f;
+  Vector hint_pos(200.f, context.get_height() - 20.5f);
 
   auto events = m_editor.get_event_handling();
   auto tile_selection = m_editor.get_tile_selection();
@@ -1834,31 +1827,31 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
     {
       if (autotileset)
       {
-        hint_text = fmt::format(fmt::runtime(_("Autotile erasing mode is on (\"{}\")")), autotileset_name);
+        hint_text = fmt::format(fmt::runtime(_("Autotile erasing mode is on (\"{}\").")), autotileset_name);
       }
       else
       {
-        hint_text = _("Autotile erasing cannot be performed here");
+        hint_text = _("Autotile erasing cannot be performed here.");
       }
     }
     else if (autotileset)
     {
-      hint_text = fmt::format(fmt::runtime(_("Autotile mode is on (\"{}\")")), autotileset_name);
+      hint_text = fmt::format(fmt::runtime(_("Autotile mode is on (\"{}\").")), autotileset_name);
     }
     else
     {
-      hint_text = _("Selected tile isn't autotileable");
+      hint_text = _("Selected tile isn't autotileable.");
     }
   }
   else if (tile_selection && tile_selection->erases_tiles())
   {
     if (!events->get_ctrl_pressed())
     {
-      hint_text = _("Hold Ctrl to enable autotile erasing");
+      hint_text = _("Hold Ctrl to enable autotile erasing.");
     }
     else
     {
-      hint_text = _("Release Ctrl to use autotile erasing");
+      hint_text = _("Release Ctrl to use autotile erasing.");
     }
     text_color = EditorOverlayWidget::text_autotile_available_color;
   }
@@ -1866,11 +1859,11 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
   {
     if (!events->get_ctrl_pressed())
     {
-      hint_text = _("Hold Ctrl to enable autotile");
+      hint_text = _("Hold Ctrl to enable autotile.");
     }
     else
     {
-      hint_text = _("Release Ctrl to autotile");
+      hint_text = _("Release Ctrl to autotile.");
     }
     text_color = EditorOverlayWidget::text_autotile_available_color;
   }
@@ -1880,10 +1873,10 @@ EditorOverlayWidget::draw_autotile_help(DrawingContext& context)
 
   if (!autotile_error && m_available_autotilesets.size() > 1)
   {
-    hint_text += "\n" + key_range_hint;
+    hint_text += " " + key_range_hint;
   }
 
-  context.color().draw_text(Resources::normal_font, hint_text, hint_pos, ALIGN_LEFT, LAYER_OBJECTS + 1, text_color);
+  context.color().draw_text(Resources::small_font, hint_text, hint_pos, ALIGN_LEFT, LAYER_GUI + 2, text_color);
 }
 
 Vector
