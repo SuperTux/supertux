@@ -99,7 +99,7 @@ Explosion::explode()
 
   if (does_push) {
     Vector center = m_col.m_bbox.get_middle ();
-    auto near_objects = Sector::get().get_nearby_objects (center, 128.0 * 32.0);
+    auto near_objects = Sector::get().get_nearby_objects (center, 128.0f * 32.0f);
 
     for (auto& obj: near_objects) {
       if(!Sector::current()->free_line_of_sight(center, obj->get_pos(), true))
@@ -133,6 +133,7 @@ Explosion::explode()
       auto badguy = dynamic_cast<WalkingBadguy*>(obj);
       if (badguy && badguy->is_active() && !badguy->is_heavy()) {
         badguy->add_velocity(add_speed);
+        badguy->enable_temporary_fall();
       }
 
       bool in_break_range = distance <= 60.f;
